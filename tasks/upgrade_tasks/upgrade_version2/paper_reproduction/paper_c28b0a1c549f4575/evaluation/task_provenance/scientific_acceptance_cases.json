@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.522351+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_c28b0a1c549f4575/documents/main.pdf",
+      "sha256": "4e3ad96c28503f3a100df2083569811eef0ee848ae6aca2def236523628f8909",
+      "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF pp1–3为TEA-BF4/PC与DEDABCO-(BF4)2，p3 NMR/Raman表现随DED浓度变化；SI为制备及计算边界。",
+      "actual_read_pages_and_sections": "Main pp1–3 identities/formulation and complete Fig2 discussion p3; SI pp5–6 computational protocols and separate MD specification."
+    },
+    {
+      "path": "papers/paper_c28b0a1c549f4575/documents/supplementary_001.pdf",
+      "sha256": "51551c36ef22b1633c2ee346411edf4c5b5f3ec9edd9ea1ce7e923c011387546",
+      "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF pp1–3为TEA-BF4/PC与DEDABCO-(BF4)2，p3 NMR/Raman表现随DED浓度变化；SI为制备及计算边界。",
+      "actual_read_pages_and_sections": "Main pp1–3 identities/formulation and complete Fig2 discussion p3; SI pp5–6 computational protocols and separate MD specification."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Correct TEA+, DED2+, BF4- and PC compositions support a balanced agent-selected association analysis relevant to the disclosed electrolyte context without a fixed PC occupancy ladder.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Real association calculations show that available molecular evidence cannot determine bulk concentration-dependent populations; the local findings remain useful.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "One BF4- neutralizes DED2+, or a molecular binding energy is used to prove measured conductivity and a source 2 nm MD time is silently accepted.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "Converged electronic single points from otherwise incomplete jobs are reported only as single points, not optimized minima, binding free energies or complete electrolyte mechanism.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account of propylene-carbonate association with the TEA/DED/BF4 components is supported in the stated mixed-electrolyte context? Determine whether and under which model assumptions the change of cation composition can alter the local PC environment, and what cannot be inferred from that evidence.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Confirm the bridged DEDABCO graph and double quaternization, TEA+, BF4− and cyclic PC identity. DED is a dication, not a monocation or a differently named acyclic diamine; salt models and any solvent transfers must conserve composition and charge. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Support each association inference with a chemically matched reference and appropriate structure/state/numerical evidence. Distinguish electronic interaction, thermodynamics and bulk speciation; justify the model and any comparison to concentration-dependent spectroscopy. If results depend on composition, solvent treatment or configurations, bound the conclusion accordingly rather than prespecifying one grid. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "A local finite model does not determine a bulk concentration optimum, electrode adsorption, electrochemical window, charge storage or device energy density. Do not infer those properties from a frontier gap, one optimized cluster or a raw energy difference between unequally charged salts. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

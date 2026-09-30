@@ -4,7 +4,7 @@ Determine whether the supplied oxidized molecular system can undergo aryl–aryl
 
 # Public inputs and scientific boundaries
 
-`data/inputs/oxidized_intermediate.xyz` is the complete Cartesian XYZ structure of [(MePDI)TiPh2I]I3: 303 atoms, neutral overall molecular model, singlet closed-shell starting state unless a defensible alternative spin state is explicitly investigated. The target transformation is loss of the two Ti-bound phenyl groups as biphenyl, giving [(MePDI)TiI]I3. Use an isolated-molecule model with benzene continuum or an explicitly justified alternative; no paper/SI/general-web lookup is allowed. The measured endpoint is the activation Gibbs free energy from the optimized starting intermediate to the validated elimination saddle, in kcal/mol, plus the saddle structure and frequency data.
+`data/inputs/oxidized_intermediate.xyz` is the complete Cartesian XYZ structure of [(MePDI)TiPh2I]I3: 82 atoms, neutral overall molecular model, singlet closed-shell starting state unless a defensible alternative spin state is explicitly investigated. The target transformation is loss of the two Ti-bound phenyl groups as biphenyl, giving [(MePDI)TiI]I3. Use an isolated-molecule model with benzene continuum or an explicitly justified alternative; no paper/SI/general-web lookup is allowed. The measured endpoint is the activation Gibbs free energy from the optimized starting intermediate to the validated elimination saddle, in kcal/mol, plus the saddle structure and frequency data.
 
 # Required scientific validation/investigation
 

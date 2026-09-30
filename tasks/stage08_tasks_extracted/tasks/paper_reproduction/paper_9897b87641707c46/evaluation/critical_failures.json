@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_9897b87641707c46",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "Reports energies without unambiguous object/event and branch identity.",
+      "severity": "critical",
+      "why_scientifically_serious": "Numbers cannot be matched to the reaction profile."
+    },
+    {
+      "failure_id": "cf_ts_validation",
+      "condition": "Treats a stationary point as a transition state without one imaginary mode assigned to the claimed event or equivalent connection evidence.",
+      "severity": "critical",
+      "why_scientifically_serious": "The claimed barrier may not belong to the elementary step."
+    },
+    {
+      "failure_id": "cf_fabricated_success",
+      "condition": "Uses complete status while omitting required events and does not invoke the bounded-failure branch.",
+      "severity": "critical",
+      "why_scientifically_serious": "Creates an irreproducible and scientifically misleading conclusion."
+    },
+    {
+      "failure_id": "cf_scope_leak",
+      "condition": "Claims full-MOF transport or universal experimental selectivity from the truncated molecular profile alone.",
+      "severity": "major",
+      "why_scientifically_serious": "Exceeds the physical model boundary."
+    }
+  ]
+}

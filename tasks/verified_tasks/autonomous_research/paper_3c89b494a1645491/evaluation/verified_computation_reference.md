@@ -1,0 +1,93 @@
+# 已验证计算参考：paper_3c89b494a1645491 / autonomous_research
+
+> 2026-09-29 修后同步：任务修复和当前评分映射见第 3、6 节；全部仍在 verified_tasks，未获迁移确认。
+核查日期：2026-09-29。此文件是私有历史计算证据，不是评分 gold，不新增要求或容差，不能导出给被评 agent。
+
+源任务：`tasks/autonomous_research/paper_3c89b494a1645491`；Git 基线 `238d70c4d9fd21b9e4669fcc149637ae704e4ca1`（实际未提交文件亦已备份）。来源 group 4。两模式共享作者辅助计算证据，但分别映射当前 evaluator；没有新 agent 盲测、LLM judge 或公开起点完整回放。
+
+**资格边界：真实计算及有限模型定性分类已核实；两项 DI 超出原始字面区间。登记为语义 QUALIFIED 不等于所有定量必评项已严格完成；接受精度须按维护报告确认。此参考如实记录已证实部分，不出具无条件 PASS。**
+
+## 1. 论文、模型与采用协议
+
+Gaussian 16 C.01 BP86-D3BJ/def2-TZVPP，Au 60 核 ECP；184 原子 C76H88Au4N16、+4 单重态、546 正频率。由 CCDC 2500223 晶体删除阴离子/溶剂，保留完整四配体及环状 Au 标号。fchk 导出后 Multiwfn 2026.7.15 计算四个 BCP、八条连接路径、0.20/0.10 Bohr 两档 DI 网格；源用 G16 C.02/Multiwfn 3.8。SI 物理第 27 页方法、第 28 页拓扑图、第 29 页 Table S2，正文第 4 页近似 DI 区间及分类。软件/网格差异已知，但不能无证据认定其解释所有 DI 差异。
+
+论文来源：[正文](../../../../../papers/paper_3c89b494a1645491/documents/main.pdf)；[SI](../../../../../papers/paper_3c89b494a1645491/documents/supplementary_001.pdf)。上述页码为 PDF 物理页码。
+
+真实 CIF 为 CCDC 2500223，保留完整出处/占据/晶胞及原子标签；system_definition 指定仅移除阴离子和溶剂、+4 单重态及四边。实验晶体是任务给定结构证据，不是计算 BCP/DI 答案，DOI/CCDC 号不单独构成答案泄露；未向 agent 提供 fchk 或拓扑计算结果。
+
+## 2. 有效计算链、结果与推导
+
+四 BCP 的 ∇²ρ>0、H<0、|V|/G=1.165961–1.167434；平均 ρ=0.036440290765，在现行 0.036475±0.001 内。由原始 CPprop 与两份 LIDI 矩阵重新提取，0.10-Bohr DI=0.37506794/0.37627436/0.37365572/0.37591119；对应 0.20-Bohr=0.37548906/0.37717135/0.37501872/0.37676476。细网格 Au 原子 1/2/3/4→basin 91/123/114/57，不能按 basin 顺序误认原子。BCP 5/6/7/8 各有两条 94 点路径，末点与对应 Au 距离 <7e−7 Å。定性上支持以闭壳层为主且有少量共享的 metallophilic 接触。两项原始 DI 不在字面 [0.374,0.376]；按正文三位小数显示为 .375/.376/.374/.376，但这不是新容差。SI 八位值及细微接触排序未精确复现，两档网格差也不是严格误差界。登记的有限模型语义 PASS 与当前 PR 关键点窄区间措辞存在需确认的接受精度边界；本次不把它写成全部定量点严格通过。
+
+| 接触 | BCP | rho | laplacian | ELF | H | V | G | abs(V)/G | DI 0.10 | DI字面区间 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Au1-Au2 | 5 | 0.0363852360 | 0.0858782724 | 0.1656989989 | -0.0042852040 | -0.0300079064 | 0.0257227024 | 1.1665922956 | 0.37506794 | True |
+| Au2-Au3 | 6 | 0.0365799424 | 0.0864129484 | 0.1661669426 | -0.0043379921 | -0.0302466950 | 0.0259087030 | 1.1674337799 | 0.37627436 | False |
+| Au3-Au4 | 7 | 0.0362731183 | 0.0856104924 | 0.1653478189 | -0.0042524702 | -0.0298757508 | 0.0256232805 | 1.1659611944 | 0.37365572 | False |
+| Au4-Au1 | 8 | 0.0365228663 | 0.0862866978 | 0.1659748235 | -0.0043200070 | -0.0301792970 | 0.0258592900 | 1.1670582199 | 0.37591119 | True |
+
+## 3. 修后当前必评关键点与结论覆盖（2026-09-29）
+
+本表对齐本包当前五个 evaluator JSON。历史真实计算链及数值仍见第 2、4、5 节；reference 不新增评分门槛。
+
+| 当前 ID / 类型 | 当前要求 | 真实支持、范围或缺口 | 对应规则 |
+| --- | --- | --- | --- |
+| ar_process_hypothesis / process | The submission proposes at least one plausible electronic explanation and tests it with a reproducible calculation on the pinned +4 singlet cluster. | 作者路线做了结构/拓扑/双网格检验；历史report没有事前自主hypotheses，未认证AR探索。 | ar_r1 |
+| ar_process_validation / process | The submitted investigation validates identity/state, geometry or stationary-state justification, four named edge contacts and four BCPs before drawing a bonding conclusion. | 184atom +4/1最低点、546正频，四BCP八条真实路径。 | ar_r2 |
+| ar_result_aim / result | The independent quantitative analysis supports the source-observed Au···Au contact topology and its characteristic AIM/DI pattern. | rho及定性AIM模式支持；两项DI字面区间越界，当前精度接受边界待确认。 | ar_r3 |
+| ar_result_class / result | The final interpretation classifies the four contacts as metallophilic and predominantly closed-shell with minor shared-shell contribution, within the finite-cluster model. | 四个1<\|V\|/G<2、正laplacian、负H及非零DI，支持有限模型成键分类。 | ar_r4 |
+
+| 结论 ID / 角色 | 当前科学主张 | 支持关键点及边界 |
+| --- | --- | --- |
+| ar_final / final | Independent calculations support predominantly closed-shell metallophilic Au···Au interactions with measurable electron sharing in the four-edge Au4 core, subject to finite-cluster and method limitations. | ar_process_hypothesis, ar_process_validation, ar_result_aim, ar_result_class。DI=0.37627436 和 0.37365572 分别越过字面 [0.374,0.376] 上/下界 0.00027436 和 0.00034428；另两项在界内。rho 均值靶与逐接触措辞未统一。定性成键有支持，但不能宣称全部定量点严格通过；AR 历史 report 也缺 hypotheses。 |
+
+修前→修后：关键点 4→4；结论记录 1→1。现有结论为科学成果，不另给普通免责声明计分。真实计算支持范围不因本次改关联而扩大。
+
+## 4. 采用原始输入/输出完整索引
+
+以下每行均直接重读原始日志，检查应用结束、能量、电子态、几何和可用频谱；正常结束不自动等于整段科学有效。E 表示该日志最后的 TD（若有）、ORCA 或 SCF 电子能。频率列给完整模数/负模数/最低频；单点/路径未做频率则为 —，不得解释为零虚频最低点。几何父子配对共本批 83 组、原子顺序和距离一致；只对实际下游做过配对的分支作此声明。
+
+| 序 | 采用身份/步骤 | 输入与原始输出 | q / multiplicity | 电子E / Eh | 原始谐振G / Eh | 频谱 总/负/min cm⁻¹ | 核查 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Au1_optimization_frequency | [输入](../../../../../docs/verification/group_4/paper_3c89b494a1645491/provenance/local_full_route_gates_20260913/au1_cation_bp86_def2tzvpp_optfreq_scratch_repair/input.com) / [原始输出](../../../../../docs/verification/group_4/paper_3c89b494a1645491/provenance/local_full_route_gates_20260913/au1_cation_bp86_def2tzvpp_optfreq_scratch_repair/stdout.log) | [4, 1] | -4369.6195943200 | -4368.2827060000 | 546 / 0 / 7.4089 | native normal |
+
+### 4.1 原生版本与实际输入路由
+
+原始日志版本：`Gaussian 16:  ES64L-G16RevC.01  3-Jul-2019`。下表只归并相同 route 文本，未将不同模型合并；GenECP 分块及 ORCA 专用设置以对应原始输入为准。
+
+| 上表序号 | 实际路由/方法设置 |
+| --- | --- |
+| 1 | `#p BP86/def2TZVPP EmpiricalDispersion=GD3BJ Opt=(CalcFC,MaxCycles=300) Freq NoSymm SCF=(XQC,MaxCycle=512)` |
+
+## 5. 模型、连接与后处理原始出处
+
+- [provenance/au1_closeout_20260928/result.json](../../../../../docs/verification/group_4/paper_3c89b494a1645491/provenance/au1_closeout_20260928/result.json)
+- [provenance/au1_closeout_20260928/geometry_review.json](../../../../../docs/verification/group_4/paper_3c89b494a1645491/provenance/au1_closeout_20260928/geometry_review.json)
+- [provenance/au1_closeout_20260928/topology_review.json](../../../../../docs/verification/group_4/paper_3c89b494a1645491/provenance/au1_closeout_20260928/topology_review.json)
+- [provenance/au1_closeout_20260928/DI_discrepancy_review.json](../../../../../docs/verification/group_4/paper_3c89b494a1645491/provenance/au1_closeout_20260928/DI_discrepancy_review.json)
+- [历史实际 report（保持原样；不等同当前两模式提交都通过）](../../../../../docs/verification/group_4/paper_3c89b494a1645491/report/results.json)
+- [au1_20260928/export.json](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/export.json)
+- [au1_20260928/topology_complete/CPprop.txt](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/topology_complete/CPprop.txt)
+- [au1_20260928/topology_complete/CPs.txt](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/topology_complete/CPs.txt)
+- [au1_20260928/topology_complete/paths.txt](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/topology_complete/paths.txt)
+- [au1_20260928/topology_complete/stdout](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/topology_complete/stdout)
+- [au1_20260928/di_020_hpc20/stdin](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_020_hpc20/stdin)
+- [au1_20260928/di_020_hpc20/stdout](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_020_hpc20/stdout)
+- [au1_20260928/di_020_hpc20/settings.ini](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_020_hpc20/settings.ini)
+- [au1_20260928/di_020_hpc20/LIDI.txt](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_020_hpc20/LIDI.txt)
+- [au1_20260928/di_020_hpc20/exit_code](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_020_hpc20/exit_code)
+- [au1_20260928/di_010_hpc20/stdin](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_010_hpc20/stdin)
+- [au1_20260928/di_010_hpc20/stdout](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_010_hpc20/stdout)
+- [au1_20260928/di_010_hpc20/settings.ini](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_010_hpc20/settings.ini)
+- [au1_20260928/di_010_hpc20/LIDI.txt](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_010_hpc20/LIDI.txt)
+- [au1_20260928/di_010_hpc20/exit_code](../../../../../docs/verification/group_4/paper_3c89b494a1645491/au1_20260928/di_010_hpc20/exit_code)
+
+## 6. 修后包检查与未认证事项（2026-09-29）
+
+当前策略为 `dual_axis_100.scientific_results.v1`；真实历史 report 对本包的实际输出检查：**未通过：原历史结果缺 AR hypotheses；保持原样，不补编事前记录**。本包已执行 14 个提交样例，每个分别经过 JSON Schema 和真实 validate_output_contract；合成正反例只测试格式，未加入本计算档案的科学证据。
+
+DI=0.37627436 和 0.37365572 分别越过字面 [0.374,0.376] 上/下界 0.00027436 和 0.00034428；另两项在界内。rho 均值靶与逐接触措辞未统一。定性成键有支持，但不能宣称全部定量点严格通过；AR 历史 report 也缺 hypotheses。
+
+[逐包维护记录](task_provenance/maintenance_audit.md)及[集中报告第30节](../../../MAINTENANCE_REPORT.md)记录实际修改、检查与未闭合项。普通免责声明已取消必填及独立计分，身份/态/收敛/频率/路径/参考态和真实失败证据保留。
+
+本次没有新电子结构计算、HPC 操作、完整 LLM 评分或 AR 盲测；没有迁移 final/hold。文件导出检查只覆盖 agent_input 物化，不能替代部署侧父目录、容器挂载和网络隔离。完整原始证据直接链接在第 4、5 节，不依赖 task_provenance 的长期存在。

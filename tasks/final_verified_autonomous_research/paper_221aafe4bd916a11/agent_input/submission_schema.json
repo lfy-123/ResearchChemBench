@@ -1,0 +1,169 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "hypotheses",
+      "method",
+      "candidates",
+      "validation",
+      "mechanism_conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "description",
+            "discrimination_test",
+            "outcome"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "discrimination_test": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "electronic_structure",
+          "solvent",
+          "temperature_K",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "electronic_structure": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "role",
+            "hypothesis_id",
+            "geometry_or_source",
+            "frequency_summary",
+            "disposition"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "geometry_or_source": {
+              "type": "string"
+            },
+            "frequency_summary": {
+              "type": "string"
+            },
+            "disposition": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "reactant_minimum",
+          "transition_states",
+          "connectivity_test"
+        ],
+        "properties": {
+          "reactant_minimum": {
+            "type": "string"
+          },
+          "transition_states": {
+            "type": "string"
+          },
+          "connectivity_test": {
+            "type": "string"
+          }
+        }
+      },
+      "barrier_kcal_mol": {
+        "type": "number"
+      },
+      "mechanism_conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure_reason": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "barrier_kcal_mol"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "failure_reason"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ]
+  }
+}

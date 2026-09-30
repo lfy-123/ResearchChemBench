@@ -1,0 +1,5 @@
+# V2 evidence and calibration boundary
+
+Use historical full-identity minima/modes as feasibility and a bounded nonuniqueness example. Reanalyze only existing data if useful; no new jobs. Scientific calibration must test assignment and source-account discrepancy with the full public peak list, valid alternate inference strategies, missing/unmatched modes, per-peak overfit, wrong metal species, global-search overclaims and false uniqueness/ambiguity. No arbitrary tolerance is introduced to force a winner.
+
+No new scientific computation or semantic judge run was launched during content authoring. Reuse is limited to the exact objects, definitions and conditions in reference_reuse.json. V1 acceptance and historical archive matrices are not V2 requirements. Before scored deployment, independently test claim-conditional validity and evidence scoring on the documented positive/negative cases, audit runner isolation, and calibrate any newly used scientific route. Current file/hash/schema/runtime tests establish implementation only.

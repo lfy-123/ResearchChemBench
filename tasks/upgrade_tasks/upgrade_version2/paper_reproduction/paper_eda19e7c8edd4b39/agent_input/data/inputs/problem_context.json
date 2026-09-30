@@ -1,0 +1,18 @@
+{
+  "problem": "What atomistic energetic explanation is consistent with Ni-rich surface precipitation during annealing of near-stoichiometric B2 NiAl, and what can that explanation establish about bulk–surface coupling?",
+  "facts": [
+    "Source NiAl(100) XPS indicates approximately49 at.% Ni and51 at.% Al before precipitation.",
+    "At800 °C, site-specific spectroscopy and microscopy identify Ni-rich Ni3Al precipitates; the reported surface is Al-enriched before precipitation. These are observations to explain, not computed rankings.",
+    "The public lattice constants are starting guesses and no source CIF, author NEB endpoint or optimized surface is asserted."
+  ],
+  "scope": "Study near-stoichiometric B2 NiAl and the observed Ni-rich surface phase, with source(100) and(110) facets as the physical setting. Public ideal B2 and L12 Ni3Al prototypes define composition/connectivity only and are labelled benchmark guesses. Source observations include800 °C UHV annealing of NiAl(100) and800 °C,0.001 Torr H2 microscopy; these are distinct experimental environments. Use charge-neutral periodic models unless a different physically motivated boundary is explicitly justified.",
+  "data_files": [
+    "benchmark_B2_start.extxyz",
+    "benchmark_L12_start.extxyz",
+    "crystal_identities.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "Exact author surface/NEB endpoint structures are not included; generated models must be documented as such. Their absence prevents literal endpoint reproduction but does not prevent an independently justified atomistic investigation. The task supplies neither a finite-temperature kinetic dataset nor calibrated surface references."
+  ]
+}

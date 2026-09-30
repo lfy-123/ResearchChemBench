@@ -1,0 +1,77 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_minima",
+      "reference_id": "kp_process_minima",
+      "type": "semantic",
+      "expected": "Two endpoint validation records with imaginary-mode diagnostics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints[*].id",
+          "$.endpoints[*].identity",
+          "$.endpoints[*].validation_status",
+          "$.endpoints[*].imaginary_mode_count",
+          "$.investigation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_process_consistency",
+      "reference_id": "kp_process_consistency",
+      "type": "semantic",
+      "expected": "Same treatment and a clearly stated anti-minus-syn difference. Recompute anti-minus-syn after matching endpoint IDs and units. Retain the actual solvent/entropy/standard-state convention; a common standard-state correction cancels for these equal-composition isomers and is not added as a spurious reaction correction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints[*].id",
+          "$.endpoints[*].free_energy",
+          "$.endpoints[*].free_energy_unit",
+          "$.route",
+          "$.investigation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_result_delta_g",
+      "reference_id": "kp_result_delta_g",
+      "type": "numeric",
+      "target": 4.2,
+      "unit": "kcal/mol",
+      "tolerance": 1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.delta_g_conf",
+          "$.conclusion.delta_g_unit"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_c_final_preference",
+      "reference_id": "c_final_preference",
+      "type": "semantic",
+      "expected": "The supplied syn endpoint is preferred under the source convention, with positive G(anti) − G(syn).",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

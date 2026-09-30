@@ -20,7 +20,7 @@
       "rule_id": "r_compare",
       "reference_id": "kp_compare",
       "type": "condition",
-      "expected": "Both candidates are comparably calculated with normalized probabilities.",
+      "expected": "Both candidates are comparably calculated with normalized probabilities. Inspect the 30-carbon mapping, per-site residuals, same-reference shielding/shift conversion and actual conformer weights. If DP4+ is claimed, verify the scaled/unscaled Student-t formulation and declared parameters; generic R-squared or a custom Gaussian likelihood is not DP4+. Do not newly require DP4+ when the public contract permits another declared statistical method.",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -51,7 +51,7 @@
       "rule_id": "r_final",
       "reference_id": "c_final",
       "type": "semantic",
-      "expected": "Relative configuration is assigned as 8S*,9aR*,12aR* within scope and limitations.",
+      "expected": "Relative configuration is assigned as 8S*,9aR*,12aR* within scope and limitations. A near-100-percent assignment is conditional on the two candidates and error model; it is not proof of absolute configuration or certainty outside that candidate set.",
       "binding": {
         "artifact_paths": [
           "report/results.json"

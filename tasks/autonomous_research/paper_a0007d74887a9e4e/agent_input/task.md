@@ -4,7 +4,7 @@ Determine computationally how adsorption of neutral NiCp2 on a nine-Br Au(111) s
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system_spec.json`. The molecule is neutral C10H10Ni, multiplicity 3, with two eta5-cyclopentadienyl rings. The periodic surface is a 4x4 Au(111) slab with a=b=14.98 Å, gamma=60°, >10 Å vacuum, bottom two Au layers fixed, and nine Br atoms in quasi-(sqrt(3)x(sqrt(3))R30°) packing. No adsorption site, author route, target value, expected ordering or mechanism is supplied. You may choose software/model chemistry, but state it completely; do not consult the paper/SI or general web during the investigation.
+Use `data/inputs/system_spec.json`. The molecule is neutral C10H10Ni, multiplicity 3, with two eta5-cyclopentadienyl rings. The periodic surface is an Au(111) slab with a=b=14.98 Å, gamma=60°, >10 Å vacuum, bottom two Au layers fixed, and nine Br atoms in quasi-(sqrt(3)x(sqrt(3))R30°) packing. No adsorption site, author route, target value, expected ordering or mechanism is supplied. You may choose software/model chemistry, but state it completely; do not consult the paper/SI or general web during the investigation.
 
 # Required scientific validation/investigation
 

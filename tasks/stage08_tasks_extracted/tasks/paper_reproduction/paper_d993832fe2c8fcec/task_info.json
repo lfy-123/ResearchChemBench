@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_d993832fe2c8fcec",
+  "task_type": "paper_reproduction",
+  "title": "Validated gas-phase conformational characterization of α-iminonitrile 2d",
+  "category": "computational chemistry / molecular conformations",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecule and observables are fixed, but multiple starting conformers must be generated, optimized, deduplicated and frequency-validated.",
+    "The Agent must test a qualitative conformational hypothesis and separate gas-phase evidence from crystal comparison."
+  ],
+  "paper": {
+    "title": "Naphthyl--iminonitriles: Synthesis, characterization, and antibacterial drug potential",
+    "doi": "10.1016/j.molstruc.2025.144351",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-02-25"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained identity, stereochemistry, charge, multiplicity and gas-phase boundary for compound 2d."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated candidate conformations, selected minimum, dihedrals, energy, frequency check, method and conclusion."
+    }
+  ]
+}

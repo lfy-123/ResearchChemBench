@@ -1,0 +1,54 @@
+Conformational dynamics of polyamide polymer fragments. To observe the conformational
+
+dynamics of the –CF3 groups in the polyamide at the macroscopic scale, a polymer fragment
+
+comprising 15 TMC and 31 amine monomers was constructed. These monomers reacted to form
+
+a crosslinked network, ensuring that each amide and amine group, except for those at the edges,
+
+underwent crosslinking. The polymer was then placed in the center of a cubic simulation box with
+
+dimensions 10 nm × 10 nm × 10 nm, and the vacuum regions of the box were filled with 2000
+
+hexane molecules to simulate a solvent environment. To better observe the group oscillations, we
+
+also constructed a polymer formed by crosslinking 1 TMC and 3 amine monomers, along with 150
+
+hexane molecules, within a cubic simulation box of 3 nm × 3 nm × 3 nm in dimension. The
+
+calculations were performed using GROMACS version 2020.6. In these calculations, the General
+
+Amber Force Field (GAFF) was adopted, and atomic charges were assigned to each atom to more
+
+accurately describe the molecular-level motion. These atomic charges were obtained through DFT
+
+calculations and the Multiwfn program, where molecules with no more than 200 atoms were
+
+described using RESP charges, while molecules with more than 200 atoms were described using
+
+EEM charges. Before calculating the atomic charges, the molecular structures were optimized
+
+using DFT to obtain accurate results. After energy minimization and preliminary equilibration, the
+
+MD simulations were performed with the following parameters: A leap-frog integrator was
+
+employed with a timestep of 0.001 ps for a total of 20 million steps (20 ns). Holonomic constraints
+
+were applied using the LINCS algorithm, with no bond constraints imposed. Neighbor searching
+
+was performed using the Verlet cutoff scheme. Short-range electrostatic and van der Waals
+
+interactions were truncated at 1.2 nm. Long-range electrostatic interactions were calculated using
+
+the Particle Mesh Ewald (PME) method with a cubic interpolation order of 4 and a Fourier spacing
+
+of 0.16 nm. Temperature coupling was achieved using the modified Berendsen thermostat (V-
+
+rescale), maintaining the system temperature at 298.15 K, with a time constant of 0.1 ps. Pressure
+
+coupling employed the Berendsen barostat for isotropic pressure coupling, setting the reference
+
+pressure at 1.01325 bar, with a time constant of 2.0 ps. Periodic boundary conditions were enforced
+
+
+                                                  14

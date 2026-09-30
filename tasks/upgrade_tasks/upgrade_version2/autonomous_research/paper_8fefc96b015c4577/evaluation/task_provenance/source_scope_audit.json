@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "source_documents": [
+    {
+      "path": "papers/paper_8fefc96b015c4577/documents/main.pdf",
+      "sha256": "6fdb5e76c4af7f7b03c05b28d33bdbc9173ca66fcfa476df7c1346cbe422d01b",
+      "page_count": 6,
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_8fefc96b015c4577/documents/supplementary_001.pdf",
+      "sha256": "e4b428c6727ab05447160b59531f470d81ecb1d07986771510870c657b6f9a56",
+      "page_count": 122,
+      "pdf_pages_1_based": [
+        1,
+        2,
+        3,
+        10,
+        20,
+        34
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "What local cyclization behavior is supported for the specified short- and long-tether carbon radicals, and what molecular evidence can explain any difference without assuming a unique cause?",
+    "scope": "Investigate the two neutral doublet post-addition radicals defined in systems.json. The sole constitutional difference is an N-benzyl versus N-phenethyl tether. These are source-proposed molecular models, not experimentally isolated intermediates. Choose the relevant conformations, transformations, environmental representations and evidence. The full photoredox cycle, excitation kinetics, complete substrate scope and quantitative synthetic yield prediction are outside the required subproblem.",
+    "facts": "The source reacts N-allyl N-benzyl or N-phenethyl p-toluenesulfonamides with ethyl bromodifluoroacetate under 390 nm irradiation. The defined radicals result from addition of the ester-containing carbon fragment to the terminal alkene. Source experiments use substrate 0.2 mmol, radical precursor 0.4 mmol, PTH-2 5 mol%, zinc acetate 0.2 mmol, solvent 2 mL, argon, room temperature and 8 h. The short-tether preparation uses dry DMSO; the long-tether preparation uses dry 1,2-dichloroethane. Thus the optimized experimental comparison changes solvent as well as tether length and is not a matched causal intervention on chain length. Main Scheme2 omits zinc acetate from its caption, while both detailed SI procedures include it. The local models contain no zinc or photocatalyst; justify the relevance and limits of any environmental model. Their graph definitions do not establish a stable geometry, preferred ring closure or reaction barrier.",
+    "claim_source_map": [
+      {
+        "claim": "Constitutions of the two local radical models and source reaction context",
+        "source": "main PDF pp2–4 Scheme3; SI PDF pp3,10,20"
+      },
+      {
+        "claim": "Solvent changes with tether; zinc acetate caption versus procedure discrepancy",
+        "source": "main PDF pp2–3 Table1/Scheme2; SI PDF pp10,20"
+      },
+      {
+        "claim": "Author pathways, energetic reference and computational protocol",
+        "source": "main PDF p4 Scheme3; SI PDF p34",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Constitutions of the two local radical models and source reaction context",
+      "source": "main PDF pp2–4 Scheme3; SI PDF pp3,10,20"
+    },
+    {
+      "claim": "Solvent changes with tether; zinc acetate caption versus procedure discrepancy",
+      "source": "main PDF pp2–3 Table1/Scheme2; SI PDF pp10,20"
+    },
+    {
+      "claim": "Author pathways, energetic reference and computational protocol",
+      "source": "main PDF p4 Scheme3; SI PDF p34",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Independent connected-path and environmental sensitivity references remain pending.",
+    "The source optimized solvent comparison does not identify a unique tether-only causal effect.",
+    "Author protocol discrepancies and local free-energy reference reconstruction need evidence-aware calibration, not fixed numeric tolerance.",
+    "Actual semantic judge and runtime isolation remain pending."
+  ]
+}

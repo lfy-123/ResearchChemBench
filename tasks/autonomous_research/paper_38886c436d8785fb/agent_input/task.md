@@ -8,6 +8,8 @@ Determine computationally whether adding the explicitly defined ionic-liquid ion
 
 # Required scientific validation/investigation
 
+Use the reference groups in the input to compare diamine binding to the aldehyde and to the preassociated ion-pair–aldehyde host. Total assembly from four isolated molecular energies is a different observable. Verify that intended noncovalent partners retain their covalent identities; real frequencies alone do not validate a rearranged molecule. Disclose relaxed-versus-frozen fragment and correction conventions. Do not infer an unreported solvent or external reference convention from whichever choice makes a result look favorable.
+
 Propose plausible arrangements for each complex, generate and deduplicate them with a stated structural criterion, optimize them, and retain structures supported by a stationary-point check. Report search coverage, counts attempted/retained, advancement criteria, and stopping/limitation conditions. Compute component and complex energies consistently in kJ/mol, report the two interaction energies and their difference, and state whether the result is robust to retained arrangements or otherwise bounded by the search. Completion requires a validated retained structure for each target and all requested energies; if that cannot be achieved, submit the bounded-failure branch with the exact missing validation and evidence. Stop when newly generated arrangements are duplicates under the stated rule or the available search/compute boundary has been reached and coverage is documented.
 
 # Deliverables

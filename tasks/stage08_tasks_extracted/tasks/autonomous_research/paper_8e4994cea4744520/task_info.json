@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_8e4994cea4744520",
+  "task_type": "autonomous_research",
+  "title": "Independent computational investigation of dipole moments in five molecular fragments",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The objects and scalar observable are fixed, while conformer generation, validation, and the polarity interpretation must be designed independently."
+  ],
+  "paper": {
+    "title": "Effect of fluorination positions at diphenylamino flanking groups on the photovoltaic performance for nonfused ring electron acceptors",
+    "doi": "10.1016/j.cclet.2025.111622",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-01-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit SMILES, charge, multiplicity, and identities for five isolated fragments."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated fragment dipoles, provenance, conformer coverage, independent polarity conclusion, or bounded failures."
+    }
+  ]
+}

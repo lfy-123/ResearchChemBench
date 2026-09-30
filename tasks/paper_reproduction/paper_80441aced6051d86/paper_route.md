@@ -22,7 +22,7 @@ The authors checked that optimized structures had no imaginary frequencies, trea
 
 ## 5. Private reference results
 
-For G1, the reported benzyl–pyridinium dihedrals are 50.67° and 50.65°, and the pyridinium–naphthalene dihedrals are 30.28° and 30.27°. For the G1 dimer, the reported center-to-center distance is 3.63 Å and slip angle is 44.89°. The paper states that no imaginary frequencies were found.
+For G1, the reported benzyl–pyridinium dihedrals are 50.67° and 50.65°, and the pyridinium–naphthalene dihedrals are 30.28° and 30.27°. For the G1 dimer, the reported interplanar stacking separation is 3.63 Å (the later paragraph gives the full naphthalene-centroid distance as 5.09 Å) and slip angle is 44.89°. The paper states that no imaginary frequencies were found.
 
 ## 6. Limitations and interpretation boundaries
 

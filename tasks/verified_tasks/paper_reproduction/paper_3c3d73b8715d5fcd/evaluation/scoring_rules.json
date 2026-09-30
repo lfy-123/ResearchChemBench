@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_3c3d73b8715d5fcd",
+  "rules": [
+    {
+      "rule_id": "rule_process_validation",
+      "reference_id": "kp_process_stationary_points",
+      "type": "semantic",
+      "expected": "Per-candidate frequency and connectivity validation is documented for the requested OCM and reaction-channel candidates. Apply to candidates retained for a scientific result; failed attempts or failed optional controls do not invalidate a separately validated main pathway. Complete status still requires the requested channel coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "rule_process_assembly",
+      "reference_id": "kp_process_energy_assembly",
+      "type": "semantic",
+      "expected": "Energy assembly, reference state, solvent and temperature are explicit and internally consistent.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "rule_activation",
+      "reference_id": "kp_result_activation",
+      "type": "numeric",
+      "target": 22.8,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.cycloisomerization_activation_free_energy_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "rule_endo_exo",
+      "reference_id": "kp_result_endo_exo",
+      "type": "numeric",
+      "target": 7.5,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.endo_exo_ocs_transition_state_difference_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "rule_final_conclusion",
+      "reference_id": "conclusion_mechanism",
+      "type": "semantic",
+      "expected": "Endo-OCM is supported as preferred in the modeled system and the requested barrier comparison is reported with scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

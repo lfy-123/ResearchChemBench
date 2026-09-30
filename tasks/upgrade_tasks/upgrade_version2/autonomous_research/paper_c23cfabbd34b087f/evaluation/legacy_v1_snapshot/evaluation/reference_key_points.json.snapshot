@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use four supplied mapped graph models with source truncation: long alkoxy chains are OMe and the label TIPS denotes the source C#C-SiH3 computational substitute, not full Si(iPr)3. Generate independent coordinates. 1M and 2M differ by C2H2; compare spin/optical observables, never their bare total energies. Oxidized 2M-prime is a different compound and outside this matrix. Use common_scaffold_mapping.json for the exact 54/56 retained-heavy atom pair maps; shared-scaffold coordinates must be copied from the computed reference, not independently fitted. Within each fixed composition report E(T)-E(CS) on shared CS geometry and separately at state-relaxed geometries. BS energies are determinant energies with S2/occupations, not a spin-pure singlet unless an explicitly justified projection is supplied. Across topologies compare like-defined gaps and state descriptors, not total E. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxed_series",
+      "statement": "Four matched electronic-state and optical panels",
+      "expected": "Verify source model graphs, H counts and neutral spin spaces; inspect stability/occupation and TD evidence. The former 1M-TIPS geometry was not a new minimum validation.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_frozen_scaffold",
+      "statement": "Within-topology frozen-scaffold substituent controls",
+      "expected": "Check exact retained common scaffold coordinates and fragment valence; compare effects within each topology first. Frozen BS collapse is documented in its record, not a fabricated distinct solution.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_calibrated_interpretation",
+      "statement": "Independent spin calibration and topology/substitution discrimination",
+      "expected": "Cross-check occupations, spin gaps and optical state character against an independent electronic model. An unrestricted instability or large oscillator strength does not alone prove a diradical assignment or experimental spectrum.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

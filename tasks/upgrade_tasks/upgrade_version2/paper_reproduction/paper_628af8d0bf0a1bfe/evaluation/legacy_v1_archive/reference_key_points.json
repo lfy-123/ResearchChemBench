@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct scientific objects and valid computational evidence.",
+      "expected": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: `data/inputs/systems.json` defines the full neutral singlet molecules 4a (C36H14F12S2) and 4c (C34H22O2S2). Preserve both full substituents and the fused core. Map the two five-carbon pentalene rings; do not substitute the sulfur-containing or benzene rings.\n\nDefine a least-squares plane through the central pentalene carbon atoms, a consistently oriented unit normal n, and a centroid for each five-carbon ring. At signed distance h, the probe is centroid + h*n. The observable is NICS_nn(h) = −n^T sigma(h) n in ppm, using the full shielding tensor and one coordinate frame. A laboratory 'zz' entry is valid only if that axis is demonstrably aligned to n. Include both ± sides at |h| = 1.0, 1.7 and 2.3 angstrom; retain both ring values and side differences. The legacy positive-side 1.7-angstrom ring mean is a separate source-comparable observable, not the entire study.\n\nThe primary boundary is the isolated gas-phase singlet. Compare relaxed cores and a declared common fixed-core control (or reciprocal core-geometry swaps) while allowing a consistent treatment of peripheral coordinates. Frozen-core controls are not unconstrained minima. Record a reproducible bond-length-alternation descriptor with the exact bonds and sign convention; it complements, but does not automatically prove, a magnetic aromaticity assignment. Current-density/ACID/GIMIC calculations, excited states and crystal packing are optional extensions.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_geometries",
+      "statement": "Relaxed and fixed-core structures, ring mapping and bond-length descriptors.",
+      "expected": "Verify the complete molecules and carbon-ring identities, genuine relaxed minima, preserved constraints and declared bond-length-alternation formula. Cover 4a and 4c, each relaxed and common-core controlled (reciprocal swaps are allowed with multiple labeled fixed-core records). Map the eight fused-core carbon atoms and each five-carbon ring. Define which bond lengths enter BLA and check them from XYZ. Verify the declared common core or reciprocal mapping actually holds; only peripheral relaxation cannot be described as an entirely fixed-geometry electronic effect. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_probe_results",
+      "statement": "Full shielding tensors and projected NICS at both rings and ±1.0/±1.7/±2.3 angstrom.",
+      "expected": "Recompute probe positions and −n^T sigma n; cover both molecules and relaxed/fixed-core conditions with no forced symmetry or laboratory-axis shortcut. For every required molecule/condition and both rings cover h=-2.3,-1.7,-1.0,+1.0,+1.7,+2.3 angstrom. Verify n is normalized, probe=centroid+h*n in the same frame, and NICS=-sum_i,j n_i*sigma_ij*n_j. The 3x3 tensor is in ppm; verify actual ghost coordinates/output. A global zz element without rotation, forced ring equality or omission of the negative side fails the affected endpoint. Duplicate rows cannot replace missing probes. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_causal_comparison",
+      "statement": "Substituent contrasts at fixed and relaxed cores and probe-dependent interpretation.",
+      "expected": "Inspect actual control contrasts and BLA evidence, residual confounds and numerical sensitivity. Do not count two old 1.7-angstrom scalars plus speculative prose as a controlled attribution. At every matched ring/height compute Delta_relaxed=NICS_4a,relaxed-NICS_4c,relaxed; Delta_fixed=NICS_4a,fixed-NICS_4c,fixed; geometry contribution=Delta_relaxed-Delta_fixed. Reciprocal swaps must identify both reference cores. Compare side/height dependence and BLA without forcing universal antiaromaticity from a scalar. Reference +23.6/+19.2 are context for a like-defined baseline, not all control outcomes. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Evidence-supported hypothesis discrimination and sensitivity.",
+      "expected": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Using the wrong ring, replacing NICS by a charge, copying laboratory zz without the coordinate transform, forcing ring/side equality, or declaring constrained controls to be equilibrium minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

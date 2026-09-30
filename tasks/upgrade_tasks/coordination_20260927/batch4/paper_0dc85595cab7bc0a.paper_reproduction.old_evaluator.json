@@ -1,0 +1,191 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "items": [
+      {
+        "key_point_id": "pr_kp_process",
+        "key_point_type": "process",
+        "statement": "The submitted comparison is based on independently optimized candidate structures with stationary-point validation and an explicit atom-mapping/candidate-coverage record.",
+        "expected": "Each advanced candidate has a stated charge/multiplicity, optimization provenance, minimum/TS validation evidence, and individual mapping; the actual searched candidates are identified.",
+        "evidence_ids": [
+          "ev_doc_965c59b084a2_000079_ab2fb2e78776"
+        ]
+      },
+      {
+        "key_point_id": "pr_kp_first",
+        "key_point_type": "result",
+        "statement": "The first-stage competing cyclization alternatives are compared by relative Gibbs free energy and the lower-energy channel is identified without relying only on an orbital picture.",
+        "expected": "A quantitative relative-free-energy comparison for the first-stage alternatives is reported, with units and uncertainty, and a clear lower/higher ordering.",
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000060_34f22ca8a885",
+          "ev_doc_965c59b084a2_000095_d92bdfc5a932"
+        ]
+      },
+      {
+        "key_point_id": "pr_kp_second",
+        "key_point_type": "result",
+        "statement": "The second-stage alternatives are thermodynamically discriminated and connected to the final oxidation/product assignment.",
+        "expected": "The report compares second-stage alternatives, identifies the supported sequential continuation, and maps it to final product formation.",
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000060_34f22ca8a885"
+        ]
+      },
+      {
+        "key_point_id": "pr_kp_orbital",
+        "key_point_type": "result",
+        "statement": "Electronic evidence is used to test the author's qualitative site-selectivity hypothesis.",
+        "expected": "The report discusses site-specific frontier-orbital density/phase or a justified independent electronic discriminator and distinguishes this from thermodynamic evidence.",
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000060_34f22ca8a885"
+        ]
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "items": [
+      {
+        "conclusion_id": "pr_c_final",
+        "claim_role": "final",
+        "statement": "The computed and validated first-stage and sequential second-stage candidates, comparable free energies and electronic or structural evidence support the product-selectivity conclusion.",
+        "expected": "The computed and validated first-stage and sequential second-stage candidates, comparable free energies and electronic or structural evidence support the product-selectivity conclusion.",
+        "supporting_key_point_ids": [
+          "pr_kp_process",
+          "pr_kp_first",
+          "pr_kp_second",
+          "pr_kp_orbital"
+        ],
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000063_b4bfe33d0c76"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "rules": [
+      {
+        "rule_id": "pr_r_process",
+        "reference_id": "pr_kp_process",
+        "type": "semantic",
+        "expected": "Candidate-specific mappings, optimization provenance, stationary-point validation and explicit candidate coverage are present.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.validation.process_evidence",
+            "$.coverage.searched_scope",
+            "$.candidates"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "pr_r_first",
+        "reference_id": "pr_kp_first",
+        "type": "semantic",
+        "expected": "The first-stage alternatives have a clear reported relative-free-energy ordering with units and uncertainty. Compare equal-composition candidates within each declared reaction stage with a common energy convention. Preserve atom mapping and stage identity; never compare unrelated absolute energies across stages.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparison.ordering_or_result",
+            "$.candidates"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "pr_r_second",
+        "reference_id": "pr_kp_second",
+        "type": "semantic",
+        "expected": "The second-stage alternatives and sequential connection to final product are explicitly compared and mapped. Compare equal-composition candidates within each declared reaction stage with a common energy convention. Preserve atom mapping and stage identity; never compare unrelated absolute energies across stages.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparison.ordering_or_result",
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "pr_r_orbital",
+        "reference_id": "pr_kp_orbital",
+        "type": "semantic",
+        "expected": "Electronic selectivity evidence is specific to reactive sites and separated from thermodynamic claims.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparison.electronic_evidence"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "pr_r_final",
+        "reference_id": "pr_c_final",
+        "type": "semantic",
+        "expected": "The computed and validated first-stage and sequential second-stage candidates, comparable free energies and electronic or structural evidence support the product-selectivity conclusion. Endpoint thermodynamic and site-electronic evidence supports a bounded selectivity interpretation, not a proven activation pathway or product rate. No new TS/IRC requirement is introduced.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "items": [
+      {
+        "failure_id": "pr_cf_identity",
+        "condition": "The report changes charge, multiplicity, atom mapping or precursor identity without disclosure, so candidate comparisons are not scientifically attributable to the supplied system."
+      },
+      {
+        "failure_id": "pr_cf_validation",
+        "condition": "The claimed winning or comparative candidates lack stationary-point validation or candidate-specific evidence."
+      },
+      {
+        "failure_id": "pr_cf_scope",
+        "condition": "The report claims kinetic, excited-state or experimental proof from an isolated-molecule thermochemical comparison alone."
+      },
+      {
+        "failure_id": "pr_cf_coverage",
+        "condition": "The required candidate comparison or sequential channel omits chemical identities or validation evidence needed to support its selectivity result."
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_965c59b084a2_000079_ab2fb2e78776",
+        "source": "Supporting Information, Section 5.1, Computational Methods: optimization, frequencies, single points and absence of imaginary frequencies."
+      },
+      {
+        "evidence_id": "ev_doc_5a2534d03b71_000060_34f22ca8a885",
+        "source": "Main paper, mechanism discussion: competing first-stage intermediates, reported thermodynamic preference and orbital rationale."
+      },
+      {
+        "evidence_id": "ev_doc_965c59b084a2_000095_d92bdfc5a932",
+        "source": "Supporting Information, Gibbs free-energy pathway figure/data for compounds and intermediates."
+      },
+      {
+        "evidence_id": "ev_doc_5a2534d03b71_000063_b4bfe33d0c76",
+        "source": "Main paper, concluding mechanism discussion: combined thermodynamic/orbital factors and exclusive product formation."
+      }
+    ]
+  }
+}

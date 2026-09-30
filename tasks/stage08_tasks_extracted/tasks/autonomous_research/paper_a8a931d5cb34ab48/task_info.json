@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_a8a931d5cb34ab48",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of TFE-aromatic O-H vibrational tuning",
+  "category": "computational vibrational spectroscopy",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate and discriminate structural/model hypotheses across five complexes.",
+    "Candidate generation, conformer coverage, anharmonic observables and independent validation are all required."
+  ],
+  "paper": {
+    "title": "Spectroscopic insights into methyl-induced tuning of O-H⋅⋅⋅ π hydrogen bond",
+    "doi": "10.1016/j.molstruc.2025.145168",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-04-25"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit monomer SMILES, charge, multiplicity, complex pairings, units and structural boundaries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Schema-compliant hypotheses, per-system validated results, coverage, trend conclusion and limitations."
+    }
+  ]
+}

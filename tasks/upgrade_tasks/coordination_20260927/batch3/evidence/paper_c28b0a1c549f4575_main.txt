@@ -1,0 +1,454 @@
+
+=== PDF PAGE 1 ===
+                                                 Chemical Engineering Journal 528 (2026) 171590
+
+                                                 Contents lists available at ScienceDirect
+                       Chemical Engineering Journal
+
+
+                                             journal homepage: www.elsevier.com/locate/cej
+
+
+Solvation structure adjustment by divalent cation for high specific
+energy supercapacitors
+Pan Liu a,c, Zhen lei Chen a,c, Peng Zhang a,c, Tong Huo a,c, Qing Yin Zhang a,b,c,
+Zhi Qiang Shi a,c,d,*, Hai Jiao Xie e
+a College of Materials Science and Engineering, Tiangong University, Tianjin, 300387, China,
+b College of Chemical Engineering and Technology, Tiangong University, Tianjin, 300387, China
+c Cangzhou Institute of Tiangong University, Cangzhou, 061000, China
+d Tianjin Key Laboratory of Advanced Fibers and Energy Storage, China
+e Hangzhou Yanqu Information Technology Co., Ltd., Y2, 2nd Floor, Building 2, Xixi Legu Creative Pioneering Park, No. 712 Wen'er West Road, Xihu District, Hangzhou
+City, Zhejiang Province, 310003, China
+
+
+A R T I C L E  I N F O                  A B S T R A C T
+
+Keywords:                                           Traditional electrolytes for supercapacitors, typically employing single-charged ions like TEA+ in 1 M tetrae­
+Divalent cation                              thylammonium tetrafluoroborate/propylene carbonate (TEA-BF4/PC), suffer from thick, loose solvation shells.
+Solvent modification                               This structure impedes ion adsorption at the electrode interface and causes excessive solvent molecules (PC) to
+Multicharge adsorption                                          decompose and generate gas under high voltage, severely limiting both operating voltage and energy storageHigh voltage                                                       efficiency. To address this, we introduced the divalent salt N,N-1,4-diethyl-trivinyl diamine tetrafluoroborate
+                                            (DEDABCO-(BF4)2) into the TEA-BF4/PC electrolyte. The presence of the divalent DEDABCO2+ cation facilitates
+                                                 the desolvation of TEA+ ions. This charge-driven reorganization at the interface reduces the population of PC
+                                                   solvent molecules while simultaneously enhancing the interfacial charge density. Consequently, the cell achieves
+                                             a higher operating voltage and improved specific capacity. Electrochemical testing shows a capacitor using this 1
+                          M TEA-BF4/PC + 0.2 M DEDABCO-(BF4)2 hybrid electrolyte achieves a stable 3.4 V operating voltage and a high
+                                                 discharge capacity of 122 F g−1. Additionally, the device delivers an excellent energy density of 50.4 Wh kg−1
+                                          and a maximum power density of 8.9 kW kg−1. The resulting gains in stability and efficiency establish this dual-
+                                                           salt electrolyte as a key enabler for next generation high energy density supercapacitors.
+
+
+1. Introduction                                                    through the energy density bottleneck [14].
+                                                                  Tetraethylammonium tetrafluoroborate/propylene carbonate (TEA-
+   Supercapacitors (SCs) has shown great application potential in fields    BF₄/PC) is widely used in commercial SCs due to its high ionic con­
+such as electric vehicles (start-stop systems, energy recovery),  rail     ductivity and wide electrochemical stability window (~3.0 V) [15,16].
+transit, smart grid frequency regulation, and high-power starting power    However, it faces several limitations: (1) Operating voltage is practically
+supplies due to its outstanding power density (up to 10 kW kg−1),     limited to 2.7–3.0 V; beyond this voltage, PC decomposes oxidatively,
+extremely long cycle life (>100,000 times) and rapid charging and     producing gas (e.g., CO2, CO), raising internal pressure and causing
+discharging  capabilities  (in seconds  to minutes)  [1–8]. However,     capacitance fade and safety risks [17–19]. (2) The solvation shell in­
+compared with secondary batteries, the energy storage mechanism of     creases ion size. According to Helmholtz model, capacitance primarily
+SCs based on physical adsorption/desorption leads to a significantly     arises from ions polarization on the carbon surface [20].  It can be
+lower energy density (typically <10 Wh kg−1), which severely restricts    enhanced by reducing double-layer thickness “d” or raising dielectric
+its wider application in scenarios requiring high-energy storage [9–13].     constant “εr” according to the parallel-plate model (C = ε0εr/d). (3) The
+According to the energy density formula E = 1/2 CV2, the contribution     large-sized single-charged ions not only limit the interface charge den­
+of the increase in working voltage (V) to energy density (E) grows in a      sity, but also exhibit poor accessibility to micropores in activated car­
+square order, which is regarded as a more effective strategy to break     bon, lowering material utilization and limiting rate capability [21].
+
+
+ * Corresponding author.
+    E-mail address: shizhiqiang@tiangong.edu.cn (Z.Q. Shi).
+https://doi.org/10.1016/j.cej.2025.171590
+Received 27 September 2025; Received in revised form 20 November 2025; Accepted 3 December 2025
+Available online 5 December 2025
+1385-8947/© 2025 Elsevier B.V. All rights are reserved, including those for text and data mining, AI training, and similar technologies.
+
+=== PDF PAGE 2 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+
+   Recent studies demonstrate that introducing multivalent cations or     low-energy-barrier diffusion layer for rapid ion migration but also act as
+ferroelectric additives can modulate interfacial structure and improve    an ion-buffering reservoir to ensure sufficient charge carriers [38].
+performance. For instance, the addition of DIPAP to TEA-BF4/ACN en­    Moreover, the use of divalent cation increases the volumetric charge
+hances capacitance via preferential adsorption of compact DIPA+ ions,     density, enhancing intra-pore charge transfer flux and further allevi­
+which reduce the effective double-layer thickness and enhance local     ating electrolyte starvation effect. These effects collectively contribute
+permittivity [22]. Similarly, divalent cations such as DMDABCO2+     to suppressed capacitance loss at high current densities. Conversely,
+exhibit stronger electrostatic interaction with the electrode surface,     smaller anions such as BF₄−(~0.46 nm) are well-suited to the micropore
+leading to higher interfacial charge density and the formation of a     structure of AC, enabling efficient adsorption and leveraging its high
+protective ion layer that mitigates solvent decomposition and expands     specific surface area for charge storage. In prior investigations utilizing a
+the operational voltage window [23–28]. This mechanism is particularly    1 M TEA-BF₄/PC electrolyte, various electrode configurations were
+effective in mesoporous carbon electrodes, where hierarchical pore     evaluated. It was found that an asymmetric supercapacitor (ASC) with
+structures serve as ion-buffering reservoirs, facilitating rapid ion trans­   AC as the positive electrode and MC as the negative electrode (denoted
+port and improving charge  storage  kinetics while  stabilizing the     as AC//MC) delivered the highest energy and power densities, along
+electrode-electrolyte interface [29–34]. Nevertheless, the maximum    with remarkable cycling stability and high-voltage endurance [30].
+solubility of DEDABCO-(BF4)2 in PC is 0.3 mol/kg (0.3 M), which is       Hence, the AC//MC configuration was selected to optimally align the
+equivalent to 0.4 mol/L. The higher viscosity and lower ionic conduc­    adsorbed ions with the carbon pore structure: the AC positive electrode
+tivity of concentrated divalent salt electrolytes can impair rate perfor­     offers abundant adsorption sites for BF₄−anions, while the MC negative
+mance [35,36].                                                           electrode provides wide ion transport channels and suitable adsorption
+   Based on the above background, we introduce the bicharged organic     spaces for TEA+ and DED2+. The mechanism diagram is shown in Fig. 1
+cation DEDABCO2+ (DED2+) as a functional additive into conventional      (a). This rational electrode design not only improves material utiliza­
+TEA-BF₄/PC electrolytes. Compared to baseline systems, DEDABCO-      tion, capacitance retention, and rate capability but also maintains a
+(BF4)2/PC exhibits a wider electrochemical window and higher charge     stable solvation structure, thereby significantly enhancing the cycling
+density. Raman spectroscopy, 1H NMR, and molecular dynamics simu­      stability of the device.
+lations confirm DED2+ promotes TEA+ desolvation and increases inter­        This strategy simultaneously weakens solvation layers around TEA+
+facial  charge  density.  It  also  suppresses  high-voltage  interfacial     ions and enhances areal charge adsorption density. To verify the
+reactions and enhances device operating voltage on account of reducing    improvement effect of double-charged cations on the traditional elec­
+solvent molecules at electrode interface via charge-driven ion packing.      trolyte, the viscosity and conductivity of different electrolyte systems
+We fabricated microporous activated carbon (AC)//mesoporous carbon    were tested, as shown in Fig. 1(b). The viscosity of the electrolyte in­
+(MC) asymmetric capacitors (AC for positive, MC for negative) base on     creases with higher DED2+ concentration, owing to more PC molecules
+MC's buffering capacity for large cations. Coin-cell devices with 1 + 0.2     being bound and a corresponding decrease in free solvent molecules.
+(1 M TEA-BF4 + 0.2 M DEDABCO-(BF4)2) electrolyte achieve the    However, the introduction of divalent cations increased the charge
+maximum energy densities of 50.4 Wh kg−1 and 95.7 % capacitance     density in the electrolyte, thereby enhancing the conductivity of the
+retention rate after 10,000 cycles at 3.4 V. This work establishes a viable     electrolyte. Moreover, due to the adjustment of the solvation structure of
+design strategy for high-energy supercapacitors.                    TEA+ by DED2+, the loss of the electrolyte's conductivity was not sig­
+                                                                                   nificant. When the concentration of DED2+ is 0.1 M, the solvation
+2. Results and discussion                                                 structure adjustment of TEA+ is relatively weak, while at 0.3 M, there is
+                                                                           excessive binding to the PC molecules. And only in the 1 + 0.2 formu­
+2.1. The design principle and physicochemical properties of electrolyte          lation, DED2+ has the greatest effect in promoting the desolvation of
+                                                   TEA+ and The fluidity of the electrolyte is relatively good. Therefore,
+                                                                                 + 0.2   The strong solvation of commercial electrolytes such as TEA-BF4 in     the electrochemical performance of the capacitor using the 1
+propylene carbonate results in large solvation shells, which increase     electrolyte is the best. Due to its stronger solvation structure, the elec­
+charge separation and reduce interfacial charge density. To address low     trochemical stability window (ESW) expands to 6.6 V (Fig. 1c). The
+charge adsorption density and excess solvent at electrode interfaces, we     positive potential was broadened by 0.52 V, and the negative potential
+introduce divalent DED2+ cations—exhibiting stronger solvent binding    was broadened by 0.62 V. This indicates that adding 0.2 M DED2+ to the
+affinity—into conventional TEA-BF4/PC electrolytes. The preparation    1 M TEA electrolyte can effectively enhance the reduction stability of the
+process and structure information of DED2+ are presented in Figs. S1-S2.     electrolyte at the anode and the oxidation stability at the cathode. In
+Compared to TEA+, DED2+ has a higher electrostatic potential, indi­     addition, the thermal stability of the electrolyte salt was evaluated by
+cating that its solvation energy is also higher. However, the average pore     thermogravimetric analysis (TGA, Fig. S4b). The analysis results indi­
+size of conventional supercapacitor electrode material—AC (approxi­     cated that DEDABCO-(BF4)2 remained stable below 236 ◦C, with a mass
+mately 1.8 nm) is only marginally larger than the diameters of large     loss of less than 1 %. This meets the thermal stability requirements for
+solvated cations (TEA+, ~0.73 nm; DED2+, ~1.1 nm, Fig. S2). This     supercapacitors.
+proximity in dimension restricts the ingress and egress of ions at the pore
+openings, resulting in notable steric hindrance. Such confinement not     2.2. Analysis of the solvation structure
+only considerably retards ion transport but also enhances the extent of
+ion desolvation upon pore entry and accelerates solvent decomposition         Fig. 2 presents comparative analyses of solvation structures of single
+at high operating voltages. The decomposition of the solvent under high    and double salts electrolytes. The 1H NMR peaks of pure PC appears at
+voltage will lead to the evolution of gaseous by-products, including CO     1.41–1.44 ppm and 4.05–4.1 ppm, respectively, while the 1H NMR peaks
+and CO₂, ultimately impairing the electrochemical performance of     of pure TEA+ are observed at 1.26 ppm (Fig. 2a). As the dissolution of
+microporous electrodes [37].                                                 electrolyte salts in PC, both the PC and TEA+ peaks undergo a upfield
+   In contrast, replacing the conventional AC anode with mesoporous     chemical shift to regions with higher δ values. This indicates reduced
+carbon (MC) featuring an average pore size of 5.3 nm (Fig. S3) affords     electron density around nuclei and enhanced electron-donating group
+expanded ion transport pathways that accommodate larger solvated      activity, confirming solvation structure formation. Similarly, when
+ions. Although MC exhibits a  slightly lower  specific surface area    DEDABCO-(BF4)2 was  added  to  the  PC,  the  peak  representing
+(1272.20 m2 g−1) compared to AC (1380.00 m2 g−1), it possesses a    DED2+(3.85 ppm) shifts to a blue wavelength(Fig. S5). Upon introducing
+greater total pore volume (1.68 cm3 g−1 vs. 1.04 cm3 g−1), which is     divalent DED2+ cations into 1 M TEA-BF4/PC, TEA+ peaks shift down­
+presented in Table S1. These enlarged pores not only provide a wide,      field (decreased δ values), demonstrating weakened solvation effects
+
+                                                                        2
+
+=== PDF PAGE 3 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+
+
+
+
+
+Fig. 1. (a) Mechanism design of Optimization for EDLC, (b) Ionic conductivity and viscosity and (c) The electrochemical stability window (ESW) of different systems
+electrolytes. (The ESW was from LSV tests at a scan rate of 5 mV s−1. Working electrode: Titanium, reference electrode: Ag / AgNO3, counter electrode: platinum net.)
+
+and reduced solvation shell dimensions—thereby facilitating ion trans­     stronger binding energy with PC. Frontier molecular orbital analysis
+port and adsorption within material pores. At 0.2 M DEDABCO-(BF4)2     indicates that compared to the energy levels of TEA+-PC, the interaction
+concentration, minimal chemical shifts for both TEA+ and DED2+ reveal    between DED2+ and PC significantly lowers the energy level of the
+optimal solvent-ion binding equilibrium. Increasing divalent salt con­     highest occupied molecular orbital (HOMO), thereby enhancing the
+centration to 0.3 M disrupts this equilibrium, inducing upfield shifts for     oxidation stability of the system and expanding the forward electro­
+both cations, indicating that more free solvent molecules were adsorbed     chemical stability window of the electrolyte to 0.52 V. In contrast, the
+and the solvation structure was enhanced. Fig. 2b displays the Raman    BF4−–PC bond increases the energy level of the lowest unoccupied mo­
+spectra of PC in various electrolytes, where the characteristic C––O     lecular orbital (LUMO), which enhances the reduction stability of the
+stretching vibrations reveal distinct solvation behaviors. The C––O peak     electrolyte. In the double salt system, as the concentration of the anion
+in 0.3 M DED electrolyte exhibits a red shift (lower wavenumber),     increases, the number of solvent molecule coordination around BF4−
+indicating enhanced interaction between DED2+ and PC due to strong     increases (Fig. S6d), causing the negative electrochemical stability
+cation solvation. Conversely, the C––O peak in 1 M TEA electrolyte shifts    window of the electrolyte to also increase (Fig. 1c). To gain deeper in­
+to higher wavenumber, suggesting a weaker solvation structure of TEA+      sights, we computed the adsorption energies of various ions on the
+with PC. Upon incremental addition of DED2+ to 1 M TEA, the C––O    graphene surface (Fig. 2f). The results revealed that the adsorption en­
+peak undergoes a blue shift (higher wavenumber), signifying increased     ergy of DED2+ (−45.68 kcal mol−1) was not only more favorable than
+C––O bond strength and reduced coordination number of PC to TEA+,     that of TEA+ (−24.83 kcal mol−1), but also stronger than that of the PC
+which facilitates TEA+ desolvation and promotes ion mobility within     molecule (−10.69 kcal mol−1). This suggests that DED2+ exhibits pref­
+electrodes. However, at 1 + 0.3 concentration, excessive divalent cat­     erential adsorption on the electrode surface. Therefore, the introduction
+ions reform strengthened solvation clusters with PC, consistent with     of DED2+ not only disrupts the solvation shell of TEA+, reduces the
+NMR observations. This concentration-dependent solvation reversal is    number of solvent molecules near the electrode, but also facilitates the
+further corroborated by the C–N bond Raman spectra of TEA+ (Fig. 2c):     formation of a protective layer that shields the electrode from direct
+DED2+ addition induces a blue shift in the C–N peak, reflecting elevated     contact with the solvent accroding charge-driven ion rearrangement.
+electron density on the C–N bond and decreased solvent coordination to     Furthermore, DED2+ adopts a parallel orientation relative to the elec­
+TEA+. Density functional theory (DFT) calculations (Fig. 2d–f) further     trode surface, which shortens the distance between its charge center and
+elucidate cation/anion solvation geometries. DED2+ exhibits stronger     the electrode and increases the charge density in the electrode's near-
+binding energy with PC than TEA+, forming more compact solvation     surface region.
+structures. This enables DED2+ to competitively sequester PC molecules        Snapshots of molecular dynamics simulations are shown in Fig. 2g-i
+from TEA+ in solvent-limited environments, thereby thinning TEA+’s    and Fig. S6, and statistical analysis was conducted on the most likely
+solvation shell. Moreover, DED2+’s low concentration limits its contri­     solvation structures in each system. It is obvious that compared to TEA+,
+bution to solvent accumulation at the electrode interface, despite its     there are more PC molecules interacting cooperatively around DED2+.
+
+
+                                                                        3
+
+=== PDF PAGE 4 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+
+
+
+
+
+Fig. 2. Solvation structure investigations of the formulated electrolytes. (a) 1H NMR spectra of TEA+ in different electrolytes. Raman spectra of (b) PC, (c) TEA+
+characteristic peaks. (d) Binding energies of the “TEA+ - PC”, “BF4-  - PC” and “DED2+- PC” complexes from DFT calculations. (e) Frontier molecular orbital energy
+levels (HOMO and LUMO) of PC, “BF4−- PC”, “TEA+- PC”, and “DED2+ - PC” pairs. (f) Adsorption energy of “DED2+”, “TEA+” and “PC” on the graphene sheet surface
+(insets: adsorption models), Snapshots and most likely solvation structures of (g) 1 M TEA, (h) 1 + 0.2, (i) 0.3 M DED electrolytes after MD simulations. Radial
+distribution function of the (j) “TEA+ (N) - (=O) PC”, (k) “DED2+ (N) - (=O) PC” pairs in different electrolytes. (l) Mean square displacement of PC in different
+electrolytes.
+
+
+
+
+                                                                        4
+
+=== PDF PAGE 5 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+The most likely solvation structure in 0.3 M DED is DED2+-(PC)14-     specific capacitance; (2) reduced solvent occupancy at the solid-liquid
+(BF4−)2. Upon introducing DED2+ into 1 M TEA electrolyte, coordination     interface, which suppresses high-voltage decomposition reactions and
+numbers of PC molecules in the solvation shells of both TEA+ and DED2+     extends operational voltage stability. As evidenced by Fig. S6d, divalent
+decline with increasing divalent cation concentration (Fig. S6a-b).    DED2+ elevates local BF4−concentration, increasing BF4−-PC coordina­
+However, the solvation of DED2+ and TEA+ ions is more pronounced in     tion numbers. Concurrently, reduced free solvent at the anode enhances
+the 1 + 0.3 electrolyte than in the 1 + 0.2 formulation, as evidenced by a     oxidation stability. From the MSD graph (Fig. 2l), it can be seen that as
+greater number of surrounding solvent molecules. Fig. 2h display that in     the concentration of electrolyte salt increases, the number of “bound” PC
+the case of 1 + 0.2, the double cations achieve the minimum coordi­     molecules increases, significantly slowing down the migration of PC.
+nation number, exhibiting the optimal solvation shell thickness with     Therefore, the MSD reduction not only leads to an increase in viscosity
+solvation equilibrium state. The results of the radial distribution func­    and a decrease in ionic conductivity, but also causes most PC molecules
+tion (RDF) and the corresponding average coordination numbers are     to be in a “bound” state. This adjustment of the solvation structure and
+shown in Fig. 2j-k. The RDF of TEA+(N)-PC(=O) pairs exhibits a distinct     reduction of decomposable free solvent are the key factors causing the
+peak at 0.43 nm. Compared to DED2+, TEA+ displays a more disordered   ESW of the electrolyte to broaden. Therefore, the appropriate intro­
+solvation structure with weaker PC coordination. Consequently, DED2+     duction of DED2+ can enhance the high-voltage stability of the device.
+introduction induces negligible RDF peak shifts, yet at 1 + 0.2, the RDF
+minimum intensity and lowest coordination numbers confirm maxi­     2.3. Electrochemical characteristics of AC//MC ASCs
+mally desolvated states(Fig. 2j). As seen as Fig. 2k, a distinct peak ap­
+pears at 0.37 nm in the RDF of the “DED2+ (N) - (=O) PC” pair, which       With MC as the negative electrode and AC as the positive electrode,
+intensifies with the increase of the salt-solvent ratio. The peak is the    asymmetric button-type capacitors were assembled using five types of
+highest in the pure 0.3 M DED electrolyte, and it decreases in the 1 + 0.3     electrolytes with different ion concentrations. Fig. 3 evaluates DED2+
+electrolyte. The coordination number of DED2+ in the first solvention    impact on capacitance of ASCs across different voltage and current
+shell is second only to that in the 0.3 M DED electrolyte. This indicates     densities. At 2.7 V under low current densities, increasing DED2+ con­
+that when the concentration of DED2+ increases to 0.3 M, the solvent     centration elevates discharge capacitance—confirming that the addition
+shell around the cations becomes thicker. In 1 + 0.2, the solvation be­     of divalent cations increases the charge adsorption capacity. Among
+tween DED2+ and PC is also the weakest, which is owing to the solvation    them, the weak solvation structure of the 1 + 0.2 electrolyte is condu­
+of the double salts reaches an equilibrium. And it is consistent with the     cive to effective charge adsorption, resulting in the maximum capacity.
+results  of  nuclear magnetic  resonance and Raman  spectroscopy.    Although a greater capacitance of capacitors with 1 M TEA (≤3.2 V) can
+Furthermore, Fig. S6c reveals maximized DED2+-TEA+ coordination at    be achieved at low current densities under the action of stronger electric
+the 1 + 0.2, indicating peak inter-ion association. This elevated coor­      field, but the capacitance retention rate drops sharply (<35 %) at 3.4 V.
+dination density directly enhances charge storage at the electrode     This degradation stems from electrochemical decomposition of PC sol­
+interface through dual mechanisms: (1) increased adsorption of effec­     vent molecules coordinated with TEA+. Under high-voltage operation
+tively desolvated charges, improving electrode utilization and device-    (>3.0 V), these interfacial reactions generate gaseous byproducts (CO,
+
+
+
+
+
+                          Fig. 3. GCD curves of AC//MC ASCs with different electrolytes at (a) 2.7 V, (b) 3.0 V, (c) 3.2 V and (d) 3.4 V.
+
+                                                                        5
+
+=== PDF PAGE 6 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+
+CO₂ and H2), which impede ion transport pathways and disrupt     charge transfer impedance increases, indicating a decrease in the charge
+adsorption sites [37]. At optimal concentrations (1 + 0.2), divalent     transfer rate. When DED2+ increases to 0.3 M, due to the enhanced
+cations exhibit higher binding effect with PC molecules yet promote     solvation structure, the charge transfer impedance is the maximum,
+TEA+ desolvation. This simultaneously reduced the number of solvent     while the capacitor prepared with 1 + 0.2 electrolyte has a relatively
+molecules surrounding the ions and suppresses high-voltage interfacial     smaller charge transfer impedance due to the weakened solvation
+decomposition, enhancing rate capability. However, at 0.3 M DED2+     structure. At the same time, due to the increase in the viscosity of the
+concentration (1 + 0.3), the observed performance deterioration origi­     double-salt electrolyte, the diffusion coefficient of the electrolyte de­
+nates from the intensified solvation of DED2+, characterized by a higher     creases, and the slope of the straight line in the low-frequency region of
+coordination number and a thicker solvation shell (as demonstrated in     the linear graph increases; thus, the ion transmission resistance  is
+Fig. 2k and Fig. S6b). This robust solvation structure, combined with the     reduced.
+high carbon affinity of DED2+, facilitates the accumulation of PC solvent       To further investigate the influence of the divalent ion DED2+ on the
+at the interface, promoting its decomposition. Furthermore, the low     withstand voltage performance of the electrolyte, the CV curves of
+charge density inherent to such bulky solvated ions directly undermines     supercapacitors prepared with different concentrations of double-salt
+electrochemical efficiency. Consequently, ion transport resistance rises     electrolytes at different voltages were detected at a scanning rate of 5
+and adsorption kinetics deteriorate at high current densities, causing   mV  s−1.  Fig. 4a-c and  Fig. S8a-b demonstrate voltage-dependent
+capacity fade and rate performance degradation. Therefore, we exam­     capacitance enhancement across tested supercapacitors. At 3.4 V, the
+ined the impedance characteristics of various devices, and the imped­    ASCs with 1 + 0.2 electrolyte maintains stable charge-discharge profiles
+ance spectrum consists of a semi-circle in the high-frequency region and     with minimal polarization. Conversely, beyond 3.2 V, electrolytes con­
+a straight line in the low-frequency region. The intersection point of the     taining 1 M TEA, 0.3 M DED, 1 + 0.1 and 1 + 0.3 formulations exhibit
+curve in the mid-high frequency region with the real axis represents the     severe CV curve distortion, pronounced polarization phenomena and >
+intrinsic internal resistance of the device, and the diameter of the semi-    10 % coulombic efficiency loss. While capacitors containing 1 + 0.2
+circle is the charge transfer internal resistance. The slope of the straight     electrolyte can still maintain a coulombic efficiency of over 98 % at 3.5
+line in the low-frequency region reflects the ion diffusion impedance of     V. Galvanostatic charge-discharge profiles at 0.2 A g−1 (Fig. 4d-f,
+the electrolyte ions diffusing through the internal voids of the material.     Fig. S8c-d) reveal electrolyte-dependent stability limits. While 1 M TEA
+From Fig. S7, it can be intuitively seen that after adding DED2+, the     exhibits severe curve distortion beyond 3.5 V, DED2+ incorporation
+
+
+
+
+
+Fig. 4. CV curves of AC//MC ASCs with different electrolytes at 2.7 V- 4.0 V (a) 1 M TEA, (b) 1 + 0.2, (c) 0.3 M DED; GCD curves of C//MC ASCs with different
+electrolytes at 2.7 V- 4.0 V (d) 1 M TEA, (e) 1 + 0.2, (f) 0.3 M DED; (g) The three-electrode GCD curves of 1 + 0.2 with different voltages at 0.2 A g−1, negative
+electrode: MC, positive electrode: AC, reference electrode: Ag / AgNO3; Three electrode system CV curves of 1 + 0.2: (h) negative and (i) positive potential windows.
+
+                                                                        6
+
+=== PDF PAGE 7 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+extends the maximum operational voltage to 3.8 V. However, at 0.3 M     increased to 1.65 V after adding DED2+. The forward decomposition
+DED2+ concentration, this advantage reverses: voltage tolerance de­     voltage increases to 1.75 V. The maximum voltage window of the
+creases by more than 0.3 V with significant curve deformation. These     capacitor composed of 1 + 0.2 is 3.4 V. While 1 M TEA and 0.3 M DED
+results demonstrate that optimal DED2+ addition (0.2 M) elevates     are only 3.2 V.
+operational voltage, whereas excess divalent ions (≥0.3 M) increase       The comparison of energy density and power density of ASCs
+internal resistance and accelerate capacity fade. To probe cation-specific    composed of different electrolytes at 3.4 V is shown in Fig. 5a. The
+electrode  effects, we employed a  three-electrode system (Ag/Ag+    Ragone diagram shows that the energy density of the device is signifi­
+reference) for isolated analysis of cathode/anode electrochemical per­     cantly increased after adding DED2+. When its concentration is 0.2 M,
+formance in the optimized 1 + 0.2 electrolyte, benchmarking against 1     the device maintains an excellent power density. Among them, the
+M TEA and 0.3 M DED electrolytes between 0 and 4.0 V. Fig. 4g and     capacitor using 1 + 0.2 electrolyte has the highest energy density (50.4
+Fig. S9a reveal that electrode polarization is lower for the capacitor with   Wh kg−1) and the maximum power density is 8.9 kW kg−1, which is
+the TEA+-based electrolyte but higher for the device using the 0.3 M     higher than the results reported in the other literatures [39–41]. The
+DED electrolyte (Fig. S9d), notably at the negative electrode. The higher     cycle lives of the three devices are shown in Fig. 5b. Under the condition
+polarization originates from the strong solvation sheath of the divalent     of the current density of 1 A g−1 at 3.4 V, the capacitance retention rate
+DED2+, leading to increased ion diffusion charge transfer impedance.     of ASC using 1 + 0.2 is about 95.7 % after 10,000 charge-discharge
+Additionally, in the 1 + 0.2 system, DED2+ incorporation enhances the     cycles, which  is much higher than that of other supercapacitors.
+negative electrode's capacity and narrows the electrode potential dif­     Furthermore, its energy efficiency (90.07 %) is also higher than that of
+ference to <0.1 V, thereby balancing the electrode potentials. The spe­    ASCs  using  single  salt  electrolyte  after 10,000  lasting charging/
+cific values are shown in Table S3. Conversely, single-salt electrolytes,
+particularly 0.3 M DED exhibit deteriorating performance including     Table 1
+increase in open-circuit voltage and a deformation of the anode curve,     Comparison of energy efficiencies for different ASCs after long lasting charging/
+and widening electrode polarization (>0.4 V potential  difference,     discharging tests.
+Fig. S9d, Table S2). It indicates that in this system, the negative elec­         Electrolyte salt      1000              5000               10,000
+trode that adsorbs cations mainly affects the withstand voltage stability       Energy efficiency
+of the device. The limiting voltages of the positive and negative elec­        Cycle              25 ◦C    65 ◦C    25 ◦C    65 ◦C    25 ◦C    65 ◦C
+trodes in different electrolytes (limited to Coulombic efficiency greater       1 M TEA            71.79     40.21     73.09     39.56     73.25     37.21
+than 98 %) were tested respectively, as shown as Fig. 4h-i. It was found       1 + 0.2             92.84     83.06     92.03     80.9      90.07     79.72
+that compared with 1 M TEA, the negative decomposition voltage        0.3 M DED          90.52     63.65     87.82     61.67     86.08     57.39
+
+
+
+
+
+Fig. 5. (a) Ragone plots and (b) Cycle life with 1 A g−1 of ASCs with the different electrolytes at 3.4 V (25 ◦C); (c) Calculated discharge capacitance values and (d)
+Constant current charge/discharge curves for ASCs using 1 + 0.2 cycle life test at 65 ◦C.
+
+                                                                        7
+
+=== PDF PAGE 8 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+
+discharging (Table 1). This further indicates that the introduction of    Appendix A. Supplementary data
+DED2+ significantly reduces the energy loss in the supercapacitor. The
+above results indicate that adding 0.2 M DED to 1 M TEA electrolyte can       Supplementary data to this article can be found online at https://doi.
+effectively increase the energy density and stabilize the working voltage     org/10.1016/j.cej.2025.171590.
+of supercapacitors.
+   In addition, the high-temperature accelerated aging test was also    Data availability
+investigated. Comparative analysis revealed that supercapacitors expe­
+rience significant capacity degradation after 10,000 cycles at 65 ◦C.       Data will be made available on request.
+Even devices employing a 1 + 0.2 electrolyte could only retain 82.61 %
+of their initial capacity and the energy efficiency was only 57.46 %.    References
+Furthermore, as the number of charge–discharge cycles increased, a
+notable rise in the IR drop was observed (Fig. 5d), accompanied by a       [1]  J. Park, D. Kim, S. Kim, J. Park, D. Ryu, J. Kim, H. An, J. Kim, Controlled growth of
+marked decline in energy efficiency retention. These trends suggest that            redox-active polymer nanorods on MOF-derived activated nanoporous carbons: 3D                                                                                                  reconstruction study and high-performance supercapacitor, Chem. Eng. J. 498
+the increase in internal resistance exacerbates energy loss during oper­           (2024) 155122, https://doi.org/10.1016/j.cej.2024.155122.
+ation. The nonlinear charge-discharge curves presented in Fig. 5d and       [2] L.K. Ye, L. Lou, Q.H. Guo, J.K. Xiong, H.Q. Shi, L.Y. Yang, Y.Y. Wang, X.C. Liu,
+Fig. S10 indicate that, in addition to the formation of the electric bilayer,           G. Xiang, Alleviating self-discharge of printed interdigital supercapacitor based on
+there is also a small amount of Faraday reaction. This phenomenon is           conjugatedly(2025) 158996,configuredhttps://doi.org/10.1016/j.cej.2024.158996.pairs of pre-sodiated manganese oxide, Chem. Eng. J. 504
+closely associated with electrolyte decomposition and intensified side       [3] C. Zhang, Q.Y. Fan, J.P. Xu, M.A. Huang, F.Q. Luo, D.C. Wang, Z.F. Zheng, Surface
+reactions of electrode materials under elevated temperatures. The           oxygen-containing functional groups: a key tradeoff in carbon-based energy
+findings underscore the importance of synergistic optimization between            storagecej.2024.159162.devices, Chem. Eng. J. 505 (2025) 159162, https://doi.org/10.1016/j.
+thermal management and material stability in practical applications       [4]  S. Zhang, B. Li, C. Cui, W. Qian, Y. Jin, The Progress and comprehensive analysis of
+[42,43].                                                                                       supercapacitors for alternating current line filtering: a review, Batteries Supercaps
+                                                                                6 (2023) 4, https://doi.org/10.1002/batt.202200566.
+                                                                                           [5] R. Venncio, R. Vicentini, J.P.C. Manuel, D.A. Corrˆea, A.N. Miranda, A.C. Queiroz,
+3. Conclusions                                                                                    F.T. Degasperi, L.J.A. Siqueira, L.M.D. Silva, H. Zanin, Combining electrochemical,
+                                                                                           molecular simulation and operando techniques to investigate the stability of
+   In conclusion, this study elucidate the dual-salt electrolyte's double-            electrodes and organic electrolytes used in EDLCs, Energy Storage Mater. 62 (2023)                                                                                      102943, https://doi.org/10.1016/j.ensm.2023.102943.
+layer energy storage mechanism and high-voltage stability through       [6]  S. Arya, A. Singh, A. Ahmed, B. Padha, A. Banotra, U. Parihar, A.K. Sundramoorthy,
+systematic investigation of divalent cation effects on solvation struc­             S. Dixit, N.I. Vatin, Energizing tomorrow: the potential of light-driven
+tures. The strong binding energy between DED2+ and PC promotes the            supercapacitors in future applications, J. Energy Chem. 105 (2025) 193–223,                                                                                               https://doi.org/10.1016/j.jechem.2025.01.052.
+desolvation of TEA+, increasing the charge density while suppresses       [7] M.A. Bahramian, M. Ebadi, A.A. Ghadimi, M. Khalili, Starting electro-motor loads
+interfacial side reactions under high voltage by reducing the number of            in battery-less off-grid photovoltaics using a super-capacitor based charge-pump,
+solvent molecules at the electrode interface. By using mesoporous ma­              J. Power Sources 626 (2025), https://doi.org/10.1016/j.jpowsour.2024.235694.                                                                                           [8] G. Selleri, F. Poli, R. Neri, L. Gasperini, C. Gualandi, F. Soavi, D. Fabiani, Energy
+terials as electrodes, it effectively enhances the capacitance and high-            harvesting and storage with ceramic piezoelectric transducers coupled with an
+voltage stability of supercapacitors. The AC//MC asymmetric super­            ionic liquid-based supercapacitor, Energy Storage 60 (2023) 106660, https://doi.
+capacitor composed of 1 + 0.2 electrolyte can still retain 95.7 % of the           org/10.1016/j.est.2023.106660.
+capacitance after 10,000 cycles at 3.4 V, achieving a maximum energy       [9]  S.supercapacitorSharma, S.S. basedChauhan,on agK.N.dopedChappanda,MoO3 nanorodsM.R. Rahman,on a flexibleHigh energycarbondensitycloth,
+density of 50.4 Wh kg−1 and a power density of 8.9 kW kg−1. Compared           Mater. Lett. 380 (2025) 137728, https://doi.org/10.1016/j.matlet.2024.137728.
+with traditional electrolytes, the 1 + 0.2 electrolyte significantly en­      [10] W.S. Ing, S. Jaka, B.T. Wong, H. Lin, A. Yu, B. Jia, Towards enhanced energy
+hances the energy density and operating voltage of supercapacitors,            density of graphene-based supercapacitors: current status, approaches, and future                                                                                                          directions, J. Power Sources 396 (2018) 182–206, https://doi.org/10.1016/j.
+making it a highly promising electrolyte in the next generation of high-           jpowsour.2018.06.004.
+voltage supercapacitors. This research provides valuable insights and      [11] Sonia Reenu, L. Phor, A. Kumar, S. Chahal, Electrode materials for supercapacitors:
+systematic theoretical guidance for the energy storage study of mixed           a comprehensive review of advancements and performance, J. Energy Storage 84                                                                                         (2024) 110698, https://doi.org/10.1016/j.est.2024.110698.
+salt electrolytes based on multi-charge ions in a double-layer structure.      [12] C.C. Li, L. Hu, X.Y. Ren, L. Lin, C.Z. Zhan, Q.S. Weng, X.Q. Sun, X.L. Yu,
+                                                                                     Asymmetric charge distribution of active centers in small molecule Quinone
+CRediT authorship contribution statement                                       cathode boosts high-energy and high-rate aqueous zinc-organic batteries, Adv.                                                                                                 Funct. Mater. 34 (2024) 2313241, https://doi.org/10.1002/adfm.202313241.
+                                                                                      [13] B.C. Ge, L. Hu, X.L. Yu, L.X. Wang, C. Fernandez, N.J. Yang, Q.H. Liang, Q.H. Yang,
+   Pan Liu: Writing –  original  draft, Methodology,  Investigation,           Engineering triple-phase interfaces around the anode toward practical alkali metal-
+Formal analysis. Zhen lei Chen: Software. Peng Zhang: Supervision.             air batteries, Adv. Mater. 36 (2024) 202400937, https://doi.org/10.1002/                                                                                   adma.202400937.
+Tong Huo: Software. Qing Yin Zhang: Validation, Project administra­      [14] H. Yi, Z. Lai, Z. Wang, M. Yu, Y. Tong, X. Lu, Designing carbon based
+tion. Zhi Qiang  Shi:  Resources,  Project  administration, Funding            supercapacitors with high energy density: a summary of recent progress, Chem.
+acquisition. Hai Jiao Xie: Software.                                                      Eur. J. 24 (2018) 7312, https://doi.org/10.1002/chem.201705555.
+                                                                                      [15] Y. Zhu, M.D. Stoller, W. Cai, A. Velamakanni, R.D. Piner, D. Chen, R.S. Ruoff,
+                                                                                                      Exfoliation of graphite oxide in propylene carbonate and thermal reduction of the
+Declaration of competing interest                                                         resulting graphene oxide platelets, ACS Nano 4 (2010) 1227–1233, https://doi.
+                                                                                      org/10.1021/nn901689k.
+   The authors declare that they have no known competing financial      [16] N.InvestigationKobayashi,onT. capacitiveSakumoto,behaviorsS. Mori, H.of Ogata,porous K.C.Ni electrodesPark, K. Takeuchi,in ionic liquids,M. Endo,
+interests or personal relationships that could have appeared to influence            Electrochim. Acta 105 (2013) 455–461, https://doi.org/10.1016/j.
+the work reported in this paper.                                                           electacta.2013.05.017.
+                                                                                      [17] P. Wuamprakhon, J. Phojaroen, T. Sangsanit, K. Santiyuk, H. Kan, W. Tejangkura,
+                                                                             M. Sawangphruk, Unveiling a novel decomposition pathway in propylene
+Acknowledgments                                                                      carbonate-based supercapacitors: insights from a jelly roll configuration study,
+                                                                               Chem. Sus. Chem. 17 (2024) 202400053, https://doi.org/10.1002/
+   This work was financially supported by the Science and Technology           cssc.202400053.                                                                                      [18]  S.S. Wang, C.H. Hsu, C.T. Tsai, H.P. Lin, C.W. Yan, J.K. Chang, T.H. Hsieh, C.
+Program of Cangzhou (Grant No. 222103001), research funding of         W. Huang, C.H. Lee, Conversion of wood waste into nitrogen-doped graphite-like
+Cangzhou Institute of Tiangong University (Grant No. TGCYY-Z-0202),           multiporous carbon with high specific surface area and electrical conductivity for
+the National Natural Science Foundation of China (22179094), research            high-voltage supercapacitors, Sustain. Energy Fuels 9 (2025) 2355–2368, https://                                                                                          doi.org/10.1039/d4se01603c.
+funding of China National Pulp and Paper Research Institute Co., LTD      [19]  S. Muroi, D. Iida, T. Tsuchikawa, N. Yabuuchi, R. Horikoshi, N. Hosono,
+(Grant No. 23-02-102-0009).                                                           D. Komatsu, S. Komaba, Degradation mechanisms of electric double layer
+
+                                                                        8
+
+=== PDF PAGE 9 ===
+P. Liu et al.                                                                                                                   Chemical Engineering Journal 528 (2026) 171590
+
+      capacitors with activated carbon electrodes on high voltage exposure,                 [32]  F.F. Xing, S.H. Liao, J.Q. Qin, G.R. Wang, S.H. Zheng, Z.S. Wu, Regulating the
+      Electrochemistry 83 (2015) 609–618, https://doi.org/10.5796/                            Nanosize effect of LiCoO2 for high-performance battery-supercapacitor hybrid
+      electrochemistry.83.609.                                                                       devices, ACS Energy Lett. 9 (2024) 355–362, https://doi.org/10.1021/
+[20]  I.T. Kim, M. Egashira, N. Yoshimoto, M. Morita, On the electric double-layer                 acsenergylett.3c02196.
+      structure at carbon electrode/organic electrolyte solution interface analyzed by ac      [33]  F. Carulli, M.D. He, F. Cova, A. Erroi, L. Li, S. Brovelli, Silica-encapsulated
+     impedance and electrochemical quartz-crystal microbalance responses,                       perovskite nanocrystals for X-ray-activated singlet oxygen production and
+      Electrochim. Acta 56 (2011) 7319–7326, https://doi.org/10.1016/j.                         radiotherapy application, ACS Energy Lett. 8 (2023) 1795–1802, https://doi.org/
+      electacta.2011.06.044.                                                                   10.1021/acsenergylett.3c00234.
+[21] X.G. Zhuang, Y.S. Yang, Y.J. Ji, D.P. Yang, Z.Y. Tang, The influence of porous         [34]  J. Xu, Z.Q. Tan, W.C. Zeng, G.X. Chen, S.L. Wu, Y. Zhao, K. Ni, Z.C. Tao, M. Ikram,
+      structure of activated carbons used as supercapacitor electrode materials on its              H.X. Ji, Y.W. Zhu, A hierarchical carbon derived from sponge-templated activation
+      properties, Acta Phys. -Chim. Sin. 19 (2003) 689–694, https://doi.org/10.3866/              of graphene oxide for high-performance supercapacitor electrodes, Adv. Mater. 28
+    PKU.WHXB20030803.                                                                (2016) 5222–+, https://doi.org/10.1002/adma.201600586.
+[22] H. Liang, S. Tang, Y. Zhou, W. Jiang, Q. Kang, H. Zhang, S. Wang, Y. Li, H. Li,         [35] B.K. Wheatle, E.F. Fuentes, N.A. Lynd, V. Ganesan, Influence of host polarity on
+     G. Zou, Non-faraday electrolyte additives for capacitance boosting by compression             correlating salt concentration, molecular weight, and molar conductivity in
+      of dielectric layer thickness: organic ferroelectric salts, Adv. Funct. Mater. 34              polymer electrolytes, ACS Macro Lett. 8 (2019) 888–892, https://doi.org/10.1021/
+     (2024) 202308872, https://doi.org/10.1002/adfm.202308872.                             acsmacrolett.9b00317.
+[23] Y. Maruyama, S. Marukane, T. Morinaga, S. Honma, T. Kamijo, R. Shomura,           [36] K.D. Cai, W.F. Mu, Q.G. Zhang, Z.X. Jin, D.L. Wang, Study on the application of N,
+      T. Sato, New design of polyvalent ammonium salts for a high-capacity electric             N’ -1,4-diethyl, triethylene, and diamine tetrafluoroborate in supercapacitors,
+     double layer capacitor, J. Power Sources 412 (2019) 18–28, https://doi.org/                Electrochem. Solid-State Lett. 13 (2010) A147–A149, https://doi.org/10.1149/
+     10.1016/j.jpowsour.2018.10.093.                                                      1.3477934.
+[24] A. Janes, H. Kurig, T. Romann, E. Lust, Novel doubly charged cation based            [37] R. Venancio, R. Vicentini, C.M.J. Pinzon, D.A. Correa, A.N. Miranda, A.C. Queiroz,
+      electrolytes for non-aqueous supercapacitors, Electrochem. Commun. 12 (2010)               F.T. Degasperi, L.J.A. Siqueira, L.M. Da Silva, H. Zanin, Combining
+     535–539, https://doi.org/10.1016/j.elecom.2010.01.037.                                    electrochemical, molecular simulation and operando techniques to investigate the
+[25] J.D. Elliott, M. Chiricotto, A. Troisi, P. Carbone, Do specific ion effects influence               stability of electrodes and organic electrolytes usedin EDLCs, Energy Storage
+      the physical chemistry of aqueous graphene-based supercapacitors? Perspectives             Mater. 62 (2023) 102943, https://doi.org/10.1016/j.ensm.2023.102943.
+     from multiscale QMMD simulations, Carbon 207 (2023) 292–304, https://doi.org/      [38] C.L. Liang, J.L. Fu, S.D. Tang, J.Y. Li, P. Duan, S.K. Xu, G. Feng, Y.F. Bu, T.M. Mo,
+     10.1016/j.carbon.2023.03.019.                                                        Unlocking fast charging of supercapacitors: a job-sharing mechanism for ion
+[26] X. Ma, J. Cheng, L. Dong, W. Liu, J. Mou, L. Zhao, J. Wang, D. Ren, J. Wu, C. Xu,             transport and storage, Energy Storage Mater. 83 (2025) 104685, https://doi.org/
+      Multivalent ion storage towards high performance aqueous zinc-ion hybrid                 10.1016/j.ensm.2025.104685.
+      supercapacitors, Energy Storage Mater. 20 (2019) 335–342, https://doi.org/           [39] Z.L. Chen, P. Zhang, P. Liu, T. Huo, G.F. Sun, N.K. Li, D.F. Xu, Q.Y. Zhang, G. Feng,
+     10.1016/j.ensm.2018.10.020.                                                              Z.Q. Shi, Weakly solvated anion optimization for electrode / electrolyte Interface
+[27] A.A. Nechikott, P.K. Nayak, H.D. Yoo, A mixed dual-ion electrolyte for high-rate             construction in high-voltage supercapacitors, Chem. Eng. J. 518 (2025) 164115,
+     performance and remarkable cycling stability of NaMnO2 in hybrid                          https://doi.org/10.1016/j.cej.2025.164115.
+      supercapacitors, J. Power Sources 591 (2024) 233825, https://doi.org/10.1016/j.      [40] P. Zhang, Q.J. Ren, Z.L. Chen, L. He, P. Liu, Y.J. Wang, G. Feng, Z.Q. Shi,
+     jpowsour.2023.233825.                                                              Modulating solvation and electric double-layer configuration for high-voltage
+[28] M. Yang, K. Chen, H. Li, Y.L. Cao, H.X. Yang, X.P. Ai, Molecular adsorption-induced             supercapacitors, Energy Storage Mater. 78 (2025) 104267, https://doi.org/
+      interfacial solvation regulation to stabilize graphite anode in ethylene carbonate-            10.1016/j.ensm.2025.104267.
+      free electrolytes, Adv. Funct. Mater. 33 (2023) 202306828, https://doi.org/           [41]  L. Sun, L.J. Chai, L.Q. Jing, Y.J. Chen, K.L. Zhuo, J.J. Wang, 2,6-
+     10.1002/adfm.202306828.                                                           Diaminoanthraquinone modified MXene (Ti3C2Tx)/graphene as the negative
+[29] Z. Cheng, M. Yoshio, Q. Li, H. Wang, A divalent quaternary alkyl ammonium salt as             electrode materials for ionic liquid-based asymmetric supercapacitors, Green
+      the electrolyte for high-energy electric double-layer capacitors, J. Power Sources            Energy Environ. 10 (2025) 845–853, https://doi.org/10.1016/j.gee.2024.08.004.
+     220 (2012) 169–172, https://doi.org/10.1016/j.jpowsour.2012.07.014.                [42]  J. Eskusson, E. Lust, A. Janes, Zn-ion capacitors based on solutions of different
+[30] P. Liu, P. Zhang, Z.L. Chen, X.D. Wang, Q.Y. Zhang, Z.Q. Shi, Y.N. Zhao, Matching              electrolytes, Electrochim. Acta 521 (2025) 145916, https://doi.org/10.1016/j.
+      of porous carbon and adsorbed ions for high-specific-energy asymmetric                     electacta.2025.145916.
+      supercapacitors, Energy Technol. (2025) 202402028, https://doi.org/10.1002/         [43] R. V¨ali, A. Lahe¨a¨ar, A. J¨anes, E. Lust, Characteristics of non-aqueous quaternary
+     ente.202402028.                                                                             solvent mixture and Na-salts based supercapacitor electrolytes in a wide
+[31] S.X. Zhai, K. Li, C.C. Li, C. Zhai, Q. Han, Z.T. Zhang, Y.N. Fu, X.Y. Li, K.L. Jin, Z.            temperature range, Electrochim. Acta 121 (2014) 294–300, https://doi.org/
+      S. Cai, Y.P. Zhao, Lignin-derived N,S-codoped hierarchical porous carbons with              10.1016/j.electacta.2013.12.149.
+     high mesoporous rate for sustainable supercapacitive energy storage, J. Energy
+     Storage 85 (2024) 111036, https://doi.org/10.1016/j.est.2024.111036.
+
+
+
+
+
+                                                                        9

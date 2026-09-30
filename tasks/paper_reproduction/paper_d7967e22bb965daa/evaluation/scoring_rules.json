@@ -1,1 +1,149 @@
-{"paper_id":"paper_d7967e22bb965daa","rules":[{"rule_id":"r_process_ts","reference_id":"kp_process_ts_validation","type":"condition","expected":"All four named candidates have per-candidate frequency counts and chemically justified TS-mode assignment evidence; failed candidates are explicitly retained and explained.","binding":{"artifact_paths":["report/results.json"],"fields":["$.candidates[].frequency_validation"],"comparison":"expert validation of per-candidate frequency evidence"}},{"rule_id":"r_process_ref","reference_id":"kp_process_reference","type":"condition","expected":"The report identifies INT1A-sextet + 2a or a clearly transformed equivalent reference and documents a consistent energy/free-energy expression.","binding":{"artifact_paths":["report/results.json"],"fields":["$.reference_convention.reference_state","$.reference_convention.energy_expression"],"comparison":"expert check of reference-state and energy assembly"}},{"rule_id":"r_barrier_a","reference_id":"kp_result_fourway","type":"numeric","target":10.2,"unit":"kcal/mol","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison.barrier_values.TS3A-quartet"],"comparison":"absolute difference"}},{"rule_id":"r_barrier_b","reference_id":"kp_result_fourway","type":"numeric","target":12.4,"unit":"kcal/mol","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison.barrier_values.TS3B-quartet"],"comparison":"absolute difference"}},{"rule_id":"r_barrier_c","reference_id":"kp_result_fourway","type":"numeric","target":13.2,"unit":"kcal/mol","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison.barrier_values.TS3C-quartet"],"comparison":"absolute difference"}},{"rule_id":"r_barrier_d","reference_id":"kp_result_fourway","type":"numeric","target":12.0,"unit":"kcal/mol","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison.barrier_values.TS3D-quartet"],"comparison":"absolute difference"}},{"rule_id":"r_order","reference_id":"kp_result_order","type":"ordering","expected":"TS3A-quartet < TS3D-quartet < TS3B-quartet < TS3C-quartet","binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison.ordering"],"comparison":"ordered label comparison"}},{"rule_id":"r_final","reference_id":"c_final_selectivity","type":"semantic","expected":"The conclusion supports TS3A-quartet-like insertion as favored within the validated quartet model and does not overclaim beyond the model.","binding":{"artifact_paths":["report/results.json"],"fields":["$.conclusion"],"comparison":"expert semantic comparison"}},{"rule_id":"r_limits","reference_id":"c_limitations","type":"semantic","expected":"The report states stationary-point/model-chemistry and coverage limitations, including that spin-crossing kinetics and absolute rates are not established.","binding":{"artifact_paths":["report/results.json"],"fields":["$.limitations"],"comparison":"expert semantic comparison"}}]}
+{
+  "paper_id": "paper_d7967e22bb965daa",
+  "rules": [
+    {
+      "rule_id": "r_process_ts",
+      "reference_id": "kp_process_ts_validation",
+      "type": "condition",
+      "expected": "All four named candidates have per-candidate frequency counts and chemically justified TS-mode assignment evidence; failed candidates are explicitly retained and explained.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].frequency_validation"
+        ],
+        "comparison": "expert validation of per-candidate frequency evidence"
+      }
+    },
+    {
+      "rule_id": "r_process_ref",
+      "reference_id": "kp_process_reference",
+      "type": "condition",
+      "expected": "The report identifies the coordinated INT2A-quartet (A/B) and INT2B-quartet (C/D) local references, or a correctly calculated transformation to them, and documents consistent free-energy assembly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.reference_convention.reference_state",
+          "$.reference_convention.energy_expression"
+        ],
+        "comparison": "expert check of reference-state and energy assembly"
+      }
+    },
+    {
+      "rule_id": "r_barrier_a",
+      "reference_id": "kp_result_fourway",
+      "type": "numeric",
+      "target": 10.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barrier_values.TS3A-quartet"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_barrier_b",
+      "reference_id": "kp_result_fourway",
+      "type": "numeric",
+      "target": 12.4,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barrier_values.TS3B-quartet"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_barrier_c",
+      "reference_id": "kp_result_fourway",
+      "type": "numeric",
+      "target": 13.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barrier_values.TS3C-quartet"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_barrier_d",
+      "reference_id": "kp_result_fourway",
+      "type": "numeric",
+      "target": 12.0,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barrier_values.TS3D-quartet"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_order",
+      "reference_id": "kp_result_order",
+      "type": "ordering",
+      "expected": "TS3A-quartet < TS3D-quartet < TS3B-quartet < TS3C-quartet",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.ordering"
+        ],
+        "comparison": "ordered label comparison"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_selectivity",
+      "type": "semantic",
+      "expected": "The conclusion supports TS3A-quartet-like insertion as favored within the validated quartet model and does not overclaim beyond the model.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limits",
+      "reference_id": "c_limitations",
+      "type": "semantic",
+      "expected": "The report states stationary-point/model-chemistry and coverage limitations, including that spin-crossing kinetics and absolute rates are not established.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

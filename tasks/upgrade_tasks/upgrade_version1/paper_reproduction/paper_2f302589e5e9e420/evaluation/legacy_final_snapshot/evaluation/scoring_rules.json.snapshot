@@ -1,0 +1,121 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "rules": [
+    {
+      "rule_id": "r_process_minimum",
+      "type": "condition",
+      "expected": "Each of EPI1 and EPI2 has an optimization and minimum-test record, or a truthful bounded-failure record.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragments",
+          "$.method.minimum_test",
+          "$.candidate_records"
+        ],
+        "comparison": "expert validation of per-fragment evidence"
+      },
+      "reference_id": "kp_process_minimum"
+    },
+    {
+      "rule_id": "r_process_consistent",
+      "type": "condition",
+      "expected": "A single explicit comparison protocol and unambiguous fragment IDs are used.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.fragments"
+        ],
+        "comparison": "expert process comparison"
+      },
+      "reference_id": "kp_process_consistent"
+    },
+    {
+      "rule_id": "r_result_dipole",
+      "type": "numeric",
+      "target": 1.9036,
+      "unit": "Debye for EPI2; EPI1 reference 2.2223 Debye",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragments[*].dipole_debye"
+        ],
+        "comparison": "absolute difference after matching fragment id"
+      },
+      "reference_id": "kp_result_dipole"
+    },
+    {
+      "rule_id": "r_result_percent",
+      "type": "numeric",
+      "target": -14.3,
+      "unit": "percentage points; signed EPI2-minus-EPI1 change",
+      "tolerance": 2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.percent_change_ePI2_vs_EPI1"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_dipole",
+      "expected": "100*(mu_EPI2-mu_EPI1)/mu_EPI1; negative change denotes a decrease. Retain the original two-percentage-point tolerance."
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "The validated EPI1/EPI2 fragment dipoles determine the effect of ortho-methoxy substitution on polarity using the signed percentage-change definition. Interpret any proposed hydrogen-bond shielding using the submitted structural evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_polarity"
+    },
+    {
+      "rule_id": "r_result_esp",
+      "reference_id": "kp_result_esp",
+      "type": "semantic",
+      "expected": "Optional ESP analysis, when supplied, compares EPI1 and EPI2 with the same potential definition. Omission needs no explanation and does not reduce the core score.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragments[*].hydroxyl_oxygen_esp_kcal_mol",
+          "$.fragments[*].esp_definition"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_percent_arithmetic",
+      "reference_id": "kp_result_dipole",
+      "type": "condition",
+      "expected": "Match the EPI1 and EPI2 identities before deriving the signed percentage change. Verify arithmetic against the two dipole magnitudes, without absolute-value or sign substitutions. Use dipole magnitudes in Debye; if the denominator is zero or unavailable the percentage is undefined, not zero. Optional ESP omission is not a missing core result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragments",
+          "$.percent_change_ePI2_vs_EPI1"
+        ],
+        "comparison": "expert named-fragment arithmetic check"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

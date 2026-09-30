@@ -5,12 +5,17 @@
     "type": "object",
     "required": ["status", "observables", "validation", "method", "conclusion"],
     "properties": {
-      "status": {"type":"string","enum":["completed"]},
+      "status": {"type":"string","enum":["completed","bounded_failure"]},
       "observables": {"type":"object","required":["cu_p1","cu_p2","cu_n1","cu_n2","p1_cu_p2","p1_cu_n1","p1_cu_n2","p2_cu_n1","p2_cu_n2","n1_cu_n2"],"properties": {
-        "cu_p1":{"type":"number"},"cu_p2":{"type":"number"},"cu_n1":{"type":"number"},"cu_n2":{"type":"number"},"p1_cu_p2":{"type":"number"},"p1_cu_n1":{"type":"number"},"p1_cu_n2":{"type":"number"},"p2_cu_n1":{"type":"number"},"p2_cu_n2":{"type":"number"},"n1_cu_n2":{"type":"number"}}},
+        "cu_p1":{"type":["number","null"]},"cu_p2":{"type":["number","null"]},"cu_n1":{"type":["number","null"]},"cu_n2":{"type":["number","null"]},"p1_cu_p2":{"type":["number","null"]},"p1_cu_n1":{"type":["number","null"]},"p1_cu_n2":{"type":["number","null"]},"p2_cu_n1":{"type":["number","null"]},"p2_cu_n2":{"type":["number","null"]},"n1_cu_n2":{"type":["number","null"]}}},
       "validation": {"type":"object","required":["minimum_status","evidence","label_provenance"],"properties":{"minimum_status":{"type":"string"},"evidence":{"type":"string"},"label_provenance":{"type":"string"}}},
       "method": {"type":"object","required":["software_or_code","model","environment","convergence","starting_structure"],"properties":{"software_or_code":{"type":"string"},"model":{"type":"string"},"environment":{"type":"string"},"convergence":{"type":"string"},"starting_structure":{"type":"string"}}},
-      "conclusion": {"type":"string"}
-    }
+      "conclusion": {"type":"string"},
+      "failure_details": {"type":"object","required":["attempted_coverage","failed_checks","coverage_limitation"],"properties":{"attempted_coverage":{"type":"string"},"failed_checks":{"type":"array","items":{"type":"string"}},"coverage_limitation":{"type":"string"}}}
+    },
+    "allOf": [
+      {"if":{"properties":{"status":{"const":"completed"}}},"then":{"properties":{"observables":{"properties":{"cu_p1":{"type":"number"},"cu_p2":{"type":"number"},"cu_n1":{"type":"number"},"cu_n2":{"type":"number"},"p1_cu_p2":{"type":"number"},"p1_cu_n1":{"type":"number"},"p1_cu_n2":{"type":"number"},"p2_cu_n1":{"type":"number"},"p2_cu_n2":{"type":"number"},"n1_cu_n2":{"type":"number"}}}}}},
+      {"if":{"properties":{"status":{"const":"bounded_failure"}}},"then":{"required":["failure_details"]}}
+    ]
   }
 }

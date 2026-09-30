@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "items": [
+    {
+      "key_point_id": "kp_process_minima",
+      "key_point_type": "process",
+      "statement": "Both supplied syn and anti La-KHQ endpoints are independently validated as stationary points/minima or the report gives bounded failure diagnostics.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000348_97770d902739"
+      ],
+      "expected": "Two endpoint validation records with imaginary-mode diagnostics."
+    },
+    {
+      "key_point_id": "kp_process_consistency",
+      "key_point_type": "process",
+      "statement": "The independent investigation applies a consistent endpoint comparison and explicitly defines the sign of \u0394G_conf.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000371_badc800c4c37"
+      ],
+      "expected": "Same treatment and a clearly stated anti-minus-syn difference."
+    },
+    {
+      "key_point_id": "kp_result_delta_g",
+      "key_point_type": "result",
+      "statement": "The source-backed La comparison has positive anti-minus-syn aqueous conformer \u0394G near +4.2 kcal mol\u22121.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000390_9f59cf1be1f9",
+        "ev_doc_924dc5cd83b8_000393_c31bbb7d8bdf"
+      ],
+      "expected": {
+        "delta_g_conf": 4.2,
+        "unit": "kcal mol-1",
+        "sign_definition": "G(anti) - G(syn)"
+      }
+    }
+  ]
+}

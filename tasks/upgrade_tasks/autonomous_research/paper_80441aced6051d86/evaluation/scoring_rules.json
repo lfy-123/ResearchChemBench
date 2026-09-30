@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use the original complete G1 dication identity and the supplied mapped neutral CB7/CB8 host graphs. Form 1:1 CB7:G1 and 1:2 CB8:G1 complexes. Generate independent host–guest placements; the added bound source coordinates are withheld. Counterions are excluded consistently. Use one aqueous continuum convention. Label each guest atom G_A/id or G_B/id and host H/id. The required states are vertical optical/electronic prerequisites. Their comparison alone does not predict emission wavelength or fluorescence efficiency without excited-state relaxation and kinetics. Compare transition energies/oscillator strengths and matched guest transition densities at identical guest coordinates for full-host, deleted-host and deleted-partner controls. Bright/dark splitting is E(bright)-E(dark) with both state identities recorded; host deletion measures combined host response, not purely electrostatics. Reject wrong host ring size/guest charge, source bound coordinates used as discovered minima, comparisons with relaxed versus frozen geometries silently mixed, or calling total host response exclusively electrostatic. Static transition properties do not prove fluorescence quantum yield.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use the original complete G1 dication identity and the supplied mapped neutral CB7/CB8 host graphs. Form 1:1 CB7:G1 and 1:2 CB8:G1 complexes. Generate independent host–guest placements; the added bound source coordinates are withheld. Counterions are excluded consistently. Use one aqueous continuum convention. Label each guest atom G_A/id or G_B/id and host H/id. The required states are vertical optical/electronic prerequisites. Their comparison alone does not predict emission wavelength or fluorescence efficiency without excited-state relaxation and kinetics. Compare transition energies/oscillator strengths and matched guest transition densities at identical guest coordinates for full-host, deleted-host and deleted-partner controls. Bright/dark splitting is E(bright)-E(dark) with both state identities recorded; host deletion measures combined host response, not purely electrostatics. Reject wrong host ring size/guest charge, source bound coordinates used as discovered minima, comparisons with relaxed versus frozen geometries silently mixed, or calling total host response exclusively electrostatic. Static transition properties do not prove fluorescence quantum yield."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_host_matrix",
+      "reference_id": "kp_host_matrix",
+      "type": "semantic",
+      "expected": "Verify chemical stoichiometry/charge and exact guest-coordinate identity. Compare actual TD/density outputs and states, not labels assigned from an emission cartoon.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.host_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify chemical stoichiometry/charge and exact guest-coordinate identity. Compare actual TD/density outputs and states, not labels assigned from an emission cartoon."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_coupling_controls",
+      "reference_id": "kp_coupling_controls",
+      "type": "semantic",
+      "expected": "Single guests have charge +2; two guests +4. Keep host and retained guest coordinates fixed on deletion. For monomers bright/dark are the selected lowest optically active/inactive states, not fictitious exciton partners; explicitly state if no suitable dark state occurs in the calculated window.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.coupling_controls",
+          "$.calculation_records"
+        ],
+        "comparison": "Single guests have charge +2; two guests +4. Keep host and retained guest coordinates fixed on deletion. For monomers bright/dark are the selected lowest optically active/inactive states, not fictitious exciton partners; explicitly state if no suitable dark state occurs in the calculated window."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_mechanism_comparison",
+      "reference_id": "kp_mechanism_comparison",
+      "type": "semantic",
+      "expected": "Require density-based state correspondence and quantitative differences. An isolated dimer splitting alone cannot establish host causality. Full-host deletion includes electrostatics, polarization and exchange; pure electrostatic attribution requires an additional frozen-charge control, which is optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.mechanism_comparison",
+          "$.calculation_records"
+        ],
+        "comparison": "Require density-based state correspondence and quantitative differences. An isolated dimer splitting alone cannot establish host causality. Full-host deletion includes electrostatics, polarization and exchange; pure electrostatic attribution requires an additional frozen-charge control, which is optional."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject wrong host ring size/guest charge, source bound coordinates used as discovered minima, comparisons with relaxed versus frozen geometries silently mixed, or calling total host response exclusively electrostatic. Static transition properties do not prove fluorescence quantum yield.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject wrong host ring size/guest charge, source bound coordinates used as discovered minima, comparisons with relaxed versus frozen geometries silently mixed, or calling total host response exclusively electrostatic. Static transition properties do not prove fluorescence quantum yield."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Test how host size and guest stoichiometry change low optical excited-state character, separating the contribution of confined guest geometry from interguest coupling and the explicit host response. Reject wrong host ring size/guest charge, source bound coordinates used as discovered minima, comparisons with relaxed versus frozen geometries silently mixed, or calling total host response exclusively electrostatic. Static transition properties do not prove fluorescence quantum yield. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Test how host size and guest stoichiometry change low optical excited-state character, separating the contribution of confined guest geometry from interguest coupling and the explicit host response. Reject wrong host ring size/guest charge, source bound coordinates used as discovered minima, comparisons with relaxed versus frozen geometries silently mixed, or calling total host response exclusively electrostatic. Static transition properties do not prove fluorescence quantum yield. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "host_matrix",
+      "max_score": 25,
+      "description": "Explicit-host versus same-geometry deleted-host controls",
+      "rule_ids": [
+        "rule_host_matrix"
+      ]
+    },
+    {
+      "id": "coupling_controls",
+      "max_score": 25,
+      "description": "Partner deletion and relaxed free-guest baselines",
+      "rule_ids": [
+        "rule_coupling_controls"
+      ]
+    },
+    {
+      "id": "mechanism_comparison",
+      "max_score": 15,
+      "description": "Host response versus guest coupling attribution",
+      "rule_ids": [
+        "rule_mechanism_comparison"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Explicit-host versus same-geometry deleted-host controls",
+      "Partner deletion and relaxed free-guest baselines",
+      "Host response versus guest coupling attribution",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

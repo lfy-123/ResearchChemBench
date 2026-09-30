@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_0de37d01e35c27df",
+  "task_type": "autonomous_research",
+  "title": "Independent computation of oxidation-induced S–S change in norDTCO",
+  "category": "computational chemistry / redox structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The endpoint is fixed, but the Agent must independently choose and justify the computational model, validation diagnostics and any conformer/spin coverage before drawing a bounded structural conclusion."
+  ],
+  "paper": {
+    "title": "Structural Studies Provide Insight on the Fate of 1,5-Dithiacanes: Two Electron Reversible Oxidation versus Irreversible Oxidation",
+    "doi": "10.1021/acs.joc.5c01731",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained topology-generated, unoptimized norDTCO starter XYZ and system definition with atom indices, charges, multiplicities and sulfur identity; author endpoint coordinates are evaluator-private."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated state structures, S–S distances/change, candidate coverage, diagnostics and route-neutral conclusion."
+    }
+  ]
+}

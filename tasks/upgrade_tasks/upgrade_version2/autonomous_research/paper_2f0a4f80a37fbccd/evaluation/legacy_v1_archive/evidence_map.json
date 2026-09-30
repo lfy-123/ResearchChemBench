@@ -1,0 +1,48 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_2f0a4f80a37fbccd/documents/main.pdf",
+        "sha256": "76fe828053d735014dabbbcf20749bb2d180992ed7921df2190fc89bacca8438",
+        "pdf_pages_1_based": [
+          3,
+          4,
+          7,
+          8
+        ]
+      },
+      "scope": "Published identities/methods and original evidence, not verification of benchmark-authored extensions.",
+      "context": "Main PDF pp3–4 structure and IR/Table2; p8 experimental characterization. Source favors eta2. The old public X-ray geometry is now private to avoid revealing the structural answer: Ir–O 2.173/2.174 Å and O–Ir–O 60.02 degrees are corroborating source measurements, not new computed tolerances. The 1561 cm−1 entry is tabulated/discussed but absent from the p8 experimental list. New eta1/eta2 discrimination and matched residuals have not been reference-computed."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_2f0a4f80a37fbccd/documents/supplementary_001.pdf",
+        "sha256": "539d338737eddb8491b9e78f2202fc83f3495da450c4dd6c0a55c452b3f5c01e",
+        "pdf_pages_1_based": [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          29
+        ]
+      },
+      "scope": "Published identities/methods and original evidence, not verification of benchmark-authored extensions.",
+      "context": "SI PDF pp14–19: crystallography of the target IrCl2(eta2-O2NO)(PPh3)2, including Table S10, bond lengths/angles and Table S12. SI PDF p29 Figure S12: target KBr IR spectrum. These are published structural/spectroscopic evidence; the new eta1/eta2 competition is benchmark-authored and still requires reference calculations."
+    },
+    {
+      "evidence_id": "benchmark_extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "benchmark_authored_design",
+        "date": "2026-09-27"
+      },
+      "scope": "Expanded endpoints and controls, justified by the source question; numerical reference calculations pending.",
+      "description": "Determine which nitrate coordination models of neutral singlet IrCl2(NO3)(PPh3)2 are supported by molecular stability and the supplied experimental IR observations. Test monodentate and bidentate candidates of the same composition, including necessary ligand-geometric alternatives, and determine whether the available evidence uniquely identifies a model."
+    }
+  ]
+}

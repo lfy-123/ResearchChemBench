@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "implementation_status": "implemented_pending_expanded_reference",
+  "release_ready": false,
+  "packages": [
+    {
+      "mode": "autonomous_research",
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_c7217910ecbee1d9",
+      "package_content_sha256": "0168d2310a295f5a1a301d5b6d2def0084560a6dccc94a99e80b6660dd1e3057",
+      "package_validation": "passed"
+    },
+    {
+      "mode": "paper_reproduction",
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_c7217910ecbee1d9",
+      "package_content_sha256": "9e7a2cfeb8c98df9d2b2961d51c4b2d65d8cf59f7040d96acde3a30e734b1a04",
+      "package_validation": "passed"
+    }
+  ],
+  "reference_gaps": [
+    "The expanded n0/n1/n2 free, common-core constrained and vertical matrix remains incomplete.",
+    "Same-geometry added-electron density, normalization/grid controls and diffuse-basis/state sensitivity remain unvalidated.",
+    "Expanded uncertainty references and independent mode trials have not been calibrated; historical local minima do not prove a global minimum or superatomic shell character."
+  ],
+  "release_conditions": [
+    "Developers may reuse the independently audited historical n2 free-minimum pair after checking raw hashes, native-to-public atom mapping, charge/spin and ligand attachment. Preserve failed and detached candidates. Evaluated agents must still establish their own authorized evidence.",
+    "Complete the missing n2 vertical-anion and same-geometry density pilot, with normalization/grid and diffuse-basis/state sensitivity; do not repeat equivalent Opt/Freq work merely because a later run failed.",
+    "Build and validate mapped n0/n1 free endpoints and the shared bare-neutral-core constrained series, then complete signed comparisons and independently calibrate uncertainty from actual method/numerical controls."
+  ],
+  "source_review": "source_review/paper_c7217910ecbee1d9_review.json",
+  "new_scientific_calculations_performed": false,
+  "supervisor_updated_at": "2026-09-27T14:50:24.118168+00:00",
+  "latest_change": "Current package hashes after benign ./ path compatibility; scientific status unchanged."
+}

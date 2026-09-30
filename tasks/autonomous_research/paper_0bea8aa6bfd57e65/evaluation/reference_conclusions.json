@@ -1,23 +1,20 @@
 {
   "paper_id": "paper_0bea8aa6bfd57e65",
+  "scope_revision": "2026-09-11",
   "items": [
     {
-      "conclusion_id": "ar_final_energy_claim",
+      "conclusion_id": "rp_bounded_pose_energy",
       "claim_role": "final",
-      "statement": "The validated three-system comparison supports the source's reported energetic ordering when the submitted values are close to the source values under the stated convention.",
-      "expected": "Tau-MEA-2 is strongest, Tau-Gly-2 is intermediate, and Tau-Im-2 is weakest; the report states the scope and limitations of reproducing this ordering.",
-      "supporting_key_point_ids": [
-        "ar_process_minima",
-        "ar_process_energy_definition",
-        "ar_energy_im",
-        "ar_energy_gly",
-        "ar_energy_mea",
-        "ar_order"
-      ],
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000253_3485f3081431",
-        "ev_doc_99d3cb8f3445_000254_85f2f7ab53ff"
-      ]
+      "statement": "For the explicitly submitted Tau-Im-2, Tau-Gly-2 and Tau-MEA-2 pose subset, validated BSSE/counterpoise interaction energies are compared and ordered using one consistent convention.",
+      "expected": "The report identifies the three retained poses, gives finite signed interaction energies in kJ/mol, and derives the ordering from those submitted values. It does not claim to reproduce the paper's PM6-D3/MOPAC random-ensemble ordering or solution thermodynamics.",
+      "supporting_key_point_ids": ["rp_process_identity", "rp_process_minima", "rp_process_energy_definition", "rp_energy_values", "rp_order"]
+    },
+    {
+      "conclusion_id": "rp_bounded_interpretation",
+      "claim_role": "final",
+      "statement": "The submitted pose-level interaction analysis may support a hydrogen-bond/dispersion interpretation only within the reported isolated-molecule model.",
+      "expected": "Any structural interpretation is tied to the retained geometries and analysis; no claim is made about bulk extraction yield, solution populations or experimental separation.",
+      "supporting_key_point_ids": ["rp_process_minima", "rp_interpretation", "rp_scope"]
     }
   ]
 }

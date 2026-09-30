@@ -1,0 +1,667 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "scope": {
+        "type": "string",
+        "minLength": 1
+      },
+      "systems": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/system"
+        },
+        "minItems": 1
+      },
+      "methods": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/method"
+        },
+        "minItems": 0
+      },
+      "models": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/model"
+        },
+        "minItems": 0
+      },
+      "records": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/record"
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/result"
+        },
+        "minItems": 0
+      },
+      "claims": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/claim"
+        },
+        "minItems": 1
+      },
+      "research_log": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/decision"
+        },
+        "minItems": 0
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "string",
+        "minLength": 1
+      },
+      "missing_work": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "status",
+      "question",
+      "scope",
+      "systems",
+      "methods",
+      "models",
+      "records",
+      "results",
+      "claims",
+      "research_log",
+      "conclusion",
+      "limitations",
+      "missing_work"
+    ],
+    "additionalProperties": true,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "artifact": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^(outputs|data|code)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "role",
+          "locator"
+        ],
+        "additionalProperties": false
+      },
+      "quantity": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "system_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "uncertainty": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "unit",
+          "definition",
+          "system_ids",
+          "uncertainty"
+        ],
+        "additionalProperties": false
+      },
+      "system": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "identity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "formula": {
+            "type": "string",
+            "minLength": 1
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "representation": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "identity",
+          "formula",
+          "charge",
+          "multiplicity",
+          "environment",
+          "representation"
+        ],
+        "additionalProperties": true
+      },
+      "method": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "settings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assumptions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "settings",
+          "assumptions"
+        ],
+        "additionalProperties": true
+      },
+      "model": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "proposed",
+              "retained",
+              "revised",
+              "rejected",
+              "unresolved"
+            ]
+          },
+          "assessment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "status",
+          "assessment",
+          "record_ids"
+        ],
+        "additionalProperties": true
+      },
+      "record": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "system_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "method_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "partial",
+              "failed"
+            ]
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/artifact"
+            },
+            "minItems": 1
+          },
+          "quantities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/quantity"
+            },
+            "minItems": 0
+          },
+          "findings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "validation": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "system_ids",
+          "method_id",
+          "purpose",
+          "status",
+          "artifacts",
+          "quantities",
+          "findings",
+          "validation"
+        ],
+        "additionalProperties": true
+      },
+      "result": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question_addressed": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "quantities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/quantity"
+            },
+            "minItems": 0
+          },
+          "finding": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "question_addressed",
+          "record_ids",
+          "quantities",
+          "finding",
+          "limitations"
+        ],
+        "additionalProperties": true
+      },
+      "claim": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "supported",
+              "refuted",
+              "unresolved",
+              "withdrawn"
+            ]
+          },
+          "result_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "status",
+          "result_ids",
+          "reason",
+          "scope"
+        ],
+        "additionalProperties": true,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "refuted"
+                  ]
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "result_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      "decision": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "purpose_or_prediction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "response": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timing_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "purpose_or_prediction",
+          "record_ids",
+          "observation",
+          "response",
+          "timing_basis"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "methods": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/method"
+              },
+              "minItems": 1
+            },
+            "records": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/record"
+              },
+              "minItems": 1,
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "const": "completed"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/result"
+              },
+              "minItems": 1
+            },
+            "research_log": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/decision"
+              },
+              "minItems": 1,
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "record_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "record_ids"
+                ]
+              }
+            }
+          },
+          "anyOf": [
+            {
+              "properties": {
+                "records": {
+                  "type": "array",
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "quantities": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/quantity"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "quantities"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "results": {
+                  "type": "array",
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "quantities": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/quantity"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "quantities"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "missing_work": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          }
+        }
+      }
+    ]
+  }
+}

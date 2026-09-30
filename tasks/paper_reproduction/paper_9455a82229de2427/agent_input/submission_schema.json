@@ -1,1 +1,28 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","result_schema":{"type":"object","required":["status","investigation","conclusion","candidate_validation_summary","candidate_identity_summary","energy_compatibility_summary","final_claim"],"properties":{"status":{"type":"string","enum":["complete","bounded_failure"]},"investigation":{"type":"object","required":["method","coverage","stopping","limitations"],"properties":{"method":{"type":"string"},"coverage":{"type":"string"},"stopping":{"type":"string"},"limitations":{"type":"string"}}},"reactants":{"type":"object","required":["sin_energy_hartree","isoprene_energy_hartree"],"properties":{"sin_energy_hartree":{"type":"number"},"isoprene_energy_hartree":{"type":"number"}}},"candidates":{"type":"array","items":{"type":"object","required":["id","smiles","charge","multiplicity","validation","energy_hartree","reaction_energy_kj_mol"],"properties":{"id":{"type":"string"},"smiles":{"type":"string"},"charge":{"type":"integer"},"multiplicity":{"type":"integer"},"validation":{"type":"object","required":["optimization","frequency","imaginary_frequencies","structure_provenance"],"properties":{"optimization":{"type":"string"},"frequency":{"type":"string"},"imaginary_frequencies":{"type":"integer"},"structure_provenance":{"type":"string"}}},"energy_hartree":{"type":"number"},"reaction_energy_kj_mol":{"type":"number"},"mechanism_evidence":{"type":"string"}}}},"failure":{"type":"object","required":["reason","attempted_scope"],"properties":{"reason":{"type":"string"},"attempted_scope":{"type":"string"}}},"conclusion":{"type":"object","required":["claim","experimental_compatibility","limitations"],"properties":{"claim":{"type":"string"},"experimental_compatibility":{"type":"string"},"limitations":{"type":"string"}}},"candidate_validation_summary":{"type":"string"},"candidate_identity_summary":{"type":"string"},"energy_compatibility_summary":{"type":"string"},"final_claim":{"type":"string"},"oneOf":[{"properties":{"status":{"const":"complete"}},"required":["reactants","candidates"]},{"properties":{"status":{"const":"bounded_failure"}},"required":["failure"]}]}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "investigation", "conclusion", "candidate_validation_summary", "candidate_identity_summary", "energy_compatibility_summary", "final_claim"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+      "investigation": {"type": "object", "required": ["method", "coverage", "stopping", "limitations"], "properties": {"method": {"type": "string"}, "coverage": {"type": "string"}, "stopping": {"type": "string"}, "limitations": {"type": "string"}}},
+      "reactants": {"type": "object", "required": ["sin_energy_hartree", "isoprene_energy_hartree"], "properties": {"sin_energy_hartree": {"type": "number"}, "isoprene_energy_hartree": {"type": "number"}}},
+      "candidates": {"type": "array", "items": {"type": "object", "required": ["id", "smiles", "charge", "multiplicity", "validation", "energy_hartree", "reaction_energy_kj_mol"], "properties": {"id": {"type": "string"}, "smiles": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "validation": {"type": "object", "required": ["optimization", "frequency", "imaginary_frequencies", "structure_provenance"], "properties": {"optimization": {"type": "string"}, "frequency": {"type": "string"}, "imaginary_frequencies": {"type": "integer"}, "structure_provenance": {"type": "string"}}}, "energy_hartree": {"type": "number"}, "reaction_energy_kj_mol": {"type": "number"}, "mechanism_evidence": {"type": "string"}}}},
+      "failure_details": {"type": "string"},
+      "attempted_candidates": {"type": "array"},
+      "verification_note": {"type": "string"},
+      "failure": {"type": "object", "required": ["reason", "attempted_scope"], "properties": {"reason": {"type": "string"}, "attempted_scope": {"type": "string"}}},
+      "conclusion": {"type": "object", "required": ["claim", "experimental_compatibility", "limitations"], "properties": {"claim": {"type": "string"}, "experimental_compatibility": {"type": "string"}, "limitations": {"type": "string"}}},
+      "candidate_validation_summary": {"type": "string"},
+      "candidate_identity_summary": {"type": "string"},
+      "energy_compatibility_summary": {"type": "string"},
+      "final_claim": {"type": "string"}
+    },
+    "oneOf": [
+      {"properties": {"status": {"const": "complete"}}, "required": ["reactants", "candidates"]},
+      {"properties": {"status": {"const": "bounded_failure"}}, "required": ["failure_details", "attempted_candidates"]}
+    ]
+  }
+}

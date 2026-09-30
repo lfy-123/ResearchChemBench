@@ -1,0 +1,28 @@
+{
+  "policy": "dual_axis_100.open_research.v1",
+  "scientific_result_weights": {
+    "identity": 15,
+    "transport_evidence": 30,
+    "explanation": 25,
+    "uncertainty": 20,
+    "conclusion": 10
+  },
+  "alternative_routes": [
+    "The source DFT–NEGF route is one valid reference design if reproduced with documented limitations; an independently converged implementation must establish its own evidence.",
+    "A different physically justified transport representation may answer a bounded explanatory question if validated for the claimed conditions; a toy or isolated-molecule model alone cannot prove real-junction performance."
+  ],
+  "conditional_requirements": [
+    "Finite-bias direction-resolved current evidence for rectification; no preset voltage grid.",
+    "Equivalent ratio definitions require explicit conversion and common energy/current reference.",
+    "Bridge-only interpretation requires scientifically comparable objects, not a specific named control."
+  ],
+  "judge_calibration_status": "pending_real_semantic_judge",
+  "schema_tests": "work/check_v2.py; format and artifact-integrity only",
+  "enforcement_layers": {
+    "host_schema": "Official output_contract checks required report files, JSON structure, declared units/enums and conditional fields.",
+    "author_side_checker": "work/check_v2.py alone checks resolved artifact IDs, file existence, SHA256 and selected arithmetic. These checks are not automatically installed in the host.",
+    "judge_review": "Evidence sufficiency, actual chemistry, cross-record scientific comparability, method adequacy and scope require real artifact/judge review; not run or calibrated in this development.",
+    "runtime_pending": "Host artifact integrity integration, reliable tool-event binding and access isolation require coordinator integration/verification."
+  },
+  "no_reference_matrix_required": true
+}

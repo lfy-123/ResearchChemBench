@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use supplied B2 and L12 ideal prototype starts and explicit lattice_and_surface_definition.json. They are benchmark starts, not fabricated source CIFs or relaxed answers. Treat charge-neutral periodic systems with documented magnetic treatment (including fcc Ni). B2(100) both Ni and Al terminations and mixed B2(110) are mandatory. Static zero-temperature electronic energies are the primary observable, not finite-temperature rates. Ni-rich mu_Ni=E(fcc Ni)/atom and mu_Al=E(B2 NiAl)/formula_unit-mu_Ni. E_vac(X)=E(defect)-E(pristine)+mu_X. Atom-conserving E_seg=E(exchanged slab)-E(clean slab). Balanced transfer E_tr(X)=E(bulk V_X)+E(slab+X)-E(bulk)-E(slab). Ni3Al grand potential per formula unit=E(L12 Ni3Al)-3mu_Ni-mu_Al. Use the same converged Hamiltonian/reservoirs throughout. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use supplied B2 and L12 ideal prototype starts and explicit lattice_and_surface_definition.json. They are benchmark starts, not fabricated source CIFs or relaxed answers. Treat charge-neutral periodic systems with documented magnetic treatment (including fcc Ni). B2(100) both Ni and Al terminations and mixed B2(110) are mandatory. Static zero-temperature electronic energies are the primary observable, not finite-temperature rates. Ni-rich mu_Ni=E(fcc Ni)/atom and mu_Al=E(B2 NiAl)/formula_unit-mu_Ni. E_vac(X)=E(defect)-E(pristine)+mu_X. Atom-conserving E_seg=E(exchanged slab)-E(clean slab). Balanced transfer E_tr(X)=E(bulk V_X)+E(slab+X)-E(bulk)-E(slab). Ni3Al grand potential per formula unit=E(L12 Ni3Al)-3mu_Ni-mu_Al. Use the same converged Hamiltonian/reservoirs throughout. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_bulk_vacancies",
+      "reference_id": "kp_bulk_vacancies",
+      "type": "semantic",
+      "expected": "Recompute per-atom/per-formula energies and sign; verify removed species/sites and charge. Different formation references cannot be ranked directly.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.bulk_vacancies",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute per-atom/per-formula energies and sign; verify removed species/sites and charge. Different formation references cannot be ranked directly."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_surface_cycles",
+      "reference_id": "kp_surface_cycles",
+      "type": "semantic",
+      "expected": "Inspect exact generated slabs, symmetry, adatom sites, bulk defects and conservation ledgers. Bulk vacancy preference is not a surface segregation result. Compare same cell/coverage and unlike terminations only under valid grand-potential definitions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.surface_cycles",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect exact generated slabs, symmetry, adatom sites, bulk defects and conservation ledgers. Bulk vacancy preference is not a surface segregation result. Compare same cell/coverage and unlike terminations only under valid grand-potential definitions."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_phase_and_convergence",
+      "reference_id": "kp_phase_and_convergence",
+      "type": "semantic",
+      "expected": "Check L12 identity and units, chemical potentials and real convergence outputs. Surface segregation and bulk second-phase stability are distinct physical endpoints; neither implies a universal species preference. Static thermodynamics cannot establish vacancy migration barriers or precipitation rates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.phase_and_convergence",
+          "$.calculation_records"
+        ],
+        "comparison": "Check L12 identity and units, chemical potentials and real convergence outputs. Surface segregation and bulk second-phase stability are distinct physical endpoints; neither implies a universal species preference. Static thermodynamics cannot establish vacancy migration barriers or precipitation rates."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether bulk vacancy energetics alone explain surface composition changes, using balanced bulk-to-surface and segregation comparisons with a distinct Ni3Al phase thermodynamic competitor. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether bulk vacancy energetics alone explain surface composition changes, using balanced bulk-to-surface and segregation comparisons with a distinct Ni3Al phase thermodynamic competitor. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "bulk_vacancies",
+      "max_score": 25,
+      "description": "Two vacancies with explicit reservoirs and supercell control",
+      "rule_ids": [
+        "rule_bulk_vacancies"
+      ]
+    },
+    {
+      "id": "surface_cycles",
+      "max_score": 25,
+      "description": "Three terminations with exchange and balanced transfer controls",
+      "rule_ids": [
+        "rule_surface_cycles"
+      ]
+    },
+    {
+      "id": "phase_and_convergence",
+      "max_score": 15,
+      "description": "Ni3Al competitor and converged, bounded mechanism inference",
+      "rule_ids": [
+        "rule_phase_and_convergence"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Two vacancies with explicit reservoirs and supercell control",
+      "Three terminations with exchange and balanced transfer controls",
+      "Ni3Al competitor and converged, bounded mechanism inference",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

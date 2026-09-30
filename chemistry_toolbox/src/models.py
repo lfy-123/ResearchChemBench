@@ -57,6 +57,9 @@ class ActionRequest(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    submission_key: str | None = Field(default=None, max_length=200, pattern=r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,199}$")
+    parent_job_id: str | None = Field(default=None, pattern=r"^job_[a-f0-9]{32}$")
+
     backend_id: str | None = Field(
         default=None,
         description=(
@@ -305,6 +308,7 @@ class BackendSpec:
     component_backend_options: Mapping[str, Mapping[str, tuple[str, ...]]] = field(default_factory=dict)
     supported_system_types: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
     validation_levels: Mapping[str, str] = field(default_factory=dict)
+    electronic_state_model: str | None = None
     parameter_specs: Mapping[str, Mapping[str, Mapping[str, Any]]] = field(
         default_factory=dict
     )

@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Reactants SiN (0, doublet) and isoprene C5H8 (0, singlet) produce SiNC5H7 (0, singlet) plus H (0, doublet). Doublet SiNC5H8 addition/rearrangement structures share the reactant atom map. Use separated reactants as zero for E0=Eelectronic+ZPE at 0 K. Collision energy 25±1 kJ/mol and experimental channel exoergicity -162±27 kJ/mol are observations, not computed answers. Enumerate terminal-C1/C4 attack by Si and N, then at least ring closure and H-loss alternatives. Declare explored bond edits and remaining search limits.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Reactants SiN (0, doublet) and isoprene C5H8 (0, singlet) produce SiNC5H7 (0, singlet) plus H (0, doublet). Doublet SiNC5H8 addition/rearrangement structures share the reactant atom map. Use separated reactants as zero for E0=Eelectronic+ZPE at 0 K. Collision energy 25±1 kJ/mol and experimental channel exoergicity -162±27 kJ/mol are observations, not computed answers. Enumerate terminal-C1/C4 attack by Si and N, then at least ring closure and H-loss alternatives. Declare explored bond edits and remaining search limits.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_candidate_space",
+      "statement": "Provide mapped graph-edit enumeration, attempted structures, state validity and products for the four attack families. Multiple seeds collapsing to one product are legitimate only with raw mapped evidence; no requirement for four distinct products. Core rows: terminal_C1_Si, terminal_C4_Si, terminal_C1_N, terminal_C4_N. Recompute lowest_E0_kJ_mol, product_reaction_E0_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Provide mapped graph-edit enumeration, attempted structures, state validity and products for the four attack families. Multiple seeds collapsing to one product are legitimate only with raw mapped evidence; no requirement for four distinct products. Core rows: terminal_C1_Si, terminal_C4_Si, terminal_C1_N, terminal_C4_N. Recompute lowest_E0_kJ_mol, product_reaction_E0_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_connected_routes",
+      "statement": "Submit ordered mapped nodes/edges, optimized endpoints, TS and IRC files or continuous no-barrier path evidence. Recompute all nodes relative to SiN+isoprene, including the free H atom. Core rows: main_route, competitor_route. Recompute maximum_relative_E0_kJ_mol, reaction_E0_kJ_mol, collision_margin_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Submit ordered mapped nodes/edges, optimized endpoints, TS and IRC files or continuous no-barrier path evidence. Recompute all nodes relative to SiN+isoprene, including the free H atom. Core rows: main_route, competitor_route. Recompute maximum_relative_E0_kJ_mol, reaction_E0_kJ_mol, collision_margin_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_accessibility",
+      "statement": "Separate lowest-energy product, channel exoergicity and accessible barrier. Compare collision margins and demonstrate method/ZPE sensitivity; no 298 K equilibrium abundance or branching ratio inference. Core rows: thermodynamic_vs_kinetic, method_sensitivity. Recompute main_minus_competitor_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Separate lowest-energy product, channel exoergicity and accessible barrier. Compare collision margins and demonstrate method/ZPE sensitivity; no 298 K equilibrium abundance or branching ratio inference. Core rows: thermodynamic_vs_kinetic, method_sensitivity. Recompute main_minus_competitor_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

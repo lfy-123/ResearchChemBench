@@ -1,0 +1,15 @@
+# Phase 1 expanded scientific reference
+
+The required finite matrix has actual quantum-chemical evidence. This is an author-informed reference, not a blind AR success. It replaces the development-only statement of zero expanded calculations; the earlier record remains in legacy history and the before-repair snapshot.
+
+Raw artifacts and all method/identity/resource details are in `docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/`. The hashed native inputs, logs, geometries and density evidence are indexed in `scientific_reference/submission_artifact_manifest.json`; the versioned group report and results hashes are in `task_provenance/phase1_verification.json`.
+
+The reference comprises four relaxed minima (72/54 positive modes), eight paired fixed-geometry states, two repeated fixed-geometry states after strict DTCO neutral refinement, and20 independent Mayer/Löwdin matrix checks. There are13 new Gaussian starts and two reused old nor minima. The superseded DTCO neutral is retained as numerical sensitivity. Link1 segments are not separate launches. One pathname-related Multiwfn postprocessing failure was recovered and is separately costed.
+
+Primary bond_order is total unrestricted Mayer including the spin-density term. NAO Wiberg and total-density Löwdin Wiberg are independent definitions; never compare unlike absolute indices as if identical. spin_S_total is the sulfur sum of NPA alpha-minus-beta electron populations. antibonding_occupation projects both same-geometry total densities on the cation singly occupied natural orbital; sulfur dominance and negative S–S overlap are checked. It is not a beta-only NBO occupation.
+
+Reference results show fixed-geometry oxidation increases all three sulfur bond indices and removes approximately0.995 electrons from a sulfur-heavy antibonding orbital. DTCO contracts0.15909336Å and nor0.07290076Å, while relaxed cation Mayer indices are0.28847396 and0.28927211. Larger contraction therefore does not rank stronger electronic bonding. The supported inference is a weak, delocalized 2c–3e-compatible feature, not proof of a conventional complete S–S bond, dication reaction, kinetic mechanism or electrochemical reversibility.
+
+`scientific_reference/verified_sulfur_tables.json` provides every matrix row and signed comparison. The strict/original geometry spread and independent matrix disagreement quantify numerical sensitivity only. They are not a calibrated functional/conformer error distribution and are not universal pass tolerances. Validate matched methods and raw definitions, then judge the discrimination and stated uncertainty. Equivalent defensible analysis remains eligible; reference-direction matching alone earns no credit.
+
+The evaluator review covers all five key points, six rules, one conclusion and seven critical-failure definitions for each mode. Runtime/schema checks and evidence-based scientific replay are separate. No external LLM score is invented. Optional dication, full substituent and reversibility chemistry is not required.

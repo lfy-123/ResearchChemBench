@@ -1,0 +1,72 @@
+[
+  {
+    "paper_id": "paper_c625cba3ce868eb1",
+    "finding": "Worker source reread identifies six-/seven-membered cyclization, not the older proposal five-/six-membered wording. Parent must verify final atom mapping and ring counts.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_4e9774f4128551d3",
+    "finding": "Main figure and SI experimental solvent ratios differ (1:1 versus 10:1); PR must disclose, AR comparison environment must be defined, sensitivity explicit.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_e2d9397dff2a3f0f",
+    "finding": "Old task references missing state_definition.json; expanded objects and charge/spin need actual definitions.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_60f4c45810428116",
+    "finding": "RBF smooth response surface is not independent kinetic rate data; evaluator must require identifiable physical model and held-out tests.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_988bc12ae3768679",
+    "finding": "Old acid/base geometries reveal species identity; AR candidate-generation question requires reviewed answer boundary.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_94b0a8ae694590ea",
+    "finding": "Commercial SWCNT size range does not uniquely specify chirality; explicitly label benchmark-defined periodic model and bounded inference.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_72f60526b64ce1b6",
+    "finding": "SI contains molecular-junction coordinates. Do not retain stale missing-junction claim; operative blocker is complete allowed NEGF chain and bias/convergence reference.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "paper_5d94285cfbd51973",
+    "finding": "Use single-strain AZ1–10 MIC with dilution/censoring and small-sample validation; no clinical or externally predictive efficacy claim.",
+    "status": "verify_in_authored_package"
+  },
+  {
+    "paper_id": "batch6_shared_schema",
+    "finding": "Early build_batch.py P pattern accepts outputs/../evaluation/hidden.json and report/../secret. Confirm authored final schema and negative tests reject first-component traversal; fix pattern after worker completion if still present.",
+    "status": "await_worker_tests"
+  },
+  {
+    "paper_id": "batch2_all",
+    "finding": "Public path regex accepts direct dot segments after root. Failure/blocked submissions require at least one engine calculation record; pre-engine missing-input failures cannot be reported with zero records. Completed analysis records require geometry and Hartree electronic energy despite non-engine analysis role. Require conditional record requirements and test zero-launch bounded failure.",
+    "status": "pending_parent_fix_after_worker"
+  },
+  {
+    "paper_id": "paper_3e4cad1d1d650d0c",
+    "finding": "Quenching panel requires numeric lifetime_change_fraction and bound while public observations say only essentially independent and raw series unavailable. Agent has no authorized paper/plot access. Supply sufficient public source measurement bound or allow explicit unavailable numeric value with supported qualitative challenge; never force invented precision.",
+    "status": "pending_parent_fix_after_worker"
+  },
+  {
+    "paper_id": "paper_80441aced6051d86",
+    "finding": "Current hcell schema shared by dimer and monomer requires dark_state_id, bright_dark_split, guest-centroid distance/slip/twist even where no second guest or dark state exists. Task text acknowledges missing dark states; schema must permit explicit not-applicable/none-within-window without fabricating values. Check after worker final.",
+    "status": "pending_parent_fix_after_worker"
+  },
+  {
+    "paper_id": "batch3_all",
+    "finding": "Schema requires >=1 calculation and object record plus allocated_cores>=1 even for blocked-before-launch reports. Allow honest zero-engine diagnostic failures without fabricating a geometry or job. Successful density analysis currently forces energy; distinguish molecular jobs from analysis. Generic evidenced_collapse branch available on analysis/attribution/robustness rows; narrow it to meaningful physical candidate rows or explicitly prohibit using it for missing core comparisons.",
+    "status": "pending_parent_fix_after_worker"
+  },
+  {
+    "paper_id": "batch4_all",
+    "finding": "Shared path regex contains same direct traversal flaw. Calculation_records minItems=1 disallows an honest pre-engine bounded_failure; blocked kinetics release has no real observations/rates. Keep complete branch strict but allow zero-launch diagnostic failures.",
+    "status": "pending_parent_fix_after_worker"
+  }
+]

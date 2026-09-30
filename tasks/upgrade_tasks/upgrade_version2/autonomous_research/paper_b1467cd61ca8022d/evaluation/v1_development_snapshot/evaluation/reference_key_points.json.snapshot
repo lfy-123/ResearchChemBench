@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PM COCCC, BM COCCCC, TFPM COCCC(F)(F)F and TFBM COCCCC(F)(F)F; all solvent molecules neutral singlets. Li+ is singlet; FSI- is F-S(=O)2-N(-)-S(=O)2-F, singlet. Core clusters contain exactly one Li+, one FSI- and one solvent (total charge0 singlet). Compare O-facing, O/F-contact where F exists, and FSI-dominated orientations at identical composition. No 2 M bulk interpretation follows from this finite-cluster design.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PM COCCC, BM COCCCC, TFPM COCCC(F)(F)F and TFBM COCCCC(F)(F)F; all solvent molecules neutral singlets. Li+ is singlet; FSI- is F-S(=O)2-N(-)-S(=O)2-F, singlet. Core clusters contain exactly one Li+, one FSI- and one solvent (total charge0 singlet). Compare O-facing, O/F-contact where F exists, and FSI-dominated orientations at identical composition. No 2 M bulk interpretation follows from this finite-cluster design.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_cluster_orientations",
+      "statement": "For nonfluorinated solvents any F contact is to FSI and must be labeled. Fluorinated candidates include attempted bidentate and O-only starts; retain real collapse evidence. Core rows: PM_solvent_contact, PM_anion_contact, BM_solvent_contact, BM_anion_contact, TFPM_solvent_contact, TFPM_anion_contact, TFBM_solvent_contact, TFBM_anion_contact. Recompute electronic_Eh, Li_O_A, Li_F_nearest_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "For nonfluorinated solvents any F contact is to FSI and must be labeled. Fluorinated candidates include attempted bidentate and O-only starts; retain real collapse evidence. Core rows: PM_solvent_contact, PM_anion_contact, BM_solvent_contact, BM_anion_contact, TFPM_solvent_contact, TFPM_anion_contact, TFBM_solvent_contact, TFBM_anion_contact. Recompute electronic_Eh, Li_O_A, Li_F_nearest_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_fragment_controls",
+      "statement": "Compute common-fragment interaction/distortion and state explicitly surface/isodensity/gauge for ESP. A gas-phase ion-solvent Eb and neutral salt-cluster interaction are separate quantities. Core rows: PM, BM, TFPM, TFBM. Recompute binding_kJ_mol, interaction_kJ_mol, distortion_kJ_mol, dipole_D, ESP_O_eV, RESP_O_e from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Compute common-fragment interaction/distortion and state explicitly surface/isodensity/gauge for ESP. A gas-phase ion-solvent Eb and neutral salt-cluster interaction are separate quantities. Core rows: PM, BM, TFPM, TFBM. Recompute binding_kJ_mol, interaction_kJ_mol, distortion_kJ_mol, dipole_D, ESP_O_eV, RESP_O_e from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_descriptor_test",
+      "statement": "Test a descriptor prediction against actual coordination and anion intervention, not a restatement of source ordering. Do not infer conductivity/SEI or bulk RDF. Core rows: O_F_contrast, anion_competition, method_sensitivity. Recompute paired_energy_change_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Test a descriptor prediction against actual coordination and anion intervention, not a restatement of source ordering. Do not infer conductivity/SEI or bulk RDF. Core rows: O_F_contrast, anion_competition, method_sensitivity. Recompute paired_energy_change_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

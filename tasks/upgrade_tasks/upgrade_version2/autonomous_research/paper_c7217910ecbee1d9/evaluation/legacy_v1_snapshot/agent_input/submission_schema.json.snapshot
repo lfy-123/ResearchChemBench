@@ -1,0 +1,3036 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_c7217910ecbee1d9"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "prerequisite_checks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "gate_id": {
+              "enum": [
+                "mapped_intact_models",
+                "original_n2_DFT_minimum_pair_pilot",
+                "reproducible_AEA_and_density_pilot"
+              ]
+            },
+            "status": {
+              "enum": [
+                "closed",
+                "open"
+              ]
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            },
+            "finding": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "gate_id",
+            "status",
+            "evidence_files",
+            "finding"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "system_id": {
+              "enum": [
+                "n0",
+                "n1",
+                "n2"
+              ]
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "converged",
+                "failed",
+                "not_run"
+              ]
+            },
+            "charge": {
+              "enum": [
+                0,
+                -1
+              ]
+            },
+            "multiplicity": {
+              "enum": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "log_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "atom_map_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "identity_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "scf_convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "geometry_or_boundary_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_check": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "identity_check",
+                "scf_convergence",
+                "geometry_or_boundary_check",
+                "state_check"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_Eh": {
+              "type": "number"
+            },
+            "kind": {
+              "enum": [
+                "free_minimum",
+                "fixed_core",
+                "vertical",
+                "density",
+                "failed"
+              ]
+            },
+            "formula": {
+              "enum": [
+                "PAl12",
+                "PAl12BC18F15",
+                "PAl12B2C36F30"
+              ]
+            }
+          },
+          "required": [
+            "record_id",
+            "system_id",
+            "method_id",
+            "status",
+            "charge",
+            "multiplicity",
+            "input_file",
+            "log_file",
+            "geometry_file",
+            "atom_map_file",
+            "evidence_files",
+            "validation",
+            "kind",
+            "formula"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  }
+                },
+                "required": [
+                  "charge"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "multiplicity": {
+                    "enum": [
+                      2,
+                      4,
+                      6
+                    ]
+                  }
+                },
+                "required": []
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      -1
+                    ]
+                  }
+                },
+                "required": [
+                  "charge"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3,
+                      5
+                    ]
+                  }
+                },
+                "required": []
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system_id": {
+                    "enum": [
+                      "n0"
+                    ]
+                  }
+                },
+                "required": [
+                  "system_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "formula": {
+                    "const": "PAl12"
+                  }
+                },
+                "required": []
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system_id": {
+                    "enum": [
+                      "n1"
+                    ]
+                  }
+                },
+                "required": [
+                  "system_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "formula": {
+                    "const": "PAl12BC18F15"
+                  }
+                },
+                "required": []
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system_id": {
+                    "enum": [
+                      "n2"
+                    ]
+                  }
+                },
+                "required": [
+                  "system_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "formula": {
+                    "const": "PAl12B2C36F30"
+                  }
+                },
+                "required": []
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_settings_file": {
+            "type": "string",
+            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definitions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "software_versions",
+          "numerical_settings_file",
+          "environment",
+          "definitions"
+        ],
+        "additionalProperties": false
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "candidate_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "n": {
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ]
+                },
+                "charge": {
+                  "enum": [
+                    0,
+                    -1
+                  ]
+                },
+                "multiplicity": {
+                  "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                  ]
+                },
+                "site_class": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "start_geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                },
+                "final_geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                },
+                "job_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "enum": [
+                    "retained",
+                    "collapsed",
+                    "reconstructed",
+                    "failed"
+                  ]
+                },
+                "core_and_ligand_graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                },
+                "selection_reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "candidate_id",
+                "n",
+                "charge",
+                "multiplicity",
+                "site_class",
+                "start_geometry_file",
+                "final_geometry_file",
+                "job_id",
+                "status",
+                "core_and_ligand_graph_file",
+                "selection_reason"
+              ],
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "charge": {
+                        "enum": [
+                          0
+                        ]
+                      }
+                    },
+                    "required": [
+                      "charge"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "multiplicity": {
+                        "enum": [
+                          2,
+                          4,
+                          6
+                        ]
+                      }
+                    },
+                    "required": []
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "charge": {
+                        "enum": [
+                          -1
+                        ]
+                      }
+                    },
+                    "required": [
+                      "charge"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          3,
+                          5
+                        ]
+                      }
+                    },
+                    "required": []
+                  }
+                }
+              ]
+            },
+            "minItems": 6,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "n": {
+                      "const": 0
+                    },
+                    "charge": {
+                      "const": 0
+                    }
+                  },
+                  "required": [
+                    "n",
+                    "charge"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "n": {
+                      "const": 0
+                    },
+                    "charge": {
+                      "const": -1
+                    }
+                  },
+                  "required": [
+                    "n",
+                    "charge"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "n": {
+                      "const": 1
+                    },
+                    "charge": {
+                      "const": 0
+                    }
+                  },
+                  "required": [
+                    "n",
+                    "charge"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "n": {
+                      "const": 1
+                    },
+                    "charge": {
+                      "const": -1
+                    }
+                  },
+                  "required": [
+                    "n",
+                    "charge"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "n": {
+                      "const": 2
+                    },
+                    "charge": {
+                      "const": 0
+                    }
+                  },
+                  "required": [
+                    "n",
+                    "charge"
+                  ]
+                }
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "n": {
+                      "const": 2
+                    },
+                    "charge": {
+                      "const": -1
+                    }
+                  },
+                  "required": [
+                    "n",
+                    "charge"
+                  ]
+                }
+              }
+            ]
+          },
+          "series": {
+            "type": "object",
+            "properties": {
+              "n0": {
+                "type": "object",
+                "properties": {
+                  "disposition": {
+                    "const": "retained_pair"
+                  },
+                  "formula": {
+                    "const": "PAl12"
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "neutral": {
+                    "type": "object",
+                    "properties": {
+                      "candidate_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "charge": {
+                        "const": 0
+                      },
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6
+                        ]
+                      },
+                      "electronic_Eh": {
+                        "type": "number"
+                      },
+                      "ZPE_Eh": {
+                        "type": "number"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "frequency_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "imaginary_internal_modes_cm1": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "maxItems": 0
+                      },
+                      "core_retained": {
+                        "const": true
+                      },
+                      "ligands_intact": {
+                        "const": true
+                      },
+                      "core_distances_A": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "minItems": 12,
+                        "maxItems": 12
+                      },
+                      "shell_graph_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      }
+                    },
+                    "required": [
+                      "candidate_id",
+                      "job_id",
+                      "charge",
+                      "multiplicity",
+                      "electronic_Eh",
+                      "ZPE_Eh",
+                      "geometry_file",
+                      "frequency_file",
+                      "imaginary_internal_modes_cm1",
+                      "core_retained",
+                      "ligands_intact",
+                      "core_distances_A",
+                      "shell_graph_file"
+                    ],
+                    "additionalProperties": false,
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                0
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                2,
+                                4,
+                                6
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                -1
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3,
+                                5
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      }
+                    ]
+                  },
+                  "anion": {
+                    "type": "object",
+                    "properties": {
+                      "candidate_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "charge": {
+                        "const": -1
+                      },
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6
+                        ]
+                      },
+                      "electronic_Eh": {
+                        "type": "number"
+                      },
+                      "ZPE_Eh": {
+                        "type": "number"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "frequency_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "imaginary_internal_modes_cm1": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "maxItems": 0
+                      },
+                      "core_retained": {
+                        "const": true
+                      },
+                      "ligands_intact": {
+                        "const": true
+                      },
+                      "core_distances_A": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "minItems": 12,
+                        "maxItems": 12
+                      },
+                      "shell_graph_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      }
+                    },
+                    "required": [
+                      "candidate_id",
+                      "job_id",
+                      "charge",
+                      "multiplicity",
+                      "electronic_Eh",
+                      "ZPE_Eh",
+                      "geometry_file",
+                      "frequency_file",
+                      "imaginary_internal_modes_cm1",
+                      "core_retained",
+                      "ligands_intact",
+                      "core_distances_A",
+                      "shell_graph_file"
+                    ],
+                    "additionalProperties": false,
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                0
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                2,
+                                4,
+                                6
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                -1
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3,
+                                5
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      }
+                    ]
+                  },
+                  "anion_at_neutral_geometry": {
+                    "type": "object",
+                    "properties": {
+                      "job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "electronic_Eh": {
+                        "type": "number"
+                      },
+                      "charge": {
+                        "const": -1
+                      },
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          3,
+                          5
+                        ]
+                      },
+                      "geometry_reference": {
+                        "const": "same_n_neutral_minimum"
+                      }
+                    },
+                    "required": [
+                      "job_id",
+                      "electronic_Eh",
+                      "charge",
+                      "multiplicity",
+                      "geometry_reference"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "VEA_electronic_eV": {
+                    "type": "number"
+                  },
+                  "AEA_electronic_eV": {
+                    "type": "number"
+                  },
+                  "AEA_ZPE_eV": {
+                    "type": "number"
+                  },
+                  "relaxation_contribution_eV": {
+                    "type": "number"
+                  },
+                  "fixed_core": {
+                    "type": "object",
+                    "properties": {
+                      "geometry_reference": {
+                        "const": "neutral_n0_core"
+                      },
+                      "frozen_atom_maps": {
+                        "const": [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          7,
+                          8,
+                          9,
+                          10,
+                          11,
+                          12,
+                          13
+                        ]
+                      },
+                      "neutral_job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "anion_job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "neutral_Eh": {
+                        "type": "number"
+                      },
+                      "anion_Eh": {
+                        "type": "number"
+                      },
+                      "attachment_eV": {
+                        "type": "number"
+                      },
+                      "constraint_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "geometry_reference",
+                      "frozen_atom_maps",
+                      "neutral_job_id",
+                      "anion_job_id",
+                      "neutral_Eh",
+                      "anion_Eh",
+                      "attachment_eV",
+                      "constraint_file",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "attachment_analysis": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_density_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "anion_vertical_density_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "difference_density_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "shared_grid_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "integrated_added_electrons": {
+                        "type": "number"
+                      },
+                      "core_added_electrons": {
+                        "type": "number"
+                      },
+                      "ligand_A_added_electrons": {
+                        "type": "number"
+                      },
+                      "ligand_B_added_electrons": {
+                        "type": "number"
+                      },
+                      "population_table_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "population_scheme": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "core_charge_neutral_e": {
+                        "type": "number"
+                      },
+                      "core_charge_vertical_anion_e": {
+                        "type": "number"
+                      },
+                      "ligand_charge_change_e": {
+                        "type": "number"
+                      },
+                      "charge_balance_error_e": {
+                        "type": "number"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "neutral_density_file",
+                      "anion_vertical_density_file",
+                      "difference_density_file",
+                      "shared_grid_file",
+                      "integrated_added_electrons",
+                      "core_added_electrons",
+                      "ligand_A_added_electrons",
+                      "ligand_B_added_electrons",
+                      "population_table_file",
+                      "population_scheme",
+                      "core_charge_neutral_e",
+                      "core_charge_vertical_anion_e",
+                      "ligand_charge_change_e",
+                      "charge_balance_error_e",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "disposition",
+                  "formula",
+                  "atom_map_file",
+                  "neutral",
+                  "anion",
+                  "anion_at_neutral_geometry",
+                  "VEA_electronic_eV",
+                  "AEA_electronic_eV",
+                  "AEA_ZPE_eV",
+                  "relaxation_contribution_eV",
+                  "fixed_core",
+                  "attachment_analysis"
+                ],
+                "additionalProperties": false
+              },
+              "n1": {
+                "type": "object",
+                "properties": {
+                  "disposition": {
+                    "const": "retained_pair"
+                  },
+                  "formula": {
+                    "const": "PAl12BC18F15"
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "neutral": {
+                    "type": "object",
+                    "properties": {
+                      "candidate_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "charge": {
+                        "const": 0
+                      },
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6
+                        ]
+                      },
+                      "electronic_Eh": {
+                        "type": "number"
+                      },
+                      "ZPE_Eh": {
+                        "type": "number"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "frequency_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "imaginary_internal_modes_cm1": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "maxItems": 0
+                      },
+                      "core_retained": {
+                        "const": true
+                      },
+                      "ligands_intact": {
+                        "const": true
+                      },
+                      "core_distances_A": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "minItems": 12,
+                        "maxItems": 12
+                      },
+                      "shell_graph_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      }
+                    },
+                    "required": [
+                      "candidate_id",
+                      "job_id",
+                      "charge",
+                      "multiplicity",
+                      "electronic_Eh",
+                      "ZPE_Eh",
+                      "geometry_file",
+                      "frequency_file",
+                      "imaginary_internal_modes_cm1",
+                      "core_retained",
+                      "ligands_intact",
+                      "core_distances_A",
+                      "shell_graph_file"
+                    ],
+                    "additionalProperties": false,
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                0
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                2,
+                                4,
+                                6
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                -1
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3,
+                                5
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      }
+                    ]
+                  },
+                  "anion": {
+                    "type": "object",
+                    "properties": {
+                      "candidate_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "charge": {
+                        "const": -1
+                      },
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6
+                        ]
+                      },
+                      "electronic_Eh": {
+                        "type": "number"
+                      },
+                      "ZPE_Eh": {
+                        "type": "number"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "frequency_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "imaginary_internal_modes_cm1": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "maxItems": 0
+                      },
+                      "core_retained": {
+                        "const": true
+                      },
+                      "ligands_intact": {
+                        "const": true
+                      },
+                      "core_distances_A": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "minItems": 12,
+                        "maxItems": 12
+                      },
+                      "shell_graph_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      }
+                    },
+                    "required": [
+                      "candidate_id",
+                      "job_id",
+                      "charge",
+                      "multiplicity",
+                      "electronic_Eh",
+                      "ZPE_Eh",
+                      "geometry_file",
+                      "frequency_file",
+                      "imaginary_internal_modes_cm1",
+                      "core_retained",
+                      "ligands_intact",
+                      "core_distances_A",
+                      "shell_graph_file"
+                    ],
+                    "additionalProperties": false,
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                0
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                2,
+                                4,
+                                6
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "charge": {
+                              "enum": [
+                                -1
+                              ]
+                            }
+                          },
+                          "required": [
+                            "charge"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3,
+                                5
+                              ]
+                            }
+                          },
+                          "required": []
+                        }
+                      }
+                    ]
+                  },
+                  "anion_at_neutral_geometry": {
+                    "type": "object",
+                    "properties": {
+                      "job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "electronic_Eh": {
+                        "type": "number"
+                      },
+                      "charge": {
+                        "const": -1
+                      },
+                      "multiplicity": {
+                        "enum": [
+                          1,
+                          3,
+                          5
+                        ]
+                      },
+                      "geometry_reference": {
+                        "const": "same_n_neutral_minimum"
+                      }
+                    },
+                    "required": [
+                      "job_id",
+                      "electronic_Eh",
+                      "charge",
+                      "multiplicity",
+                      "geometry_reference"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "VEA_electronic_eV": {
+                    "type": "number"
+                  },
+                  "AEA_electronic_eV": {
+                    "type": "number"
+                  },
+                  "AEA_ZPE_eV": {
+                    "type": "number"
+                  },
+                  "relaxation_contribution_eV": {
+                    "type": "number"
+                  },
+                  "fixed_core": {
+                    "type": "object",
+                    "properties": {
+                      "geometry_reference": {
+                        "const": "neutral_n0_core"
+                      },
+                      "frozen_atom_maps": {
+                        "const": [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          7,
+                          8,
+                          9,
+                          10,
+                          11,
+                          12,
+                          13
+                        ]
+                      },
+                      "neutral_job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "anion_job_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "neutral_Eh": {
+                        "type": "number"
+                      },
+                      "anion_Eh": {
+                        "type": "number"
+                      },
+                      "attachment_eV": {
+                        "type": "number"
+                      },
+                      "constraint_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "geometry_reference",
+                      "frozen_atom_maps",
+                      "neutral_job_id",
+                      "anion_job_id",
+                      "neutral_Eh",
+                      "anion_Eh",
+                      "attachment_eV",
+                      "constraint_file",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "attachment_analysis": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_density_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "anion_vertical_density_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "difference_density_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "shared_grid_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "integrated_added_electrons": {
+                        "type": "number"
+                      },
+                      "core_added_electrons": {
+                        "type": "number"
+                      },
+                      "ligand_A_added_electrons": {
+                        "type": "number"
+                      },
+                      "ligand_B_added_electrons": {
+                        "type": "number"
+                      },
+                      "population_table_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "population_scheme": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "core_charge_neutral_e": {
+                        "type": "number"
+                      },
+                      "core_charge_vertical_anion_e": {
+                        "type": "number"
+                      },
+                      "ligand_charge_change_e": {
+                        "type": "number"
+                      },
+                      "charge_balance_error_e": {
+                        "type": "number"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "neutral_density_file",
+                      "anion_vertical_density_file",
+                      "difference_density_file",
+                      "shared_grid_file",
+                      "integrated_added_electrons",
+                      "core_added_electrons",
+                      "ligand_A_added_electrons",
+                      "ligand_B_added_electrons",
+                      "population_table_file",
+                      "population_scheme",
+                      "core_charge_neutral_e",
+                      "core_charge_vertical_anion_e",
+                      "ligand_charge_change_e",
+                      "charge_balance_error_e",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "disposition",
+                  "formula",
+                  "atom_map_file",
+                  "neutral",
+                  "anion",
+                  "anion_at_neutral_geometry",
+                  "VEA_electronic_eV",
+                  "AEA_electronic_eV",
+                  "AEA_ZPE_eV",
+                  "relaxation_contribution_eV",
+                  "fixed_core",
+                  "attachment_analysis"
+                ],
+                "additionalProperties": false
+              },
+              "n2": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "disposition": {
+                        "const": "retained_pair"
+                      },
+                      "formula": {
+                        "const": "PAl12B2C36F30"
+                      },
+                      "atom_map_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "neutral": {
+                        "type": "object",
+                        "properties": {
+                          "candidate_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "job_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "charge": {
+                            "const": 0
+                          },
+                          "multiplicity": {
+                            "enum": [
+                              1,
+                              2,
+                              3,
+                              4,
+                              5,
+                              6
+                            ]
+                          },
+                          "electronic_Eh": {
+                            "type": "number"
+                          },
+                          "ZPE_Eh": {
+                            "type": "number"
+                          },
+                          "geometry_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "frequency_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "imaginary_internal_modes_cm1": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "maxItems": 0
+                          },
+                          "core_retained": {
+                            "const": true
+                          },
+                          "ligands_intact": {
+                            "const": true
+                          },
+                          "core_distances_A": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "minItems": 12,
+                            "maxItems": 12
+                          },
+                          "shell_graph_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          }
+                        },
+                        "required": [
+                          "candidate_id",
+                          "job_id",
+                          "charge",
+                          "multiplicity",
+                          "electronic_Eh",
+                          "ZPE_Eh",
+                          "geometry_file",
+                          "frequency_file",
+                          "imaginary_internal_modes_cm1",
+                          "core_retained",
+                          "ligands_intact",
+                          "core_distances_A",
+                          "shell_graph_file"
+                        ],
+                        "additionalProperties": false,
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "charge": {
+                                  "enum": [
+                                    0
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "charge"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "multiplicity": {
+                                  "enum": [
+                                    2,
+                                    4,
+                                    6
+                                  ]
+                                }
+                              },
+                              "required": []
+                            }
+                          },
+                          {
+                            "if": {
+                              "properties": {
+                                "charge": {
+                                  "enum": [
+                                    -1
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "charge"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "multiplicity": {
+                                  "enum": [
+                                    1,
+                                    3,
+                                    5
+                                  ]
+                                }
+                              },
+                              "required": []
+                            }
+                          }
+                        ]
+                      },
+                      "anion": {
+                        "type": "object",
+                        "properties": {
+                          "candidate_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "job_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "charge": {
+                            "const": -1
+                          },
+                          "multiplicity": {
+                            "enum": [
+                              1,
+                              2,
+                              3,
+                              4,
+                              5,
+                              6
+                            ]
+                          },
+                          "electronic_Eh": {
+                            "type": "number"
+                          },
+                          "ZPE_Eh": {
+                            "type": "number"
+                          },
+                          "geometry_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "frequency_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "imaginary_internal_modes_cm1": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "maxItems": 0
+                          },
+                          "core_retained": {
+                            "const": true
+                          },
+                          "ligands_intact": {
+                            "const": true
+                          },
+                          "core_distances_A": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "minItems": 12,
+                            "maxItems": 12
+                          },
+                          "shell_graph_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          }
+                        },
+                        "required": [
+                          "candidate_id",
+                          "job_id",
+                          "charge",
+                          "multiplicity",
+                          "electronic_Eh",
+                          "ZPE_Eh",
+                          "geometry_file",
+                          "frequency_file",
+                          "imaginary_internal_modes_cm1",
+                          "core_retained",
+                          "ligands_intact",
+                          "core_distances_A",
+                          "shell_graph_file"
+                        ],
+                        "additionalProperties": false,
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "charge": {
+                                  "enum": [
+                                    0
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "charge"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "multiplicity": {
+                                  "enum": [
+                                    2,
+                                    4,
+                                    6
+                                  ]
+                                }
+                              },
+                              "required": []
+                            }
+                          },
+                          {
+                            "if": {
+                              "properties": {
+                                "charge": {
+                                  "enum": [
+                                    -1
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "charge"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "multiplicity": {
+                                  "enum": [
+                                    1,
+                                    3,
+                                    5
+                                  ]
+                                }
+                              },
+                              "required": []
+                            }
+                          }
+                        ]
+                      },
+                      "anion_at_neutral_geometry": {
+                        "type": "object",
+                        "properties": {
+                          "job_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "electronic_Eh": {
+                            "type": "number"
+                          },
+                          "charge": {
+                            "const": -1
+                          },
+                          "multiplicity": {
+                            "enum": [
+                              1,
+                              3,
+                              5
+                            ]
+                          },
+                          "geometry_reference": {
+                            "const": "same_n_neutral_minimum"
+                          }
+                        },
+                        "required": [
+                          "job_id",
+                          "electronic_Eh",
+                          "charge",
+                          "multiplicity",
+                          "geometry_reference"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "VEA_electronic_eV": {
+                        "type": "number"
+                      },
+                      "AEA_electronic_eV": {
+                        "type": "number"
+                      },
+                      "AEA_ZPE_eV": {
+                        "type": "number"
+                      },
+                      "relaxation_contribution_eV": {
+                        "type": "number"
+                      },
+                      "fixed_core": {
+                        "type": "object",
+                        "properties": {
+                          "geometry_reference": {
+                            "const": "neutral_n0_core"
+                          },
+                          "frozen_atom_maps": {
+                            "const": [
+                              1,
+                              2,
+                              3,
+                              4,
+                              5,
+                              6,
+                              7,
+                              8,
+                              9,
+                              10,
+                              11,
+                              12,
+                              13
+                            ]
+                          },
+                          "neutral_job_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "anion_job_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "neutral_Eh": {
+                            "type": "number"
+                          },
+                          "anion_Eh": {
+                            "type": "number"
+                          },
+                          "attachment_eV": {
+                            "type": "number"
+                          },
+                          "constraint_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "interpretation": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "geometry_reference",
+                          "frozen_atom_maps",
+                          "neutral_job_id",
+                          "anion_job_id",
+                          "neutral_Eh",
+                          "anion_Eh",
+                          "attachment_eV",
+                          "constraint_file",
+                          "interpretation"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "attachment_analysis": {
+                        "type": "object",
+                        "properties": {
+                          "neutral_density_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "anion_vertical_density_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "difference_density_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "shared_grid_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "integrated_added_electrons": {
+                            "type": "number"
+                          },
+                          "core_added_electrons": {
+                            "type": "number"
+                          },
+                          "ligand_A_added_electrons": {
+                            "type": "number"
+                          },
+                          "ligand_B_added_electrons": {
+                            "type": "number"
+                          },
+                          "population_table_file": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "population_scheme": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "core_charge_neutral_e": {
+                            "type": "number"
+                          },
+                          "core_charge_vertical_anion_e": {
+                            "type": "number"
+                          },
+                          "ligand_charge_change_e": {
+                            "type": "number"
+                          },
+                          "charge_balance_error_e": {
+                            "type": "number"
+                          },
+                          "interpretation": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "neutral_density_file",
+                          "anion_vertical_density_file",
+                          "difference_density_file",
+                          "shared_grid_file",
+                          "integrated_added_electrons",
+                          "core_added_electrons",
+                          "ligand_A_added_electrons",
+                          "ligand_B_added_electrons",
+                          "population_table_file",
+                          "population_scheme",
+                          "core_charge_neutral_e",
+                          "core_charge_vertical_anion_e",
+                          "ligand_charge_change_e",
+                          "charge_balance_error_e",
+                          "interpretation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "disposition",
+                      "formula",
+                      "atom_map_file",
+                      "neutral",
+                      "anion",
+                      "anion_at_neutral_geometry",
+                      "VEA_electronic_eV",
+                      "AEA_electronic_eV",
+                      "AEA_ZPE_eV",
+                      "relaxation_contribution_eV",
+                      "fixed_core",
+                      "attachment_analysis"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "disposition": {
+                        "const": "evidenced_exclusion"
+                      },
+                      "formula": {
+                        "const": "PAl12B2C36F30"
+                      },
+                      "tested_candidate_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "minItems": 1
+                      },
+                      "converged_outside_identity_job_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "minItems": 1
+                      },
+                      "start_end_mapping_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "minimum_validation_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "reconstruction_metrics_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "state_coverage_file": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "diagnosis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "excluded_AEA": {
+                        "const": null
+                      },
+                      "scope_limit": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "disposition",
+                      "formula",
+                      "tested_candidate_ids",
+                      "converged_outside_identity_job_ids",
+                      "start_end_mapping_files",
+                      "minimum_validation_files",
+                      "reconstruction_metrics_file",
+                      "state_coverage_file",
+                      "diagnosis",
+                      "excluded_AEA",
+                      "scope_limit"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            },
+            "required": [
+              "n0",
+              "n1",
+              "n2"
+            ],
+            "additionalProperties": false
+          },
+          "comparisons": {
+            "type": "object",
+            "properties": {
+              "n1_minus_n0": {
+                "type": "object",
+                "properties": {
+                  "comparison_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_n": {
+                    "const": 0
+                  },
+                  "right_n": {
+                    "const": 1
+                  },
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "blocked_by_evidenced_exclusion"
+                    ]
+                  },
+                  "delta_AEA_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "delta_VEA_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "delta_fixed_core_attachment_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "uncertainty_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "assessment": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "comparison_id",
+                  "left_n",
+                  "right_n",
+                  "outcome",
+                  "delta_AEA_eV",
+                  "delta_VEA_eV",
+                  "delta_fixed_core_attachment_eV",
+                  "uncertainty_eV",
+                  "assessment",
+                  "evidence_files"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            "computed"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "outcome"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "delta_AEA_eV": {
+                          "type": "number"
+                        },
+                        "delta_VEA_eV": {
+                          "type": "number"
+                        },
+                        "delta_fixed_core_attachment_eV": {
+                          "type": "number"
+                        },
+                        "uncertainty_eV": {
+                          "type": "number"
+                        }
+                      },
+                      "required": []
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            "blocked_by_evidenced_exclusion"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "outcome"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "delta_AEA_eV": {
+                          "const": null
+                        },
+                        "delta_VEA_eV": {
+                          "const": null
+                        },
+                        "delta_fixed_core_attachment_eV": {
+                          "const": null
+                        },
+                        "uncertainty_eV": {
+                          "const": null
+                        }
+                      },
+                      "required": []
+                    }
+                  }
+                ]
+              },
+              "n2_minus_n1": {
+                "type": "object",
+                "properties": {
+                  "comparison_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_n": {
+                    "const": 1
+                  },
+                  "right_n": {
+                    "const": 2
+                  },
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "blocked_by_evidenced_exclusion"
+                    ]
+                  },
+                  "delta_AEA_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "delta_VEA_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "delta_fixed_core_attachment_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "uncertainty_eV": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "assessment": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "comparison_id",
+                  "left_n",
+                  "right_n",
+                  "outcome",
+                  "delta_AEA_eV",
+                  "delta_VEA_eV",
+                  "delta_fixed_core_attachment_eV",
+                  "uncertainty_eV",
+                  "assessment",
+                  "evidence_files"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            "computed"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "outcome"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "delta_AEA_eV": {
+                          "type": "number"
+                        },
+                        "delta_VEA_eV": {
+                          "type": "number"
+                        },
+                        "delta_fixed_core_attachment_eV": {
+                          "type": "number"
+                        },
+                        "uncertainty_eV": {
+                          "type": "number"
+                        }
+                      },
+                      "required": []
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            "blocked_by_evidenced_exclusion"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "outcome"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "delta_AEA_eV": {
+                          "const": null
+                        },
+                        "delta_VEA_eV": {
+                          "const": null
+                        },
+                        "delta_fixed_core_attachment_eV": {
+                          "const": null
+                        },
+                        "uncertainty_eV": {
+                          "const": null
+                        }
+                      },
+                      "required": []
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "n1_minus_n0",
+              "n2_minus_n1"
+            ],
+            "additionalProperties": false
+          },
+          "identity_criteria": {
+            "type": "object",
+            "properties": {
+              "core_reference_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "shell_adjacency_rule": {
+                "type": "string",
+                "minLength": 1
+              },
+              "bond_graph_rule": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mapping_policy": {
+                "type": "string",
+                "minLength": 1
+              },
+              "cutoff_sensitivity_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              }
+            },
+            "required": [
+              "core_reference_file",
+              "shell_adjacency_rule",
+              "bond_graph_rule",
+              "mapping_policy",
+              "cutoff_sensitivity_file"
+            ],
+            "additionalProperties": false
+          },
+          "density_checks": {
+            "type": "object",
+            "properties": {
+              "grid_convergence_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "electron_normalization_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "population_comparison_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              }
+            },
+            "required": [
+              "grid_convergence_file",
+              "electron_normalization_file",
+              "population_comparison_file"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "candidates",
+          "series",
+          "comparisons",
+          "identity_criteria",
+          "density_checks"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "counterprediction": {
+              "type": "string",
+              "minLength": 1
+            },
+            "comparison_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim",
+            "counterprediction",
+            "comparison_ids",
+            "outcome",
+            "reason",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "perturbed_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "observable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "difference": {
+              "type": "number"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "factor",
+            "baseline_record_ids",
+            "perturbed_record_ids",
+            "observable",
+            "unit",
+            "baseline_value",
+            "perturbed_value",
+            "difference",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "comparison_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "outcome",
+          "claim",
+          "comparison_ids",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "artifact_index": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "role": {
+              "enum": [
+                "input",
+                "log",
+                "geometry",
+                "mapping",
+                "density",
+                "table",
+                "diagnostic",
+                "script",
+                "restart"
+              ]
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "role"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "resource_record": {
+        "type": "object",
+        "properties": {
+          "engine_launches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_launches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "engine_wall_hours_sum": {
+            "type": "number",
+            "minimum": 0
+          },
+          "elapsed_wall_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_launches",
+          "failed_launches",
+          "allocated_core_hours",
+          "engine_wall_hours_sum",
+          "elapsed_wall_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "diagnostic_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "diagnostic_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "prerequisite_checks",
+      "calculation_records",
+      "conclusion",
+      "artifact_index",
+      "resource_record"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "complete"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "prerequisite_checks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "gate_id": {
+                    "enum": [
+                      "mapped_intact_models",
+                      "original_n2_DFT_minimum_pair_pilot",
+                      "reproducible_AEA_and_density_pilot"
+                    ]
+                  },
+                  "status": {
+                    "enum": [
+                      "closed",
+                      "open"
+                    ]
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  },
+                  "finding": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "gate_id",
+                  "status",
+                  "evidence_files",
+                  "finding"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "allOf": [
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "mapped_intact_models"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "original_n2_DFT_minimum_pair_pilot"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "reproducible_AEA_and_density_pilot"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              ]
+            },
+            "artifact_index": {
+              "minItems": 1
+            },
+            "resource_record": {
+              "properties": {
+                "engine_launches": {
+                  "minimum": 1
+                }
+              }
+            },
+            "calculation_records": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "status": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "conclusion": {
+              "properties": {
+                "outcome": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            }
+          },
+          "required": [
+            "methods",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "outcome": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          },
+          "required": [
+            "failure_report"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "complete"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "results": {
+              "properties": {
+                "series": {
+                  "properties": {
+                    "n2": {
+                      "properties": {
+                        "disposition": {
+                          "const": "retained_pair"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": []
+        }
+      }
+    ]
+  }
+}

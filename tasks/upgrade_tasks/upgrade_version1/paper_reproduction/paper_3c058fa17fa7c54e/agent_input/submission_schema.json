@@ -1,0 +1,1829 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "paper_id",
+      "status",
+      "methods",
+      "resources",
+      "calculation_records",
+      "evidence_files",
+      "conclusion"
+    ],
+    "properties": {
+      "paper_id": {
+        "const": "paper_3c058fa17fa7c54e"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure",
+          "blocked"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "primary",
+          "software_versions",
+          "solvent_and_state_convention",
+          "energy_zero_and_units",
+          "state_matching",
+          "conformer_coverage",
+          "uncertainty_protocol"
+        ],
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "solvent_and_state_convention": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "energy_zero_and_units": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "state_matching": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "conformer_coverage": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "uncertainty_protocol": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          }
+        }
+      },
+      "resources": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "engine_calls",
+          "wall_seconds",
+          "cpu_core_hours",
+          "max_memory_MB",
+          "accounting_basis",
+          "attempt_log"
+        ],
+        "properties": {
+          "engine_calls": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "max_memory_MB": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "accounting_basis": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "attempt_log": {
+            "type": "string",
+            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+          }
+        }
+      },
+      "calculation_records": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "calculation_id",
+            "system",
+            "record_type",
+            "kind",
+            "method",
+            "environment",
+            "input_file",
+            "output_file",
+            "convergence"
+          ],
+          "properties": {
+            "calculation_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "system": {
+              "type": "string",
+              "enum": [
+                "An_sigma_Ph",
+                "An_sigma_DA",
+                "An_pi_Ph",
+                "An_pi_DA",
+                "An_sigma_Ph_T",
+                "An_sigma_DA_T",
+                "An_pi_Ph_T",
+                "An_pi_DA_T"
+              ]
+            },
+            "record_type": {
+              "type": "string",
+              "enum": [
+                "electronic_structure",
+                "analysis"
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "failed"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "output_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "convergence": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "geometry_role": {
+              "type": "string",
+              "enum": [
+                "relaxed_minimum",
+                "constrained_control",
+                "single_point",
+                "excited_state"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "electronic_energy_hartree": {
+              "type": "number"
+            },
+            "imaginary_frequencies_cm1": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "number"
+              }
+            },
+            "state_identity": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "analysis_type": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "source_evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_sigma_Ph"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_sigma_DA"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_pi_Ph"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_pi_DA"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_sigma_Ph_T"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 3
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_sigma_DA_T"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 3
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_pi_Ph_T"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 3
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "An_pi_DA_T"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 3
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "charge",
+                  "multiplicity",
+                  "basis",
+                  "geometry_role"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "electronic_energy_hartree",
+                  "state_identity"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "analysis"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "analysis_type",
+                  "source_evidence_files"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "evidence_files": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "verdict",
+          "claim",
+          "scope_limit",
+          "evidence_files"
+        ],
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "not_established"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "scope_limit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      },
+      "results": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bridge_torsion",
+          "adiabatic_states",
+          "difference_of_effects"
+        ],
+        "properties": {
+          "bridge_torsion": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "An_sigma_Ph",
+              "An_sigma_DA",
+              "An_pi_Ph",
+              "An_pi_DA"
+            ],
+            "properties": {
+              "An_sigma_Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_60deg"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_60deg": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "An_sigma_DA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_60deg"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_60deg": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "An_pi_Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_60deg"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_60deg": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "An_pi_DA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_60deg"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_60deg": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "S1_eV",
+                      "T1_eV",
+                      "S1_oscillator_strength",
+                      "S1_state_file",
+                      "T1_state_file",
+                      "nto_CT_singlet",
+                      "nto_CT_triplet",
+                      "CT_definition",
+                      "energy_geometry_reference",
+                      "TTA_margin_eV",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "S1_eV": {
+                        "type": "number"
+                      },
+                      "T1_eV": {
+                        "type": "number"
+                      },
+                      "S1_oscillator_strength": {
+                        "type": "number"
+                      },
+                      "S1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "T1_state_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "nto_CT_singlet": {
+                        "type": "number"
+                      },
+                      "nto_CT_triplet": {
+                        "type": "number"
+                      },
+                      "CT_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "energy_geometry_reference": {
+                        "const": "vertical_at_same_S0_geometry"
+                      },
+                      "TTA_margin_eV": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "adiabatic_states": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "An_sigma_Ph",
+              "An_sigma_DA",
+              "An_pi_Ph",
+              "An_pi_DA"
+            ],
+            "properties": {
+              "An_sigma_Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "ES_RS_hartree",
+                  "ET_RT_hartree",
+                  "S_adiabatic_eV",
+                  "T_adiabatic_eV",
+                  "TTA_adiabatic_margin_eV",
+                  "S_state_validation",
+                  "T_spin_squared",
+                  "geometry_files",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "ES_RS_hartree": {
+                    "type": "number"
+                  },
+                  "ET_RT_hartree": {
+                    "type": "number"
+                  },
+                  "S_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "T_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "TTA_adiabatic_margin_eV": {
+                    "type": "number"
+                  },
+                  "S_state_validation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "T_spin_squared": {
+                    "type": "number"
+                  },
+                  "geometry_files": {
+                    "type": "array",
+                    "minItems": 3,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "An_sigma_DA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "ES_RS_hartree",
+                  "ET_RT_hartree",
+                  "S_adiabatic_eV",
+                  "T_adiabatic_eV",
+                  "TTA_adiabatic_margin_eV",
+                  "S_state_validation",
+                  "T_spin_squared",
+                  "geometry_files",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "ES_RS_hartree": {
+                    "type": "number"
+                  },
+                  "ET_RT_hartree": {
+                    "type": "number"
+                  },
+                  "S_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "T_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "TTA_adiabatic_margin_eV": {
+                    "type": "number"
+                  },
+                  "S_state_validation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "T_spin_squared": {
+                    "type": "number"
+                  },
+                  "geometry_files": {
+                    "type": "array",
+                    "minItems": 3,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "An_pi_Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "ES_RS_hartree",
+                  "ET_RT_hartree",
+                  "S_adiabatic_eV",
+                  "T_adiabatic_eV",
+                  "TTA_adiabatic_margin_eV",
+                  "S_state_validation",
+                  "T_spin_squared",
+                  "geometry_files",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "ES_RS_hartree": {
+                    "type": "number"
+                  },
+                  "ET_RT_hartree": {
+                    "type": "number"
+                  },
+                  "S_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "T_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "TTA_adiabatic_margin_eV": {
+                    "type": "number"
+                  },
+                  "S_state_validation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "T_spin_squared": {
+                    "type": "number"
+                  },
+                  "geometry_files": {
+                    "type": "array",
+                    "minItems": 3,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "An_pi_DA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "ES_RS_hartree",
+                  "ET_RT_hartree",
+                  "S_adiabatic_eV",
+                  "T_adiabatic_eV",
+                  "TTA_adiabatic_margin_eV",
+                  "S_state_validation",
+                  "T_spin_squared",
+                  "geometry_files",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "ES_RS_hartree": {
+                    "type": "number"
+                  },
+                  "ET_RT_hartree": {
+                    "type": "number"
+                  },
+                  "S_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "T_adiabatic_eV": {
+                    "type": "number"
+                  },
+                  "TTA_adiabatic_margin_eV": {
+                    "type": "number"
+                  },
+                  "S_state_validation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "T_spin_squared": {
+                    "type": "number"
+                  },
+                  "geometry_files": {
+                    "type": "array",
+                    "minItems": 3,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "difference_of_effects": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "Ph",
+              "DA"
+            ],
+            "properties": {
+              "Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "delta_bridge_relaxed_eV",
+                  "delta_bridge_matched_eV",
+                  "difference_of_differences_eV",
+                  "observable",
+                  "CT_change_relaxed",
+                  "CT_change_matched",
+                  "composition_limit",
+                  "TTA_compatibility",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "delta_bridge_relaxed_eV": {
+                    "type": "number"
+                  },
+                  "delta_bridge_matched_eV": {
+                    "type": "number"
+                  },
+                  "difference_of_differences_eV": {
+                    "type": "number"
+                  },
+                  "observable": {
+                    "const": "2T1_minus_S1_vertical"
+                  },
+                  "CT_change_relaxed": {
+                    "type": "number"
+                  },
+                  "CT_change_matched": {
+                    "type": "number"
+                  },
+                  "composition_limit": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "TTA_compatibility": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "DA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "delta_bridge_relaxed_eV",
+                  "delta_bridge_matched_eV",
+                  "difference_of_differences_eV",
+                  "observable",
+                  "CT_change_relaxed",
+                  "CT_change_matched",
+                  "composition_limit",
+                  "TTA_compatibility",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "delta_bridge_relaxed_eV": {
+                    "type": "number"
+                  },
+                  "delta_bridge_matched_eV": {
+                    "type": "number"
+                  },
+                  "difference_of_differences_eV": {
+                    "type": "number"
+                  },
+                  "observable": {
+                    "const": "2T1_minus_S1_vertical"
+                  },
+                  "CT_change_relaxed": {
+                    "type": "number"
+                  },
+                  "CT_change_matched": {
+                    "type": "number"
+                  },
+                  "composition_limit": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "TTA_compatibility": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "prediction",
+            "falsifier",
+            "discriminating_panel"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "prediction": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "falsifier": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "discriminating_panel": {
+              "type": "string",
+              "enum": [
+                "bridge_torsion",
+                "adiabatic_states",
+                "difference_of_effects"
+              ]
+            }
+          }
+        }
+      },
+      "sensitivity": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "setting",
+            "baseline_value",
+            "perturbed_value",
+            "unit",
+            "conclusion_changed",
+            "uncertainty_basis",
+            "calculation_ids",
+            "evidence_files"
+          ],
+          "properties": {
+            "setting": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "conclusion_changed": {
+              "type": "boolean"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "calculation_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              }
+            },
+            "evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          }
+        }
+      },
+      "failure_report": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "recovery_condition",
+          "evidence_files"
+        ],
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            }
+          },
+          "recovery_condition": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            },
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "record_type"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "bounded_failure",
+                "blocked"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "const": "not_established"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "calculation_records": {
+              "maxItems": 0
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "resources": {
+              "properties": {
+                "engine_calls": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

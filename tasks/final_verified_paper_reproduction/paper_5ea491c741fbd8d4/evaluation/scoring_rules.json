@@ -1,0 +1,106 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "rules": [
+    {
+      "rule_id": "pr_rule_process_opt",
+      "reference_id": "pr_process_optimization",
+      "type": "semantic",
+      "expected": "Candidate-level optimization and stationary-point validation are documented for the explicitly defined molecule, with an independently justified method and declared coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.justification",
+          "$.conformer_search",
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success."
+      }
+    },
+    {
+      "rule_id": "pr_rule_process_orb",
+      "reference_id": "pr_process_orbitals",
+      "type": "semantic",
+      "expected": "Orbital values are tied to the selected candidate, the gap arithmetic is checked, and sensitivity is reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_candidate_id",
+          "$.arithmetic_check_eV",
+          "$.sensitivity_assessment"
+        ],
+        "comparison": "expert semantic comparison Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success."
+      }
+    },
+    {
+      "rule_id": "pr_rule_gap",
+      "reference_id": "pr_result_gap",
+      "type": "numeric",
+      "target": 3.6191,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.gap_eV"
+        ],
+        "comparison": "absolute difference Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success."
+      }
+    },
+    {
+      "rule_id": "pr_rule_homo",
+      "reference_id": "pr_result_orbitals",
+      "type": "numeric",
+      "target": -6.3362,
+      "unit": "eV",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.homo_eV"
+        ],
+        "comparison": "absolute difference Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success."
+      }
+    },
+    {
+      "rule_id": "pr_rule_lumo",
+      "reference_id": "pr_result_orbitals",
+      "type": "numeric",
+      "target": -2.7171,
+      "unit": "eV",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.lumo_eV"
+        ],
+        "comparison": "absolute difference Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success."
+      }
+    },
+    {
+      "rule_id": "pr_rule_final",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "The selected low-energy M3 minimum is validated and yields the source-comparable HOMO, LUMO and frontier gap. Candidate identity and the selected-structure evidence must be internally consistent. Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success."
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

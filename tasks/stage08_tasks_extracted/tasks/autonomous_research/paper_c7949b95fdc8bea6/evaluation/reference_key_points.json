@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_c7949b95fdc8bea6",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_system",
+      "key_point_type": "process",
+      "statement": "The investigation uses the supplied periodic Si/Li system with preserved composition, charge states and explicit endpoint mapping.",
+      "expected_result": "System identity, atom count and endpoint mapping are explicitly verified.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000067_2fc7fd89c941",
+        "ev_doc_474f0d99b606_000026_8e0b2bb40d0a"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system"
+        ]
+      },
+      "expected": "System identity, atom count and endpoint mapping are explicitly verified."
+    },
+    {
+      "key_point_id": "kp_ar_process_search",
+      "key_point_type": "process",
+      "statement": "The agent explores and documents candidate continuous paths, validates the selected path, and reports a defensible stopping rule.",
+      "expected_result": "Candidate count, path identity, continuity, saddle validation, sensitivity and stopping are all documented.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000067_2fc7fd89c941",
+        "ev_doc_474f0d99b606_000011_7651d6b86012"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.path_validation",
+          "$.method"
+        ]
+      },
+      "expected": "Candidate count, path identity, continuity, saddle validation, sensitivity and stopping are all documented."
+    },
+    {
+      "key_point_id": "kp_ar_result_barrier",
+      "key_point_type": "result",
+      "statement": "The charge-state comparison tests whether an excess electron changes the bulk Li migration barrier, with the direction and uncertainty reported.",
+      "expected_result": "Both charge states are compared when complete, or bounded failure is explicit; the conclusion does not exceed the computed evidence.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000104_a1ac4b4885f2",
+        "ev_doc_42d5442bda71_000108_dfcafb1d8e03"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.conclusion"
+        ]
+      },
+      "expected": "Both charge states are compared when complete, or bounded failure is explicit; the conclusion does not exceed the computed evidence."
+    },
+    {
+      "key_point_id": "kp_ar_result_scope",
+      "key_point_type": "result",
+      "statement": "Any electronic mechanism claim is supported by an explicit computed observable and kept within the dilute periodic bulk model.",
+      "expected_result": "Conclusion and limitations distinguish computed evidence from unsupported generalization.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000012_1799fb255a6d",
+        "ev_doc_42d5442bda71_000108_dfcafb1d8e03"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ]
+      },
+      "expected": "Conclusion and limitations distinguish computed evidence from unsupported generalization."
+    }
+  ]
+}

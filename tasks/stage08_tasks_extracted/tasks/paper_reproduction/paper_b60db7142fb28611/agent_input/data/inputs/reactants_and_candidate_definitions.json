@@ -1,0 +1,16 @@
+{
+  "system": "CuAAC regioisomer benchmark reactants",
+  "charge": 0,
+  "multiplicity": 1,
+  "reactants": [
+    {"id":"alkyne_2","name":"4-(prop-2-yn-1-yloxy)benzaldehyde","smiles":"C#CCOc1ccc(C=O)cc1","atom_map_note":"retain this atom identity through all derived structures"},
+    {"id":"azide_3","name":"3-azido-1H-1,2,4-triazole","smiles":"c1nnc([N-]=[N+]=N)n1","atom_map_note":"retain this atom identity; the depicted tautomer/proton placement is the public starting state"}
+  ],
+  "candidate_definitions": [
+    {"id":"Pdt1","bond_edits":"form the 1,4-regioisomeric triazole connectivity with the alkyne terminal carbon bonded to azide terminal N; preserve all reactant atom identities"},
+    {"id":"Pdt2","bond_edits":"form the 1,5-regioisomeric triazole connectivity with the alkyne terminal carbon bonded to the opposite azide terminal N; preserve all reactant atom identities"},
+    {"id":"Pdt3","bond_edits":"form the alternative 1,4 connectivity obtained by reversing which alkyne carbon bonds to the azide-derived ring atom; preserve all reactant atom identities"},
+    {"id":"Pdt4","bond_edits":"form the alternative 1,5 connectivity obtained by reversing which alkyne carbon bonds to the azide-derived ring atom; preserve all reactant atom identities"}
+  ],
+  "boundary":"No copper, solvent, counterion, product geometry, transition-state geometry, reference value, ranking, or paper protocol is supplied. The four labels are immutable candidate identities, not expected outcomes."
+}

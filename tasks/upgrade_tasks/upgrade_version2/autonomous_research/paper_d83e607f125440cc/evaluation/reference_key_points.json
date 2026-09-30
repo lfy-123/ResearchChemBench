@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "items": [
+    {
+      "key_point_id": "kp_chemical_accounting",
+      "statement": "Chemically valid representations of the compared benzyl-alcohol systems and any selected transformations.",
+      "expected": "Check neutral identity against supplied SMILES and every modeled species against actual inputs/outputs; verify formula, mapped atoms, charge, electron/spin accounting and environment. If a transformation is used, independently balance all components and references. An SMe/OMe label mismatch or substituent loss invalidates dependent differences. Full credit needs the identity validity necessary to the submitted explanation, not every state in the V1 route.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_molecular_findings",
+      "statement": "Traceable molecular evidence relevant to the observed oxidation contrast.",
+      "expected": "Inspect native scientific outputs and reproducible analyses, recompute reported values and confirm method suitability. Results must distinguish relevant behavior across the chemical comparison actually used. Source BDE/spin numbers or copied old scalar values earn no new evidence credit. If ionization/dissociation is reported, require coherent component energies and definitions; if spin/localization is invoked, require the stated partition and actual mapped data. Equally relevant valid observables may earn the same credit without these particular calculations.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_explanatory_discrimination",
+      "statement": "Evidence that establishes the reach or failure of the proposed molecular explanation.",
+      "expected": "Judge whether the chosen comparison can challenge the explanation rather than merely restate the SMe observation. Require actual evidence connecting any cause claimed to the oxidation contrast and addressing material confounding for that claim. An electronic descriptor correlation is not a proved rate-controlling step. Supported rejection, competing interpretations or demonstrated insufficiency can earn full credit when evidentially decisive. Do not require two hypotheses, SMe/OMe solvent controls or a designated heldout compound.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_reliability_and_limits",
+      "statement": "Validity and uncertainty sufficient for the magnitude and interpretation claimed.",
+      "expected": "Check stationarity/curvature only where minima are claimed, spin consistency where open-shell species are used, and comparable references where phases or states differ. Require a justified treatment or bound of the dominant uncertainty for the actual explanation, backed by calculations/analyses where necessary. Electronic continuum differences cannot be mislabeled solution free energies. Appropriate analytical bounds or evidence-based restricted claims are accepted; no fixed solvent, functional, conformer count or test matrix is required.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "development_status": "blocked",
+  "primary": "All symmetry-inequivalent intact molecular pairs for which at least one intermolecular atom pair meets d_ij <= rvdW_i+rvdW_j+0.5 angstrom, using a named fixed radius table. This is a benchmark selection convention, not a calibrated tolerance.",
+  "robustness": "Repeat the same rule with +1.0 angstrom; expand lattice translations until the selected set stops changing. Retain nearest-image mapping and equivalent-pair multiplicity. Compare ranking on common pairs and identify newly included pairs.",
+  "geometry": "Hold heavy atoms at the authenticated experimental coordinates. Choose a common hydrogen normalization and record its source. Repeating one decisive pair under a defensible alternate H treatment or basis/BSSE setting supplies quantitative robustness.",
+  "surface": "Use a documented Hirshfeld/promolecular stockholder surface and reproducible density/mesh/radius conventions. Partition surface by neighboring molecule AND atom-contact type. Converge surface area; normalized counts of close atom pairs are NOT Hirshfeld area. Do not allocate an entire dimer energy to one contact atom type.",
+  "energy": "Eint_raw = E_AB - E_A(R_A, own basis) - E_B(R_B, own basis); Eint_CP = E_AB - E_A(R_A, AB ghost basis) - E_B(R_B, AB ghost basis). Same crystal geometry, charge/spin and method. No deformation, thermal or free-molecule relaxation contribution.",
+  "optional": [
+    "SAPT or other energy decomposition",
+    "isolated frontier orbitals",
+    "gas-phase dimer relaxation",
+    "docking or biological endpoints (outside scored scope)"
+  ]
+}

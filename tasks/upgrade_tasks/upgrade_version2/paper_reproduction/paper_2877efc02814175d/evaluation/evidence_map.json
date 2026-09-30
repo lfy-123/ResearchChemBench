@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_2877efc02814175d/documents/supplementary_001.pdf",
+          "sha256": "9244bf34a4da6ee7f3829c7eb75798289030a65fc3cf8107e6f8026a90edf45f",
+          "locator": "Recovered user-supplied main PDF (10 pages; source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf), p2 computational section and pp7-8 Figs8-10; SI pp11-13 TablesS1-S3 and p18 TableS8 directly checked. The default papers/main.pdf has no readable body and is not the evidence source. Experimental sensing is DMSO/water9:1, distinct from the bounded DMSO electronic calculation.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "恢复正文来自 docs/verification/group_2/.../user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf，p7明确DMSO计算和金属基组；SI pp11–13给电荷/自旋坐标。默认papers/main.pdf无可读正文。",
+          "actual_read_pages_and_sections": "Recovered main pp2–5,7–8; Fig1 absorption, Fig2 metal additions, Figs4–5 emission context; SI pp11–13 state/identity tables and p18 TableS8."
+        },
+        {
+          "path": "docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf",
+          "sha256": "3ed031e94536c075f14d4aaec6fced89d457235c3202c1bc2eb8c7a236ee2d39",
+          "locator": "Recovered main PDF pp2,7-8 computational methods, structures and electronic analysis",
+          "role": "recovered_readable_primary_source",
+          "material_type": "main_article",
+          "review_locator": "恢复正文来自 docs/verification/group_2/.../user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf，p7明确DMSO计算和金属基组；SI pp11–13给电荷/自旋坐标。默认papers/main.pdf无可读正文。",
+          "actual_read_pages_and_sections": "Recovered main pp2–5,7–8; Fig1 absorption, Fig2 metal additions, Figs4–5 emission context; SI pp11–13 state/identity tables and p18 TableS8."
+        }
+      ],
+      "description": "The recovered source article describes DQCS spectral responses to Cd(II), Co(II) and Ni(II) and molecular electronic calculations. The task bounds the investigation to the molecular electronic/optical account and its relationship to those observations. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "三个旧金属极小点复核、游离/去金属TD密度和Cd fullTD可用；Co/Ni全态、ECP分区与方法匹配仍待补。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "How does association with Cd(II), Co(II) or Ni(II) affect the molecular electronic and optical behavior of DQCS, and what explanation is supported? Determine what the chosen molecular models can establish about the supplied spectral observations and what remains unassigned. Identify physical states and observables rather than equating root numbers or frontier gaps. Validate the submitted model and electronic description to the extent required by its claims, including relevant spin and medium assumptions. Electronic hardness/softness derived from the same orbital gap are algebraically related, not independent confirmation of a mechanism."
+    }
+  ]
+}

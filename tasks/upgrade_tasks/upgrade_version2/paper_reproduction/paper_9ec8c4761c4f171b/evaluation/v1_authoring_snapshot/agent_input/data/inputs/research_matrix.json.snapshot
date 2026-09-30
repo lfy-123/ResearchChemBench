@@ -1,0 +1,807 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "scope": "Test whether CF3 substitution and aryl extension explain optical shifts within the correctly matched N-phenyl pyrazolones7a/8a/5g, and discriminate fixed-species solvent effects from 7a tautomer/configuration redistribution using TD absorption and independent NMR/IR diagnostics.",
+  "species": [
+    {
+      "id": "7a_ZHK",
+      "mapped_smiles": "[O:1]=[C:2]1/[C:3](=[N:4]\\[NH:5][c:6]2[cH:7][cH:8][c:9](-[c:10]3[cH:11][cH:12][cH:13][cH:14][cH:15]3)[cH:16][cH:17]2)[C:18]([C:19]([F:20])([F:21])[F:22])=[N:23][N:24]1[c:25]1[cH:26][cH:27][cH:28][cH:29][cH:30]1",
+      "formula": "C22H15F3N4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "7a_EHK",
+      "mapped_smiles": "[O:1]=[C:2]1/[C:3](=[N:4]/[NH:5][c:6]2[cH:7][cH:8][c:9](-[c:10]3[cH:11][cH:12][cH:13][cH:14][cH:15]3)[cH:16][cH:17]2)[C:18]([C:19]([F:20])([F:21])[F:22])=[N:23][N:24]1[c:25]1[cH:26][cH:27][cH:28][cH:29][cH:30]1",
+      "formula": "C22H15F3N4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "8a_ZHK",
+      "mapped_smiles": "[CH3:1][C:2]1=[N:3][N:4]([c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[C:11](=[O:12])/[C:13]1=[N:14]\\[NH:15][c:16]1[cH:17][cH:18][c:19](-[c:20]2[cH:21][cH:22][cH:23][cH:24][cH:25]2)[cH:26][cH:27]1",
+      "formula": "C22H18N4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "5g_ZHK",
+      "mapped_smiles": "[O:1]=[C:2]1/[C:3](=[N:4]\\[NH:5][c:6]2[cH:7][cH:8][cH:9][cH:10][cH:11]2)[C:12]([C:13]([F:14])([F:15])[F:16])=[N:17][N:18]1[c:19]1[cH:20][cH:21][cH:22][cH:23][cH:24]1",
+      "formula": "C16H11F3N4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "7a_AE",
+      "mapped_smiles": "[OH:1][c:2]1[c:3](/[N:4]=[N:5]/[c:6]2[cH:7][cH:8][c:9](-[c:10]3[cH:11][cH:12][cH:13][cH:14][cH:15]3)[cH:16][cH:17]2)[c:18]([C:19]([F:20])([F:21])[F:22])[n:23][n:24]1-[c:25]1[cH:26][cH:27][cH:28][cH:29][cH:30]1",
+      "formula": "C22H15F3N4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "7a_AK",
+      "mapped_smiles": "[O:1]=[C:2]1[N:3]([c:4]2[cH:5][cH:6][cH:7][cH:8][cH:9]2)[N:10]=[C:11]([C:12]([F:13])([F:14])[F:15])[CH:16]1/[N:17]=[N:18]/[c:19]1[cH:20][cH:21][c:22](-[c:23]2[cH:24][cH:25][cH:26][cH:27][cH:28]2)[cH:29][cH:30]1",
+      "formula": "C22H15F3N4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "paired_maps": [
+      {
+        "from": "7a_ZHK",
+        "to": "8a_ZHK",
+        "atom_map_pairs": [
+          [
+            19,
+            1
+          ],
+          [
+            18,
+            2
+          ],
+          [
+            23,
+            3
+          ],
+          [
+            24,
+            4
+          ],
+          [
+            2,
+            11
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            4,
+            14
+          ],
+          [
+            5,
+            15
+          ],
+          [
+            6,
+            16
+          ],
+          [
+            7,
+            17
+          ],
+          [
+            8,
+            18
+          ],
+          [
+            9,
+            19
+          ],
+          [
+            16,
+            26
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            10,
+            20
+          ],
+          [
+            11,
+            21
+          ],
+          [
+            12,
+            22
+          ],
+          [
+            13,
+            23
+          ],
+          [
+            14,
+            24
+          ],
+          [
+            15,
+            25
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            25,
+            5
+          ],
+          [
+            26,
+            6
+          ],
+          [
+            27,
+            7
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            29,
+            9
+          ],
+          [
+            30,
+            10
+          ]
+        ],
+        "meaning": "Deterministic common heavy-atom correspondence; symmetry-equivalent alternatives are allowed if explicitly mapped. Unmatched atoms are the intervention. Match uses element/ring topology, not a claim of unchanged bond orders.",
+        "search_timed_out": false
+      },
+      {
+        "from": "5g_ZHK",
+        "to": "7a_ZHK",
+        "atom_map_pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            6,
+            6
+          ],
+          [
+            7,
+            7
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            9,
+            9
+          ],
+          [
+            10,
+            16
+          ],
+          [
+            11,
+            17
+          ],
+          [
+            12,
+            18
+          ],
+          [
+            17,
+            23
+          ],
+          [
+            18,
+            24
+          ],
+          [
+            19,
+            25
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            21,
+            27
+          ],
+          [
+            22,
+            28
+          ],
+          [
+            23,
+            29
+          ],
+          [
+            24,
+            30
+          ],
+          [
+            13,
+            19
+          ],
+          [
+            14,
+            20
+          ],
+          [
+            15,
+            21
+          ],
+          [
+            16,
+            22
+          ]
+        ],
+        "meaning": "Deterministic common heavy-atom correspondence; symmetry-equivalent alternatives are allowed if explicitly mapped. Unmatched atoms are the intervention. Match uses element/ring topology, not a claim of unchanged bond orders.",
+        "search_timed_out": false
+      }
+    ],
+    "tautomer_graphs": "ZHK/EHK retain carbonyl and hydrazone NH but invert exocyclic C=N relative orientation (carbonyl-side C and hydrazone terminal N are the stereo reference atoms). AE transfers that H to carbonyl O with ring aromatization and azo N=N. AK transfers that H to ring C4 with azo N=N. The supplied exact graphs conserve C22H15F3N4O for all7a forms. Include symmetry-equivalent C4 AK configurations as equal achiral-environment subcases, not different chemical formulas.",
+    "H_mapping": "Use explicit_tautomer_atom_pairs_from_ZHK and mobile_H_and_NMR_maps. One tracked hydrogen900 moves N5→O1 or corresponding C4 in the mapped graphs. Other hydrogens remain attached to their corresponding heavy atoms; no change of total formula/charge is allowed.",
+    "primary_spectral_matrix": "7a_ZHK,8a_ZHK,5g_ZHK in CHCl3 andDMF; 7a_ZHK/EHK/AE/AK in the same two media. Separate same-tautomer solvent shift and population-weighted shift.",
+    "NMR_IR": "For all four7a forms calculate the homologous ring carbon13C (carbonyl C inHK/AK; C–OH inAE) and mobile-proton shielding/shift in CHCl3 andDMSO continua (experimental media CDCl3/DMSO-d6; isotope shifts not assumed modeled), with one common shielding reference. Calculate carbonyl andNH/OH mode assignments; solid IR is contextual and not quantitatively identical to isolated solution harmonic IR.",
+    "experimental_resolution": "Use the experimental main-table absorption maxima below; NMR chemical-shift ranges and solid IR ranges are cross-observable functional-group constraints, not invented per-tautomer measured spectra.",
+    "explicit_tautomer_atom_pairs_from_ZHK": {
+      "7a_ZHK": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          14,
+          14
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          19
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          21,
+          21
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          26,
+          26
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          29,
+          29
+        ],
+        [
+          30,
+          30
+        ]
+      ],
+      "7a_EHK": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          14,
+          14
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          19
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          21,
+          21
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          26,
+          26
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          29,
+          29
+        ],
+        [
+          30,
+          30
+        ]
+      ],
+      "7a_AE": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          14,
+          14
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          19
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          21,
+          21
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          26,
+          26
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          29,
+          29
+        ],
+        [
+          30,
+          30
+        ]
+      ],
+      "7a_AK": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          16
+        ],
+        [
+          4,
+          17
+        ],
+        [
+          5,
+          18
+        ],
+        [
+          6,
+          19
+        ],
+        [
+          7,
+          20
+        ],
+        [
+          8,
+          21
+        ],
+        [
+          9,
+          22
+        ],
+        [
+          10,
+          23
+        ],
+        [
+          11,
+          24
+        ],
+        [
+          12,
+          25
+        ],
+        [
+          13,
+          26
+        ],
+        [
+          14,
+          27
+        ],
+        [
+          15,
+          28
+        ],
+        [
+          16,
+          29
+        ],
+        [
+          17,
+          30
+        ],
+        [
+          18,
+          11
+        ],
+        [
+          19,
+          12
+        ],
+        [
+          20,
+          13
+        ],
+        [
+          21,
+          14
+        ],
+        [
+          22,
+          15
+        ],
+        [
+          23,
+          10
+        ],
+        [
+          24,
+          3
+        ],
+        [
+          25,
+          4
+        ],
+        [
+          26,
+          5
+        ],
+        [
+          27,
+          6
+        ],
+        [
+          28,
+          7
+        ],
+        [
+          29,
+          8
+        ],
+        [
+          30,
+          9
+        ]
+      ]
+    },
+    "mobile_H_and_NMR_maps": {
+      "7a_ZHK": {
+        "mobile_H_map": 900,
+        "parent_heavy_atom_map": 5,
+        "diagnostic_ring_C_map": 2
+      },
+      "7a_EHK": {
+        "mobile_H_map": 900,
+        "parent_heavy_atom_map": 5,
+        "diagnostic_ring_C_map": 2
+      },
+      "7a_AE": {
+        "mobile_H_map": 900,
+        "parent_heavy_atom_map": 1,
+        "diagnostic_ring_C_map": 2
+      },
+      "7a_AK": {
+        "mobile_H_map": 900,
+        "parent_heavy_atom_map": 16,
+        "diagnostic_ring_C_map": 2
+      }
+    }
+  },
+  "source_notes": [
+    "Main pp4–7 structures, tautomer scheme, media and correct pair definitions; Table2 long-wavelength absorption data.",
+    "SI pp70–74 state/tautomer spectra; pp82–88 coordinates inspected privately; later7a spectra provide chemical diagnostics."
+  ],
+  "molecular_boundary": "Use 7a/8a for CF3→Me and5g/7a for phenyl→biphenyl hydrazone substitution, keeping ring N–Ph. 5f/6a is a different NH series and is excluded. All molecular models are neutral singlets. CHCl3/DMF absorption is distinct from CDCl3/DMSO-d6 NMR; no antimicrobial inference is requested. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Explicit solvent is optional only when justified by continuum residuals; cellular and antimicrobial extrapolation is outside scope."
+}

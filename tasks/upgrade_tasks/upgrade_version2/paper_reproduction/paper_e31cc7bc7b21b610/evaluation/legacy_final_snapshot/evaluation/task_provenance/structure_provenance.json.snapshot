@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "mode": "paper_reproduction",
+  "revision": "cis-beta-complete-si-element-labels-v2",
+  "element_label_correction_20260914": {
+    "source": "SI S26-S27 complete 58-row atomic-number/coordinate table",
+    "rows_1based": {"8": "C -> O", "9": "O -> C", "11": "C -> O", "12": "O -> C"},
+    "coordinates_and_atom_order_changed": false,
+    "previous_58atom_sha256": "74d52a12268caec03726191ca9820ec17fc440b82bee1754a77195d1e1ec74fd",
+    "reason": "Earlier restoration fixed missing hydrogens but retained four incorrect element labels. Same formula alone did not establish correct molecular identity."
+  },
+  "source": {
+    "type": "paper_si_cartesian_table",
+    "description": "The original task package stopped after the first 46 cis-beta rows. The complete SI table contains twelve additional hydrogen rows (rows 47-58), restored without changing the existing coordinates or atom order.",
+    "source_document": "10.1039/d5dt02509e Supplementary Information, Cartesian geometry S26",
+    "source_access": "verification-side temporary extraction; task package records the repair explicitly"
+  },
+  "original_file": {
+    "path": "docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/task_revision_originals/paper_reproduction/agent_input/data/inputs/cis_beta_egan_IrCl.xyz.46atom.pre_repair",
+    "atom_count": 46,
+    "sha256": "6725fa542036f14f9fda9162a2852e3af5b676b6940b025895beb01d78aa37e4"
+  },
+  "repaired_file": {
+    "path": "data/inputs/cis_beta_egan_IrCl.xyz",
+    "atom_count": 58,
+    "sha256": "39cb668ef1dc09f3fb83be68d7403874ce5cdd67d85d95a7874562c5190a5f9a"
+  },
+  "restored_rows": [
+    "H -2.494114 2.419742 2.194331",
+    "H 0.115562 5.811718 1.757461",
+    "H 1.478279 1.813902 2.319156",
+    "H 0.906426 1.491274 4.712716",
+    "H 0.241206 -0.768295 5.536965",
+    "H 0.174769 -2.676909 3.952271",
+    "H -3.676292 2.329494 0.307296",
+    "H -5.922317 1.367550 0.290171",
+    "H -6.246825 -1.088076 -0.075298",
+    "H -4.268748 -2.507237 -0.494538",
+    "H -0.226313 -3.710965 -1.302758",
+    "H -1.485705 -4.976394 -1.210043"
+  ],
+  "scientific_boundary": "This is a public-input repair, not a calculated answer. The agent must still choose and execute the electronic-structure route and validate both minima."
+}

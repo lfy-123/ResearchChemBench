@@ -1,0 +1,501 @@
+{
+  "batch": 5,
+  "handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "supervisor_thread_id": "01a0e2da-982a-7b32-bcc1-744840298ce5",
+  "development_worker_thread_id": "01a0e27f-4c62-7241-b1ba-47af9c7e733e",
+  "stop_modifying": true,
+  "scientific_engine_starts": 0,
+  "development_only": true,
+  "counts": {
+    "papers": 15,
+    "packages": 30,
+    "implemented_pending_expanded_reference": 14,
+    "blocked": 1
+  },
+  "report_sha256": "9c67b292fb22f5a0a22e518c245767efd69e3d595fe67103300f3cb4351d040c",
+  "manifest_sha256": "50ec4e250e6e1753526db88a772868cc361c5db0774130791f7799f02978f91d",
+  "check_report_sha256": {
+    "validation_report.json": "d6ad5c2a5e4d8614601386bf41349dea86bd1cdeb95e215b6d69c0cdf1f8ef39",
+    "identity_validation_report.json": "0d753e828345dc5bfa33baa0666c5adb2be5beb38fb785254378b1e0c49142d3",
+    "handoff_integrity_report.json": "e245f9219803d202409b02a149cb0aab2264457fa8a976f1b7de24c65a29f3cc"
+  },
+  "papers": [
+    {
+      "paper_id": "paper_0cd74ae20ab933f3",
+      "handoff_id": "batch5-20260927-paper_0cd74ae20ab933f3",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_0cd74ae20ab933f3",
+          "package_content_sha256": "a629d126584c9f1c87af819b854d94c90e96199a6d6690dbcb2d382479d9ebdf",
+          "manifest_file_sha256": "e84c7a8d9b958f208ed0b34cb846cedb002e177c91ad75b2e16464956c9a3f14",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_0cd74ae20ab933f3",
+          "package_content_sha256": "660462b028ca913c75bcf16c04c698da6f969f2444c085b72d87f7ed668e459e",
+          "manifest_file_sha256": "b17747d987ca0e93563d5bd2cb4a7e8aa797458c38ac4f5d72461f9d46ebcdeb",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "Actual common-core and relaxed three-series outputs, high-level calibration and uncertainty remain uncomputed.",
+        "No specific PySCF-forge availability or full-matrix budget is assumed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_0cd74ae20ab933f3/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_0cd74ae20ab933f3/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_2c439196c2f349c9",
+      "handoff_id": "batch5-20260927-paper_2c439196c2f349c9",
+      "status": "blocked",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_2c439196c2f349c9",
+          "package_content_sha256": "9cc5fbbe37e12ffda282791b4093505baf8a70730bc848ffbe8bd5836519363c",
+          "manifest_file_sha256": "17dab60bac91234113f5e36ede9935b8398ce68a7d75b8cead5d3c13d8c77345",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_2c439196c2f349c9",
+          "package_content_sha256": "cfd2b40cd586b800ead7ccce64f88130a974278d98322ed5e7c11179810e0758",
+          "manifest_file_sha256": "e989ead90fa4b8d876800a43a0a914690ec01383a866dc4721a8d0655627d9c2",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "Figure 10 now has 27 traceable discrete temporal marker rows with pixel-reading bounds. Independent power/intensity and Z-scan measurement rows from the remaining figures, with defensible experimental/digitization errors, remain missing. Fitted curves and fitted time constants are not independent observations.",
+        "The available source text does not establish a complete calibrated SSPM beam-waist, instrument-response and thermal-parameter dataset. Obtain measurement/plot digitization with bounded parameter provenance before completing model discrimination.",
+        "Complete power/Z-scan measured rows and traceable SSPM beam, instrument-response, measurement-noise and thermal bounds remain needed; 27 temporal markers alone do not resolve identifiability.",
+        "No fitted expanded reference, residual distribution or noise-based tolerance has been computed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_2c439196c2f349c9/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_2c439196c2f349c9/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_3316e45a74258fb7",
+      "handoff_id": "batch5-20260927-paper_3316e45a74258fb7",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_3316e45a74258fb7",
+          "package_content_sha256": "2fc5cd8c6f6f32e662e5d85dd68224dbacc6b53e7bfbeaed3de64f858e340e30",
+          "manifest_file_sha256": "2fbf4bb919eca7b22948186e0622307e0a4ddbe7c7f9c51a24bd8295051b32c1",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_3316e45a74258fb7",
+          "package_content_sha256": "15268fc3136bf8ee3bd5d123239336ce840842ca55edcf8d035e4f506c228918",
+          "manifest_file_sha256": "c73d615d60b2a02be31d9348415f2f9b810dcfe47cff4e23d14701f00917298e",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "No new fixed-torsion, conformer, SOC or adiabatic reference matrix has been calculated.",
+        "Resolve basis shorthand explicitly and calibrate CT-state/method uncertainty."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_3316e45a74258fb7/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_3316e45a74258fb7/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_3d1d9b7f6df049da",
+      "handoff_id": "batch5-20260927-paper_3d1d9b7f6df049da",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_3d1d9b7f6df049da",
+          "package_content_sha256": "efcdd11a7d85567ace2cfa6756831d014284814419ce7d2812db84437a454627",
+          "manifest_file_sha256": "859d11c2c67c984fa03bb856e69c82537765ef86471795d16e8cc92dc49a95bc",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_3d1d9b7f6df049da",
+          "package_content_sha256": "1d427ca9f0fff53733e9f4b4be8bdca754445c16f054483ed44c061bac0cf836",
+          "manifest_file_sha256": "df1b4422ad713dcf3d1783d96aa778768fb95eb79a9035b6426807b18d80d57c",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "No new mode projection matrix, negative-control derivatives or frame/step uncertainty reference has been run."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_3d1d9b7f6df049da/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_3d1d9b7f6df049da/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "handoff_id": "batch5-20260927-paper_72822e4ddb5d9b11",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_72822e4ddb5d9b11",
+          "package_content_sha256": "9ebeae83153575894bfa9c077afa44e9c073988d6b0929ff91eac75e22dd4b1c",
+          "manifest_file_sha256": "df13e469a0a01212b3b74bc4e45044a0e7973f5b24790a92d95c3aa565b8c761",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_72822e4ddb5d9b11",
+          "package_content_sha256": "bb3e2a9353f12c5070a30baa400a6f85c560e2011bb315f0e1db82cc7da99065",
+          "manifest_file_sha256": "8459d81360a9b748c0d644051cf8e30bcec2a5dc175fc14763df3bad0c7719db",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "New BS starts, stability/occupation evidence, BP86/B3LYP matched controls and their uncertainty remain uncomputed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_72822e4ddb5d9b11/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_72822e4ddb5d9b11/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_80441aced6051d86",
+      "handoff_id": "batch5-20260927-paper_80441aced6051d86",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_80441aced6051d86",
+          "package_content_sha256": "55411cb85009512c8beeb794f0acf5eff9c7c2278169c9473f969d6da3bc9c66",
+          "manifest_file_sha256": "32b4c76d914b147884f174e55e02260508889c368bd23409be6ed9dc55e33b64",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_80441aced6051d86",
+          "package_content_sha256": "e1564097016d2dcdf8a5d71e821a5950e2e36927b3a56dc2fc05d9c1ae06b6bb",
+          "manifest_file_sha256": "9b7577560073b9e589b0f3e6ec3001989ff516073a3ddd329b5f37034ed9d5a0",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "No new host/partner-deletion reference or placement/spectral uncertainty is computed.",
+        "TD state windows and dark-state identification need calibration for both bound stoichiometries."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_80441aced6051d86/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_80441aced6051d86/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "handoff_id": "batch5-20260927-paper_94b0a8ae694590ea",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_94b0a8ae694590ea",
+          "package_content_sha256": "6b2f3f08ea530f4362fa8e18a7972d9844fff3178770eedc43d038076acd028b",
+          "manifest_file_sha256": "0149b4dffa36ac60a2c565b9f2f828af8843b8918cee00096f568eaae64687fd",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_94b0a8ae694590ea",
+          "package_content_sha256": "a9490afbdb09d90b5b7b8dd92437e7b9fb7c877acbeba0f00d38a94107a598bc",
+          "manifest_file_sha256": "a108e8aa5ed6fb489bd136981093be0fc2ad2629ed2bf9a8e37c14627b7d0c23",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "Adsorption structures, work functions, density analysis and size/convergence reference have not been calculated.",
+        "Source tube chirality distribution is not known; benchmark conclusions remain model-conditional."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_94b0a8ae694590ea/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_94b0a8ae694590ea/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_988bc12ae3768679",
+      "handoff_id": "batch5-20260927-paper_988bc12ae3768679",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_988bc12ae3768679",
+          "package_content_sha256": "839392b0af51fc9f7eea2145edf4b66d1d5f327bd2c537bcc032475737952504",
+          "manifest_file_sha256": "85ac8b12845f8380cbc58ba2c867e54cd4934dd99d79a5dc6c3ded4e8d9c74c2",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_988bc12ae3768679",
+          "package_content_sha256": "eef709edcbcbad8d526e4796249b95afd862ce90838d9c742f43c10bbe8094d8",
+          "manifest_file_sha256": "224985cf0185f6db8c64991378b2e6434bfe6dda23cb62f2a8fec9a3ab7b6b79",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "New candidate energies, collapse checks, joint spectral residuals and balanced proton reference are uncomputed.",
+        "Per-observable calibrated uncertainty and mixture identifiability remain uncomputed; experimental Table S2 assignments are verified."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_988bc12ae3768679/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_988bc12ae3768679/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_a21b91f97ce3c68f",
+      "handoff_id": "batch5-20260927-paper_a21b91f97ce3c68f",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_a21b91f97ce3c68f",
+          "package_content_sha256": "b74a31c5613cfcd16c4a00284b061832eee97b4ea2e28de0bc27ec27d19f1e28",
+          "manifest_file_sha256": "adb8132251d9211ab4a3282dec981794b62bd2d34a298a09b7f1052ed6102f0a",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_a21b91f97ce3c68f",
+          "package_content_sha256": "c0d856037fd7a35b557cb62832876afd998d62e48bd6e0482750ad0f5b925c0e",
+          "manifest_file_sha256": "395937b749b529931e8418cb0ef90dc756fac5d69cff98a6b60bca9ec8cf86ab",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "New constrained J grid and method sensitivity have not been computed; no tolerance is transferred across Hamiltonians.",
+        "The exact coupling basis and orbital metric must be staged and demonstrated by the pilot."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_a21b91f97ce3c68f/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_a21b91f97ce3c68f/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_b5c446c7067dd511",
+      "handoff_id": "batch5-20260927-paper_b5c446c7067dd511",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_b5c446c7067dd511",
+          "package_content_sha256": "313b60bc253fab96fd7097f7f779dd26986993269b8a8181535eed218939c94c",
+          "manifest_file_sha256": "1b6d93f4b206ccf4dbb230524ebca2b53a26e5f7e2eb80c59dec3e8549b7a1ad",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_b5c446c7067dd511",
+          "package_content_sha256": "7a478070564bb7c14626b6ce0177b2e1c54ae86063be15401f816a366d6bcca4",
+          "manifest_file_sha256": "d28a65ad43492039acbdf7c0da4f34c0b6cee41aa0ed8990708aa9b019e4028e",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "Expanded high-state SOC, geometry intervention and state-window/method uncertainty remain uncomputed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_b5c446c7067dd511/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_b5c446c7067dd511/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_c23cfabbd34b087f",
+      "handoff_id": "batch5-20260927-paper_c23cfabbd34b087f",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_c23cfabbd34b087f",
+          "package_content_sha256": "b1b85e8d183c8201ba833ff1f975bdc20681fc9b515c561fbdd42f9ee08e5680",
+          "manifest_file_sha256": "34753831726dcc6e7feab7846d6954fb6ac918641641f2f6bf6d9b54d4a2f3f6",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_c23cfabbd34b087f",
+          "package_content_sha256": "5aea85a45722a8db77daa85ef4f35dbb9e0e4ffea10367dc9a53e79d8d724eb0",
+          "manifest_file_sha256": "afceba048ad9499eb26c849544ca35afaf3eed6157ea6f96d1f4b69b7122f9f6",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "New state minima, common-scaffold interventions and diagnostic-calibrated optical references remain uncomputed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_c23cfabbd34b087f/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_c23cfabbd34b087f/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_d8e5490cd9942f4f",
+      "handoff_id": "batch5-20260927-paper_d8e5490cd9942f4f",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_d8e5490cd9942f4f",
+          "package_content_sha256": "e45ed3142ea20dd1f4b9f1d64684f96da3c5fa66f25a499a8f4da605ef884b88",
+          "manifest_file_sha256": "322cb8ff40745d5a68d5fefe625a446e1b588be203c6ace2cd43695dc1ebf85a",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_d8e5490cd9942f4f",
+          "package_content_sha256": "642fc27b2cf164926ef49d5b7ab278104384927c764c19e1321d20a5ccdd80d1",
+          "manifest_file_sha256": "cb84277564b9feb4053f317ab8b3bdcc3d537131ff5cd81b465dc3ea9e4b88f4",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "Engine input parsing and an actual minimum/frequency pilot with the verified supplied coefficients remain unperformed.",
+        "Expanded metal/hydration minima, thermochemical cycles and uncertainty remain uncomputed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_d8e5490cd9942f4f/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_d8e5490cd9942f4f/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_e0791c047a731974",
+      "handoff_id": "batch5-20260927-paper_e0791c047a731974",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_e0791c047a731974",
+          "package_content_sha256": "8478adf920694a86c816ea553242235f381fc00b09a0b108b5e4091df1cf6d9b",
+          "manifest_file_sha256": "61d8e6f4581eeceb727fb934c634f429b26b4a6c233513a38fcd6ff5e1043ef4",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_e0791c047a731974",
+          "package_content_sha256": "d7ae2a74b879c229c9f09f5cc4e8f913ad4d9e6eaadef4e0c2d7d7ff6c69da73",
+          "manifest_file_sha256": "b6a3b9621b544c7e6012dd16524e502eb94ec60b5e35d3194968b02b01e68ba5",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "New SOC, independent rubrene energetics, geometry intervention and relativistic uncertainty are uncomputed."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_e0791c047a731974/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_e0791c047a731974/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_e31cc7bc7b21b610",
+      "handoff_id": "batch5-20260927-paper_e31cc7bc7b21b610",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_e31cc7bc7b21b610",
+          "package_content_sha256": "17c1b1a3111f22d8d2b348de881f346a5fe05bfc7a8633cc40c531e3e43c8db1",
+          "manifest_file_sha256": "4e0c310a5aca14567a8e24e05a030c19138b4214d2bd8bf05bab1a3e9906a506",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_e31cc7bc7b21b610",
+          "package_content_sha256": "829a1a30c2be0e91e1dbca0d9e55a64f1a6bf4ecfc939e6ccda865db11b913ef",
+          "manifest_file_sha256": "3b3e18b38a2420c6b95ab1315fb1bd4b0f6372427fd9662f3cb3bcf5993f1bb7",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "No full/truncated Egan dimer minimum, fragment decomposition or multi-reference calibration has been computed.",
+        "Source Hap reference is a different truncation and cannot certify this new paired model."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_e31cc7bc7b21b610/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_e31cc7bc7b21b610/evaluation/reference_validation_plan.md"
+      }
+    },
+    {
+      "paper_id": "paper_eda19e7c8edd4b39",
+      "handoff_id": "batch5-20260927-paper_eda19e7c8edd4b39",
+      "status": "implemented_pending_expanded_reference",
+      "package_ready_for_supervisor_review": true,
+      "scientific_validation_passed": false,
+      "stop_modifying": true,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_eda19e7c8edd4b39",
+          "package_content_sha256": "1838bce53b6bc4d906bcc7535f10d760121cfe69a6c4af2da604a1c4d04aa0ba",
+          "manifest_file_sha256": "dc6404f11a9b7e0beb1ba6421c0016cc6454f504794c303dc7c910dcf538ed70",
+          "stop_modifying": true
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_eda19e7c8edd4b39",
+          "package_content_sha256": "e60009455936b8249f51dcad912b3260d29e60099f62098ba29b39237fb5d684",
+          "manifest_file_sha256": "58a73dfc1837a32c203314cfb1f1a6aad72613e2e7fff6eb7eb4761eeb423c28",
+          "stop_modifying": true
+        }
+      ],
+      "unresolved_issues": [
+        "New surface, phase, balanced-cycle and convergence references have not been computed.",
+        "Native model/PAW/basis settings require a demonstrated pilot; source numerical defaults are not inferred from the installed engine."
+      ],
+      "reference_validation_plan": {
+        "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_eda19e7c8edd4b39/evaluation/reference_validation_plan.md",
+        "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_eda19e7c8edd4b39/evaluation/reference_validation_plan.md"
+      }
+    }
+  ]
+}

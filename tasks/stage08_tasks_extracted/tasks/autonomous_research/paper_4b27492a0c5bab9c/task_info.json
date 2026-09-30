@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_4b27492a0c5bab9c",
+  "task_type": "autonomous_research",
+  "title": "Independent computational investigation of diazo 1a anodic oxidation",
+  "category": "computational reaction mechanism",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The reactant is fixed, but locating and validating relevant first-order saddle points and distinguishing N2-loss from N2-retention oxidation requires conformer/pathway exploration and connectivity validation."
+  ],
+  "paper": {
+    "title": "Bromination Functionalization of Diazo Compounds with CBr4 via Convergent Paired Electrolysis",
+    "doi": "10.1021/acs.orglett.5c05051",
+    "journal": "Organic Letters",
+    "publication_date": "2026-01-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained neutral singlet SMILES for diethyl (diazo(phenyl)methyl)phosphonate (1a), the sole starting reactant."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured computational results, validation evidence, candidate identities, energies/barriers, uncertainty and conclusion."
+    }
+  ]
+}

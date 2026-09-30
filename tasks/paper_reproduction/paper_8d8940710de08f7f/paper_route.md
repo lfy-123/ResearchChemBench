@@ -28,3 +28,11 @@ Table S8 reports (Hartree) G(SNaft-V+) = −1275.93267041, G(SNaft-V−) = −12
 ## 6. Limitations and interpretation boundaries
 
 Table S8 is explicitly in vacuo, whereas parts of the article use continuum solvent. Relative energies depend on the chosen electronic-structure model, thermal convention, conformer starting structures, and whether additional low-energy minima are found. The benchmark therefore scores reproducibility against the reported neutral three-state set and requires the agent to state model and convergence choices; it does not treat the paper values as universal thermochemical truth.
+
+## 7. Private source reconciliation (2026-09-16)
+
+The Table S8 caption says in vacuo, but paired single points on all six literal SI coordinates reproduce its absolute electronic energies with CPCM(methanol) to within 4e-8 Hartree; the corresponding vacuum residuals are +0.028645 to +0.031931 Hartree. Together with the CPCM optimization route in main-text Section 2.8, this strongly supports a mislabeled environment in the SI caption. This is a documented computational inference, not an author-issued correction. Both environments and every residual are retained in the private verification record; matching single-point energies does not validate minima or Gibbs corrections. The public task does not impose vacuum or a new solvent constraint.
+
+Connectivity-based signed C-S-N-C evaluation of the literal SNaft-Z source geometry gives -173.021759764 degrees. The former positive-only Z input region excluded the source itself. The same near-trans state identity is now represented by the union [-180,-140] and [140,180], preserving signed outputs and keeping the two V regions separate. No energy target, scoring rule, tolerance, molecular identity or scientific goal was changed.
+
+Evidence and before/after hashes: `runs/hold_verification/group_5/santr_closure_20260916/paper_8d8940710de08f7f/source_review/source_boundary_correction.json`; paired calculations and original geometries are indexed in that run's `report/results.json`. These private verification artifacts must not be supplied to the evaluated agent.

@@ -1,10 +1,10 @@
 # Scientific objective
 
-Determine the S1 fluorescence emission wavelength of the isolated cationic G1 molecule from the supplied 242-atom starting geometry, and test the authors' qualitative hypothesis that the emissive transition is predominantly intramolecular charge transfer within the guest. The measured endpoint is the relaxed-state S1→S0 emission wavelength in nm, together with a defensible electronic-transition assignment.
+Determine the S1 fluorescence emission wavelength of the isolated cationic G1 molecule from the supplied 49-atom starting geometry, and test the authors' qualitative hypothesis that the emissive transition is predominantly intramolecular charge transfer within the guest. The measured endpoint is the relaxed-state S1→S0 emission wavelength in nm, together with a defensible electronic-transition assignment.
 
 # Public inputs and scientific boundaries
 
-The file `data/inputs/G1GS.xyz` is the complete SI Cartesian coordinate block labeled G1GS. It defines one isolated molecular system with 242 atoms; use charge +1 and singlet multiplicity unless a chemically justified alternative is explicitly tested and reported. No cucurbituril host, solvent molecule, experimental spectrum, target wavelength, paper method, or preselected excited-state geometry is provided. You may choose software, electronic-structure model, basis, relativistic treatment, solvation approximation, conformer protocol and state-tracking procedure, but must disclose them. The scored object is the isolated G1 molecule, not a CB[8] complex.
+The file `data/inputs/G1GS.xyz` contains one connected 49-atom C25H21N2O guest component extracted from a larger host–guest starting structure. Only this isolated guest is supplied; its coordinates are a starting geometry, not an isolated excited-state endpoint; use charge +1 and singlet multiplicity unless a chemically justified alternative is explicitly tested and reported. No cucurbituril host, solvent molecule, experimental spectrum, target wavelength, paper method, or preselected excited-state geometry is provided. You may choose software, electronic-structure model, basis, relativistic treatment, solvation approximation, conformer protocol and state-tracking procedure, but must disclose them. The scored object is the isolated G1 molecule, not a CB[8] complex.
 
 # Required scientific validation/investigation
 

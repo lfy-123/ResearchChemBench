@@ -1,0 +1,826 @@
+
+=== PDF PAGE 1 ===
+Structural and computational investigation of the novel isoxazole 
+derivative: Investigation of interactions by X-ray crystallography, DFT, 
+molecular docking
+Neetha S․ a,*
+, Kavitha C․ V․ b, Vinay Kumar D․ C․ a
+, Mamatha G․ R․ c, Manjunath C․ R․ d,  
+Lohith T․ N․ e,*
+, Sagar K․ S․ f
+a Department of Physics, The National Institute of Engineering, Mysuru, Karnataka, 570 008, India
+b Department of Chemistry, Maharani’s Science College for Women (Autonomous), Mysuru, 570005, India
+c Department of Physics, University College of Science, Tumkur University, Tumakuru, Karnataka 572103, India
+d Department of Chemistry, Yuvaraja’s College, Mysuru, Karnataka, 570 005, India
+e Department of Physics, Government First Grade College, Tumakuru, Karnataka 572103, India
+f Department of Chemistry, B.M.S. College of Engineering, Bengaluru, Karnataka 560019, India
+A R T I C L E I N F O
+Keywords:
+Isoxazole derivative
+Crystal Structure
+Hirshfeld Surface
+DFT
+MEP
+Molecular Docking
+A B S T R A C T
+In this study, a novel isoxazole derivative, (E)-4-(4-methoxybenzylidene)-3-methylisoxazol-5(4H)-one (1a) was 
+synthesized and characterized using various spectroscopic analysis methods (1H-NMR, 13C-NMR). Also, the 
+compound 1a was characterized by single-crystal X-ray diffraction, crystallizing in the monoclinic space group 
+P21/c with a= 12.8218(8) Å, b = 6.9144(5) Å, c= 12.7665(8) Å, α= 90◦, β= 111.969(2)◦and γ= 90◦. The 
+structures of 1a, showing that the molecules are associated by C—H⋅⋅⋅O interactions forming a supramolecular 
+network. To understand the molecular basis of this activity, a multi-level density functional theory approach was 
+employed. Compound 1a demonstrated the lowest HOMO-LUMO energy gap (3.6191 eV in gas phase and 3.5454 
+eV in solvent phase), high electronic softness, indicative of efficient charge transfer and reactivity. Additional 
+analyses, including global reactivity descriptors, electrostatic surface potential, and intramolecular interactions 
+that support biological activity. Furthermore, the molecule 1a exhibits a significant affinity with the CDK2 
+protein and a low binding energy of -7.8 kcal/mol, according to the findings of the in silico molecular docking 
+investigation. Therefore, it could be a potential small molecule that looks like a drug to treat proliferative ill­
+nesses like cancer.
+1. Introduction
+Isoxazole derivatives are five-membered heterocyclic compounds 
+containing three carbon atoms, one nitrogen atom, and one oxygen atom 
+positioned adjacent to each other, forming an aromatic ring with the 
+molecular formula C₃H₃NO. The aromatic nature of the isoxazole ring 
+provides high chemical stability and electron delocalization, making it 
+an important structural motif in medicinal and synthetic organic 
+chemistry [1–3]. Isoxazole derivatives have attracted considerable 
+attention due to their broad spectrum of pharmacological activities, 
+including antimicrobial, anti-inflammatory, analgesic, anticancer, anti­
+convulsant, antitubercular, and antiviral properties. Several clinically 
+used drugs, such as leflunomide, incorporate the isoxazole nucleus as a 
+key pharmacophore responsible for biological activity [4,5]. These 
+compounds are also useful in drug design as bioisosteres for amide or 
+phenolic groups and serve as valuable intermediates in organic synthesis 
+and agrochemical development. Due to their structural versatility and 
+biological significance, isoxazole derivatives continue to be extensively 
+explored in modern drug discovery and development [6–8].
+Isoxazole derivatives have emerged as promising inhibitors of human 
+cyclin-dependent kinase 2 (CDK2), a crucial enzyme that regulates cell 
+cycle progression from the G1 to S phase through phosphorylation of key 
+substrates. Aberrant activation or over expression of CDK2 is often 
+associated with uncontrolled cell proliferation and the development of 
+various cancers, making it an attractive target for anticancer drug design 
+[9–12]. The isoxazole nucleus provides an ideal scaffold for designing 
+* Corresponding authors.
+E-mail addresses: neethagowda@gmail.com (N. S․), lohith@uomphysics.net (L. T․ N․). 
+Contents lists available at ScienceDirect
+Journal of Molecular Structure
+journal homepage: www.elsevier.com/locate/molstr
+https://doi.org/10.1016/j.molstruc.2026.145359
+Received 31 October 2025; Received in revised form 10 January 2026; Accepted 12 January 2026  
+Journal of Molecular Structure 1358 (2026) 145359 
+Available online 13 January 2026 
+0022-2860/© 2026 Elsevier B.V. All rights are reserved, including those for text and data mining, AI training, and similar technologies. 
+
+
+=== PDF PAGE 2 ===
+CDK2 inhibitors due to its aromatic and heteroatomic features, which 
+enable strong interactions with the ATP-binding site of the kinase 
+through hydrogen bonding and π–π stacking. Structural modifications at 
+different positions on the isoxazole ring can enhance binding affinity, 
+selectivity, and inhibitory potency. Several studies have reported that 
+isoxazole-based compounds effectively inhibit CDK2 activity, leading to 
+cell cycle arrest and apoptosis in cancer cells. Thus, isoxazole derivatives 
+represent a valuable class of small molecules for the development of 
+novel CDK2-targeted anticancer therapeutics [13–15].
+In this study, we have synthesized isoxazole derivatives of 1a and 
+thoroughly characterized them using LC-MS (Liquid Chromatogra­
+phy–Mass Spectrometry), thermal analysis, 1H and 13C NMR spectros­
+copy, and single-crystal X-ray diffraction (SC-XRD). The main objective 
+of this work is to compare the experimentally obtained structural data 
+from X-ray crystallography with computational analyses, including 
+Hirshfeld surface analysis (HSA) and density functional theory (DFT) 
+[16,17]. The HSA was performed to visualize and quantify the 
+non-covalent interactions governing the crystal packing. Furthermore, 
+DFT calculations at the B3LYP/6-311+G(d,p) level were employed to 
+validate the molecular structure and explore its optical and electronic 
+properties. The chemical reactivity of the compound 1a was also 
+assessed using global reactivity descriptors derived from the HOMO­
+–LUMO energy gap, providing insights into its relative stability and 
+reactivity. In addition, molecular docking studies have been conducted 
+to determine how the studied compound 1a interacted against the 
+human cyclin-dependent kinase 2 (CDK2) to treat proliferative illnesses 
+like cancer [18].
+2. Methods and materials
+All chemicals and solvents were obtained from Sigma-Aldrich and 
+used without additional purification. Reaction was conducted at reflux 
+temperature under magnetic stirring and monitored by thin-layer 
+chromatography (TLC) on 60-F254 precoated silica gel plates (0.25 
+mm thickness), visualized under UV light. The final product was purified 
+through column chromatography on silica gel (70–230 mesh). 1H NMR 
+(Nuclear magnetic resonance) spectrum was recorded on Bruker 400 
+MHz spectrometer. 13C NMR spectrum was acquired at 101 MHz spec­
+trometer using CDCl₃ as the NMR solvent. Chemical shifts (δ) are re­
+ported in parts per million (ppm) relative to tetramethylsilane (TMS), 
+with residual solvent peaks at 7.26 ppm for 1H and 77.16 ppm for 13C as 
+internal standards. Coupling constants (J) are expressed in Hertz (Hz). 
+Mass spectrum (ESI-MS) was recorded using waters micromass QTof 
+micro TM instrument. The C, H, and N analysis were performed using 
+CE-400 CHN analyser. Scheme 1
+2.1. Synthesis
+2.1.1. Synthesis of (E)-4-(4-methoxybenzylidene)-3-methylisoxazol-5 
+(4H)-one (1a)
+Ethyl acetoacetate (1, 0.95 g, 0.93 mL, 7.3 mmol), 4-methoxy 
+benzaldehyde (2, 1 g, 0.89 mL, 7.3 mmol), hydroxylamine hydrochlo­
+ride (3, 0.51 g, 7.3 mmol) and sodium acetate (0.60 g, 7.3 mmol) were 
+taken in 50 mL round-bottom flask containing 25 mL of ethanol. The 
+reaction mixture was subjected to reflux at 120 ̊C in a water bath for 4 to 
+5 hours under a fume hood. After cooling the reaction mixture in an ice 
+bath, the crystalline product was obtained, filtered, washed with cold 
+ethanol, and dried in vacuum. The desired product was isolated in 
+essentially pure form 1a.
+2.1.2. Spectral data
+The yield of compound 1a was 91% (1.45 g, pale yellow colour). 1H 
+NMR (400 MHz, CDCl3): δ 8.43–8.46 (d, 2H, Ar-H), 7.36 (s, 1H, H-vinyl), 
+7.00-7.03 (d, 2H, Ar-H), 3.93 (s, 3H, OCH3), 2.29 (s, 3H, CH3); 13C NMR 
+(100 MHz, CDCl3): 168.7, 164.6, 161.2, 149.2, 149.2, 136.9, 136.9, 
+125.8, 116.3, 114.6, 55.7, 11.6. MS (ESI) m/z: [M + H]+: 218.37; 
+Elemental Analysis: Calculated for C12H11NO3: C, 66.33804; H, 5.0674; 
+N, 6.4495; Found: C, 65.9431; H, 5.0373; N, 6.4111%. (See figures S1 to 
+S4 in supplementary file).
+2.1.3. Crystal growth
+The saturated solution of 1a prepared in different solvent systems 
+like ethyl acetate, dichloromethane, ethanol, chloroform, 1:1 hexane: 
+ethyl acetate, Acetonitrile, methanol and 1:5 hexane: ethyl acetate. 
+Single crystal 1a was grown by the slow evaporation method in 1:5 ethyl 
+acetate: hexane and chloroform solvent systems. The structure of 1a was 
+obtained by single-crystal X-ray diffraction.
+2.2. X-ray crystallography
+A colourless, block-like single crystal of compound 1a, measuring 
+0.10 × 0.285 × 0.298 mm³, was chosen and mounted on a Bruker APEX- 
+II CCD diffractometer using monochromated MoKα radiation (λ =
+0.71073 Å) at room temperature. The data were processed with Bruker 
+SAINT and corrected for absorption using Bruker APEX2. The structure 
+was determined through direct methods with the SHELXS program and 
+refined with SHELXL [19] via full-matrix least squares on F2, employing 
+anisotropic displacement parameters for all non-hydrogen atoms. The 
+hydrogen atoms bound to carbon were placed according to idealized 
+geometry using a riding model (C–H = 0.93 Å, Cmethyl–H = 0.96 Å). 
+These hydrogen atoms were refined with isotropic displacement pa­
+rameters, set to 1.2–1.5 times the Ueq of their parent atoms. The ORTEP 
+diagram of the compound 1a is shown in Fig. 1, and refinement pa­
+rameters are presented in Table 1, while the geometric parameters for 
+hydrogen bonds (Å, ◦) in the crystal structure are listed in Table 1. 
+Selected bond lengths, angles, and torsional angles are provided in table 
+S1, S2 and S3 in supporting information file.
+2.3. Hirshfeld surface and fingerprint analysis
+Hirshfeld surface analysis and fingerprint plots were performed 
+using CrystalExplorer 17.5 [20]. The dnorm surfaces were generated 
+Scheme 1. Synthetic route of the compound 1a.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+2 
+
+
+=== PDF PAGE 3 ===
+with a colour scale ranging from −0.18 a.u. (blue) to 1.4 a.u. (red). 
+Two-dimensional fingerprint plots were produced within an expanded 
+view of 0.6–2.8 Å, with de and di distances represented on the plot axes. 
+Upon importing the CIF files of all compounds into CrystalExplorer, 
+hydrogen bond lengths were automatically adjusted to standard neutron 
+values [21,22].
+2.4. DFT calculations
+In the density functional theory (DFT) study of these wave functions, 
+the structure was optimized using the 6-311+G(d,p) basis set and the 
+B3LYP hybrid functional. The hybrid B3LYP functional was chosen due 
+to its extensive validation for organic and heteroaromatic systems, 
+providing an optimal compromise between computational cost and ac­
+curacy. Prior reports have shown that B3LYP reliably predicts structural 
+parameters, vibrational spectra, and electronic properties of isoxazole 
+derivatives and related bioactive compounds, with results that closely 
+match experimental observations. The 6-311+G(d,p) basis set was 
+applied because it is a polarized split-valence basis incorporating diffuse 
+functions (+) to better describe anionic species and delocalized elec­
+trons, along with polarization functions (d on heavy atoms and p on 
+hydrogen atoms) to enhance the accuracy of bond angles, electronic 
+delocalization, and hydrogen-bonding interactions [23]. Consequently, 
+the B3LYP/6-31+G(d,p) level of theory is widely regarded as a standard 
+approach for small to medium-sized organic molecules, offering a reli­
+able and computationally efficient description of their electronic struc­
+ture. The study of the frontier molecular orbital (FMO), its energy gap, 
+and the dependent global and local indices were calculated using 
+Koopman's approximation [24,25]. The molecular electrostatic poten­
+tial (MEP) map is a very useful descriptor for determining the positions 
+of electrophilic and nucleophilic regions. The MEP color-codes the 
+electrostatic potential zones from red to dark blue (decrease in potential; 
+blue >green >yellow >orange >red), indicating very negative and 
+positive locations. The molecule's possible reactive sites were examined 
+using the molecular electrostatic potential map. All calculations were 
+performed using Gaussian 09 [26], and the results were shown using 
+GaussView 5.0 [27].
+2.5. Molecular docking analysis
+Molecular docking is one such structure-based drug design method 
+that predicts the binding mechanism and affinity between ligands and 
+receptors by modelling molecular interactions [28]. A computer method 
+for drug research called molecular docking predicts the ligand's 
+conformation pose, calculates the most likely binding site, and assesses 
+the binding affinity of organic compounds against protein targets in 
+terms of binding energy [29]. Flexible protein-ligand docking was per­
+formed using the 3D crystal structure of the CDK2 protein (PDB ID: 
+Fig. 1. ORTEP of the compound 1a.
+Table 1 
+Crystal data and structure refinement details of the compound 1a.
+Parameters
+Values
+CCDC No.
+2445596
+Empirical formula
+C12H11NO3
+Formula weight
+217.22
+Temperature
+300
+Wavelength
+0.71073 Å
+Reflns. for cell determination
+24592
+θ range for above
+1.71◦to 28.30◦
+Crystal system
+Monoclinic
+Space group
+P21/c
+Cell dimensions
+a = 12.8218(8) Å
+b = 6.9144(5) Å
+c = 12.7665(8) Å
+α = 90◦
+β = 111.969(2)◦
+γ = 90◦
+Volume
+1049.63(12) Å3
+Z
+4
+Density(calculated)
+1.375 Mg m−3
+Absorption coefficient
+0.100 mm−1
+F000
+456
+Crystal size
+0.10 ⨯ 0.285 ⨯ 0.298 mm
+θ range for data collection
+1.71◦to 28.30◦
+Index ranges
+-16 ≤h ≤17
+-9 ≤k ≤9
+-17 ≤l ≤17
+Reflections collected
+24592
+Independent reflections
+2602 [Rint = 0.050]
+Absorption correction
+Multi-scan
+Refinement method
+full matrix least-squares on F2
+Data / restraints / parameters
+2602 / 0 / 147
+Goodness-of-fit on F2
+1.084
+Final R indices [I > 2 σ(I)]
+R1 = 0.0450, wR2 = 0.1216
+R indices (all data)
+R1 = 0.0747, wR2 = 0.1464
+Largest diff. peak and hole
+0.171; -0.161 e Å−3
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+3 
+
+
+=== PDF PAGE 4 ===
+1B38) from the RCBS PDB library at a resolution of 2.00 Å. Molecular 
+modelling software MGL tools 1.5.6 with Auto DockVina and Auto Dock 
+Tools is used to generate and optimize the crystallographic structures of 
+the CDK2 protein and ligand 1a molecules [30,31]. By eliminating 
+water, co-crystallizing ligands, polar hydrogens, and adding Kollman 
+charges to the energy-minimized protein, the protein and ligand are 
+ready for molecular docking. Additionally, target proteins and com­
+pounds are converted to the PDBQT format. With a default grid box size 
+of 58 × 52 × 56, an energy range of 4, and exhaustiveness of 8, the grid 
+box's center was set to 8.663889 × 35.978444 × 15.026778 in the x, y, 
+and z dimensions, with a grid spacing of 0.453 Å for the protein 8BLB. 
+The most likely ligand binding mechanism was determined by looking at 
+the docking data, and the intensity of the contacts was measured by 
+calculating the binding energy, which was expressed as a negative score 
+in kcal/mol. Version 2.0 of the PyMOL Molecular Graphics System 
+Protein-ligand interactions, a technique for analyzing molecular 
+behaviour on target protein binding, were visualized and assessed using 
+Schrodinger, LLC, and the Biovia Discovery Studio 2019 Client visual­
+izer. This may be used to discover novel drugs [32,33].
+3. Results and discussions
+3.1. Synthesis
+The structure of the synthesized compound is confirmed as (E)-4-(4- 
+methoxybenzylidene)-3-methylisoxazol-5(4H)-one 
+by 
+spectroscopic 
+analysis. The (1H-NMR) spectrum (400 MHz, CDCl3) exhibited five 
+distinct signals consistent with the proposed structure. A δ (chemical 
+shift) value of sharp singlet at 2.29 ppm integrated for three protons, 
+assigned to the methyl group at the C3 position of the isoxazolone ring. 
+The δ value of methoxy protons (-OCH3) appeared as a three-proton 
+singlet is 3.93 ppm. A δ value of characteristic one-proton singlet 
+observed is 7.36 ppm is assigned to the vinylic proton (Hvinyl), which is 
+strongly deshielded due to its vinylic nature and proximity to the iso­
+xazolone ring system. The aromatic region displayed an (A2B2) splitting 
+pattern. The δ value of doublet of two protons was observed in the range 
+7.03-7.00 ppm, assigned to the aromatic protons ortho to the (-OCH3) 
+group, while δ value of another doublet of two protons in the range 8.46- 
+8.43 ppm is attributed to the aromatic protons ortho to the vinylic bond. 
+The 13C-NMR spectrum (100 MHz, CDCl3) showed 12 signals, in 
+agreement with the 12 unique carbon atoms of the molecule. The signal 
+at δ 168.7 ppm is assigned to the lactone carbonyl carbon. The δ value of 
+C-3 carbon of the isoxazolone ring is 164.6 ppm, the δ value of the para- 
+substituted aromatic carbon linked to oxygen is 161.2 ppm and the δ 
+values of two vinylic carbons are 116.3 ppm and 114.6 ppm, respec­
+tively. The δ value of quaternary aromatic carbon is 125.8 ppm. The 
+remaining aromatic carbons resonated at δ 149.2 ppm and δ 136.9 ppm. 
+The aliphatic carbons appeared with the methoxy carbon (-OCH3) at δ 
+55.7 ppm and the methyl carbon at δ 11.6 ppm.
+3.2. X-ray crystallography
+The molecular structure of 1a is shown in Fig. 1 (ORTEP view of 1a). 
+The compound 1a is crystallized in the monoclinic crystal system with 
+the space group P21/c. In the molecule, the 3-methylisoxazol-5(4H)-one 
+ring and methoxyphenyl rings are bridged by CH group, is nearly planar 
+with rmsd of 0.040(1) Å. Structural refinement was performed using 
+2602 independent reflections selected from a total of 24592 measured 
+reflections. All non-hydrogen atoms were refined anisotropically using 
+full-matrix least-squares minimization. The refinement converged with 
+an R-value of 4.50% and a goodness-of-fit (GOF) of 1.084.
+The molecular configuration of 1a is stabilized by both intra and 
+intermolecular interactions. The C6-H6...O3 intramolecular interactions 
+are involved in the formation of S(7) self motifs. In the crystal, the 
+molecules are linked by two major interactions of the type C-H)⋅⋅⋅O. The 
+C8-H8...O3 and C12-H12B⋅⋅⋅O2 intermolecular interactions resulting in 
+the formation of the R2
+2(9) ring motifs in the crystal (Fig. 2). In addition 
+to these interactions, π⋅⋅⋅π stacking interactions also contributed signif­
+icantly to the overall stability of the 1a crystal structure. A π⋅⋅⋅π inter­
+action is observed between the isoxazole ring (Cg(1): C9/C10/N1/O2/ 
+C11) and the six-membered ring within the same moiety (Cg(2): C2/C3/ 
+C4/C5/C6/C7), with a centroid–centroid distance of 3.3883(6) Å. The 
+corresponding geometric parameters for this Cg(1)⋅⋅⋅Cg(2) stacking 
+interaction are: α = 3.25(7)◦, β = 22.2◦, and γ = 25.3◦, with symmetry 
+codes 1-X,-1/2+Y,1/2-Z indicating the spatial orientation involved in 
+the π⋅⋅⋅π interaction.
+3.3. Hirshfeld surface and fingerprint analysis
+To quantitatively evaluate the intermolecular interactions present in 
+the compound, Hirshfeld surface analysis along with two-dimensional 
+(2D) fingerprint plots were utilized. These 2D plots help in visualizing 
+and analyzing the nature of intermolecular contacts within the crystal 
+structure, making it possible to identify distinct types of interactions and 
+compare different crystal forms [34]. This approach offers meaningful 
+insights into the compound’s molecular packing and structural stability. 
+For the 1a, Hirshfeld surfaces were mapped over dnorm within the range 
+of –0.676 to 1.415 Å to highlight close intermolecular contacts. The dark 
+reds spots on the dnorm surface (Fig. 3(a)) are the characteristics of atoms 
+participating in strong hydrogen bonds, thereby, confirming the pres­
+ence of dimeric pairs of C12-H12B⋅⋅⋅O2 and C8-H8...O3 hydrogen bonds 
+in the crystal. This is further confirmed by the electrostatic potential 
+surfaces (as discussed in the later section). The weak intermolecular 
+interactions in the 1a molecule were quantitatively analyzed using 
+two-dimensional (2D) fingerprint plots (FPs), which illustrate the dis­
+tribution of internal (di) and external (de) atomic distances. As depicted 
+in Fig. 3(b), these plots offer a detailed representation of how various 
+contacts contribute to the Hirshfeld surface.
+The FPs (of overall contacts and individual atom…atom contacts) of 
+FL are shown in Fig. 4. All the FPs are symmetric about the di = de line 
+which is due to the homomeric nature of the interactions in the crystal. 
+The highest contribution to the Hirshfeld surface is from H…H disper­
+sions contributing 38.7%, O⋅⋅⋅H/H⋅⋅⋅O and C⋅⋅⋅C contacts contribute 
+respectively 29.1% and 13.4% which can be attributed to the presence of 
+C12-H12B⋅⋅⋅O2 interactions. The contributions of 9.7% and 6.2% by 
+N⋅⋅⋅H/H⋅⋅⋅N and C⋅⋅⋅H/H...C contacts are because of π⋅⋅⋅π interactions 
+operating in the crystal.
+Shape index and curvedness curves help in identifying π…π stacking 
+interactions. The π…π stacking interactions in the shape index appear as 
+alternating red and blue triangles above the rings participating in the 
+stacking, while they are characterized by a flat surface in the curvedness 
+plot above the participating rings. Both these characteristics are 
+observed in the shape index and curvedness plots (Fig. 5(a) and (b)) of 
+the molecule and therefore gives evidence for π…π stacking interactions 
+in the crystal.
+3.4. DFT calculations
+Utilizing the B3LYP functional at the 6–311+G(d,p) level of theory, 
+the synthesized 1a molecule was optimized. The geometrical parameters 
+of the optimized structure and the XRD structure were found to be 
+within extremely excellent agreement. According to Table S1, S2, and 
+S3, the correlation coefficients for bond lengths, bond angles, and tor­
+sion angles are 0.9881, 0.9968, and 0.9997, respectively (Fig. 7). Fig. 6
+displays the overlay of the optimized structure (green) and XRD struc­
+tures (blue) with an RMSD value of 0.206 Å.
+3.4.1. Frontier molecular orbital studies
+The calculated quantum chemical descriptors offer important infor­
+mation about the molecule's electronic properties and potential bio­
+logical activity. The computed energy values of molecular descriptors 
+are listed in the Table 2. A balance between stability and chemical 
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+4 
+
+
+=== PDF PAGE 5 ===
+reactivity is suggested by the HOMO and LUMO values, along with a 
+moderate energy gap of 3.6191 eV in gas phase and 3.5454 eV in solvent 
+phase (Fig. 7(a)). This allows the molecule to participate in charge- 
+transfer interactions with important residues in the binding pocket 
+within a biological system [35]. The comparison between gas-phase and 
+solvent-phase calculations shows that solvation significantly stabilizes 
+the electronic structure of the 1a compound. In the solvent phase, both 
+HOMO and LUMO energies shift to more negative values, indicating 
+enhanced stabilization of frontier orbitals due to solvent–solute in­
+teractions. The slight reduction in the HOMO–LUMO energy gap 
+(3.6191 eV in gas phase and 3.5454 eV in solvent phase) suggests 
+increased chemical reactivity and improved charge-transfer capability 
+in solution. Correspondingly, the ionization energy, electron affinity, 
+and electronegativity increase in the solvent phase, reflecting greater 
+stabilization of charged states, while the chemical potential becomes 
+more negative, indicating enhanced thermodynamic stability. The 
+decrease in global hardness accompanied by an increase in global soft­
+ness implies that the molecule becomes more polarizable and reactive in 
+the solvated environment (1.8096 eV in gas phase and 1.7727 eV in 
+solvent phase). Furthermore, the higher electrophilicity index in the 
+solvent phase points to a stronger electron-accepting character. The 
+pronounced increase in dipole moment confirms increased molecular 
+polarity and strong solute–solvent interactions. Overall, these results 
+demonstrate that the solvent environment enhances the reactivity, po­
+larity, and electrophilic nature of the compound compared to the gas 
+phase.
+Using the Coulomb-Attenuating Method B3LYP (CAM-B3LYP) 
+hybrid functional and the 6-311+G(d,p) basis set, Time-Dependent Self- 
+Consistent Field (TD-SCF) within the framework of Time-Dependent 
+Density Functional Theory (TD-DFT) was used to examine the elec­
+tronic excitation properties of the optimized molecular structure. Pre­
+dicting UV–visible absorption spectra, excitation energies, oscillator 
+strengths, and electronic transitions of organic and bioactive compounds 
+is a common use for this level of theory. UV–Visible spectral analysis was 
+performed to study the electron transition in the molecule. The 
+maximum absorption wavelength (λmax) was observed at 348 nm indi­
+cating the π-π* transition, through DFT calculations as shown in figure 
+S5 (see supporting information file).
+3.4.2. Molecular electrostatic potential map
+Understanding the charge distribution on the molecule through MEP 
+helps determine the directionality of the molecule's approach to the 
+Fig. 2. crystal packing of 1a showing C–H⋅⋅⋅O hydrogen bonds.
+Fig. 3. (a) dnorm surface and (b) corresponding 2D fingerprint plot of the compound 1a.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+5 
+
+
+=== PDF PAGE 6 ===
+amino acids in the protein by pinpointing the area of the molecule where 
+the electrophilic and nucleophilic sites residue, which are the chemical 
+reactive sites of the molecule. Predicting how chemicals will interact 
+with biological systems requires this. The MEP surface's red, blue, and 
+green hues (blue > green > yellow > orange > red) were associated with 
+the negative, positive, and zero electrostatic potential zones. The ex­
+pected reactive sites for the 1a molecule's electrophilic and nucleophilic 
+regions are mapped at the intervals of -5.839e-2 a.u. and +5. 839e-2 a.u. 
+for the deepest red and blue colors, respectively, as shown in Fig. 8 [36]. 
+The primary targets of the electrophilic reactive sites are the oxygen 
+atoms in the 3-methyl-4-methyleneisoxazol-5(4H)-one groups that are 
+immediately connected to the 1a molecule and are shown in red on the 
+MEP surface. The 1a molecule's blue-colored nucleophilic reactive sites 
+are situated around the hydrogen atoms that are connected to the C-H 
+and N-H groups in the anisole ring, as seen in Fig. 8. However, the 
+yellow-colored areas were seen over the C=O present in the 
+five-membered ring in the 3-methyl-4-methyleneisoxazol-5(4H)-one 
+moiety, suggesting a potential intermediate region between the two 
+extreme regions. These hydrogen atoms are implicated in the intermo­
+lecular hydrogen bonding interactions, as indicated by the blue area 
+above the C–H group. The Fig. 8 makes it clear that the C–H⋅⋅⋅O in­
+teractions stabilize the 1a molecule.
+3.5. Molecular docking analysis
+The computer-generated three-dimensional structure of small li­
+gands can be positioned into a receptor structure via molecular docking 
+in a number of different orientations, conformations, and locations. This 
+approach offers insights into molecular recognition and is helpful in 
+medicinal chemistry and drug discovery. Docking is now a crucial 
+component of CADDD, or computer-aided drug design and discovery 
+[37,38].
+Human cyclin-dependent kinase 2 (CDK2), as shown by its crystal 
+structure with PDB ID 1B38, is a crucial regulator of cell cycle pro­
+gression, especially during the G1 to S phase transition. Growth factors 
+trigger the G1 to S phase transition, which is the critical stage of the cell 
+Fig. 4. FPs-full contacts as well delineated to individual atom…atom contacts of 1a and percentage contribution of each contact to the Hirshfeld surface.
+Fig. 5. (a) Shape index and (b) curvedness properties are mapped over Hirshfeld surface of the molecule 1a.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+6 
+
+
+=== PDF PAGE 7 ===
+cycle where cyclin-dependent kinases (CDKs) and their cyclin partners 
+regulate a cell's irreversible commitment to DNA replication and 
+division. For this reason, inhibition of CDK2 is critical. Uncontrolled cell 
+proliferation, a defining feature of cancer, is often associated with 
+CDK2′s abnormal activation. CDK2 forms complexes with cyclins, pri­
+marily cyclin E and cyclin A. Since CDK2 overexpression or hyper­
+activation has been seen in a variety of malignancies, including ovarian, 
+colorectal, lung, and breast cancers, it has therapeutic importance. 
+Using tiny compounds to target CDK2 offers a way to specifically stop 
+the growth of tumor cells while also perhaps making cancer cells more 
+sensitive to radiation or chemotherapy. Furthermore, inhibiting CDK2 is 
+important for overcoming treatment resistance since it is also linked to 
+resistance mechanisms against currently available anticancer medicines 
+[39].
+Therefore, employing the structure 1B38 to analyze small-molecule 
+inhibition aids in rational drug design, allowing the discovery of 
+strong and specific CDK2 inhibitors with potential use in cancer and 
+other proliferative illnesses. These complexes can be broken by small- 
+molecule inhibitors that target CDK2, which stops DNA replication 
+and cell cycle advancement.
+Binding conformation of 1a molecule: Key molecular interactions 
+Fig. 6. The good correlation of geometrical parameters indicated between structural overlay of the molecular structure with XRD (blue) and DFT (green).
+Table 2 
+The global and local reactive parameters such as HOMO-LUMO energy and 
+quantum chemical parameters of the 1a compound.
+Parameter
+Value
+Gas phase
+Solvent Phase
+EHOMO (eV)
+-6.3362
+-6.4926
+ELUMO (eV)
+-2.7171
+-2.9473
+Energy gap ΔEg (eV)
+3.6191
+3.5454
+Ionization energy (I=-EH (eV))
+6.3362
+6.4926
+Electron Affinity (A=-EL (eV))
+2.7171
+2.9473
+Electronegativity (χ=(1+A)/2 (eV))
+4.5266
+4.7200
+Chemical Potential (µ=-χ (eV))
+-4.5266
+-4.7200
+Global hardness (η=ΔE/2 (eV))
+1.8096
+1.7727
+Global softness (σ=1/2η (eV -1))
+0.5526
+0.5641
+Electrophilicity index (ω= µ2/2η (eV))
+5.6617
+6.2837
+Dipole moment in Debye
+8.6616
+12.9431
+Fig. 7. Frontier molecular orbital distribution on the 1a compound (a) gas phase (b) solvent phase.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+7 
+
+
+=== PDF PAGE 8 ===
+exhibited by 1a molecule: π-interactions and hydrogen bonding 
+interactions
+Fig. 9(a) illustrates the interaction between the 1a molecule and 
+twelve beneficial amino acid residues of the CDK2 protein. The 
+following zones of inhibition against the CDK2 protein's amino acids 
+were shown by compound 1a. When compared to other amino acid in­
+teractions, the conventional hydrogen bond interaction between the 
+oxygen atom of the 4,5-dihydroisoxazole group attached to the 1a 
+compound and that of the nitrogen atom in the amino acid ASP86 
+(aspartic acid) had the smallest amino acid interacting distance of 2.83 
+Å. Further, the 1a compound also forms π-σ bonding interaction bonding 
+between the centroid of the anisole electron-rich π cloud of an aromatic 
+ring with that of the carbon atom which is the electron-poor σ-bond of 
+amino acid LEU134 (leucine) having the interacting distance of 3.72 Å.
+Further, the 1a compound also exhibits ten different π-alkyl and alkyl 
+type interactions with the amino acids of the CDK2 protein, such as 
+PHE82, ILE10, VAL18, LEU134, ALA31, VAL64, PHE80, and ALA14 
+having the amino acid interacting distance of 4.72 Å, 4.42 Å, 4.72 Å, 
+Fig. 8. MEP map of the compound 1a.
+Fig. 9. (a) The surface view of the binding of the 1a compound with the CDK2 protein inside the binding pocket. (b) The cartoon view of the binding of the 1a 
+compound with the CDK2 protein. (c) The 2D and 3D interaction diagram revealing the interactions exhibited between the 1a compound and CDK2 protein with 
+different interactions are represented with different colour codes followed by the corresponding interacting distances.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+8 
+
+
+=== PDF PAGE 9 ===
+4.95 Å, 5.07 Å, 4.98 Å, 3.85 Å, 4.14 Å, 4.18 Å, and 3.82 Å, respectively, 
+which also play a significant role in the inhibition of the CDK2 protein in 
+the in cancer and other proliferative diseases.
+Fig. 9(a) and Fig. 9(b) show the cartoon view and the surface view of 
+the ligand (1a) docking with the CDK2 protein, while Fig. 9(c) shows the 
+various 3-D interactions between the ligand and the protein with dis­
+tance and type. The 1a molecule exhibits a significant affinity with the 
+CDK2 protein and a low binding energy of -7.8 kcal/mol, according to 
+the findings of the in silico molecular docking investigation. Therefore, it 
+could be a potential small molecule that looks like a drug to treat pro­
+liferative illnesses like cancer.
+4. Conclusions
+This investigation integrates experimental, quantum chemical, and 
+computational approaches to assess the anti-cancer potential of a novel a 
+novel isoxazole derivative, (E)-4-(4-methoxybenzylidene)-3-methylisox­
+azol-5(4H)-one (1a). The crystallographic analysis revealed that 1a 
+crystallizes in monoclinic system with P21/c space group. The C8- 
+H8⋅⋅⋅O3 and C12-H12B⋅⋅⋅O2 intermolecular interactions resulting in the 
+formation of the R2
+2(9) ring motifs in the crystal. Hirshfeld surface 
+analysis indicated that van der Waals forces, particularly H⋅⋅⋅H in­
+teractions (38.7 %), along with and O⋅⋅⋅H (29.1 %) N⋅⋅⋅H (9.7 %), play a 
+significant role in maintaining the crystal’s stability. The HOMO-LUMO 
+study indicated an energy gap of 3.6191 eV, signifying substantial 
+chemical stability. The MEP analysis explored the reactive sites present 
+in the molecule. Furthermore, the molecule 1a exhibits a significant 
+affinity with the CDK2 protein and a low binding energy of -7.8 kcal/ 
+mol, according to the findings of the in silico molecular docking inves­
+tigation. Therefore, it could be a potential small molecule that looks like 
+a drug to treat proliferative illnesses like cancer.
+CRediT authorship contribution statement
+Neetha S․: Writing – original draft, Software, Conceptualization. 
+Kavitha C․ V․: Writing – original draft, Methodology. Vinay Kumar D․ 
+C․: Writing – original draft, Software, Formal analysis. Mamatha G․ R․: 
+Writing – original draft, Visualization. Manjunath C․ R․: Resources, 
+Methodology. Lohith T․ N․: Writing – review & editing, Project 
+administration. Sagar K․ S․: Software, Formal analysis.
+Declaration of competing interest
+The authors declare that they have no known competing financial 
+interests or personal relationships that could have appeared to influence 
+the work reported in this paper.
+Acknowledgments
+Neetha S., Thank NIE-CRD, The National Institute of Engineering, 
+Mysuru for the providing the financial assistance.
+Supplementary materials
+CCDC- 2445596 contains the supplementary crystallographic data 
+for this paper. These data can be obtained free of charge via htt 
+ps://www.ccdc.cam.ac.uk/structures/, 
+or 
+by 
+e-mailing 
+data_ 
+request@ccdc.cam.ac.uk, or by contacting The Cambridge Crystallo­
+graphic Data centre, 12 Union Road, Cambridge CB2 1EZ, UK; fax:+44 
+(0)1223–336,033.
+Supplementary material associated with this article can be found, in 
+the online version, at doi:10.1016/j.molstruc.2026.145359.
+Data availability
+Data will be made available on request.
+References
+[1] Y. Walunj, P. Mhaske, P. Kulkarni, Application, reactivity and synthesis of 
+isoxazole derivatives, Mini-Rev. Org. Chem. 18 (1) (2021) 55–77, https://doi.org/ 
+10.2174/1570193×17999200511131621.
+[2] L. Zhou, P. Jing, Z. Li, R. Liu, J. Chen, G. Deng, Y. Liang, Y. Yang, Norbornene 
+derivatives-controlled palladium-catalyzed divergent synthesis of dibenzo [a, c] 
+cycloheptenones and fluorenones from Aryl iodides and α-oxocarboxylic acids, 
+Org. Lett. 26 (3) (2024) 676–680, https://doi.org/10.1021/acs.orglett.3c04065.
+[3] C.P. Pandhurnekar, H.C. Pandhurnekar, A.J. Mungole, S.S. Butoliya, B.G. Yadao, 
+A review of recent synthetic strategies and biological activities of isoxazole, 
+J. Heterocycl. Chem. 60 (4) (2023) 537–565, https://doi.org/10.1007/s00044- 
+018-2152-6.
+[4] Z. Yan, B. Yu, X. Lan, X. Cui, D. Zhao, L. Qiu, H. Wang, Synthesis, bioactivity 
+evaluation and theoretical study of nicotinamide derivatives containing diphenyl 
+ether fragments as potential succinate dehydrogenase inhibitors, J. Mol. Struct. 
+1308 (2024) 138331, https://doi.org/10.1016/j.molstruc.2024.138331.
+[5] P. Palanisamy, S.J. Jenniefer, P.T. Muthiah, S. Kumaresan, Synthesis, 
+characterization, antimicrobial, anticancer, and antituberculosis activity of some 
+new pyrazole, isoxazole, pyrimidine and benzodiazepine derivatives containing 
+thiochromeno and benzothiepino moieties, RSC. Adv. 3 (42) (2013) 19300–19310, 
+https://doi.org/10.1039/C3RA42283F.
+[6] B. Guo, X. Jiang, L. Zhu, X. He, Exploring the diagnostic potential of core targets of 
+6PPD and its metabolite 6PPD-Q in cardiovascular diseases: an integrated analysis 
+based on network toxicology, molecular docking, and In vitro validation, J. Appl. 
+Toxicol. (2025), https://doi.org/10.1002/jat.4892.
+[7] Y. Shinde, B. Khairnar, S. Bangale, Exploring the diverse biological frontiers of 
+isoxazole: a comprehensive review of its pharmacological significance, 
+ChemistrySelect. 9 (32) (2024) e202401423, https://doi.org/10.1002/ 
+slct.202401423.
+[8] J. Zhu, J. Mo, H.Z. Lin, Y. Chen, H.P. Sun, The recent progress of isoxazole in 
+medicinal chemistry, Bioorg. Med. Chem. 26 (12) (2018) 3065–3075, https://doi. 
+org/10.1016/j.bmc.2018.05.013.
+[9] E.M. Azmy, M. Hagras, M.A. Ewida, A.S. Doghish, E.G. Khidr, A.A. El-Husseiny, M. 
+H. Gomaa, et al., Development of pyrolo[2,3-c]pyrazole, pyrolo[2,3-d]pyrimidine 
+and their bioisosteres as novel CDK2 inhibitors with potent apoptotic anti- 
+proliferative activity, Bioorg. Chem. 139 (2023) 106729, https://doi.org/10.1016/ 
+j.bioorg.2023.106729.
+[10] P. Zhao, Y. Li, G. Gao, S. Wang, Y. Yan, X. Zhan, Z. Liu, Z. Mao, S. Chen, L. Wang, 
+Design, synthesis and biological evaluation of N-alkyl or aryl substituted isoindigo 
+derivatives as potential dual CDK2/GSK-3β inhibitors, Eur. J. Med. Chem. 86 
+(2014) 165–174, https://doi.org/10.1016/j.ejmech.2014.08.049.
+[11] F.M. Sroor, A.M. Abdelmoniem, I.A. Abdelhamid, Facile synthesis, SAR, molecular 
+modeling and biological evaluation of new urea derivatives with isoxazole and 
+thiazole moieties as anticancer agents, ChemistrySelect. 4 (34) (2019) 
+10113–10121, https://doi.org/10.1002/slct.201901415.
+[12] Z. Czudor, M. Balogh, P. B´anhegyi, S. Boros, N. Breza, J. Dobos, M. F´abi´an, et al., 
+Novel compounds with potent CDK9 inhibitory activity for the treatment of 
+myeloma, Bioorg. Med. Chem. Lett. 28 (4) (2018) 769–773, https://doi.org/ 
+10.1016/j.bmcl.2018.01.002.
+[13] J. Yong, C. Lu, X. Wu, Synthesis and preliminary cytotoxicity to A549, HCT116 and 
+MCF-7 cell lines of thieno[2,3-d]pyrimidine derivatives containing isoxazole 
+moiety, Lett. Drug Des. Discov. 15 (5) (2018) 463–474, https://doi.org/10.2174/ 
+1570180814666170530093549.
+[14] S.T. Reddy, J.J. Mendonza, V.K.K. Makani, M. Pal Bhadra, V.M. Uppuluri, 
+Synthesis of novel methyl β-orsellinate based 3,5-disubstituted isoxazoles and their 
+anti-proliferative activity, Bioorg. Chem. 105 (2020) 104374, https://doi.org/ 
+10.1016/j.bioorg.2020.104374.
+[15] R.H. Abd El-Hameed, A.I. Sayed, Synthesis of novel pyrrolopyrimidine derivatives 
+as CDK2 inhibitors, Pharmacophore 9 (5) (2018) 29–49. https://pharmacophorejo 
+urnal.com/W9TGpKk.
+[16] F. Xue, H.D. Preetham, R. Verma, T.N. Lohith, S. Raju, M.S. Ali, H.A. Al-Lohedan, 
+H. Ramakrishna, K.S. Sharath Kumar, V.H. Kameshwar, Structure-property 
+relationship of two gamma-lactam derivatives: Hirshfeld surface analysis, DFT, and 
+molecular dynamics simulations, Chem. Phys. Lett. 857 (2024) 141725, https:// 
+doi.org/10.1016/j.cplett.2024.141725.
+[17] M.K. Usha, T.N. Lohith, M. Manjula, S. Shetty, B. Kalluraya, D. Revannasiddaiah, 
+M.A. Sridhar, Synthesis, crystal structure, Hirshfeld surface analysis, energy 
+frameworks, and DFT calculations of (2E)-3-(dimethylamino)-1-[5-methyl-1-(4- 
+nitrophenyl)-1H-1,2,3-triazol-4-yl]prop-2-en-1-one, Mol. Cryst. Liq. Cryst. 768 (6) 
+(2024) 11–26, https://doi.org/10.1080/15421406.2024.2326337.
+[18] R. Kancherla, T.N. Lohith, S. Deshmukh, S.R. Mulka, G. Kuruvalli, M.B.M. Reddy, 
+Synthesis, spectroscopic characterization, DFT, in silico ADMET and molecular 
+docking of quinoline-substituted 5H-chromeno[2,3-b]pyridine derivatives, Mol. 
+Divers. 29 (5) (2025) 3997–4017, https://doi.org/10.1007/s11030-024-10982-x.
+[19] G.M. Sheldrick, Crystal structure refinement with SHELXL, Cryst. Struct. Commun. 
+71 (1) (2015) 3–8, https://doi.org/10.1107/S2053229614024218.
+[20] D. Jayatilaka, S.K. Wolff, D.J. Grimwood, J.J. McKinnon, M.A. Spackman, 
+CrystalExplorer: a tool for displaying Hirshfeld surfaces and visualising 
+intermolecular interactions in molecular crystals, Acta Crystallogr. A 62 (2006), 
+https://doi.org/10.1107/S0108767306098199 s90–s90.
+[21] T.N. Lohith, B.H. Gayathri, M. Feizi-Dehnayebi, S. Kumar, K. Divya, M.A. Sridhar, 
+M. Mahendra, G. Mohammadi Ziarani, In-silico studies of 3-tert-butyl-7-[2-phenyl 
+ethenyl]-4H-[1,3,4]thiadiazolo[2,3-c][1,2,4]triazin-4-one as a potential SARS- 
+CoV-2 inhibitor, J. Mol. Struct. 1330 (2025) 141356, https://doi.org/10.1016/j. 
+molstruc.2025.141356.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+9 
+
+
+=== PDF PAGE 10 ===
+[22] M.A. Spackman, D. Jayatilaka, Hirshfeld surface analysis, CrystEngComm 11 (1) 
+(2009) 19–32, https://doi.org/10.1039/B818330A.
+[23] H.M. Dhanushchandraguru, B.C. Hemaraju, D.C. Vinay Kumar, B.S. Chethan, 
+P. Akhileshwari, R. Preetham, M.P. Sadashiva, Comprehensive structural, 
+electronic, and in-silico characterization of 1-phenyl-5-(m-tolyl)-1H-tetrazole as a 
+potential SF-1 inhibitor, J. Mol. Struct. (2025) 143859, https://doi.org/10.1016/j. 
+molstruc.2025.143859.
+[24] H.M. Dhanushchandraguru, B.C. Hemaraju, D.C. Vinay Kumar, V.N. Hegde, V. 
+V. Manju, K.B. Deeksha, T.G. Yashas Gowda, Growth and characterization of the 
+nonlinear optical crystal 2’,3’-di-O-acetyl-5’-deoxy-5-fluoro-N4- 
+(pentyloxycarbonyl) cytidine, J Mater Sci: Mater Electron 36 (22) (2025) 1417, 
+https://doi.org/10.1007/s10854-025-15455-x.
+[25] Y. Li, J.N.S. Evans, The Fukui function: a key concept linking frontier molecular 
+orbital theory and HSAB principle, J. Am. Chem. Soc. 117 (29) (1995) 7756–7759, 
+https://doi.org/10.1021/ja00134a021.
+[26] Frisch, A., (2009). Gaussian 09W Ref. Wallingford, USA, 470.
+[27] Dennington, R.D., Keith, T.A., Millam, J.M., (2008). GaussView 5.0, Gaussian. Inc., 
+Wallingford, 20.
+[28] V. Shalini, D.C. Vinay Kumar, D. Gowda, B.S. Chethan, K.B. Harsha, S.M. Rajesh, K. 
+S. Rangappa, Unveiling the structural and theoretical properties of quinoline-4- 
+carboxamide compound as SHH protein inhibitor, J. Mol. Struct. 1330 (2025) 
+141495, https://doi.org/10.1016/j.molstruc.2025.141495.
+[29] S. Neetha, C. Santhosh, D.C. Vinay Kumar, T.N. Lohith, K. Pruthviraj, K. Sunil, M. 
+P. Sadashiva, M.S. Ali, S.K. Verma, Synthesis, structure elucidation, DFT, molecular 
+docking, and antioxidant studies of a thiazole derivative, J. Mol. Struct. (2025) 
+143430, https://doi.org/10.1016/j.molstruc.2025.143430.
+[30] G.M. Morris, R. Huey, W. Lindstrom, M.F. Sanner, R.K. Belew, D.S. Goodsell, A. 
+J. Olson, AutoDock4 and AutoDockTools4: automated docking with selective 
+receptor flexibility, J. Comput. Chem. 30 (16) (2009) 2785–2791, https://doi.org/ 
+10.1002/jcc.21256.
+[31] J. Eberhardt, D. Santos-Martins, A.F. Tillack, S. Forli, AutoDock Vina 1.2.0: new 
+docking methods, expanded force field, and Python bindings, J. Chem. Inf. Model. 
+61 (8) (2021) 3891–3898, https://doi.org/10.1021/acs.jcim.1c00203.
+[32] Dassault Syst`emes, (2016). Biovia, Discovery Studio Modeling Environment. 
+Dassault Syst`emes Biovia, San Diego, CA, USA.
+[33] W.L. DeLano, PyMOL Mol. Graph. Syst. (2002). Available at:, http://www.pymol. 
+org/.
+[34] R. Kancherla, S.R. Mulka, T.N. Lohith, A. Bhattacharjee, H. Nagarajaiah, S. 
+S. Chhajed, G.V. Satyanarayana, M.B.M. Reddy, Synthesis, crystal structure, 
+Hirshfeld surface, DFT, docking, MD, and ADMET studies of new 2-phenylindole 
+linked 1,2,4-oxadiazoles, J. Mol. Struct. (2025) 142806, https://doi.org/10.1016/ 
+j.molstruc.2025.142806.
+[35] K. Gowda, D.C. Vinay Kumar, T.N. Lohith, S. Neetha, M.S. Ali, H.A. Al-Lohedan, V. 
+H. Kameshwar, G.R. Mamatha, R. Kancherla, S.K. Verma, Synthesis, structural 
+elucidation, Hirshfeld surface, DFT, and in-silico studies of 2-(4-fluorophenyl)-5- 
+(4-methoxyphenyl)-1,3,4-thiadiazole, J. Mol. Struct. (2025), https://doi.org/ 
+10.1016/j.molstruc.2025.143795, 143795.
+[36] S.M. Rajesh, D.C. Vinay Kumar, V. Shalini, K.B. Harsha, D. Gowda, K.S. Rangappa, 
+Structural and computational studies of a cyclopropane derivative as an anti- 
+Alzheimer’s agent, J. Mol. Struct. (2025) 142665, https://doi.org/10.1016/j. 
+molstruc.2025.142665.
+[37] T.N. Lohith, S. Neetha, V.H. Kameshwar, K.S. Sharath Kumar, M.S. Ali, H.A. Al- 
+Lohedan, D.C. Vinay Kumar, S.K. Verma, Structural and computational studies of a 
+pyrazole derivative: XRD, DFT, docking, and molecular dynamics simulations, 
+J. Mol. Struct. (2025) 143497, https://doi.org/10.1016/j.molstruc.2025.143497.
+[38] A. Bhattacharjee, S. Hegde, A.M. Kurumbala, D.C. Vinay Kumar, N. Honnappa, M. 
+S. Ali, T.N. Lohith, M.B.M. Reddy, Structural elucidation, Hirshfeld surface, DFT, 
+and docking studies of a puckered thiochromeno–thiopyrano–quinoline compound, 
+J. Mol. Struct. 1338 (2025) 142135, https://doi.org/10.1016/j. 
+molstruc.2025.142135.
+[39] B. Guo, X. He, The mechanism of bisphenol S-induced atherosclerosis elucidated 
+based on network toxicology, molecular docking, and machine learning, J. Appl. 
+Toxicol. 45 (no. 6) (2025) 1043–1055, https://doi.org/10.1002/jat.4768.
+N. S․ et al.                                                                                                                                                                                                                                        
+Journal of Molecular Structure 1358 (2026) 145359 
+10 

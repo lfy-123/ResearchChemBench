@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "task_type": "paper_reproduction",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:52:41.604996+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_9ec8c4761c4f171b.json",
+  "plan_sha256": "675052a56fca13faf5cc0440e66e2e8b02bd03225803f4c94ad634b3cec0b739",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_9ec8c4761c4f171b",
+  "v1_package_content_sha256": "7b20ac6334561a04af91f2fa03dee3b864bf80e6199d66c58cf3427e43b324e5",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "d68267a410320e088f102404b6e4fe3dba3ebaaef9b54e26dec74fe73f8f5fbd",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_9ec8c4761c4f171b/documents/main.pdf",
+      "sha256": "49d8e9997164eb5f8400e8730c64d2fc6b5929e6e5c9ba431ba766c4486c51be",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        14
+      ],
+      "sections_figures_tables": "PDF p4 Scheme3 identities; p5 molecular-form evidence and Scheme4; pp5–7 optical discussion/computational methods; p8 Table2 measured absorption maxima. PDF p14 compound7a characterization lists 1H NMR (500 MHz,DMSO-d6),14.07ppm."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_9ec8c4761c4f171b/documents/supplementary_001.pdf",
+      "sha256": "29b1c6d10ffb42a053b3303aad720cad5fd49a336015dd6b2fd76a1a98ba742a",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        154,
+        155,
+        156,
+        157
+      ],
+      "sections_figures_tables": "PDF pp70–74 optical/computational tables and alternative-form spectra; pp82–88 gas/chloroform structures; pp154–157 7a spectra. Visually read p155 spectrum: peak14.07ppm, SOLVENT CDCl3, TE296.4K, SFO1 500.1340010MHz; this conflicts with main p14 solvent label."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_spectra_and_method_context_only_expanded_reference_pending",
+  "scope_changes": [
+    "Remove fixed four-tautomer candidate list, mandatory shielding/IR matrix, preselected matched-pair effect panels and population-decomposition algorithm.",
+    "Remove Z-HK winner labels/stereo from public graphs and author NMR/IR functional assignments from observation keys.",
+    "Do not substitute the old6a NH-pyrazolone reference for these N-phenyl identities."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:02.182024+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json",
+  "source_correction": {
+    "recorded_at": "2026-09-28T18:00:45.981235+00:00",
+    "coordinator_request": "Check main PDF14 versus SI1557a NMR medium; preserve conflicting sources.",
+    "main_evidence": "PDF14 compound7a characterization:1H NMR500MHz,DMSO-d6,14.07ppm",
+    "SI_evidence": "PDF155 spectrum visually read:14.07ppm; SOLVENT CDCl3; TE296.4K; SFO1 500.1340010MHz",
+    "prior_statement_corrected": "Exclusive CDCl3 attribution omitted the main-text DMSO-d6 label.",
+    "resolution": "Source discrepancy remains unresolved; retain both, do not manufacture independent observations.",
+    "previous_plan_sha256": "590ee9955aca30fb94f27a62ec14ccd3d9f04ca81f42992802485f5044136b02",
+    "previous_package_hashes": {
+      "autonomous_research": "e7aa7c2a9e9ab71d76e70c5fdaaf0d8971fe4d2974e4f9af22888b1fa5f70e11",
+      "paper_reproduction": "d68267a410320e088f102404b6e4fe3dba3ebaaef9b54e26dec74fe73f8f5fbd"
+    },
+    "rendered_SI_view": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/review_7a_SI155.png",
+    "rendered_SI_view_sha256": "73642a0c8399211faf931796d1078ba92540cd8c3401488755984ede4151c42e",
+    "new_scientific_calculations_performed": false
+  },
+  "source_correction_updated_at": "2026-09-28T18:00:45.981235+00:00"
+}

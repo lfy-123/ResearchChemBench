@@ -1,0 +1,330 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "results",
+      "conclusion",
+      "methods"
+    ],
+    "properties": {
+      "results": {
+        "type": "array",
+        "minItems": 3,
+        "items": false,
+        "maxItems": 3,
+        "prefixItems": [
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/primary_result"
+              },
+              {
+                "properties": {
+                  "compound": {
+                    "const": "8QBDY-O"
+                  }
+                },
+                "required": [
+                  "compound"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/primary_result"
+              },
+              {
+                "properties": {
+                  "compound": {
+                    "const": "8QBDY-S"
+                  }
+                },
+                "required": [
+                  "compound"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/primary_result"
+              },
+              {
+                "properties": {
+                  "compound": {
+                    "const": "8QBDY-Se"
+                  }
+                },
+                "required": [
+                  "compound"
+                ]
+              }
+            ]
+          }
+        ],
+        "description": "Exactly one primary row per identity in this order: 8QBDY-O, 8QBDY-S, 8QBDY-Se. Additional trials belong in attempts."
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "methods": {
+        "type": "object",
+        "required": [
+          "electronic_structure",
+          "state",
+          "temperature_K",
+          "charge_multiplicity",
+          "thermochemistry",
+          "solvent"
+        ],
+        "properties": {
+          "electronic_structure": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "temperature_K": {
+            "type": "number",
+            "const": 298.15
+          },
+          "charge_multiplicity": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "thermochemistry": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "solvent": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "additionalProperties": false
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+      },
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "primary_result": {
+        "type": "object",
+        "required": [
+          "compound",
+          "identity",
+          "status",
+          "units",
+          "barrier_kcal_mol",
+          "rate_s_inv",
+          "search_record"
+        ],
+        "properties": {
+          "compound": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "identity": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "validated",
+              "partial",
+              "bounded_failure"
+            ],
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "barrier_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "rate_s_inv": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "units": {
+            "type": "object",
+            "required": [
+              "barrier",
+              "rate"
+            ],
+            "properties": {
+              "barrier": {
+                "type": "string",
+                "const": "kcal/mol",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "rate": {
+                "type": "string",
+                "const": "s^-1",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "additionalProperties": false
+          },
+          "endpoint_ids": {
+            "type": "object",
+            "required": [
+              "enol",
+              "keto"
+            ],
+            "properties": {
+              "enol": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "keto": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "additionalProperties": false
+          },
+          "ts_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "minimums",
+              "ts_frequency",
+              "connectivity"
+            ],
+            "properties": {
+              "minimums": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "ts_frequency": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "connectivity": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "additionalProperties": false
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "search_record": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "failure_reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "validated"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "required": [
+                "endpoint_ids",
+                "ts_id",
+                "validation",
+                "evidence"
+              ],
+              "properties": {
+                "barrier_kcal_mol": {
+                  "type": "number"
+                },
+                "rate_s_inv": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "ts_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "evidence": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "required": [
+                "failure_reason"
+              ],
+              "properties": {
+                "failure_reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 import json
 import threading
 import time
@@ -93,15 +95,16 @@ def test_compact_contract_prevents_common_conformer_input_errors() -> None:
     assert "backend_fixed_parameters" in full
 
 
+@pytest.mark.parametrize("child_status", ["success", "partial_success"])
 def test_batch_safe_actions_keep_independent_child_trace_and_status(
-    tmp_path, monkeypatch
+    tmp_path, monkeypatch, child_status
 ) -> None:
     monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
     (tmp_path / "outputs").mkdir()
     monkeypatch.setattr(
         "chemistry_toolbox.mcp.discovery_tools._execute_action",
         lambda action_id, request: {
-            "status": "success",
+            "status": child_status,
             "action": action_id,
             "result": {"label": request["inputs"]["label"]},
             "output_artifacts": [],
@@ -117,7 +120,9 @@ def test_batch_safe_actions_keep_independent_child_trace_and_status(
             ],
         )
     )
-    assert result["status"] == "success"
+    assert result["status"] == child_status
+    assert result["successful_item_count"] == (2 if child_status == "success" else 0)
+    assert result["partial_item_count"] == (2 if child_status == "partial_success" else 0)
     assert [item["item_id"] for item in result["items"]] == ["point_1", "point_2"]
     assert [item["result"]["result"]["label"] for item in result["items"]] == [
         "one",

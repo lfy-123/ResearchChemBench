@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_ddf161258a0d214b",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "semantic",
+      "expected": "neutral singlet and convergence are explicitly documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.validation.convergence"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_opt"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "semantic",
+      "expected": "one relevant imaginary frequency and connected pathway evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_ts"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "numeric",
+      "target": 21.62,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_result_barrier"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "condition",
+      "expected": "post-TS product formation is favorable/exergonic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_thermo"
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "validated endergonic TS followed by favorable product formation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "task_type": "paper_reproduction",
+  "title": "Gas-phase cis-(egan)IrCl isomer energy comparison",
+  "category": "computational_chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The two molecular identities and endpoints are fixed, but the agent must choose and validate an appropriate electronic-structure protocol for a heavy-element complex."
+  ],
+  "paper": {
+    "title": "d5dt02509e 2088..2099 ++",
+    "doi": "10.1039/d5dt02509e",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two self-contained source-provided 58-atom XYZ geometries for the named neutral singlet cis-alpha and cis-beta (egan)IrCl complexes; the task compares their electronic energies, not discovery of their structures."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured computational results, method, validation, energy difference, ordering, conclusion and limitations."
+    }
+  ]
+}

@@ -1,0 +1,590 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "coordinate_policy": "Only given reactant starters; new graph definitions are not optimized minima or TSs. Explicit atom maps, charge and multiplicity take priority over distance-based bond guesses.",
+  "species": [
+    {
+      "id": "H2",
+      "smiles": "[H][H]",
+      "mapped_smiles": "[H:1][H:2]",
+      "formula": "H2",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "H2",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "DMAc",
+      "smiles": "CC(=O)N(C)C",
+      "mapped_smiles": "[C:1]([C:2](=[O:3])[N:4]([C:5]([H:10])([H:11])[H:12])[C:6]([H:13])([H:14])[H:15])([H:7])([H:8])[H:9]",
+      "formula": "C4H9NO",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "DMAc",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "O",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "N",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 2.0
+        },
+        {
+          "atoms": [
+            2,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            6
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            7
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            15
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "int_g",
+      "coordinates": "int_g.xyz",
+      "atom_map": "one-based XYZ row, including hydrogen",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "P"
+        },
+        {
+          "map_id": 2,
+          "element": "C"
+        },
+        {
+          "map_id": 3,
+          "element": "C"
+        },
+        {
+          "map_id": 4,
+          "element": "C"
+        },
+        {
+          "map_id": 5,
+          "element": "C"
+        },
+        {
+          "map_id": 6,
+          "element": "C"
+        },
+        {
+          "map_id": 7,
+          "element": "C"
+        },
+        {
+          "map_id": 8,
+          "element": "O"
+        },
+        {
+          "map_id": 9,
+          "element": "C"
+        },
+        {
+          "map_id": 10,
+          "element": "C"
+        },
+        {
+          "map_id": 11,
+          "element": "C"
+        },
+        {
+          "map_id": 12,
+          "element": "C"
+        },
+        {
+          "map_id": 13,
+          "element": "C"
+        },
+        {
+          "map_id": 14,
+          "element": "C"
+        },
+        {
+          "map_id": 15,
+          "element": "C"
+        },
+        {
+          "map_id": 16,
+          "element": "C"
+        },
+        {
+          "map_id": 17,
+          "element": "C"
+        },
+        {
+          "map_id": 18,
+          "element": "C"
+        },
+        {
+          "map_id": 19,
+          "element": "C"
+        },
+        {
+          "map_id": 20,
+          "element": "C"
+        },
+        {
+          "map_id": 21,
+          "element": "C"
+        },
+        {
+          "map_id": 22,
+          "element": "C"
+        },
+        {
+          "map_id": 23,
+          "element": "C"
+        },
+        {
+          "map_id": 24,
+          "element": "H"
+        },
+        {
+          "map_id": 25,
+          "element": "H"
+        },
+        {
+          "map_id": 26,
+          "element": "H"
+        },
+        {
+          "map_id": 27,
+          "element": "H"
+        },
+        {
+          "map_id": 28,
+          "element": "H"
+        },
+        {
+          "map_id": 29,
+          "element": "H"
+        },
+        {
+          "map_id": 30,
+          "element": "H"
+        },
+        {
+          "map_id": 31,
+          "element": "H"
+        },
+        {
+          "map_id": 32,
+          "element": "H"
+        },
+        {
+          "map_id": 33,
+          "element": "H"
+        },
+        {
+          "map_id": 34,
+          "element": "H"
+        },
+        {
+          "map_id": 35,
+          "element": "H"
+        },
+        {
+          "map_id": 36,
+          "element": "H"
+        },
+        {
+          "map_id": 37,
+          "element": "H"
+        },
+        {
+          "map_id": 38,
+          "element": "H"
+        },
+        {
+          "map_id": 39,
+          "element": "H"
+        },
+        {
+          "map_id": 40,
+          "element": "H"
+        },
+        {
+          "map_id": 41,
+          "element": "P"
+        },
+        {
+          "map_id": 42,
+          "element": "C"
+        },
+        {
+          "map_id": 43,
+          "element": "C"
+        },
+        {
+          "map_id": 44,
+          "element": "C"
+        },
+        {
+          "map_id": 45,
+          "element": "C"
+        },
+        {
+          "map_id": 46,
+          "element": "C"
+        },
+        {
+          "map_id": 47,
+          "element": "C"
+        },
+        {
+          "map_id": 48,
+          "element": "C"
+        },
+        {
+          "map_id": 49,
+          "element": "C"
+        },
+        {
+          "map_id": 50,
+          "element": "C"
+        },
+        {
+          "map_id": 51,
+          "element": "C"
+        },
+        {
+          "map_id": 52,
+          "element": "C"
+        },
+        {
+          "map_id": 53,
+          "element": "C"
+        },
+        {
+          "map_id": 54,
+          "element": "C"
+        },
+        {
+          "map_id": 55,
+          "element": "C"
+        },
+        {
+          "map_id": 56,
+          "element": "C"
+        },
+        {
+          "map_id": 57,
+          "element": "C"
+        },
+        {
+          "map_id": 58,
+          "element": "C"
+        },
+        {
+          "map_id": 59,
+          "element": "C"
+        },
+        {
+          "map_id": 60,
+          "element": "H"
+        },
+        {
+          "map_id": 61,
+          "element": "H"
+        },
+        {
+          "map_id": 62,
+          "element": "H"
+        },
+        {
+          "map_id": 63,
+          "element": "H"
+        },
+        {
+          "map_id": 64,
+          "element": "H"
+        },
+        {
+          "map_id": 65,
+          "element": "H"
+        },
+        {
+          "map_id": 66,
+          "element": "H"
+        },
+        {
+          "map_id": 67,
+          "element": "H"
+        },
+        {
+          "map_id": 68,
+          "element": "H"
+        },
+        {
+          "map_id": 69,
+          "element": "H"
+        },
+        {
+          "map_id": 70,
+          "element": "H"
+        },
+        {
+          "map_id": 71,
+          "element": "H"
+        },
+        {
+          "map_id": 72,
+          "element": "H"
+        },
+        {
+          "map_id": 73,
+          "element": "H"
+        },
+        {
+          "map_id": 74,
+          "element": "H"
+        },
+        {
+          "map_id": 75,
+          "element": "Pd"
+        },
+        {
+          "map_id": 76,
+          "element": "H"
+        },
+        {
+          "map_id": 77,
+          "element": "H"
+        }
+      ],
+      "charge": 0,
+      "multiplicity": 1
+    }
+  ],
+  "construction_definitions": {
+    "recipes": [
+      {
+        "id": "Pd_XantPhos",
+        "source": "int_g.xyz",
+        "remove_atom_maps": [
+          76,
+          77
+        ],
+        "charge": 0,
+        "multiplicity": 1
+      },
+      {
+        "id": "Pd_XantPhos_DMAc",
+        "definition": "Add one intact DMAc molecule with O coordination to the Pd75 centre; explore independent coordination conformers",
+        "charge": 0,
+        "multiplicity": 1
+      }
+    ]
+  },
+  "metal_graph": {
+    "Pd_map": 75,
+    "phosphorus_maps": [
+      1,
+      41
+    ],
+    "hydride_maps": [
+      76,
+      77
+    ],
+    "formal_state": "PdII with XantPhos neutral and two H−; net0 singlet. Pd0 XantPhos product net0 singlet."
+  }
+}

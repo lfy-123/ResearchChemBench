@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use the supplied complete mapped graphs. The common dibenzo[f,h]pyrazino[2,3-b]quinoxaline core has donor sites 3,6,11: TD_2T has triphenylamine at all three; CD_2T has phenylcarbazole at 11; TD_2C has phenylcarbazole at 3 and 6. All are neutral. Use a consistent gas-phase baseline, singlet ground states and singlet/triplet excited states. No author optimized geometries, CT assignments or predicted gaps are supplied. torsion_control_mapping.json provides all three signed atom quadruples and donor/core fragment partitions for each molecule. Vertical gap=E(S1;R_S0)-E(T1;R_S0); adiabatic gap=E(S1;R_S1)-E(T1;R_T1). Do not mix these or use Kohn–Sham gaps as excitation gaps. SOC is the norm of three spin components in cm^-1 with operator and state basis stated. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_vertical_matrix",
+      "statement": "Six matched vertical-state and SOC panels",
+      "expected": "Check graph and donor position rather than inconsistent SI product prose. Recompute gaps, fragment weights and SOC norms. State roots must be tracked by densities. A small gap alone is not mechanistic proof.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxation_matrix",
+      "statement": "Conformer and excited-geometry discrimination",
+      "expected": "Verify S1/T1 energies and geometries on consistent surfaces; inspect conformer outcomes. A collapsed state must be evidenced and alternative starts examined; no invented state minimum.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_causal_comparison",
+      "statement": "Position versus geometry and method robustness",
+      "expected": "Use like-defined transition observables at common conditions. Report what fixed torsion does and does not isolate; multiple donor replacements are not equivalent to a single-site substitution. Require a CT-sensitive method or solvent sensitivity with actual calculations.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "structures",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "provenance": {
+        "type": "object",
+        "required": [
+          "method",
+          "basis_or_model",
+          "environment",
+          "convergence"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "basis_or_model": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "convergence": {
+            "type": "string"
+          }
+        }
+      },
+      "structures": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "attempted",
+            "atom_count_verified",
+            "charge",
+            "multiplicity",
+            "calculation_status",
+            "validation_notes"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "enum": [
+                "transoid",
+                "cisoid"
+              ]
+            },
+            "attempted": {
+              "type": "boolean"
+            },
+            "atom_count_verified": {
+              "type": "boolean"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "calculation_status": {
+              "type": "string"
+            },
+            "s1_energy_eV": {
+              "type": "number"
+            },
+            "oscillator_strength": {
+              "type": "number"
+            },
+            "orbital_character": {
+              "type": "string"
+            },
+            "validation_notes": {
+              "type": "string"
+            },
+            "diagnostics": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "shift_eV": {
+        "type": "number"
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "failure_diagnostics": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "provenance",
+          "structures",
+          "shift_eV",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "structures": {
+            "items": {
+              "required": [
+                "s1_energy_eV",
+                "oscillator_strength",
+                "orbital_character"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "structures",
+          "conclusion",
+          "failure_diagnostics"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "structures": {
+            "items": {
+              "required": [
+                "attempted",
+                "calculation_status",
+                "diagnostics"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

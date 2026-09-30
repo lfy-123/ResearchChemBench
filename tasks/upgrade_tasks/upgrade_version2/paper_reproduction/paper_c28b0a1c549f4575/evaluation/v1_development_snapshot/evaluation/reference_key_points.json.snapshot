@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. DED is 1,4-diethyl-1,4-diazabicyclo[2.2.2]octane dication, not a neutral diamine. Define A=TEA+BF4- and B=DED2+(BF4-)2 (both charge0 singlet). For each use one and two PC molecules in contact and separated configurations. PC is racemic; choose a fixed stereochemical composition and report it. Compare PC transfer A.PC+B -> A+B.PC and the corresponding second-PC exchange; compare contact/separated at equal solvent count. Source 1 M TEABF4 +0.2 M DED salt is experimental context, not a finite-cluster concentration.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. DED is 1,4-diethyl-1,4-diazabicyclo[2.2.2]octane dication, not a neutral diamine. Define A=TEA+BF4- and B=DED2+(BF4-)2 (both charge0 singlet). For each use one and two PC molecules in contact and separated configurations. PC is racemic; choose a fixed stereochemical composition and report it. Compare PC transfer A.PC+B -> A+B.PC and the corresponding second-PC exchange; compare contact/separated at equal solvent count. Source 1 M TEABF4 +0.2 M DED salt is experimental context, not a finite-cluster concentration.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_equal_composition_clusters",
+      "statement": "Keep correct anion count and PC count; separated structures may collapse, but only actual mapped optimization evidence establishes that fact. Core rows: TEA_PC1_contact, TEA_PC1_separated, TEA_PC2_contact, TEA_PC2_separated, DED_PC1_contact, DED_PC1_separated, DED_PC2_contact, DED_PC2_separated. Recompute electronic_Eh, G_Eh, ion_pair_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Keep correct anion count and PC count; separated structures may collapse, but only actual mapped optimization evidence establishes that fact. Core rows: TEA_PC1_contact, TEA_PC1_separated, TEA_PC2_contact, TEA_PC2_separated, DED_PC1_contact, DED_PC1_separated, DED_PC2_contact, DED_PC2_separated. Recompute electronic_Eh, G_Eh, ion_pair_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_PC_exchange",
+      "statement": "Balance both salt compositions and every PC molecule. Record component energies and coefficients so the exchange is recomputable; no direct ranking of charged DED-PC versus TEA-PC totals. Core rows: first_PC, second_PC. Recompute electronic_exchange_kJ_mol, free_energy_exchange_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Balance both salt compositions and every PC molecule. Record component energies and coefficients so the exchange is recomputable; no direct ranking of charged DED-PC versus TEA-PC totals. Core rows: first_PC, second_PC. Recompute electronic_exchange_kJ_mol, free_energy_exchange_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_ion_pair_control",
+      "statement": "Separate ion pairing, PC coordination count and conformer uncertainty; conclusions only concern finite molecular necessary conditions. Core rows: TEA_contact_effect, DED_contact_effect, conformer_sensitivity. Recompute delta_E_kJ_mol, delta_G_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Separate ion pairing, PC coordination count and conformer uncertainty; conclusions only concern finite molecular necessary conditions. Core rows: TEA_contact_effect, DED_contact_effect, conformer_sensitivity. Recompute delta_E_kJ_mol, delta_G_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

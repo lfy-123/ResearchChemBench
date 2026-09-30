@@ -1,0 +1,255 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "scan",
+          "validation",
+          "method",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "scan": {
+            "type": "object",
+            "required": [
+              "angles_deg",
+              "relative_energies_kj_mol",
+              "dihedral_atoms",
+              "coverage_deg"
+            ],
+            "properties": {
+              "angles_deg": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "relative_energies_kj_mol": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "dihedral_atoms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 4,
+                "maxItems": 4,
+                "uniqueItems": true
+              },
+              "coverage_deg": {
+                "type": "number"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "minimum_check",
+              "periodicity_check",
+              "converged_points",
+              "notes"
+            ],
+            "properties": {
+              "minimum_check": {
+                "type": "string"
+              },
+              "periodicity_check": {
+                "type": "string"
+              },
+              "converged_points": {
+                "type": "integer"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "method_name",
+              "basis_or_model",
+              "charge",
+              "multiplicity",
+              "convergence",
+              "energy_units"
+            ],
+            "properties": {
+              "method_name": {
+                "type": "string"
+              },
+              "basis_or_model": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "convergence": {
+                "type": "string"
+              },
+              "energy_units": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "minimum_energy_kj_mol": {
+                "type": "number"
+              },
+              "maximum_relative_energy_kj_mol": {
+                "type": "number"
+              },
+              "scan": {
+                "properties": {
+                  "angles_deg": {
+                    "minItems": 24,
+                    "maxItems": 24,
+                    "uniqueItems": true,
+                    "items": {
+                      "enum": [
+                        0,
+                        15,
+                        30,
+                        45,
+                        60,
+                        75,
+                        90,
+                        105,
+                        120,
+                        135,
+                        150,
+                        165,
+                        180,
+                        195,
+                        210,
+                        225,
+                        240,
+                        255,
+                        270,
+                        285,
+                        300,
+                        315,
+                        330,
+                        345
+                      ]
+                    }
+                  },
+                  "relative_energies_kj_mol": {
+                    "minItems": 24,
+                    "maxItems": 24
+                  }
+                }
+              }
+            },
+            "required": [
+              "minimum_energy_kj_mol",
+              "maximum_relative_energy_kj_mol"
+            ]
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure": {
+                "type": "object",
+                "required": [
+                  "attempted_coverage_deg",
+                  "failed_points",
+                  "causes"
+                ],
+                "properties": {
+                  "attempted_coverage_deg": {
+                    "type": "number"
+                  },
+                  "failed_points": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "causes": {
+                    "type": "string"
+                  },
+                  "limitation": {
+                    "type": "string",
+                    "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+                  }
+                }
+              }
+            },
+            "required": [
+              "failure"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

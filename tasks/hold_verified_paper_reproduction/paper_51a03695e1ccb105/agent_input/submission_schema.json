@@ -1,0 +1,194 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "states",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "validated",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "geometry_method",
+          "energy_method",
+          "solvent",
+          "free_energy_convention"
+        ],
+        "properties": {
+          "geometry_method": {
+            "type": "string"
+          },
+          "energy_method": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "free_energy_convention": {
+            "type": "string"
+          }
+        }
+      },
+      "states": {
+        "type": "object",
+        "required": [
+          "reactants",
+          "product",
+          "coproduct",
+          "candidates"
+        ],
+        "properties": {
+          "reactants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "identity",
+                "charge",
+                "multiplicity",
+                "frequency_diagnostic"
+              ],
+              "properties": {
+                "identity": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                },
+                "frequency_diagnostic": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "product": {
+            "type": "object",
+            "required": [
+              "identity",
+              "charge",
+              "multiplicity",
+              "frequency_diagnostic"
+            ],
+            "properties": {
+              "identity": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "frequency_diagnostic": {
+                "type": "string"
+              }
+            }
+          },
+          "coproduct": {
+            "type": "object",
+            "required": [
+              "identity",
+              "charge",
+              "multiplicity",
+              "frequency_diagnostic"
+            ],
+            "properties": {
+              "identity": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "frequency_diagnostic": {
+                "type": "string"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "geometry_provenance",
+                "validation_status",
+                "imaginary_frequency_diagnostic",
+                "connection_evidence"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "geometry_provenance": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string"
+                },
+                "imaginary_frequency_diagnostic": {
+                  "type": "string"
+                },
+                "connection_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "activation_free_energy_kcal_mol": {
+        "type": "number"
+      },
+      "reaction_free_energy_kcal_mol": {
+        "type": "number"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitation": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "activation_free_energy_kcal_mol",
+          "reaction_free_energy_kcal_mol"
+        ],
+        "properties": {
+          "status": {
+            "const": "validated"
+          }
+        }
+      },
+      {
+        "required": [],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ]
+  }
+}

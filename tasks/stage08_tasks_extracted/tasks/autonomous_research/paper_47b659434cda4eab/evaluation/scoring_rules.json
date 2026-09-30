@@ -1,0 +1,83 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar-r-1",
+      "type": "condition",
+      "expected": "A finite candidate-generation rule, deduplication/coverage statement and stopping condition are declared.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.candidate_generation_rule", "$.models[].model_id", "$.models[].status", "$.limitations"],
+        "comparison": "expert check"
+      },
+      "reference_id": "ar-kp-1"
+    },
+    {
+      "rule_id": "ar-r-2",
+      "type": "condition",
+      "expected": "Six individually identified model records and candidate-specific validation context are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.models[].model_id", "$.models[].validation", "$.models[].evidence", "$.candidates[].parent_model_id", "$.candidates[].validation", "$.candidates[].evidence"],
+        "comparison": "expert check"
+      },
+      "reference_id": "ar-kp-2"
+    },
+    {
+      "rule_id": "ar-r-3",
+      "type": "semantic",
+      "expected": "The independent conclusion discriminates chain-length-dependent behavior using submitted evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.models[].model_id", "$.models[].status", "$.models[].evidence", "$.conclusion"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar-kp-3"
+    },
+    {
+      "rule_id": "ar-r-4",
+      "type": "condition",
+      "expected": "At least two plausible pathway hypotheses have evidence and an assessment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.hypotheses[].hypothesis", "$.hypotheses[].evidence", "$.hypotheses[].assessment"],
+        "comparison": "expert check"
+      },
+      "reference_id": "ar-kp-4"
+    },
+    {
+      "rule_id": "ar-r-5",
+      "type": "semantic",
+      "expected": "An evidence-weighted, search-bounded mechanistic conclusion is given.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.conclusion", "$.limitations"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar-c-1"
+    },
+    {
+      "rule_id": "ar-r-6",
+      "type": "semantic",
+      "expected": "Unsearched conformers, failed searches and model assumptions are explicitly bounded.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.limitations"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar-c-2"
+    }
+  ],
+  "paper_id": "paper_47b659434cda4eab"
+}

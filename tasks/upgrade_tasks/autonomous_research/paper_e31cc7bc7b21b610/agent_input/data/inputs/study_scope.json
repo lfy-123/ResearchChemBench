@@ -1,0 +1,69 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "Egan2Ir2": {
+      "formula": "C88H104Ir2N4O12",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ]
+    },
+    "egan2Ir2": {
+      "formula": "C56H40Ir2N4O12",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ]
+    },
+    "EganIr": {
+      "formula": "C44H52IrN2O6",
+      "charge": 0,
+      "multiplicities": [
+        2
+      ]
+    },
+    "eganIr": {
+      "formula": "C28H20IrN2O6",
+      "charge": 0,
+      "multiplicities": [
+        2
+      ]
+    }
+  },
+  "identity_files": [
+    "Egan_identity.json",
+    "dimer_definition.json",
+    "egan_identity.json",
+    "retained_heavy_mapping.json"
+  ],
+  "control_definitions": {
+    "paired_truncation": "Compare full Egan2Ir2 and tert-butyl-deleted egan2Ir2, with common retained-heavy mapping. Do not substitute the much smaller Hap4Ir2 model as though it were this same truncation.",
+    "states": "For each dimer examine closed/BS singlet and triplet with stability and natural occupations; classify minimum versus saddle on each claimed state.",
+    "distance": "For each dimer take its selected equilibrium fragment geometries, then separate rigid fragments by +0.2 and +0.5 angstrom along Ir-Ir, keeping orientation fixed. Compute like-defined interaction and density/orbital descriptors.",
+    "twist": "At equilibrium distance rotate fragment B 30 degrees about Ir-Ir while keeping both fragments internally rigid; compare orbital mixing and interaction. These interventions need not be minima.",
+    "fragments": "Use neutral doublets and disclose fragment occupations; if another decomposition is scientifically needed it is a separate calibrated sensitivity, not a hidden replacement."
+  },
+  "observable_definition": "For neutral doublet fragments A=(ligand)Ir and B=(ligand)Ir: E_int=E_AB-E_A(frozen)-E_B(frozen); E_def=sum[E_fragment(frozen)-E_fragment(relaxed)]; E_assoc=E_int+E_def, kcal/mol. Keep fragment charge/spin, basis/BSSE and relativistic definitions identical. This operational decomposition is not a unique partition of metal–metal versus ligand pi bonding.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "dimer_states",
+      "description": "True dimers, electronic states and paired truncation"
+    },
+    {
+      "id": "fragment_interventions",
+      "description": "Fixed-fragment interaction/deformation and distance/twist matrix"
+    },
+    {
+      "id": "bonding_evidence",
+      "description": "Cross-check orbital, density, bond-index and energy explanations"
+    }
+  ],
+  "optional_not_scored": "Hap4Ir2 calibration, all oxidation states and large-scale dynamics are optional; licensed EDA is not mandatory.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

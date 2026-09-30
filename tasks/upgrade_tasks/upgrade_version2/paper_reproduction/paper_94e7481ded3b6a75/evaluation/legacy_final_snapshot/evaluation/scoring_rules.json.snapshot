@@ -1,0 +1,167 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "rules": [
+    {
+      "rule_id": "r_pr_identity",
+      "reference_id": "kp_pr_process_identity",
+      "type": "condition",
+      "expected": "system_id is PBNA and validation records the explicit 50-atom neutral-singlet system",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system_id",
+          "$.validation.atom_count",
+          "$.validation.charge",
+          "$.validation.multiplicity"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "r_pr_minimum",
+      "reference_id": "kp_pr_process_minimum",
+      "type": "condition",
+      "expected": "optimization_converged is true and imaginary_frequency_count is zero, or status is bounded_failure with diagnostics",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.validation.optimization_converged",
+          "$.validation.imaginary_frequency_count"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "r_pr_homo",
+      "reference_id": "kp_pr_frontier",
+      "type": "numeric",
+      "target": -5.62,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.HOMO_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_lumo",
+      "reference_id": "kp_pr_frontier",
+      "type": "numeric",
+      "target": -1.71,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.LUMO_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_E",
+      "reference_id": "kp_pr_thermo",
+      "type": "numeric",
+      "target": -1087.1445139,
+      "unit": "hartree",
+      "tolerance": 0.01,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.electronic_energy_au"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_zpe",
+      "reference_id": "kp_pr_thermo",
+      "type": "numeric",
+      "target": 0.410542,
+      "unit": "hartree",
+      "tolerance": 0.01,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.zero_point_energy_au"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_G",
+      "reference_id": "kp_pr_thermo",
+      "type": "numeric",
+      "target": -1086.786988,
+      "unit": "hartree",
+      "tolerance": 0.01,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.gibbs_free_energy_au"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_S",
+      "reference_id": "kp_pr_thermo",
+      "type": "numeric",
+      "target": 161.102,
+      "unit": "cal mol-1 K-1",
+      "tolerance": 2,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.entropy_cal_mol_K"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "reference_id": "c_pr_final",
+      "type": "semantic",
+      "expected": "The validated PBNA calculation gives the required thermochemical and frontier-orbital observables under the primary B3LYP/6-31G(d), gas-phase 298.15 K protocol, with an orbital-localization interpretation grounded in submitted spatial or population evidence. Tie thermochemical and frontier quantities to the same validated primary endpoint and declared units. Check Hartree/eV and entropy units, G and ZPE conventions; broad absolute-energy agreement is not an identity check.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables",
+          "$.validation",
+          "$.localization_analysis",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

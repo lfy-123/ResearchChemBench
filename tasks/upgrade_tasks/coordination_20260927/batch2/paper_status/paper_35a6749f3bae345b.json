@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "title": "State relaxation and common-twist tests with a DBC-Cbz holdout",
+  "status": "implemented_pending_expanded_reference",
+  "packages": [
+    {
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_35a6749f3bae345b",
+      "task_type": "autonomous_research",
+      "package_content_sha256": "70c4747a60481052e9a4d71c4109035f2f093742ae1cc67040440dc87f6f2b9d"
+    },
+    {
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_35a6749f3bae345b",
+      "task_type": "paper_reproduction",
+      "package_content_sha256": "ab34ae4089bbf0625b7a5951d77702defc41297dc53c2295ea668200f65da5e1"
+    }
+  ],
+  "new_reference_gaps": "State-followedS1 minima, consistent four-point cycles, common-twist contrasts andCbz frozen prediction remain uncalculated.",
+  "blockers": [],
+  "source_review": {
+    "paper_main": "Theoretical section and toluene experimental comparison read; Cbz is a real source member.",
+    "paper_si": "S0/S1 root/geometry tables andCbz identity inspected; original state conventions do not imply ESA."
+  },
+  "source_corrections": [
+    "DBC-Cbz is explicitly defined as the third-member holdout with full sidechain graph.",
+    "Ordinary TD atS1 geometry is not labeled excited-state absorption."
+  ],
+  "check_summary": "Package-specific checks pending final batch regression; no scientific validation claimed."
+}

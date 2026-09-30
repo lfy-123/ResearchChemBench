@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_d2d08c91f34da1cb",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "condition",
+      "expected": "Both states attempted with explicit state, charge/multiplicity and convergence evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.route.validation"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "pr_process_geometry"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "condition",
+      "expected": "Harmonic frequencies, imaginary modes, 0–125 cm−1 scope and matching basis are reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.comparison.pairs",
+          "$.route.validation"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "pr_process_frequency_validation"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "semantic",
+      "expected": "The report supplies MAE and maximum absolute deviation for observed pairs when available, and interprets agreement against the source-reported below-3 cm^-1 result without treating that value as a universal pass threshold; use the actual observed matched pairs and physical mode identities; do not require a feature to remain unmatched if supported evidence assigns it. Use the public 0-125 cm^-1 window and declared scaling/normalization. The reference factor 0.9670 is not mandatory for every allowed model. Retain unmatched peaks separately and never count unobserved peaks as zero errors.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.metrics",
+          "$.comparison.coverage"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "pr_result_numeric_agreement"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "semantic",
+      "expected": "The conclusion identifies xanthene redshift and carboxyphenyl blueshift trends, with physical mode-displacement evidence, including mixed modes when present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Frequency shifts refer to physically matched displacements, not integer labels. Mixed modes and supported exceptions are valid; no universal red/blue direction or strict maximum error below 3 cm-1 is implied."
+      },
+      "reference_id": "pr_result_state_shifts"
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "The calculated S0/S1 low-frequency modes are matched to the specified experimental SLT features using physical displacements and frequency shifts. The resulting assignments, red/blue shifts and error statistics support the agreement assessment; supported new matches are admissible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Frequency shifts refer to physically matched displacements, not integer labels. Mixed modes and supported exceptions are valid; no universal red/blue direction or strict maximum error below 3 cm-1 is implied."
+      },
+      "reference_id": "pr_final_validation"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

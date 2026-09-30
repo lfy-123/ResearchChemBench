@@ -1,0 +1,20 @@
+{
+  "system": "ordered B2 beta-NiAl",
+  "composition": "one Ni and one Al per conventional cell",
+  "lattice_parameter_angstrom": 2.89,
+  "sites": {
+    "Ni": "(0,0,0) fractional",
+    "Al": "(0.5,0.5,0.5) fractional"
+  },
+  "defects": [
+    "remove exactly one Ni atom from a periodic supercell",
+    "remove exactly one Al atom from a periodic supercell"
+  ],
+  "charge_state": 0,
+  "spin_state": "Agent must state and justify",
+  "reservoir_convention": "Primary Ni-rich comparison: mu_Ni=E(fcc Ni)/atom; mu_Al=E(B2 beta-NiAl)/formula_unit-mu_Ni; E_f(V_X)=E_defect-E_pristine+mu_X. This defines the benchmark primary observable.",
+  "scored_observables": [
+    "neutral Ni-vacancy formation energy",
+    "neutral Al-vacancy formation energy"
+  ]
+}

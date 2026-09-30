@@ -1,0 +1,27 @@
+# Scientific objective
+
+Determine, by an independent computational investigation, whether neutral, closed-shell (R)-4 and neutral, closed-shell alkenol 7 differ in reactant-state electronic polarization at their C=C bonds in aqueous solution. Formulate and discriminate plausible electronic explanations using molecular electrostatic potential/electronic-density descriptors and atom-resolved partial charges. Establish what the calculations do and do not support about possible downstream regioselectivity, without treating reactant-state evidence as proof of a reaction mechanism.
+
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that the allylic hydroperoxide in neutral, closed-shell (R)-4 changes the reactant-state electron-density distribution at the nearby C=C bond, while hydroperoxide-free neutral, closed-shell alkenol 7 has electronically comparable alkene sites. They present this as a plausible reactant-state electronic rationale for later regioselectivity, not as proof of a reaction mechanism.
+
+**Candidate route or mechanism.**
+Focus the comparison on hydroperoxide-associated polarization: assess whether the alkene carbon proximal to the hydroperoxide is electronically distinct from the distal carbon in 4, and compare that asymmetry with the two equivalent alkene sites of 7. Treat the proposed relationship to downstream 6-exo-trig haloetherification as a comparison hypothesis rather than a conclusion.
+
+**Discriminating evidence.**
+Use consistently computed molecular electrostatic potential or electronic-density descriptors and electrostatic-potential-derived atom-resolved partial charges, especially the signed difference between the two alkene carbons in each molecule. Validate the electronic states and use the same charge definition for the cross-molecule comparison.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `data/inputs/compound_4_R.xyz` (33 atoms, explicit atom order, (R)-4) and `data/inputs/compound_7.xyz` (25 atoms, explicit atom order, 7). They are fixed, answer-neutral benchmark conformers supplied as Cartesian inputs; do not claim to reproduce a hidden optimized geometry. Treat both systems as neutral closed-shell singlets. In 4, the alkene is atoms 2 and 4 and atom 2 is bonded through atom 1 to hydroperoxide oxygen atom 22; report [2, 4] as [hydroperoxide-proximal, distal]. In 7, the alkene is atoms 8 and 10; report [8, 10] in increasing atom-index order because the sites are chemically equivalent for this comparison. Preserve atom order. The physical boundary is an isolated molecule represented in aqueous solution by a computational solvation treatment selected and justified by you. The scored system is each isolated molecule represented in aqueous solution by the selected computational solvation treatment; do not add an enzyme, brominating reagent, explicit solvent molecule, transition state, intermediate, or product structure. Choose software, model chemistry, solvation model, charge partition, conformer strategy, and validation route independently. Do not use the paper, SI, general web, or hidden evaluator as an input.
+
+# Required scientific validation/investigation
+
+Propose at least one plausible explanation for any observed difference or similarity, compute both public molecules consistently, and discriminate the explanation against the calculated descriptors. Consistently evaluate the supplied conformers, then validate each reported electronic state with SCF/convergence and wavefunction or equivalent state checks; optimization is optional, and any optimized result must additionally report frequency/Hessian evidence and imaginary modes. Retain atom identity. Compute an MEP/electrostatic-potential descriptor and atom-resolved charges for both molecules, report the two alkene-carbon charges and signed difference, and compare the cases using one charge definition. If multiple conformers or methods are investigated, define generation, deduplication, advancement, validation, and coverage; if not, state the limitation. Completion is reached when the independent hypothesis, calculations, validation, comparison, and limitation statement are documented, or when a bounded failure identifies the missing artifact and attempted checks. Stop at that point and do not claim exhaustive conformational sampling or a unique mechanism.
+
+# Deliverables
+
+Submit `report/results.json` and supporting reproducibility files. The JSON must contain: `status` (`complete` or `bounded_failure`); `hypothesis` and `hypothesis_test`; per-molecule `molecules` entries keyed by `compound_4_R` and `compound_7`, each with `atom_count`, `alkene_carbon_indices`, `charges` (atom-indexed numeric array when available), `charge_definition`, `validation` and `method`; `comparison` with signed alkene-charge differences and a qualitative polarization statement; `coverage`; `limitations`; and `provenance`. A complete result must include numeric charges for every atom of each molecule, validation evidence for each, and reproducible method/provenance. A bounded failure must truthfully identify the missing artifact and report attempted validation and coverage, and may omit unavailable charge arrays while retaining identity, method, charge definition, and validation records.

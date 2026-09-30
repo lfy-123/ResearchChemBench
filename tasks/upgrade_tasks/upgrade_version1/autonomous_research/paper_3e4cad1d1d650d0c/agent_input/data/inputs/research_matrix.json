@@ -1,0 +1,63 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "scope": "Test whether frontier-orbital ranking explains the excited-state reducing ability of 1a and 1e in DMSO by calculating their oxidation free-energy difference, combining it with measured E00, and challenging electron-transfer thermodynamics with 4-chloroanisole and an independent quenching observation.",
+  "species": [
+    {
+      "id": "1a_anion",
+      "mapped_smiles": "[c-:1]1(-[c:2]2[cH:3][cH:4][cH:5][cH:6][cH:7]2)[c:8]2[cH:9][cH:10][cH:11][cH:12][c:13]2[c:14]2[cH:15][cH:16][cH:17][cH:18][c:19]12",
+      "formula": "C19H13-",
+      "charge": -1,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "1e_anion",
+      "mapped_smiles": "[c-:1]1(-[c:2]2[cH:3][cH:4][c:5]([C:6]([F:7])([F:8])[F:9])[cH:10][cH:11]2)[c:12]2[cH:13][cH:14][cH:15][cH:16][c:17]2[c:18]2[cH:19][cH:20][cH:21][cH:22][c:23]12",
+      "formula": "C20H12F3-",
+      "charge": -1,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "1a_radical",
+      "mapped_smiles": "[C:1]1([c:2]2[cH:3][cH:4][cH:5][cH:6][cH:7]2)[c:8]2[cH:9][cH:10][cH:11][cH:12][c:13]2-[c:14]2[cH:15][cH:16][cH:17][cH:18][c:19]21",
+      "formula": "C19H13",
+      "charge": 0,
+      "multiplicity": 2,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "1e_radical",
+      "mapped_smiles": "[C:1]1([c:2]2[cH:3][cH:4][c:5]([C:6]([F:7])([F:8])[F:9])[cH:10][cH:11]2)[c:12]2[cH:13][cH:14][cH:15][cH:16][c:17]2-[c:18]2[cH:19][cH:20][cH:21][cH:22][c:23]21",
+      "formula": "C20H12F3",
+      "charge": 0,
+      "multiplicity": 2,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "4_chloroanisole",
+      "mapped_smiles": "[CH3:1][O:2][c:3]1[cH:4][cH:5][c:6]([Cl:7])[cH:8][cH:9]1",
+      "formula": "C7H7ClO",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "atom_correspondence": "For each anion/radical pair retain identical map numbers and bonds; only the central [C-] becomes a neutral [C] radical. Map cross-donor common fluorene plus phenyl graph before comparison.",
+    "reference_cycle": "Fix Eox(1a)=-0.61 V versus SCE as the experimental calibration anchor. Compute ΔΔGox=[G(rad1e)-G(anion1e)]-[G(rad1a)-G(anion1a)] at the same DMSO/standard-state convention. Eox(1e)=anchor+ΔΔGox/e. Do not fit an electrode constant to 1e.",
+    "ET_definition": "Eox*=Eox-E00; ΔGET/e=Eox*-Ered(4-chloroanisole). The reported acceptor reduction potential may be irreversible/dissociative and is not an equilibrium energy of a bound molecular anion.",
+    "challenge_partition": "Do not fit the cycle to the held-out intensity/lifetime quenching pattern. Assess whether thermodynamics and a purely dynamic model can jointly explain it."
+  },
+  "source_notes": [
+    "Main PDF p4 Table1: experimental crossings and 1a calibration; p5: acceptor and quenching challenge.",
+    "SI p23: electrochemical reference; pp57–58: calculation and association context."
+  ],
+  "molecular_boundary": "Use isolated ions without counterions, q=-1 singlet donors and q=0 doublet oxidized radicals. All redox potentials are volts versus SCE, n=1. E00 is an absorption/emission crossing energy, not a HOMO-LUMO gap. A favorable driving force is not a prediction of cleavage kinetics or product yield. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Complete C–Cl dissociation, substrate yields and the full catalytic cycle are outside this version."
+}

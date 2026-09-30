@@ -74,9 +74,16 @@
                     "type": "string"
                   }
                 },
-                "state_character": {
-                  "type": "string"
-                },
+                                                                                    "state_character": {
+                                                                                      "oneOf": [
+                                                                                        {
+                                                                                          "type": "string"
+                                                                                        },
+                                                                                        {
+                                                                                          "type": "object"
+                                                                                        }
+                                                                                      ]
+                                                                                    },
                 "convergence_evidence": {
                   "type": "string"
                 },

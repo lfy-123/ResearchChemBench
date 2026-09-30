@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_0bcc3a25c664788b",
+  "task_type": "autonomous_research",
+  "title": "Independent computational investigation of substituent and solvent effects in TPAAN excited states",
+  "category": "excited-state electronic structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Six fixed cases require independent formulation and discrimination of explanations for different S1 and T1 sensitivities",
+    "The Agent must choose validation diagnostics and justify interpretation from its own calculations"
+  ],
+  "paper": {
+    "title": "Color-Tunable Triplet–Triplet Annihilation Upconversion under Single Wavelength Excitation via Solvatochromic Annihilators",
+    "doi": "10.1021/acs.jpcc.5c07494",
+    "journal": "The Journal of Physical Chemistry C",
+    "publication_date": "2026-01-05"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Six labeled neutral-singlet S0 XYZ geometries: TPAAN-OMe, TPAAN-H, and TPAAN-CHO in n-hexane and chloroform; each filename and XYZ comment gives unique identity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured six-case energies, validation records, hypotheses, discriminating observations, and limitations."
+    }
+  ]
+}

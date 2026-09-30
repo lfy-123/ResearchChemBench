@@ -1,0 +1,235 @@
+{
+  "paper_id": "paper_6f9a36fff6964313",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_6f9a36fff6964313_20260921_201905_ead760/runs/cli_runs/batch_20260921_201909_1abee7/autonomous_research-paper_6f9a36fff6964313-codex-20260921_201909-4633f5/report/results.json",
+      "sha256": "151060af26ab3a1d213da6ceb2fbb7dc75ff4e715f432502de38144b7a7ff739",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_6f9a36fff6964313",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_6f9a36fff6964313",
+          "package_content_sha256": "2bc65fc8c15d796a13eac61df436bba8e1477c9f66d8ccf28013437ed8c6ae5e",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_6f9a36fff6964313/package_manifest.json",
+            "sha256": "7c5bf185416900373eae62586c7427ad7659318a54db9a587a7b20cc67c9011d"
+          },
+          "payload_entries_checked": 30,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_6f9a36fff6964313",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_6f9a36fff6964313",
+          "package_content_sha256": "47438c48986f34f30ae093de52cf5056a5ee4270256e4cfa99e01137e05a1d7a",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_6f9a36fff6964313/package_manifest.json",
+            "sha256": "bf48f0126c5dd2b252caace5348ceebb62e6d753f0181b227b51a835d843d370"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_6f9a36fff6964313",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "双/单功能完整催化剂、OTf/KI/H2O/CO2及环氧化物已建立等计量账本；四个区域开环图核对SN2映射奇偶性。六种组分和四个全体系62/57原子遭遇输入已回读全H图、电荷与显式碘扩散基组/ECP，初次苄位进攻碰撞的失败证据保留。方法是独立含扩散函数先导，不冒称作者路径；新DFT尚未运行。",
+        "unfinished_validation": "完整同计量四路径的真实驻点和TS/端点、组织代价与匹配构象/方法敏感性；原电荷结果不能代替路径。",
+        "input_and_reference_gaps": [
+          "原电荷分析不是局部开环路径；全体系及SN2图已准备。",
+          "四个完整离子对开环与组织代价尚未计算；独立扩散基组方法须另行校准。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/legacy/inventory.json",
+            "sha256": "45da536eb3152add775f53d59ba63e9f0eac9a39109de6ab7f42eda7111e8287"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/provenance/ionpair_graph_preparation.json",
+            "sha256": "e58ee933767051671b609baf2d5c004381939c170297570a7fe123176390b2e9"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/provenance/full_cluster_preparation.json",
+            "sha256": "b21f28461eec9e364435cb0edd0b26f508eaa93b293b8af045efca59fd39e147"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/provenance/full_cluster_v0_partial/failure.json",
+            "sha256": "66d8b06c05f745c35173534c21862adfbdfc2048218b195aba3efa5ed3fc607f"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/data/basis/def2-svpd.provenance.json",
+            "sha256": "32a150676593b0bb139c4db373979901156676342020ee556ba4caa43de3dfe5"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/report/progress_report.md",
+          "sha256": "b0dcc7fdb24c0c034fd939880244bc92c44d5f7d0b6013bccb4ad30fd5f9c19c"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/report/progress_evaluator_mapping.json",
+          "sha256": "5b6962892fdd4d8320691991be9a3f02dd89c5441974445977253dab2fef1742"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/CO2_MeCN_fragment_optfreq.com",
+            "sha256": "9e27db525a9ee913e88162076bfc72d9831c5bfdeb1d99e0ad7ecf8cba09888e"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/OTf_MeCN_fragment_optfreq.com",
+            "sha256": "27b5ff78c376b3533242a5fff394b223f76e00999f2b4c343c506164e28f279e"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/ptma_otf_benzylic_full_MeCN_encounter_v2_optfreq.com",
+            "sha256": "092213c85fae3b1ce1f516c0475df61f6857f9e0e66c0fb4f26241596824531e"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/ptma_otf_cation_MeCN_fragment_optfreq.com",
+            "sha256": "e6083f2e3f781f58dafbe19ca74182db26bb1a79d630dc6f41addbd4f429488d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/ptma_otf_terminal_full_MeCN_encounter_v2_optfreq.com",
+            "sha256": "80b29b934923333ef657dfa31ae24fc8d38f11efbf203c9ebb8366f851a366d1"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/styrene_oxide_R_MeCN_fragment_optfreq.com",
+            "sha256": "075038e7d00573cf398f0a09e1b076e7aad26c12e3e2ed8af767964afa1010b2"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/tmtfaba_otf_benzylic_full_MeCN_encounter_v2_optfreq.com",
+            "sha256": "0944db75e3f3c09648f871917028700552b1d4e4656940260daeb8304d7d0bee"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/tmtfaba_otf_cation_MeCN_fragment_optfreq.com",
+            "sha256": "7430ed764b1ace4523fb27714a28205363f9d6a15db4047e74ce85b56db97638"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/tmtfaba_otf_terminal_full_MeCN_encounter_optfreq.com",
+            "sha256": "02bd2f21d80b5dbadff9a123077952998cd62c0597f95dcf4083eb7098629f05"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/tmtfaba_otf_terminal_full_MeCN_encounter_v2_optfreq.com",
+            "sha256": "29cbaf8f59c31bf249bae2b087f466e49bc8cdda599c6b550861855430d6b087"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/inputs/water_MeCN_fragment_optfreq.com",
+            "sha256": "6c0cca34b3ee2cf8089f4c3d7e84cd2cc22271b0d0e98379b1c7f97c364bcfae"
+          }
+        ],
+        "active_jobs": [],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/task_snapshot/frozen_binding.json",
+          "sha256": "9e0134190a6fbe374ac03405c224d8f2bd6df6e68afd797708d407bd3d86c57c"
+        }
+      },
+      "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+      "allowed_use": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition.",
+      "scope": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/legacy/inventory.json",
+      "sha256": "45da536eb3152add775f53d59ba63e9f0eac9a39109de6ab7f42eda7111e8287",
+      "frozen_sha256": "45da536eb3152add775f53d59ba63e9f0eac9a39109de6ab7f42eda7111e8287",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+      "scope": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/provenance/ionpair_graph_preparation.json",
+      "sha256": "e58ee933767051671b609baf2d5c004381939c170297570a7fe123176390b2e9",
+      "frozen_sha256": "e58ee933767051671b609baf2d5c004381939c170297570a7fe123176390b2e9",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+      "scope": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/provenance/full_cluster_preparation.json",
+      "sha256": "b21f28461eec9e364435cb0edd0b26f508eaa93b293b8af045efca59fd39e147",
+      "frozen_sha256": "b21f28461eec9e364435cb0edd0b26f508eaa93b293b8af045efca59fd39e147",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+      "scope": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/provenance/full_cluster_v0_partial/failure.json",
+      "sha256": "66d8b06c05f745c35173534c21862adfbdfc2048218b195aba3efa5ed3fc607f",
+      "frozen_sha256": "66d8b06c05f745c35173534c21862adfbdfc2048218b195aba3efa5ed3fc607f",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "diagnostic_or_execution_status_requires_result_inspection",
+      "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+      "scope": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_6f9a36fff6964313/data/basis/def2-svpd.provenance.json",
+      "sha256": "32a150676593b0bb139c4db373979901156676342020ee556ba4caa43de3dfe5",
+      "frozen_sha256": "32a150676593b0bb139c4db373979901156676342020ee556ba4caa43de3dfe5",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+      "scope": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+      "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Source catalyst graphs and charge-calculation protocol support a small molecular baseline. Existing charge/cluster calculations, where exact geometry and inventory match, can inform feasibility but do not certify local reaction barriers or full catalytic synergy. No new engine run is needed for content authoring.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Full balanced ion-pair/epoxide/additive cluster constructions and atom maps; source isolated-ion charge baseline uses its documented two-level MeCN treatment.",
+    "allowed": "Reuse chemical identities, balanced inventory checks and construction diagnostics as private feasibility evidence. The prepared 62/57-atom clusters are optional historical models, not measurements or obligatory V2 branches.",
+    "not_supported": "No newly validated cluster reaction barrier or causal catalytic-synergy result. Preparations/failed partial constructions do not establish stable clusters. Keep epoxidation peroxide conditions distinct from the isolated-epoxide cycloaddition water condition."
+  },
+  "new_scientific_calculations_performed": false
+}

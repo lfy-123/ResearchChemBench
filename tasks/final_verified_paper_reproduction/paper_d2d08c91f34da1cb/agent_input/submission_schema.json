@@ -1,0 +1,250 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "status",
+      "route",
+      "states",
+      "comparison",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "route": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "steps",
+          "validation"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "validation": {
+            "type": "string"
+          }
+        }
+      },
+      "states": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "calculation_status",
+            "geometry_status",
+            "modes",
+            "imaginary_modes",
+            "failure_evidence"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "S0",
+                "S1"
+              ]
+            },
+            "calculation_status": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "bounded_failure"
+              ]
+            },
+            "geometry_status": {
+              "type": "string"
+            },
+            "modes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "mode_id",
+                  "identity_evidence"
+                ],
+                "properties": {
+                  "mode_id": {
+                    "type": "string"
+                  },
+                  "frequency_cm-1": {
+                    "type": "number"
+                  },
+                  "match_status": {
+                    "type": "string",
+                    "enum": [
+                      "unmatched",
+                      "not_obtained"
+                    ]
+                  },
+                  "identity_evidence": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "anyOf": [
+                  {
+                    "required": [
+                      "frequency_cm-1"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "match_status"
+                    ]
+                  }
+                ]
+              }
+            },
+            "imaginary_modes": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "failure_evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "pairs",
+          "metrics",
+          "coverage"
+        ],
+        "properties": {
+          "pairs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "state",
+                "mode_id",
+                "matching_basis"
+              ],
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "S0",
+                    "S1"
+                  ]
+                },
+                "mode_id": {
+                  "type": "string"
+                },
+                "observed_cm-1": {
+                  "type": "number"
+                },
+                "computed_cm-1": {
+                  "type": "number"
+                },
+                "match_status": {
+                  "type": "string",
+                  "enum": [
+                    "unmatched",
+                    "observation_missing",
+                    "not_obtained"
+                  ]
+                },
+                "matching_basis": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "anyOf": [
+                {
+                  "required": [
+                    "observed_cm-1",
+                    "computed_cm-1"
+                  ]
+                },
+                {
+                  "required": [
+                    "match_status"
+                  ]
+                }
+              ]
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "mae_cm-1": {
+                "type": "number"
+              },
+              "max_abs_error_cm-1": {
+                "type": "number"
+              },
+              "availability": {
+                "type": "string",
+                "enum": [
+                  "not_available"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "anyOf": [
+              {
+                "required": [
+                  "mae_cm-1",
+                  "max_abs_error_cm-1"
+                ]
+              },
+              {
+                "required": [
+                  "availability",
+                  "reason"
+                ]
+              }
+            ]
+          },
+          "coverage": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    }
+  }
+}

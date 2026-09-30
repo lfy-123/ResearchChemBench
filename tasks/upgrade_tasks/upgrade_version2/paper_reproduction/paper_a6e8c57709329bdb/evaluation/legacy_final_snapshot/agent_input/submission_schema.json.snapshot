@@ -1,0 +1,183 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status"
+    ],
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "system",
+          "method",
+          "validation",
+          "observables",
+          "orbital_localization",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "formula",
+              "charge",
+              "multiplicity",
+              "structure_xyz"
+            ],
+            "properties": {
+              "formula": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "structure_xyz": {
+                "type": "string"
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "method",
+              "basis"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string"
+              },
+              "basis": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "optimization_converged",
+              "stationary_point_or_force_check",
+              "gap_recomputed",
+              "evidence"
+            ],
+            "properties": {
+              "optimization_converged": {
+                "type": "boolean"
+              },
+              "stationary_point_or_force_check": {
+                "type": "string"
+              },
+              "gap_recomputed": {
+                "type": "boolean"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "homo_eV",
+              "lumo_eV",
+              "gap_eV"
+            ],
+            "properties": {
+              "homo_eV": {
+                "type": "number"
+              },
+              "lumo_eV": {
+                "type": "number"
+              },
+              "gap_eV": {
+                "type": "number"
+              }
+            }
+          },
+          "orbital_localization": {
+            "type": "object",
+            "required": [
+              "homo",
+              "lumo",
+              "evidence"
+            ],
+            "properties": {
+              "homo": {
+                "type": "string"
+              },
+              "lumo": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          },
+          "attempted_candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "disposition"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "disposition": {
+                  "type": "string"
+                },
+                "details": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "failure_details",
+          "attempted_candidates"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_details": {
+            "type": "string"
+          },
+          "attempted_candidates": {
+            "type": "array"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      }
+    ]
+  }
+}

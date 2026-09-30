@@ -1,1 +1,140 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","result_schema":{"oneOf":[{"type":"object","required":["status","system","state","candidates","selection","conclusion","limitations"],"properties":{"status":{"const":"complete"},"system":{"type":"object","required":["pdb_id","chains","atom_mapping"],"additionalProperties":false},"state":{"type":"object","required":["charge","multiplicity","method","geometry_provenance"],"additionalProperties":false},"candidates":{"type":"array","minItems":1,"items":{"type":"object","required":["id","design","generation_rule","validation","observables","status"],"properties":{"validation":{"type":"object","required":["mapping","symmetry","cap_exclusion","coverage","disulfide_pairs","glu17a_arg22b"]},"observables":{"type":"object","required":["ami_definition","fmi_definition","matrix_artifacts","metrics"]}},"additionalProperties":false}},"selection":{"type":"object","required":["criterion","selected_candidate_ids","coverage","stopping","comparison"],"additionalProperties":false},"conclusion":{"type":"object","required":["locality","disulfides","radius_sensitivity","text"],"additionalProperties":false},"limitations":{"type":"array","items":{"type":"string"}}},"additionalProperties":false},{"type":"object","required":["status","system","state","candidates","selection","failure_report","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"system":{"type":"object","required":["pdb_id","chains","atom_mapping"]},"state":{"type":"object","required":["charge","multiplicity","method","geometry_provenance"]},"candidates":{"type":"array","minItems":1},"selection":{"type":"object","required":["criterion","selected_candidate_ids","coverage","stopping"]},"failure_report":{"type":"object","required":["completed_artifacts","missing_endpoint","reason"]},"conclusion":{"type":"object","required":["locality","disulfides","radius_sensitivity","text"]},"limitations":{"type":"array","items":{"type":"string"}}},"additionalProperties":false}]}}
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "state",
+          "candidates",
+          "selection",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "system": {},
+          "state": {},
+          "candidates": {},
+          "selection": {},
+          "conclusion": {},
+          "limitations": {}
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "state",
+          "candidates",
+          "selection",
+          "failure_report",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "system": {},
+          "state": {},
+          "candidates": {},
+          "selection": {},
+          "failure_report": {},
+          "conclusion": {},
+          "limitations": {}
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "state",
+          "fragments",
+          "validation",
+          "observables",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "author_release_verified"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "pdb_id",
+              "chains",
+              "atom_count",
+              "residue_count",
+              "atom_mapping"
+            ]
+          },
+          "state": {
+            "type": "object",
+            "required": [
+              "method",
+              "solvent_and_ions",
+              "independent_reexecution",
+              "author_artifacts_verified",
+              "source_commit"
+            ]
+          },
+          "fragments": {
+            "type": "object",
+            "required": [
+              "centers",
+              "radii_angstrom",
+              "cap_policy",
+              "fragment_provenance",
+              "count_per_radius"
+            ]
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "checks",
+              "coverage",
+              "disulfide_pairs",
+              "glu17a_arg22b"
+            ]
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "ami_definition",
+              "fmi_definition",
+              "matrix_artifacts",
+              "ami_full_vs_stitched_metrics"
+            ]
+          },
+          "conclusion": {
+            "type": "object",
+            "required": [
+              "locality",
+              "disulfides",
+              "radius_sensitivity",
+              "text"
+            ]
+          },
+          "limitations": {
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    ]
+  }
+}

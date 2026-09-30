@@ -1,0 +1,484 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "system",
+      "method",
+      "conformer_search",
+      "selected_structure",
+      "stationarity",
+      "properties",
+      "sensitivity",
+      "conclusion"
+    ],
+    "properties": {
+      "system": {
+        "type": "object",
+        "required": [
+          "name",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure_method",
+          "basis_or_representation",
+          "phase",
+          "justification"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "electronic_structure_method": {
+            "type": "string"
+          },
+          "basis_or_representation": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      },
+      "conformer_search": {
+        "type": "object",
+        "required": [
+          "generated_count",
+          "deduplicated_count",
+          "advanced_count",
+          "frequency_validated_count",
+          "energy_span_kcal_mol",
+          "deduplication",
+          "candidates",
+          "coverage_rationale"
+        ],
+        "properties": {
+          "generated_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "deduplicated_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "advanced_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "frequency_validated_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "energy_span_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "relative_energy_kcal_mol",
+                "advanced",
+                "validation_evidence"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "relative_energy_kcal_mol": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "advanced": {
+                  "type": "boolean"
+                },
+                "validation_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "stopping_evidence": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          },
+          "coverage_rationale": {
+            "type": "string"
+          }
+        }
+      },
+      "selected_structure": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "required": [
+          "xyz",
+          "selection_basis"
+        ],
+        "properties": {
+          "xyz": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "selection_basis": {
+            "type": "string"
+          }
+        }
+      },
+      "stationarity": {
+        "type": "object",
+        "required": [
+          "imaginary_frequency_count",
+          "lowest_frequency_cm_1",
+          "evidence"
+        ],
+        "properties": {
+          "imaginary_frequency_count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "lowest_frequency_cm_1": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "properties": {
+        "type": "object",
+        "required": [
+          "homo_ev",
+          "lumo_ev",
+          "gap_ev",
+          "dipole_debye",
+          "ip_ev",
+          "ea_ev",
+          "hardness_ev",
+          "softness_ev_inverse",
+          "chemical_potential_ev",
+          "electronegativity_ev",
+          "electrophilicity_ev"
+        ],
+        "properties": {
+          "homo_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "lumo_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "gap_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "dipole_debye": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ip_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ea_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "hardness_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "softness_ev_inverse": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "chemical_potential_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "electronegativity_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "electrophilicity_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "sensitivity": {
+        "type": "object",
+        "required": [
+          "test",
+          "delta_homo_ev",
+          "delta_lumo_ev",
+          "delta_gap_ev",
+          "delta_dipole_debye",
+          "interpretation"
+        ],
+        "properties": {
+          "test": {
+            "type": "string"
+          },
+          "delta_homo_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "delta_lumo_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "delta_gap_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "delta_dipole_debye": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "interpretation": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "status": {
+        "type": "string"
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ]
+    },
+    "else": {
+      "properties": {
+        "conformer_search": {
+          "properties": {
+            "generated_count": {
+              "minimum": 1
+            },
+            "deduplicated_count": {
+              "minimum": 1
+            },
+            "advanced_count": {
+              "minimum": 1
+            },
+            "frequency_validated_count": {
+              "minimum": 1
+            },
+            "candidates": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "relative_energy_kcal_mol": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "energy_span_kcal_mol": {
+              "type": "number"
+            }
+          }
+        },
+        "selected_structure": {
+          "type": "object",
+          "properties": {
+            "xyz": {
+              "type": "string"
+            }
+          }
+        },
+        "stationarity": {
+          "properties": {
+            "imaginary_frequency_count": {
+              "type": "integer"
+            },
+            "lowest_frequency_cm_1": {
+              "type": "number"
+            }
+          }
+        },
+        "properties": {
+          "properties": {
+            "homo_ev": {
+              "type": "number"
+            },
+            "lumo_ev": {
+              "type": "number"
+            },
+            "gap_ev": {
+              "type": "number"
+            },
+            "dipole_debye": {
+              "type": "number"
+            },
+            "ip_ev": {
+              "type": "number"
+            },
+            "ea_ev": {
+              "type": "number"
+            },
+            "hardness_ev": {
+              "type": "number"
+            },
+            "softness_ev_inverse": {
+              "type": "number"
+            },
+            "chemical_potential_ev": {
+              "type": "number"
+            },
+            "electronegativity_ev": {
+              "type": "number"
+            },
+            "electrophilicity_ev": {
+              "type": "number"
+            }
+          }
+        },
+        "sensitivity": {
+          "properties": {
+            "delta_homo_ev": {
+              "type": "number"
+            },
+            "delta_lumo_ev": {
+              "type": "number"
+            },
+            "delta_gap_ev": {
+              "type": "number"
+            },
+            "delta_dipole_debye": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Check the two anion identities and real 4-chloroanisole, molecular charge/spin/electron balance, medium and correspondence of any additional state or association. Distinguish the actual base-containing solution from an isolated-ion approximation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Check the two anion identities and real 4-chloroanisole, molecular charge/spin/electron balance, medium and correspondence of any additional state or association. Distinguish the actual base-containing solution from an isolated-ion approximation. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Assess auditable quantities relevant to reducing behaviour and quenching. Electrochemical comparisons must share a stated reference/electron convention; optical gaps and orbital energies must not be interchanged. Numerical lifetime bounds need actual graphical calibration or raw data, with their limited precision. No particular thermodynamic cycle is mandatory.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Assess auditable quantities relevant to reducing behaviour and quenching. Electrochemical comparisons must share a stated reference/electron convention; optical gaps and orbital energies must not be interchanged. Numerical lifetime bounds need actual graphical calibration or raw data, with their limited precision. No particular thermodynamic cycle is mandatory. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Determine whether the submitted explanation accounts for the available donor and fluorescence evidence, whether the agent investigates its material weaknesses, and which mechanistic distinctions remain unresolved. Credit supported alternative explanations, refutations or nonidentifiability; neither a favourable nominal driving force nor an author interpretation is conclusive.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Determine whether the submitted explanation accounts for the available donor and fluorescence evidence, whether the agent investigates its material weaknesses, and which mechanistic distinctions remain unresolved. Credit supported alternative explanations, refutations or nonidentifiability; neither a favourable nominal driving force nor an author interpretation is conclusive. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Assess reference-electrode ambiguity, measurement availability and claim-relevant model/numerical uncertainty. Small variation under a chosen numerical check is not calibrated total electrochemical error. Missing lifetime data must not be replaced by invented values.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Assess reference-electrode ambiguity, measurement availability and claim-relevant model/numerical uncertainty. Small variation under a chosen numerical check is not calibrated total electrochemical error. Missing lifetime data must not be replaced by invented values. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "The final answer must reconcile the supported redox and photophysical findings within DMSO and delimit the claims about the two donors and their aryl-chloride interaction. Kinetic, bond-cleavage or yield conclusions require evidence outside the bounded endpoints and cannot be asserted from orbital or driving-force numbers alone.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "The final answer must reconcile the supported redox and photophysical findings within DMSO and delimit the claims about the two donors and their aryl-chloride interaction. Kinetic, bond-cleavage or yield conclusions require evidence outside the bounded endpoints and cannot be asserted from orbital or driving-force numbers alone. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Check the two anion identities and real 4-chloroanisole, molecular charge/spin/electron balance, medium and correspondence of any additional state or association. Distinguish the actual base-containing solution from an isolated-ion approximation.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Assess auditable quantities relevant to reducing behaviour and quenching. Electrochemical comparisons must share a stated reference/electron convention; optical gaps and orbital energies must not be interchanged. Numerical lifetime bounds need actual graphical calibration or raw data, with their limited precision. No particular thermodynamic cycle is mandatory.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Determine whether the submitted explanation accounts for the available donor and fluorescence evidence, whether the agent investigates its material weaknesses, and which mechanistic distinctions remain unresolved. Credit supported alternative explanations, refutations or nonidentifiability; neither a favourable nominal driving force nor an author interpretation is conclusive.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Assess reference-electrode ambiguity, measurement availability and claim-relevant model/numerical uncertainty. Small variation under a chosen numerical check is not calibrated total electrochemical error. Missing lifetime data must not be replaced by invented values.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "The final answer must reconcile the supported redox and photophysical findings within DMSO and delimit the claims about the two donors and their aryl-chloride interaction. Kinetic, bond-cleavage or yield conclusions require evidence outside the bounded endpoints and cannot be asserted from orbital or driving-force numbers alone.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

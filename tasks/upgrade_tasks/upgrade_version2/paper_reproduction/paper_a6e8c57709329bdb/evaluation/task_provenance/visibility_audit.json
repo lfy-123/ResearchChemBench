@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "public_files": [
+    "data/inputs/objects.json",
+    "data/inputs/observations.json",
+    "resources.md",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "task_info_is_runtime_visible": true,
+  "bibliographic_metadata_redacted_in_both_modes": true,
+  "author_route_public_only_in_PR": true,
+  "old_public_and_evaluator_archived_private": true,
+  "runtime_isolation_status": "pending; physical public export is not filesystem isolation",
+  "public_transformations": [
+    "Keep full HL identity and the actual qualitative optical observations, with unresolved sensing conditions explicitly listed.",
+    "Remove fixed Fe/Co binding/proton-exchange/TD grids and do not invent a sensing salt, water fraction or proton reservoir to populate them.",
+    "Retain blocked scientific deployment and evidence-bearing partial/diagnostic submission; a conditional model cannot silently clear the source-input blocker."
+  ],
+  "new_structures_generated_as_source_answers": false
+}

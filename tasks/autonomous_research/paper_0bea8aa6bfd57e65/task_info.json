@@ -5,8 +5,8 @@
   "category": "computational chemistry / hypothesis discrimination",
   "difficulty": "hard",
   "difficulty_reasons": [
-    "The agent must generate and prioritize a substantial set of binding poses and conformers for three complexes.",
-    "The agent must formulate and discriminate plausible energetic explanations while validating minima and BSSE-corrected energies."
+    "The bounded evaluator uses three explicitly submitted Tau–donor pose representatives; exhaustive PM6-D3/MOPAC random-ensemble generation is outside the executable scope.",
+    "The agent must validate minima and BSSE/counterpoise-corrected energies and derive an internally consistent pose-level ordering and interpretation."
   ],
   "paper": {
     "title": "Separation of taurine and Na2SO4 via the in situ formation of deep eutectic solvents: experiments and computational simulation",
@@ -17,7 +17,7 @@
   "data": [
     {
       "path": "data/inputs",
-      "description": "Complete public chemical identity specification for Tau, Im, Gly (glycerol), MEA, charge, multiplicity, and 1:2 complex stoichiometry."
+      "description": "Public chemical identity specification for Tau, Im, Gly (glycerol), MEA, charge, multiplicity, 1:2 complex stoichiometry, and the finite pose-subset boundary."
     }
   ],
   "required_deliverables": [

@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_continuum",
+      "reference_id": "kp_continuum",
+      "type": "semantic",
+      "expected": "Minimum-validate both dye graphs in toluene, ethyl acetate and methanol at a shared continuum protocol. Report a state window, energies/f and NTO or equivalent electron-hole descriptors. Follow corresponding character rather than silently comparing root1 to a different state. Check a diffuse basis sensitivity for the anion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.continuum",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Minimum-validate both dye graphs in toluene, ethyl acetate and methanol at a shared continuum protocol. Report a state window, energies/f and NTO or equivalent electron-hole descriptors. Follow corresponding character rather than silently comparing root1 to a different state. Check a diffuse basis sensitivity for the anion. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_micro_solvation",
+      "reference_id": "kp_micro_solvation",
+      "type": "semantic",
+      "expected": "Use exactly one MeOH in both cluster placements with explicit atom correspondence and state matching. Separate relaxed cluster changes from fixed-geometry electronic differences. Demonstrated collapse/dissociation is an outcome; if using a constrained remote geometry do not assign Boltzmann population or claim it is a minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.micro_solvation",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Use exactly one MeOH in both cluster placements with explicit atom correspondence and state matching. Separate relaxed cluster changes from fixed-geometry electronic differences. Demonstrated collapse/dissociation is an outcome; if using a constrained remote geometry do not assign Boltzmann population or claim it is a minimum. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_heldout_and_attribution",
+      "reference_id": "kp_heldout_and_attribution",
+      "type": "semantic",
+      "expected": "Preserve a pre-holdout protocol artifact; calculate methanol residuals without per-dye refitting. Contrast continuum-only, specific-interaction and state-switch explanations using the controlled differences. Quantify uncertainty and avoid identifying an exact inversion threshold from three solvents.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.heldout_and_attribution",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Preserve a pre-holdout protocol artifact; calculate methanol residuals without per-dye refitting. Contrast continuum-only, specific-interaction and state-switch explanations using the controlled differences. Quantify uncertainty and avoid identifying an exact inversion threshold from three solvents. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Bound how far continuum polarity alone explains the response and whether micro-solvation/state identity is needed. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Bound how far continuum polarity alone explains the response and whether micro-solvation/state identity is needed. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "continuum",
+      "max_score": 25,
+      "description": "Minimum-validate both dye graphs in toluene, ethyl acetate and methanol at a shared continuum protocol. Report a state window, energies/f and NTO or equivalent electron-hole descriptors. Follow corresponding character rather than silently comparing root1 to a different state. Check a diffuse basis sensitivity for the anion.",
+      "rule_ids": [
+        "r_continuum"
+      ]
+    },
+    {
+      "id": "micro_solvation",
+      "max_score": 20,
+      "description": "Use exactly one MeOH in both cluster placements with explicit atom correspondence and state matching. Separate relaxed cluster changes from fixed-geometry electronic differences. Demonstrated collapse/dissociation is an outcome; if using a constrained remote geometry do not assign Boltzmann population or claim it is a minimum.",
+      "rule_ids": [
+        "r_micro_solvation"
+      ]
+    },
+    {
+      "id": "heldout_and_attribution",
+      "max_score": 20,
+      "description": "Preserve a pre-holdout protocol artifact; calculate methanol residuals without per-dye refitting. Contrast continuum-only, specific-interaction and state-switch explanations using the controlled differences. Quantify uncertainty and avoid identifying an exact inversion threshold from three solvents.",
+      "rule_ids": [
+        "r_heldout_and_attribution"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Bound how far continuum polarity alone explains the response and whether micro-solvation/state identity is needed. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

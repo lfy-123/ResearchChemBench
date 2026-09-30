@@ -1,0 +1,150 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "provenance",
+      "hypotheses",
+      "validated_routes",
+      "search_coverage",
+      "failed_attempts",
+      "duplicates_rejected",
+      "stopping_reason",
+      "conclusion",
+      "limitations",
+      "cleavage_barrier_kcal_mol",
+      "hat_barrier_kcal_mol"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "provenance": {
+        "type": "object",
+        "required": [
+          "method",
+          "software",
+          "charge",
+          "multiplicity",
+          "solvent_model",
+          "dispersion",
+          "geometry_frequency_settings"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "software": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "solvent_model": {
+            "type": "string"
+          },
+          "dispersion": {
+            "type": "string"
+          },
+          "geometry_frequency_settings": {
+            "type": "string"
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "description",
+            "scope"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "validated_routes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "route_id",
+            "hypothesis_id",
+            "validation_status",
+            "barrier_kcal_mol",
+            "convergence_evidence",
+            "frequency_evidence",
+            "endpoint_connectivity_evidence",
+            "atom_mapping",
+            "attempt_outcome"
+          ],
+          "properties": {
+            "route_id": {
+              "type": "string"
+            },
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "validation_status": {
+              "type": "string"
+            },
+            "barrier_kcal_mol": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "convergence_evidence": {"type": "string"},
+            "frequency_evidence": {"type": "string"},
+            "endpoint_connectivity_evidence": {"type": "string"},
+            "atom_mapping": {"type": "string"},
+            "attempt_outcome": {"type": "string"},
+            "candidate_ids": {"type": "array", "items": {"type": "string"}},
+            "connectivity_evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "cleavage_barrier_kcal_mol": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "hat_barrier_kcal_mol": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "search_coverage": {"type": "string"},
+      "failed_attempts": {"type": "array", "items": {"type": "string"}},
+      "duplicates_rejected": {"type": "array", "items": {"type": "string"}},
+      "stopping_reason": {"type": "string"},
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

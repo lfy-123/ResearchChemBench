@@ -111,3 +111,43 @@ def test_progress_can_be_explicitly_mirrored_to_console(tmp_path: Path):
         encoding="utf-8"
     )
 
+
+def test_codex_stream_reports_tool_denials_and_outputs(tmp_path: Path):
+    reporter = LiveProgressReporter(tmp_path, "codex-run", max_chars=160)
+    events = [
+        {"type": "thread.started", "thread_id": "original-session"},
+        {"type": "turn.started"},
+        {"type": "item.completed", "item": {"id": "item_0", "type": "agent_message", "text": "Inspecting inputs."}},
+        {"type": "item.started", "item": {
+            "id": "item_1", "type": "mcp_tool_call", "server": "researchchem_toolbox",
+            "tool": "list_execution_jobs", "arguments": {"request": {"api_key": "do-not-log"}},
+            "status": "in_progress",
+        }},
+        {"type": "item.completed", "item": {
+            "id": "item_1", "type": "mcp_tool_call", "server": "researchchem_toolbox",
+            "tool": "list_execution_jobs", "status": "failed",
+            "error": {"message": "MCP tool call requires approval, but approval policy is never"},
+        }},
+        {"type": "item.completed", "item": {
+            "id": "item_2", "type": "command_execution", "command": "cat task.md",
+            "aggregated_output": "output " * 100, "exit_code": 0, "status": "completed",
+        }},
+        {"type": "turn.completed", "usage": {"input_tokens": 12, "output_tokens": 3}},
+        {"type": "turn.failed", "error": {"message": "provider disconnected"}},
+    ]
+    for event in events:
+        reporter.handle_agent_line(json.dumps(event))
+    reporter.close()
+    text = (tmp_path / "_live_progress.log").read_text()
+    assert all(TIMESTAMPED_LINE.match(line) for line in text.splitlines())
+    assert "[AGENT_SESSION] session_id=original-session" in text
+    assert "[MODEL_STEP_START]" in text
+    assert "[MODEL_OUTPUT] text=Inspecting inputs." in text
+    assert text.count("[MCP_AGENT_EVENT]") == 2
+    assert "status=in_progress" in text and "status=failed" in text
+    assert "MCP tool call requires approval" in text
+    assert "[NATIVE_TOOL]" in text and "exit_code=0" in text
+    assert "<truncated " in text
+    assert "[MODEL_STEP]" in text and '"input_tokens": 12' in text
+    assert "[AGENT_ERROR]" in text and "provider disconnected" in text
+    assert "do-not-log" not in text and "<redacted>" in text

@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline, C15H13N3, from CCDC2433822. Cis/trans is the mapped N1-C1-C2-N2 torsion; preserve deposited labels. Primary gas phase and acetonitrile continuum at 298.15 K, consistent 1 M molecular convention for solution. Six bonds are exactly those in experimental_bonds.json; seven SI or 33 CIF bond sets must not enter this RMSE.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline, C15H13N3, from CCDC2433822. Cis/trans is the mapped N1-C1-C2-N2 torsion; preserve deposited labels. Primary gas phase and acetonitrile continuum at 298.15 K, consistent 1 M molecular convention for solution. Six bonds are exactly those in experimental_bonds.json; seven SI or 33 CIF bond sets must not enter this RMSE.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_conformer_environment",
+      "statement": "Validate graph/minima, searches and environment-specific conformer identity; a released candidate may merge into another basin with actual evidence. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute electronic_Eh, G_Eh, torsion_degree from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Validate graph/minima, searches and environment-specific conformer identity; a released candidate may merge into another basin with actual evidence. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute electronic_Eh, G_Eh, torsion_degree from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_six_bond_residuals",
+      "statement": "Recompute six unrounded residuals and RMSE against the authorized experimental distances. Separate any larger bond statistics; include OLS with intercept only if called R squared. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute C1_C2_A, C2_C3_A, N1_C1_A, N2_C2_A, N3_C3_A, C1_C10_A, RMSE_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Recompute six unrounded residuals and RMSE against the authorized experimental distances. Separate any larger bond statistics; include OLS with intercept only if called R squared. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute C1_C2_A, C2_C3_A, N1_C1_A, N2_C2_A, N3_C3_A, C1_C10_A, RMSE_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_torsional_intervention",
+      "statement": "A defined mapped torsion restraint and relaxed counterpart distinguish geometric from solvent effects. Nonstationary restrained points receive no borrowed harmonic G. Core rows: gas_fixed_vs_relaxed, MeCN_fixed_vs_relaxed. Recompute torsion_degree, delta_E_kJ_mol, residual_change_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "A defined mapped torsion restraint and relaxed counterpart distinguish geometric from solvent effects. Nonstationary restrained points receive no borrowed harmonic G. Core rows: gas_fixed_vs_relaxed, MeCN_fixed_vs_relaxed. Recompute torsion_degree, delta_E_kJ_mol, residual_change_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

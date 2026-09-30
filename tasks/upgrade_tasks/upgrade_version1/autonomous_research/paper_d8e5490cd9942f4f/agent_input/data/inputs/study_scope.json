@@ -1,0 +1,99 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "La_water0": {
+      "formula": "C32H38LaN4O6",
+      "charge": 1,
+      "multiplicities": [
+        1
+      ],
+      "note": "4f-core formal pseudo-singlet; not physical Tb spin assignment"
+    },
+    "La_water1": {
+      "formula": "C32H40LaN4O7",
+      "charge": 1,
+      "multiplicities": [
+        1
+      ],
+      "note": "4f-core formal pseudo-singlet; not physical Tb spin assignment"
+    },
+    "Tb_water0": {
+      "formula": "C32H38TbN4O6",
+      "charge": 1,
+      "multiplicities": [
+        1
+      ],
+      "note": "4f-core formal pseudo-singlet; not physical Tb spin assignment"
+    },
+    "Tb_water1": {
+      "formula": "C32H40TbN4O7",
+      "charge": 1,
+      "multiplicities": [
+        1
+      ],
+      "note": "4f-core formal pseudo-singlet; not physical Tb spin assignment"
+    },
+    "Lu_water0": {
+      "formula": "C32H38LuN4O6",
+      "charge": 1,
+      "multiplicities": [
+        1
+      ],
+      "note": "4f-core formal pseudo-singlet; not physical Tb spin assignment"
+    },
+    "Lu_water1": {
+      "formula": "C32H40LuN4O7",
+      "charge": 1,
+      "multiplicities": [
+        1
+      ],
+      "note": "4f-core formal pseudo-singlet; not physical Tb spin assignment"
+    },
+    "water": {
+      "formula": "H2O",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    }
+  },
+  "identity_files": [
+    "La_7s6p5d_5s4p3d.gbs",
+    "La_ECP46MWB.ecp",
+    "Lu_7s6p5d_5s4p3d.gbs",
+    "Lu_ECP60MWB.ecp",
+    "Tb_7s6p5d_5s4p3d.gbs",
+    "Tb_ECP54MWB.ecp",
+    "anti_La_KHQ.xyz",
+    "ecp_basis_manifest.json",
+    "metal_and_hydration_definition.json",
+    "syn_La_KHQ.xyz"
+  ],
+  "control_definitions": {
+    "matrix": "Three metals x syn/anti x zero/one water; try at least two water directions and classify bound/lost water explicitly. If a bound state repeatedly collapses, retain that scientific result with structures and account for separated water in the reaction.",
+    "fixed_backbone": "At each dry La syn/anti geometry replace only the metal and compute Tb/Lu single points; compare frozen and relaxed within-metal gaps. Never compare raw different-metal energies.",
+    "water_cycle": "Close each syn/anti water-addition square: hydration effect on conformer gap equals difference of hydration free energies.",
+    "thermochemistry": "Source gas geometry/frequencies plus solution single points; use the same qRRHO cutoff/standard states and repeat a reasonable low-frequency treatment sensitivity."
+  },
+  "observable_definition": "For each metal and identical hydration n, delta_G=G(anti,n)-G(syn,n) at 298 K, 1 M complexes in aqueous SMD. G=E_solv+(G_gas-E_gas) with consistent source low-frequency treatment, no double-counted ZPE. Water-addition delta_G=G(LnL.H2O)-G(LnL)-G(H2O) with 55.5 M water standard state. Frozen metal replacements compare electronic within-metal conformer gaps, not equilibrium G.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "conformer_hydration_matrix",
+      "description": "Same-hydration three-metal conformer free energies"
+    },
+    {
+      "id": "replacement_and_cycles",
+      "description": "Frozen metal replacement and closed hydration squares"
+    },
+    {
+      "id": "ecp_and_sensitivity",
+      "description": "Molecular ECP identity and low-frequency robustness"
+    }
+  ],
+  "optional_not_scored": "Quantitative extraction/metal selectivity is outside scope without an independently closed metal hydration-exchange cycle; no full exchange cycle is mandatory here.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

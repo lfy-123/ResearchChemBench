@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the neutral singlet single-arm C26H27NO3 and complete three-arm C66H69N3O3 graphs. Cisoid/transoid are mapped torsional families on each exocyclic arm, not a change of composition. Primary gas-phase calculations permit direct comparison with the source; a common ethanol continuum is the environment sensitivity, not a model of a membrane. Each full-model result requires arm partitions and matched transition densities.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the neutral singlet single-arm C26H27NO3 and complete three-arm C66H69N3O3 graphs. Cisoid/transoid are mapped torsional families on each exocyclic arm, not a change of composition. Primary gas-phase calculations permit direct comparison with the source; a common ethanol continuum is the environment sensitivity, not a model of a membrane. Each full-model result requires arm partitions and matched transition densities."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_relaxed_models",
+      "reference_id": "kp_relaxed_models",
+      "type": "semantic",
+      "expected": "Retain at least four low roots in the three-arm model with NTO and arm-resolved transition-density fractions; do not equate root labels across models. Core rows: single_transoid, single_cisoid, three_transoid, three_cisoid. Recompute excitation_eV, oscillator_strength, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxed_models",
+          "$.calculation_records"
+        ],
+        "comparison": "Retain at least four low roots in the three-arm model with NTO and arm-resolved transition-density fractions; do not equate root labels across models. Core rows: single_transoid, single_cisoid, three_transoid, three_cisoid. Recompute excitation_eV, oscillator_strength, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_arm_geometry_control",
+      "reference_id": "kp_arm_geometry_control",
+      "type": "semantic",
+      "expected": "Extract mapped arm from full geometry under a declared cap rule; compare frozen and relaxed arm and complete model. Preserve graph/partition/constraint files. Core rows: single_on_three_transoid, single_on_three_cisoid, three_fixed_arm. Recompute excitation_eV, oscillator_strength, interarm_transfer_fraction from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit. For single_on_three_transoid and single_on_three_cisoid, interarm_transfer_fraction is null with metric_applicability_reason: the capped single-arm object has no second arm. Excitation, oscillator strength and the mapped frozen-arm calculation remain mandatory. The three_fixed_arm row still requires a numeric interarm transfer fraction from the full three-arm transition density, with explicit fragment partitions and normalization; null is forbidden there.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.arm_geometry_control",
+          "$.calculation_records"
+        ],
+        "comparison": "Extract mapped arm from full geometry under a declared cap rule; compare frozen and relaxed arm and complete model. Preserve graph/partition/constraint files. Core rows: single_on_three_transoid, single_on_three_cisoid, three_fixed_arm. Recompute excitation_eV, oscillator_strength, interarm_transfer_fraction from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit. For single_on_three_transoid and single_on_three_cisoid, interarm_transfer_fraction is null with metric_applicability_reason: the capped single-arm object has no second arm. Excitation, oscillator strength and the mapped frozen-arm calculation remain mandatory. The three_fixed_arm row still requires a numeric interarm transfer fraction from the full three-arm transition density, with explicit fragment partitions and normalization; null is forbidden there."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_transfer_and_medium",
+      "reference_id": "kp_transfer_and_medium",
+      "type": "semantic",
+      "expected": "Quantify whether transfer survives medium, state mapping and method/conformer uncertainty; actual full-model data are mandatory. No membrane or two-photon mechanism inferred. Core rows: gas_transfer, ethanol_transfer. Recompute single_shift_eV, three_shift_eV, difference_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.transfer_and_medium",
+          "$.calculation_records"
+        ],
+        "comparison": "Quantify whether transfer survives medium, state mapping and method/conformer uncertainty; actual full-model data are mandatory. No membrane or two-photon mechanism inferred. Core rows: gas_transfer, ethanol_transfer. Recompute single_shift_eV, three_shift_eV, difference_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Two-photon cross sections, membrane aggregates and absolute lifetimes are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Two-photon cross sections, membrane aggregates and absolute lifetimes are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the neutral singlet single-arm C26H27NO3 and complete three-arm C66H69N3O3 graphs. Cisoid/transoid are mapped torsional families on each exocyclic arm, not a change of composition. Primary gas-phase calculations permit direct comparison with the source; a common ethanol continuum is the environment sensitivity, not a model of a membrane. Each full-model result requires arm partitions and matched transition densities.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "relaxed_models",
+      "max_score": 20,
+      "description": "Retain at least four low roots in the three-arm model with NTO and arm-resolved transition-density fractions; do not equate root labels across models. Core rows: single_transoid, single_cisoid, three_transoid, three_cisoid. Recompute excitation_eV, oscillator_strength, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_relaxed_models"
+      ]
+    },
+    {
+      "id": "arm_geometry_control",
+      "max_score": 25,
+      "description": "Extract mapped arm from full geometry under a declared cap rule; compare frozen and relaxed arm and complete model. Preserve graph/partition/constraint files. Core rows: single_on_three_transoid, single_on_three_cisoid, three_fixed_arm. Recompute excitation_eV, oscillator_strength, interarm_transfer_fraction from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_arm_geometry_control"
+      ]
+    },
+    {
+      "id": "transfer_and_medium",
+      "max_score": 20,
+      "description": "Quantify whether transfer survives medium, state mapping and method/conformer uncertainty; actual full-model data are mandatory. No membrane or two-photon mechanism inferred. Core rows: gas_transfer, ethanol_transfer. Recompute single_shift_eV, three_shift_eV, difference_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_transfer_and_medium"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Two-photon cross sections, membrane aggregates and absolute lifetimes are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

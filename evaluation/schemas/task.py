@@ -86,6 +86,7 @@ class GroundTruth(BaseModel):
     critical_failures: list[str] = Field(default_factory=list)
     judge_instructions: str = ""
     reference_evidence: Any = None
+    rule_table: list[dict[str, Any]] = Field(default_factory=list)
     managed_computation_policy: dict[str, Any] = Field(default_factory=dict)
     evidence_gate_policy: dict[str, Any] = Field(default_factory=dict)
     reference_conclusion_gate_policy: dict[str, Any] = Field(default_factory=dict)

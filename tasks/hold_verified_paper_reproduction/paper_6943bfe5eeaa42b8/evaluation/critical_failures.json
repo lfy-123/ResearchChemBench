@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_6943bfe5eeaa42b8",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "The submitted calculation changes the molecule, charge, multiplicity, amino position, or protonation state.",
+      "severity": "critical",
+      "scientific_effect": "The reported D-index is for a different electronic system and cannot answer the task."
+    },
+    {
+      "failure_id": "cf_state_mismatch",
+      "condition": "The reported D-index is not tied to the lowest singlet S0→S1 excitation or the state/root identity cannot be established.",
+      "severity": "critical",
+      "scientific_effect": "The scored observable is undefined or measured for a different state."
+    },
+    {
+      "failure_id": "cf_unvalidated",
+      "condition": "A numerical D-index is reported without a converged geometry, completed excitation calculation, and same-state hole–electron provenance.",
+      "severity": "major",
+      "scientific_effect": "The number is not scientifically auditable or reproducible."
+    },
+    {
+      "failure_id": "cf_fabricated_failure",
+      "condition": "A bounded-failure submission supplies a fabricated numeric result or claims completion despite a documented failed required stage.",
+      "severity": "critical",
+      "scientific_effect": "The submission misrepresents the scientific computation."
+    }
+  ]
+}

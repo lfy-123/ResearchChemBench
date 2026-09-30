@@ -1,0 +1,101 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_s1",
+      "type": "semantic",
+      "expected": "identity and state verification is explicit and matches the public XYZ/system specification",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.system_identity",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p1"
+    },
+    {
+      "rule_id": "pr_s2",
+      "type": "semantic",
+      "expected": "both phases have documented settings, convergence/state evidence, and descriptor derivation conventions or a truthful bounded failure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.phases",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p2"
+    },
+    {
+      "rule_id": "pr_s3",
+      "type": "semantic",
+      "expected": "requested observables and oxygen row charges are reported with units/signs or missing fields are honestly identified",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.phases"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s4",
+      "type": "semantic",
+      "expected": "phase directionality and the authors' qualitative hypothesis are explicitly assessed with limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_r2"
+    },
+    {
+      "rule_id": "pr_s5",
+      "type": "semantic",
+      "expected": "final conclusion is evidence-linked, hypothesis-aware, and scoped to the model",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.hypothesis_assessment"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c1"
+    },
+    {
+      "rule_id": "pr_s6",
+      "type": "semantic",
+      "expected": "limitations include missing frequencies and method/model dependence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c2"
+    }
+  ],
+  "paper_id": "paper_adbbf3d29d1cd737"
+}

@@ -1,0 +1,432 @@
+
+=== papers/paper_a21b91f97ce3c68f/documents/main.pdf PDF page 1 ===
+               pubs.acs.org/joc                                                                                                                                         Article
+
+      Hyperconjugation Controls One-Bond Carbon−Tin Coupling
+      Constants in Anomeric Tin Compounds: A Theoretical Study
+         Kyle Fisch and Maciej A. Walczak*
+
+
+                      Cite This: J. Org. Chem. 2026, 91, 1657−1665                      Read Online
+
+
+
+                                                                                                                                                                                            sı  Supporting Information      ACCESS                Metrics & More                       Article Recommendations    *
+
+         ABSTRACT: One-bond 119Sn−13C couplings in organostannanes
+             are sensitive to local stereoelectronic effects, yet quantitative rules        articles.
+              linking hyperconjugation to 1J(Sn−C) remain limited, especially at
+            anomeric centers. We combine DFT studies with NBO analysis(UTC).
+             across 77 cyclic scaffolds, including matched axial/equatorial (α/β)        published
+           anomeric  pairs,  to  relate  antiperiplanar donor →σ*(C−Sn)03:43:44share        delocalization to 1J(Sn−C). Validation against 1J(C−H) bench-
+at         marks reproduces Perlin-type axial/equatorial differences and the
+2026            classical  reversal  in  1,3-dithianes. 1J(Sn−C)  scales  with  the
+9,         magnitude  of  donation.  Pairwise  comparisons  are  equally          legitimately              diagnostic: across 27 α/β (axial/equatorial) pairs, equatorial isomers show larger couplings in 92% of cases, and ΔJ correlates
+  to       with Δdonation, rationalizing the β > α hierarchy. Ring-size controls reveal a geometric signature consistent with known ring sizeMarch   how        relationships with coupling constants: as the size of the ring increases, 1J(C−H) decreases. Incorporation of sulfur in the ring canon
+  on        cause the β > α 1J(Sn−C) behavior observed in most other cyclic scaffolds to invert with axial 1J(Sn−C) being greater than
+UNIV           equatorial 1J(Sn−C). A single-parameter empirical scaling (J(corr) = −1.419·J(calc)) improves absolute agreement with experiment      options       without perturbing trends and brings negative calculated 1J(Sn−C) to the experimentally derived positive 1J(Sn−C). Collectively,
+   for        these results deliver a practical, mechanistic framework for predicting tin−carbon coupling constants and assigning the anomericGANDHI          configuration in anomeric organotin compounds.
+
+
+                                                                               D-glucose with the now-canonical “Perlin effect”, wherein axial
+                                             C−H bonds at C1 display smaller 1J(C−H) than equatorialMAHATMA      ■INTRODUCTIONOrganotin reagents occupy a  distinctive niche  in modern
+via          organic  synthesis,  serving  both  as  nucleophiles  in  cross-      analogues.9 Wolfe and  co-workers  later  rationalized  these
+            coupling1 and  as  stereoelectronic  probes2  in complex       effects  in  terms  of bond  lengths, bond  strengths, and
+            molecular  settings.  Since  the  first  reports  of  palladium-      stereoelectronic interactions that modulate the Fermi-contact
+             catalyzed couplings of allyltributyltin in 1977, organostannanes     term  of  the  coupling.10 Complementary  computationalDownloaded         have been applied widely to form C(sp2)−C(sp3) and other      analyses by Juaristi, Cuevas, and others connected longer C−                                https://pubs.acs.org/sharingguidelines     C−C bonds  with  high  efficiency and  functional-group   H bonds arising from the better donor ability of antiperiplanar
+   See         tolerance.3,4 In  parallel with these  synthetic advances, the      lone pairs or σ bonds to smaller 1J(C−H), establishing a clear
+                field has witnessed the maturation  of  stereospecific  cross-       link among hyperconjugation, bond  metrics, and coupling
+             couplings that exploit configurationally stable, enantioenriched      constants  in  cyclohexanes and  related  heterocycles.11  In
+             organometallic  nucleophiles  to  transfer  stereochemical  in-      carbohydrates, these tools have long been used for conforma-
+            formation through Pd-catalyzed transmetalation and reductive       tional analysis and assignment of anomeric configuration.12,13
+             elimination steps.5 Our laboratory has leveraged this platform      Hyperconjugation having significant contribution to spin−spin
+              in carbohydrate space-anomeric SnBu3 nucleophiles participate      coupling constants has been minimally contested.14 A much
+              in stereoretentive arylations to deliver aryl C-glycosides with      larger body  of  evidence  exists  using  stereoelectronic
+              excellent control, providing both practical access to bioactive                                                                                    interactions  as  explanation  for  the  observed  relationship
+             motifs and a window into stereoelectronic influences at the                                                                     between stereochemistry and 1J(C−H) values, frequently in
+            anomeric center.6,7
+           An intriguing observation emerged from these and other
+              studies: larger 1J(Sn−C) values are observed for β anomers      Received:  October 18, 2025
+                                                                                  Revised:   December 29, 2025             across multiple hexose scaffolds, with differences that can be
+                                                                               Accepted:  January 8, 2026           modest (41−55 Hz) for glucose and striking for mannose (up
+                                                                                  Published: January 21, 2026             to ∼99  Hz).8 Such  trends  parallel  a  deeper body  of
+              stereoelectronic phenomena at the anomeric position reported
+           by Perlin and Casu which correlate 13C and 1H NMR data of
+
+
+                                            © 2026 American Chemical Society                                                                     https://doi.org/10.1021/acs.joc.5c02630
+                                                                         1657                                                                                          J. Org. Chem. 2026, 91, 1657−1665
+=== papers/paper_a21b91f97ce3c68f/documents/main.pdf PDF page 2 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+
+
+
+
+Figure 1. (A). Experimentally derived 1J(Sn−C) values. (B) Stereoelectronic model of the anomeric effect and the simplified molecular orbital
+diagram. (C) Stereoelectronic interactions of focus in this study on exocyclic organic stannanes.
+
+carbohydrates.12,15,16 Other work proposed the s-character of      such a picture requires computational methods capable of
+the σ*C−H  orbital, which  is at  least in part controlled by      accurately reproducing NMR spin−spin couplings involving
+hyperconjugation responsible for the observed Perlin effect.17      heavy  p-block  elements.  Conventional  split-valence and
+  The α/β dependence  of  1J(119Sn−13C)  in  anomeric      correlation-consistent basis sets optimized for energies and
+stannanes presents an opportunity to interrogate how classical      geometries  can  perform  admirably  for many  main-group
+anomeric stereoelectronic effects propagate into a heavy-atom      properties but often fall short for J couplings of heavy atoms
+bond. The coupling constants for such systems with tin have      because the Fermi-contact term depends sensitively on core−
+been found experimentally and are shown in Figure 1A. The      valence  polarization and  relativistic  effects.28,29  All-electron
+anomeric  effect  is commonly framed  as nX →σ*C−X      treatments augmented with scalar relativistic corrections, such
+delocalization that stabilizes axial electronegative substituents      as the zero-order regular approximation (ZORA), have proven
+on a pyranose ring (Figure 1B), with parallel alignment of                                                                         essential  for  reliable  119Sn  chemical  shifts and  coupling
+donor and acceptor orbitals being a prerequisite for effective       constants.30,31  Although  the  Hamiltonian  used  herein  is
+molecular orbital mixing (Figure 1B). In anomeric stannanes,                                                                            nonrelativistic, DFT protocols that combine hybrid functionals
+however,  additional  hyperconjugative  pathways become                                                               with  triple-ζ ZORA-compatible basis  sets have reproduced
+relevant: σ- or n-donors antiperiplanar to the C−Sn bond                                                                1J(119Sn−13C) and 2J(119Sn−1H) in diverse organotin com-
+can delocalize into σ*(Sn−C) (Figure 1C), with the potential
+                                                        pounds (R3−Sn−(R′), where R = Me, and R′ = cycloalkane,27to alter the s-character at carbon and tin and thereby tune the
+                                                                          butyl, di- and tetramethyltin compounds,32 and tin halides33),Fermi-contact contribution to 1J(119Sn−13C).18 Within  this
+                                                                 lending confidence  that with  judicious benchmarking and,qualitative framework, stronger donation into σC−Sn is expected
+                                                         where necessary, empirical scaling, one can achieve quantita-to  lengthen and weaken  the C−Sn bond and  reduce
+1J(119Sn−13C);  conversely, diminished donation should  in-       tive agreement with the experiment. Best-practice guidance
+                                                                       further emphasizes method validation against reference datacrease the coupling. The empirical finding that β anomers
+                                                        and  careful  consideration  of  solvation, though continuumtypically  exhibit  larger  1J(119Sn−13C)  than α anomers  is
+                                                         models  often  exert  only modest  influence on one-bondtherefore consistent with a model in which the α configuration
+                                                                         couplings,28,34 an observation which our results here reinforce.enables more effective antiperiplanar donation (e.g., from O
+lone  pairs  or σ(C−H))  into σ(C−Sn)),  while  the β     NBO  analysis  offers  a  natural  bridge between  stereo-
+                                                                       electronic hypotheses and computed observables. By quantify-configuration attenuates this interaction.10,11
+  While NMR studies on organotin compounds have been      ing second-order perturbation stabilization energies associated
+well  established,19−23  including  use  in  recent  synthetic      with donor →σ* interactions, NBO provides a chemically
+publications,24−26  systematic and  quantitative  connections       intuitive measure of hyperconjugation that can be correlated
+between hyperconjugation and one-bond 119Sn−13C couplings      with trends in bond lengths, hybridization, and ultimately J
+in carbohydrate-derived stannanes remain sparse. Vasella and       couplings.12,14−17,35,36 This analysis has been extended to more
+co-workers noted substantial anomer-dependent differences in       specific systems such as diboron compounds37 and NHCs.38
+1J(119Sn−13Cano)  in  stannoglycosides  prepared  via  carbene      This NHC study also highlights the utility of using coupling
+insertion,8 and our  previous work documented analogous      constants to explain σ-donation within a class of molecules. In
+trends  in  1J(119Sn−13CBu). More  broadly,  Karplus-type      the  context  of anomeric  stannanes and  carbohydrate-like
+relationships have been explored for vicinal 119Sn−13C and      heterocycles, this framework allows one to assess how variation
+119Sn−1H  couplings  in  simple  organotin(IV)  derivatives,       in ring heteroatom identity (N, O, Si, P, and S), ring size, and
+underscoring the sensitivity of tin couplings to geometry and      substituent orientation modulates the magnitude of n/σ →
+electronic structure.27 Yet, despite clear qualitative signals, a      σC−Sn  delocalization  and,  in  turn,  1J(119Sn−13C).  It  also
+predictive  physical  picture  that  ties donor−acceptor  inter-       rationalizes known  “reversals” in axial−equatorial 1J(C−H)
+actions  at C1 to 1J(119Sn−13C) across  structurally  diverse,      differences for rings bearing multiple third-row heteroatoms
+heteroatom-rich rings has not been established. Advancing        (e.g., 1,3-dithianes), where exceptionally strong nX/σC−X →
+
+                                                             1658                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== papers/paper_a21b91f97ce3c68f/documents/main.pdf PDF page 3 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+Table 1. Experimental and Calculated 1J(C1/Cano‑H) Coupling Constants
+
+
+
+
+
+σC−H donation lengthens the equatorial C−H bond and inverts       differentially impact 119Sn and 1H one-bond couplings. Given
+the usual Perlin pattern.                                 known behavior of pseudoaxial C−H bonds to be longer in
+  The  present  study  aims  to  formalize  these  qualitative     five-membered rings, and being correlated to smaller 1J(C−H)
+connections  into  a  quantitative,  transferable  model. We       values,15,16 it was deemed worthwhile to investigate the effect
+combine DFT calculations of 1J(119Sn−13C) and 1J(C−H)      of ring size on 1J(119Sn−13C) values. The results substantiate a
+for a series of anomeric SnBu3 derivatives and representative      coherent  picture   increased  antiperiplanar  donation  into
+heterocycles with NBO analyses of key antiperiplanar donor →     σ*C−Sn  correlates with reduced one-bond 119Sn−13C cou-
+σ*C−Sn interactions. First, we benchmark computed 1J(C−H)       plings, rationalizing the observed β>α hierarchy and revealing
+values  against  experimental  data  for  related  scaffolds  to      systematic perturbations across ring systems and donor classes.
+establish  that  the method  reproduces  canonical  axial−
+equatorial differences associated with the Perlin effect. Second,            AND DISCUSSIONwe  interrogate how the magnitude and  identity  of donor   ■RESULTS                                         We began by benchmarking  the  computational  protocol
+orbitals correlate with calculated 1J(119Sn−13C) across α/β      against one-bond C−H couplings, which provide a sensitive
+pairs and across families of O-, Si-, P-, and S-containing rings,      readout  of  local  stereoelectronic  effects and  hybridization
+paying special attention to molecules with reverse behavior      (Table 1). Across a diverse set of SnBu3-substituted cyclic
+that illuminate mechanistic limits (e.g., cationic donors and       scaffolds,  the computed 1J(C−H)  values  agreed  with
+strongly donating third-row heteroatoms). Third, we compare      experimental constants for the corresponding unsubstituted
+computed 119Sn couplings to available experimental values for      analogues to within a few Hertz for most noncarbohydrate
+anomeric stannanes and assess the need for a simple linear       rings (maximum absolute deviation 8 Hz) and within 8 Hz for
+scaling to reconcile absolute magnitudes.33 Finally, we consider      monosaccharides, where  available  literature  values  were
+ring-size effects in small carbocycles and oxygen heterocycles,     measured in water rather than organic solvent. Crucially, the
+where  ring  strain  perturbs bond  hybridization and may      axial−equatorial  differences (ΔJ(ax−eq)) were reproduced
+
+                                                             1659                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf PDF page 2 ===
+1. Computational Methods
+
+Coordinates for structures were generated before being subjected to CREST1 conformational
+sampling with the GFN2-xTB2 method. Of the conformers generated, the lowest energy axial and
+equatorial structure was selected and used in following calculations. All DFT calculations were
+performed with Gaussian16.3 Structures were optimized and frequency and NBO calculations
+were performed at (GD3)4B3LYP5/Def2TZVPP6 in the gas phase. NBO version 3.17 was used.
+Single  point energies and coupling constants  of  1H,  13C, and  119Sn were calculated  at
+(GD3)B3LYP5/TZP-ZORA8  with  orbital  coefficients  taken from  the  basis  set  exchange.9
+nmr=(spinspin,mixed,readatoms) was used to calculated heteronuclear spin-spin coupling only
+for the desired atoms to reduce computational cost. Single point energies reported in Table S1
+were taken from the B3LYP/TZP-ZORA calculations. A subscript “Bu” refers to the average of the
+carbon bonded to the tin in each of the butyl groups.
+
+Calculations using the TZP-ZORA basis set led to the “Inaccurate quadrature in CalDSu”
+Gaussian error message. This was corrected with the integral=NoXCTest keyword.
+
+2. Benchmark Regression Analysis
+
+
+
+
+
+Figure S1. Regression analysis of data in Table 1: regression between experimental and
+calculated  1J(Cano-H)  values  for  identical  structures,  and  regression  between
+experimental and calculated 1J(Cano-H) values for tin-substituted structures.
+
+To indicate the chosen method can reproduce experimentally derived coupling constants
+in cyclic molecules, a set of structures with known 1J(C-H) values were optimized and had
+coupling constants calculated, data shown in Figure S1. J-values were reproduced with
+high fidelity to experiment, having a max error of 9 Hz, and an MAE of 5 Hz. For the
+corresponding tin-substituted structures, the model begins to lose predictive capability,
+with max error increasing to 22 Hz and MAE increasing to 8 Hz. This is likely due to the
+perturbation of the anomeric carbon with an attached heavy tin atom.
+
+
+
+
+                                   S2
+=== papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf PDF page 3 ===
+3. Stereoelectronic, Electronic, and Geometric Parameter Investigation
+
+
+
+
+
+Figure S2. Supplemental parameters investigated plotted against 1J(Sn-CBu) values.
+
+In addition to the anti-periplanar donation in the main document, Sn-Cano bond distance, Sn-
+CBu bond distance, Cano-Sn-CBu bond angle, total donor → σ*(Sn-Cano), anti-periplanar
+σ(Sn-Cano) → acceptor, total σ(Sn-Cano) → acceptor, Cano charge, Sn charge, CBu charge,
+and Sn s-character were plotted against the calculated 1J(Sn-CBu) values. These are
+shown in Figure S1. Of these parameters, only Sn-Cano bond distance and total donor →
+σ*(Sn-Cano) energy had higher correlation with 1J(Sn-CBu) values than the anti-periplanar
+donor → σ*(Sn-Cano) energy. Given the known correlation between bond distance and 1J
+
+                                   S3
+=== papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf PDF page 4 ===
+values and the explainability of anti-periplanar donation, these two parameters were not
+deemed to be both novel and relevant. Interestingly, the s-character, which is often used
+to correlate 1J(Sn-CBu) values, of the Sn atom had no correlation. Meanwhile, the Cano-
+Sn-CBu bond angle and charges of the Sn and CBu atoms were minimally correlated,
+leaving the other parameters with no correlation.
+
+4. Implicit Solvent Calculations
+
+Starting  from  the         Δ1J(Sn-CBu) H2O-CHCl3  Δ1J(Sn-CBu) CHCl3-Gas  Δ1J(Sn-CBu) H2O-Gas
+low        energy                  (Hz)                    (Hz)                   (Hz)
+conformers  found   1a            0.30                     -0.39                    -0.70
+by CREST, 14a/e,   1e            0.31                     -0.94                    -1.25
+19a/e, 1a/e, 27a/e,   14a           1.38                     -3.79                    -5.17
+c3, and o3, were   14e           0.61                     -1.52                    -2.14
+optimized and had   19a           1.77                     -4.88                    -6.65
+single point energy   19e           0.49                     -1.65                    -2.14
+calculations at the   27a           0.48                     -3.66                    -4.15
+same    level    of   27e           0.37                     -3.99                    -4.36
+theory  as   other   c3            2.40                     -1.26                    -3.66
+calculations,   but   o3            1.22                     -3.43                    -4.65
+                  Table S1. Differences between solvent model and gas phase calculatedwith CPCM=water
+                    1J(Sn-CBu) values.and
+CPCM=chloroform.10 Table S1 shows the differences between 1J(Sn-CBu) values calculated in gas
+phase, water, and chloroform. The maximum of these differences is 6.65 Hz, which corresponds
+to a 4% relative error for that solvent gas-phase pair. Given this small maximum difference and
+all qualitative axial-equatorial trends being retained, solvent was not considered to be an
+important factor in calculating 1J(Sn-CBu) values.
+
+5. Linear Scaling
+
+                         Calculated 1J(119Sn-13C)    Experimental
+       Structure           (anomeric or butyl)        1J(119Sn-13C)         Scaling Factor
+                                    (Hz)                   (Hz)
+    α-butyl protected
+                              -257.6 (anomeric)           353                  -1.405
+        glucose
+    ß-butyl protected
+                              -229.9 (anomeric)           394                  -1.387
+        glucose
+    α-butyl protected
+                              -252.6 (anomeric)           296                  -1.496
+      mannose
+    ß-butyl protected
+                              -298.3 (anomeric)           395                  -1.512
+        glucose
+ α-glucose unprotected          -243.8 (butyl)             29                   -1.389
+ ß-glucose unprotected          -246.7 (butyl)             311                  -1.323
+
+Table S2. Calculated and experimental 1J(119Sn-13C) values with corresponding scaling factors.
+
+
+
+                                   S4
+=== papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf PDF page 5 ===
+To generate a model capable of predicting 1J(119Sn-13C) values, experimentally derived
+values for carbohydrates were divided by their calculated analog. When averaged, this
+scaling factor is -1.419 Multiplying this averaged scaling factor by computed1J(119Sn-13C)
+values leads to more accurate predictions, and corrects the calculated negative sign.
+
+6.  Energies, NBO  Values, and  Coupling Constants  of  Calculated
+Structures
+
+                                                    Anti-periplanar       Anti-periplanar
+                                                                                     Average          1J(Sn-
+                                               donation into     Donation by σ(Sn-                                          1J(C1/Cano-H)
+   ID       Compound        Energy (Ha)                                                1J(Sn-CBu)          Cano)
+                                                      σ*(Sn-Cano)               Cano)                                                  (Hz)
+                                                                                                       (Hz)              (Hz)
+                                                       (kcal/mol)            (kcal/mol)
+
+     --        cyclopropane        -157.27759                  --                             --                               --                       --         166
+
+     --         cyclobutane         -117.94557                  --                              --                               --                       --        136, 142
+
+     --         cyclopentane         -196.6388                   --                             --                               --                       --        129, 135
+
+     --         cyclohexane         -235.97964                  --                              --                               --                       --        127, 132
+
+     --              thp             -386.4741                   --                             --                               --                       --        139, 150
+
+             4,6-dimethyl-1,3-
+     --                            -1032.4189                  --                             --                               --                       --        159, 173
+               dioxane
+             4,6-dimethyl-1,3-
+     --                            -687.48847                  --                              --                               --                       --        160, 151
+                  dithiane
+
+     --          ß-galactose         -687.49344                  --                              --                               --                       --         168
+
+     --          α-galactose         -687.48837                  --                              --                               --                       --         177
+
+     --          ß-glucose          -687.49168                  --                             --                               --                       --         168
+
+     --          α-glucose           -687.4893                   --                             --                                --                       --         176
+
+     --        ß-mannose         -687.49069                  --                              --                               --                       --         165
+
+     --        α-mannose         -7093.2935                  --                             --                               --                       --         176
+
+  1a         galactose-ax         -7093.2931           10.1                   3.6                   -217           -248.14       148
+
+  1e         galactose-eq         -7093.2917            4.2                    4.6                   -229            -286.22       141
+
+  2a         glucose-ax         -7093.2924            9.9                    3.4                   -215            -251.23       149
+
+  2e         glucose-eq         -7093.2935            4.4                    4.5                   -234            -284.11       143
+
+  3a        mannose-ax         -7093.2943            7.3                    6.2                   -220            -197.80       148
+
+  3e       mannose-eq         -6828.1982            4.5                    4.8                   -236            -261.16       142
+
+  4a      glucose_mimic-ax      -6828.1997           10.7                   3.6                   -211            -266.91       148
+
+  4e      glucose_mimc-eq      -6828.1975             4.5                    4.6                   -232            -301.61       136
+
+  5a     mannose_mimic-ax      -6828.1966           10.9                   3.6                   -211            -263.99       144
+
+  5e     mannose_mimic-eq      -6752.9425            4.2                    4.6                   -229            -307.45       136
+
+  6a            thp-ax           -6752.9452           11.3                   3.7                   -200            -269.89       147
+
+  6e            thp-eq           -6788.8513            4.4                    4.8                   -223            -316.74       139
+
+  7a        1,3-dioxane-ax        -6788.8525           20.5                   0.0                   -194            -327.90       167
+
+  7e        1,3-dioxane-eq        -6788.8597            3.8                    5.2                   -230            -393.69       156
+
+  8a       1,3-dioxane5-ax       -6788.8585            6.9                    4.0                   -227            -222.37       130
+
+  8e       1,3-dioxane5-eq       -6788.8549            3.2                    5.9                   -229            -184.67       134
+
+  9a       1,3-dioxane4-ax        -6788.856            14.6                   3.5                   -207           -247.73       150
+
+  9e       1,3-dioxane4-eq       -6788.8485            4.1                    4.3                   -226            -304.97       140
+
+  10a       1,4-dioxane-ax        -6788.8478            9.9                    3.8                   -211            -253.71       146
+
+                                   S5
+=== papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf PDF page 6 ===
+10e       1,4-dioxane-eq        -7075.9266            3.5                    5.4                   -230            -267.65       143
+
+11a          thiothp-ax          -7075.9277             6.9                    3.8                   -214            -223.46       139
+
+11e          thiothp-eq          -7434.8112            4.1                    4.0                   -231            -203.79       141
+
+12a        1,3-dithiane-ax        -7434.8136            6.5                    0.0                   -217           -201.57       144
+
+12e       1,3-dithiane-eq        -7434.8137             3.3                    3.1                   -239            -150.32       156
+
+13a       1,3-dithiane5-ax       -7434.8136            7.6                    4.4                   -227            -231.45       128
+
+13e       1,3-dithiane5-eq       -7434.8124            5.2                    7.3                   -220            -177.36       136
+
+14a       1,3-dithiane4-ax       -7434.8122            7.0                    3.8                   -218            -198.61       137
+
+14e       1,3-dithiane4-eq       -7434.8124            3.7                    4.4                   -233            -194.06       141
+
+15a        1,4-dithiane-ax        -7434.8143            6.5                    3.9                   -222           -209.24       135
+
+15e       1,4-dithiane-eq        -6717.0384             4.3                    5.2                   -230            -165.14       145
+
+16a            cy-ax            -6717.0389            8.1                    4.0                   -210            -240.64       130
+
+16e           cy-eq            -6968.4451            5.1                    4.7                   -215            -257.56       128
+
+17a             si-ax            -6968.4432            1.6                    2.3                   -224            -149.62       128
+
+17e             si-eq            -6733.0676            3.9                    2.7                   -227            -156.25       125
+
+18a           pip-h-ax           -6733.0714            7.5                    3.9                   -207            -303.91       137
+
+18e           pip-h-eq           -6733.0689            5.0                    5.0                   -218            -287.15       135
+
+19a           pip-lp-ax          -6733.0684           16.2                   3.9                   -173            -225.13       142
+
+19e           pip-lp-eq          -7019.6871            4.6                    5.1                   -217            -305.48       132
+
+20a         phos-h-ax          -7019.6878            6.3                    3.2                   -224            -182.17       133
+
+20e         phos-h-eq          -7019.6854            4.3                    3.8                   -228            -182.82       130
+
+21a         phos-lp-ax          -7019.6838            4.3                    3.8                   -214            -180.43       131
+
+21e         phos-lp-eq          -6792.2847            4.0                    3.5                   -227            -202.50       133
+
+22a        thpc1me-ax         -6792.2783           12.2                   4.7                   -192            -305.18       37
+
+22e        thpc1me-eq         -6867.5224            4.4                    5.7                   -210            -372.35       34
+
+23a       thpc1ome-ax        -6867.5269           12.1                   3.9                   -181            -387.94       32
+
+23e       thpc1ome-eq        -6753.2892            4.8                    5.7                   -210            -424.30       34
+
+24a        thpH+-h-ax         -6753.2962             4.5                    2.7                   -239              -5.64        150
+
+24e        thpH+-h-eq         -6753.2944            2.9                    4.2                   -238            -24.66       152
+
+25a         thpH+-lp-ax         -6753.2957            5.8                    3.5                   -236            -24.52       150
+
+25e        thpH+-lp-eq         -6733.4676            2.9                    4.2                   -237            -31.87       149
+
+26a         pipH+-ax          -6733.4693            5.6                    3.5                   -238            -53.15       143
+
+26e         pipH+-eq          -7020.0699            3.5                    4.8                   -239            -68.40       142
+
+27a        phosH+-ax         -7020.0687            4.8                    4.9                   -234           3.5585       140
+
+27e        phosH+-eq         -6599.0018            3.3                    5.1                   -237           18.1038      139
+
+ c3        cyclopropane        -6638.3342                  --                             --                    -236           -319.42       156
+
+c4a       cyclobutane-ax        -6638.3335                  --                             --                    -219            -233.81       139
+
+c4e       cyclobutane-eq       -6677.6965                  --                             --                    -219           -240.38       135
+
+c5a      cyclopentane-ax       -6677.6971                  --                             --                    -211           -244.13       134
+
+c5e      cyclopentane-eq       -6634.9081                  --                             --                    -221            -254.79       129
+
+ o3           oxirane           -6674.2416                  --                              --                    -237           -323.45       164
+
+o4a        oxetane-ax         -6674.2416                  --                             --                    -216            -277.44       150
+
+o4e        oxetane-eq         -6713.6027                  --                             --                    -216           -277.37       150
+
+                                 S6

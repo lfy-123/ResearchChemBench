@@ -1,0 +1,193 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Check the complete C20H22N4O6 ligand, imine identities and hydrogens; every metal/solvent/proton/counterion model needs explicit composition and physically consistent charge/spin. The source Fe oxidation number is not the total charge of an unspecified complex. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Check the complete C20H22N4O6 ligand, imine identities and hydrogens; every metal/solvent/proton/counterion model needs explicit composition and physically consistent charge/spin. The source Fe oxidation number is not the total charge of an unspecified complex."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_evidence",
+      "reference_id": "kp_quantitative_evidence",
+      "type": "semantic",
+      "expected": "Verify genuine quantitative properties of HL and of explicitly declared conditional models against raw identities, charge/spin and references. Missing salt/proton conditions are a source limitation, not an agent failure. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.operations",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Verify genuine quantitative properties of HL and of explicitly declared conditional models against raw identities, charge/spin and references. Missing salt/proton conditions are a source limitation, not an agent failure."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_answer",
+      "reference_id": "kp_scientific_answer",
+      "type": "semantic",
+      "expected": "Credit evidence that discriminates conditional accounts or establishes a precisely bounded lack of identifiability. Do not demand a preset spin/proton grid, the author LMCT interpretation or a complete experimental answer from unavailable inputs. No global full-completion score is authorized before the input blocker is resolved. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Credit evidence that discriminates conditional accounts or establishes a precisely bounded lack of identifiability. Do not demand a preset spin/proton grid, the author LMCT interpretation or a complete experimental answer from unavailable inputs. No global full-completion score is authorized before the input blocker is resolved."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_validity_and_uncertainty",
+      "reference_id": "kp_validity_and_uncertainty",
+      "type": "semantic",
+      "expected": "A claimed optical or electronic relationship must be supported by matched model/state definitions and real outputs. Binding or proton-transfer comparisons require a conserved reference appropriate to the explicitly stated environment. Distinguish vertical transitions from population kinetics; quantify uncertainty where supportable. Diagnose missing source conditions separately from model sensitivity and numerical failure. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validations",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. A claimed optical or electronic relationship must be supported by matched model/state definitions and real outputs. Binding or proton-transfer comparisons require a conserved reference appropriate to the explicitly stated environment. Distinguish vertical transitions from population kinetics; quantify uncertainty where supportable. Diagnose missing source conditions separately from model sensitivity and numerical failure."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_bounded_conclusion",
+      "reference_id": "kp_bounded_conclusion",
+      "type": "semantic",
+      "expected": "Confine conclusions to evidenced properties of HL and explicitly defined conditional Fe/Co molecular models. Do not turn an assumed complex, bare-ion association energy, frontier gap or vertical charge-transfer transition into experimental binding selectivity, a fluorescence quenching rate or a validated sensor mechanism. Mn–L contains a different ligand environment and is not a clean Fe/Co replacement control. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Confine conclusions to evidenced properties of HL and explicitly defined conditional Fe/Co molecular models. Do not turn an assumed complex, bare-ion association energy, frontier gap or vertical charge-transfer transition into experimental binding selectivity, a fluorescence quenching rate or a validated sensor mechanism. Mn–L contains a different ligand environment and is not a clean Fe/Co replacement control."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "bounded_answer",
+      "type": "semantic",
+      "expected": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability. Confine conclusions to evidenced properties of HL and explicitly defined conditional Fe/Co molecular models. Do not turn an assumed complex, bare-ion association energy, frontier gap or vertical charge-transfer transition into experimental binding selectivity, a fluorescence quenching rate or a validated sensor mechanism. Mn–L contains a different ligand environment and is not a clean Fe/Co replacement control.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.validations",
+          "$.status"
+        ],
+        "comparison": "Check question coverage and evidence, not author agreement or the self-declared completion status."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Check the complete C20H22N4O6 ligand, imine identities and hydrogens; every metal/solvent/proton/counterion model needs explicit composition and physically consistent charge/spin. The source Fe oxidation number is not the total charge of an unspecified complex.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_evidence",
+      "max_score": 25,
+      "description": "Verify genuine quantitative properties of HL and of explicitly declared conditional models against raw identities, charge/spin and references. Missing salt/proton conditions are a source limitation, not an agent failure.",
+      "rule_ids": [
+        "rule_quantitative_evidence"
+      ]
+    },
+    {
+      "id": "scientific_answer",
+      "max_score": 25,
+      "description": "Credit evidence that discriminates conditional accounts or establishes a precisely bounded lack of identifiability. Do not demand a preset spin/proton grid, the author LMCT interpretation or a complete experimental answer from unavailable inputs. No global full-completion score is authorized before the input blocker is resolved.",
+      "rule_ids": [
+        "rule_scientific_answer"
+      ]
+    },
+    {
+      "id": "validity_and_uncertainty",
+      "max_score": 20,
+      "description": "A claimed optical or electronic relationship must be supported by matched model/state definitions and real outputs. Binding or proton-transfer comparisons require a conserved reference appropriate to the explicitly stated environment. Distinguish vertical transitions from population kinetics; quantify uncertainty where supportable. Diagnose missing source conditions separately from model sensitivity and numerical failure.",
+      "rule_ids": [
+        "rule_validity_and_uncertainty"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 15,
+      "description": "Confine conclusions to evidenced properties of HL and explicitly defined conditional Fe/Co molecular models. Do not turn an assumed complex, bare-ion association energy, frontier gap or vertical charge-transfer transition into experimental binding selectivity, a fluorescence quenching rate or a validated sensor mechanism. Mn–L contains a different ligand environment and is not a clean Fe/Co replacement control.",
+      "rule_ids": [
+        "rule_bounded_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_developed_existing_references_scope_limited",
+  "calibrated_expanded_tolerances": false,
+  "scientific_notes": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+  "semantic_judge_calibration": "pending; no new judge or scientific jobs in this development round",
+  "retired_matrix_policy": "V1 files archived as historical .snapshot are never normative for V2. Their valid raw facts may be used only within documented applicability, without requiring their candidate/control grid.",
+  "deployment_gate": {
+    "blocked": true,
+    "reason": "Missing source sensing composition; conditional model output cannot resolve it.",
+    "action": "Do not schedule full experimental-selectivity evaluation. Retain diagnostic/partial work without treating source-input deficiency as agent error.",
+    "enforcement": "Package authoring declaration; scheduler integration pending, do not assert host already enforces this."
+  }
+}

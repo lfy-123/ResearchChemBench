@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "items": [
+    {
+      "key_point_id": "kp_process_minima",
+      "key_point_type": "process",
+      "statement": "Both supplied syn and anti La-KHQ endpoints are subjected to stationary-point validation and the reported result identifies imaginary-mode diagnostics for each.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000348_97770d902739"
+      ],
+      "expected": "Two endpoint validation records are present; a completed comparison reports no residual imaginary modes for the selected minima, or bounded failure explicitly records the failed endpoint and diagnostics."
+    },
+    {
+      "key_point_id": "kp_process_consistency",
+      "key_point_type": "process",
+      "statement": "The conformer comparison uses a consistent free-energy convention, endpoint identity, temperature and aqueous standard state.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000353_fda087bdcc59",
+        "ev_doc_924dc5cd83b8_000371_badc800c4c37"
+      ],
+      "expected": "The same stated thermochemical convention is applied to syn and anti and the signed difference is formed as anti minus syn."
+    },
+    {
+      "key_point_id": "kp_result_delta_g",
+      "key_point_type": "result",
+      "statement": "The published La conformer free-energy difference is positive for anti minus syn and approximately +4.2 kcal mol−1.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000390_9f59cf1be1f9",
+        "ev_doc_924dc5cd83b8_000393_c31bbb7d8bdf"
+      ],
+      "expected": {
+        "delta_g_conf": 4.2,
+        "unit": "kcal mol-1",
+        "sign_definition": "G(anti) - G(syn)"
+      }
+    }
+  ]
+}

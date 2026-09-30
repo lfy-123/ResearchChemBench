@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_a479e4aeda4e1d1d",
+  "task_type": "paper_reproduction",
+  "title": "Independent NPA test of chemoselective imine reduction",
+  "category": "electronic-structure and mechanistic analysis",
+  "difficulty": "easy",
+  "difficulty_reasons": [
+    "The geometry and two atom identities are fixed, so there is no candidate search or route-discovery space.",
+    "The task is a direct validated charge calculation with a bounded interpretation and an explicitly reportable failure path."
+  ],
+  "paper": {
+    "title": "d5ob01910a 1488..1495 ++",
+    "doi": "10.1039/d5ob01910a",
+    "journal": "Organic & Biomolecular Chemistry",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs/intermediate_3a.xyz",
+      "description": "67-atom neutral Cartesian geometry of compound 3a; atom indices are XYZ coordinate-line order."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculation provenance, atom mapping, NPA charges when obtained or bounded-failure diagnostics, comparison, interpretation, and limitations."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_1a47bc00fd63b2f5",
+  "rules": [
+    {
+      "rule_id": "r_process_stationary",
+      "reference_id": "kp_process_stationary",
+      "type": "semantic",
+      "expected": "frequency classifications and candidate-specific validation evidence are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_process_irc",
+      "reference_id": "kp_process_irc",
+      "type": "semantic",
+      "expected": "IRC or equivalent connectivity evidence is supplied separately for the reported candidates/channels",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_order",
+      "reference_id": "kp_result_order",
+      "type": "ordering",
+      "expected": "The two validated primary-protocol channels give ortho_4_hydroxybenzofuran lower than para_6_hydroxybenzofuran. Use the common-reference composite Gibbs comparison and verify the actual method and evidence; separately labeled alternative-method controls do not replace or invalidate the primary comparison.",
+      "applicability": "status=completed",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier_comparison",
+          "$.system.method",
+          "$.candidates"
+        ],
+        "comparison": "channel barrier ordering"
+      }
+    },
+    {
+      "rule_id": "r_delta",
+      "reference_id": "kp_result_delta",
+      "type": "numeric",
+      "target": 7.6,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "expected": "Compare the primary-protocol para-minus-ortho Gibbs barrier difference with 7.6 +/- 1.5 kcal/mol only after checking B3LYP-D3(zero damping)/6-31+G(d) geometries and harmonic corrections, B3LYP-D3/6-311+G(d,p) single points on those geometries, ultrafine/equivalent grids, SMD(toluene), 298.15 K and 1 atm, and G = E_high + (G_low - E_low). Actual inputs/outputs and the energy ledger must support the declaration. An alternative method alone does not complete the required primary-protocol result; a correct-looking number or method label is insufficient. Do not apply this numeric reference to separately labeled optional controls or deduct for their different values.",
+      "applicability": "status=completed",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier_comparison.signed_delta_delta_g_kcal_mol",
+          "$.system.method",
+          "$.candidates"
+        ],
+        "comparison": "absolute difference when status is completed"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_kinetic",
+      "type": "semantic",
+      "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references, the publicly specified primary B3LYP-D3 composite protocol and actual calculation evidence before numerical agreement. Two validated first-cyclization channels give lower ortho than para barrier on the same reference and support the observed regioselectivity. The experimental input alone is not computational evidence. Other methods may be scientifically useful optional controls, but do not substitute for missing main-protocol evidence. Do not penalize a supported primary result merely because an optional control differs.",
+      "applicability": "status=completed or bounded_failure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.claim",
+          "$.candidates",
+          "$.barrier_comparison",
+          "$.system"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

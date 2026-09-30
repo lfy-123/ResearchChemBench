@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_ef26687d63a37e29",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "Et2N3P*_identity.json and *.xyz",
+      "action": "retain only free phosphine identity; adduct/coordinate answers private",
+      "reason": "Agent constructs chemically supported local species instead of receiving source/benchmark conformations as answers."
+    },
+    {
+      "file": "species_registry.json",
+      "action": "retain source reagents; add PA and source probe identities; remove PA_chain/noPA_chain",
+      "reason": "Fixed two-PO/one-CO2 oligomer and its control were benchmark constructions, not experimentally established active species."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "Remove obligatory propagation/backbite sequence, two-Et3B cluster and tenfold dilution test."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

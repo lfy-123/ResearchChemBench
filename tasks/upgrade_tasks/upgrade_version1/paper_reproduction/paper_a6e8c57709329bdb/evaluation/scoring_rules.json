@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. HL is the full C20H22N4O6 neutral singlet graph with two E imines and phenolic OH groups. Source sensing medium is DMF; Co(II) is selected because it is an explicitly measured partial-quenching competitor. Fe(III) spin space includes doublet/quartet/sextet; Co(II) doublet/quartet. Water/DMF ligands, protonation and counterions must be fixed with salt/pH data before a unique binding-energy cycle is defined. Do not compare unlike total compositions or assign selectivity from smallest gap.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. HL is the full C20H22N4O6 neutral singlet graph with two E imines and phenolic OH groups. Source sensing medium is DMF; Co(II) is selected because it is an explicitly measured partial-quenching competitor. Fe(III) spin space includes doublet/quartet/sextet; Co(II) doublet/quartet. Water/DMF ligands, protonation and counterions must be fixed with salt/pH data before a unique binding-energy cycle is defined. Do not compare unlike total compositions or assign selectivity from smallest gap."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_coordination_candidates",
+      "reference_id": "kp_coordination_candidates",
+      "type": "semantic",
+      "expected": "All models require atom-complete solvent/counterion/proton bookkeeping and applicable spin search; apparent nonconvergence is not proof a species is absent. Core rows: HL, Fe_HL_protonated, Fe_HL_deprotonated, Co_HL_protonated, Co_HL_deprotonated. Recompute G_Eh, spin_squared, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.coordination_candidates",
+          "$.calculation_records"
+        ],
+        "comparison": "All models require atom-complete solvent/counterion/proton bookkeeping and applicable spin search; apparent nonconvergence is not proof a species is absent. Core rows: HL, Fe_HL_protonated, Fe_HL_deprotonated, Co_HL_protonated, Co_HL_deprotonated. Recompute G_Eh, spin_squared, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_solution_cycles",
+      "reference_id": "kp_solution_cycles",
+      "type": "semantic",
+      "expected": "Use one balanced exchange reference and explicit proton reservoir; bare Fe3+ binding in vacuum cannot be substituted for an unreported DMF experimental salt. Core rows: Fe_exchange, Co_exchange, proton_exchange. Recompute delta_G_kJ_mol, standard_state_correction_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.solution_cycles",
+          "$.calculation_records"
+        ],
+        "comparison": "Use one balanced exchange reference and explicit proton reservoir; bare Fe3+ binding in vacuum cannot be substituted for an unreported DMF experimental salt. Core rows: Fe_exchange, Co_exchange, proton_exchange. Recompute delta_G_kJ_mol, standard_state_correction_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_selectivity_tests",
+      "reference_id": "kp_selectivity_tests",
+      "type": "semantic",
+      "expected": "Keep binding preference separate from potential quenching channels, accept multiple Fe species consistent with evidence. TD/NTO alone does not produce a rate or detection limit. Core rows: binding_contrast, state_contrast, speciation_sensitivity. Recompute binding_difference_kJ_mol, excitation_difference_eV, CT_fraction_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.selectivity_tests",
+          "$.calculation_records"
+        ],
+        "comparison": "Keep binding preference separate from potential quenching channels, accept multiple Fe species consistent with evidence. TD/NTO alone does not produce a rate or detection limit. Core rows: binding_contrast, state_contrast, speciation_sensitivity. Recompute binding_difference_kJ_mol, excitation_difference_eV, CT_fraction_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Full quenching dynamics, detection limits and biological medium are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Full quenching dynamics, detection limits and biological medium are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. HL is the full C20H22N4O6 neutral singlet graph with two E imines and phenolic OH groups. Source sensing medium is DMF; Co(II) is selected because it is an explicitly measured partial-quenching competitor. Fe(III) spin space includes doublet/quartet/sextet; Co(II) doublet/quartet. Water/DMF ligands, protonation and counterions must be fixed with salt/pH data before a unique binding-energy cycle is defined. Do not compare unlike total compositions or assign selectivity from smallest gap.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "coordination_candidates",
+      "max_score": 20,
+      "description": "All models require atom-complete solvent/counterion/proton bookkeeping and applicable spin search; apparent nonconvergence is not proof a species is absent. Core rows: HL, Fe_HL_protonated, Fe_HL_deprotonated, Co_HL_protonated, Co_HL_deprotonated. Recompute G_Eh, spin_squared, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_coordination_candidates"
+      ]
+    },
+    {
+      "id": "solution_cycles",
+      "max_score": 25,
+      "description": "Use one balanced exchange reference and explicit proton reservoir; bare Fe3+ binding in vacuum cannot be substituted for an unreported DMF experimental salt. Core rows: Fe_exchange, Co_exchange, proton_exchange. Recompute delta_G_kJ_mol, standard_state_correction_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_solution_cycles"
+      ]
+    },
+    {
+      "id": "selectivity_tests",
+      "max_score": 20,
+      "description": "Keep binding preference separate from potential quenching channels, accept multiple Fe species consistent with evidence. TD/NTO alone does not produce a rate or detection limit. Core rows: binding_contrast, state_contrast, speciation_sensitivity. Recompute binding_difference_kJ_mol, excitation_difference_eV, CT_fraction_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_selectivity_tests"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Full quenching dynamics, detection limits and biological medium are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "blocked",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

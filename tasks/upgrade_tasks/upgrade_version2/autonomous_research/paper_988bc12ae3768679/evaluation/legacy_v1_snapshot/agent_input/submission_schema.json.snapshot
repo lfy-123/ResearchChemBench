@@ -1,0 +1,1550 @@
+{
+  "contract_version": "batch5-expanded-20260927",
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_988bc12ae3768679"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "reference_definition": {
+        "const": "Within a fixed proton count compare like-solvated relative G. Across proton counts use a balanced proton-exchange cycle with a declared common acid/base reference and pH chemical-potential convention; raw different-charge total energies are not population rankings. Joint NMR/UV residuals use one predeclared error model per observable across all candidates."
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "object",
+            "properties": {
+              "software_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "electronic_or_physical_model": {
+                "type": "string",
+                "minLength": 1
+              },
+              "basis_ecp_or_parameters": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relativity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "environment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "numerical_settings": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "software_version",
+              "electronic_or_physical_model",
+              "basis_ecp_or_parameters",
+              "relativity",
+              "environment",
+              "numerical_settings"
+            ],
+            "additionalProperties": false
+          },
+          "sensitivity_protocol": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "sensitivity_protocol"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_id": {
+              "enum": [
+                "parent_2a",
+                "candidate_2a"
+              ]
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "geometry_regime": {
+              "enum": [
+                "relaxed",
+                "frozen_control",
+                "displaced",
+                "single_point",
+                "reference",
+                "data_fit"
+              ]
+            },
+            "outcome": {
+              "enum": [
+                "converged",
+                "collapsed",
+                "failed"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "raw_output_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_identity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "stationarity_or_model_validity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "convergence",
+                "state_identity",
+                "stationarity_or_model_validity",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_energy": {
+              "type": "number"
+            },
+            "energy_unit": {
+              "enum": [
+                "hartree",
+                "eV"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "s2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "collapse_destination": {
+              "type": "string",
+              "minLength": 1
+            },
+            "attempt_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "record_id",
+            "object_id",
+            "formula",
+            "charge",
+            "multiplicity",
+            "state",
+            "method_id",
+            "geometry_regime",
+            "outcome",
+            "input_file",
+            "raw_output_files",
+            "validation"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "parent_2a"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1
+                    ]
+                  },
+                  "formula": {
+                    "const": "C30H20N6O4"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "candidate_2a"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      -2,
+                      -1,
+                      0,
+                      1,
+                      2
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "outcome": {
+                    "const": "collapsed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "collapse_destination",
+                  "geometry_file"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 1
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "candidate_registry": {
+            "type": "object",
+            "properties": {
+              "candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "parent_atom_mapping_file": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "formula": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "proton_change": {
+                      "enum": [
+                        -2,
+                        -1,
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "charge": {
+                      "enum": [
+                        -2,
+                        -1,
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "multiplicity": {
+                      "const": 1
+                    },
+                    "proton_sites": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "minItems": 0
+                    },
+                    "tautomer_class": {
+                      "enum": [
+                        "azo_lactam",
+                        "hydrazone",
+                        "lactim",
+                        "other_justified"
+                      ]
+                    },
+                    "bond_changes_file": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "condition": {
+                      "enum": [
+                        "acid",
+                        "neutral",
+                        "base"
+                      ]
+                    },
+                    "conformer_attempts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "outcome": {
+                      "enum": [
+                        "retained",
+                        "collapsed",
+                        "failed"
+                      ]
+                    },
+                    "destination_candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "free_energy_record": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "evidence_files": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "minItems": 1
+                    },
+                    "outcome_diagnostics_file": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    }
+                  },
+                  "required": [
+                    "candidate_id",
+                    "parent_atom_mapping_file",
+                    "formula",
+                    "proton_change",
+                    "charge",
+                    "multiplicity",
+                    "proton_sites",
+                    "tautomer_class",
+                    "bond_changes_file",
+                    "condition",
+                    "conformer_attempts",
+                    "outcome",
+                    "evidence_files",
+                    "outcome_diagnostics_file"
+                  ],
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "outcome": {
+                            "const": "retained"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "free_energy_record"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "outcome": {
+                            "const": "collapsed"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "destination_candidate_id"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "proton_change": {
+                            "const": -2
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "charge": {
+                            "const": -2
+                          },
+                          "formula": {
+                            "const": "C30H18N6O4"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "proton_change": {
+                            "const": -1
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "charge": {
+                            "const": -1
+                          },
+                          "formula": {
+                            "const": "C30H19N6O4"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 0
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "charge": {
+                            "const": 0
+                          },
+                          "formula": {
+                            "const": "C30H20N6O4"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 1
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "charge": {
+                            "const": 1
+                          },
+                          "formula": {
+                            "const": "C30H21N6O4"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 2
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "charge": {
+                            "const": 2
+                          },
+                          "formula": {
+                            "const": "C30H22N6O4"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "candidate_id": {
+                            "const": "neutral_parent"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 0
+                          },
+                          "charge": {
+                            "const": 0
+                          },
+                          "formula": {
+                            "const": "C30H20N6O4"
+                          },
+                          "condition": {
+                            "const": "neutral"
+                          },
+                          "tautomer_class": {
+                            "const": "azo_lactam"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "candidate_id": {
+                            "const": "neutral_lactim"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 0
+                          },
+                          "charge": {
+                            "const": 0
+                          },
+                          "formula": {
+                            "const": "C30H20N6O4"
+                          },
+                          "condition": {
+                            "const": "neutral"
+                          },
+                          "tautomer_class": {
+                            "const": "lactim"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "candidate_id": {
+                            "const": "acid_O"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 2
+                          },
+                          "charge": {
+                            "const": 2
+                          },
+                          "formula": {
+                            "const": "C30H22N6O4"
+                          },
+                          "condition": {
+                            "const": "acid"
+                          },
+                          "tautomer_class": {
+                            "const": "azo_lactam"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "candidate_id": {
+                            "const": "acid_azoN"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "proton_change": {
+                            "const": 2
+                          },
+                          "charge": {
+                            "const": 2
+                          },
+                          "formula": {
+                            "const": "C30H22N6O4"
+                          },
+                          "condition": {
+                            "const": "acid"
+                          },
+                          "tautomer_class": {
+                            "const": "azo_lactam"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "candidate_id": {
+                            "const": "base_O"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "proton_change": {
+                            "const": -2
+                          },
+                          "charge": {
+                            "const": -2
+                          },
+                          "formula": {
+                            "const": "C30H18N6O4"
+                          },
+                          "condition": {
+                            "const": "base"
+                          },
+                          "tautomer_class": {
+                            "const": "azo_lactam"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "candidate_id": {
+                            "const": "base_lactamN"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "proton_change": {
+                            "const": -2
+                          },
+                          "charge": {
+                            "const": -2
+                          },
+                          "formula": {
+                            "const": "C30H18N6O4"
+                          },
+                          "condition": {
+                            "const": "base"
+                          },
+                          "tautomer_class": {
+                            "const": "azo_lactam"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "minItems": 6,
+                "allOf": [
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "const": "neutral_parent"
+                        }
+                      },
+                      "required": [
+                        "candidate_id"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "const": "neutral_lactim"
+                        }
+                      },
+                      "required": [
+                        "candidate_id"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "const": "acid_O"
+                        }
+                      },
+                      "required": [
+                        "candidate_id"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "const": "acid_azoN"
+                        }
+                      },
+                      "required": [
+                        "candidate_id"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "const": "base_O"
+                        }
+                      },
+                      "required": [
+                        "candidate_id"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "const": "base_lactamN"
+                        }
+                      },
+                      "required": [
+                        "candidate_id"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "parent_record": {
+                "type": "string",
+                "minLength": 1
+              },
+              "atom_conservation_table_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              }
+            },
+            "required": [
+              "candidates",
+              "parent_record",
+              "atom_conservation_table_file"
+            ],
+            "additionalProperties": false
+          },
+          "joint_evidence": {
+            "type": "object",
+            "properties": {
+              "comparisons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "condition": {
+                      "enum": [
+                        "acid",
+                        "neutral",
+                        "base"
+                      ]
+                    },
+                    "predicted_NMR_ppm": {
+                      "type": "number"
+                    },
+                    "experimental_NMR_ppm": {
+                      "type": "number"
+                    },
+                    "NMR_residual_ppm": {
+                      "type": "number"
+                    },
+                    "predicted_absorption_nm": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "experimental_absorption_nm": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "absorption_residual_nm": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "NMR_reference_record": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "excited_state_record": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "oscillator_strength": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "evidence_files": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "candidate_id",
+                    "condition",
+                    "predicted_NMR_ppm",
+                    "experimental_NMR_ppm",
+                    "NMR_residual_ppm",
+                    "predicted_absorption_nm",
+                    "experimental_absorption_nm",
+                    "absorption_residual_nm",
+                    "NMR_reference_record",
+                    "excited_state_record",
+                    "oscillator_strength",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "condition": {
+                            "const": "neutral"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "experimental_absorption_nm": {
+                            "type": "null"
+                          },
+                          "absorption_residual_nm": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      "else": {
+                        "properties": {
+                          "experimental_absorption_nm": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "absorption_residual_nm": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "minItems": 3,
+                "allOf": [
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "condition": {
+                          "const": "acid"
+                        }
+                      },
+                      "required": [
+                        "condition"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "condition": {
+                          "const": "neutral"
+                        }
+                      },
+                      "required": [
+                        "condition"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "condition": {
+                          "const": "base"
+                        }
+                      },
+                      "required": [
+                        "condition"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "uncertainty_model_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "shielding_calibration_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "spectral_assignment_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "populations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "condition": {
+                      "enum": [
+                        "acid",
+                        "neutral",
+                        "base"
+                      ]
+                    },
+                    "candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "weight": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "condition",
+                    "candidate_id",
+                    "weight"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 3
+              },
+              "joint_residual_analysis_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              }
+            },
+            "required": [
+              "comparisons",
+              "uncertainty_model_file",
+              "shielding_calibration_file",
+              "spectral_assignment_file",
+              "populations",
+              "joint_residual_analysis_file"
+            ],
+            "additionalProperties": false
+          },
+          "thermodynamic_and_robustness": {
+            "type": "object",
+            "properties": {
+              "proton_cycles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "reaction": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "species_charge_balance": {
+                      "const": 0
+                    },
+                    "delta_G_kcal_mol": {
+                      "type": "number"
+                    },
+                    "reference_species_records": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "evidence_files": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "candidate_id",
+                    "reaction",
+                    "species_charge_balance",
+                    "delta_G_kcal_mol",
+                    "reference_species_records",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              },
+              "solvent_or_reference_contrast": {
+                "type": "object",
+                "properties": {
+                  "left_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "right_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_value": {
+                    "type": "number"
+                  },
+                  "right_value": {
+                    "type": "number"
+                  },
+                  "difference_right_minus_left": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uncertainty": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "uncertainty_basis": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "left_record",
+                  "right_record",
+                  "left_value",
+                  "right_value",
+                  "difference_right_minus_left",
+                  "unit",
+                  "uncertainty",
+                  "uncertainty_basis",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "candidate_ordering_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "mixture_identifiability_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "evidence_files": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "proton_cycles",
+              "solvent_or_reference_contrast",
+              "candidate_ordering_file",
+              "mixture_identifiability_file",
+              "evidence_files"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "candidate_registry",
+          "joint_evidence",
+          "thermodynamic_and_robustness"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "falsifying_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "actual_test_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "quantitative_basis": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "proposition",
+            "falsifying_observation",
+            "actual_test_records",
+            "assessment",
+            "quantitative_basis"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "alternative_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "change": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "changed_factor",
+            "baseline_records",
+            "alternative_records",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "change",
+            "unit",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "assessment": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supported_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_records": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "assessment",
+          "statement",
+          "supported_scope",
+          "limitations",
+          "evidence_records"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+        },
+        "minItems": 0
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "scientific_engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "successful_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restarts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_job_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "parallel_elapsed_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "scientific_engine_starts",
+          "successful_starts",
+          "failed_starts",
+          "restarts",
+          "allocated_cores",
+          "wall_job_hours",
+          "cpu_core_hours",
+          "parallel_elapsed_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "evidence_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "control_equivalence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "reference_comparison_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternative_control_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "held_factors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "coverage_justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "reference_comparison_id",
+            "alternative_control_definition",
+            "held_factors",
+            "changed_factor",
+            "coverage_justification",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "reference_definition",
+      "conclusion",
+      "evidence_files",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "methods",
+            "calculation_records",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "outcome"
+                ]
+              },
+              "minContains": 1
+            },
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                },
+                "evidence_records": {
+                  "minItems": 1
+                }
+              }
+            },
+            "evidence_files": {
+              "minItems": 1
+            }
+          }
+        },
+        "else": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "validation_boundary": "Format only. Raw outputs, controls, arithmetic and state identity must pass the scientific evaluator. A bounded failure is accepted for reporting, never as scientific completion."
+}

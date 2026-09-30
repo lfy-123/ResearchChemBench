@@ -1,0 +1,95 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "type": "semantic",
+      "expected": "All three molecules are identified with neutral-singlet state or bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.molecules",
+          "$.molecules[*].name",
+          "$.molecules[*].charge",
+          "$.molecules[*].multiplicity",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_identity"
+    },
+    {
+      "rule_id": "r_validation",
+      "type": "semantic",
+      "expected": "Method, state and convergence/validation are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.validation",
+          "$.molecules[*].validation_evidence",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_validation"
+    },
+    {
+      "rule_id": "r_levels",
+      "type": "semantic",
+      "expected": "Reported values reproduce the source pattern in eV.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].name",
+          "$.molecules[*].homo_eV",
+          "$.molecules[*].lumo_eV",
+          "$.molecules[*].units"
+        ],
+        "comparison": "expert numeric comparison"
+      },
+      "reference_id": "kp_result_levels"
+    },
+    {
+      "rule_id": "r_order",
+      "type": "semantic",
+      "expected": "2(C8Ph)-TTA is highest for both levels and claims are bounded. Inspect the actual pairwise level differences and supplied sensitivity. Distinguish ordering in the submitted model from method-independent stability; the small HOMO separation must not be represented as robust without evidence. No post hoc tie tolerance is introduced.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules",
+          "$.ordering",
+          "$.conclusion",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_ordering"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "Final level pattern agrees with source.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "conclusion_final_levels"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

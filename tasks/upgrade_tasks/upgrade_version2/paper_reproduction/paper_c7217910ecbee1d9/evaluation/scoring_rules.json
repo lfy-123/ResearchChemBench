@@ -1,0 +1,146 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity_states",
+      "reference_id": "kp_identity_states",
+      "type": "semantic",
+      "expected": "Verify complete PAl12/BC18F15 composition, charge/electron count, spin parity and a bijective atom map to actual geometry files. Evaluate structural retention or change from the submitted evidence. Candidate, constrained stationary point, valid minimum and claimed lowest state are distinct. Require credible stationarity/state validity and search coverage when those claims are made; no prescribed spin list, binding sites or intact winner is required. An observed reconstruction can invalidate an intact-object claim or support a limited scientific exclusion, but one failed calculation cannot establish global nonexistence. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.state_records",
+          "$.methods",
+          "$.execution_records",
+          "$.artifact_index"
+        ],
+        "comparison": "Verify complete PAl12/BC18F15 composition, charge/electron count, spin parity and a bijective atom map to actual geometry files. Evaluate structural retention or change from the submitted evidence. Candidate, constrained stationary point, valid minimum and claimed lowest state are distinct. Require credible stationarity/state validity and search coverage when those claims are made; no prescribed spin list, binding sites or intact winner is required. An observed reconstruction can invalidate an intact-object claim or support a limited scientific exclusion, but one failed calculation cannot establish global nonexistence. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_acceptance_evidence",
+      "reference_id": "kp_acceptance_evidence",
+      "type": "semantic",
+      "expected": "Recompute reported attachment quantities from their actual energy/state references and declared components. Vertical quantities require common geometry; adiabatic quantities require appropriately validated charge-state structures and defensible state selection; vibrational corrections must correspond to their own valid structures. Alternative observables require a demonstrated relation to electron acceptance at the claimed resolution. These are conditional validity tests, not requirements to compute vertical, adiabatic and constrained quantities together. One n2 scalar or orbital energy without justified interpretation does not answer how ligation affects the family. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.attachment_assessments",
+          "$.quantitative_observations",
+          "$.state_records",
+          "$.methods"
+        ],
+        "comparison": "Recompute reported attachment quantities from their actual energy/state references and declared components. Vertical quantities require common geometry; adiabatic quantities require appropriately validated charge-state structures and defensible state selection; vibrational corrections must correspond to their own valid structures. Alternative observables require a demonstrated relation to electron acceptance at the claimed resolution. These are conditional validity tests, not requirements to compute vertical, adiabatic and constrained quantities together. One n2 scalar or orbital energy without justified interpretation does not answer how ligation affects the family. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_explanation",
+      "reference_id": "kp_explanation",
+      "type": "semantic",
+      "expected": "Judge whether actual calculations discriminate, falsify or bound the proposed account of ligation and electron acceptance. Evaluate the applicability and information content of the selected analyses, without imposing a particular partition, density grid, orbital decomposition or frozen-core comparison. Claiming shell preservation or a specific charge-transfer mechanism requires corresponding electronic evidence; geometry or correlation alone is insufficient. Evidence-backed non-author explanations, null effects or scoped non-identifiability receive equal scientific consideration. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.electronic_structure_assessment",
+          "$.claims",
+          "$.comparisons",
+          "$.quantitative_observations"
+        ],
+        "comparison": "Judge whether actual calculations discriminate, falsify or bound the proposed account of ligation and electron acceptance. Evaluate the applicability and information content of the selected analyses, without imposing a particular partition, density grid, orbital decomposition or frozen-core comparison. Claiming shell preservation or a specific charge-transfer mechanism requires corresponding electronic evidence; geometry or correlation alone is insufficient. Evidence-backed non-author explanations, null effects or scoped non-identifiability receive equal scientific consideration. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty_scope",
+      "reference_id": "kp_uncertainty_scope",
+      "type": "semantic",
+      "expected": "Assess numerical and model uncertainty where it affects a claimed ordering or effect, including relevant state/structure selection and electron-binding description. The investigator may establish adequacy through any supported route; no universal tolerance, mandatory second functional or fixed basis matrix applies. A family-wide trend needs evidence covering the relevant n0–2 domain. Explicitly bounded partial results may earn independent credit but cannot silently claim the full objective. No claim about other cores, solvent, graphene, synthesis or devices follows from this gas-phase subset. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.state_records",
+          "$.quantitative_observations",
+          "$.conclusion"
+        ],
+        "comparison": "Assess numerical and model uncertainty where it affects a claimed ordering or effect, including relevant state/structure selection and electron-binding description. The investigator may establish adequacy through any supported route; no universal tolerance, mandatory second functional or fixed basis matrix applies. A family-wide trend needs evidence covering the relevant n0–2 domain. Explicitly bounded partial results may earn independent credit but cannot silently claim the full objective. No claim about other cores, solvent, graphene, synthesis or devices follows from this gas-phase subset. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the specified question within the explicitly investigated domain. Supported, refuted and evidence-sufficient unresolved conclusions are eligible for equal credit. Scope reductions must be explicit; untested parts cannot be generalized. Distinguish complete scientific non-identifiability from missing input or failed calculations. Do not require any author-specific hypothesis count, control matrix, method, winner or numerical answer. Historical package PASS is not V2 evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.addressed_scope",
+          "$.artifact_index"
+        ],
+        "comparison": "Answer the specified question within the explicitly investigated domain. Supported, refuted and evidence-sufficient unresolved conclusions are eligible for equal credit. Scope reductions must be explicit; untested parts cannot be generalized. Distinguish complete scientific non-identifiability from missing input or failed calculations. Do not require any author-specific hypothesis count, control matrix, method, winner or numerical answer. Historical package PASS is not V2 evidence."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity_states",
+      "max_score": 20,
+      "description": "Complete objects and defensible structural/electronic states",
+      "rule_ids": [
+        "rule_identity_states"
+      ]
+    },
+    {
+      "id": "acceptance_evidence",
+      "max_score": 25,
+      "description": "Reproducible evidence for electron acceptance",
+      "rule_ids": [
+        "rule_acceptance_evidence"
+      ]
+    },
+    {
+      "id": "explanation",
+      "max_score": 25,
+      "description": "Electronic/structural evidence tests the proposed explanation",
+      "rule_ids": [
+        "rule_explanation"
+      ]
+    },
+    {
+      "id": "uncertainty_scope",
+      "max_score": 20,
+      "description": "Resolution, reliability and domain of inference",
+      "rule_ids": [
+        "rule_uncertainty_scope"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-proportionate answer and explicit limits",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "calibration_status": "pending_real_semantic_judge_and_expanded_reference",
+  "deployment_disposition": "pending_coordinator_review_and_calibration",
+  "scoring_boundary": "Offline schema/artifact validation does not certify scientific conclusions. Exact or broad numerical equivalence requires reference-specific justification; no blanket tolerance. Credit independent valid parts, but invalidate dependent claims when their evidence fails. Operator-caused missing mandatory public input is a task prerequisite defect: exclude such a run from agent capability comparisons rather than assigning a low science score for the unavailable input. Package disposition is an operator instruction, not an implemented host dispatch gate."
+}

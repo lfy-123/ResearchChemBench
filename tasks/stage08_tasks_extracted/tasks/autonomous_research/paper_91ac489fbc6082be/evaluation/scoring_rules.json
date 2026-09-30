@@ -1,0 +1,80 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_system",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_system",
+      "expected": "Submission explicitly and correctly addresses the referenced evaluator point."
+    },
+    {
+      "rule_id": "r_ensemble",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.enantiomer_results"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_ensemble",
+      "expected": "For each explicitly identified R and S assignment, submission reports conformer coverage, per-conformer validation and weighting/spectral-processing provenance; bounded_failure uses failure_report."
+    },
+    {
+      "rule_id": "r_metrics",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.enantiomer_results"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_metrics",
+      "expected": "For each identified assignment, report its similarity with units, method and provenance; compare both assignments when complete."
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_assignment",
+      "expected": "In complete outcome, conclusion names the assignment supported by the submitted comparison and states confidence; bounded_failure reports the failure branch instead."
+    },
+    {
+      "rule_id": "r_limit",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limitation",
+      "expected": "Interpretation explicitly addresses aggregation and model/measurement sensitivity and quantifies limitations."
+    }
+  ],
+  "paper_id": "paper_91ac489fbc6082be"
+}

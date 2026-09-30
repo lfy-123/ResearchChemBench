@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_1a47bc00fd63b2f5",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "The submission changes substrate/catalyst connectivity, charge, multiplicity or 1:1 association without declaring it as a separate out-of-scope calculation.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_unvalidated_ts",
+      "condition": "A numerical barrier or ordering is asserted for a candidate with no frequency classification and no channel-specific IRC/equivalent connectivity evidence.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_mixed_reference",
+      "condition": "The two channel barriers are compared to different reference states or with an undisclosed thermochemical convention.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_fabricated_failure",
+      "condition": "A reported result is fabricated, or a failed/incomplete channel is represented as a validated successful channel.",
+      "severity": "scientifically serious"
+    }
+  ]
+}

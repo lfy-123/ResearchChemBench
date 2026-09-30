@@ -4,7 +4,7 @@
   "formula": "C30H34O6",
   "charge": 0,
   "multiplicity": 1,
-    "stereochemical_scope": "compare the two enantiomeric assignments of the single stereogenic center in compound 2",
+  "stereochemical_scope": "compare the two enantiomeric assignments of the single stereogenic center in compound 2",
   "coordinate_file": "compound2_conformer_2a.xyz",
   "coordinate_units": "angstrom",
   "experimental_boundary": {
@@ -13,6 +13,18 @@
       2200,
       850
     ],
-    "omit_near_cm-1": 1330
+    "omit_near_cm-1": 1330,
+    "trace_file": "experimental_vcd_traces.csv",
+    "trace_provenance_file": "experimental_vcd_traces_provenance.json",
+    "trace_columns": [
+      "wavenumber_cm-1",
+      "cdcl3_delta_epsilon",
+      "c6d6_delta_epsilon"
+    ],
+    "trace_scope": "digitized plotted observations for comparison; not raw instrument data or a target answer",
+    "mask_recommendation_cm-1": [
+      1325,
+      1335
+    ]
   }
 }

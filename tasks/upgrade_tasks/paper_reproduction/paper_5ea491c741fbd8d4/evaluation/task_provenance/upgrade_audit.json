@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-27",
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "batch": 6,
+  "source_path": "tasks/final_verified_paper_reproduction/paper_5ea491c741fbd8d4",
+  "source_package_manifest_sha256": "c4bad7ec3aac58e7285323603bd623b6b9b0cdc22093ea7c656c5362ac041dbd",
+  "source_payload_snapshots": {
+    "task_info.json": {
+      "sha256": "f0dd05b4212c2b34b26001f632c7747bcac935750c7576aa6d57db5156abf83a",
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot"
+    },
+    "paper_route.md": {
+      "sha256": "b40730d033d1d3c096e75169835fabb854d20fe76e19fdf6c39f9f3598dac540",
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot"
+    },
+    "package_manifest.json": {
+      "sha256": "c4bad7ec3aac58e7285323603bd623b6b9b0cdc22093ea7c656c5362ac041dbd",
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot"
+    },
+    "evaluation/scoring_rules.json": {
+      "sha256": "88f04d7f8aa45cc1b3ee9feb706c782632745df460c783731696cd8716a8f6dc",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "sha256": "36ca02c7c8969d1d64690690661d02a92ed46f6f1a45dac6c6b3156bcba82e29",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot"
+    },
+    "evaluation/reference_key_points.json": {
+      "sha256": "fa13c9e99e3e88becc6b025e4e7b4bd8da2862dcadec7581e964775d525756e9",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot"
+    },
+    "evaluation/critical_failures.json": {
+      "sha256": "f57ab1f20eb83ad03e9c5bb9c79c55985e36251a5c2adfde61b827d3351d917b",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot"
+    },
+    "evaluation/evidence_map.json": {
+      "sha256": "1e0f455395b432f682e14636c64eb9a1c57e2fcf4581eb0465c2afdda57c45cb",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot"
+    },
+    "evaluation/reference_conclusions.json": {
+      "sha256": "8019a23ccf813cf43aaf9e53ac3ec12e607e8d45c300555e40afa057b03bf3a4",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "sha256": "0ac5fed7796624e6b4a50801b98f5fe520808034f35ca057dddf7e1b30119c4e",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot"
+    },
+    "agent_input/submission_schema.json": {
+      "sha256": "69d5221028fcd248ae96339e608e8b47b6d9bba39c994280996cec9ca1745ddf",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot"
+    },
+    "agent_input/task.md": {
+      "sha256": "d0ee84eaf23ac866d462e124764f98cfd0d974beea4f73f5f398950e8f425fbe",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot"
+    },
+    "agent_input/data/inputs/system.json": {
+      "sha256": "4d1f6a2a825ff622b4d7fe09e31da20dcc91137a1bc6648d5bc8fdf778eb7fc8",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/system.json.snapshot"
+    }
+  },
+  "source_documents": [
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+      "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+      "read_scope": "PDF pp2–4 (methods, Table 1, packing), p6 (fingerprints/shape plots)."
+    },
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/supplementary_001.pdf",
+      "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+      "read_scope": "All four pages: checkCIF metadata, 3 C and 6 G alerts, ellipsoid illustration; not coordinates."
+    }
+  ],
+  "source_guidance_documents": [
+    {
+      "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+      "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+      "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+      "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+    },
+    {
+      "path": "docs/evalution/update/paper_5ea491c741fbd8d4.md",
+      "sha256": "e2c514937e0f904ff556a886dc4a519d85e0021869f3726ef73fd0a7e4e7499d"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "new_class_status": "proposed_implemented_blocked_not_validated",
+  "status": "blocked",
+  "implementation_status": "implemented_pending_expanded_reference",
+  "release_ready": false,
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_launches": 0,
+  "remaining_reference_gaps": [
+    "Authenticated CCDC 2445596 CIF and complete fractional atom/occupancy/symmetry data are not available.",
+    "Correct symmetry-inequivalent neighbor inventory and graph mapping cannot be generated without that CIF.",
+    "No representative pair area/interaction-energy pilot or full expanded references exist."
+  ],
+  "unblocking_conditions": [
+    "Obtain the actual deposition through a permitted CCDC/publisher access route, hash it, check DOI/deposition/formula/cell and inspect disorder/occupancy/quality alerts. A downloaded checkCIF or HTML page is not sufficient.",
+    "Rebuild full molecules and neighbors, establish a bijective label map and normalize H consistently; review symmetry/multiplicity against source packing.",
+    "Demonstrate one real pair with converged surface area and frozen-geometry CP energies through Gaussian/ORCA or an equivalent calibrated method.",
+    "Complete all primary pairs plus the specified cutoff and decisive sensitivity controls; freeze numerical intervals from actual evidence; then review release readiness and run independent AR/PR checks."
+  ],
+  "mode_parity": "Same objective, public objects, controls, schema, completion requirements and all five scientific evaluators; only PR author guidance differs.",
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ]
+}

@@ -5,11 +5,22 @@
   "formula": "C16H16N2O2",
   "charge": 0,
   "multiplicity": 1,
-  "connectivity_smiles": "CCCCN1C(=O)c2cccc3c(N)cccc3c2C1=O",
+  "connectivity_smiles": "CCCCN1C(=O)c2cccc3cc(N)cc(c23)C1=O",
   "structural_constraints": {
     "imide_n_substituent": "n-butyl",
     "amino_group": "unsubstituted -NH2",
     "amino_position": "3-position of the 1,8-naphthalimide aromatic framework (meta to the imide carbonyl reference used in the name)",
-    "protonation": "neutral free base"
+    "protonation": "neutral free base",
+    "imide_ring": "six-membered ring of the 1,8-naphthalimide framework"
+  },
+  "solvation_boundary": {
+    "explicit_water_count": 2,
+    "water_smiles": "O",
+    "initial_arrangement": "two neutral water molecules hydrogen-bonded to the two amino N-H donors; relax the entire cluster and report its retained arrangement",
+    "continuum_solvent": "water",
+    "total_cluster_formula": "C16H20N2O4",
+    "total_cluster_charge": 0,
+    "total_cluster_multiplicity": 1,
+    "descriptor_scope": "same identified S0-to-S1 excitation of the dye/two-water cluster; do not substitute an emission geometry or a dye-only wavefunction"
   }
 }

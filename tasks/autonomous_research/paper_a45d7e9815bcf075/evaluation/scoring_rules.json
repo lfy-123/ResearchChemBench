@@ -2,6 +2,18 @@
   "paper_id": "paper_a45d7e9815bcf075",
   "rules": [
     {
+      "rule_id": "r0_author_release_scope",
+      "reference_id": "p2",
+      "type": "condition",
+      "expected": "For status=author_release_verified, the report must identify the public source commit, preserve fragment/cap provenance and matrix artifacts, and explicitly state that this is author-artifact verification rather than an independent GROMACS/ORCA rerun.",
+      "applicability": "status=author_release_verified only",
+      "binding": {
+        "artifact_paths": ["report/results.json"],
+        "fields": ["$.status", "$.state", "$.fragments", "$.validation", "$.observables", "$.limitations"],
+        "comparison": "expert condition check"
+      }
+    },
+    {
       "rule_id": "r1",
       "reference_id": "p1",
       "type": "semantic",

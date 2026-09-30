@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "rules": [
+    {
+      "rule_id": "r_pr_freq",
+      "reference_id": "kp_pr_process_freq",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures.reference",
+          "$.structures.target",
+          "$.method"
+        ],
+        "comparison": "expert validation"
+      },
+      "expected": "optimization and frequency workflow is documented for the supplied reference starter and independently generated candidate"
+    },
+    {
+      "rule_id": "r_pr_ts",
+      "reference_id": "kp_pr_process_ts",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures.target",
+          "$.barrier.mode_assignment",
+          "$.barrier.evidence"
+        ],
+        "comparison": "exact count plus expert mode assessment"
+      },
+      "expected": "one imaginary frequency and N–O cleavage mode evidence Inspect relative N/O displacement or equivalent local chemical evidence for the target N-O cleavage. Individual atom motion and a count of one imaginary frequency alone are insufficient. Do not impose a universal 50 cm^-1 cutoff or mandatory IRC."
+    },
+    {
+      "rule_id": "r_pr_barrier",
+      "reference_id": "kp_pr_result_barrier",
+      "type": "numeric",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier.value_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": 6.2,
+      "unit": "kcal/mol",
+      "tolerance": 2
+    },
+    {
+      "rule_id": "r_pr_final",
+      "reference_id": "c_pr_final",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures",
+          "$.method",
+          "$.barrier"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "validated fixed-pair barrier conclusion with stated hypothesis test Check target-mode support and the same-reference thermochemical barrier separately; normal software termination or a plausible number cannot replace reaction identity evidence."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

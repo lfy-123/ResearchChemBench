@@ -1,0 +1,61 @@
+{
+  "chain_endpoint_path": [
+    18,
+    9,
+    8,
+    3,
+    2,
+    1,
+    4,
+    5,
+    28
+  ],
+  "dihedral_atom_quadruples": [
+    [
+      18,
+      9,
+      8,
+      3
+    ],
+    [
+      9,
+      8,
+      3,
+      2
+    ],
+    [
+      8,
+      3,
+      2,
+      1
+    ],
+    [
+      3,
+      2,
+      1,
+      4
+    ],
+    [
+      2,
+      1,
+      4,
+      5
+    ],
+    [
+      1,
+      4,
+      5,
+      28
+    ]
+  ],
+  "target_degrees": [
+    180,
+    180,
+    180,
+    180,
+    180,
+    180
+  ],
+  "definition": "All consecutive carbon-backbone dihedrals on the specified conjugated chain are trans planar (180 degrees). This is a deliberately imposed all-trans planar intervention, not the source optimized state. Preserve connectivity/charge, relax other coordinates, then release all constraints and classify the endpoint. Compare the same physical states by density.",
+  "scope": "This single representative geometry control separates geometry response within Cy2; it does not make the three sensitizers an isostructural series."
+}

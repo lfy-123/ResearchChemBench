@@ -1,0 +1,20 @@
+{
+  "paper_id": "paper_e0791c047a731974",
+  "items": [
+    {
+      "failure_id": "ar_f1",
+      "condition": "Changes the supplied connectivity, charge, protonation or counterion boundary.",
+      "why_serious": "The calculation no longer addresses Cy2 defined by the task."
+    },
+    {
+      "failure_id": "ar_f2",
+      "condition": "Reports vertical and relaxed energies as if they were the same observable or omits state labels.",
+      "why_serious": "The central excited-state comparison becomes scientifically uninterpretable."
+    },
+    {
+      "failure_id": "ar_f3",
+      "condition": "Invents values for an uncomputed state or claims validation without auditable evidence.",
+      "why_serious": "This defeats reproducibility and makes the result non-evaluable."
+    }
+  ]
+}

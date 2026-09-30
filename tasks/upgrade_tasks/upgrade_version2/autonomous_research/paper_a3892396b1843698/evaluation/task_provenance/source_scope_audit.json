@@ -1,0 +1,77 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "source_documents": [
+    {
+      "path": "papers/paper_a3892396b1843698/documents/main.pdf",
+      "sha256": "fae49816db907e5dce86872c757d439fca946b2721e5af626900a04e54c98f57",
+      "page_count": 16,
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_a3892396b1843698/documents/supplementary_001.pdf",
+      "sha256": "d70347560db74d188f67b4507f632405908a9b8e8ef217e96519d8f4381ae7ea",
+      "page_count": 40,
+      "pdf_pages_1_based": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "What rearrangement behavior is supported for the specified dibutadienylcyclopropane3a, and how do its accessible molecular geometries and electronic structure constrain the mechanistic interpretation?",
+    "scope": "Study the full source C11H14 substrate3a and its intramolecular rearrangements. Generate and justify relevant conformations, electronic states and transformations. Other bridged derivatives, substituted families and quantitative trajectory branching are outside the required scope. No reaction-channel list, geometric intervention, saddle count or dynamics protocol is imposed.",
+    "facts": "The source studies thermal rearrangements of polyene-bearing cyclopropane frameworks computationally. The present subproblem is the specified3a connectivity and stereochemistry, neutralC11H14. The graph defines the starting molecule, not its preferred conformation or reaction outcome. No measured3a rate or product distribution is supplied. Define the thermodynamic state and environment of each model; changes in geometry alone do not create a new chemical species.",
+    "claim_source_map": [
+      {
+        "claim": "Source3a identity and bounded computational problem",
+        "source": "main PDF p4 Figure5; SI PDF p2"
+      },
+      {
+        "claim": "Author rearrangement channels, conformational rationale and barriers",
+        "source": "main PDF p4; SI PDF p2",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "Source computational methods and cross-system limits",
+        "source": "main PDF pp2–6; SI PDF pp2–5",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Source3a identity and bounded computational problem",
+      "source": "main PDF p4 Figure5; SI PDF p2"
+    },
+    {
+      "claim": "Author rearrangement channels, conformational rationale and barriers",
+      "source": "main PDF p4; SI PDF p2",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "Source computational methods and cross-system limits",
+      "source": "main PDF pp2–6; SI PDF pp2–5",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Independent endpoint/path and method sensitivity calibration remains pending.",
+    "Dynamic branching and any new constrained-control interpretation lack a transferred reference.",
+    "Actual semantic judge and runtime isolation remain pending."
+  ]
+}

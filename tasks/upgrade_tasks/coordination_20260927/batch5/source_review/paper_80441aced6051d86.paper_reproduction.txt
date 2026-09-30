@@ -1,0 +1,1369 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_80441aced6051d86",
+  "task_type": "paper_reproduction",
+  "title": "Independent structural test of G1 monomer and dimer packing",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The systems and observables are fixed, but the agent must choose a defensible route, define geometric selections, and validate minima."
+  ],
+  "paper": {
+    "title": "Concentration- and cucurbit[ n ]urils-regulated molecular packing modes for constructing continuously red-shifted multi-stimuli responsive luminescent system",
+    "doi": "10.1016/j.dyepig.2025.113456",
+    "journal": "Dyes and Pigments",
+    "publication_date": "2026-04-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two XYZ starting geometries for the G1 monomer and G1 dimer; stated charge and multiplicity are in file comments."
+    },
+    {
+      "path": "data/inputs/g1_monomer_identity.json",
+      "description": "Identity-only atom-mapped chemical graph for the independent unoptimized starter."
+    },
+    {
+      "path": "data/inputs/g1_dimer_identity.json",
+      "description": "Identity-only atom-mapped chemical graph for the independent unoptimized starter."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "JSON report containing route, verification, validation, six geometric observables, structures and conclusion."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The paper uses quantum-chemical optimized structures to explain concentration-dependent packing of the naphthalene-derived dication G1. The authors claim that an isolated G1 geometry is twisted, while a G1 dimer adopts offset π-stacking identified as a J-aggregate; these computed geometries support the observed emission changes.
+
+## 2. System and model boundary
+
+The computed systems are the G1 monomer and an overall +4 dimer assembly of two identical G1 dications (with implicit counterions omitted in the reported coordinates). The reported calculations use an aqueous dielectric continuum and ground-state electronic structures. Structural observables are the benzyl–pyridinium and pyridinium–naphthalene dihedrals for the monomer, and naphthalene-ring centroid separation and slip angle for the dimer.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Optimize isolated G1 | SI optimized-monomer coordinates | DFT geometry optimization, Gaussian 16 | B3LYP-D3/6-31G(d), PCM water, ground state | optimized monomer and vibrational minimum | ev_doc_005e9539d38b_000082_ecb1b30edde8; ev_doc_3bbc541115e8_000028_3741e3bced78 |
+| 2 | Optimize stacked G1 dimer | SI optimized-dimer coordinates | DFT geometry optimization, Gaussian 16 | B3LYP-D3/6-31G(d), PCM water, ground state | optimized dimer and vibrational minimum | ev_doc_005e9539d38b_000082_ecb1b30edde8; ev_doc_3bbc541115e8_000029_5baca7b95a41 |
+| 3 | Relate geometry to packing assignment | outputs of steps 1–2 | geometric analysis of optimized structures | ring dihedrals, ring centroids, interplanar/slip geometry | structural parameters supporting twisted monomer and J-like dimer | ev_doc_005e9539d38b_000169_da026dcba44a |
+
+## 4. Validation and analysis protocol
+
+The authors checked that optimized structures had no imaginary frequencies, treating this as evidence of energetic minima. They measured the specified dihedrals and dimer packing geometry and interpreted the offset parallel arrangement as J-aggregate-like packing. The paper also compares the computed motifs with NMR-derived host–guest/aggregation interpretations.
+
+## 5. Private reference results
+
+For G1, the reported benzyl–pyridinium dihedrals are 50.67° and 50.65°, and the pyridinium–naphthalene dihedrals are 30.28° and 30.27°. For the G1 dimer, the reported interplanar stacking separation is 3.63 Å (the later paragraph gives the full naphthalene-centroid distance as 5.09 Å) and slip angle is 44.89°. The paper states that no imaginary frequencies were found.
+
+## 6. Limitations and interpretation boundaries
+
+The SI coordinates are optimized author endpoints and are evaluator-private references for this geometry-discovery task. Public inputs now use independent unoptimized chemical-graph embeddings, not those endpoint coordinates. The paper's structural assignment is qualitative and does not by itself prove bulk aggregation thermodynamics. Counterions and explicit solvent are not part of the supplied coordinate boundary. Dihedral sign conventions and ring-plane/centroid definitions must be stated by the investigator.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_80441aced6051d86",
+  "rules": [
+    {
+      "rule_id": "r_input",
+      "reference_id": "kp_input",
+      "type": "condition",
+      "expected": "Input verification identifies the 64-atom +2 singlet monomer and 128-atom +4 singlet dimer and reports connectivity checks.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.input_verification.monomer",
+          "$.input_verification.dimer"
+        ],
+        "comparison": "expert condition comparison"
+      }
+    },
+    {
+      "rule_id": "r_min",
+      "reference_id": "kp_min",
+      "type": "condition",
+      "expected": "Both systems have endpoint_status and imaginary_frequency_count, with no imaginary modes or a justified alternative stability validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.monomer.validation",
+          "$.systems.dimer.validation"
+        ],
+        "comparison": "expert condition comparison"
+      }
+    },
+    {
+      "rule_id": "r_mono_b",
+      "reference_id": "kp_mono",
+      "type": "numeric",
+      "target": 50.66,
+      "unit": "degree; mean of two reported benzyl-pyridinium acute least-squares interplanar angles",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.monomer.benzyl_pyridinium_dihedrals_deg[0]",
+          "$.systems.monomer.benzyl_pyridinium_dihedrals_deg[1]"
+        ],
+        "comparison": "absolute difference of reported pair mean; aqueous primary model, correct atom/ring mapping and validated endpoint required. evaluation/author_results retains private author optimized structures as descriptor/identity references; no new RMSD criterion. Use the public ring sets and acos(abs(dot(n1,n2))/(norm(n1)*norm(n2))) in [0,90] degrees; signed four-atom torsions must not be compared directly."
+      }
+    },
+    {
+      "rule_id": "r_mono_p",
+      "reference_id": "kp_mono",
+      "type": "numeric",
+      "target": 30.275,
+      "unit": "degree; mean of two reported pyridinium-naphthalene acute least-squares interplanar angles",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.monomer.pyridinium_naphthalene_dihedrals_deg[0]",
+          "$.systems.monomer.pyridinium_naphthalene_dihedrals_deg[1]"
+        ],
+        "comparison": "absolute difference of reported pair mean; aqueous primary model, correct atom/ring mapping and validated endpoint required. evaluation/author_results retains private author optimized structures as descriptor/identity references; no new RMSD criterion. Use the public ring sets and acos(abs(dot(n1,n2))/(norm(n1)*norm(n2))) in [0,90] degrees; signed four-atom torsions must not be compared directly."
+      }
+    },
+    {
+      "rule_id": "r_dist",
+      "reference_id": "kp_dimer",
+      "type": "numeric",
+      "target": 3.63,
+      "unit": "angstrom; interplanar stacking separation, not full centroid-vector length",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.dimer.naphthalene_interplanar_separation_A"
+        ],
+        "comparison": "absolute difference; aqueous primary model, correct atom/ring mapping and validated endpoint required. evaluation/author_results retains private author optimized structures as descriptor/identity references; no new RMSD criterion."
+      }
+    },
+    {
+      "rule_id": "r_slip",
+      "reference_id": "kp_dimer",
+      "type": "numeric",
+      "target": 44.89,
+      "unit": "degree",
+      "tolerance": 5.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.dimer.slip_angle_deg"
+        ],
+        "comparison": "absolute difference; aqueous primary model, correct atom/ring mapping and validated endpoint required. evaluation/author_results retains private author optimized structures as descriptor/identity references; no new RMSD criterion."
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "The submitted conclusion supports a twisted monomer and offset parallel dimer/J-like packing within the computed structural scope and reports its calculated findings.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算参考 — paper_80441aced6051d86 / paper_reproduction
+
+整理日期：2026-09-23。本文件只记录既有成功的科学计算链，属于 evaluator 私有档案，不是评分规则，也不是 agent 必须照做的脚本。未在本次维护中新增量化计算；失败/重试不计入下列成功结果。
+
+## 1. 来源与实际范围（Group 4）
+
+正文 PDF p3 方法、p4/Fig.4；原始 SI DOCX（本地 source_downloads/mmc1.docx）的 optimized monomer/dimer 坐标表。
+
+[论文正文](../../../../papers/paper_80441aced6051d86/documents/main.pdf)；[当前成功结果与证据索引](../../../../docs/verification/group_4/paper_80441aced6051d86/report/results.json)。
+
+## 2. 真实有效计算流程
+
+1. 历史验证输入为作者 G1 64 原子 +2 singlet monomer 与 128 原子 +4 singlet dimer 优化结构，未含 counterions。这些结构是任务待求几何的答案，因此现已私有化；公开结构从完整化学图独立生成。
+2. Gaussian16 B3LYP-GD3/6-31G(d)/PCM(water) monomer/dimer Opt/Freq；成功 monomer 链 20260918、dimer 链 20260919。分别 186/378 正频、正常结束；dimer 的 negligible-forces/Stationary-point 收敛亦为有效结果。
+3. 由终态同一原子映射提取两组 monomer 芳环二面角：benzyl–pyridinium 51.975518/51.979518°，均值 51.977518°；pyridinium–naphthalene 32.407037/32.411726°，均值 32.409382°。后者不是 dimer twist。
+4. 对 dimer 两 naphthalene 最小二乘平面定同向平均法线；核对原始终态/几何后处理给 interplanar separation 3.778995 Å、完整 centroid 距离 5.353514 Å、slip 44.901541°。两距离不能混用，私有目标 3.63 Å 是堆积平面间距。
+5. 以已优化 monomer 扭转、dimer offset packing 及最低点证据支持现有结构结论，不新增吸收/发射计算或溶液聚集自由能。
+
+## 3. 有效产物与原始输入/输出
+
+- [provenance/conclusion_reaudit_20260921.json](../../../../docs/verification/group_4/paper_80441aced6051d86/provenance/conclusion_reaudit_20260921.json)
+- [artifacts/source_downloads/1-s2.0-S0143720825008265-mmc1.docx](../../../../docs/verification/group_4/paper_80441aced6051d86/artifacts/source_downloads/1-s2.0-S0143720825008265-mmc1.docx)
+
+下列日志/后处理由上述有效链索引。输入取同目录 input.com/input.inp（存在时直链）；路径本身不是通过判据，科学量与步骤见第2节。
+
+- [local_stage_tests_20260914/g1_dimer_full128_source_internal_recalcfc_optfreq_20260919/stdout.log](../../../../docs/verification/group_4/paper_80441aced6051d86/provenance/local_stage_tests_20260914/g1_dimer_full128_source_internal_recalcfc_optfreq_20260919/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_80441aced6051d86/provenance/local_stage_tests_20260914/g1_dimer_full128_source_internal_recalcfc_optfreq_20260919/input.com)
+- [local_stage_tests_20260914/g1_monomer_full64_si_gd3_pcm_optfreq_internal_repair_20260918/stdout.log](../../../../docs/verification/group_4/paper_80441aced6051d86/provenance/local_stage_tests_20260914/g1_monomer_full64_si_gd3_pcm_optfreq_internal_repair_20260918/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_80441aced6051d86/provenance/local_stage_tests_20260914/g1_monomer_full64_si_gd3_pcm_optfreq_internal_repair_20260918/input.com)
+
+## 4. 当前 evaluator 对应关系
+
+以下对应是证据核对，不是本轮运行 LLM judge 的评分，也不宣称复现了 AR 的自主探索过程。
+
+| 项目 | 当前要求 | 本参考支持方式 |
+|---|---|---|
+| `kp_input` | The report verifies the supplied G1 monomer and dimer as the stated atom-count, charge and singlet systems and preserves their identities during analysis. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_min` | Both relaxed structures are validated as minima or the report gives a scientifically justified stability alternative and diagnostics. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_mono` | The monomer geometry has the reported twisted dihedral pattern. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_dimer` | The dimer geometry has the reported offset parallel packing descriptors. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `c_final` | Within the supplied ground-state structural boundary, the computed monomer is twisted and the dimer is an offset, parallel stack consistent with the authors' J-aggregate assignment. | 上述关键点与实际数值/物理解释共同支持；源值和验证值不混写。 |
+
+## 5. 不能扩大解释的地方
+
+水作为主比较介质已获批准公开。新 starter 为两个独立 monomer 图嵌入和中立无碰撞装配，不继承 SI packing；没有从该 starter 新作优化。不新增 RMSD 评分，作者终态仅支持现有描述符/身份检查。
+
+参考使用作者知情路线和可能的作者端点，能支持此科学子问题存在真实可行计算链；不要求向被评 agent 公开端点，也不证明任意方法、初猜都必然收敛。任务的公开身份和必要定义须另行自包含核对。普通 limitation 不作为评估成果；本段只是维护档案的事实说明。
+
+补充核对：09-21 历史审计 JSON 的末尾 slip_definition 一句把法线/平面写反，但同文件实际结果同时列出 slip=44.901541°、angle_to_normal=45.098459°。本任务与计算档案采用这些数值对应的“质心向量与平均平面的急角”，不沿用那句元数据，也未改动历史文件。
+
+## 6. 2026-09-23 测量定义与当前任务的补充对应
+
+正文 p3–4 的单体扭转/二聚体堆积仍为科学目标；group_4/finalize_paper_804.py:124–153 的实际验证使用 SVD 最小二乘平面及 acos(abs(dot)) 急角，原题面却允许任意 dihedral 定义。现公开原子环集合与主测量口径，保留既有 target/tolerance。task 曾承诺 inline coordinates，而 complete schema 只接收 structure_path，现统一为非空文件路径；不新增坐标格式分支。二聚体 slip 仍是质心向量与平均平面的急角，不改为法线角。独立 starter 和私有作者结果均未改。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_80441aced6051d86",
+  "items": [
+    {
+      "key_point_id": "kp_input",
+      "key_point_type": "process",
+      "statement": "The report verifies the supplied G1 monomer and dimer as the stated atom-count, charge and singlet systems and preserves their identities during analysis.",
+      "expected": "64-atom G1 monomer (+2, singlet) and 128-atom two-G1 dimer (+4, singlet) are explicitly checked.",
+      "evidence_ids": [
+        "ev_doc_3bbc541115e8_000028_3741e3bced78",
+        "ev_doc_3bbc541115e8_000029_5baca7b95a41"
+      ]
+    },
+    {
+      "key_point_id": "kp_min",
+      "key_point_type": "process",
+      "statement": "Both relaxed structures are validated as minima or the report gives a scientifically justified stability alternative and diagnostics.",
+      "expected": "No imaginary frequencies are reported for the optimized structures, consistent with energetic minima.",
+      "evidence_ids": [
+        "ev_doc_005e9539d38b_000082_ecb1b30edde8"
+      ]
+    },
+    {
+      "key_point_id": "kp_mono",
+      "key_point_type": "result",
+      "statement": "The monomer geometry has the reported twisted dihedral pattern.",
+      "expected": "Benzyl-pyridinium dihedrals near 50.67° and 50.65°, and pyridinium-naphthalene dihedrals near 30.28° and 30.27°.",
+      "evidence_ids": [
+        "ev_doc_005e9539d38b_000169_da026dcba44a"
+      ]
+    },
+    {
+      "key_point_id": "kp_dimer",
+      "key_point_type": "result",
+      "statement": "The dimer geometry has the reported offset parallel packing descriptors.",
+      "expected": "Interplanar naphthalene stacking separation near 3.63 Å and slip angle near 44.89°; report the full centroid-vector length separately and define the plane convention.",
+      "evidence_ids": [
+        "ev_doc_005e9539d38b_000169_da026dcba44a"
+      ]
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_80441aced6051d86",
+  "items": [
+    {
+      "failure_id": "f_identity",
+      "condition": "Monomer/dimer identity, atom count, charge or connectivity is missing or conflated."
+    },
+    {
+      "failure_id": "f_validation",
+      "condition": "Structures are reported as validated minima without frequency/stability evidence or diagnostics."
+    },
+    {
+      "failure_id": "f_measurement",
+      "condition": "Required dihedrals, separately defined interplanar separation and full centroid distance, or slip angle are absent, conflated, ambiguously selected, or assigned to the wrong system."
+    },
+    {
+      "failure_id": "f_conclusion",
+      "condition": "Conclusion claims bulk/unique aggregation or photophysical behavior beyond the computed structural boundary."
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{
+  "paper_id": "paper_80441aced6051d86",
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_005e9539d38b_000082_ecb1b30edde8",
+      "source": "Main paper, Materials and methods: DFT at B3LYP-D3/6-31G(d) with Gaussian 16 and PCM water; no imaginary frequencies were found."
+    },
+    {
+      "evidence_id": "ev_doc_005e9539d38b_000169_da026dcba44a",
+      "source": "Main paper, Section 3.1/Fig. 4 discussion: monomer dihedrals and dimer centroid distance/slip angle, with J-aggregate interpretation. Source correction2026-09-21: physical p4 later distinguishes naphthalene plane separation3.63Å from full centroid separation5.09Å; SI coordinates independently confirm5.087289Å. Do not score a full centroid distance against3.63Å."
+    },
+    {
+      "evidence_id": "ev_doc_3bbc541115e8_000028_3741e3bced78",
+      "source": "Supplementary information, Section D: Cartesian coordinates of optimized G1 monomer. Original endpoint archived privately at evaluation/author_results/g1_monomer.xyz; the public counterpart is independently generated. Use existing mapped structural descriptors, not a new RMSD threshold."
+    },
+    {
+      "evidence_id": "ev_doc_3bbc541115e8_000029_5baca7b95a41",
+      "source": "Supplementary information, Section D: Cartesian coordinates of optimized G1 dimer. Original endpoint archived privately at evaluation/author_results/g1_dimer.xyz; the public counterpart is independently generated. Use existing mapped structural descriptors, not a new RMSD threshold."
+    }
+  ]
+}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_80441aced6051d86",
+  "items": [
+    {
+      "conclusion_id": "c_final",
+      "claim_role": "final",
+      "statement": "Within the supplied ground-state structural boundary, the computed monomer is twisted and the dimer is an offset, parallel stack consistent with the authors' J-aggregate assignment.",
+      "expected": "The conclusion links validated dihedrals and dimer packing descriptors to the qualitative twisted-monomer/offset-stack hypothesis. Evaluate the computed structural evidence; a generic disclaimer is not required for credit.",
+      "supporting_key_point_ids": [
+        "kp_input",
+        "kp_min",
+        "kp_mono",
+        "kp_dimer"
+      ],
+      "evidence_ids": [
+        "ev_doc_005e9539d38b_000169_da026dcba44a",
+        "ev_doc_005e9539d38b_000082_ecb1b30edde8"
+      ]
+    }
+  ]
+}
+
+=== evaluation/task_provenance/g1_monomer_independent_preparation.json ===
+{
+  "date": "2026-09-23",
+  "generator": "RDKit ETKDGv3, first valid topology-only embedding, no energy ranking",
+  "rdkit_version": "2023.09.6",
+  "identity_source": "Paper-defined graph, checked against SI connectivity; coordinates consulted solely to recover original discrete atom mapping. All new geometry embedded from conformer-free graph.",
+  "quantum_calculation": false,
+  "force_field_minimization": false,
+  "source_coordinate_template": false,
+  "checks": {
+    "bond_radius_ratio": [
+      0.8954246879383079,
+      1.0426537015713329
+    ],
+    "minimum_nonbonded_radius_ratio": 1.507427073558758,
+    "seed": 924001
+  },
+  "validation_boundary": "Identity/geometry sanity checked; no claim that a quantum optimization from this new starter has been run."
+}
+
+=== evaluation/task_provenance/contract_regression_20260923.json ===
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_80441aced6051d86",
+  "mode": "paper_reproduction",
+  "source": "docs/verification/group_4/paper_80441aced6051d86/report/results.json",
+  "mapping": [
+    "PASS status mapped to complete; real scientific fields unchanged"
+  ],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_mono_b",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_mono_p",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_dist",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_slip",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_mono_b",
+      "observed": [
+        51.977518235868274
+      ],
+      "target": 50.66,
+      "tolerance": 3.0,
+      "passed": true
+    },
+    {
+      "rule": "r_mono_p",
+      "observed": [
+        32.40938171182651
+      ],
+      "target": 30.275,
+      "tolerance": 3.0,
+      "passed": true
+    },
+    {
+      "rule": "r_dist",
+      "observed": [
+        3.778995283019103
+      ],
+      "target": 3.63,
+      "tolerance": 0.25,
+      "passed": true
+    },
+    {
+      "rule": "r_slip",
+      "observed": [
+        44.90154146654128
+      ],
+      "target": 44.89,
+      "tolerance": 5.0,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 8,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": [
+    {
+      "file": "g1_dimer.xyz",
+      "checks": {
+        "finite_coordinates_and_expected_count": true,
+        "graph_charge_and_formula": true,
+        "one_based_unique_mapping_and_elements": true,
+        "identity_connectivity_matches_old_and_new": true,
+        "reasonable_bonds_no_severe_collisions": true,
+        "archive_preserves_original_bytes": true,
+        "new_geometry_not_rigid_transform_of_endpoint": true,
+        "both_modes_same_public_starter": true,
+        "two_complete_fragments_and_clash_free_assembly": true
+      },
+      "bond_radius_ratio": [
+        0.8996435001502647,
+        1.0540640421167937
+      ],
+      "minimum_nonbonded_radius_ratio": 1.5030952207938901,
+      "maximum_pairwise_distance_change_A": 24.370804983474166
+    },
+    {
+      "file": "g1_monomer.xyz",
+      "checks": {
+        "finite_coordinates_and_expected_count": true,
+        "graph_charge_and_formula": true,
+        "one_based_unique_mapping_and_elements": true,
+        "identity_connectivity_matches_old_and_new": true,
+        "reasonable_bonds_no_severe_collisions": true,
+        "archive_preserves_original_bytes": true,
+        "new_geometry_not_rigid_transform_of_endpoint": true,
+        "both_modes_same_public_starter": true
+      },
+      "bond_radius_ratio": [
+        0.8954246859560699,
+        1.042653704041426
+      ],
+      "minimum_nonbonded_radius_ratio": 1.5074270736871658,
+      "maximum_pairwise_distance_change_A": 2.5532756024100376
+    }
+  ],
+  "followup_definition_checks": [
+    {
+      "check": "actual_historical_result_valid",
+      "passed": true
+    },
+    {
+      "check": "monomer_missing_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "monomer_empty_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "dimer_missing_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "dimer_empty_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "signed_torsion_not_accepted_as_primary_plane_angle",
+      "passed": true
+    },
+    {
+      "check": "inline_only_not_promised",
+      "passed": true
+    },
+    {
+      "check": "ring_mapping_has_only_carbon_nitrogen",
+      "passed": true
+    },
+    {
+      "check": "same_ring_map_both_modes",
+      "passed": true
+    },
+    {
+      "check": "early_failure_still_valid",
+      "passed": true
+    }
+  ],
+  "followup_boundary": "Historical scientific values preserved. New checks are schema/candidate-separation/measurement-definition checks, not a new quantum run or LLM judge validation. Different records with the same physical mode still need semantic/evidence checking."
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 已批准修复记录（2026-09-23）
+
+授权：负责人同意 MAINTENANCE_REPORT 第 15 节方案及 D1–D7。正文/SI 为主，验证计算为辅；只在 verified_tasks 修复，无新量化计算、无迁移授权。
+
+已将 g1_monomer.xyz 替换为拓扑独立生成的未优化初始结构，原作者终态存 evaluation/author_results/g1_monomer.xyz；原子映射与电荷、连接性保持。未使用作者坐标、扭角/距离约束或能量排名生成新起点；未新增量化计算。
+
+已将 g1_dimer.xyz 替换为拓扑独立生成的未优化初始结构，原作者终态存 evaluation/author_results/g1_dimer.xyz；原子映射与电荷、连接性保持。未使用作者坐标、扭角/距离约束或能量排名生成新起点；未新增量化计算。
+
+已按批准方案分离 PR guidance，取消普通 limitation/停止表态的 required 和独立得分，显式采用 scientific_results 策略；保留真实失败诊断、对象/态/收敛/敏感性证据与原科学数值容差，修复已发现的 [] 选择器并接回必要关键点。
+
+水介质已公开；AR 目标改为中立问法；明确平面投影与全质心距离区别。主结果与失败尝试可共存，频率未完成可如实 null；complete 仍要求全部观测。作者优化结果作为现有几何描述符的私有参照，未新增 RMSD 打分。
+
+收尾复查：修复清理后的残句及“失败也称 complete”矛盾；保留主结果要求，提供不必虚构数值/结构的早期失败格式。针对主对象重复/缺失与成功状态做契约检查；普通免责声明不作为必需字段或成果。
+
+计算档案已补成有效链、源方法/验证差异、原始输入输出和当前 4 个关键点/1 条科学结论对应；不把 reference 变成 evaluator、不写入虚构计算。
+
+末轮回查删除仍残留在 expected/statement 的必写免责声明措辞；失败说明不再与成功最低点/排序结果等价。保留真实科学量、必要验证和部分过程证据。
+
+## 2026-09-23 二次回查：定义与提交契约修复
+
+正文 p3–4 的单体扭转/二聚体堆积仍为科学目标；group_4/finalize_paper_804.py:124–153 的实际验证使用 SVD 最小二乘平面及 acos(abs(dot)) 急角，原题面却允许任意 dihedral 定义。现公开原子环集合与主测量口径，保留既有 target/tolerance。task 曾承诺 inline coordinates，而 complete schema 只接收 structure_path，现统一为非空文件路径；不新增坐标格式分支。二聚体 slip 仍是质心向量与平均平面的急角，不改为法线角。独立 starter 和私有作者结果均未改。
+
+本次只澄清既定科学子目标，不改数值 target/tolerance、不增加 limitation 评分；未重算、未运行 LLM judge、未迁移目录。
+
+=== evaluation/task_provenance/g1_dimer_independent_preparation.json ===
+{
+  "date": "2026-09-23",
+  "generator": "RDKit ETKDGv3, first valid topology-only embedding, no energy ranking",
+  "rdkit_version": "2023.09.6",
+  "identity_source": "Paper-defined graph, checked against SI connectivity; coordinates consulted solely to recover original discrete atom mapping. All new geometry embedded from conformer-free graph.",
+  "quantum_calculation": false,
+  "force_field_minimization": false,
+  "source_coordinate_template": false,
+  "checks": {
+    "fragments": [
+      {
+        "bond_radius_ratio": [
+          0.8996434999171224,
+          1.054064041160895
+        ],
+        "minimum_nonbonded_radius_ratio": 1.5090150031693725,
+        "seed": 924101
+      },
+      {
+        "bond_radius_ratio": [
+          0.899785530879531,
+          1.0473522017855412
+        ],
+        "minimum_nonbonded_radius_ratio": 1.5030952194794263,
+        "seed": 924201
+      }
+    ],
+    "assembly_rotation_degrees": [
+      73,
+      41
+    ],
+    "minimum_interfragment_distance_A": 2.9369586436598496,
+    "center_translation_A": 10.3,
+    "assembly_rule": "Generic rotation then first clash-free x approach with all intermolecular distances >=2.8 A; no endpoint geometry used."
+  },
+  "validation_boundary": "Identity/geometry sanity checked; no claim that a quantum optimization from this new starter has been run."
+}
+
+=== evaluation/author_results/README.md ===
+# Private author geometries
+
+These are the original author-optimized geometries removed from agent_input on 2026-09-23. They are private structural references for the existing identity/dihedral/packing evaluation, not agent inputs. Compare the declared physical descriptors using the existing scoring rules and tolerances, with atom correspondence and ring definitions checked; do not introduce an unapproved RMSD cutoff or demand identical coordinate frames. Historical verification computations and these author results are different evidence sources.
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "route",
+          "input_verification",
+          "systems",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "route": {
+            "type": "object",
+            "required": [
+              "method",
+              "solvent",
+              "optimization",
+              "frequency_or_stability_check",
+              "conventions"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "solvent": {
+                "type": "string"
+              },
+              "optimization": {
+                "type": "string"
+              },
+              "frequency_or_stability_check": {
+                "type": "string"
+              },
+              "conventions": {
+                "type": "string"
+              }
+            }
+          },
+          "input_verification": {
+            "type": "object",
+            "required": [
+              "monomer",
+              "dimer"
+            ],
+            "properties": {
+              "monomer": {
+                "type": "object",
+                "required": [
+                  "atom_count",
+                  "charge",
+                  "multiplicity",
+                  "connectivity_check"
+                ],
+                "properties": {
+                  "atom_count": {
+                    "type": "integer"
+                  },
+                  "charge": {
+                    "type": "integer"
+                  },
+                  "multiplicity": {
+                    "type": "integer"
+                  },
+                  "connectivity_check": {
+                    "type": "string"
+                  }
+                }
+              },
+              "dimer": {
+                "type": "object",
+                "required": [
+                  "atom_count",
+                  "charge",
+                  "multiplicity",
+                  "connectivity_check"
+                ],
+                "properties": {
+                  "atom_count": {
+                    "type": "integer"
+                  },
+                  "charge": {
+                    "type": "integer"
+                  },
+                  "multiplicity": {
+                    "type": "integer"
+                  },
+                  "connectivity_check": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "systems": {
+            "type": "object",
+            "required": [
+              "monomer",
+              "dimer"
+            ],
+            "properties": {
+              "monomer": {
+                "type": "object",
+                "required": [
+                  "validation",
+                  "evidence"
+                ],
+                "properties": {
+                  "validation": {
+                    "type": "object",
+                    "required": [
+                      "endpoint_status",
+                      "imaginary_frequency_count"
+                    ],
+                    "properties": {
+                      "endpoint_status": {
+                        "type": "string"
+                      },
+                      "imaginary_frequency_count": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "description": "Null only if no frequency calculation completed; state the actual validation performed. Never use null as zero."
+                      }
+                    }
+                  },
+                  "evidence": {
+                    "type": "object",
+                    "required": [
+                      "atom_selections",
+                      "convergence_evidence",
+                      "attempts_diagnostics"
+                    ],
+                    "properties": {
+                      "atom_selections": {
+                        "type": "string"
+                      },
+                      "convergence_evidence": {
+                        "type": "string"
+                      },
+                      "attempts_diagnostics": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "attempts": {
+                    "type": "array"
+                  }
+                },
+                "anyOf": [
+                  {
+                    "required": [
+                      "structure_path",
+                      "benzyl_pyridinium_dihedrals_deg",
+                      "pyridinium_naphthalene_dihedrals_deg"
+                    ],
+                    "properties": {
+                      "structure_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Path to an actually submitted optimized coordinate file; inline coordinates alone do not satisfy this field."
+                      },
+                      "benzyl_pyridinium_dihedrals_deg": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 90
+                        },
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "Right/left acute least-squares interplanar angles (degrees, 0 to 90), using the public mapped ring selections; not signed four-atom torsions."
+                      },
+                      "pyridinium_naphthalene_dihedrals_deg": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 90
+                        },
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "Right/left acute least-squares interplanar angles (degrees, 0 to 90), using the public mapped ring selections; not signed four-atom torsions."
+                      },
+                      "failure_reason": {
+                        "type": "string",
+                        "description": "If this records an earlier attempt, keep the successful main-result evidence; preferably use attempts."
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "failure_reason"
+                    ],
+                    "properties": {
+                      "failure_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "dimer": {
+                "type": "object",
+                "required": [
+                  "validation",
+                  "evidence"
+                ],
+                "properties": {
+                  "validation": {
+                    "type": "object",
+                    "required": [
+                      "endpoint_status",
+                      "imaginary_frequency_count"
+                    ],
+                    "properties": {
+                      "endpoint_status": {
+                        "type": "string"
+                      },
+                      "imaginary_frequency_count": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "description": "Null only if no frequency calculation completed; state the actual validation performed. Never use null as zero."
+                      }
+                    }
+                  },
+                  "evidence": {
+                    "type": "object",
+                    "required": [
+                      "atom_selections",
+                      "convergence_evidence",
+                      "attempts_diagnostics"
+                    ],
+                    "properties": {
+                      "atom_selections": {
+                        "type": "string"
+                      },
+                      "convergence_evidence": {
+                        "type": "string"
+                      },
+                      "attempts_diagnostics": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "attempts": {
+                    "type": "array"
+                  }
+                },
+                "anyOf": [
+                  {
+                    "required": [
+                      "structure_path",
+                      "naphthalene_centroid_distance_A",
+                      "slip_angle_deg",
+                      "naphthalene_interplanar_separation_A"
+                    ],
+                    "properties": {
+                      "structure_path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Path to an actually submitted optimized coordinate file; inline coordinates alone do not satisfy this field."
+                      },
+                      "naphthalene_centroid_distance_A": {
+                        "type": "number"
+                      },
+                      "slip_angle_deg": {
+                        "type": "number"
+                      },
+                      "naphthalene_interplanar_separation_A": {
+                        "type": "number",
+                        "description": "Explicitly defined naphthalene interplanar stacking distance, separately from full centroid-vector length."
+                      },
+                      "failure_reason": {
+                        "type": "string",
+                        "description": "If this records an earlier attempt, keep the successful main-result evidence; preferably use attempts."
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "failure_reason"
+                    ],
+                    "properties": {
+                      "failure_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "complete"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "systems": {
+                  "properties": {
+                    "monomer": {
+                      "required": [
+                        "structure_path",
+                        "benzyl_pyridinium_dihedrals_deg",
+                        "pyridinium_naphthalene_dihedrals_deg"
+                      ],
+                      "properties": {
+                        "structure_path": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Path to an actually submitted optimized coordinate file; inline coordinates alone do not satisfy this field."
+                        },
+                        "benzyl_pyridinium_dihedrals_deg": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 90
+                          },
+                          "minItems": 2,
+                          "maxItems": 2,
+                          "description": "Right/left acute least-squares interplanar angles (degrees, 0 to 90), using the public mapped ring selections; not signed four-atom torsions."
+                        },
+                        "pyridinium_naphthalene_dihedrals_deg": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 90
+                          },
+                          "minItems": 2,
+                          "maxItems": 2,
+                          "description": "Right/left acute least-squares interplanar angles (degrees, 0 to 90), using the public mapped ring selections; not signed four-atom torsions."
+                        },
+                        "failure_reason": {
+                          "type": "string",
+                          "description": "If this records an earlier attempt, keep the successful main-result evidence; preferably use attempts."
+                        }
+                      }
+                    },
+                    "dimer": {
+                      "required": [
+                        "structure_path",
+                        "naphthalene_centroid_distance_A",
+                        "slip_angle_deg",
+                        "naphthalene_interplanar_separation_A"
+                      ],
+                      "properties": {
+                        "structure_path": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Path to an actually submitted optimized coordinate file; inline coordinates alone do not satisfy this field."
+                        },
+                        "naphthalene_centroid_distance_A": {
+                          "type": "number"
+                        },
+                        "slip_angle_deg": {
+                          "type": "number"
+                        },
+                        "naphthalene_interplanar_separation_A": {
+                          "type": "number",
+                          "description": "Explicitly defined naphthalene interplanar stacking distance, separately from full centroid-vector length."
+                        },
+                        "failure_reason": {
+                          "type": "string",
+                          "description": "If this records an earlier attempt, keep the successful main-result evidence; preferably use attempts."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+Independently choose and execute a defensible quantum-chemical geometry workflow, then report the optimized structures and the following measured quantities: two benzyl–pyridinium dihedrals and two pyridinium–naphthalene dihedrals for the monomer; naphthalene-ring interplanar stacking separation and slip angle, with full centroid separation reported separately for the dimer.
+
+# Author-provided scientific guidance
+
+Test the authors' qualitative hypothesis that the supplied naphthalene-derived dication G1 is twisted as a monomer and forms an offset, parallel π-stacked aggregate as a dimer.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/g1_monomer.xyz` is an independently generated, unoptimized 64-atom G1 starter (C34H28N2, charge +2, singlet). `data/inputs/g1_dimer.xyz` is an independently assembled, unoptimized two-monomer starter (128 atoms, charge +4, singlet). Neither is an optimized answer. The corresponding `*_identity.json` files define complete atom-mapped chemical graphs and dimer fragment membership. Preserve chemical identity, not initial distances or orientation; explore and relax the geometries. Omit counterions. The primary comparison uses an aqueous continuum (water); disclose the electronic-structure and solvent implementation. Other media may be reported separately as sensitivity results. The task concerns relaxed ground-state geometry, not emission energies.
+
+For the primary monomer comparison, fit least-squares planes to the ring atom sets in `g1_monomer_identity.json` and report their acute interplanar angle θ = acos(|n1·n2|/(|n1||n2|)), in degrees from 0 to 90. The legacy `benzyl_pyridinium_dihedrals_deg` field denotes terminal phenyl–pyridinium plane angles; `pyridinium_naphthalene_dihedrals_deg` denotes pyridinium–naphthalene plane angles. Report each right/left pair and its arithmetic mean. Signed four-atom torsions may be additional diagnostics, not substitutes for these primary plane angles. For the dimer use the least-squares planes of the two naphthalene cores. Interplanar separation is the absolute projection of the centroid vector onto the normalized mean of consistently oriented ring normals; also report individual-plane projections and interplane angle. Slip is the acute angle of the centroid vector to that mean plane; its complement is the angle to the normal. Report full centroid-vector length separately, not as the interplanar spacing.
+
+# Required scientific validation/investigation
+
+Verify atom counts, elemental identity, charge and connectivity before calculation. Relax both systems or give a scientifically justified bounded-failure explanation. Establish minimum status with a frequency calculation or a clearly described alternative stability check, recording imaginary modes if present. Define the exact atom selections used for each dihedral and each naphthalene ring centroid/plane, preserve monomer/dimer identity, and report convergence evidence. Completion requires both systems to have a reproducible endpoint and all requested observables; otherwise submit per-system attempted methods and failure diagnostics.
+
+A complete outcome requires the requested scientific results and their validation evidence. If only part succeeds, use the existing failure/partial pathway and submit completed results plus the specific missing calculations and diagnostics; do not fabricate values. Extra exploratory attempts are allowed and do not invalidate completed main results. General limitations or stopping statements are optional, not scored deliverables.
+
+# Deliverables
+
+For an early or partial failure, a compact alternative submission is `status: bounded_failure` with `failure_report: {reason, missing_endpoint, completed_artifacts}`. Use nonempty reasons, identify the missing calculation, and list only artifacts that exist (the list may be empty if failure preceded computation). Include any available partial results; never fill unavailable scientific values. This branch is a valid submission, not successful completion.
+
+Write `report/results.json` conforming to the submission schema. Include method, input verification, per-system validation, measured values with units, nonempty `structure_path` values pointing to submitted coordinate files for both systems, and a conclusion that explicitly assesses the twisted-monomer/offset-stack hypothesis within the reported scope. Report uncertainty without inventing reference values.
+
+=== agent_input/data/inputs/g1_dimer_identity.json ===
+{
+  "atom_count": 128,
+  "formula": "C68H56N4+4",
+  "charge": 4,
+  "multiplicity": 1,
+  "mapped_smiles": "[c:1]12[c:2]([c:3]([H:37])[c:4]([H:38])[c:5](-[c:12]3[c:18]([H:47])[c:19]([H:48])[n+:20](-[c:24]4[c:30]([H:55])[c:31]([H:56])[c:32]([C:36]([H:62])([H:63])[H:64])[c:33]([H:57])[c:34]4[H:58])[c:21]([H:49])[c:22]3[H:50])[c:6]1[H:39])[c:10]([H:42])[c:9](-[c:11]1[c:13]([H:43])[c:14]([H:44])[n+:15](-[c:23]3[c:25]([H:51])[c:26]([H:52])[c:27]([C:35]([H:59])([H:60])[H:61])[c:28]([H:53])[c:29]3[H:54])[c:16]([H:45])[c:17]1[H:46])[c:8]([H:41])[c:7]2[H:40].[c:65]12[c:66]([c:67]([H:101])[c:68]([H:102])[c:69](-[c:76]3[c:82]([H:111])[c:83]([H:112])[n+:84](-[c:88]4[c:94]([H:119])[c:95]([H:120])[c:96]([C:100]([H:126])([H:127])[H:128])[c:97]([H:121])[c:98]4[H:122])[c:85]([H:113])[c:86]3[H:114])[c:70]1[H:103])[c:74]([H:106])[c:73](-[c:75]1[c:77]([H:107])[c:78]([H:108])[n+:79](-[c:87]3[c:89]([H:115])[c:90]([H:116])[c:91]([C:99]([H:123])([H:124])[H:125])[c:92]([H:117])[c:93]3[H:118])[c:80]([H:109])[c:81]1[H:110])[c:72]([H:105])[c:71]2[H:104]",
+  "mapping": "SMILES atom-map number equals one-based XYZ atom row. Preserve this chemical graph; geometry is unoptimized and must be relaxed.",
+  "starter_status": "Independent distance-geometry embedding, not an optimized result.",
+  "monomer_atom_ids": [
+    [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64
+    ],
+    [
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128
+    ]
+  ]
+}
+
+=== agent_input/data/inputs/g1_monomer_identity.json ===
+{
+  "atom_count": 64,
+  "formula": "C34H28N2+2",
+  "charge": 2,
+  "multiplicity": 1,
+  "mapped_smiles": "[c:1]12[c:2]([c:3]([H:37])[c:4]([H:38])[c:5](-[c:12]3[c:18]([H:47])[c:19]([H:48])[n+:20](-[c:24]4[c:30]([H:55])[c:31]([H:56])[c:32]([C:36]([H:62])([H:63])[H:64])[c:33]([H:57])[c:34]4[H:58])[c:21]([H:49])[c:22]3[H:50])[c:6]1[H:39])[c:10]([H:42])[c:9](-[c:11]1[c:13]([H:43])[c:14]([H:44])[n+:15](-[c:23]3[c:25]([H:51])[c:26]([H:52])[c:27]([C:35]([H:59])([H:60])[H:61])[c:28]([H:53])[c:29]3[H:54])[c:16]([H:45])[c:17]1[H:46])[c:8]([H:41])[c:7]2[H:40]",
+  "mapping": "SMILES atom-map number equals one-based XYZ atom row. Preserve this chemical graph; geometry is unoptimized and must be relaxed.",
+  "starter_status": "Independent distance-geometry embedding, not an optimized result.",
+  "measurement_atom_sets_1based": {
+    "naphthalene": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "right_pyridinium": [
+      11,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "left_pyridinium": [
+      12,
+      18,
+      19,
+      20,
+      21,
+      22
+    ],
+    "right_terminal_phenyl": [
+      23,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "left_terminal_phenyl": [
+      24,
+      30,
+      31,
+      32,
+      33,
+      34
+    ]
+  },
+  "measurement_mapping": "Atom-map IDs refer to the monomer XYZ rows. Carry this mapping through optimization. For each dihedral pair report right then left; their arithmetic mean is the primary comparison. These are identity/measurement definitions, not optimized angles."
+}

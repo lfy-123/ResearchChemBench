@@ -1,0 +1,141 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.243495+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_36722b90a0c12825/documents/main.pdf",
+      "sha256": "ba5c030e4e408007aba517f664a257a4703fb5119f70452d93f1120cac8a0ee1",
+      "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p4：AB-mTTA-(1,3)Ph 的 E/Z 结合强度接近；SI2 p16：B3LYP-D3BJ/6-31G*、acetone PCM、298.15 K 及结合常数定义。SI1 为四个作者结合构象的坐标。",
+      "actual_read_pages_and_sections": "Main PDF pp3–4 Figs3–5; SI1 pp1–8 molecular identity; SI2 pp6–7,15–16 including complete binding table and method paragraph."
+    },
+    {
+      "path": "papers/paper_36722b90a0c12825/documents/supplementary_001.pdf",
+      "sha256": "ddb684896fb0ac2f2a1eee1c681fb4ec4071a27834966f9f53342e1bf6603069",
+      "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p4：AB-mTTA-(1,3)Ph 的 E/Z 结合强度接近；SI2 p16：B3LYP-D3BJ/6-31G*、acetone PCM、298.15 K 及结合常数定义。SI1 为四个作者结合构象的坐标。",
+      "actual_read_pages_and_sections": "Main PDF pp3–4 Figs3–5; SI1 pp1–8 molecular identity; SI2 pp6–7,15–16 including complete binding table and method paragraph."
+    },
+    {
+      "path": "papers/paper_36722b90a0c12825/documents/supplementary_002.pdf",
+      "sha256": "7357d277c10ad1081614f77286650c562c4ca7bc841ffd273c8d27cc232f95be",
+      "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p4：AB-mTTA-(1,3)Ph 的 E/Z 结合强度接近；SI2 p16：B3LYP-D3BJ/6-31G*、acetone PCM、298.15 K 及结合常数定义。SI1 为四个作者结合构象的坐标。",
+      "actual_read_pages_and_sections": "Main PDF pp3–4 Figs3–5; SI1 pp1–8 molecular identity; SI2 pp6–7,15–16 including complete binding table and method paragraph."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "An agent-selected solution association model with explicit E/Z identity, balanced species and concentration convention accounts for the disclosed NMR observations; no close/open decomposition is required.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "An uncertainty analysis tied to actual calculations and all disclosed K/error values finds the E/Z affinity difference unresolvable under the stated assumptions; no invented confidence distribution is used.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "Only two chloride-bound E conformers are compared and their energy difference is declared the E-versus-Z association constant ratio.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "Validated E-host association evidence is reported as E-only; the missing Z investigation limits overall coverage rather than proving equal affinities.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account of chloride association by the E and Z forms of AB-mTTA-(1,3)Ph is supported by the available solution measurements and an independent investigation? Determine what can be established about the relationship between photoisomeric identity and affinity, and the limits of that account.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Confirm full E/Z host connectivity/stereochemistry and charge, chloride/counterion bookkeeping, and all claimed bound/derived models. The same host family is required, but conformers and models are chosen by the agent, not a preset close/open list. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "For affinity claims, define the relevant species, thermodynamic or statistical reference, concentration convention and uncertainty. For molecular explanations, provide evidence that tests the asserted relationship rather than equating one favorable structure or contact with an affinity. Validate whatever states, structures or numerical approximations the inference uses; the choice of a scientifically adequate validation route is yours. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Restrict the answer to this molecular host/chloride association problem. Do not infer equilibrium E/Z populations from photostationary mixtures, or claim switching performance, universal host ranking or kinetics from static affinity calculations. Clearly label the limits of any finite or continuum model. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

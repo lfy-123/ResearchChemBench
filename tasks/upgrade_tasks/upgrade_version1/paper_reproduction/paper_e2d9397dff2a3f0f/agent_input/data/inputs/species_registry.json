@@ -1,0 +1,714 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "coordinate_policy": "Only given reactant starters; new graph definitions are not optimized minima or TSs. Explicit atom maps, charge and multiplicity take priority over distance-based bond guesses.",
+  "species": [
+    {
+      "id": "NH3",
+      "smiles": "N",
+      "mapped_smiles": "[N:1]([H:2])([H:3])[H:4]",
+      "formula": "H3N",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "NH3",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "N",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            4
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "reference",
+      "coordinates": "reference.xyz",
+      "atom_map": "one-based XYZ row, including hydrogen",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "Ru"
+        },
+        {
+          "map_id": 2,
+          "element": "O"
+        },
+        {
+          "map_id": 3,
+          "element": "O"
+        },
+        {
+          "map_id": 4,
+          "element": "O"
+        },
+        {
+          "map_id": 5,
+          "element": "O"
+        },
+        {
+          "map_id": 6,
+          "element": "N"
+        },
+        {
+          "map_id": 7,
+          "element": "N"
+        },
+        {
+          "map_id": 8,
+          "element": "N"
+        },
+        {
+          "map_id": 9,
+          "element": "N"
+        },
+        {
+          "map_id": 10,
+          "element": "N"
+        },
+        {
+          "map_id": 11,
+          "element": "C"
+        },
+        {
+          "map_id": 12,
+          "element": "C"
+        },
+        {
+          "map_id": 13,
+          "element": "C"
+        },
+        {
+          "map_id": 14,
+          "element": "H"
+        },
+        {
+          "map_id": 15,
+          "element": "C"
+        },
+        {
+          "map_id": 16,
+          "element": "H"
+        },
+        {
+          "map_id": 17,
+          "element": "C"
+        },
+        {
+          "map_id": 18,
+          "element": "H"
+        },
+        {
+          "map_id": 19,
+          "element": "C"
+        },
+        {
+          "map_id": 20,
+          "element": "C"
+        },
+        {
+          "map_id": 21,
+          "element": "C"
+        },
+        {
+          "map_id": 22,
+          "element": "H"
+        },
+        {
+          "map_id": 23,
+          "element": "C"
+        },
+        {
+          "map_id": 24,
+          "element": "H"
+        },
+        {
+          "map_id": 25,
+          "element": "C"
+        },
+        {
+          "map_id": 26,
+          "element": "H"
+        },
+        {
+          "map_id": 27,
+          "element": "C"
+        },
+        {
+          "map_id": 28,
+          "element": "C"
+        },
+        {
+          "map_id": 29,
+          "element": "C"
+        },
+        {
+          "map_id": 30,
+          "element": "H"
+        },
+        {
+          "map_id": 31,
+          "element": "C"
+        },
+        {
+          "map_id": 32,
+          "element": "H"
+        },
+        {
+          "map_id": 33,
+          "element": "C"
+        },
+        {
+          "map_id": 34,
+          "element": "H"
+        },
+        {
+          "map_id": 35,
+          "element": "C"
+        },
+        {
+          "map_id": 36,
+          "element": "H"
+        },
+        {
+          "map_id": 37,
+          "element": "C"
+        },
+        {
+          "map_id": 38,
+          "element": "H"
+        },
+        {
+          "map_id": 39,
+          "element": "C"
+        },
+        {
+          "map_id": 40,
+          "element": "H"
+        },
+        {
+          "map_id": 41,
+          "element": "C"
+        },
+        {
+          "map_id": 42,
+          "element": "H"
+        },
+        {
+          "map_id": 43,
+          "element": "C"
+        },
+        {
+          "map_id": 44,
+          "element": "H"
+        },
+        {
+          "map_id": 45,
+          "element": "C"
+        },
+        {
+          "map_id": 46,
+          "element": "H"
+        },
+        {
+          "map_id": 47,
+          "element": "C"
+        },
+        {
+          "map_id": 48,
+          "element": "H"
+        }
+      ],
+      "charge": 1,
+      "multiplicity": 1
+    }
+  ],
+  "construction_definitions": {
+    "state_definition": {
+      "reference": {
+        "charge": 1,
+        "multiplicity": 1,
+        "atom_count": 48,
+        "reactive_atoms": [
+          10,
+          5
+        ]
+      },
+      "bcs": {
+        "charge": 1,
+        "multiplicity": 1,
+        "atom_count": 49,
+        "replace_element": {
+          "28": "S"
+        },
+        "add_atoms": [
+          {
+            "map": 49,
+            "element": "O"
+          }
+        ],
+        "graph_edit": "C27-S28; S28 has O4/O5/O49 sulfonate connectivity, charge −1 overall; no pre-imposed N10–O5 bond in bcs. Preserve Ru1,O2,N6,N7,N8,N9 coordination, bda arm C11 and both pyridine graphs."
+      }
+    },
+    "identity_correction": "The original task named state_definition.json but did not include it; this package supplies explicit state_definition.json."
+  },
+  "metal_graph": {
+    "reference_ligand_edges": [
+      {
+        "atoms": [
+          5,
+          10
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          2,
+          11
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          3,
+          11
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          6,
+          12
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          11,
+          12
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          12,
+          13
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          13,
+          14
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          13,
+          15
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          15,
+          16
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          15,
+          17
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          17,
+          18
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          6,
+          19
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          17,
+          19
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          7,
+          20
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          19,
+          20
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          20,
+          21
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          21,
+          22
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          21,
+          23
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          23,
+          24
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          23,
+          25
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          25,
+          26
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          7,
+          27
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          25,
+          27
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          4,
+          28
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          5,
+          28
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          27,
+          28
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          8,
+          29
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          29,
+          30
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          29,
+          31
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          31,
+          32
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          31,
+          33
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          33,
+          34
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          33,
+          35
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          35,
+          36
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          8,
+          37
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          35,
+          37
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          37,
+          38
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          9,
+          39
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          39,
+          40
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          39,
+          41
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          41,
+          42
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          41,
+          43
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          43,
+          44
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          43,
+          45
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          45,
+          46
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          9,
+          47
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          45,
+          47
+        ],
+        "order": "connectivity_only"
+      },
+      {
+        "atoms": [
+          47,
+          48
+        ],
+        "order": "connectivity_only"
+      }
+    ],
+    "Ru_donor_contacts": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        1,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        1,
+        10
+      ]
+    ],
+    "bda_carboxylates": [
+      [
+        11,
+        2,
+        3
+      ],
+      [
+        28,
+        4,
+        5
+      ]
+    ],
+    "bda_pyridyl_rings": [
+      [
+        6,
+        12,
+        13,
+        15,
+        17,
+        19
+      ],
+      [
+        7,
+        20,
+        21,
+        23,
+        25,
+        27
+      ]
+    ],
+    "pyridine_rings": [
+      [
+        8,
+        29,
+        31,
+        33,
+        35,
+        37
+      ],
+      [
+        9,
+        39,
+        41,
+        43,
+        45,
+        47
+      ]
+    ],
+    "nitrido_contact": [
+      10,
+      5
+    ],
+    "formal_accounting": "RuVI+nitrido3−+dianionic bda/bcs+2neutral pyridines=+1. N–O contact can alter formal localized bond picture; do not infer oxidation state from distance."
+  }
+}

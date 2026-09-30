@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify complete compound1/3/5/7 connectivity, atom correspondence, charge and spin, and the molecular gas-phase static boundary. A reduced model must disclose its relation to the full structure and limits.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Verify complete compound1/3/5/7 connectivity, atom correspondence, charge and spin, and the molecular gas-phase static boundary. A reduced model must disclose its relation to the full structure and limits. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Assess quantitative static HRS comparisons from auditable native response data and correct averaging/units. A scalar Cartesian beta, beta_total or finite-frequency response cannot silently substitute for isotropic static HRS. Evaluate the validity of the chosen computation/analysis without requiring one tensor-generation algorithm.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Assess quantitative static HRS comparisons from auditable native response data and correct averaging/units. A scalar Cartesian beta, beta_total or finite-frequency response cannot silently substitute for isotropic static HRS. Evaluate the validity of the chosen computation/analysis without requiring one tensor-generation algorithm. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Judge how well evidence supports or challenges the proposed structure–response explanation for this four-member family, including consequential confounds. An observed ranking alone is not a causal explanation. A supported nonmonotonic relation or inability to isolate a cause is eligible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Judge how well evidence supports or challenges the proposed structure–response explanation for this four-member family, including consequential confounds. An observed ranking alone is not a causal explanation. A supported nonmonotonic relation or inability to isolate a cause is eligible. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Require uncertainty appropriate to response magnitudes and the claimed interpretation, including numerical convention, geometry or electronic-model limitations when material. A selected stability check does not establish universal functional accuracy. No fixed step count or source-value tolerance applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Require uncertainty appropriate to response magnitudes and the claimed interpretation, including numerical convention, geometry or electronic-model limitations when material. A selected stability check does not establish universal functional accuracy. No fixed step count or source-value tolerance applies. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "Answer how the four source identities compare in static molecular HRS and what can be concluded about the relationship between structure and response. Do not extrapolate to all helicenes or bulk NLO performance without evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Answer how the four source identities compare in static molecular HRS and what can be concluded about the relationship between structure and response. Do not extrapolate to all helicenes or bulk NLO performance without evidence. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Verify complete compound1/3/5/7 connectivity, atom correspondence, charge and spin, and the molecular gas-phase static boundary. A reduced model must disclose its relation to the full structure and limits.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Assess quantitative static HRS comparisons from auditable native response data and correct averaging/units. A scalar Cartesian beta, beta_total or finite-frequency response cannot silently substitute for isotropic static HRS. Evaluate the validity of the chosen computation/analysis without requiring one tensor-generation algorithm.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Judge how well evidence supports or challenges the proposed structure–response explanation for this four-member family, including consequential confounds. An observed ranking alone is not a causal explanation. A supported nonmonotonic relation or inability to isolate a cause is eligible.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Require uncertainty appropriate to response magnitudes and the claimed interpretation, including numerical convention, geometry or electronic-model limitations when material. A selected stability check does not establish universal functional accuracy. No fixed step count or source-value tolerance applies.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Answer how the four source identities compare in static molecular HRS and what can be concluded about the relationship between structure and response. Do not extrapolate to all helicenes or bulk NLO performance without evidence.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

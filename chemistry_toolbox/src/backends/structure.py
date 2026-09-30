@@ -178,7 +178,7 @@ def _analyze_vaspkit_symmetry(request: dict[str, Any]) -> dict[str, Any]:
         if count != 1:
             raise RuntimeError(f"VASPKIT configuration does not define {name}")
     (home / ".vaspkit").write_text(config, encoding="utf-8")
-    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
     results = []
     for task in (601, 604):
         completed = run_external(
@@ -774,7 +774,7 @@ def _conformers_crest(request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_CREST_COMMAND",
         arguments=arguments,
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         # CREST/xTB already parallelizes its sampling and electronic-structure
         # work through --T/OMP.  A second pthread OpenBLAS pool creates nested
         # parallelism, can exceed the Agent-selected CPU budget, and emits one
@@ -1079,7 +1079,7 @@ def _parameterize_openmm(request: dict[str, Any]) -> dict[str, Any]:
 
 
 def _acpype_run(arguments: list[str], directory: Path, request: dict[str, Any]) -> dict[str, Any]:
-    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
     completed = run_external(
         executable="acpype",
         arguments=arguments,
@@ -1223,7 +1223,7 @@ def _convert_amber_topology_to_gromacs(request: dict[str, Any]) -> dict[str, Any
 
 
 def _pmx_run(arguments: list[str], directory: Path, request: dict[str, Any]) -> dict[str, Any]:
-    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
     completed = run_external(
         executable="pmx",
         arguments=arguments,
@@ -1513,7 +1513,7 @@ def _solvate_packmol(request: dict[str, Any]) -> dict[str, Any]:
     input_path.write_text(text, encoding="utf-8")
     completed = run_external(
         executable="packmol", arguments=["-i", str(input_path)], directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")

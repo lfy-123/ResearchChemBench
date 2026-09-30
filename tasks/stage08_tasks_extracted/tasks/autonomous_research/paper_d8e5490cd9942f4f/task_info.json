@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "task_type": "autonomous_research",
+  "title": "Independent aqueous conformational thermochemistry of [La-KHQ]+",
+  "category": "coordination thermochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The object and endpoints are fixed, with two supplied starting conformers.",
+    "The Agent must independently choose and validate a computational route and interpret the conformational preference."
+  ],
+  "paper": {
+    "title": "d5dt03015c 3413..3421 ++",
+    "doi": "10.1039/d5dt03015c",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-28"
+  },
+  "data": [
+    {
+      "path": "data/inputs/syn_La_KHQ.xyz",
+      "description": "81-atom XYZ starting geometry for the syn [La-KHQ]+ conformer; La, C32H38N4O6, charge +1, singlet."
+    },
+    {
+      "path": "data/inputs/anti_La_KHQ.xyz",
+      "description": "81-atom XYZ starting geometry for the anti [La-KHQ]+ conformer; La, C32H38N4O6, charge +1, singlet."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computational results and conclusion conforming to submission_schema.json."
+    }
+  ]
+}

@@ -140,3 +140,48 @@ def test_process_metrics_count_discovery_bytes_and_semantic_status(tmp_path: Pat
     assert metrics["category_filter_advisory_count"] == 1
     assert metrics["discovery_result_bytes"] > 0
     assert metrics["inspect_action_result_bytes"] > 0
+
+
+def test_lookup_submission_job_state_is_authoritative_and_duplicate_observations_are_deduped():
+    job_id = "job_lookup"
+    events = [
+        {
+            "tool": "submit_native_job", "status": "success",
+            "result_preview": json.dumps({"status": "success", "job_id": job_id, "job_status": "queued"}),
+        },
+        {
+            "tool": "lookup_execution_submission", "status": "success",
+            "result_preview": json.dumps({
+                "status": "success", "submission": {
+                    "entity_id": job_id, "state": "accepted",
+                    "job": {"entity_id": job_id, "state": "partial_success"},
+                }
+            }),
+        },
+        {
+            "tool": "get_execution_job", "status": "success",
+            "result_preview": json.dumps({"status": "success", "job": {"job_id": job_id, "status": "partial_success"}}),
+        },
+    ]
+    metrics = process_metrics(events)
+    assert metrics["submission_accepted_count"] == 1
+    assert metrics["managed_scientific_attempt_count"] == 1
+    assert metrics["partial_execution_job_count"] == 1
+    assert metrics["partial_managed_scientific_calls"] == 1
+    assert metrics["failed_managed_scientific_calls"] == 0
+
+
+def test_terminal_ledger_does_not_regress_on_late_queued_observation():
+    job_id = "job_sticky"
+    events = [
+        {"tool": "submit_native_job", "status": "success", "result_preview": json.dumps({"status": "success", "job_id": job_id, "job_status": "queued"})},
+        {"tool": "get_execution_job", "status": "success", "result_preview": json.dumps({"status": "success", "job": {"job_id": job_id, "status": "success"}})},
+        {"tool": "lookup_execution_submission", "status": "success", "result_preview": json.dumps({"status": "success", "submission": {"entity_id": job_id, "state": "accepted", "job": {"entity_id": job_id, "state": "queued"}}})},
+    ]
+    metrics = process_metrics(events)
+    assert metrics["successful_execution_job_count"] == 1
+    assert metrics["active_execution_job_count"] == 0
+    assert metrics["execution_state_conflicts"][0]["job_id"] == job_id
+    assert metrics["execution_state_conflicts"][0]["ledger_state"] is None
+    assert metrics["execution_state_conflicts"][0]["resolved_state"] == "success"
+    assert metrics["execution_state_conflicts"][0]["observed_state"] == "queued"

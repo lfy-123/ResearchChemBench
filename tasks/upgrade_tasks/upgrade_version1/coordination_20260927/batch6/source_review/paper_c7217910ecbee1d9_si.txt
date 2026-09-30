@@ -1,0 +1,118 @@
+Supporting Information
+
+Shell-independent superhalogen formation in aluminum-based clusters via boron Lewis acid ligands functionalization 
+ 
+Computational details
+Within the framework of density functional theory, geometrical optimizations and electronic structure calculations were performed for all naked and ligated aluminum-based superatomic clusters, as well as their associated coupled complexes. These calculations utilized the PBE0 [1] hybrid functional with the def2-SVP [2] basis set, as implemented in the Gaussian 16 package [3]. The feasibility of this theoretical method on the geometries and electronic structures of aluminum-based clusters has been verified in previous literatures [4-7]. Various possible spin multiplicities and binding positions of the ligands were examined to identify the global minima of both naked and ligated clusters. Frequency analysis was conducted at the same level of theory to confirm the absence of imaginary frequencies, and zero-point energy corrections were also incorporated. To further validate the choice of the functional and basis sets used in this study, the adiabatic electron affinity (AEA) of Al13 and the adiabatic ionization potential (AIP) of PAl12 were calculated to be approximately 3.54 eV and 5.25 eV, respectively. These values are consistent with the experimental measurements of 3.57 ± 0.05 eV [8] and 5.37 ± 0.04 eV [9], respectively. Additionally, the structures of PAl12[B(C6F5)3]n (n = 1-2) and the neutral and anionic MAl12[B(C6F5)3]n@graphene (M = Al, C, and P; n = 0, 2) were optimized using the projector augmented wave (PAW) method [10] and the Perdew-Burke-Ernzerhof (PBE) [11] functional, as implemented in the Vienna Ab Initio Simulation Package (VASP) [12]. The plane-wave cutoff energy was set to 500 eV, with convergence criteria for total energy and atomic forces set at 10-5 eV and 0.02 eV/Å, respectively. To account for long-range van der Waals (vdW) interactions, Grimme’s DFT-D3 method [13] was employed. A unit cell with a vacuum space of 20 Å in all three dimensions was utilized to prevent virtual interactions, and the first Brillouin zone was sampled using the Γ-point. Ab initio molecular dynamics (AIMD) [14] simulations were also performed to evaluate the thermal stability of the PAl12[B(C6F5)3]n (n = 1-2) clusters, employing a canonical (NVT) ensemble with the Nosé heat bath method [15] at 300 K for 10 ps, utilizing a time step of 2 fs.
+To demonstrate the applicability and versatility of the BLAs ligand strategy in constructing superhalogens, we expanded the scope of our model cluster from aluminum-based clusters to gold-based clusters. The BP86 functional [16] was adopted to optimize the naked and ligated gold-based superatomic clusters. Here, the LANL2DZ basis set [17] with the relativistic effective core potential (ECP) was used to describe the Au atomic orbital, while the def2-SVP basis set was employed for the B, C, and F atoms. The AEA of Au20 was calculated to be 2.91 eV, which is in good agreement with the experimental value (2.75 ± 0.02 eV) [18].
+The Hirshfeld charge was analyzed to estimate the amount of charge transfer between the ligand and the metallic core in ligated aluminum-based clusters. The electrostatic potential (ESP) analysis, molecular orbital (MO) analysis, and charge decomposition analysis (CDA) were also conducted and visualized via the Multiwfn [19] and VMD [20] software. The structures of the clusters were generated using CYLview [21].
+
+
+Fig. S1. Ground state structures of neutral PAl12 and PAl12(BLAs) clusters. The low-lying isomers of some ligated clusters are also shown with relative energy (∆E) indicated. Selected Al-Al bond lengths are shown in black text, the average bond lengths of interior P atom to surface Al atoms are given in red, while the Al-B bond lengths are given in light blue. The uppercase Arabic numerals I and II-XIⅤ indicate the PAl12 cluster and PAl12 cluster connected by BLAs with different substituents. All bond lengths are shown in Å.
+
+Fig. S2. Optimized ground-state structures of boron Lewis acid ligands.
+
+Fig. S3. Ground state structures of the PAl12±1 and PAl12(BLAs) anionic clusters. The low-lying isomers of some ligated clusters are also shown with relative energy (∆E) indicated. The B-Al bond lengths (in Å) are shown in black text.
+
+
+Fig. S4. Ground state structures of the anionic MAl12[B(C6F5)3]n (M = Al, C, and P; n = 0-2) clusters. Selected Al-Al bond lengths (in Å) are shown in black text, while the Al-B bond lengths are given in light blue text. 
+
+
+Fig. S5. Isosurface maps of the frontier molecular orbitals of the (a) Al13, (b) CAl12, and (c) PAl12 clusters. The capital letters and numbers in red signify, respectively, the angular momentum quantum number and the principal quantum number of the superatom. The purple numbers indicate the orbital numbers. All the isosurface graphs are plotted with an isosurface value of 0.02.
+
+Fig. S6. Theoretical (a) isosurface maps of the α occupied MOs of Al13[B(C6F5)3]n (n = 1-2), the capital letters and numbers in red signify the angular momentum quantum number and the principal quantum number of the superatom, respectively, (b) one-electron energy levels of Al13[B(C6F5)3]n (n = 0-2) clusters. The occupied and unoccupied states are represented by solid and dashed lines. The red dashed lines indicate the LUMOs. The levels are also marked with their angular character, (c) CDA analysis of Al13B(C6F5)3 with Al13 and B(C6F5) as fragments, the numbers marked beside the red lines indicate the contribution from the fragmental MO to the MOs of Al13B(C6F5)3. The purple numbers in (a) and (c) indicate the orbital numbers. States marked with star symbol in (c) present the anti-bonding states. All the isosurface graphs are plotted with an isosurface value of 0.02.
+
+Fig. S7. Theoretical (a) isosurface maps of the occupied MOs of CAl12[B(C6F5)3]n (n = 1-2), the capital letters and numbers in red signify the angular momentum quantum number and the principal quantum number of the superatom, respectively, (b) one-electron energy levels of CAl12[B(C6F5)3]n (n = 0-2) clusters. The occupied and unoccupied states are represented by solid and dashed lines. The red dashed lines indicate the LUMOs. The levels are also marked with their angular character. (c) CDA analysis of CAl12B(C6F5)3 with CAl12 and B(C6F5) as fragments, the numbers marked beside the red lines indicate the contribution from the fragmental MO to the MOs of CAl12B(C6F5)3. The purple numbers in (a) and (c) indicate the orbital numbers. States marked with star symbol in (c) present the anti-bonding states. All the isosurface graphs are plotted with an isosurface value of 0.02.
+
+Fig. S8. Calculated HOMO-LUMO gaps of the MAl12[B(C6F5)3]n (M = Al, C, and P; n = 0-2) clusters.
+
+
+
+Fig. S9. Variation of energies of the (a) PAl12B(C6F5)3 and (b) PAl12[B(C6F5)3]2 clusters at 300 K during the 10 ps AIMD simulations, with the time step of 2 fs.
+
+
+
+
+Fig. S10. Optimized ground-state structures of the neutral and anionic Al3, Al3B(C6F5)3, Al7, Al7B(C6F5)3, Au8, Au8B(C6F5)3, Au20, and Au20B(C6F5)3 clusters. Selected Al-Al and Au-Au bond lengths (in Å) are shown in black text, while the Al-B and Au-B bond lengths are given in light blue text.
+
+
+Fig. S11. Optimized geometries of the neutral MAl12@graphene (M = Al, C, and P). The average bond lengths (in Å) of interior M atom to surface Al atoms are given in red text. 
+
+Fig. S12. Optimized geometries of the neutral and anionic Al13[B(C6F5)3]2@graphene. The average bond lengths of interior Al atom to surface Al atoms are given in red text, while the Al-B bond lengths are given in light blue text. All the bond lengths are shown in Å.
+
+Fig. S13. Optimized geometries of the neutral and anionic CAl12[B(C6F5)3]2@graphene. The average bond lengths (in Å) of interior C atom to surface Al atoms are given in red text, while the Al-B bond lengths are given in light blue text.
+
+
+Fig. S14. Isosurface maps of the occupied α MOs of PAl12@graphene, the capital letters and numbers in red signify, respectively, the angular momentum quantum number and the principal quantum number of the superatom.
+
+Fig. S15. Isosurface maps of the occupied α MOs of (a) Al13@graphene and (b) Al13[B(C6F5)3]2@graphene. The capital letters and numbers in red signify, respectively, the angular momentum quantum number and the principal quantum number of the superatom.
+
+
+
+
+Fig. S16. Isosurface maps of the occupied MOs of (a) CAl12@graphene and (b) CAl12[B(C6F5)3]2@graphene. The capital letters and numbers in red signify, respectively, the angular momentum quantum number and the principal quantum number of the superatom.
+
+
+
+
+
+
+Table S1. Theoretical AEA values (in eV), ΔQ (in |e|),and LUMO energies (in eV) of the Al3, Al3B(C6F5)3, Al7, Al7B(C6F5)3, Au8, Au8B(C6F5)3, Au20, and Au20B(C6F5)3 clusters.
+Cluster
+AEA /eV
+ΔQ /|e|
+LUMO /eV
+Al3
+1.66
+/
+-3.09
+Al3B(C6F5)3
+2.90
+0.45
+-3.94
+Al7
+2.17
+/
+-3.14
+Al7B(C6F5)3
+3.62
+0.26
+-4.24
+Au8
+3.08
+/
+-4.62
+Au8B(C6F5)3
+3.48
+0.10
+-4.64
+Au20
+2.91
+/
+-4.01
+Au20B(C6F5)3
+3.58
+0.10
+-4.67
+References
+[1] C. Adamo, V. Barone, J. Chem. Phys. 110 (1999) 6158−6170.
+[2] F. Weigend, R. Ahlrichs, Phys. Chem. Chem. Phys. 7 (2005) 3297−3305.
+[3] M. Frisch, G. Trucks, H. Schlegel, et al., Gaussian 16, revision A.03; Gaussian, Inc.: Wallingford CT, 2016.
+[4] W.-L. Wand, Z.-C. Zhang, S.-Y. Huang, et al., J. Phys. Chem. A 129 (2025) 1673−1681.
+[5] J. Li, H. Huang, J. Chen, et al., Nano Res. 15 (2022) 1162−1170.
+[6] T. Watanabe, K. Koyasu, T. Tsukuda, J. Phys. Chem. C 119 (2015) 10904−10909.
+[7] W.-L. Wang, Z.-C. Zhang, D. Yu, et al., Inorg. Chem. 63 (2024) 11768−11778.
+[8] X. Li, L.S. Wang, Phys. Rev. B 65 (2002) 153404.
+[9] M. Akutsu, K. Koyasu, J. Atobe, et al., J. Phys. Chem. A 110 (2006) 12073−12076.
+[10] P.E. Blöchl, Phys. Rev. B 50 (1994) 17953−17979.
+[11] J.P. Perdew, K. Burke, M. Ernzerhof, Phys. Rev. Lett. 78 (1996) 3865−3868.
+[12] G. Kresse, J. Furthmüller, Phys. Rev. B 54 (1996) 11169−11186.
+[13] S. Grimme, J. Antony, S. Ehrlich, et al., J. Chem. Phys. 132 (2010) 154104.
+[14] W.G. Hoover, Phys. Rev. A 31 (1985) 1695−1697.
+[15] S.J. Nosé, J. Chem. Phys. 81 (1984) 511−519.
+[16] A.D. Becke, Phys. Rev. A 38 (1988) 3098−3100.
+[17] P.J. Hay, W.R. Wadt, J. Chem. Phys. 82 (1985) 299−310.
+[18] J. Li, X. Li, H.J. Zhai, et al., Science 299 (2003) 864−867.
+[19] T. Lu, F. Chen, J. Comput. Chem. 33 (2012) 580−592.
+[20] W. Humphrey, A. Dalke, K. Schulten, J. Mol. Graph. 14 (1996) 33−38.
+[21] C.Y. Legault, CYLview, 1.0b, Université de Sherbrooke, 2009.

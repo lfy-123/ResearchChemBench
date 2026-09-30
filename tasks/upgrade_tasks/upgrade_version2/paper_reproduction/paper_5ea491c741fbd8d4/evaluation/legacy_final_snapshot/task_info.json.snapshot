@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "task_type": "paper_reproduction",
+  "title": "Independent frontier-orbital test for isoxazole 1a",
+  "category": "quantum chemistry / electronic structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecular object and observables are fixed, but the Agent must generate and validate conformers before selecting the minimum used for orbital analysis.",
+    "The primary model chemistry is supplied, while conformer generation, validation, numerical choices and sensitivity must be justified."
+  ],
+  "paper": {
+    "title": "Structural and computational investigation of the novel isoxazole derivative: Investigation of interactions by X-ray crystallography, DFT, molecular docking",
+    "doi": "10.1016/j.molstruc.2026.145359",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-04-25"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Exact connectivity, E stereochemistry, charge, multiplicity, gas-phase boundary, units, and gap definition for compound 1a."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable calculation, validation, orbital results or bounded-failure evidence, and conclusion."
+    }
+  ]
+}

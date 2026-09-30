@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "scientific_class": "C",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "The supplied 48-atom Ru-bda-Py starter has charge +1 and singlet multiplicity. Ru is map1, nitrido-derived N10, contacting carboxyl O5, carboxyl C28; the contact under test is N10–O5. There are two pyridines, not one. Freeze a bcs intervention by replacing the dangling C28 carboxylate with sulfonate S28, adding O49 and preserving the pyridyl C27 attachment; the coordinating carboxylate remains intact. Retain overall dianionic bda/bcs ligand convention, two neutral pyridines, nitrido inventory and total cation charge. This graph replacement does not prescribe a stable N–O bonded bcs minimum. Compare N–O opening then NH3 attack against direct NH3 attack on each ligand. Use MeCN 298.15 K, 1 M and the same NH3 reservoir. A 0.5 V vs Fc/pH15.1 source thermodynamic convention applies only when an electron/proton changes; it is not an electron-transfer activation barrier.",
+  "panels": {
+    "local_paths": {
+      "requirement": "For each ligand validate opening, subsequent NH3 attack and the competing direct attack. A lost N–O basin may be documented by a complete collapse profile; never invent a bound bcs minimum.",
+      "required_cells": [
+        "bda_opening",
+        "bda_attack_after_opening",
+        "bda_direct_attack",
+        "bcs_opening",
+        "bcs_attack_after_opening",
+        "bcs_direct_attack"
+      ]
+    },
+    "ligand_effect": {
+      "requirement": "Compare direct attack with the complete opening-plus-attack sequence ending in the same N–N-connected composition on each ligand. Include every segment and preparation cost; an opening barrier alone is not comparable to the full NH3 attack. Compare only within-ligand barrier differences across ligand formulas.",
+      "required_cells": [
+        "within_ligand",
+        "intervention"
+      ]
+    },
+    "mode_identity": {
+      "requirement": "Actual cleavage displacement versus transverse modes; source oxidation G is not a chemical barrier.",
+      "required_cells": [
+        "N_map",
+        "O_map",
+        "displacement_projection",
+        "projection_definition",
+        "mode_file",
+        "electrochemical_terms_file",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "三配体完整氨活化/PCET/N–N/NO 网络不纳入首版。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

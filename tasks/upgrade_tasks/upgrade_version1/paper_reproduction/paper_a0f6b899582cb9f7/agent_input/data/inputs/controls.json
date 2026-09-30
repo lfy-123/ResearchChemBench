@@ -1,0 +1,81 @@
+{
+  "definition_status": "reviewed_builder_models",
+  "models": [
+    "PM6_BDD_T2_Me",
+    "BTP_eC9_core_Me",
+    "BTP_eC9_full_pi_Me"
+  ],
+  "charge": 0,
+  "multiplicity": 1,
+  "source_scope": "Main Figure 1(a) topology; the finite truncations are declared benchmark models, not asserted to match unpublished author pair geometries.",
+  "contact_families": {
+    "PM6_face": "M3 / PM6_BDD_T2_Me face",
+    "PM6_edge": "M3 / PM6_BDD_T2_Me edge",
+    "BTP_core_face": "M3 / BTP_eC9_core_Me face",
+    "BTP_core_edge": "M3 / BTP_eC9_core_Me edge"
+  },
+  "larger_control": {
+    "small": "BTP_eC9_core_Me",
+    "large": "BTP_eC9_full_pi_Me",
+    "common_atom_map": {
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 9,
+      "10": 10,
+      "11": 11,
+      "12": 12,
+      "13": 13,
+      "14": 14,
+      "15": 15,
+      "16": 16,
+      "17": 17,
+      "18": 18,
+      "19": 19,
+      "20": 20,
+      "21": 21,
+      "22": 22,
+      "23": 23,
+      "24": 24,
+      "25": 25,
+      "26": 26,
+      "27": 27,
+      "28": 28,
+      "29": 29,
+      "30": 30,
+      "31": 31
+    },
+    "retain": "same M3, central-core contact frame, method, charge and fragment energy definitions",
+    "cap_map": "Enumerate H caps removed at core C20/C26 and all newly restored methine/IC-2F atoms; common heavy atoms retain IDs."
+  },
+  "stereochemistry": {
+    "ordered_sequences": [
+      [
+        20,
+        32,
+        33,
+        34
+      ],
+      [
+        26,
+        50,
+        51,
+        52
+      ]
+    ],
+    "requirement": "Core anchor and carbonyl substituent on the same side of each external double bond. Explicit stereo reference atoms in graphs control; an E/Z label without its reference atoms is insufficient."
+  },
+  "precalculation_validation": [
+    "complete explicit-H graph",
+    "formula/charge/multiplicity",
+    "mapped cut/cap identity",
+    "actual 3D same-side relation",
+    "finite contact map"
+  ],
+  "scientific_gate": "All four contact families, frozen/released differences, same-convention decomposition, real larger-pair truncation comparison and full M3 tensor remain required. No numeric outcome is supplied."
+}

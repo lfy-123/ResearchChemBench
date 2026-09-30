@@ -1,0 +1,185 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_d3b4575397179146",
+    "items": [
+      {
+        "key_point_id": "kp_ar_1",
+        "key_point_type": "process",
+        "evidence_ids": [
+          "ev_doc_2b68f45a212f_000247_eb97a539c3c1",
+          "ev_doc_2b68f45a212f_000257_81d2bdb3a80f"
+        ],
+        "statement": "Each of the four named molecules is treated as neutral singlet and the optimized structure is checked for a true minimum with zero imaginary frequencies.",
+        "expected": "A per-system record reports charge 0, multiplicity 1, optimization/convergence and frequency validation or a truthful bounded failure."
+      },
+      {
+        "key_point_id": "kp_ar_2",
+        "key_point_type": "process",
+        "evidence_ids": [
+          "ev_doc_2b68f45a212f_000267_cab8f82ada13",
+          "ev_doc_2b68f45a212f_000290_96e45a60da36",
+          "ev_doc_2b68f45a212f_000313_5a27d891c6b7"
+        ],
+        "statement": "The investigation reports state-resolved excitation energy, wavelength, oscillator strength and dominant orbital contributions for each system's first visible/near-visible states.",
+        "expected": "Every system has at least one object-identified transition with all requested observables and provenance."
+      },
+      {
+        "key_point_id": "kp_ar_3",
+        "key_point_type": "result",
+        "evidence_ids": [
+          "ev_doc_b5d19aa5ec32_000047_466756b3a378",
+          "ev_doc_2b68f45a212f_000267_cab8f82ada13"
+        ],
+        "statement": "The four molecules exhibit a substituent-dependent low-energy excitation pattern, with dOMeHeptZ differing from the other three in its dominant low-energy orbital contribution.",
+        "expected": "The submitted cross-system analysis identifies and supports a dOMeHeptZ-vs-others distinction without relying on an undisclosed author hypothesis."
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_d3b4575397179146",
+    "items": [
+      {
+        "conclusion_id": "c_ar_1",
+        "claim_role": "final",
+        "evidence_ids": [
+          "ev_doc_b5d19aa5ec32_000047_466756b3a378"
+        ],
+        "supporting_key_point_ids": [
+          "kp_ar_1",
+          "kp_ar_2",
+          "kp_ar_3"
+        ],
+        "expected": "The submitted computations establish a substituent-dependent excitation/localization trend and specifically identify dOMeHeptZ as electronically distinct from the other three within the stated scope.",
+        "statement": "The submitted computations establish a substituent-dependent excitation/localization trend and specifically identify dOMeHeptZ as electronically distinct from the other three within the stated scope."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "rules": [
+      {
+        "rule_id": "r_ar_1",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems[*].validation"
+          ],
+          "comparison": "expert verification"
+        },
+        "expected": "Object-specific validation records are present.",
+        "type": "condition",
+        "reference_id": "kp_ar_1"
+      },
+      {
+        "rule_id": "r_ar_2",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems[*].transitions[*]"
+          ],
+          "comparison": "expert verification"
+        },
+        "expected": "Each system has state-resolved requested observables.",
+        "type": "condition",
+        "reference_id": "kp_ar_2"
+      },
+      {
+        "rule_id": "r_ar_3",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.overall_conclusion",
+            "$.systems[*].system_conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "expected": "Independent trend and dOMe distinction are supported.",
+        "type": "semantic",
+        "reference_id": "kp_ar_3"
+      },
+      {
+        "rule_id": "r_ar_4",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.overall_conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "expected": "Final claim supported.",
+        "type": "semantic",
+        "reference_id": "c_ar_1"
+      }
+    ],
+    "paper_id": "paper_d3b4575397179146",
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_d3b4575397179146",
+    "items": [
+      {
+        "failure_id": "cf_ar_1",
+        "condition": "Wrong molecule identity, charge or multiplicity for a scored system.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "cf_ar_2",
+        "condition": "Claims a validated minimum without reporting convergence/frequency evidence or bounded failure.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "cf_ar_3",
+        "condition": "Presents an unsupported cross-system explanation or omits object-specific transition evidence.",
+        "severity": "scientifically serious"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_2b68f45a212f_000247_eb97a539c3c1",
+        "document_id": "doc_2b68f45a212f",
+        "text": "Geometry optimization, frequency validation, neutral singlet context.",
+        "source": "SI p.19, computational-analysis method and dF geometry/frequency summary"
+      },
+      {
+        "evidence_id": "ev_doc_2b68f45a212f_000257_81d2bdb3a80f",
+        "document_id": "doc_2b68f45a212f",
+        "text": "Labeled optimized coordinates and zero-imaginary-frequency summaries.",
+        "source": "SI coordinate/frequency sections for four molecules"
+      },
+      {
+        "evidence_id": "ev_doc_2b68f45a212f_000267_cab8f82ada13",
+        "document_id": "doc_2b68f45a212f",
+        "text": "dFHeptZ electronic transitions.",
+        "source": "SI Table S3a"
+      },
+      {
+        "evidence_id": "ev_doc_2b68f45a212f_000290_96e45a60da36",
+        "document_id": "doc_2b68f45a212f",
+        "text": "dClHeptZ electronic transitions.",
+        "source": "SI Table S3b"
+      },
+      {
+        "evidence_id": "ev_doc_2b68f45a212f_000313_5a27d891c6b7",
+        "document_id": "doc_2b68f45a212f",
+        "text": "dOMeHeptZ electronic transitions.",
+        "source": "SI Table S3c"
+      },
+      {
+        "evidence_id": "ev_doc_b5d19aa5ec32_000047_466756b3a378",
+        "document_id": "doc_b5d19aa5ec32",
+        "text": "Published cross-system optical interpretation.",
+        "source": "Main paper Figure 3E and interpretation paragraph"
+      }
+    ],
+    "paper_id": "paper_d3b4575397179146"
+  }
+}

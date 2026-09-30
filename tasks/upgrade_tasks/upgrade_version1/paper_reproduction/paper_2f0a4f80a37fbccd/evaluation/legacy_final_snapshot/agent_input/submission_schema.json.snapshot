@@ -1,0 +1,146 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure",
+          "charge",
+          "multiplicity",
+          "starting_structure_provenance"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "electronic_structure": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "starting_structure_provenance": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "candidates"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "completed",
+              "successful"
+            ]
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "structure_identity",
+                "optimization",
+                "frequencies",
+                "observables",
+                "nitrate_modes"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "structure_identity": {
+                  "type": "object",
+                  "required": [
+                    "formula",
+                    "connectivity",
+                    "atom_labels"
+                  ]
+                },
+                "optimization": {
+                  "type": "object",
+                  "required": [
+                    "converged",
+                    "stationary_point_evidence",
+                    "imaginary_frequencies"
+                  ]
+                },
+                "frequencies": {
+                  "type": "array"
+                },
+                "observables": {
+                  "type": "object",
+                  "required": [
+                    "Ir1_O1",
+                    "Ir1_O2",
+                    "N1_O1",
+                    "N1_O2",
+                    "N1_O3",
+                    "O1_Ir1_O2",
+                    "O1_N1_O2",
+                    "O1_N1_O3",
+                    "O2_N1_O3"
+                  ]
+                },
+                "nitrate_modes": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "bounded_failure",
+              "partial"
+            ]
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "attempted_calculations",
+              "diagnostics",
+              "coverage",
+              "best_defensible_result"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

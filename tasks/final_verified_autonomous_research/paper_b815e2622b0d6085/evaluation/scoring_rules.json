@@ -1,0 +1,163 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "rules": [
+    {
+      "rule_id": "r_ar_identity",
+      "reference_id": "kp_ar_process_identity",
+      "type": "semantic",
+      "expected": "all three named object identities and CCDC mappings are retained",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects.cl_crystal.object_id",
+          "$.objects.br_crystal.object_id",
+          "$.objects.i_crystal.object_id"
+        ],
+        "comparison": "expert semantic comparison against the named CCDC mappings"
+      }
+    },
+    {
+      "rule_id": "r_ar_validation",
+      "reference_id": "kp_ar_process_validation",
+      "type": "semantic",
+      "expected": "Fundamental and framework edge/same-k gaps are separately traced and validated; assignments, reciprocal edge sets, directness and nonnegative stability magnitudes are auditable.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects.cl_crystal",
+          "$.objects.br_crystal",
+          "$.objects.i_crystal",
+          "$.validation"
+        ],
+        "comparison": "For each branch, re-extract band-edge and same-k arithmetic from the declared states/mesh/spins. Compare degenerate k sets modulo reciprocal translations (direct away from Gamma is valid). Check projections of lower candidates and organic vs inorganic atom membership, not merely nonzero Pb. Signed changes may be negative, absolute changes may not. Bounded-failure records must identify missing evidence; they are not successful results. Apply the public leading component/element/angular-momentum group criterion and manifold tracking; allow evidenced organic-framework hybridization, not an undisclosed >50% total-framework cutoff at every k. Report ambiguous tracking rather than force a target."
+      }
+    },
+    {
+      "rule_id": "r_ar_gap_cl",
+      "reference_id": "kp_ar_gap_values",
+      "type": "numeric",
+      "target": 4.63,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects.cl_crystal.status",
+          "$.objects.cl_crystal.scalar_relativistic",
+          "$.objects.cl_crystal.scalar_relativistic.framework_interband.gap_eV"
+        ],
+        "comparison": "Only cl_crystal: scalar HSE06 without SOC, same supplied parent cell, framework_interband.assignment_status=supported and independently established Pb-p-bearing framework manifold. Compare the edge gap from independently extremized edges, not fundamental, minimum_same_k_gap, an SOC value or a fixed band ordinal. Check lower-candidate/component/normalization evidence before numeric credit. A failed/ambiguous/incomparable branch has no demonstrated numeric success; report incompleteness without fabricating a value or awarding full credit by skipping it. Apply the public leading component/element/angular-momentum group criterion and manifold tracking; allow evidenced organic-framework hybridization, not an undisclosed >50% total-framework cutoff at every k. Report ambiguous tracking rather than force a target."
+      }
+    },
+    {
+      "rule_id": "r_ar_gap_br",
+      "reference_id": "kp_ar_gap_values",
+      "type": "numeric",
+      "target": 4.64,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects.br_crystal.status",
+          "$.objects.br_crystal.scalar_relativistic",
+          "$.objects.br_crystal.scalar_relativistic.framework_interband.gap_eV"
+        ],
+        "comparison": "Only br_crystal: scalar HSE06 without SOC, same supplied parent cell, framework_interband.assignment_status=supported and independently established Pb-p-bearing framework manifold. Compare the edge gap from independently extremized edges, not fundamental, minimum_same_k_gap, an SOC value or a fixed band ordinal. Check lower-candidate/component/normalization evidence before numeric credit. A failed/ambiguous/incomparable branch has no demonstrated numeric success; report incompleteness without fabricating a value or awarding full credit by skipping it. Apply the public leading component/element/angular-momentum group criterion and manifold tracking; allow evidenced organic-framework hybridization, not an undisclosed >50% total-framework cutoff at every k. Report ambiguous tracking rather than force a target."
+      }
+    },
+    {
+      "rule_id": "r_ar_gap_i",
+      "reference_id": "kp_ar_gap_values",
+      "type": "numeric",
+      "target": 4.44,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects.i_crystal.status",
+          "$.objects.i_crystal.scalar_relativistic",
+          "$.objects.i_crystal.scalar_relativistic.framework_interband.gap_eV"
+        ],
+        "comparison": "Only i_crystal: scalar HSE06 without SOC, same supplied parent cell, framework_interband.assignment_status=supported and independently established Pb-p-bearing framework manifold. Compare the edge gap from independently extremized edges, not fundamental, minimum_same_k_gap, an SOC value or a fixed band ordinal. Check lower-candidate/component/normalization evidence before numeric credit. A failed/ambiguous/incomparable branch has no demonstrated numeric success; report incompleteness without fabricating a value or awarding full credit by skipping it. Apply the public leading component/element/angular-momentum group criterion and manifold tracking; allow evidenced organic-framework hybridization, not an undisclosed >50% total-framework cutoff at every k. Report ambiguous tracking rather than force a target."
+      }
+    },
+    {
+      "rule_id": "r_ar_explanation",
+      "reference_id": "kp_ar_explanation",
+      "type": "semantic",
+      "expected": "the submission defines a structural descriptor, compares at least one plausible alternative explanation, and restricts causal claims to submitted evidence Bind source I-lower trend only to assigned scalar framework_interband; fundamental may have a different trend.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structural_comparison",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison allowing an evidence-supported explanation different from the authors' interpretation Fundamental, framework edge and same-k gaps are distinct. Numeric proximity does not establish manifold identity or an optical selection rule."
+      }
+    },
+    {
+      "rule_id": "r_ar_final",
+      "reference_id": "c_ar_final_gap",
+      "type": "semantic",
+      "expected": "the conclusion reports the supported per-object trend and independently reasoned explanation, or accurately limits both when bounded failure prevents them Bind source I-lower trend only to assigned scalar framework_interband; fundamental may have a different trend.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.structural_comparison",
+          "$.conclusion"
+        ],
+        "comparison": "outcome-aware expert semantic comparison Fundamental, framework edge and same-k gaps are distinct. Numeric proximity does not establish manifold identity or an optical selection rule."
+      }
+    },
+    {
+      "rule_id": "r_ar_limits",
+      "reference_id": "c_ar_limitations",
+      "type": "semantic",
+      "expected": "No-SOC, direct-parent SOC and estimated SOC are separate; orbital character is not proof of optical allowedness; finite meshes are limited.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects",
+          "$.method.settings",
+          "$.limitations"
+        ],
+        "comparison": "Require not_established optical status without matrix-element or explicit symmetry evidence. Do not demand an uncomputed SOC/optical result or award such a result for projection-only claims. Inspect sampling and mixed-state limits."
+      }
+    },
+    {
+      "rule_id": "r_ar_observable_separation",
+      "reference_id": "kp_ar_process_validation",
+      "type": "semantic",
+      "expected": "The lowest-state fundamental gap is correctly reported even when it differs from the framework interband source values.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects"
+        ],
+        "comparison": "Check lowest unoccupied bands without character exclusions; compare their values only to re-extraction from submitted bands, never to the 4.63/4.64/4.44 eV framework targets. Check independently extremized gaps versus minimum same-k gaps and spin conventions."
+      }
+    }
+  ]
+}

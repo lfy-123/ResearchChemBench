@@ -1,0 +1,23 @@
+{
+  "paper_id": "paper_51a03695e1ccb105",
+  "task_type": "paper_reproduction",
+  "changes": [
+    {
+      "kind": "removed_answer_bearing_si_geometry",
+      "path": "agent_input/data/inputs/azotriazole_ts2_si.xyz",
+      "details": "Removed the public SI Table S17 optimized transition-state geometry. The task retains the two supplied reactant structures and the qualitative author mechanism, while requiring the agent to generate and validate product/transition-state candidates independently."
+    },
+    {
+      "kind": "clarified_input_boundary",
+      "paths": [
+        "agent_input/task.md",
+        "task_info.json"
+      ],
+      "details": "Updated the public-input and difficulty descriptions to state that no optimized transition-state or product coordinates are supplied; SI coordinates and evaluator references remain evaluator-private."
+    }
+  ],
+  "evidence": [
+    "docs/verification/group_3/paper_51a03695e1ccb105/verification_report.md",
+    "papers/paper_51a03695e1ccb105"
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.487075+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_a6e8c57709329bdb/documents/main.pdf",
+      "sha256": "5a566dd113353d03624849466569e890d4212bc2e0a7298ec2bcb77e7cbef2a1",
+      "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p5 明确后续光谱用DMF，pp6–7传感；SI p19 FigS20仅可能结合模式，不补足实际传感盐、质子库和水含量。Mn–L合成用盐不能冒充Fe/Co传感盐。",
+      "actual_read_pages_and_sections": "Main pp2,4–8; optical medium p5, Fe sensing/absent Fe crystal and Fig4 p6, DFT p7; SI p19 FigS20 possible binding and Mn bond table."
+    },
+    {
+      "path": "papers/paper_a6e8c57709329bdb/documents/supplementary_001.pdf",
+      "sha256": "dcb7c395f4cad30dbeae17d62a11bdf820207bf7d8b83b8866def961e7322f60",
+      "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p5 明确后续光谱用DMF，pp6–7传感；SI p19 FigS20仅可能结合模式，不补足实际传感盐、质子库和水含量。Mn–L合成用盐不能冒充Fe/Co传感盐。",
+      "actual_read_pages_and_sections": "Main pp2,4–8; optical medium p5, Fe sensing/absent Fe crystal and Fig4 p6, DFT p7; SI p19 FigS20 possible binding and Mn bond table."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "A conditional HL molecular investigation states Fe(III)/Co(II), protonation, solvent/counterion assumptions and supplies real evidence, while preserving the package input block for full experimental selectivity.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "A source-grounded diagnostic explains why unknown salts, proton reservoir and water content prevent unique solution-species assignment; no conditional model is claimed as the missing experiment.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "The Mn-L crystal is substituted for an experimentally identified Fe-HL structure, or a guessed Fe salt/pH is presented as sourced fact and full selectivity declared complete.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "Free neutral E,E-HL electronic/optical work is retained as partial evidence; coordination, quenching and selectivity remain unverified.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account of the reported HL response to Fe(III), relative to the free ligand and the Co(II) observation, can the available evidence support? Establish which conclusions are conditional on unresolved solution composition and which are identifiable without assuming the missing conditions.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Check the complete C20H22N4O6 ligand, imine identities and hydrogens; every metal/solvent/proton/counterion model needs explicit composition and physically consistent charge/spin. The source Fe oxidation number is not the total charge of an unspecified complex. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "A claimed optical or electronic relationship must be supported by matched model/state definitions and real outputs. Binding or proton-transfer comparisons require a conserved reference appropriate to the explicitly stated environment. Distinguish vertical transitions from population kinetics; quantify uncertainty where supportable. Diagnose missing source conditions separately from model sensitivity and numerical failure. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Confine conclusions to evidenced properties of HL and explicitly defined conditional Fe/Co molecular models. Do not turn an assumed complex, bare-ion association energy, frontier gap or vertical charge-transfer transition into experimental binding selectivity, a fluorescence quenching rate or a validated sensor mechanism. Mn–L contains a different ligand environment and is not a clean Fe/Co replacement control. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

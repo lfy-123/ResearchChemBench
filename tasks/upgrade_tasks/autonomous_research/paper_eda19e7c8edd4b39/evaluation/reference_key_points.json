@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use supplied B2 and L12 ideal prototype starts and explicit lattice_and_surface_definition.json. They are benchmark starts, not fabricated source CIFs or relaxed answers. Treat charge-neutral periodic systems with documented magnetic treatment (including fcc Ni). B2(100) both Ni and Al terminations and mixed B2(110) are mandatory. Static zero-temperature electronic energies are the primary observable, not finite-temperature rates. Ni-rich mu_Ni=E(fcc Ni)/atom and mu_Al=E(B2 NiAl)/formula_unit-mu_Ni. E_vac(X)=E(defect)-E(pristine)+mu_X. Atom-conserving E_seg=E(exchanged slab)-E(clean slab). Balanced transfer E_tr(X)=E(bulk V_X)+E(slab+X)-E(bulk)-E(slab). Ni3Al grand potential per formula unit=E(L12 Ni3Al)-3mu_Ni-mu_Al. Use the same converged Hamiltonian/reservoirs throughout. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_bulk_vacancies",
+      "statement": "Two vacancies with explicit reservoirs and supercell control",
+      "expected": "Recompute per-atom/per-formula energies and sign; verify removed species/sites and charge. Different formation references cannot be ranked directly.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_surface_cycles",
+      "statement": "Three terminations with exchange and balanced transfer controls",
+      "expected": "Inspect exact generated slabs, symmetry, adatom sites, bulk defects and conservation ledgers. Bulk vacancy preference is not a surface segregation result. Compare same cell/coverage and unlike terminations only under valid grand-potential definitions.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_phase_and_convergence",
+      "statement": "Ni3Al competitor and converged, bounded mechanism inference",
+      "expected": "Check L12 identity and units, chemical potentials and real convergence outputs. Surface segregation and bulk second-phase stability are distinct physical endpoints; neither implies a universal species preference. Static thermodynamics cannot establish vacancy migration barriers or precipitation rates.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject surface claims from only bulk E_vac, wrong species/chemical-potential signs, inconsistent atom counts or slab faces, fabricated source CIFs, Ni3Al confused with isolated antisites, or static energies declared kinetic proof.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "mode": "AR",
+  "updated_at": "2026-09-28T13:56:02.782636+00:00",
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "previous_reference_stage": "implemented_pending_expanded_reference",
+  "scientific_reference_status": "author_informed_bounded_reference_validated",
+  "semantic_judge_calibration": "not_performed",
+  "blind_AR_trial": "not_performed",
+  "coordinator_final_review": "pending",
+  "accepted_at": "2026-09-28T13:55:35.148469+00:00",
+  "completed_endpoints": [
+    "fusion_pair.fused2a",
+    "fusion_pair.nonfused1a",
+    "cage_displacement.2a_minus",
+    "cage_displacement.2a_plus",
+    "cage_displacement.1a_minus",
+    "cage_displacement.1a_plus",
+    "causal_limits.fusion_vs_motion",
+    "causal_limits.method_sensitivity"
+  ],
+  "limitations": [
+    "Source-aware reference verification, not blind AR. Complete isolated neutral singlets in IEFPCM THF; no crystal packing, emission quantum yield or rate inference.",
+    "±0.05A is an intervention design, not a target tolerance; finite differences are local and can include nonlinear curvature. No constrained point inherits thermal corrections.",
+    "Different molecular formulas prohibit cross-species total-energy subtraction. No artificial graph bijection removes the real Br/H confound.",
+    "All ten roots retained. Selected S1 has a resolved S1/S2 gap and reciprocal unique overlap throughout required paths and CAM controls. Higher-state mixing does not warrant claims of unique high-state correspondence or an exhaustive excited-state manifold.",
+    "The two old equilibrium-response frozen spectra are diagnosed and excluded from core comparisons; repaired nonequilibrium spectra use identical frozen coordinates.",
+    "Method and orthogonal-relaxation spreads are actual measured sensitivity components, not statistical confidence intervals."
+  ],
+  "evidence": {
+    "report/scientific_acceptance.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/scientific_acceptance.json",
+      "sha256": "7bc91276c805f4276cc0425b1f66730ebed0347a6c4cb857e9a5611366192436"
+    },
+    "report/results.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/results.json",
+      "sha256": "44aef8e9cb64ba5d20267aff1bd192c287858b1055ab38a06a67b9bbe7f25ebe"
+    },
+    "report/verification_report.md": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/verification_report.md",
+      "sha256": "a0df29ab1e33ecbba55de034b548effc236f9f47c25c403a6e547331b29ddf4c"
+    },
+    "report/validation/contract_checks.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/validation/contract_checks.json",
+      "sha256": "3f1f67c8f5208f8ec75d165f6452415e560efc4d9221a9964551191b48c9d2e4"
+    },
+    "report/resource_summary.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/resource_summary.json",
+      "sha256": "49742011a5f627b16d3ee284be57ac6bbb03bb40cadb1c5e238c559db93426ee"
+    },
+    "evaluator_mapping.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/evaluator_mapping.json",
+      "sha256": "0e8cc5474a23d65bdeb0a95a546da79c0a7fa88b227c0e3f29d823c0af03fa66"
+    },
+    "task_snapshot/manifest.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/task_snapshot/manifest.json",
+      "sha256": "8321b5f014de9c1cadacaf551cfe7b285167b6090b30965fbc046bda1db6310e"
+    }
+  },
+  "raw_artifact_index": {
+    "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/validation/contract_checks.json",
+    "sha256": "3f1f67c8f5208f8ec75d165f6452415e560efc4d9221a9964551191b48c9d2e4"
+  },
+  "validated_scientific_package_hashes": {
+    "AR": "a10b54bb7ac8403a911c7f86ace21dcde4b6e253978ecd10cac5300172fed597",
+    "PR": "fc41541a93201cd503c7749713b2d1f9f286ad3be24fb3931bdbc98faa95417b"
+  },
+  "package_before_reference_binding_sha256": "a10b54bb7ac8403a911c7f86ace21dcde4b6e253978ecd10cac5300172fed597",
+  "historical_package_snapshot": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/history/reference_binding/paper_9aa6d5655edfeb52/AR/a10b54bb7ac8403a911c7f86ace21dcde4b6e253978ecd10cac5300172fed597",
+  "change_scope": "Private evidence/provenance metadata and manifest only. Public inputs, schemas, scoring criteria, weights, critical failures, and author route are unchanged.",
+  "current_result_schema_checked": true
+}

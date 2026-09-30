@@ -1,0 +1,32 @@
+{
+  "public_paths": [
+    "agent_input/**",
+    "task_info.json through load_public_task"
+  ],
+  "author_route_only": "paper_reproduction/agent_input/task.md",
+  "private_paths": [
+    "evaluation/**",
+    "paper_route.md"
+  ],
+  "redaction": "Source article title/DOI/journal fields intentionally blank in both modes because task_info is publicly loadable. Full identity retained in private source_scope and baseline snapshots.",
+  "removed_routes": [
+    {
+      "file": "task.md; controls.json",
+      "issue": "直接提供偶极预测假设、桥型/反向/单侧接触解释轴及五结0/±0.5V矩阵。"
+    },
+    {
+      "file": "submission_schema.json",
+      "issue": "固定devices键、两假设、300K、比值方向及numerical_checks。"
+    },
+    {
+      "file": "evaluation/scoring_rules.json",
+      "issue": "按矩阵操作计结果信用而非agent自己证据能否判别桥型解释。"
+    },
+    {
+      "file": "upgrade_audit.json; old ready",
+      "issue": "旧仅siesta声明已过时；当前有工具链，真实有限偏压仍未校准。"
+    }
+  ],
+  "runtime_isolation_status": "pending_environment_access_control",
+  "boundary": "Export selection and content inspection do not demonstrate filesystem/network isolation. AR must not access paper/SI/private evidence/PR workspace."
+}

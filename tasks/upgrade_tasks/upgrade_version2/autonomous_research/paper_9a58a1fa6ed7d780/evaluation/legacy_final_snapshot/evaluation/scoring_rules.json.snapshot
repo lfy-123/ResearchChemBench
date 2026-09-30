@@ -1,0 +1,139 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_input",
+      "type": "semantic",
+      "expected": "Protocol identifies the supplied molecule, charge/multiplicity, method, basis, environment, state count and analysis method.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "Per-state validation includes state ordering, energy-wavelength consistency, orbital identities and S1-S4 hole-electron analysis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_spectrum",
+      "type": "numeric",
+      "target": 2.1406,
+      "unit": "eV",
+      "tolerance": 0.08,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.s1_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_hole",
+      "type": "numeric",
+      "target": 0.797,
+      "unit": "dimensionless Sr",
+      "tolerance": 0.08,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.s1_Sr"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "The six singlet transitions show weak low-energy S1 absorption and stronger higher-energy absorption. The correctly defined D/H/Sr/t/HDI/EDI analysis for the required four states supports substantial S1 hole-electron overlap.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r6",
+      "reference_id": "ar_high_state_sr",
+      "type": "numeric",
+      "target": 0.91366,
+      "unit": "dimensionless",
+      "tolerance": 0.08,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hole_electron[1].Sr"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Benchmark-computed Sr reference for S2, not the unresolved SI Table S11 number. Require hole_electron[1].state=2, matching singlet-root identity and genuine computed evidence; do not relabel states to force agreement. Use absolute tolerance 0.08 as the benchmark's authored Sr scoring allowance, consistent with the existing S1 rule, not as an experimentally calibrated cross-method error bar. Numerical agreement alone does not establish valid state identity or a real calculation."
+    },
+    {
+      "rule_id": "ar_r7",
+      "reference_id": "ar_high_state_sr",
+      "type": "numeric",
+      "target": 0.74133,
+      "unit": "dimensionless",
+      "tolerance": 0.08,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hole_electron[2].Sr"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Benchmark-computed Sr reference for S3, not the unresolved SI Table S11 number. Require hole_electron[2].state=3, matching singlet-root identity and genuine computed evidence; do not relabel states to force agreement. Use absolute tolerance 0.08 as the benchmark's authored Sr scoring allowance, consistent with the existing S1 rule, not as an experimentally calibrated cross-method error bar. Numerical agreement alone does not establish valid state identity or a real calculation."
+    },
+    {
+      "rule_id": "ar_r8",
+      "reference_id": "ar_high_state_sr",
+      "type": "numeric",
+      "target": 0.74956,
+      "unit": "dimensionless",
+      "tolerance": 0.08,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hole_electron[3].Sr"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Benchmark-computed Sr reference for S4, not the unresolved SI Table S11 number. Require hole_electron[3].state=4, matching singlet-root identity and genuine computed evidence; do not relabel states to force agreement. Use absolute tolerance 0.08 as the benchmark's authored Sr scoring allowance, consistent with the existing S1 rule, not as an experimentally calibrated cross-method error bar. Numerical agreement alone does not establish valid state identity or a real calculation."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

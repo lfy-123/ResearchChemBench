@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_6b32cd680ee1afd4",
+  "task_type": "autonomous_research",
+  "title": "Autonomous excited-state characterization of two Ir(III) arylacetylides",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecular systems and observables are fixed, but the Agent must select and justify a defensible method and discriminate triplet state-character interpretations.",
+    "Two complexes require independent validation of geometry, state ordering, and localization evidence."
+  ],
+  "paper": {
+    "title": "d5dt02734a 2499..2508 ++",
+    "doi": "10.1039/d5dt02734a",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-27"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ geometries for IrF2ppz/H and IrF2ppz/CN; neutral singlet molecular inputs."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-complex energies, orbital assignments, evidence, conclusion, and bounded-failure information."
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "A",
+  "new_class": "B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_a21b91f97ce3c68f",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_a21b91f97ce3c68f"
+  },
+  "new_reference_gaps": [
+    "New constrained J grid and method sensitivity have not been computed; no tolerance is transferred across Hamiltonians.",
+    "The exact coupling basis and orbital metric must be staged and demonstrated by the pilot."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "b74a31c5613cfcd16c4a00284b061832eee97b4ea2e28de0bc27ec27d19f1e28",
+    "paper_reproduction": "c0d856037fd7a35b557cb62832876afd998d62e48bd6e0482750ad0f5b925c0e"
+  },
+  "source_review": "paper_reviews/paper_a21b91f97ce3c68f.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_a21b91f97ce3c68f",
+      "package_content_sha256": "161d371cf08b661a9732da18ecf677f04972474549f558b72328544b037b642e"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_a21b91f97ce3c68f",
+      "package_content_sha256": "658fe3ed718775b9859794f848708332b0c8fb1f2ae14c405cd3d7b659b1b889"
+    }
+  },
+  "result_panels": [
+    "pair_matrix",
+    "geometric_interventions",
+    "mechanism_test"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_a21b91f97ce3c68f/documents/main.pdf",
+      "sha256": "637bc5dd2d5d03773819f3cf73524d6c4c2b3fc7cdd4ff6b077b811ed0ea452b",
+      "pages": [
+        1,
+        2,
+        3
+      ],
+      "total_pages": 9
+    },
+    {
+      "path": "papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf",
+      "sha256": "35c7bfcbb36da658670c057ed2e6ecdc3ac6c3707c0bd122469234fae020d12b",
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_pages": 58
+    },
+    {
+      "path": "docs/evalution/update/paper_a21b91f97ce3c68f.md",
+      "sha256": "3765871db00f62e57689d65cfe92564417bfb70f7d940a15be946eebdfbabac7",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_a21b91f97ce3c68f/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_a21b91f97ce3c68f/evaluation/reference_validation_plan.md"
+  }
+}

@@ -2,11 +2,11 @@
 
 ## 1. Scientific objective and author claim
 
-The paper studies the photophysical mechanism of cucurbit[8]uril/terpyridine-derivative host--guest systems. For the isolated G1 guest, the implemented calculation predicts the S1 fluorescence/emission wavelength and uses NTO/hole--electron analysis to characterize the transition. The authors interpret the G1 S1 transition as predominantly intramolecular charge transfer rather than a donor--acceptor transition between host and guest.
+The paper studies the photophysical mechanism of cucurbit[8]uril/triphenylamine-derivative host--guest systems. For the isolated G1 guest, the implemented calculation predicts the S1 fluorescence/emission wavelength and uses NTO/hole--electron analysis to characterize the transition. The authors interpret the G1 S1 transition as predominantly intramolecular charge transfer rather than a donor--acceptor transition between host and guest.
 
 ## 2. System and model boundary
 
-G1 is the isolated cationic guest represented by the SI coordinate block `G1GS` (242 atoms). The reported isolated-guest optical calculation is distinct from the CB[8] host--guest complexes. The electronic state is a singlet cation; the public starting coordinates are the SI G1GS geometry.
+G1 is one 49-atom C25H21N2O cationic guest. The official SI block `G1GS` has 242 atoms: one 144-atom CB[8] host and two 49-atom guests. The corrected public starter contains the first connected guest, preserving its source coordinates and atom order, and uses charge +1 and singlet multiplicity. This is not the complete host--guest block or a preselected isolated S1 endpoint. The isolated-guest optical target is unchanged; source mapping and the original full block are archived in `docs/verification/group_5/paper_7574d99707125e60/artifacts/source_object_audit_20260915/`.
 
 ## 3. Authors' implemented computational route
 

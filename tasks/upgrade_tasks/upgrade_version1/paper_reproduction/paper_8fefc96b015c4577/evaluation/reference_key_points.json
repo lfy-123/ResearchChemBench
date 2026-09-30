@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use the short C21H24F2NO4S radical and long C22H26F2NO4S homologue, both charge0/doublet. The sole long-chain edit inserts CH2 between short-map13 (N-benzyl carbon) and aromatic ipso14, retaining the radical at map10 and every other atom. For each chain independently compare DMSO and1,2-DCE at298.15K/1atm and two aryl closures: radical10 to either ortho carbon of the N-alkyl-tethered aryl or arenesulfonyl aryl ring. System-specific separated-reactant and uncyclized-radical zeros must be distinguished. Source experimental protocols also change additives; this solvent cross is a controlled model and does not isolate all experimental causes.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_crossed_paths",
+      "statement": "Full2×2×2 local competition; eight combinations are not eight engine calls.",
+      "expected": "Full2×2×2 local competition; eight combinations are not eight engine calls. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_factorial_contrasts",
+      "statement": "Double differences of within-system channel G barriers, never unlike absolute total energies.",
+      "expected": "Double differences of within-system channel G barriers, never unlike absolute total energies. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_strain_and_robustness",
+      "statement": "Actual matched-progress deformation and long-chain sensitivity, with no forced sign.",
+      "expected": "Actual matched-progress deformation and long-chain sensitivity, with no forced sign. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Missing cross-solvent corner or competing path; comparing unlike-composition total energies; wrong atom-order migration; forcing a small source gap sign; ignoring additive confounding or asserting a product ratio from one TS pair.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

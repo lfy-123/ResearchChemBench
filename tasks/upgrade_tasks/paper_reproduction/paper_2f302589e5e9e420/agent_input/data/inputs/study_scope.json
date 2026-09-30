@@ -1,0 +1,26 @@
+{
+  "systems": [
+    {
+      "id": "EPI1",
+      "file": "EPI1_start.xyz",
+      "formula": "C13H21NO2",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "EPI2",
+      "file": "EPI2_start.xyz",
+      "formula": "C14H23NO3",
+      "charge": 0,
+      "multiplicity": 1
+    }
+  ],
+  "phase": "gas",
+  "temperature_K": 298.15,
+  "primary_ensemble_descriptor": "sum_i w_i * dipole_i_D**2",
+  "required_controls": [
+    "OH orientation",
+    "matched common backbone"
+  ],
+  "atom_index_convention": "Preserve each supplied XYZ index; provide cross-molecule common-backbone mapping. Initial geometry is not a declared minimum."
+}

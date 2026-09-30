@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "items": [
+    {
+      "key_point_id": "kp_molecular_identity",
+      "statement": "Correct full Z molecules, structures and physical conditions.",
+      "expected": "Check actual constitutional graphs, full alkyl chains, neutral formulas, charge/spin and Z stereochemistry. Map each electronic result to its geometry and solvent representation. Truncated or wrong-isomer output cannot answer the stated full-molecule question without a scientifically validated approximation.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_excitation_findings",
+      "statement": "Inspectable low-energy singlet absorption and excitation-character evidence.",
+      "expected": "Inspect actual excitation outputs and analyses for the three supplied molecules at declared comparable conditions. Check energies, oscillator/intensity measures and state-character evidence relevant to the claims, including units and energy–wavelength conversion. Distinguish orbital gaps, S1, bright transitions and emission. No fixed root count, NTO output, charge-transfer label, fragment partition or source ordering is required; copying source targets is not new evidence.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_molecular_explanation",
+      "statement": "Evidence discriminating the submitted molecular explanation at its stated scope.",
+      "expected": "Judge whether comparisons support the claimed relation between molecular structure and excitation properties and whether material alternative causes or representation effects remain. A direct causal torsion/substituent claim requires more than three unequal scalar energies. A bounded association or demonstrated inability to distinguish explanations can earn applicable credit. Do not require the source ICT/LE assignments or the V1 common-angle/method matrix.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_state_and_numerical_validity",
+      "statement": "Validity, uncertainty and correspondence appropriate to the chosen states and method.",
+      "expected": "Check claimed minima, constraints, electronic convergence, solvent/state definitions and dominant numerical/conformational uncertainty. When corresponding states are compared, require actual character evidence rather than equal root numbers, energy proximity or labels alone. Probability-distribution similarity cannot be called phase-sensitive wavefunction overlap. A state-character plot or orbital gap alone does not prove an absorption or causal mechanism. Alternative methods need their own relevant validity evidence, not the reference functional pair.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    }
+  ]
+}

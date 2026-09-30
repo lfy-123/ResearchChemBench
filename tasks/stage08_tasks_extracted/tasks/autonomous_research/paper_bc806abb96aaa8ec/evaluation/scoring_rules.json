@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_bc806abb96aaa8ec",
+  "rules": [
+    {
+      "rule_id": "r_autonomous_research_process",
+      "reference_id": "autonomous_research_process",
+      "type": "semantic",
+      "expected": "Explicit identity, provenance, validation and per-state evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_autonomous_research_spectrum",
+      "reference_id": "autonomous_research_spectrum",
+      "type": "semantic",
+      "expected": "Six state results and method-dependent comparison support this pattern.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_autonomous_research_dynamics",
+      "reference_id": "autonomous_research_dynamics",
+      "type": "semantic",
+      "expected": "The interpretation compares low-energy translational and isotropic angular evidence with prompt excited-state dissociation and ground-state decay, and states limits.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation.dynamics_interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_autonomous_research_final",
+      "reference_id": "autonomous_research_final",
+      "type": "semantic",
+      "expected": "Evidence-based final spectral and dynamics conclusion with limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

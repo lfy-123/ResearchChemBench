@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently determine and interpret the six lowest vertical electronic excitations of the neutral doublet 2-methyl-1-propenyl radical (C4H7), including excitation wavelength in nm, oscillator strength, and dominant electronic character, and determine whether the computed spectrum can explain the supplied H-atom photofragment observations.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/2_methyl_1_propenyl_doublet.xyz`: its 11 atoms are ordered C,C,H,H,H,C,H,H,H,C,H, coordinates are in Å, charge is 0 and multiplicity is 2. Use `problem_boundary.json`: H-atom PFY was measured from 226–248 nm, with a broad feature near 240 nm and increased intensity below 228 nm; the product translational-energy distribution has a broad feature near 7 kcal mol−1; and the H-atom angular distribution is approximately isotropic. The object is the isolated gas-phase radical at a vertical-excitation geometry. State labels D1–D6 mean the six states in increasing excitation energy in the submitted calculation. No paper-specific route, candidate state assignment, software, model chemistry, or ordered protocol is supplied.
+
+# Required scientific validation/investigation
+
+Propose and execute a defensible calculation for at least six doublet excited states. Verify atom count, connectivity implied by the coordinates, charge and multiplicity; document geometry and electronic-structure provenance. Formulate at least two plausible, answer-neutral hypotheses for which electronic character could account for the measured PFY feature and compare them using the calculated positions, intensities and character evidence. For each state retain wavelength, oscillator strength, state identity and evidence for dominant character using NTOs/orbital analysis or a justified alternative. Perform at least one sensitivity or convergence check and explain state reordering if it occurs. Compare the resulting spectrum with the PFY window and use the translational-energy and angular observations to discriminate plausible photodissociation interpretations, separating direct excited-state dissociation from decay followed by ground-state dynamics where the evidence permits. Completion requires a validated six-state table and an evidence-based comparison, or a bounded-failure report identifying the failed step, partial evidence, missing evidence and one scientifically justified recovery attempt. Stop after those requirements are met; if recovery fails, report the limitation and do not claim an unvalidated state assignment.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. In it, declare paths to machine-readable calculation outputs or logs and a concise methods/validation narrative. A complete result must report the investigated hypotheses, approach and justification, all six states, validation, measurement comparison, limitations and final conclusion. A bounded failure must instead truthfully report the failed step, available partial results, recovery attempt, missing evidence and stopping rationale; do not fabricate a state table. Do not use unpublished reference values as inputs.

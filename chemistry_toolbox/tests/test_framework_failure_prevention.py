@@ -92,6 +92,9 @@ def test_xtb_optimized_structure_retains_selected_electronic_state(
 
     assert result["result"]["structure"]["charge"] == 2
     assert result["result"]["structure"]["multiplicity"] == 3
+    assert result["result"]["structure"]["electronic_state_sources"] == {
+        "charge": "method_spec.charge", "multiplicity": "method_spec.unpaired_electrons"
+    }
     assert result["provenance"]["resolved_molecular_state"] == {
         "charge": 2,
         "unpaired_electrons": 2,
@@ -136,6 +139,9 @@ def test_xtb_uses_charge_from_workspace_xyz_metadata(tmp_path: Path, monkeypatch
 
     assert observed_command[observed_command.index("--chrg") + 1] == "2"
     assert result["result"]["structure"]["charge"] == 2
+    from chemistry_toolbox.src.electronic_state import resolve_state
+    _, state = resolve_state(result["result"]["structure"], {}, policy="strict")
+    assert state["sources"] == {"charge": "xyz_metadata", "multiplicity": "xyz_metadata"}
     assert result["provenance"]["resolved_molecular_state"]["charge_source"] == (
         "input_structure"
     )
@@ -187,6 +193,9 @@ def test_pysisyphus_ts_structure_retains_selected_electronic_state(
         "multiplicity": 3,
         "charge_source": "method_spec",
         "multiplicity_source": "method_spec",
+    }
+    assert result["result"]["structure"]["electronic_state_sources"] == {
+        "charge": "method_spec.charge", "multiplicity": "method_spec.multiplicity"
     }
 
 
@@ -454,6 +463,7 @@ def test_compact_artifact_refs_are_verified_and_expanded_before_dispatch(
     assert result["status"] == "success"
     dispatched = calls[0]["payload"]["request"]["inputs"]["structure"]
     assert dispatched == structure_ref.model_dump(mode="json")
+    assert calls[0]["payload"]["resolved_electronic_inputs"]["structure"]["charge"] == 0
     assert [item["artifact_id"] for item in result["input_artifacts"]] == [
         structure_ref.artifact_id
     ]
@@ -662,8 +672,13 @@ def test_action_description_exposes_backend_specific_thermochemistry_contracts()
     assert "ignore_imaginary_modes" in description
 
 
-def test_mace_installed_alias_resolution_is_exact_and_never_guesses(monkeypatch):
-    project_root = Path(__file__).resolve().parents[2]
+def test_mace_installed_alias_resolution_is_exact_and_never_guesses(monkeypatch, tmp_path):
+    # Alias/path validation does not load weights; isolate it from host caches.
+    project_root = tmp_path
+    cache = project_root / ".model_cache" / "mace"
+    cache.mkdir(parents=True)
+    for name in ("macempa0mediummodel", "20231203mace128L1_epoch199model"):
+        (cache / name).write_bytes(b"model alias fixture")
     monkeypatch.setenv("RESEARCHCHEMBENCH_MODEL_CACHE", str(project_root / ".model_cache"))
     selected = _resolve_mace_model("medium-mpa-0", allow_download=False)
     assert selected == str(project_root / ".model_cache/mace/macempa0mediummodel")

@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "complex_4": {
+      "formula": "C87H72Cl2N2NiO",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "complex_4.xyz"
+    }
+  },
+  "identity_files": [
+    "complex_4.xyz"
+  ],
+  "control_definitions": {
+    "spin_starts": "Initialize a closed-shell singlet, triplet and at least two distinct BS guesses (metal/ligand or opposite localized spin patterns); document densities, stability and collapse.",
+    "methods": "Repeat the decisive states with B3LYP and BP86 (or an explicitly equivalent calibrated two-method contrast) using the same basis partition and gas-phase condition.",
+    "geometry": "Compute vertical and relaxed differences, validate every claimed retained minimum and distinguish an SCF-stable wavefunction from a vibrational minimum."
+  },
+  "observable_definition": "Adiabatic electronic spin gap E(T;R_T)-E(CS;R_CS), separately from vertical E(T;R_CS)-E(CS;R_CS), in kcal/mol (1 hartree=627.509474 kcal/mol). No ZPE or G is folded into these E gaps. A collapsed BS attempt has no independent minimum energy.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "state_matrix",
+      "description": "Two-method electronic-state and stability matrix"
+    },
+    {
+      "id": "geometry_control",
+      "description": "Vertical versus relaxed spin energetics"
+    },
+    {
+      "id": "interpretation",
+      "description": "Method robustness and metal–ligand electronic assignment"
+    }
+  ],
+  "optional_not_scored": "Full water oxidation, additional catalyst substitutions and excited-state spectra are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

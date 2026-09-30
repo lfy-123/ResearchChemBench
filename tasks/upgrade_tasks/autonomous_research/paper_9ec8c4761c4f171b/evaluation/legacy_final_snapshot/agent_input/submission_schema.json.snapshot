@@ -1,0 +1,168 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": [
+          "completion_status",
+          "structure_check",
+          "method",
+          "gas_phase",
+          "chloroform",
+          "comparison",
+          "conclusion"
+        ],
+        "properties": {
+          "completion_status": {
+            "const": "completed"
+          }
+        }
+      },
+      {
+        "required": [
+          "completion_status",
+          "failure_reason"
+        ],
+        "properties": {
+          "completion_status": {
+            "const": "bounded_failure"
+          },
+          "failure_reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    ],
+    "properties": {
+      "completion_status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "structure_check": {
+        "type": "object",
+        "required": [
+          "atom_count",
+          "charge",
+          "multiplicity",
+          "identity_confirmed"
+        ],
+        "properties": {
+          "atom_count": {
+            "type": "integer"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "identity_confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "optimization",
+          "validation"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "optimization": {
+            "type": "string"
+          },
+          "validation": {
+            "type": "string"
+          }
+        }
+      },
+      "gas_phase": {
+        "type": "object",
+        "required": [
+          "homo_eV",
+          "lumo_eV",
+          "gap_eV",
+          "validation_evidence"
+        ],
+        "properties": {
+          "homo_eV": {
+            "type": "number"
+          },
+          "lumo_eV": {
+            "type": "number"
+          },
+          "gap_eV": {
+            "type": "number"
+          },
+          "validation_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "chloroform": {
+        "type": "object",
+        "required": [
+          "homo_eV",
+          "lumo_eV",
+          "gap_eV",
+          "validation_evidence"
+        ],
+        "properties": {
+          "homo_eV": {
+            "type": "number"
+          },
+          "lumo_eV": {
+            "type": "number"
+          },
+          "gap_eV": {
+            "type": "number"
+          },
+          "validation_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "experimental_optical_gap_eV",
+          "absolute_deviation_eV",
+          "interpretation"
+        ],
+        "properties": {
+          "experimental_optical_gap_eV": {
+            "type": "number"
+          },
+          "absolute_deviation_eV": {
+            "type": "number"
+          },
+          "interpretation": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure_reason": {
+        "type": "string"
+      }
+    }
+  }
+}

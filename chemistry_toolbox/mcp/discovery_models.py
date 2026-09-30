@@ -12,6 +12,7 @@ from chemistry_toolbox.src.models import ActionRequest, ResourceLimits
 
 _CATALOG_ID = re.compile(r"^[a-z][a-z0-9_]*$")
 _BATCH_ID = re.compile(r"^batch_[0-9a-f]{32}$")
+_SUBMISSION_KEY = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,199}$")
 
 
 def _catalog_id(value: str, *, field_name: str) -> str:
@@ -187,11 +188,29 @@ class ActionBatchRequest(BaseModel):
             "CPU, memory, and GPU budget."
         ),
     )
+    submission_key: str | None = Field(
+        default=None,
+        max_length=200,
+        description="Stable retry identity for this batch and its item mapping.",
+    )
 
     @field_validator("action_id", "backend_id")
     @classmethod
     def validate_ids(cls, value: str, info) -> str:
         return _catalog_id(value, field_name=info.field_name)
+
+    @field_validator("submission_key")
+    @classmethod
+    def validate_submission_key(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip()
+        if not _SUBMISSION_KEY.fullmatch(normalized):
+            raise ValueError(
+                "submission_key must start with an alphanumeric character and contain "
+                "only letters, digits, '.', '_' ':' or '-'"
+            )
+        return normalized
 
 
 class ExecutionEventWaitRequest(BaseModel):

@@ -1,0 +1,19 @@
+# Scientific objective
+
+Determine the thermodynamically plausible nature of the first elementary reducing hydrogen-equivalent-transfer event between lowest-singlet photoexcited 9,10-phenanthrenehydroquinone (H₂PQ) and pyridine N-oxide (PyO) in acetonitrile, and determine how the defined explicit-water environment changes the candidate landscape. Independently propose chemically distinct first-event hypotheses, compute comparable solution Gibbs free energies, discriminate the supported explanations, and support the conclusion with the computed evidence.
+
+# Public inputs and scientific boundaries
+
+Use only `data/inputs/system.json` for molecular graphs and the starting/event/hydration boundaries and `data/inputs/conditions.json` for the physical reporting conditions. Report ΔG in kcal/mol at 298.15 K and a 1 M solution convention. The dry and two-water environments must use identical atom and water stoichiometry within each comparison. The scored object ends after the first elementary event; the second hydrogen transfer, product formation, catalytic turnover and kinetic rate prediction are outside scope. No candidate mechanism or preferred result is supplied.
+
+# Required scientific validation/investigation
+
+First enumerate chemically explicit candidate classes that could realize the bounded event, including distinct electron, proton, hydrogen-atom or coupled transfers when chemically definable, plus any other defensible first-event class. Record why each was advanced, merged as duplicate or rejected. For every advanced class, generate and deduplicate conformers, encounter geometries, proton locations, spin couplings and water placements by explicit scientific criteria. Continue candidate generation until new chemically distinct starts repeatedly return to represented endpoints, are invalid under the event boundary, or lie outside a declared energy window that no longer affects the conclusion. Validate connectivity, stoichiometry, charge, multiplicity/open-shell character, electronic/excited-state identity and endpoint/stationary-point character per candidate. Compare all valid candidates on a common free-energy reference in both environments where meaningful, and assess method/solvation sensitivity where available and distinguish performed checks from unperformed ones. Completion requires a documented hypothesis inventory, per-candidate validation, enough search coverage to justify stopping, comparable computed results and a bounded conclusion. Stop under the declared coverage rule or after repeated failures from distinct starts; a bounded-failure submission must preserve attempted hypotheses, diagnostics, validated partial results without invented values.
+
+Retain the existing sensitivity assessment field to record actual checks or explicitly unavailable checks; a generic disclaimer carries no points. Use stable, unique `state_id` and `candidate_id` values. Repeated conformers retain distinct candidate IDs and the correct shared state ID; extra unsuccessful trials may be recorded in `attempts` without invalidating validated main results.
+
+Generic limitations or uncertainty prose is optional and unscored. Keep the required scientific identities, computed evidence, coverage and actual failure diagnostics. Additional scientifically motivated calculations are allowed and should be separated from the primary results; optional work not performed needs no disclaimer.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. A successful report must contain the method and reference convention, hypothesis inventory, individual candidate records and validation, search coverage, numerical free energies for validated candidates, environment effects, sensitivity analysis, selected explanation. A bounded-failure report must contain attempted hypotheses, per-attempt diagnostics, any validated partial results, coverage and a conclusion restricted to the evidence obtained.

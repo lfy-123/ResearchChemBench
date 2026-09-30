@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+The authors used Gaussian09W gas-phase TD-B3LYP/6-31G(d,p), then Multiwfn NTO/IFCT analysis with phenanthrimidazole, methylphenyl and appended aromatic/benzene-bridge fragments. SI pp.2–6 reports ten singlet and ten triplet states. Main p.3 interprets the S1 states as mixed local/charge-transfer and proposes high-lying-triplet RISC: T4 for Ph/Na and T3 for An/Py; reported S1–T1 gaps are 0.88, 0.89, 1.34 and 1.11 eV. These are author hypotheses/references, not measured rates. Main p.3 prints Py S1 CT/LE percentages 57.23/45.77 (sum103) and An T3 percentages50.09/49.01 (sum99.10). Reproduce definitions and report these inconsistencies rather than enforce either pair as truth. Later benchmark SOC, 20-state overlap, 45-degree constraints and CAM-B3LYP calculations are additional validation, not the original protocol.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

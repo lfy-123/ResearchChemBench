@@ -1,0 +1,311 @@
+{
+  "batch": {
+    "number": 5,
+    "name": "高级方法、实验数据与专门接口",
+    "reason": "需要先补多参考/磁响应/SOC/周期模型/数据或大体系校准；按具体前提成熟度逐篇启动。",
+    "papers": [
+      "paper_0cd74ae20ab933f3",
+      "paper_2c439196c2f349c9",
+      "paper_3316e45a74258fb7",
+      "paper_3d1d9b7f6df049da",
+      "paper_72822e4ddb5d9b11",
+      "paper_80441aced6051d86",
+      "paper_94b0a8ae694590ea",
+      "paper_988bc12ae3768679",
+      "paper_a21b91f97ce3c68f",
+      "paper_b5c446c7067dd511",
+      "paper_c23cfabbd34b087f",
+      "paper_d8e5490cd9942f4f",
+      "paper_e0791c047a731974",
+      "paper_e31cc7bc7b21b610",
+      "paper_eda19e7c8edd4b39"
+    ]
+  },
+  "records": [
+    {
+      "paper_id": "paper_0cd74ae20ab933f3",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "Cu2 系列 J 与布居相关性未分开几何/电子效应",
+      "minimum": "轴向取代与冻结 Cu2 核交叉，校准自旋模型",
+      "software": "ORCA BS-DFT/CASSCF＋PySCF",
+      "gate": "先核准 J 定义与强关联基准；特定 PySCF-forge 实现不可假定可用",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "H/Me/OMe 的 Cu₂ 系列，在公共 Cu₂ 核与各自松弛核比较取代效应；一个代表体系做可调用高层/自旋翻转校准。",
+        "accept": "固定自旋哈密顿量、J/2J 符号、BS 投影、S² 及三重态简并度，比较差异是否大于方法不确定性。禁止把两个自旋污染不同的总能差直接套成同一 J。",
+        "optional": "专用 PySCF-forge 算法和全实验磁化曲线不是默认可用要求。",
+        "pilot": "先验证 BS 与可用 CASSCF/替代参考一个点的定义和稳定性，未校准前不扩三系列。"
+      }
+    },
+    {
+      "paper_id": "paper_2c439196c2f349c9",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "孤立分子能隙与论文非线性响应机制相距较远",
+      "minimum": "用同一组时间/功率数据比较热响应与即时电子响应模型，检验可识别性",
+      "software": "Python/SciPy；DFT仅作辅助",
+      "gate": "需真实测点、光束和热参数；数据不足时允许无法分解，不用任意拟合制造机制",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "真实时间/功率测点加束腰、厚度、吸收及热参数；同数据比较瞬时电子、热响应、混合模型，约束共享参数。",
+        "accept": "保留数字化误差、残差、参数剖面与保留条件预测；检验建立时间/历史依赖是否排除瞬时模型。无法唯一分解须给等效参数区间，不能任意拟合三套曲线。",
+        "optional": "分子 DFT 只是辅助，不作为最低光热机制验证。",
+        "pilot": "先做数据包完整性与可识别性，不足时不得发布唯一机制百分比题。"
+      }
+    },
+    {
+      "paper_id": "paper_3316e45a74258fb7",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "单体系 ΔEST/CT 判断不足以解释 TADF 条件",
+      "minimum": "供体布局/扭转与 S/T 态、SOC 的受控比较",
+      "software": "ORCA SOC＋Gaussian TD＋Multiwfn",
+      "gate": "正式 SI 和三重态身份先补，C72体系先试成本；不从 ΔEST 直接换算 RISC 率",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "三个源供体布局的完整连接和相同构象/扭转控制，比较对应 S/T 态、f、NTO 和 SOC；垂直/绝热分列。",
+        "accept": "用布局与几何干预检验 CT、辐射和态间耦合是否一致；ΔEST 或 SOC 单独不等同 RISC 速率。",
+        "optional": "绝对 RISC、器件 EQE、全温度动力学不加入。",
+        "pilot": "先补正式 SI/条件与三重态身份；C72 模型先试代表态，材料欠缺不以示意图补精确参考。"
+      }
+    },
+    {
+      "paper_id": "paper_3d1d9b7f6df049da",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "低频模式列表不足以解释自旋弛豫",
+      "minimum": "沿代表模式位移比较 g/A 等磁响应，区分占据与耦合作用",
+      "software": "ORCA频率/相对论EPR＋Python",
+      "gate": "先证实单模式差分与电子态稳定；不强制绝对 T1/T2 或把Y代理等同所有稀土",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "两种源 Y₂ 笼，投影区分伸缩/横向/笼模式；入选模采用 ±Q 与较小幅度对称位移计算 g 或 A 张量，加入方向/刚性对照。",
+        "accept": "中心差分导数与步长收敛、模式占据分别提交；比较占据和磁响应导数是否给不同排序，张量用共同坐标变换。频率低不自动等于强自旋–晶格耦合。",
+        "optional": "绝对 T1/T2 与替代稀土全自旋物理不加入。",
+        "pilot": "先证明一个模式的 EPR 张量数值稳定及电子态不变；导数被噪声主导时先修方法。"
+      }
+    },
+    {
+      "paper_id": "paper_72822e4ddb5d9b11",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "闭壳层/三重态能差不足以判定金属电子描述",
+      "minimum": "完整 complex 4 的稳定性、BS、自旋/自然占据及方法对照",
+      "software": "ORCA/Gaussian＋Multiwfn",
+      "gate": "165原子全模型先测成本；形式 Ni(IV) 不等于原子电荷，水氧化全机制非最低题",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "完整 165 原子 complex 4 的闭壳层单重态、三重态与化学合理 BS 解；比较方法/轨道稳定性及金属–配体自旋与自然占据。",
+        "accept": "报告能差、S²、局域自旋、自然占据和稳定性，区分形式 Ni(IV)、原子电荷与共价性；源 32.219903 kcal/mol 是松弛电子态能差。495 Cartesian 模含6整体运动，不能称495个内振动。",
+        "optional": "水 O 插入及整套水氧化机制不加入。",
+        "pilot": "先以全模型一个 BS/稳定性求解实测资源；若需截短必须用全模型配对验证，不能暗中替代。"
+      }
+    },
+    {
+      "paper_id": "paper_80441aced6051d86",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "G1 单/二聚几何不足以解释主客体发光",
+      "minimum": "受限构象、主体静电和客体间耦合的逐级对照",
+      "software": "Gaussian/ORCA＋xTB＋Multiwfn",
+      "gate": "核准 CB8 主客体计量/电荷，试算完整态成本；不由一对二聚推出浓度曲线",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "G1、G1 二聚、CB7 单客体和 CB8 双客体的正确计量/电荷；以移走主体但冻结客体、单/双客体及松弛结构分离因素。",
+        "accept": "共同态 TD/NTO、跃迁密度、亮暗态分裂与间距/滑移/转角分开记录。差异需归于有计算支持的刚性、电场或耦合；一对二聚不代表浓度依赖。",
+        "optional": "CB10、全宿主浓度谱和绝对发光效率不加入。",
+        "pilot": "先试完整 CB8 双客体的态规模和计量；截短若改变电荷分布则扩大模型或缩题。"
+      }
+    },
+    {
+      "paper_id": "paper_94b0a8ae694590ea",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "掺杂分子孤立轨道不能解释 SWCNT 界面",
+      "minimum": "可比覆盖度下吸附、电荷重排、功函数/IP-EA 与冻结几何对照",
+      "software": "GPAW/QE/CP2K＋ASE",
+      "gate": "先确定管手性/边界与尺寸收敛；有限簇不能无校准替代周期界面，不推 PF",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "明确手性、边界和覆盖度的 SWCNT 与源掺杂分子，比较吸附/冻结几何及尺寸控制。",
+        "accept": "交付吸附能、电荷重排与同参照功函数或有限模型 IP/EA；空白管和分子参照保持同胞/同数值条件。有限端封簇不能无校准替周期界面。",
+        "optional": "热电功率因子 PF、完整输运不加入。",
+        "pilot": "先锁定源管边界及一个吸附模型的长度/胞/k点收敛，再决定周期或有限路线。"
+      }
+    },
+    {
+      "paper_id": "paper_988bc12ae3768679",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "C",
+      "weakness": "酸/碱结构已给定，主要仍是谱线执行",
+      "minimum": "隐藏质子化/互变答案，独立生成物种，以 NMR/UV/介质联合筛选",
+      "software": "Gaussian NMR/TD＋CREST/溶剂模型",
+      "gate": "不同质子数按明确循环比较；容许混合/不唯一解，先验证谱学区分力",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "隐藏已解出的 iso-DPP 酸/碱质子化与互变答案，公开有限原子/质子边界、NMR/UV 和滴定条件；独立生成化学不同物种并采样构象。",
+        "accept": "联合谱和守恒质子循环筛选候选，允许混合或不唯一。不同 H 数、电荷不裸总能排序；气相二阴离子束缚与溶液物种需分别检验。",
+        "optional": "完整 pH 动力学与全溶剂反应网络不加入。",
+        "pilot": "先证明至少两类候选在联合观测中具有区分力，新的参考不能硬指定与 NMR 冲突的作者物种。"
+      }
+    },
+    {
+      "paper_id": "paper_a21b91f97ce3c68f",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "单结构三条 Sn–C 耦合不足以判断超共轭",
+      "minimum": "轴/赤道与硫取代反例，固定几何比较 J、轨道和给受作用",
+      "software": "Gaussian/ORCA NMR＋波函数分析",
+      "gate": "核准同位素、符号、相对论/基组；NBO许可或替代方案须落实",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "从正文/SI 固定两组普通轴/赤道配对和一组硫反例，保留完整 Sn–Bu，设同键长扭角与同扭角几何对照。",
+        "accept": "同位素、J 符号、FC/SD/PSO/DSO 及完整 J 分列；用冻结几何干预及反例判断超共轭解释是否足够。不同相对论/基组结果不可沿用一套窄容差。",
+        "optional": "未许可 NBO 不是默认依赖；替代轨道分析需独立定义/校准。",
+        "pilot": "先冻结核种与源非相对论/拟采用相对论协议，并验证一组 J 及轨道分析接口。"
+      }
+    },
+    {
+      "paper_id": "paper_b5c446c7067dd511",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "高三重态通道已有假设比较，但耦合证据不强",
+      "minimum": "沿已选高态增加同态 SOC 与受控构象比较，允许只得必要条件",
+      "software": "ORCA SOC/TD＋Gaussian＋Multiwfn",
+      "gate": "先校准耦合/态；不将能隙或 SOC 单独等同绝对 RISC/量子产率",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "四个源分子中先固定两代表；同构象、同溶剂、同 S/T 能窗增加高态 SOC 与 NTO，之后扩系列。",
+        "accept": "跟踪物理态并检查根数扩大、几何干预和相邻同自旋态竞争；只由能量/SOC 支持必要条件时明确其范围。不能把高态小能隙或大 SOC 直接换成 RISC/量子产率。",
+        "optional": "非绝热全动力学和绝对效率不加入。",
+        "pilot": "先证实代表高态/SOC可重复、态窗口足够，再制定支持或否定高态通道的参考范围。"
+      }
+    },
+    {
+      "paper_id": "paper_c23cfabbd34b087f",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "一个给定几何的吸收峰缺少开壳层解释",
+      "minimum": "1M/2M 拓扑与取代控制，稳定性/自然占据和代表高层校准",
+      "software": "Gaussian/ORCA TD；ORCA/PySCF多参考",
+      "gate": "先诊断近简并；2M′ 是氧化物，不是可混入系综的构象",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "1M/2M 的真实拓扑/取代配对及公共几何，检查 SCF 稳定性、自然占据，选择代表体系进行可用多参考校准。",
+        "accept": "同态吸收与开壳层诊断交叉，区分方法偏差与真实拓扑作用。不同层级 Hessian 不替代当前驻点验证；2M′ 是氧化物，不是 2M 构象。",
+        "optional": "全 PAH 大规模设计及所有多参考谱不加入。",
+        "pilot": "先诊断近简并程度与活性空间/预算；未经校准不假定 TDDFT 对全部成员足够。"
+      }
+    },
+    {
+      "paper_id": "paper_d8e5490cd9942f4f",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "一个 La syn/anti 能差不能解释金属选择性",
+      "minimum": "同水合计量 La/Tb/Lu 与固定几何/水合控制，最低解释构象偏好",
+      "software": "Gaussian/ORCA分子ECP＋构象工具",
+      "gate": "核准4f-core ECP/价电子；不将形式伪单重态当Tb真实自旋，不比跨元素裸总能",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "La/Tb/Lu 的同水合计量 syn/anti；固定骨架金属替换与松弛结构、配位水干预分别比较。",
+        "accept": "核对具体 4f-core ECP/价电子和形式伪自旋，比较同金属构象 ΔG；跨金属选择性须有水合交换闭合循环。Tb 伪单重态不等于真实无自旋。",
+        "optional": "无交换循环时仅解释构象偏好，不宣称定量金属萃取选择性。",
+        "pilot": "先落实每金属基组/ECP及一个代表模型的最低点；不能用周期赝势安装证明分子基组齐备。"
+      }
+    },
+    {
+      "paper_id": "paper_e0791c047a731974",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "Cy2 几个能级尚未检验敏化作用",
+      "minimum": "重原子位置控制、SOC/态性质与 rubrene 三重态转移条件",
+      "software": "ORCA SOC/TD＋Gaussian＋Multiwfn",
+      "gate": "先校准敏化剂—rubrene 配对；不把 Cy2 能量不等式当 rubrene 湮灭条件",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "IR780/Cy1/Cy2 在统一 CHCl₃ 边界比较重原子位置及 S/T、SOC，独立计算 rubrene 相关能量。",
+        "accept": "明确敏化剂 T1→rubrene T1 与 rubrene 的 2T1−S1 两种条件，各态用 NTO/重叠对应。SOC、态局域化和几何控制解释敏化相容性，不由 Cy2 一套能量替代接受体。",
+        "optional": "碰撞、浓度、量子产率完整模型不加入。",
+        "pilot": "先核准敏化剂/接受体及重原子 SOC 接口、态窗口，完成一个配对后扩系列。"
+      }
+    },
+    {
+      "paper_id": "paper_e31cc7bc7b21b610",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "两个截短单核异构体排序不是 Ir–Ir 成键检验",
+      "minimum": "真实二核模型的金属/配体片段与电子态干预，交叉分解证据",
+      "software": "Gaussian/ORCA＋Multiwfn；必要多参考",
+      "gate": "先校准完整/截短配对及相对论；原 −0.162283 为 kcal/mol，非 kJ/mol",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "以真实二核 Ir 模型及金属/配体片段对照研究成键，完整/截短必须有成对验证；碎片电荷、自旋、相对论定义固定。",
+        "accept": "结构、占据/自旋、键级和同定义能量分解交叉；单一键级不是唯一因果证据。旧单核 Eβ−Eα=−0.162283 kcal/mol 不作为二核 Ir–Ir 参考。",
+        "optional": "全文全部氧化态或大体系动力学不加入。",
+        "pilot": "先验证一个完整/截短配对和合理电子态，片段分解改变定义须重新校准。"
+      }
+    },
+    {
+      "paper_id": "paper_eda19e7c8edd4b39",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "两个体相空位能不能证明表面析出机制",
+      "minimum": "统一化学势下缺陷、slab 原子转移与基体/新相区别",
+      "software": "GPAW/QE＋ASE",
+      "gate": "先校准超胞/表面收敛；正式 SI 的基体 Al 偏析不能写成普遍 Ni 偏析",
+      "feasibility": "C",
+      "batch": 5,
+      "first_version_spec": {
+        "matrix": "NiAl 空位超胞、论文相关 (100) 和必要 (110) slab，同源赝势/k点/展宽；原子守恒体相移除—表面加入或相稳定化学势循环。",
+        "accept": "分别报告缺陷、洁净基体偏析与 Ni₃Al 候选的热力学；层数/真空/终止面和超胞收敛。正式 SI 支持析出前 Al 表面偏析，不能从两空位能推普遍 Ni 偏析。",
+        "optional": "真实析出速率和全面温度动力学不加入。",
+        "pilot": "先校准一个 slab/体相循环与化学势范围，再扩相/表面集合。"
+      }
+    }
+  ]
+}

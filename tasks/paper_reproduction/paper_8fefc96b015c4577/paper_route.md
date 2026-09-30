@@ -22,7 +22,7 @@ The authors use the frequency analysis to assign minima versus transition states
 
 ## 5. Private reference results
 
-The published barriers relative to B are TS2 = −0.05 kcal mol−1 and TS2′ = 6.12 kcal mol−1. Thus the TS2′ pathway is higher by 6.17 kcal mol−1, and the paper interprets the lower TS2 pathway as the benzyl-tethered aryl cyclization leading toward intermediate C and ultimately 3a. The SI reports the relevant optimized Gibbs energies in hartree and the main text reports the converted relative values.
+The published energy heights relative to separated reactants are B = −13.13, TS2 = −0.05 and TS2′ = 6.12 kcal mol−1. Therefore the task-defined barriers relative to B are TS2 = 13.08 and TS2′ = 19.25 kcal mol−1. SI Gibbs energies independently confirm this subtraction: G(B) = −1768.468122, G(TS2) = −1768.447278 and G(TS2′) = −1768.437447 hartree. Thus the TS2′ pathway is higher by 6.17 kcal mol−1, and the paper interprets the lower TS2 pathway as the benzyl-tethered aryl cyclization leading toward intermediate C and ultimately 3a. The SI reports the relevant optimized Gibbs energies in hartree and the main text reports the converted relative values.
 
 ## 6. Limitations and interpretation boundaries
 

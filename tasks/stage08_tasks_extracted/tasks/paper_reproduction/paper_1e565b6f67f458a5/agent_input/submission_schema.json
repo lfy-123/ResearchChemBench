@@ -1,0 +1,190 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "reaction_definition",
+      "states",
+      "candidates",
+      "method",
+      "coverage",
+      "stopping_condition",
+      "uncertainty",
+      "conclusion",
+      "delta_g_kcal_mol"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "bounded_failure"
+        ]
+      },
+      "reaction_definition": {
+        "type": "object",
+        "required": [
+          "equation",
+          "standard_state",
+          "charge_multiplicity"
+        ],
+        "properties": {
+          "equation": {
+            "type": "string"
+          },
+          "standard_state": {
+            "type": "string"
+          },
+          "charge_multiplicity": {
+            "type": "string"
+          }
+        }
+      },
+      "states": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "role",
+            "geometry_or_path",
+            "charge",
+            "multiplicity",
+            "optimization",
+            "frequencies"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "geometry_or_path": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "optimization": {
+              "type": "object",
+              "required": [
+                "converged",
+                "evidence"
+              ],
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            "frequencies": {
+              "type": "object",
+              "required": [
+                "imaginary_count",
+                "evidence"
+              ],
+              "properties": {
+                "imaginary_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "identity",
+            "validation",
+            "advanced"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "identity": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "string"
+            },
+            "advanced": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "solvation",
+          "free_energy_assembly"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "solvation": {
+            "type": "string"
+          },
+          "free_energy_assembly": {
+            "type": "string"
+          }
+        }
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "stopping_condition": {
+        "type": "string"
+      },
+      "uncertainty": {
+        "type": "string"
+      },
+      "delta_g_kcal_mol": {
+        "type": ["number", "null"]
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {"const": "success"},
+          "delta_g_kcal_mol": {"type": "number"}
+        }
+      },
+      {
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "delta_g_kcal_mol": {"type": "null"}
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+# V2 evidence and calibration boundary
+
+Reuse exact source-compatible D3 logs and partial graph/thermochemistry audits only for their validated statements. Remaining noD3 minima and full transition comparison reference work is pending; do not resume11frozen jobs. Before scored deployment calibrate actual different research routes, geometry-label-only answers, missing curvature, state-index switching, unsupported Zn percentages, low-frequency overprecision and molecular-to-crystal/population overreach.
+
+No new scientific computation or semantic judge run was launched during content authoring. Reuse is limited to the exact objects, definitions and conditions in reference_reuse.json. V1 acceptance and historical archive matrices are not V2 requirements. Before scored deployment, independently test claim-conditional validity and evidence scoring on the documented positive/negative cases, audit runner isolation, and calibrate any newly used scientific route. Current file/hash/schema/runtime tests establish implementation only.

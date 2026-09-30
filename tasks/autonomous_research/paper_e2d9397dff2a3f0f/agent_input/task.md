@@ -1,10 +1,10 @@
 # Scientific objective
 
-Calculate and validate the Gibbs free-energy barrier associated with N–O cleavage in the explicitly supplied neutral singlet Ru-bda-Py model, using the two public stationary-point starting geometries. Report the barrier in kcal/mol and the evidence that the target structure is a transition state. This is a direct computational investigation: independently choose the route, validate it, and state the conclusion without relying on an author mechanism.
+Calculate and validate the Gibbs free-energy barrier associated with N–O cleavage in the explicitly supplied charge +1 singlet Ru-bda-Py model, using the two public stationary-point starting geometries. Report the barrier in kcal/mol and the evidence that the target structure is a transition state. This is a direct computational investigation: independently choose the route, validate it, and state the conclusion without relying on an author mechanism.
 
 # Public inputs and scientific boundaries
 
-The only molecular inputs are `data/inputs/reference.xyz` and `data/inputs/target.xyz`, explicit XYZ files with element identities and Cartesian coordinates. Both are neutral singlets. The system is Ru-bda-Py (bda = 2,2′-bipyridine-6,6′-dicarboxylate; Py = pyridine) in acetonitrile at 298.15 K. State whether and how you apply the electrochemical reference conditions 0.5 V vs Fc+/0 and pH 15.1. The endpoint is the free-energy difference between the optimized target saddle and optimized supplied reference state. Do not infer additional structures, products, pathways or literature facts; no result values are public.
+The only molecular inputs are `data/inputs/reference.xyz` and `data/inputs/target.xyz`, explicit 48-atom XYZ files with element identities and Cartesian coordinates. Both are charge +1 singlets, matching the cationic 5bda and TS3bda structures in the SI. The system is Ru-bda-Py (bda = 2,2′-bipyridine-6,6′-dicarboxylate; Py = pyridine) in acetonitrile at 298.15 K. State whether and how you apply the electrochemical reference conditions 0.5 V vs Fc+/0 and pH 15.1. The endpoint is the free-energy difference between the optimized target saddle and optimized supplied reference state. Do not infer additional structures, products, pathways or literature facts; no result values are public.
 
 # Required scientific validation/investigation
 

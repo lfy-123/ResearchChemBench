@@ -13,3 +13,5 @@ Select and justify a reproducible optimization and harmonic-frequency route. Est
 # Deliverables
 
 Write `report/results.json` as specified by `submission_schema.json`, including route, coordinates/path, convergence, frequencies/minimum status, complete per-observable comparisons, metrics, conclusion and limitations. A failed or incomplete investigation must use the explicit failure branch and must not invent numerical results.
+
+Source clarification (main section 3.2; SI Table S3): compare all named observables, retaining signed periodic torsion residuals and the published opposite ethyl orientation. Do not claim that every signed torsion is close to XRD or choose a separate sign for each torsion.

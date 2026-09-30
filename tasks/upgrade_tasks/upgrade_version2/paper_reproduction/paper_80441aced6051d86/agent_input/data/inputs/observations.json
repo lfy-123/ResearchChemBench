@@ -1,0 +1,37 @@
+{
+  "source": "Source main pp.2–4; SI Table S1 and NMR integration",
+  "solvent": "water for emission; D2O at 298 K for NMR",
+  "emission_rows": [
+    {
+      "system": "G1",
+      "G1_mM": 0.02,
+      "maximum_nm": 464
+    },
+    {
+      "system": "G1",
+      "G1_mM": 0.5,
+      "maximum_nm": 490
+    },
+    {
+      "system": "CB7:G1",
+      "G1_mM": 0.5,
+      "maximum_nm": 445
+    },
+    {
+      "system": "CB8:G1(2)",
+      "G1_mM": 0.5,
+      "maximum_nm": 526
+    }
+  ],
+  "host_guest_stoichiometry": {
+    "CB7": [
+      1,
+      1
+    ],
+    "CB8": [
+      1,
+      2
+    ]
+  },
+  "uncertainty": "Source table does not report peak-error bars; no tolerance is inferred."
+}

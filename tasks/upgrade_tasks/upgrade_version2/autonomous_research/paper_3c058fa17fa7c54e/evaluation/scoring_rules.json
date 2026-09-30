@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Check both stated molecular identities and every model's relation to them. Do not substitute an ethynyl bridge or clipped chromophore and call it the supplied molecule. Charge, spin, state, geometry and medium must be explicit; claim-specific geometry validity is assessed from the actual evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Check both stated molecular identities and every model's relation to them. Do not substitute an ethynyl bridge or clipped chromophore and call it the supplied molecule. Charge, spin, state, geometry and medium must be explicit; claim-specific geometry validity is assessed from the actual evidence. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Assess whether the submitted numerical state and photophysical quantities substantiate the molecular question for both supplied systems. Reconstruct energy references and units from raw outputs. Do not equate a KS gap with an excitation or compare inconsistent vertical/relaxed references. No particular excited-state optimization or prescribed angle is compulsory.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Assess whether the submitted numerical state and photophysical quantities substantiate the molecular question for both supplied systems. Reconstruct energy references and units from raw outputs. Do not equate a KS gap with an excitation or compare inconsistent vertical/relaxed references. No particular excited-state optimization or prescribed angle is compulsory. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Assess how the observed/computed evidence discriminates the agent's molecular interpretation and tests energetic accessibility. Credit evidence-grounded positive, negative or unresolved interpretations. Do not require a bridge intervention, orbital-localization narrative or the authors' TTA conclusion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Assess how the observed/computed evidence discriminates the agent's molecular interpretation and tests energetic accessibility. Credit evidence-grounded positive, negative or unresolved interpretations. Do not require a bridge intervention, orbital-localization narrative or the authors' TTA conclusion. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Judge whether method, geometry, state and observational limitations could reverse the agent's claimed difference or energetic inference. Require relevant numerical or evidential bounds appropriate to the claim, not a predetermined sensitivity grid. A small reported energy margin cannot be declared decisive without its uncertainty being addressed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Judge whether method, geometry, state and observational limitations could reverse the agent's claimed difference or energetic inference. Require relevant numerical or evidential bounds appropriate to the claim, not a predetermined sensitivity grid. A small reported energy margin cannot be declared decisive without its uncertainty being addressed. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "The final answer must state what is supported about the two molecules' excited behavior and TTA energy accessibility, identify unresolved scope and avoid inferring a rate, yield or OLED performance from molecular energy compatibility. Negative or adequately supported nonidentifiability can earn full credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "The final answer must state what is supported about the two molecules' excited behavior and TTA energy accessibility, identify unresolved scope and avoid inferring a rate, yield or OLED performance from molecular energy compatibility. Negative or adequately supported nonidentifiability can earn full credit. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Check both stated molecular identities and every model's relation to them. Do not substitute an ethynyl bridge or clipped chromophore and call it the supplied molecule. Charge, spin, state, geometry and medium must be explicit; claim-specific geometry validity is assessed from the actual evidence.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Assess whether the submitted numerical state and photophysical quantities substantiate the molecular question for both supplied systems. Reconstruct energy references and units from raw outputs. Do not equate a KS gap with an excitation or compare inconsistent vertical/relaxed references. No particular excited-state optimization or prescribed angle is compulsory.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Assess how the observed/computed evidence discriminates the agent's molecular interpretation and tests energetic accessibility. Credit evidence-grounded positive, negative or unresolved interpretations. Do not require a bridge intervention, orbital-localization narrative or the authors' TTA conclusion.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Judge whether method, geometry, state and observational limitations could reverse the agent's claimed difference or energetic inference. Require relevant numerical or evidential bounds appropriate to the claim, not a predetermined sensitivity grid. A small reported energy margin cannot be declared decisive without its uncertainty being addressed.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "The final answer must state what is supported about the two molecules' excited behavior and TTA energy accessibility, identify unresolved scope and avoid inferring a rate, yield or OLED performance from molecular energy compatibility. Negative or adequately supported nonidentifiability can earn full credit.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

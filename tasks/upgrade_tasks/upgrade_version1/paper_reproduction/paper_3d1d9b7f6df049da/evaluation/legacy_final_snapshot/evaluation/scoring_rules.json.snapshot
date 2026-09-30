@@ -1,0 +1,122 @@
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "rules": [
+    {
+      "rule_id": "r_input",
+      "type": "semantic",
+      "expected": "validation documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.input_checks",
+          "$.validation.frequency_run"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_input",
+      "target": null
+    },
+    {
+      "rule_id": "r_assign",
+      "type": "semantic",
+      "expected": "Check four distinct physical lateral modes per complete isomer using native mode_id and vector/participation evidence. Duplicate mode IDs or the same physical mode repeated with a changed number cannot count twice. Additional candidates belong to additional_modes and do not invalidate a correct primary set. No hidden participation threshold or gold-frequency selection is allowed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.assignment_rule",
+          "$.isomers.Ih.modes[*].assignment_evidence",
+          "$.isomers.D5h.modes[*].assignment_evidence",
+          "$.isomers.Ih.modes[*].mode_id",
+          "$.isomers.D5h.modes[*].mode_id"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_assign",
+      "target": null
+    },
+    {
+      "rule_id": "r_ih",
+      "type": "numeric",
+      "expected": "Ih four-mode source set from SI Table S3a: 49.9,54.9,65.2,68.9 cm-1; do not omit the fourth lateral mode.",
+      "unit": "cm-1",
+      "tolerance": 12,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.Ih.modes[*].frequency_cm-1"
+        ],
+        "comparison": "Use exactly the four physically assigned distinct primary modes in modes (not additional_modes). Sort these and the four reference frequencies; each absolute paired difference must be <=12 cm-1. Judge mode identity/duplicate IDs with assignment evidence before numeric pairing; do not choose by gold proximity. Additional candidates are permitted and do not change this selector."
+      },
+      "reference_id": "kp_ih",
+      "target": [
+        49.9,
+        54.9,
+        65.2,
+        68.9
+      ]
+    },
+    {
+      "rule_id": "r_d5h",
+      "type": "numeric",
+      "expected": "D5h four-mode source set from SI Table S3b: 67.4,81.9,90.2,93.8 cm-1.",
+      "unit": "cm-1",
+      "tolerance": 12,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.D5h.modes[*].frequency_cm-1"
+        ],
+        "comparison": "Use exactly the four physically assigned distinct primary modes in modes (not additional_modes). Sort these and the four reference frequencies; each absolute paired difference must be <=12 cm-1. Judge mode identity/duplicate IDs with assignment evidence before numeric pairing; do not choose by gold proximity. Additional candidates are permitted and do not change this selector."
+      },
+      "reference_id": "kp_d5h",
+      "target": [
+        67.4,
+        81.9,
+        90.2,
+        93.8
+      ]
+    },
+    {
+      "rule_id": "r_trend",
+      "type": "ordering",
+      "expected": "D5h higher",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.direction"
+        ],
+        "comparison": "expert ordering comparison"
+      },
+      "reference_id": "c_trend",
+      "target": null
+    },
+    {
+      "rule_id": "r_relax",
+      "type": "semantic",
+      "expected": "higher D5h modes support longer T1 and computational evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_relax",
+      "target": null
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}

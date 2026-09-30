@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_1257710b003be407",
+  "task_type": "paper_reproduction",
+  "title": "Independent computational test of Cu-mediated propargyl-bromide XAT",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The XAT endpoint is fixed, but the agent must construct and validate encounter and transition-state structures and an energy decomposition."
+  ],
+  "paper": {
+    "title": "Expanding Ullmann Homocoupling to Cross-Coupling: Electrochemical Copper-Catalyzed Cross-Electrophile Coupling of Alkyl and Aryl Halides",
+    "doi": "10.1021/jacs.5c20694",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-02-10"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ catalyst precursor and explicit problem definition for Cu/L1/bromide plus propargyl bromide."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated stationary-point calculation, or bounded-failure report, following submission_schema.json."
+    }
+  ]
+}

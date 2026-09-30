@@ -1,0 +1,96 @@
+{
+  "paper_id": "paper_d91572979a89303a",
+  "rules": [
+    {
+      "rule_id": "r-ar-1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-ar-1",
+      "expected": "candidate-level frequency and connectivity validation is recorded"
+    },
+    {
+      "rule_id": "r-ar-2",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-ar-2",
+      "expected": "hypothesis generation, coverage, failed searches and stopping boundary are reported"
+    },
+    {
+      "rule_id": "r-ar-3",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-ar-3",
+      "expected": "preferred pathway accounts for TXT participation and product formation"
+    },
+    {
+      "rule_id": "r-ar-4",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c-ar-2",
+      "expected": "limitations are explicitly bounded to searched hypotheses and model chemistry"
+    },
+    {
+      "rule_id": "r-ar-final",
+      "type": "semantic",
+      "expected": "largest barrier and rate-limiting interpretation is explicitly reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-ar-4"
+    },
+    {
+      "rule_id": "r-ar-conclusion",
+      "type": "semantic",
+      "expected": "preferred TXT-involving pathway and barrier interpretation are stated with evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c-ar-1"
+    }
+  ]
+}

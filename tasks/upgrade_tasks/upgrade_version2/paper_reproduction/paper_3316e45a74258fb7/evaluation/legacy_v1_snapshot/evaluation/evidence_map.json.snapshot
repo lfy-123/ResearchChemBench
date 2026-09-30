@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "evidence": [
+    {
+      "evidence_id": "source_documents",
+      "source": [
+        {
+          "path": "papers/paper_3316e45a74258fb7/documents/main.pdf",
+          "sha256": "0061ebb5bb7ee96d72e00f384ab0f89006a46759102ba391287f86108303c5a9",
+          "pages": [
+            2,
+            3,
+            4
+          ],
+          "total_pages": 7
+        },
+        {
+          "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_3316e45a74258fb7.publisher_si.docx",
+          "sha256": "68ab54b52aaf11ee797b532d7460dcef01195e48d43dc9abf1897f82b7cbe2e1",
+          "sections": "Relevant methods, experimental observations and identity blocks; see source review."
+        },
+        {
+          "path": "docs/evalution/update/paper_3316e45a74258fb7.md",
+          "sha256": "772ed0b4575bfc6fa8445f4ca061792aca23fb4b67fc89e41f64f53148ba079e",
+          "role": "First-version specification, not scientific evidence"
+        }
+      ],
+      "context": "Read main pp2–5, Figure1 molecular layouts and excited-state analysis; official publisher SI sections I/II, S3–S6 and TableS1. Verified three systematic names with OPSIN and RDKit formulas C72H49N7/C72H47N7/C72H45N7. SI has mislabeled intermediates, a copied TD-2C product name and ambiguous basis shorthand; heading structures and HRMS resolve connectivity, not calculated state assignments.",
+      "scope": "Source identities, methods and observations; author conclusions remain hypotheses for the expanded comparison."
+    },
+    {
+      "evidence_id": "extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md"
+      },
+      "scope": "Benchmark-authored controls; new numerical references and error calibration pending."
+    },
+    {
+      "evidence_id": "legacy",
+      "source": {
+        "path": "evaluation/legacy_final_snapshot"
+      },
+      "scope": "Historical payload only. Old outputs/PASS certify no expanded endpoint."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "purpose": "Reproducible method-specific conversion of independently computed Fe nuclear densities; not a reference result",
+  "source": "DOI 10.1021/jacs.5c18121, Supporting Information S5-S6",
+  "source_software_version": "ORCA 5.0.4",
+  "geometry_protocol": {
+    "functional": "TPSSh",
+    "dispersion": "D3BJ",
+    "relativistic_treatment": "scalar ZORA",
+    "orbital_basis": "ZORA-def2-TZVP",
+    "approximation": "RIJCOSX",
+    "auxiliary_basis": "def2/J",
+    "grid": "default",
+    "solvation": "CPCM acetonitrile, dielectric constant 36.6",
+    "sequence": "high-spin optimization followed by antiferromagnetic broken-symmetry optimization and frequency minimum validation"
+  },
+  "mossbauer_single_point_protocol": {
+    "geometry": "independently optimized broken-symmetry state",
+    "functional": "TPSSh",
+    "dispersion": "D3BJ",
+    "relativistic_treatment": "scalar ZORA",
+    "orbital_basis": "ZORA-def2-TZVP",
+    "approximation": "RIJCOSX",
+    "auxiliary_basis": "SARC/J",
+    "SCF": "TightSCF",
+    "grid": "DefGrid3, no special Fe integration-accuracy change",
+    "solvation": "CPCM acetonitrile",
+    "observable": "electron density at each named Fe nucleus"
+  },
+  "calibration": {
+    "equation": "delta = A * (rho0 - C) + B",
+    "A": -0.309785357,
+    "B": 0.325438551,
+    "C": 13785,
+    "rho0_unit": "atomic units, electron per bohr^3",
+    "delta_unit": "mm/s",
+    "validity": "Method-specific calibration; do not transfer unchanged to a different Hamiltonian, basis, fitting basis, grid or density convention. These constants are inputs, not target Fe-site densities or isomer shifts."
+  }
+}

@@ -1,0 +1,1527 @@
+{
+  "contract_version": 1,
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_8fefc96b015c4577"
+      },
+      "schema_version": {
+        "const": "batch4.open_research.v2"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "research_question": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Address the stated problem: What local cyclization behavior is supported for the specified short- and long-tether carbon radicals, and what molecular evidence can explain any difference without assuming a unique cause?"
+      },
+      "scientific_response": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Conclusion and its evidential scope, including a justified unresolved result when appropriate."
+      },
+      "models": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "selection_or_revision_reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "description",
+            "assumptions",
+            "selection_or_revision_reason"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "objects": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "kind": {
+              "enum": [
+                "molecule",
+                "complex",
+                "dataset",
+                "condition",
+                "model",
+                "other"
+              ]
+            },
+            "identity": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Connectivity/mapping or data/condition definition, not a mechanistic assignment disguised as fact."
+            },
+            "source_or_construction": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "identity_file": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "identity",
+            "source_or_construction",
+            "identity_file"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "molecule",
+                      "complex"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "charge",
+                  "multiplicity"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "methods": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "software_and_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scientific_method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "settings_file": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "appropriateness_and_limits": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "software_and_version",
+            "scientific_method",
+            "settings_file",
+            "appropriateness_and_limits"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 1
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "kind": {
+              "enum": [
+                "electronic_structure",
+                "data_analysis",
+                "structure_analysis",
+                "numerical_model",
+                "other"
+              ]
+            },
+            "status": {
+              "enum": [
+                "completed",
+                "failed",
+                "interrupted"
+              ]
+            },
+            "input_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              },
+              "minItems": 1
+            },
+            "output_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              },
+              "minItems": 1
+            },
+            "job_or_execution_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "objective": {
+              "type": "string",
+              "minLength": 1
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "object_ids",
+            "method_id",
+            "kind",
+            "status",
+            "input_files",
+            "output_files",
+            "job_or_execution_id",
+            "objective"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "failed",
+                      "interrupted"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "object_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 1
+            },
+            "observable": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-chosen quantity that bears on the specific scientific question."
+            },
+            "value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "definition_and_reference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "conditions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 1
+            },
+            "artifact_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              },
+              "minItems": 1
+            },
+            "uncertainty": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "enum": [
+                    "estimated",
+                    "bounded",
+                    "not_quantified"
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "lower": {
+                  "type": "number"
+                },
+                "upper": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "status",
+                "basis"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "id",
+            "object_ids",
+            "observable",
+            "value",
+            "unit",
+            "definition_and_reference",
+            "conditions",
+            "record_ids",
+            "artifact_paths",
+            "uncertainty"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "claims": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved",
+                "withdrawn"
+              ]
+            },
+            "result_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 0
+            },
+            "evidence_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              },
+              "minItems": 0
+            },
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "remaining_obstacles": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            },
+            "validity_check_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "id",
+            "statement",
+            "assessment",
+            "result_ids",
+            "evidence_paths",
+            "scope",
+            "remaining_obstacles",
+            "validity_check_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "assessment": {
+                    "enum": [
+                      "supported",
+                      "refuted"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "result_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 1
+                  },
+                  "evidence_paths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minItems": 1
+      },
+      "decision_log": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "purpose_or_prediction": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Brief research decision, not private chain of thought."
+            },
+            "planned_discriminator": {
+              "type": "string",
+              "minLength": 1
+            },
+            "record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 0
+            },
+            "observed_evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "decision_after_evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "trace_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual managed trace/event ID when available; self-authored timestamps alone are not proof of precedence."
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "id",
+            "purpose_or_prediction",
+            "planned_discriminator",
+            "record_ids",
+            "observed_evidence",
+            "decision_after_evidence",
+            "trace_refs"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "validity_checks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Agent-defined identifier; all references must resolve."
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 1
+            },
+            "question": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Validity issue relevant to these claims."
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "assessment": {
+              "enum": [
+                "passed",
+                "failed",
+                "unresolved",
+                "not_applicable"
+              ]
+            },
+            "result_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Agent-defined identifier; all references must resolve."
+              },
+              "minItems": 0
+            },
+            "evidence_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              },
+              "minItems": 0
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim_ids",
+            "question",
+            "method",
+            "assessment",
+            "result_ids",
+            "evidence_paths",
+            "reason"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "assessment": {
+                    "enum": [
+                      "passed",
+                      "failed"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_paths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "uncertainty": {
+        "type": "object",
+        "properties": {
+          "decisive_limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "assessment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "decisive_limitations",
+          "assessment",
+          "evidence_paths"
+        ],
+        "additionalProperties": false
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minItems": 1
+      },
+      "artifact_manifest": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "role": {
+              "enum": [
+                "input",
+                "raw_output",
+                "analysis_code",
+                "derived_result",
+                "diagnostic"
+              ]
+            },
+            "producer_record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "role",
+            "producer_record_id",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "resource_usage": {
+        "type": "object",
+        "properties": {
+          "scientific_engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "analysis_executions": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "accounting_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "scientific_engine_starts",
+          "analysis_executions",
+          "wall_hours",
+          "core_hours",
+          "accounting_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "enum": [
+              "pre_engine",
+              "execution",
+              "analysis"
+            ]
+          },
+          "cause": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "diagnostic_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "stage",
+          "cause",
+          "attempted_scope",
+          "missing_evidence",
+          "diagnostic_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "schema_version",
+      "status",
+      "research_question",
+      "scientific_response",
+      "models",
+      "objects",
+      "methods",
+      "records",
+      "results",
+      "claims",
+      "decision_log",
+      "validity_checks",
+      "uncertainty",
+      "limitations",
+      "artifact_manifest",
+      "resource_usage"
+    ],
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "objects": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "kind": {
+                    "enum": [
+                      "molecule",
+                      "complex",
+                      "dataset",
+                      "condition",
+                      "model",
+                      "other"
+                    ]
+                  },
+                  "identity": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Connectivity/mapping or data/condition definition, not a mechanistic assignment disguised as fact."
+                  },
+                  "source_or_construction": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "charge": {
+                    "type": "integer"
+                  },
+                  "multiplicity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "identity_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  }
+                },
+                "required": [
+                  "id",
+                  "kind",
+                  "identity",
+                  "source_or_construction",
+                  "identity_file"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "enum": [
+                            "molecule",
+                            "complex"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "charge",
+                        "multiplicity"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "minItems": 1
+            },
+            "methods": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "software_and_version": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "scientific_method": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "settings_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "appropriateness_and_limits": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "software_and_version",
+                  "scientific_method",
+                  "settings_file",
+                  "appropriateness_and_limits"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            },
+            "records": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "object_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 1
+                  },
+                  "method_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "kind": {
+                    "enum": [
+                      "electronic_structure",
+                      "data_analysis",
+                      "structure_analysis",
+                      "numerical_model",
+                      "other"
+                    ]
+                  },
+                  "status": {
+                    "enum": [
+                      "completed",
+                      "failed",
+                      "interrupted"
+                    ]
+                  },
+                  "input_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "output_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "job_or_execution_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "objective": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "failure_reason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "object_ids",
+                  "method_id",
+                  "kind",
+                  "status",
+                  "input_files",
+                  "output_files",
+                  "job_or_execution_id",
+                  "objective"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "failed",
+                            "interrupted"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "failure_reason"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "status": {
+                    "const": "completed"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "object_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 1
+                  },
+                  "observable": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-chosen quantity that bears on the specific scientific question."
+                  },
+                  "value": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "definition_and_reference": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "conditions": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "record_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 1
+                  },
+                  "artifact_paths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "uncertainty": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "estimated",
+                          "bounded",
+                          "not_quantified"
+                        ]
+                      },
+                      "basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "lower": {
+                        "type": "number"
+                      },
+                      "upper": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "status",
+                      "basis"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "id",
+                  "object_ids",
+                  "observable",
+                  "value",
+                  "unit",
+                  "definition_and_reference",
+                  "conditions",
+                  "record_ids",
+                  "artifact_paths",
+                  "uncertainty"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            },
+            "decision_log": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "purpose_or_prediction": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Brief research decision, not private chain of thought."
+                  },
+                  "planned_discriminator": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "record_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 0
+                  },
+                  "observed_evidence": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "decision_after_evidence": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "trace_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual managed trace/event ID when available; self-authored timestamps alone are not proof of precedence."
+                    },
+                    "minItems": 0
+                  }
+                },
+                "required": [
+                  "id",
+                  "purpose_or_prediction",
+                  "planned_discriminator",
+                  "record_ids",
+                  "observed_evidence",
+                  "decision_after_evidence",
+                  "trace_refs"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            },
+            "validity_checks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "claim_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 1
+                  },
+                  "question": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Validity issue relevant to these claims."
+                  },
+                  "method": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "assessment": {
+                    "enum": [
+                      "passed",
+                      "failed",
+                      "unresolved",
+                      "not_applicable"
+                    ]
+                  },
+                  "result_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 0
+                  },
+                  "evidence_paths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 0
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "claim_ids",
+                  "question",
+                  "method",
+                  "assessment",
+                  "result_ids",
+                  "evidence_paths",
+                  "reason"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "assessment": {
+                          "enum": [
+                            "passed",
+                            "failed"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "evidence_paths": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                          },
+                          "minItems": 1
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "minItems": 1
+            },
+            "claims": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Agent-defined identifier; all references must resolve."
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "assessment": {
+                    "enum": [
+                      "supported",
+                      "refuted",
+                      "unresolved",
+                      "withdrawn"
+                    ]
+                  },
+                  "result_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 0
+                  },
+                  "evidence_paths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    },
+                    "minItems": 0
+                  },
+                  "scope": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "remaining_obstacles": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  },
+                  "validity_check_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Agent-defined identifier; all references must resolve."
+                    },
+                    "minItems": 0
+                  }
+                },
+                "required": [
+                  "id",
+                  "statement",
+                  "assessment",
+                  "result_ids",
+                  "evidence_paths",
+                  "scope",
+                  "remaining_obstacles",
+                  "validity_check_ids"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "assessment": {
+                          "enum": [
+                            "supported",
+                            "refuted"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "result_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Agent-defined identifier; all references must resolve."
+                          },
+                          "minItems": 1
+                        },
+                        "evidence_paths": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                          },
+                          "minItems": 1
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "assessment": {
+                    "enum": [
+                      "supported",
+                      "refuted",
+                      "unresolved"
+                    ]
+                  }
+                },
+                "required": [
+                  "assessment"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "claims": {
+              "items": {
+                "properties": {
+                  "assessment": {
+                    "enum": [
+                      "unresolved",
+                      "withdrawn"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "failure_report": {
+              "required": [
+                "stage"
+              ],
+              "properties": {
+                "stage": {
+                  "const": "pre_engine"
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            },
+            "records": {
+              "maxItems": 0
+            },
+            "methods": {
+              "maxItems": 0
+            },
+            "results": {
+              "maxItems": 0
+            },
+            "resource_usage": {
+              "properties": {
+                "scientific_engine_starts": {
+                  "const": 0
+                },
+                "analysis_executions": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

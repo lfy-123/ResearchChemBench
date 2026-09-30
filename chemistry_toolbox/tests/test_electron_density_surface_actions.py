@@ -406,7 +406,7 @@ def test_orca_density_contract_exposes_exact_types_limits_and_memory_mapping():
     assert "walltime_seconds" not in resources
     assert contract["execution_timeout_policy"] == {
         "execution_class": "compute",
-        "timeout_seconds": 7200,
+        "timeout_seconds": 86400,
         "source": "evaluation_policy",
         "agent_controllable": False,
     }

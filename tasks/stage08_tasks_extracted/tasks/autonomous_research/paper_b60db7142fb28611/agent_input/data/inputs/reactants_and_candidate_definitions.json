@@ -1,0 +1,16 @@
+{
+  "system": "CuAAC regioisomer benchmark reactants",
+  "charge": 0,
+  "multiplicity": 1,
+  "reactants": [
+    {"id":"alkyne_2","name":"4-(prop-2-yn-1-yloxy)benzaldehyde","smiles":"C#CCOc1ccc(C=O)cc1","atom_map_note":"retain this atom identity through all derived structures"},
+    {"id":"azide_3","name":"3-azido-1H-1,2,4-triazole","smiles":"c1nnc([N-]=[N+]=N)n1","atom_map_note":"retain this atom identity; the depicted tautomer/proton placement is the public starting state"}
+  ],
+  "candidate_definitions": [
+    {"id":"Pdt1","bond_edits":"first allowed connectivity class: connect the two reactants through the first alkyne/azide atom correspondence while preserving atom identity"},
+    {"id":"Pdt2","bond_edits":"second allowed connectivity class: connect through the second alkyne/azide correspondence while preserving atom identity"},
+    {"id":"Pdt3","bond_edits":"third allowed connectivity class: reverse the alkyne orientation relative to the first azide correspondence"},
+    {"id":"Pdt4","bond_edits":"fourth allowed connectivity class: reverse the alkyne orientation relative to the second azide correspondence"}
+  ],
+  "boundary":"Investigate the four supplied connectivity classes independently. No author route, candidate preference, product geometry, transition-state geometry, reference value, ranking, or paper protocol is supplied."
+}

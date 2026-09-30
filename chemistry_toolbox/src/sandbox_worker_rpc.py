@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES
+
 import argparse
 import json
 import os
@@ -17,7 +19,6 @@ from typing import Any
 from urllib.parse import unquote, urlsplit
 
 
-TERMINAL_STATES = {"success", "failed", "timeout", "cancelled"}
 
 
 def _safe_job_id(value: str) -> str:

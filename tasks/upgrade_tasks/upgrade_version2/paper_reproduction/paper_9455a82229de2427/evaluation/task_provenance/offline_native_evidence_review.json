@@ -1,0 +1,737 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "reviewed_at_utc": "2026-09-28T17:33:00.141562+00:00",
+  "operation": "read and parse already-frozen bytes only",
+  "new_scientific_jobs": 0,
+  "scientific_acceptance": false,
+  "scope": "冻结记录有四个 CBS 端点及在途 i2；TS/IRC 或无垒连续路径未齐备，不新增提交。",
+  "limitations": [
+    "四个端点CBS已有输出，尚未形成主/竞争双重态TS/IRC或无垒连续路径；i2闭环CBS本地先导继续运行，其余映射中间体及8个H迁移TS输入只准备未提交。"
+  ],
+  "raw_log_reviews": [
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/e3b0c44298fc1c14_stdout.log.snapshot",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/analysis/source_intermediate_preparation_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 0,
+        "charge_multiplicity_records": [],
+        "reported_NAtoms": [],
+        "route_lines": [],
+        "electronic_energy_records": 0,
+        "last_energy_records": [],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/34b6979325125710_stdout.log.snapshot",
+      "sha256": "34b6979325125710beea692a48d1fbf7ecbe03dd501387a1631d1d99cc1c5e31",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/analysis/source_intermediate_preparation_a2/stdout.log",
+      "parsed": {
+        "bytes_of_text": 4451,
+        "charge_multiplicity_records": [],
+        "reported_NAtoms": [],
+        "route_lines": [],
+        "electronic_energy_records": 0,
+        "last_energy_records": [],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/f31c9fb3731eceba_stdout.log.snapshot",
+      "sha256": "f31c9fb3731eceba0c112e8688388be5a61b9f45de0367e36b871f24b1dff1c9",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/analysis/source_intermediate_preparation_a3/stdout.log",
+      "parsed": {
+        "bytes_of_text": 3783,
+        "charge_multiplicity_records": [],
+        "reported_NAtoms": [],
+        "route_lines": [],
+        "electronic_energy_records": 0,
+        "last_energy_records": [],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/e3575e3983f936f2_stdout.log.snapshot",
+      "sha256": "e3575e3983f936f2dd1797bc55969f1c9ca4d491e369df9985eb6dca5c272339",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/outputs/i2_source_mapped_CBSQB3_optfreq_local4_a3/stdout.log",
+      "parsed": {
+        "bytes_of_text": 525023,
+        "charge_multiplicity_records": [
+          {
+            "line": 111,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 3241,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 4918,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 6144,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 7037,
+            "charge": 0,
+            "multiplicity": 2
+          }
+        ],
+        "reported_NAtoms": [
+          15
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p CBS-QB3 Opt=(Tight,MaxCycles=180) NoSymm SCF=(Tight,MaxCycle=512)"
+          },
+          {
+            "line": 3221,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check B3LYP/CBSB7 Freq"
+          },
+          {
+            "line": 4901,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check CCSD(T)/6-31+G(d')"
+          },
+          {
+            "line": 6127,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP4SDQ/CBSB4"
+          },
+          {
+            "line": 7019,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP2/CBSB3 CBSExtrap=(NMin=10,"
+          }
+        ],
+        "electronic_energy_records": 10,
+        "last_energy_records": [
+          {
+            "line": 5586,
+            "method_label": "UHF",
+            "value_Eh": -537.285277922,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6649,
+            "method_label": "UHF",
+            "value_Eh": -537.296271265,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 7629,
+            "method_label": "UHF",
+            "value_Eh": -537.387775813,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 8038,
+            "value_Eh": -538.594074,
+            "kind": "CBS_QB3_0K"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 13,
+        "last_frequency_rows": [
+          {
+            "line": 4210,
+            "values_cm_inverse": [
+              1480.3455,
+              1491.8574,
+              1493.7071
+            ]
+          },
+          {
+            "line": 4232,
+            "values_cm_inverse": [
+              1719.1552,
+              2956.5347,
+              2970.257
+            ]
+          },
+          {
+            "line": 4254,
+            "values_cm_inverse": [
+              2990.7241,
+              3010.2461,
+              3021.3162
+            ]
+          },
+          {
+            "line": 4276,
+            "values_cm_inverse": [
+              3054.3838,
+              3098.9073,
+              3132.4769
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 5,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/a034297927ba5975_stdout.log.snapshot",
+      "sha256": "a034297927ba5975cbd56a15b825f6a7bdbe7a5e4658564ae043ba36535bed8f",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/outputs/terminal_C1_N_CBSQB3_optfreq_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 1444503,
+        "charge_multiplicity_records": [
+          {
+            "line": 111,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 18197,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 19854,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 21013,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 21986,
+            "charge": 0,
+            "multiplicity": 2
+          }
+        ],
+        "reported_NAtoms": [
+          15
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p CBS-QB3 Opt=(Tight,MaxCycles=180) NoSymm SCF=(Tight,MaxCycle=512)"
+          },
+          {
+            "line": 18177,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check B3LYP/CBSB7 Freq"
+          },
+          {
+            "line": 19837,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check CCSD(T)/6-31+G(d')"
+          },
+          {
+            "line": 20996,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP4SDQ/CBSB4"
+          },
+          {
+            "line": 21968,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP2/CBSB3 CBSExtrap=(NMin=10,"
+          }
+        ],
+        "electronic_energy_records": 41,
+        "last_energy_records": [
+          {
+            "line": 20493,
+            "method_label": "UHF",
+            "value_Eh": -537.304921007,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 21598,
+            "method_label": "UHF",
+            "value_Eh": -537.316298084,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 22565,
+            "method_label": "UHF",
+            "value_Eh": -537.406365574,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 22973,
+            "value_Eh": -538.608321,
+            "kind": "CBS_QB3_0K"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 13,
+        "last_frequency_rows": [
+          {
+            "line": 19142,
+            "values_cm_inverse": [
+              1485.0944,
+              1493.1149,
+              1500.1141
+            ]
+          },
+          {
+            "line": 19164,
+            "values_cm_inverse": [
+              1524.7918,
+              2954.2215,
+              2992.1496
+            ]
+          },
+          {
+            "line": 19186,
+            "values_cm_inverse": [
+              3021.7788,
+              3061.9842,
+              3110.5294
+            ]
+          },
+          {
+            "line": 19208,
+            "values_cm_inverse": [
+              3116.191,
+              3148.4207,
+              3235.9552
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 5,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/5e7080f64ff13f13_stdout.log.snapshot",
+      "sha256": "5e7080f64ff13f1312fbc857a08379b190e20bf075e7c4d45810ff2f12d4c801",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/outputs/terminal_C1_Si_CBSQB3_optfreq_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 1343736,
+        "charge_multiplicity_records": [
+          {
+            "line": 111,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 16566,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 18229,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 19750,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 20759,
+            "charge": 0,
+            "multiplicity": 2
+          }
+        ],
+        "reported_NAtoms": [
+          15
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p CBS-QB3 Opt=(Tight,MaxCycles=180) NoSymm SCF=(Tight,MaxCycle=512)"
+          },
+          {
+            "line": 16546,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check B3LYP/CBSB7 Freq"
+          },
+          {
+            "line": 18212,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check CCSD(T)/6-31+G(d')"
+          },
+          {
+            "line": 19733,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP4SDQ/CBSB4"
+          },
+          {
+            "line": 20741,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP2/CBSB3 CBSExtrap=(NMin=10,"
+          }
+        ],
+        "electronic_energy_records": 31,
+        "last_energy_records": [
+          {
+            "line": 19105,
+            "method_label": "UHF",
+            "value_Eh": -537.23307447,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 20373,
+            "method_label": "UHF",
+            "value_Eh": -537.245101837,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 21356,
+            "method_label": "UHF",
+            "value_Eh": -537.336876006,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 21765,
+            "value_Eh": -538.533276,
+            "kind": "CBS_QB3_0K"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 13,
+        "last_frequency_rows": [
+          {
+            "line": 17512,
+            "values_cm_inverse": [
+              1479.7847,
+              1496.751,
+              1576.2549
+            ]
+          },
+          {
+            "line": 17534,
+            "values_cm_inverse": [
+              1667.461,
+              3025.7485,
+              3086.2218
+            ]
+          },
+          {
+            "line": 17556,
+            "values_cm_inverse": [
+              3125.7498,
+              3131.3932,
+              3140.609
+            ]
+          },
+          {
+            "line": 17578,
+            "values_cm_inverse": [
+              3152.5659,
+              3219.4355,
+              3235.3918
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 5,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/fd75ab23fb7b126f_stdout.log.snapshot",
+      "sha256": "fd75ab23fb7b126fb0d477e97469ad9553bb44ebbb78eba06b6acab3fa336f7f",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/outputs/terminal_C4_N_CBSQB3_optfreq_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 1304412,
+        "charge_multiplicity_records": [
+          {
+            "line": 111,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 15977,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 17636,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 18792,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 19745,
+            "charge": 0,
+            "multiplicity": 2
+          }
+        ],
+        "reported_NAtoms": [
+          15
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p CBS-QB3 Opt=(Tight,MaxCycles=180) NoSymm SCF=(Tight,MaxCycle=512)"
+          },
+          {
+            "line": 15957,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check B3LYP/CBSB7 Freq"
+          },
+          {
+            "line": 17619,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check CCSD(T)/6-31+G(d')"
+          },
+          {
+            "line": 18775,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP4SDQ/CBSB4"
+          },
+          {
+            "line": 19727,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP2/CBSB3 CBSExtrap=(NMin=10,"
+          }
+        ],
+        "electronic_energy_records": 36,
+        "last_energy_records": [
+          {
+            "line": 18275,
+            "method_label": "UHF",
+            "value_Eh": -537.303238665,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 19358,
+            "method_label": "UHF",
+            "value_Eh": -537.31447778,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 20324,
+            "method_label": "UHF",
+            "value_Eh": -537.404583827,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 20735,
+            "value_Eh": -538.604592,
+            "kind": "CBS_QB3_0K"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 13,
+        "last_frequency_rows": [
+          {
+            "line": 16922,
+            "values_cm_inverse": [
+              1490.3348,
+              1498.6946,
+              1500.9794
+            ]
+          },
+          {
+            "line": 16944,
+            "values_cm_inverse": [
+              1516.9529,
+              2929.2082,
+              3020.7082
+            ]
+          },
+          {
+            "line": 16966,
+            "values_cm_inverse": [
+              3027.8163,
+              3076.7604,
+              3108.1204
+            ]
+          },
+          {
+            "line": 16988,
+            "values_cm_inverse": [
+              3137.2574,
+              3153.1892,
+              3229.9472
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 5,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9455a82229de2427/a3e9df83dbdd8c64_stdout.log.snapshot",
+      "sha256": "a3e9df83dbdd8c6445e648fca05235740578f2de102c64ee110f34b1d4e94af9",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_9455a82229de2427/outputs/terminal_C4_Si_CBSQB3_optfreq_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 2172198,
+        "charge_multiplicity_records": [
+          {
+            "line": 111,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 29801,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 31470,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 33166,
+            "charge": 0,
+            "multiplicity": 2
+          },
+          {
+            "line": 34229,
+            "charge": 0,
+            "multiplicity": 2
+          }
+        ],
+        "reported_NAtoms": [
+          15
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p CBS-QB3 Opt=(Tight,MaxCycles=180) NoSymm SCF=(Tight,MaxCycle=512)"
+          },
+          {
+            "line": 29781,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check B3LYP/CBSB7 Freq"
+          },
+          {
+            "line": 31453,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check CCSD(T)/6-31+G(d')"
+          },
+          {
+            "line": 33149,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP4SDQ/CBSB4"
+          },
+          {
+            "line": 34211,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check MP2/CBSB3 CBSExtrap=(NMin=10,"
+          }
+        ],
+        "electronic_energy_records": 56,
+        "last_energy_records": [
+          {
+            "line": 32443,
+            "method_label": "UHF",
+            "value_Eh": -537.231136303,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 33844,
+            "method_label": "UHF",
+            "value_Eh": -537.243023595,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 34991,
+            "method_label": "UHF",
+            "value_Eh": -537.335303615,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 35400,
+            "value_Eh": -538.529218,
+            "kind": "CBS_QB3_0K"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 13,
+        "last_frequency_rows": [
+          {
+            "line": 30753,
+            "values_cm_inverse": [
+              1484.977,
+              1502.7801,
+              1604.8333
+            ]
+          },
+          {
+            "line": 30775,
+            "values_cm_inverse": [
+              1672.2209,
+              3023.4756,
+              3072.0446
+            ]
+          },
+          {
+            "line": 30797,
+            "values_cm_inverse": [
+              3116.4637,
+              3140.6146,
+              3148.1865
+            ]
+          },
+          {
+            "line": 30819,
+            "values_cm_inverse": [
+              3166.3785,
+              3227.38,
+              3240.6173
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 5,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    }
+  ],
+  "no_native_logs_in_selected_inventory": false,
+  "reference_use": "Exact identity/method/segment matching is required before scientific use. This inventory deliberately does not promote queued or failed work, re-score old PASS, or set expanded tolerances."
+}

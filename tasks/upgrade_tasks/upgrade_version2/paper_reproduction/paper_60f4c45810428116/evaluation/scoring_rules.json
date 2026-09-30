@@ -1,0 +1,170 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_data",
+      "reference_id": "kp_data",
+      "type": "condition",
+      "expected": "Use source23 observations plus two clogged missing positions; preserve trace/n.d./dash without invented thresholds. State how post-quench yields, recovery, dilution and time/temperature definitions enter the analysis. Recompute data transformations from source rows and code. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.results",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Use source23 observations plus two clogged missing positions; preserve trace/n.d./dash without invented thresholds. State how post-quench yields, recovery, dilution and time/temperature definitions enter the analysis. Recompute data transformations from source rows and code. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_inference",
+      "reference_id": "kp_inference",
+      "type": "condition",
+      "expected": "Produce a reproducible analysis that establishes or bounds kinetic information rather than only redrawing a contour or copying an old redox scalar. Any model and parameter count are acceptable if physically/statistically appropriate. Effective rates and identifiable combinations may be valid outcomes; independent elementary rates are not required merely because V1 demanded them. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.methods",
+          "$.results",
+          "$.records"
+        ],
+        "comparison": "Produce a reproducible analysis that establishes or bounds kinetic information rather than only redrawing a contour or copying an old redox scalar. Any model and parameter count are acceptable if physically/statistically appropriate. Effective rates and identifiable combinations may be valid outcomes; independent elementary rates are not required merely because V1 demanded them. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_identifiability",
+      "reference_id": "kp_identifiability",
+      "type": "condition",
+      "expected": "Substantiate the distinction between data-supported and assumption-dependent claims using suitable diagnostics. A good fit alone does not establish mechanism or unique rate constants; a failed fit alone does not prove non-identifiability. No mandatory A→Q or back-quench branch, optimizer count or holdout count. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.results",
+          "$.validity_checks",
+          "$.decision_log"
+        ],
+        "comparison": "Substantiate the distinction between data-supported and assumption-dependent claims using suitable diagnostics. A good fit alone does not establish mechanism or unique rate constants; a failed fit alone does not prove non-identifiability. No mandatory A→Q or back-quench branch, optimizer count or holdout count. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Account for missing/categorical data, unknown measurement errors and relevant numerical/model sensitivity. Declare assumptions instead of fabricating error bars. Check numerical reliability for the adopted method; no specific ODE or matrix-exponential solver is mandatory. All data are public so retrospective splits are not blind predictions. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.uncertainty",
+          "$.methods",
+          "$.validity_checks"
+        ],
+        "comparison": "Account for missing/categorical data, unknown measurement errors and relevant numerical/model sensitivity. Declare assumptions instead of fabricating error bars. Check numerical reliability for the adopted method; no specific ODE or matrix-exponential solver is mandatory. All data are public so retrospective splits are not blind predictions. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Accept evidence-backed identifiability limitations or supported rate information. The1h/SPh back-quench interpretation cannot be asserted as source-established1a chemistry. Do not claim unseen-condition validation, precise microscopic barriers, or source-certified networks from an empirical fit. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Accept evidence-backed identifiability limitations or supported rate information. The1h/SPh back-quench interpretation cannot be asserted as source-established1a chemistry. Do not claim unseen-condition validation, precise microscopic barriers, or source-certified networks from an empirical fit. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "data",
+      "max_score": 20,
+      "description": "Faithful data and measurement model Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_data"
+      ]
+    },
+    {
+      "id": "inference",
+      "max_score": 30,
+      "description": "Quantitative kinetic information from the grid Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_inference"
+      ]
+    },
+    {
+      "id": "identifiability",
+      "max_score": 25,
+      "description": "Inference strength and alternative explanations tested Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identifiability"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Missingness, uncertainty and numerical validity Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Conclusions confined to1a dataset Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "semantic",
+      "expected": "Keep all four anionic bridges and both axial ligands unless explicitly studying a justified model with its limitations. Identify the electronic states represented by each energy, demonstrate relevant state validity, and make any spin projection and exchange convention auditable. Comparisons of substitution effects require comparable definitions and physical conditions. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Keep all four anionic bridges and both axial ligands unless explicitly studying a justified model with its limitations. Identify the electronic states represented by each energy, demonstrate relevant state validity, and make any spin projection and exchange convention auditable. Comparisons of substitution effects require comparable definitions and physical conditions."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_measure",
+      "reference_id": "kp_measure",
+      "type": "semantic",
+      "expected": "Quantify the source-family exchange response with actual state-resolved raw evidence and explicit Hamiltonian/sign/unit conventions; report which members and conditions the evidence covers. A supported inability to resolve small differences is acceptable when its uncertainty is assessed. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Quantify the source-family exchange response with actual state-resolved raw evidence and explicit Hamiltonian/sign/unit conventions; report which members and conditions the evidence covers. A supported inability to resolve small differences is acceptable when its uncertainty is assessed."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_explain",
+      "reference_id": "kp_explain",
+      "type": "semantic",
+      "expected": "Support the explanation of any observed difference with a research design that actually distinguishes its claimed cause from relevant confounding effects. No common-core operation, SF implementation or fixed calibration member is required. Merely comparing three unvalidated energies is insufficient. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Support the explanation of any observed difference with a research design that actually distinguishes its claimed cause from relevant confounding effects. No common-core operation, SF implementation or fixed calibration member is required. Merely comparing three unvalidated energies is insufficient."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_robust",
+      "reference_id": "kp_robust",
+      "type": "semantic",
+      "expected": "Assess uncertainty relevant to the sign, ordering and size of the claimed differences. If methods or spin states disagree, investigate and delimit the inference; do not choose a winner by reproducing the source number. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.limitations",
+          "$.quantities",
+          "$.artifacts"
+        ],
+        "comparison": "Assess uncertainty relevant to the sign, ordering and size of the claimed differences. If methods or spin states disagree, investigate and delimit the inference; do not choose a winner by reproducing the source number."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_answer",
+      "reference_id": "con_answer",
+      "type": "semantic",
+      "expected": "Answer whether axial substitution has a resolvable molecular-exchange effect and what explanation is supported at the declared level. Reward supported trends, refutation or bounded non-resolution fairly; incomplete family coverage earns only its supported scope. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Answer whether axial substitution has a resolvable molecular-exchange effect and what explanation is supported at the declared level. Reward supported trends, refutation or bounded non-resolution fairly; incomplete family coverage earns only its supported scope."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Identity and scope: Keep all four anionic bridges and both axial ligands unless explicitly studying a justified model with its limitations. Identify the electronic states represented by each energy, demonstrate relevant state validity, and make any spin projection and exchange convention auditable. Comparisons of substitution effects require comparable definitions and physical conditions.",
+      "rule_ids": [
+        "rule_scope"
+      ]
+    },
+    {
+      "id": "measure",
+      "max_score": 30,
+      "description": "Quantitative scientific results: Quantify the source-family exchange response with actual state-resolved raw evidence and explicit Hamiltonian/sign/unit conventions; report which members and conditions the evidence covers. A supported inability to resolve small differences is acceptable when its uncertainty is assessed.",
+      "rule_ids": [
+        "rule_measure"
+      ]
+    },
+    {
+      "id": "explain",
+      "max_score": 25,
+      "description": "Evidence that distinguishes the claimed explanation: Support the explanation of any observed difference with a research design that actually distinguishes its claimed cause from relevant confounding effects. No common-core operation, SF implementation or fixed calibration member is required. Merely comparing three unvalidated energies is insufficient.",
+      "rule_ids": [
+        "rule_explain"
+      ]
+    },
+    {
+      "id": "robust",
+      "max_score": 20,
+      "description": "Uncertainty and limits: Assess uncertainty relevant to the sign, ordering and size of the claimed differences. If methods or spin states disagree, investigate and delimit the inference; do not choose a winner by reproducing the source number.",
+      "rule_ids": [
+        "rule_robust"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Bounded answer to the question: Answer whether axial substitution has a resolvable molecular-exchange effect and what explanation is supported at the declared level. Reward supported trends, refutation or bounded non-resolution fairly; incomplete family coverage earns only its supported scope.",
+      "rule_ids": [
+        "rule_answer"
+      ]
+    }
+  ],
+  "reference_stage": "content_implemented_reference_and_judge_pending",
+  "scoring_notes": [
+    "AR and PR share result validity; actual open_research runtime supplies mode-specific process rubrics.",
+    "Source author outcomes are conditional reference evidence, not mandatory winners. No inherited numerical tolerance.",
+    "No penalty simply for a different justified model, hypothesis count, metric or valid analysis route. Scientific adequacy is claim-dependent.",
+    "Completion requires a substantiated answer to the stated question. Honest partial credit is distinct from passing all scientific criteria."
+  ]
+}

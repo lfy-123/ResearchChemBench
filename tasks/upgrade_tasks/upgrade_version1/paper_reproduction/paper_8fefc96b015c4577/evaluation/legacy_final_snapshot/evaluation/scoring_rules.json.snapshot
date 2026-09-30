@@ -1,0 +1,115 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "rules": [
+    {
+      "rule_id": "r_freq",
+      "reference_id": "kp_proc_freq",
+      "type": "semantic",
+      "expected": "Frequency counts and validation statuses distinguish the minimum from first-order saddles for each named structure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.intermediate_B.validation_status",
+          "$.states.ts2.validation_status",
+          "$.states.ts2_prime.validation_status",
+          "$.states.intermediate_B.imaginary_frequency_count",
+          "$.states.ts2.imaginary_frequency_count",
+          "$.states.ts2_prime.imaginary_frequency_count"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "r_trace",
+      "reference_id": "kp_proc_trace",
+      "type": "semantic",
+      "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Check optimized geometries, common-reference Gibbs subtraction and traceable calculation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.method",
+          "$.comparison"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "r_b1",
+      "reference_id": "kp_res_barriers",
+      "type": "numeric",
+      "target": 13.08,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.comparison"
+        ],
+        "comparison": "chemical identity mapping followed by absolute difference; semantic review required"
+      },
+      "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Compare the benzyl-tethered aryl barrier with this rule target only after chemical identity is established."
+    },
+    {
+      "rule_id": "r_b2",
+      "reference_id": "kp_res_barriers",
+      "type": "numeric",
+      "target": 19.25,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.comparison"
+        ],
+        "comparison": "chemical identity mapping followed by absolute difference; semantic review required"
+      },
+      "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Compare the arenesulfonyl aryl barrier with this rule target only after chemical identity is established."
+    },
+    {
+      "rule_id": "r_diff",
+      "reference_id": "kp_res_difference",
+      "type": "numeric",
+      "target": 6.17,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barrier_difference"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_conc",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.comparison",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

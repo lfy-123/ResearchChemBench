@@ -52,17 +52,14 @@
     },
     {
       "rule_id": "pr_r3_population",
-      "type": "numeric",
-      "expected": "For each named conformer identity, the population agrees with the SI subset within 5 percentage points.",
+      "type": "condition",
+      "expected": "Population percentages are normalized over exactly the three public conformers, sum to 100%, identify 1-1 as the most populated member, and explicitly exclude the thirteen SI conformers whose coordinates are not public.",
       "binding": {
         "artifact_paths": ["report/results.json"],
-        "fields": ["$.conformers[*].population_percent"],
-        "comparison": "per-identity absolute difference in percentage points"
+        "fields": ["$.conformers[*].population_percent", "$.normalization", "$.most_populated_conformer", "$.limitations"],
+        "comparison": "expert verification of declared three-conformer scope and normalization"
       },
-      "reference_id": "pr_result_values",
-      "target": 0.0,
-      "unit": "percent",
-      "tolerance": 5.0
+      "reference_id": "pr_process_population"
     },
     {
       "rule_id": "pr_c1",

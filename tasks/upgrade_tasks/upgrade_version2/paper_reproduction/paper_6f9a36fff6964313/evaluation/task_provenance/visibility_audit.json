@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_6f9a36fff6964313",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "systems.json",
+      "action": "retain two catalyst identities; remove target-atom charge prompts and context TFAP",
+      "reason": "Catalyst comparison remains source-specific without prescribing the electronic explanation."
+    },
+    {
+      "file": "species_registry.json",
+      "action": "retain reactants/additives without cluster_rule; add source K2CO3 and MeCN identities",
+      "reason": "One-water/spectator-CO2 neutral cluster was a benchmark model, not a measured catalytic species."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "Remove mandatory terminal/benzylic paths, position restraints and association/barrier sequence."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

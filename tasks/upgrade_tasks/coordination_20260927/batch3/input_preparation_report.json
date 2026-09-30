@@ -1,0 +1,1969 @@
+[
+  {
+    "paper_id": "paper_36722b90a0c12825",
+    "objects": [
+      [
+        "E_free",
+        "C48H26F12N14",
+        0,
+        1
+      ],
+      [
+        "Z_free",
+        "C48H26F12N14",
+        0,
+        1
+      ],
+      [
+        "chloride",
+        "Cl",
+        -1,
+        1
+      ],
+      [
+        "TBA",
+        "C16H36N",
+        1,
+        1
+      ],
+      [
+        "E_bound",
+        null,
+        -1,
+        1
+      ],
+      [
+        "Z_bound",
+        null,
+        -1,
+        1
+      ]
+    ],
+    "controls": {
+      "azo_bond": [
+        3,
+        2
+      ],
+      "primary_medium": "acetone",
+      "temperature_K": 298.15,
+      "standard_state": "1 M",
+      "reaction_coefficients": {
+        "E_bind": {
+          "E_bound": 1,
+          "E_free": -1,
+          "chloride": -1
+        },
+        "Z_bind": {
+          "Z_bound": 1,
+          "Z_free": -1,
+          "chloride": -1
+        }
+      }
+    }
+  },
+  {
+    "paper_id": "paper_9455a82229de2427",
+    "objects": [
+      [
+        "SiN",
+        "NSi",
+        0,
+        2
+      ],
+      [
+        "isoprene",
+        "C5H8",
+        0,
+        1
+      ],
+      [
+        "H_atom",
+        "H",
+        0,
+        2
+      ]
+    ],
+    "controls": {
+      "isoprene_map": "C1=C2(C5)-C3=C4; numbered atom-map labels in original SMILES, explicit stable graph IDs in object table",
+      "mapped_smiles": "[CH2:1]=[C:2]([CH3:5])[CH:3]=[CH2:4]",
+      "attack_pairs": [
+        [
+          "Si1",
+          "C1"
+        ],
+        [
+          "Si1",
+          "C4"
+        ],
+        [
+          "N1",
+          "C1"
+        ],
+        [
+          "N1",
+          "C4"
+        ]
+      ],
+      "candidate_rule": "Enumerate graph edits preserving Si1/N1 and all carbon labels. Ring closures join the unattached heteroatom to the opposite terminal carbon; include nonclosure/H-shift alternatives. Tag each removed H explicitly. Product graph not provided; discovery is scored.",
+      "product_composition": {
+        "C": 5,
+        "H": 7,
+        "Si": 1,
+        "N": 1
+      },
+      "intermediate_charge": 0,
+      "intermediate_multiplicity": 2,
+      "product_charge": 0,
+      "product_multiplicity": 1,
+      "energy_zero": "separated_SiN_plus_isoprene_E0_0K"
+    }
+  },
+  {
+    "paper_id": "paper_9a58a1fa6ed7d780",
+    "objects": [
+      [
+        "BN",
+        "C22H14B2N2",
+        0,
+        1
+      ],
+      [
+        "CC",
+        "C26H14",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "common_map": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          14,
+          14
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          19
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          21,
+          21
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          23,
+          39
+        ],
+        [
+          24,
+          40
+        ],
+        [
+          25,
+          23
+        ],
+        [
+          26,
+          24
+        ],
+        [
+          27,
+          25
+        ],
+        [
+          28,
+          26
+        ],
+        [
+          29,
+          27
+        ],
+        [
+          30,
+          28
+        ],
+        [
+          31,
+          29
+        ],
+        [
+          32,
+          30
+        ],
+        [
+          33,
+          31
+        ],
+        [
+          34,
+          32
+        ],
+        [
+          35,
+          33
+        ],
+        [
+          36,
+          34
+        ],
+        [
+          37,
+          35
+        ],
+        [
+          38,
+          36
+        ],
+        [
+          39,
+          38
+        ],
+        [
+          40,
+          37
+        ]
+      ],
+      "common_adjacency_equal": true,
+      "mapping_definition": "Graph isomorphism retaining H/heavy identity; source tables use different atom ordering. BN atom ID is first, CC atom ID second.",
+      "BN_sites": [
+        {
+          "id": 23,
+          "element": "B",
+          "formal_charge": 0,
+          "CC_atom_id": 39,
+          "CC_element": "C"
+        },
+        {
+          "id": 24,
+          "element": "N",
+          "formal_charge": 0,
+          "CC_atom_id": 40,
+          "CC_element": "C"
+        },
+        {
+          "id": 39,
+          "element": "B",
+          "formal_charge": 0,
+          "CC_atom_id": 38,
+          "CC_element": "C"
+        },
+        {
+          "id": 40,
+          "element": "N",
+          "formal_charge": 0,
+          "CC_atom_id": 37,
+          "CC_element": "C"
+        }
+      ],
+      "cross_geometry": "Use the two chemical graphs at each relaxed mapped heavy-atom frame; all 40 atoms map one-to-one, with the four listed B/N atoms replaced by C. Report constraints.",
+      "Sr_definition": "integral sqrt(normalized rho_hole * normalized rho_electron) dV"
+    }
+  },
+  {
+    "paper_id": "paper_9f4c259696ad2f87",
+    "objects": [
+      [
+        "PXX1",
+        "C43H28O3",
+        0,
+        1
+      ],
+      [
+        "PXX2",
+        "C50H30O4",
+        0,
+        1
+      ],
+      [
+        "acid",
+        "C18BF15",
+        0,
+        1
+      ],
+      [
+        "PXX1_acid1",
+        null,
+        0,
+        1
+      ],
+      [
+        "PXX1_acid2",
+        null,
+        0,
+        1
+      ],
+      [
+        "PXX2_acid1",
+        null,
+        0,
+        1
+      ],
+      [
+        "PXX2_acid2",
+        null,
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "donor_sites": {
+        "PXX1": {
+          "carbonyl_O": [
+            46
+          ],
+          "other_O": [
+            20,
+            15
+          ]
+        },
+        "PXX2": {
+          "carbonyl_O": [
+            30,
+            54
+          ],
+          "other_O": [
+            20,
+            15
+          ]
+        }
+      },
+      "acid_binding": "Place acid B near each allowed O and include opposite-side orientations; compare all chemically distinct O sites at each stoichiometry. PXX1 acid2 can dissociate, which must be demonstrated."
+    }
+  },
+  {
+    "paper_id": "paper_a0f6b899582cb9f7",
+    "objects": [
+      [
+        "M3",
+        "C12H8N2S2",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "required_missing_objects": [
+        "source_PM6_BDD_capped_graph",
+        "source_BTP_eC9_core_capped_graph",
+        "enlarged_matched_fragment"
+      ],
+      "blocker": "The main Fig1 identifies regions but does not give unambiguous cap atoms or a digitized complete pair graph. No invented fragment supplied."
+    }
+  },
+  {
+    "paper_id": "paper_b276b18215cba283",
+    "objects": [
+      [
+        "single_arm",
+        "C26H27NO3",
+        0,
+        1
+      ],
+      [
+        "three_arm",
+        "C66H69N3O3",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "arm_graph_matching": "Map the exocyclic merocyanine chain connecting each heterocycle N-adjacent C to the central 1,3,5-tricarbonyl ring. Single-arm saturation replaces the other two exocyclic chains by CH2. Preserve all atoms of the selected arm.",
+      "cis_trans_control": "Rotate the first single C-C bond outside each N-adjacent exocyclic C=C; publish its four graph IDs and complete connected branch. Use transoid/cisoid relative to carbonyl side, not a changed C=C bond identity.",
+      "three_arm_requirement": "All three branches, not a repeated scalar from one isolated arm.",
+      "single_arm_arm_torsions": [
+        {
+          "N_atom": 18,
+          "torsion_atom_ids": [
+            7,
+            37,
+            35,
+            34
+          ]
+        }
+      ],
+      "three_arm_arm_torsions": [
+        {
+          "N_atom": 16,
+          "torsion_atom_ids": [
+            13,
+            11,
+            10,
+            4
+          ]
+        },
+        {
+          "N_atom": 49,
+          "torsion_atom_ids": [
+            47,
+            45,
+            44,
+            6
+          ]
+        },
+        {
+          "N_atom": 83,
+          "torsion_atom_ids": [
+            81,
+            79,
+            78,
+            2
+          ]
+        }
+      ],
+      "single_to_three_heavy_atom_maps": {
+        "16": [
+          [
+            1,
+            17
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            3,
+            20
+          ],
+          [
+            4,
+            21
+          ],
+          [
+            5,
+            22
+          ],
+          [
+            6,
+            19
+          ],
+          [
+            7,
+            13
+          ],
+          [
+            10,
+            36
+          ],
+          [
+            11,
+            39
+          ],
+          [
+            12,
+            38
+          ],
+          [
+            13,
+            37
+          ],
+          [
+            18,
+            16
+          ],
+          [
+            19,
+            33
+          ],
+          [
+            22,
+            112
+          ],
+          [
+            25,
+            15
+          ],
+          [
+            26,
+            25
+          ],
+          [
+            30,
+            29
+          ],
+          [
+            34,
+            4
+          ],
+          [
+            35,
+            10
+          ],
+          [
+            37,
+            11
+          ],
+          [
+            39,
+            1
+          ],
+          [
+            40,
+            6
+          ],
+          [
+            41,
+            5
+          ],
+          [
+            42,
+            3
+          ],
+          [
+            43,
+            2
+          ],
+          [
+            44,
+            9
+          ],
+          [
+            45,
+            7
+          ],
+          [
+            46,
+            8
+          ],
+          [
+            51,
+            125
+          ],
+          [
+            54,
+            128
+          ]
+        ],
+        "49": [
+          [
+            1,
+            50
+          ],
+          [
+            2,
+            51
+          ],
+          [
+            3,
+            64
+          ],
+          [
+            4,
+            63
+          ],
+          [
+            5,
+            62
+          ],
+          [
+            6,
+            61
+          ],
+          [
+            7,
+            47
+          ],
+          [
+            10,
+            73
+          ],
+          [
+            11,
+            70
+          ],
+          [
+            12,
+            71
+          ],
+          [
+            13,
+            72
+          ],
+          [
+            18,
+            49
+          ],
+          [
+            19,
+            67
+          ],
+          [
+            22,
+            115
+          ],
+          [
+            25,
+            52
+          ],
+          [
+            26,
+            57
+          ],
+          [
+            30,
+            53
+          ],
+          [
+            34,
+            6
+          ],
+          [
+            35,
+            44
+          ],
+          [
+            37,
+            45
+          ],
+          [
+            39,
+            3
+          ],
+          [
+            40,
+            2
+          ],
+          [
+            41,
+            1
+          ],
+          [
+            42,
+            5
+          ],
+          [
+            43,
+            4
+          ],
+          [
+            44,
+            8
+          ],
+          [
+            45,
+            9
+          ],
+          [
+            46,
+            7
+          ],
+          [
+            51,
+            118
+          ],
+          [
+            54,
+            121
+          ]
+        ],
+        "83": [
+          [
+            1,
+            86
+          ],
+          [
+            2,
+            85
+          ],
+          [
+            3,
+            98
+          ],
+          [
+            4,
+            101
+          ],
+          [
+            5,
+            100
+          ],
+          [
+            6,
+            99
+          ],
+          [
+            7,
+            81
+          ],
+          [
+            10,
+            105
+          ],
+          [
+            11,
+            102
+          ],
+          [
+            12,
+            103
+          ],
+          [
+            13,
+            104
+          ],
+          [
+            18,
+            83
+          ],
+          [
+            19,
+            95
+          ],
+          [
+            22,
+            132
+          ],
+          [
+            25,
+            84
+          ],
+          [
+            26,
+            91
+          ],
+          [
+            30,
+            87
+          ],
+          [
+            34,
+            2
+          ],
+          [
+            35,
+            78
+          ],
+          [
+            37,
+            79
+          ],
+          [
+            39,
+            5
+          ],
+          [
+            40,
+            6
+          ],
+          [
+            41,
+            1
+          ],
+          [
+            42,
+            3
+          ],
+          [
+            43,
+            4
+          ],
+          [
+            44,
+            8
+          ],
+          [
+            45,
+            7
+          ],
+          [
+            46,
+            9
+          ],
+          [
+            51,
+            135
+          ],
+          [
+            54,
+            138
+          ]
+        ]
+      },
+      "cap_rule": "Retain mapped central tricarbonyl ring and selected full arm. Remove the other two exocyclic arms; replace each central-ring-to-removed-arm C=C with two C-H single bonds on the retained central ring carbon. New H atoms are cap atoms, not mapped full-model atoms; relax only those H during frozen-arm extraction."
+    }
+  },
+  {
+    "paper_id": "paper_fda8b9b53f8276db",
+    "objects": [
+      [
+        "ligand",
+        "C15H13N3",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "torsion_CIF_labels": [
+        "N1",
+        "C1",
+        "C2",
+        "N2"
+      ],
+      "families": {
+        "cis": "same-side N atoms",
+        "trans": "opposite-side N atoms"
+      },
+      "media": [
+        "gas",
+        "acetonitrile"
+      ],
+      "temperature_K": 298.15
+    }
+  },
+  {
+    "paper_id": "paper_0de37d01e35c27df",
+    "objects": [
+      [
+        "nor_neutral",
+        "C10H14S2",
+        0,
+        1
+      ],
+      [
+        "nor_cation",
+        "C10H14S2",
+        1,
+        2
+      ],
+      [
+        "DTCO_neutral",
+        "C6H12S2",
+        0,
+        1
+      ],
+      [
+        "DTCO_cation",
+        "C6H12S2",
+        1,
+        2
+      ]
+    ],
+    "controls": {
+      "SS_maps": {
+        "nor": [
+          16,
+          17
+        ],
+        "DTCO": [
+          1,
+          5
+        ]
+      },
+      "vertical_protocol": "Use each relaxed neutral geometry for cation single point and each cation geometry for neutral single point with no change in atom graph."
+    }
+  },
+  {
+    "paper_id": "paper_43d74f8a469d9ad3",
+    "objects": [
+      [
+        "dye1",
+        "C23H20BNO3",
+        0,
+        1
+      ],
+      [
+        "dye2",
+        "C24H22BNO4",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "torsion_graph_ids": [
+        1,
+        4,
+        3,
+        6
+      ],
+      "substitution_parent_C": 31,
+      "removed_H": 32,
+      "new_O_Me_ids": [
+        49,
+        50
+      ],
+      "common_scaffold_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "source_conflict": "SI TableS5 labeled1 has C25H25BN2O3, incompatible with CCDC/Scheme1. Use CCDC graph and Scheme1 substitution; not those coordinates."
+    }
+  },
+  {
+    "paper_id": "paper_86a0b654270a8ce7",
+    "objects": [
+      [
+        "isomer1",
+        "C60H63IrN4O2",
+        0,
+        1
+      ],
+      [
+        "isomer2",
+        "C60H63IrN4O2",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "temperature_K": 339,
+      "medium": "THF",
+      "metal_geometry": "Preserve isomer-specific adjacency and donor relative arrangement; reconstruct ligand valence with Ir(III), salen dianion and cyclometalated NHC anion. Total neutral singlet.",
+      "stacking_atoms": "Choose closest two aromatic rings from each reconstructed graph; publish all ring atom IDs and centroid/normal definitions. Compare same rings in contact-separated and released structures."
+    }
+  },
+  {
+    "paper_id": "paper_94e7481ded3b6a75",
+    "objects": [
+      [
+        "PBNA",
+        "C24H22B2N2",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "torsion_maps": [
+        [
+          18,
+          17,
+          29,
+          30
+        ],
+        [
+          20,
+          19,
+          40,
+          41
+        ]
+      ],
+      "restriction": "Set both B-phenyl torsions to a common stated angle; preserve rings. Include at least two angular settings and released S0/S1 controls.",
+      "primary_medium": "gas",
+      "sensitivity_medium": "CH2Cl2"
+    }
+  },
+  {
+    "paper_id": "paper_9aa6d5655edfeb52",
+    "objects": [
+      [
+        "fused2a",
+        "C18H20B10",
+        0,
+        1
+      ],
+      [
+        "nonfused1a",
+        "C18H21B10Br",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "cage_C_atom_ids": [
+        4,
+        13
+      ],
+      "fusion_edge": [
+        1,
+        28
+      ],
+      "displacement_A": [
+        -0.05,
+        0.05
+      ],
+      "chemical_confound": "Br-containing precursor vs dehydrohalogenated fused product; cannot interpret as pure geometric fusion.",
+      "cage_atom_ids": [
+        4,
+        13,
+        28,
+        31,
+        33,
+        35,
+        37,
+        39,
+        41,
+        43,
+        45,
+        47
+      ]
+    }
+  },
+  {
+    "paper_id": "paper_a6e8c57709329bdb",
+    "objects": [
+      [
+        "HL",
+        "C20H22N4O6",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "source_medium": "DMF",
+      "competitor": "Co(II)",
+      "FeIII_multiplicities": [
+        2,
+        4,
+        6
+      ],
+      "CoII_multiplicities": [
+        2,
+        4
+      ],
+      "unresolved": [
+        "sensing_salt_counterions",
+        "pH_or_proton_reservoir",
+        "water_content",
+        "finite_coordination_water_DMF_inventory"
+      ],
+      "not_a_complete_model": "Do not construct calibrated exchange cycles by freely guessing these missing conditions."
+    }
+  },
+  {
+    "paper_id": "paper_b1467cd61ca8022d",
+    "objects": [
+      [
+        "PM",
+        "C4H10O",
+        0,
+        1
+      ],
+      [
+        "BM",
+        "C5H12O",
+        0,
+        1
+      ],
+      [
+        "TFPM",
+        "C4H7F3O",
+        0,
+        1
+      ],
+      [
+        "TFBM",
+        "C5H9F3O",
+        0,
+        1
+      ],
+      [
+        "Li",
+        "Li",
+        1,
+        1
+      ],
+      [
+        "FSI",
+        "F2NO4S2",
+        -1,
+        1
+      ],
+      [
+        "PM_salt_cluster",
+        null,
+        0,
+        1
+      ],
+      [
+        "BM_salt_cluster",
+        null,
+        0,
+        1
+      ],
+      [
+        "TFPM_salt_cluster",
+        null,
+        0,
+        1
+      ],
+      [
+        "TFBM_salt_cluster",
+        null,
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "fixed_cluster_stoichiometry": "1 Li+:1 FSI-:1 solvent",
+      "atom_sites": {
+        "PM": {
+          "O": [
+            2
+          ],
+          "F": [],
+          "N": [],
+          "Li": []
+        },
+        "BM": {
+          "O": [
+            2
+          ],
+          "F": [],
+          "N": [],
+          "Li": []
+        },
+        "TFPM": {
+          "O": [
+            2
+          ],
+          "F": [
+            6,
+            7,
+            8
+          ],
+          "N": [],
+          "Li": []
+        },
+        "TFBM": {
+          "O": [
+            2
+          ],
+          "F": [
+            7,
+            8,
+            9
+          ],
+          "N": [],
+          "Li": []
+        },
+        "Li": {
+          "O": [],
+          "F": [],
+          "N": [],
+          "Li": [
+            1
+          ]
+        },
+        "FSI": {
+          "O": [
+            3,
+            4,
+            7,
+            8
+          ],
+          "F": [
+            1,
+            9
+          ],
+          "N": [
+            5
+          ],
+          "Li": []
+        }
+      },
+      "primary_medium": "gas-phase finite clusters; paired continuum sensitivity separately defined",
+      "ESP_vs_RESP": "ESP oxygen descriptor in eV requires specified density surface and potential convention; RESP is fitted atomic charge in e."
+    }
+  },
+  {
+    "paper_id": "paper_c28b0a1c549f4575",
+    "objects": [
+      [
+        "TEA",
+        "C8H20N",
+        1,
+        1
+      ],
+      [
+        "DED",
+        "C10H22N2",
+        2,
+        1
+      ],
+      [
+        "BF4",
+        "BF4",
+        -1,
+        1
+      ],
+      [
+        "PC",
+        "C4H6O3",
+        0,
+        1
+      ],
+      [
+        "TEA_salt_PC0",
+        null,
+        0,
+        1
+      ],
+      [
+        "TEA_salt_PC1",
+        null,
+        0,
+        1
+      ],
+      [
+        "TEA_salt_PC2",
+        null,
+        0,
+        1
+      ],
+      [
+        "DED_salt_PC0",
+        null,
+        0,
+        1
+      ],
+      [
+        "DED_salt_PC1",
+        null,
+        0,
+        1
+      ],
+      [
+        "DED_salt_PC2",
+        null,
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "exchange_1": {
+        "TEA_salt_PC1": -1,
+        "DED_salt_PC0": -1,
+        "TEA_salt_PC0": 1,
+        "DED_salt_PC1": 1
+      },
+      "exchange_2": {
+        "TEA_salt_PC2": -1,
+        "DED_salt_PC1": -1,
+        "TEA_salt_PC1": 1,
+        "DED_salt_PC2": 1
+      },
+      "contact_definition": "Map the shortest cation-N...anion-F approach and PC carbonyl-O locations; separated candidates place PC between ions. Release optimization may remove distinction with evidence.",
+      "standard_state": "298.15 K, 1 M, common PC continuum sensitivity"
+    }
+  },
+  {
+    "paper_id": "paper_2877efc02814175d",
+    "objects": [
+      [
+        "DQCS",
+        "C31H27N3O3",
+        0,
+        1
+      ],
+      [
+        "Cd_DQCS",
+        "C31H27CdN3O3",
+        2,
+        1
+      ],
+      [
+        "Co_DQCS",
+        "C31H27CoN3O3",
+        2,
+        2
+      ],
+      [
+        "Ni_DQCS",
+        "C31H27N3NiO3",
+        2,
+        1
+      ]
+    ],
+    "controls": {
+      "common_ligand_map": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          14,
+          14
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          19
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          21,
+          21
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          26,
+          26
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          29,
+          29
+        ],
+        [
+          30,
+          30
+        ],
+        [
+          31,
+          31
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          33,
+          33
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          35,
+          35
+        ],
+        [
+          36,
+          36
+        ],
+        [
+          37,
+          37
+        ],
+        [
+          38,
+          38
+        ],
+        [
+          39,
+          39
+        ],
+        [
+          40,
+          40
+        ],
+        [
+          41,
+          41
+        ],
+        [
+          42,
+          42
+        ],
+        [
+          43,
+          43
+        ],
+        [
+          44,
+          44
+        ],
+        [
+          45,
+          45
+        ],
+        [
+          46,
+          46
+        ],
+        [
+          47,
+          47
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          49,
+          49
+        ],
+        [
+          50,
+          50
+        ],
+        [
+          51,
+          51
+        ],
+        [
+          52,
+          52
+        ],
+        [
+          53,
+          53
+        ],
+        [
+          54,
+          54
+        ],
+        [
+          55,
+          55
+        ],
+        [
+          56,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          58
+        ],
+        [
+          59,
+          59
+        ],
+        [
+          60,
+          60
+        ],
+        [
+          61,
+          61
+        ],
+        [
+          62,
+          62
+        ],
+        [
+          63,
+          63
+        ],
+        [
+          65,
+          65
+        ]
+      ],
+      "solvent": "DMSO",
+      "Co_reference": "charge+2, doublet; S8 singlet table heading cannot override explicit spin in S2",
+      "frozen_ligand_charge": 0
+    }
+  },
+  {
+    "paper_id": "paper_2f2aa11ea61a32bb",
+    "objects": [
+      [
+        "1a",
+        "C11H8BF2NO",
+        0,
+        1
+      ],
+      [
+        "1b",
+        "C15H10BF2NO",
+        0,
+        1
+      ],
+      [
+        "1c",
+        "C15H10BF2NO",
+        0,
+        1
+      ],
+      [
+        "1d",
+        "C15H10BF2NO",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "common_anchors": {
+        "1a": {
+          "B": [
+            22
+          ],
+          "N": [
+            6
+          ],
+          "O": [
+            21
+          ],
+          "F": [
+            23,
+            24
+          ]
+        },
+        "1b": {
+          "B": [
+            20
+          ],
+          "N": [
+            6
+          ],
+          "O": [
+            19
+          ],
+          "F": [
+            21,
+            22
+          ]
+        },
+        "1c": {
+          "B": [
+            20
+          ],
+          "N": [
+            6
+          ],
+          "O": [
+            19
+          ],
+          "F": [
+            21,
+            22
+          ]
+        },
+        "1d": {
+          "B": [
+            20
+          ],
+          "N": [
+            6
+          ],
+          "O": [
+            19
+          ],
+          "F": [
+            21,
+            22
+          ]
+        }
+      },
+      "common_geometry": "Map B, N, O, two F and adjacent chelate carbons by graph; fix those shared internal distances/angles to a stated released member. Do not impose whole fused-ring bijection.",
+      "solvent": "toluene",
+      "validation_split": "Preselect one published band trend for transfer testing; since public observations are visible call this retrospective unless genuinely preregistered."
+    }
+  },
+  {
+    "paper_id": "paper_3a22e838133b906d",
+    "objects": [
+      [
+        "full_neutral",
+        "C22H36BO3P",
+        0,
+        1
+      ],
+      [
+        "full_anion",
+        "C20H31BO3P",
+        -1,
+        1
+      ],
+      [
+        "Li",
+        "Li",
+        1,
+        1
+      ],
+      [
+        "MeCN",
+        "C2H3N",
+        0,
+        1
+      ],
+      [
+        "iodide",
+        "I",
+        -1,
+        1
+      ],
+      [
+        "EtI",
+        "C2H5I",
+        0,
+        1
+      ],
+      [
+        "small_neutral",
+        "C10H16BO3P",
+        0,
+        1
+      ],
+      [
+        "small_anion",
+        "C9H13BO3P",
+        -1,
+        1
+      ],
+      [
+        "Li_anion",
+        null,
+        0,
+        1
+      ],
+      [
+        "Li_anion_2MeCN",
+        null,
+        0,
+        1
+      ],
+      [
+        "crystal_supported_dimer",
+        null,
+        0,
+        1
+      ],
+      [
+        "LiI",
+        null,
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "dimerization_coefficients": {
+        "crystal_supported_dimer": 1,
+        "Li_anion_2MeCN": -2
+      },
+      "deethylation_coefficients": {
+        "full_neutral": -1,
+        "LiI": -1,
+        "Li_anion": 1,
+        "EtI": 1
+      },
+      "source_contact_atom_maps": {
+        "full_neutral": {
+          "P": [
+            4
+          ],
+          "O": [
+            3,
+            5,
+            6
+          ],
+          "B": [
+            15
+          ],
+          "Li": [],
+          "N": []
+        },
+        "full_anion": {
+          "P": [
+            4
+          ],
+          "O": [
+            3,
+            5,
+            6
+          ],
+          "B": [
+            13
+          ],
+          "Li": [],
+          "N": []
+        },
+        "Li": {
+          "P": [],
+          "O": [],
+          "B": [],
+          "Li": [
+            1
+          ],
+          "N": []
+        },
+        "MeCN": {
+          "P": [],
+          "O": [],
+          "B": [],
+          "Li": [],
+          "N": [
+            3
+          ]
+        },
+        "iodide": {
+          "P": [],
+          "O": [],
+          "B": [],
+          "Li": [],
+          "N": []
+        },
+        "EtI": {
+          "P": [],
+          "O": [],
+          "B": [],
+          "Li": [],
+          "N": []
+        },
+        "small_neutral": {
+          "P": [
+            11
+          ],
+          "O": [
+            12,
+            13,
+            14
+          ],
+          "B": [
+            21
+          ],
+          "Li": [],
+          "N": []
+        },
+        "small_anion": {
+          "P": [
+            11
+          ],
+          "O": [
+            12,
+            13,
+            14
+          ],
+          "B": [
+            18
+          ],
+          "Li": [],
+          "N": []
+        }
+      },
+      "truncation": "Old BMe2/OMe graphs are separate controls. Do not relabel their results as full Cy/OEt species."
+    }
+  },
+  {
+    "paper_id": "paper_98b6f8a0352f72c2",
+    "objects": [
+      [
+        "12a",
+        "C24H19N3",
+        0,
+        1
+      ],
+      [
+        "12d",
+        "C26H23N3",
+        0,
+        1
+      ]
+    ],
+    "controls": {
+      "solvents": [
+        "CHCl3",
+        "EtOAc"
+      ],
+      "torsion_definition": "Single bond joining dimethyl/diethylaminophenyl ipso carbon to benzo[a]phenazine C5, using an adjacent aromatic carbon on each side. Full exact per-member graph maps below.",
+      "required_excitation_geometries": [
+        "vertical_absorption_at_S0",
+        "vertical_emission_at_S1",
+        "adiabatic_S1_minus_S0"
+      ],
+      "experimental_rate_policy": "Use Phi/tau only if both real measured values and same conditions exist; otherwise explicitly unavailable, never filled from theoretical SI TableS1.",
+      "12a_torsion": [
+        6,
+        7,
+        10,
+        11
+      ],
+      "12d_torsion": [
+        8,
+        9,
+        12,
+        13
+      ]
+    }
+  }
+]

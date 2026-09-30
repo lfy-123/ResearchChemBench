@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use the supplied complete mapped graphs. The common dibenzo[f,h]pyrazino[2,3-b]quinoxaline core has donor sites 3,6,11: TD_2T has triphenylamine at all three; CD_2T has phenylcarbazole at 11; TD_2C has phenylcarbazole at 3 and 6. All are neutral. Use a consistent gas-phase baseline, singlet ground states and singlet/triplet excited states. No author optimized geometries, CT assignments or predicted gaps are supplied. torsion_control_mapping.json provides all three signed atom quadruples and donor/core fragment partitions for each molecule. Vertical gap=E(S1;R_S0)-E(T1;R_S0); adiabatic gap=E(S1;R_S1)-E(T1;R_T1). Do not mix these or use Kohn–Sham gaps as excitation gaps. SOC is the norm of three spin components in cm^-1 with operator and state basis stated. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use the supplied complete mapped graphs. The common dibenzo[f,h]pyrazino[2,3-b]quinoxaline core has donor sites 3,6,11: TD_2T has triphenylamine at all three; CD_2T has phenylcarbazole at 11; TD_2C has phenylcarbazole at 3 and 6. All are neutral. Use a consistent gas-phase baseline, singlet ground states and singlet/triplet excited states. No author optimized geometries, CT assignments or predicted gaps are supplied. torsion_control_mapping.json provides all three signed atom quadruples and donor/core fragment partitions for each molecule. Vertical gap=E(S1;R_S0)-E(T1;R_S0); adiabatic gap=E(S1;R_S1)-E(T1;R_T1). Do not mix these or use Kohn–Sham gaps as excitation gaps. SOC is the norm of three spin components in cm^-1 with operator and state basis stated. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_vertical_matrix",
+      "reference_id": "kp_vertical_matrix",
+      "type": "semantic",
+      "expected": "Check graph and donor position rather than inconsistent SI product prose. Recompute gaps, fragment weights and SOC norms. State roots must be tracked by densities. A small gap alone is not mechanistic proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.vertical_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Check graph and donor position rather than inconsistent SI product prose. Recompute gaps, fragment weights and SOC norms. State roots must be tracked by densities. A small gap alone is not mechanistic proof."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_relaxation_matrix",
+      "reference_id": "kp_relaxation_matrix",
+      "type": "semantic",
+      "expected": "Verify S1/T1 energies and geometries on consistent surfaces; inspect conformer outcomes. A collapsed state must be evidenced and alternative starts examined; no invented state minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxation_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify S1/T1 energies and geometries on consistent surfaces; inspect conformer outcomes. A collapsed state must be evidenced and alternative starts examined; no invented state minimum."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_causal_comparison",
+      "reference_id": "kp_causal_comparison",
+      "type": "semantic",
+      "expected": "Use like-defined transition observables at common conditions. Report what fixed torsion does and does not isolate; multiple donor replacements are not equivalent to a single-site substitution. Require a CT-sensitive method or solvent sensitivity with actual calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.causal_comparison",
+          "$.calculation_records"
+        ],
+        "comparison": "Use like-defined transition observables at common conditions. Report what fixed torsion does and does not isolate; multiple donor replacements are not equivalent to a single-site substitution. Require a CT-sensitive method or solvent sensitivity with actual calculations."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Test whether donor type and placement alter singlet–triplet proximity through charge-transfer localization, geometric relaxation or both, while retaining optically active states. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Test whether donor type and placement alter singlet–triplet proximity through charge-transfer localization, geometric relaxation or both, while retaining optically active states. Reject swapped CD/TD donor layouts, unequal state/solvent definitions, root-index-only matches, missing SOC or oscillator evidence, or an OLED efficiency claim based solely on a molecular gap. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "vertical_matrix",
+      "max_score": 25,
+      "description": "Six matched vertical-state and SOC panels",
+      "rule_ids": [
+        "rule_vertical_matrix"
+      ]
+    },
+    {
+      "id": "relaxation_matrix",
+      "max_score": 25,
+      "description": "Conformer and excited-geometry discrimination",
+      "rule_ids": [
+        "rule_relaxation_matrix"
+      ]
+    },
+    {
+      "id": "causal_comparison",
+      "max_score": 15,
+      "description": "Position versus geometry and method robustness",
+      "rule_ids": [
+        "rule_causal_comparison"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Six matched vertical-state and SOC panels",
+      "Conformer and excited-geometry discrimination",
+      "Position versus geometry and method robustness",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

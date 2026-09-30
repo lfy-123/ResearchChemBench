@@ -1,0 +1,25 @@
+{
+  "status": "needs_work",
+  "implementation_status": "implemented_pending_transport_pilot_and_expanded_reference",
+  "release_ready": false,
+  "missing_prerequisites": [
+    "No complete mapped allowed electrode/device input chain (pseudopotentials, principal layers, self-energy artifacts and finite-bias restart conventions) has been validated.",
+    "No actual same-junction zero/±V pilot, transport convergence or expanded control reference is available."
+  ],
+  "unblocking_conditions": [
+    "Use the declared siesta/tbtrans 5.4.2 commands with explicit stdin_file and Hamiltonian dependencies. This interface gate is resolved; preserve raw native logs and validate the remaining scientific prerequisites.",
+    "Translate the mapped identities into explicitly recorded Au(111) lead/central-region cells, anchoring and atom ordering. Use source SI privately for atom-count/geometry auditing; independently build public starts. Validate pseudopotential/basis compatibility and electrostatic lead matching.",
+    "Execute one AD_base zero/−0.5/+0.5-V pilot with actual self-consistent outputs, transmission integration and k/energy/screening convergence. Installed binaries or zero-bias molecular jobs do not close the gate.",
+    "Only then run all three bridges, AD reversal and unilateral contact perturbation; measure noise and sensitivity, calibrate common AR/PR evaluation and review release readiness."
+  ],
+  "no_new_reference_calculations": true,
+  "instructions": "Development package pending scientific validation. A resolved command contract is not evidence of converged leads, finite-bias self-consistency, currents, or a calibrated reference.",
+  "resolved_prerequisites": [
+    {
+      "id": "native_transport_command_contract",
+      "resolved_at": "2026-09-28",
+      "details": "Native siesta and tbtrans 5.4.2 invocation contracts are now declared, including stdin_file and dependencies; integrated TranSIESTA is selected through SolutionMethod transiesta. Scientific lead/device and finite-bias validation remains incomplete.",
+      "availability_only": true
+    }
+  ]
+}

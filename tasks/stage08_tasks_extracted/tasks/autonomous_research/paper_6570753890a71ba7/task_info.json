@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_6570753890a71ba7",
+  "task_type": "autonomous_research",
+  "title": "Independent discovery of PES character in three subporphyrin candidates",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The three structures are fixed, but PES character and graph relationships must be inferred without an author route or labels.",
+    "Mode inspection and alternative interpretation are required."
+  ],
+  "paper": {
+    "title": "The Polytope Formalism: application to molecular constitution and the prospect of a complete description of Chemical Space",
+    "doi": "10.1039/d5sc08813e",
+    "journal": "Chemical Science",
+    "publication_date": "2026-01-08"
+  },
+  "data": [
+    {
+      "path": "data/inputs/candidate_a.xyz",
+      "description": "Candidate A Cartesian XYZ record with fixed atom order."
+    },
+    {
+      "path": "data/inputs/candidate_b.xyz",
+      "description": "Candidate B Cartesian XYZ record with fixed atom order."
+    },
+    {
+      "path": "data/inputs/candidate_c.xyz",
+      "description": "Candidate C Cartesian XYZ record with fixed atom order."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated candidate observables and independently reasoned conclusion, or explicit bounded-failure records."
+    },
+    {
+      "path": "report/methods.md",
+      "description": "Computational methods, search/validation coverage and limitations."
+    }
+  ]
+}

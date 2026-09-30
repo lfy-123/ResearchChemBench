@@ -4,7 +4,7 @@ Independently test the authors' qualitative proposal that the DBC core and para-
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system_definition.json` and its two XYZ files. The XYZ atom order is authoritative; do not infer identity from an internal label. Both molecules are neutral, closed-shell singlets initially. The physical boundary is one isolated molecule in implicit toluene, S0 and the first singlet S1, with vertical electronic transitions evaluated at optimized geometries. Report wavelengths in nm, oscillator strengths dimensionless, and dihedrals in degrees. You choose and disclose method, basis, solvent implementation, convergence settings and any conformer generation. The public files contain no target values.
+Use `data/inputs/system_definition.json` and its two complete XYZ files (DBC-Ph C32H21N, 54 atoms; DBC-Nap C36H23N, 60 atoms). The XYZ atom order is authoritative; do not infer identity from an internal label. Both molecules are neutral, closed-shell singlets initially. The physical boundary is one isolated molecule in implicit toluene, S0 and the first singlet S1, with vertical electronic transitions evaluated at optimized geometries. Report wavelengths in nm, oscillator strengths dimensionless, and dihedrals in degrees. You choose and disclose method, basis, solvent implementation, convergence settings and any conformer generation. The public files contain no target values.
 
 # Required scientific validation/investigation
 

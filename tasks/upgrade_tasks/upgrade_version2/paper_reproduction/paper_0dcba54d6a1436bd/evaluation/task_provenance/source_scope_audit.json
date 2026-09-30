@@ -1,0 +1,107 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "batch": 1,
+  "source_documents": [
+    {
+      "path": "papers/paper_0dcba54d6a1436bd/documents/main.pdf",
+      "sha256": "1f5313ccf56ae62c57d8601e056099404ee5a1080b2d31189c5c7b9365b8e6ff",
+      "matches_audit": true,
+      "declared_pages": 11,
+      "material_type": "main_article",
+      "pdf_pages_read_1_based": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "path": "papers/paper_0dcba54d6a1436bd/documents/supplementary_001.pdf",
+      "sha256": "3f9dab0079efd4f0e2879bf457db34f03f8e6cee529e9fd1c2cbe17e43795198",
+      "matches_audit": true,
+      "declared_pages": 30,
+      "material_type": "true_supporting_information",
+      "pdf_pages_read_1_based": [
+        4,
+        5,
+        6,
+        7,
+        17,
+        26,
+        27,
+        28,
+        29
+      ]
+    }
+  ],
+  "source_scope": {
+    "objects": "Full Z NPCZCS C43H39N3O2, AQCZCS C41H32N2O2 and PQCZCS C41H32N2O2; neutral singlet ground states with complete hexyl/butyl substituents. This is a three-compound subset of the four-compound source series.",
+    "conditions": "Ground-state molecular structures and vertical singlet excitation/absorption in dichloromethane; the representation of solvation and conformational scope are chosen and justified by the agent.",
+    "question": "Differences in low-energy absorption and excitation character associated with the appended molecular groups, including the limits of a proposed structural explanation.",
+    "observation_status": "No source optimized geometry, orbital ordering, excitation label or numerical spectral target is an AR input. Source computed state assignments are claims for PR reproduction, not observed facts that AR must assume.",
+    "boundaries": "Single-molecule electronic/vertical optical properties. No claim of excited-state relaxation, radiative/nonradiative rates, fluorescence quantum yield, aggregate-induced emission/quenching, grinding response, crystal packing or device efficiency follows from this task."
+  },
+  "source_mapping": [
+    {
+      "kind": "molecular_identity",
+      "source": "SI pp4–7 systematic synthesis names and mass characterization; SI p17 begins optimized coordinates",
+      "use": "Retain full Z constitutional identities and neutral formulas. PQ characterization is [M+H]+ C41H33N2O2, so use C41H32N2O2 for the neutral molecule; optimized source coordinates are not neutral AR starting facts."
+    },
+    {
+      "kind": "question_and_physical_scope",
+      "source": "main pp7–8 Theoretical Calculations/NTO Analysis; SI pp26–29 Tables S5–S9 and Figures S21–S22",
+      "use": "Bound the problem to molecular ground-state and vertical singlet optical analysis in dichloromethane; exclude the broader material-emission conclusions."
+    },
+    {
+      "kind": "author_method",
+      "source": "main p7 and SI pp26–29",
+      "use": "PR discloses gas B3LYP/6-31G(d,p) minima and TD M06/6-31G(d,p)/PCM dichloromethane; the source functional comparison is explicitly on NP/AQ only."
+    },
+    {
+      "kind": "author_interpretation_with_internal_tension",
+      "source": "main pp7–8 and Figure5",
+      "use": "Earlier broad ICT language is qualified by the later NTO assignment: NP/AQ S1 ICT, PQ S1 locally excited. Do not recast the article as demonstrating universal ICT or force its preferred labels."
+    },
+    {
+      "kind": "observable_definition",
+      "source": "SI pp26,28–29 Tables S5–S9",
+      "use": "Major absorption transitions in S5/S6 are not S1. Source S1 and bright transitions are distinguished in PR and private validity checks."
+    },
+    {
+      "kind": "benchmark_extension",
+      "source": "V1 verification report and binding artifacts",
+      "use": "The 15/45/75-degree scans, M06/CAM comparison, ten-root window and three-fragment transition matrices are one historical diagnostic route, not source protocol or V2 requirements."
+    }
+  ],
+  "agent_decisions": [
+    "Construct the full Z molecules and choose defensible conformational and solvation representations for the stated molecular question.",
+    "Select the relevant low-energy states and observable definitions; decide how much state space is needed to support the specific conclusion without a prescribed root count.",
+    "Develop a molecular explanation and choose comparisons or interventions that discriminate it from relevant geometric, electronic or modeling effects.",
+    "Choose suitable electronic-structure and excitation-character analyses, with any state correspondence justified at the resolution actually claimed.",
+    "Revise the explanation or report a bounded inconclusive/negative result when evidence cannot distinguish the proposed effects."
+  ],
+  "limitations": [
+    "Source scope is deliberately restricted to three named compounds and molecular vertical absorption; the fourth source compound and bulk photophysics are not required.",
+    "The source uses both broad ICT language and an explicit PQ S1 LE assignment; PR must preserve that distinction.",
+    "Historical constrained-state calculations support only their stated structures, methods and finite grid, not all conformations or methods.",
+    "Independent end-to-end AR construction/solution, alternative-route semantic calibration and runtime isolation remain pending."
+  ],
+  "baseline_packages": [
+    {
+      "mode": "autonomous_research",
+      "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_0dcba54d6a1436bd",
+      "package_content_sha256": "d8cbb5d50c8a80327422ee6f30c3c0f0a69e4c2bcd8445f5fbf92d8aa43dc435",
+      "manifest_sha256": "4f6f83216e1511bf3e1a7a206472fd54715de4537bc6f0a4b7bc1875079fd39a"
+    },
+    {
+      "mode": "paper_reproduction",
+      "path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_0dcba54d6a1436bd",
+      "package_content_sha256": "9f3daca1f0c18c6638db32bb336c57147bfe6b83104ad8f5dfa91ae220f02237",
+      "manifest_sha256": "54df74118b8d16ec7cd6a9f2356b5fdae47f05f6a51949711a8fb603f3e8931d"
+    }
+  ],
+  "old_classification": {
+    "original": "B",
+    "v1": "B",
+    "openness_target": "user_defined_C_open_research_not_historical_category_relabel"
+  }
+}

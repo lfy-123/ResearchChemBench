@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Full neutral DQCS is C31H27N3O3 singlet; retain the phenolic hydrogen present in the three source graphs. Metal complexes all have charge+2; Cd/Co/Ni source multiplicities are1/2/1. Primary medium DMSO. A free ligand extracted from a complex has charge0 singlet, not the parent complex charge. Identify ligand versus metal density partitions and fixed-geometry atom correspondence.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Full neutral DQCS is C31H27N3O3 singlet; retain the phenolic hydrogen present in the three source graphs. Metal complexes all have charge+2; Cd/Co/Ni source multiplicities are1/2/1. Primary medium DMSO. A free ligand extracted from a complex has charge0 singlet, not the parent complex charge. Identify ligand versus metal density partitions and fixed-geometry atom correspondence.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxed_species",
+      "statement": "Compute like-defined TD/NTO observables with six roots or a justified larger window. Co transitions retain doublet reference/spin character rather than forced singlet labels. Core rows: DQCS, Cd_DQCS, Co_DQCS, Ni_DQCS. Recompute excitation_eV, oscillator_strength, metal_transition_fraction, spin_squared from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Compute like-defined TD/NTO observables with six roots or a justified larger window. Co transitions retain doublet reference/spin character rather than forced singlet labels. Core rows: DQCS, Cd_DQCS, Co_DQCS, Ni_DQCS. Recompute excitation_eV, oscillator_strength, metal_transition_fraction, spin_squared from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_frozen_ligand",
+      "statement": "Extract identical complete ligand graph/charge from each source complex, retaining all hydrogens; pair frozen and relaxed ligand results. Core rows: ligand_from_Cd, ligand_from_Co, ligand_from_Ni. Recompute excitation_eV, oscillator_strength, ligand_distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Extract identical complete ligand graph/charge from each source complex, retaining all hydrogens; pair frozen and relaxed ligand results. Core rows: ligand_from_Cd, ligand_from_Co, ligand_from_Ni. Recompute excitation_eV, oscillator_strength, ligand_distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_attribution",
+      "statement": "Separate geometry and metal contributions with state matching and real density fractions. Do not use gap/hardness/electrophilicity algebra as independent causal evidence. Core rows: Cd_effect, Co_effect, Ni_effect, method_sensitivity. Recompute electronic_shift_eV, geometry_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Separate geometry and metal contributions with state matching and real density fractions. Do not use gap/hardness/electrophilicity algebra as independent causal evidence. Core rows: Cd_effect, Co_effect, Ni_effect, method_sensitivity. Recompute electronic_shift_eV, geometry_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "coordinate_units": "angstrom",
+  "components": [
+    {"id":"ai","identity":"7-azaindole","smiles":"c1cc2cc[nH]c2n1","charge":0,"multiplicity":1},
+    {"id":"nf2","identity":"bis(fluorosulfonyl)amide anion [NF2]-","smiles":"[N-](S(=O)(=O)F)S(=O)(=O)F","charge":-1,"multiplicity":1},
+    {"id":"ntf2","identity":"bis(trifluoromethylsulfonyl)amide anion [NTf2]-","smiles":"[N-](S(=O)(=O)C(F)(F)F)S(=O)(=O)C(F)(F)F","charge":-1,"multiplicity":1},
+    {"id":"nnf2","identity":"bis(nonafluorobutylsulfonyl)amide anion [NNf2]-","smiles":"[N-](S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F","charge":-1,"multiplicity":1},
+    {"id":"otf","identity":"trifluoromethanesulfonate anion [OTf]-","smiles":"O=S(=O)([O-])C(F)(F)F","charge":-1,"multiplicity":1},
+    {"id":"bf4","identity":"tetrafluoroborate anion [BF4]-","smiles":"[B-](F)(F)(F)F","charge":-1,"multiplicity":1},
+    {"id":"dca","identity":"dicyanamide anion [DCA]-","smiles":"N#C[N-]C#N","charge":-1,"multiplicity":1},
+    {"id":"br","identity":"bromide anion","smiles":"[Br-]","charge":-1,"multiplicity":1}
+  ],
+  "ai_starting_geometry": [
+    ["C",0.207503,-0.645106,0.000054],["C",0.233755,0.769931,-0.000036],["C",-1.002330,1.416061,-0.000144],["C",-2.139309,0.624866,-0.000126],["C",-2.022302,-0.772303,-0.000020],["C",2.345336,0.009829,0.000060],["C",1.613457,1.160329,0.000090],["H",-1.073771,2.498275,-0.000199],["H",-3.125648,1.072491,-0.000183],["H",-2.915835,-1.389453,0.000000],["H",3.415896,-0.124197,0.000058],["H",2.011385,2.162747,0.000091],["N",1.506497,-1.081847,0.000026],["N",-0.864816,-1.425652,0.000065],["H",1.779557,-2.049017,0.000333]
+  ],
+  "required_complex_ids": ["ai-ai","ai-nf2","ai-ntf2","ai-nnf2","ai-otf","ai-bf4","ai-dca","ai-br"]
+}

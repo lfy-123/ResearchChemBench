@@ -1,0 +1,251 @@
+{
+  "batch": {
+    "number": 2,
+    "name": "常规工具与系综方法扩展",
+    "reason": "复用首批的数据、态匹配和评分结构；补齐构象覆盖、响应定义、光谱和实验数据校准。",
+    "papers": [
+      "paper_3c058fa17fa7c54e",
+      "paper_3e4cad1d1d650d0c",
+      "paper_746e066c163800d8",
+      "paper_9d091f4337662e78",
+      "paper_9ec8c4761c4f171b",
+      "paper_0a62b797f51de2c0",
+      "paper_46f6118697c6397c",
+      "paper_5d94285cfbd51973",
+      "paper_35a6749f3bae345b",
+      "paper_3deba7268b769ce6",
+      "paper_8d8940710de08f7f",
+      "paper_5286f393dfa5a49a"
+    ]
+  },
+  "records": [
+    {
+      "paper_id": "paper_3c058fa17fa7c54e",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "两个给定激发能不等式不能证明 TTA 机制",
+      "minimum": "σ桥/共轭与匹配扭转干预，比较对应 S/T 态及电荷转移",
+      "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+      "gate": "先统一垂直/绝热与态标签；最低目标仅判分子证据与 TTA 的相容性",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "An-σ-Ph/An-σ-DA 为母体，加入价态和连接明确的 π 桥反事实，并在映射骨架上做同扭角/松弛比较；反事实标为新控制模型，不伪称作者合成。",
+        "accept": "比较对应 S/T 态的能量、f、NTO/电荷转移与桥/扭转的差异效应，垂直与绝热分别列账。2E(T1)−E(S1) 只判 TTA 能量相容性，不能替代双分子速率或观测到 TTA 的证据。",
+        "optional": "全浓度动力学、薄膜、TTA 效率及非绝热传播不纳入首版。",
+        "pilot": "先检查 π 桥控制的原子映射和价态，校准一对态；无法形成合理匹配控制时先重设计，不能任意删桥。"
+      }
+    },
+    {
+      "paper_id": "paper_3e4cad1d1d650d0c",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "HOMO 排序不能替代光氧化还原能力",
+      "minimum": "ΔSCF/热力学循环＋E00，并用一个真实底物及反例检验电子转移条件",
+      "software": "Gaussian/ORCA＋热化学分析",
+      "gate": "统一电极零点、溶剂和计量；热力学可行不等于高产率",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "两个源芴阴离子及相应中性自由基，固定 DMSO；4-chloroanisole 是首个真实电子受体。用统一电位参考的氧化循环与 E00 比较激发态还原能力，并留一项淬灭/底物证据作挑战。",
+        "accept": "报告 Eox、E00、Eox*=Eox−E00 及同参考受体还原条件，标注 V/eV 与电子计量；气相 ΔSCF、溶液电位、吸收/发射交点不得互换。判断 HOMO 排序是否足够，允许电子转移热力学可行但产率尚未解释。",
+        "optional": "完整 C–Cl 解离、所有底物收率、催化循环不作为第一版。",
+        "pilot": "SI p23 的 Ag/AgCl→SCE 转换只用于该文条件；先冻结参考循环和 E00 来源，避免以可调电极常数追数。"
+      }
+    },
+    {
+      "paper_id": "paper_746e066c163800d8",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "几个二面角不能解释非线性光学差异",
+      "minimum": "论文1、3、5、7四成员的静态 β/βHRS，分开 π 扩展和固定扭转贡献",
+      "software": "Gaussian原生响应/有限场＋Python",
+      "gate": "校准张量、单位、步长与旋转平均；静态值不与任意动态实验值混比",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "以 compound 5 为锚点，首版明确选论文 1、3、5、7 四成员，比较横向 π 扩展的两个配对；选择其中两体系的公共核心扭转进行固定/松弛控制。新增控制参考计算前先核对 Fig.1 的连接与核心映射。",
+        "accept": "交付静态 β 张量、统一旋转平均 βHRS 和去极化/张量分量；同时给出几何、态/CT 证据。按同单位、同频率比较取代与几何效应。至少做场步长或解析/有限场校准，不能用一个 β 分量冒充 βHRS。",
+        "optional": "其余 42 成员、4556 nm 动态响应和材料设计 C 留作扩展。",
+        "pilot": "先试 compound 5 的响应与一个公共扭转点，校准单位/对称性/旋转不变量。原“4–6”指成员数量，不是化合物编号 4 到 6；本版固定四成员。"
+      }
+    },
+    {
+      "paper_id": "paper_9d091f4337662e78",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "C",
+      "weakness": "三个给定构象布居缺少自主结构判别",
+      "minimum": "从连接图构建 R/S 并搜索构象，以系综 ECD 和保留谱段判断构型",
+      "software": "CREST/xTB＋Gaussian TD-ECD＋GoodVibes",
+      "gate": "不公开答案构象；对映体不作同一热平衡混合，校准截断/展宽稳健性",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "化合物 1 的连接和已知相对立体约束公开，分别生成两个相容的绝对构型集合，独立搜索构象；在相同溶剂/温度与权重规范下计算 ECD。",
+        "accept": "提交搜索覆盖、去重、自由能和旋转强度、系综谱以及截断/展宽敏感性；保留谱段不用于调参。SI 三构象仅占 52.06%，不得当完整系综。非手性环境中镜像构型不靠能差分胜负，不把两个对映体做 Boltzmann 混合。",
+        "optional": "其他天然产物、合成路径、药理活性不加入。",
+        "pilot": "先验证一对镜像的能量/旋光符号与一个构象簇的成本；若多构型在误差内不可区分，则返回支持集合，不能强制唯一标签。"
+      }
+    },
+    {
+      "paper_id": "paper_9ec8c4761c4f171b",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "单分子 KS gap 缺少结构—光学解释",
+      "minimum": "7a/8a/5g 匹配系列，区分 CF3 与共轭效应，TD/NMR/IR 交叉约束",
+      "software": "Gaussian/ORCA TD＋NMR/IR＋构象工具",
+      "gate": "先统一取代身份和光谱定义；显式溶剂只在有依据时加入",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "修正为 7a/8a 的 CF₃/Me 配对及 5g/7a 的单/双芳基配对，保持 N–Ph 身份；5f/6a 是另一条 NH 配对。以 CHCl₃/DMF 吸收为主，7a 的 Z-HK/E-HK/AE/AK 用于物种交叉检验。",
+        "accept": "按原子映射验证匹配因素；计算同态 TD 与必要 NMR/IR，比较固定物种溶剂效应与物种变化。NMR 实际源介质 CDCl₃/DMSO-d6 与吸收的 CHCl₃/DMF 分开建模。不能把 5f/7a 当只有共轭不同的控制，也不能把 KS gap、吸收峰和吸收边混比。",
+        "optional": "显式溶剂只在连续介质残差有依据时开启；细胞/抗菌外推不加入。",
+        "pilot": "正文 p5 明确 5f/6a 为 NH、5g/7a 为 N–Ph；先核对 5g 输入与介质，恢复正确配对后才跑参考。"
+      }
+    },
+    {
+      "paper_id": "paper_0a62b797f51de2c0",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "固定单体偶极/ESP 趋势的解释较弱",
+      "minimum": "链长/氰基位置控制，以独立电荷分离观测检验偶极解释",
+      "software": "Gaussian/ORCA TD＋CREST＋Multiwfn",
+      "gate": "统一封端和态身份；先用中等链试算，不推产氢速率",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "三种源连接类型采用同封端的 1/2/3 重复单元，至少在中间链长增加一个同计量氰基位置控制；低能构象和对应扭角可比。",
+        "accept": "共同等值面 ESP、偶极与 NTO/电子–空穴距离和重叠成对报告；用不参与归因选择的最长链或独立谱趋势检验解释。IP/EA 若加入须使用同定义能量差，不能由几个相互导出的描述符制造多证据。",
+        "optional": "固体载流子分离和产氢速率不是分子低聚物首版的必达结果。",
+        "pilot": "先用中间链长验证态匹配和预算；最长链不收敛时先缩小公开问题，不能仍宣称链长极限。"
+      }
+    },
+    {
+      "paper_id": "paper_46f6118697c6397c",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "单个 compound 2 的亮态计算缺少系列解释",
+      "minimum": "1–4 系列加共同几何取代对照，用 NTO 匹配主亮态",
+      "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+      "gate": "先核准完整结构、无序和物理态；不按固定软件态序号或冲突正文数值评分",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "论文 1–4 的完整 B₂N₆ 结构，保持共价 triflate 与无序选择有据；松弛与公共骨架取代控制成对。",
+        "accept": "提交对应亮态 E/f、NTO 与六氮片段贡献，归因取代和几何时保持同物理态。旧 compound 2 主跃迁偏差与正文/SI冲突单独列出，不能只选能追上数值的态。",
+        "optional": "解离网络和发光寿命可另开；四个共价 triflate 不得直接删除为自由反离子。",
+        "pilot": "先完成完整 compound 2 的身份/态校准和一个取代控制，再扩系列。"
+      }
+    },
+    {
+      "paper_id": "paper_5d94285cfbd51973",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "AZ9 一套描述符不能解释系列抗真菌差异",
+      "minimum": "同菌株 AZ1–10 的预声明描述符与简单理化基线比较，留一和负结果检验",
+      "software": "分子DFT＋Python统计",
+      "gate": "仅十个离散 MIC 样本，保留检测界限；不承诺高精度 QSAR 或靶点发现",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "AZ1–10，固定一个具有完整十成员数据的菌株/检测终点；在看相关性前冻结小型电子描述符集合及简单理化基线。",
+        "accept": "记录 MIC 稀释档和检测界限，用留一及负对照/置换检验复杂描述符是否优于简单基线；保留离群点。不把十样本模型包装为高精度外推 QSAR；结果不足以支持关联也是完成的科学判断。",
+        "optional": "分子靶点、对接、跨菌株泛化和新药发现不加入。",
+        "pilot": "先核对实验表及溶解/删失值是否完整可读；不可把未测或超界数强行填成精确值。"
+      }
+    },
+    {
+      "paper_id": "paper_35a6749f3bae345b",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "Ph/Nap 的吸发射差异仍可能只是相关解释",
+      "minimum": "匹配扭转与末端芳基干预，比较同一 S1 的松弛和谱学",
+      "software": "Gaussian/ORCA TD优化＋CREST＋Multiwfn",
+      "gate": "先验证 S1 态跟踪；基础设施中断不等于化学不可行，独立谱段不可重复调参",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "Ph/Nap 两个源衍生物，加一个预先锁定且结构完整的 Ant、Pyr 或 Cbz 留出成员；相同连接扭转的受限/松弛 S0 与对应 S1。",
+        "accept": "同一态的吸收、发射、重组量和 NTO 对照区分芳基与扭转；记录根切换并用留出成员测试趋势，不能各分子单独调峰位。",
+        "optional": "薄膜量子产率、全非辐射动力学不加入。",
+        "pilot": "先恢复一个 Ph/Nap 的 S1 态跟踪试点。23.465 h 是旧 runner 含两次尝试历时，不作为新计算预算。"
+      }
+    },
+    {
+      "paper_id": "paper_3deba7268b769ce6",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "单染料在 DCM 的态归属范围过窄",
+      "minimum": "位置异构×介质/特异溶剂控制，检验溶致变色解释",
+      "software": "Gaussian/ORCA TDDFT＋有限溶剂簇",
+      "gate": "校准阴离子/态与谱峰；不用一个 DCM 结果证明反转",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "Dye-3/4 的同质子化和同构型；从源实验选非极性、极性非质子、质子溶剂各一个并固定名单，质子溶剂设有限显式氢键对照。",
+        "accept": "比较同态能量/强度、NTO 与溶剂响应，区分态切换和同态位移；保留一个溶剂作趋势检验。不能对很小溶剂样本自由拟合大量 Catalan 参数，不能用 DCM 单点证明反转。",
+        "optional": "全面溶剂库、动力学寿命不加入。",
+        "pilot": "先核对阴离子电荷/弥散基组和一个溶剂态收敛；明确氢键簇的计量。"
+      }
+    },
+    {
+      "paper_id": "paper_8d8940710de08f7f",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "V/Z 构象解释缺少独立作用对照",
+      "minimum": "氢键、色散开关与介质控制，统一系综热力学",
+      "software": "Gaussian/ORCA＋CREST＋GoodVibes＋Multiwfn",
+      "gate": "统一 qRRHO/介质与私有参考；不推抗真菌药理",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "同一物种的 V(+)/V(−)/Z 扭转族，独立构象搜索；真空/甲醇分别建立统一热化学表，匹配色散开关和受限氢键诊断。",
+        "accept": "逐项分离电子能、热修正、溶剂效应与自旋/身份，避免重复极小值；V 对称相关态应核查数值近简并。判断氢键与色散哪一解释在干预后仍成立；气相参考不能直接约束甲醇数值。",
+        "optional": "不同质子化、电荷和抗真菌药理不并入同一系综。",
+        "pilot": "先冻结 qRRHO/标准态并验证一个 V/Z 配对，解决旧介质定义分歧。"
+      }
+    },
+    {
+      "paper_id": "paper_5286f393dfa5a49a",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "给定立体模型的单点能不足以解释手性光学响应",
+      "minimum": "mono/di-PDI 的 TD-CD、旋转强度和 gabs，加入共同几何对照",
+      "software": "Gaussian TD-CD＋Multiwfn＋构象工具",
+      "gate": "核准旋转强度、展宽和可互变构象；di-PDI 成本先试算，不推光电器件响应",
+      "feasibility": "R",
+      "batch": 2,
+      "first_version_spec": {
+        "matrix": "mono/di-ClPDI-Ph 的完整侧链与固定螺旋骨架立体定义；比较对应 TD-CD 及一个共同几何对照，构象仅在化学上可互变集合内加权。",
+        "accept": "输出 UV/ECD、旋转强度和 gabs=Δε/ε，统一展宽和符号；固定 MM 骨架下改变 RRRR/SSSS 不必是镜像，不能强令等能或反号。用光谱而非旧单点能差检验相互作用解释。",
+        "optional": "光电器件响应、完整固态堆积不是首版。",
+        "pilot": "先试 di-PDI 的 TD-CD 内存/态数及符号约定，再决定构象上限；旧 138 原子单点成本不能直接估算完整 TD 系综。"
+      }
+    }
+  ]
+}

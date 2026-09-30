@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_spectral_series",
+      "reference_id": "kp_spectral_series",
+      "type": "semantic",
+      "expected": "Construct complete identities with fixed operational backbone helicity; calculateUV/ECD/gabs and state-character correspondence at one solvent/response convention. Retain full transition moments/strengths and raw states. Do not infer spectral changes from the old relative single-point energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.spectral_series",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Construct complete identities with fixed operational backbone helicity; calculateUV/ECD/gabs and state-character correspondence at one solvent/response convention. Retain full transition moments/strengths and raw states. Do not infer spectral changes from the old relative single-point energy. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_common_geometry",
+      "reference_id": "kp_common_geometry",
+      "type": "semantic",
+      "expected": "Use the explicit retained mono/di subunit maps, restore all monomerCl/H and quantify the common-core RMSD. Compare equivalent bands/NTO character under one broadening. State remaining composition/coupling effects; never call a clipped arbitrary fragment the fullmonomer or compare its unbalanced total energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.common_geometry",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Use the explicit retained mono/di subunit maps, restore all monomerCl/H and quantify the common-core RMSD. Compare equivalent bands/NTO character under one broadening. State remaining composition/coupling effects; never call a clipped arbitrary fragment the fullmonomer or compare its unbalanced total energy. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_ensemble_and_sign",
+      "reference_id": "kp_ensemble_and_sign",
+      "type": "semantic",
+      "expected": "Sample sidechain conformers only within each fixed member/backbone, document minima/free energies and weight convergence. Perform a true mirror sign/energy calibration and one common broadening/weight perturbation. If kinetic evidence excludes equilibrium, report conditional spectra without unjustified cross-family weighting.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ensemble_and_sign",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Sample sidechain conformers only within each fixed member/backbone, document minima/free energies and weight convergence. Perform a true mirror sign/energy calibration and one common broadening/weight perturbation. If kinetic evidence excludes equilibrium, report conditional spectra without unjustified cross-family weighting. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Assess the molecular spectral extension explanation with stereochemistry, geometry and ensemble controls, without extrapolating to device response. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Assess the molecular spectral extension explanation with stereochemistry, geometry and ensemble controls, without extrapolating to device response. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "spectral_series",
+      "max_score": 25,
+      "description": "Construct complete identities with fixed operational backbone helicity; calculateUV/ECD/gabs and state-character correspondence at one solvent/response convention. Retain full transition moments/strengths and raw states. Do not infer spectral changes from the old relative single-point energy.",
+      "rule_ids": [
+        "r_spectral_series"
+      ]
+    },
+    {
+      "id": "common_geometry",
+      "max_score": 20,
+      "description": "Use the explicit retained mono/di subunit maps, restore all monomerCl/H and quantify the common-core RMSD. Compare equivalent bands/NTO character under one broadening. State remaining composition/coupling effects; never call a clipped arbitrary fragment the fullmonomer or compare its unbalanced total energy.",
+      "rule_ids": [
+        "r_common_geometry"
+      ]
+    },
+    {
+      "id": "ensemble_and_sign",
+      "max_score": 20,
+      "description": "Sample sidechain conformers only within each fixed member/backbone, document minima/free energies and weight convergence. Perform a true mirror sign/energy calibration and one common broadening/weight perturbation. If kinetic evidence excludes equilibrium, report conditional spectra without unjustified cross-family weighting.",
+      "rule_ids": [
+        "r_ensemble_and_sign"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Assess the molecular spectral extension explanation with stereochemistry, geometry and ensemble controls, without extrapolating to device response. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

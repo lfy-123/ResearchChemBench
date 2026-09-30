@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_c49f002b450bda0a",
+  "task_type": "autonomous_research",
+  "title": "Autonomous free-energy landscape of four 2-azidocyclohexanol stereoisomers",
+  "category": "computational chemistry / stereoisomer thermochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The Agent must infer and validate a thermodynamic grouping from four conformational landscapes without a supplied hypothesis, including symmetry and model-sensitivity tests."
+  ],
+  "paper": {
+    "title": "Directed evolution of stereoselective enzymes meets click reactions: Asymmetric synthesis of chiral triazoles using a Cu(I)-compatible halohydrin dehalogenase",
+    "doi": "10.1016/j.gresc.2024.01.001",
+    "journal": "Green Synthesis and Catalysis",
+    "publication_date": "2026-02-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained mapped connectivity, absolute stereochemistry, charge, multiplicity, solvent, and temperature for four product stereoisomers."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable conformer thermochemistry, validation, independently inferred grouping, conclusion, and limitations."
+    }
+  ]
+}

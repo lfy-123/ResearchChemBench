@@ -4,7 +4,7 @@ Determine, by an independently planned and executed atomistic calculation, the a
 
 # Public inputs and scientific boundaries
 
-All four XYZ files and system_manifest.json under data/inputs are public. They uniquely specify neutral Cu and Li composition, Cartesian coordinates in Å, the p(5×5) in-plane vectors, five Cu layers, 15 Å z vacuum to add/use, bottom two fixed and top three relaxable, fcc-hollow site identity, n=1 and n=25 coverage counts, neutral isolated Li reference, and singlet multiplicity. The object is a vacuum periodic slab; electrolyte, explicit potential, defects, steps, alloying, and second-layer Li are outside scope. Choose and justify the electronic-structure method and convergence settings independently; the paper's route is qualitative context only, not a required protocol or answer.
+All four XYZ files and system_manifest.json under data/inputs are public. They uniquely specify neutral Cu and Li composition, Cartesian coordinates in Å, the p(5×5) in-plane vectors, five Cu layers, 15 Å z vacuum to add/use, bottom two fixed and top three relaxable, fcc-hollow site identity, n=1 and n=25 coverage counts, a neutral isolated Li doublet reference. Do not impose a molecular singlet multiplicity on the periodic metallic slab; document its spin treatment separately. The object is a vacuum periodic slab; electrolyte, explicit potential, defects, steps, alloying, and second-layer Li are outside scope. Choose and justify the electronic-structure method and convergence settings independently; the paper's route is qualitative context only, not a required protocol or answer.
 
 # Required scientific validation/investigation
 

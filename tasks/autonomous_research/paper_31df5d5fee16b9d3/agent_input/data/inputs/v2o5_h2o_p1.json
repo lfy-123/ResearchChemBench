@@ -1,8 +1,408 @@
 {
- "name":"bilayer V2O5·H2O, SI Table S1 P1 model","charge":0,"multiplicity":1,"coordinate_type":"fractional","cell":{"a":11.69,"b":3.63,"c":10.93,"alpha":90.0,"beta":88.5,"gamma":90.0},
- "atoms":[
- {"label":"V(1)","element":"V","f":[0.9316,1.0,0.1411]},{"label":"V(2)","element":"V","f":[0.0684,0.0,0.8589]},{"label":"V(3)","element":"V","f":[0.4316,0.5,0.1411]},{"label":"V(4)","element":"V","f":[0.5684,0.5,0.8589]},{"label":"V(5)","element":"V","f":[0.2213,0.0,0.1437]},{"label":"V(6)","element":"V","f":[0.7787,1.0,0.8563]},{"label":"V(7)","element":"V","f":[0.7212,0.5,0.1437]},{"label":"V(8)","element":"V","f":[0.2787,0.5,0.8563]},
- {"label":"O(1)","element":"O","f":[0.3918,0.0,0.1152]},{"label":"O(2)","element":"O","f":[0.6082,1.0,0.8848]},{"label":"O(3)","element":"O","f":[0.8918,0.5,0.1152]},{"label":"O(4)","element":"O","f":[0.1082,0.5,0.8848]},{"label":"O(5)","element":"O","f":[0.0788,0.0,0.0814]},{"label":"O(6)","element":"O","f":[0.9212,0.0,0.9186]},{"label":"O(7)","element":"O","f":[0.5788,0.5,0.0814]},{"label":"O(8)","element":"O","f":[0.4212,0.5,0.9186]},{"label":"O(9)","element":"O","f":[0.7569,1.0,0.1077]},{"label":"O(10)","element":"O","f":[0.2431,0.0,0.8923]},{"label":"O(11)","element":"O","f":[0.2569,0.5,0.1077]},{"label":"O(12)","element":"O","f":[0.7431,0.5,0.8923]},{"label":"O(13)","element":"O","f":[0.1985,0.0001,0.2873]},{"label":"O(14)","element":"O","f":[0.8014,0.9999,0.7127]},{"label":"O(15)","element":"O","f":[0.6986,0.4999,0.2873]},{"label":"O(16)","element":"O","f":[0.3015,0.5002,0.7127]},{"label":"O(17)","element":"O","f":[0.9478,0.9999,0.2845]},{"label":"O(18)","element":"O","f":[0.0522,0.0001,0.7155]},{"label":"O(19)","element":"O","f":[0.4478,0.5001,0.2845]},{"label":"O(20)","element":"O","f":[0.5522,0.5,0.7155]},{"label":"O(21)","element":"O","f":[0.6493,0.9985,0.5117]},{"label":"O(22)","element":"O","f":[0.3507,0.002,0.4883]},{"label":"O(23)","element":"O","f":[0.1493,0.502,0.5117]},{"label":"O(24)","element":"O","f":[0.8507,0.4985,0.4883]},
- {"label":"O*","element":"O","role":"water_oxygen","f":[0.6493,0.5117,0.5117]},{"label":"H(1)","element":"H","role":"water_hydrogen","f":[0.5977,0.9997,0.443]},{"label":"H(2)","element":"H","role":"water_hydrogen","f":[0.4023,0.0003,0.557]},{"label":"H(3)","element":"H","role":"water_hydrogen","f":[0.0977,0.5004,0.443]},{"label":"H(4)","element":"H","role":"water_hydrogen","f":[0.9023,0.4998,0.557]},{"label":"H(5)","element":"H","role":"water_hydrogen","f":[0.7267,0.002,0.4745]},{"label":"H(6)","element":"H","role":"water_hydrogen","f":[0.2733,0.9972,0.5255]},{"label":"H(7)","element":"H","role":"water_hydrogen","f":[0.2267,0.4972,0.4745]},{"label":"H(8)","element":"H","role":"water_hydrogen","f":[0.7733,0.502,0.5255]}
- ]
+  "name": "bilayer V2O5·H2O, SI Table S1 P1 model",
+  "charge": 0,
+  "multiplicity": 1,
+  "coordinate_type": "fractional",
+  "cell": {
+    "a": 11.69,
+    "b": 3.63,
+    "c": 10.93,
+    "alpha": 90,
+    "beta": 88.5,
+    "gamma": 90
+  },
+  "atoms": [
+    {
+      "label": "V(1)",
+      "element": "V",
+      "f": [
+        0.9316,
+        1,
+        0.1411
+      ]
+    },
+    {
+      "label": "V(2)",
+      "element": "V",
+      "f": [
+        0.0684,
+        0,
+        0.8589
+      ]
+    },
+    {
+      "label": "V(3)",
+      "element": "V",
+      "f": [
+        0.4316,
+        0.5,
+        0.1411
+      ]
+    },
+    {
+      "label": "V(4)",
+      "element": "V",
+      "f": [
+        0.5684,
+        0.5,
+        0.8589
+      ]
+    },
+    {
+      "label": "V(5)",
+      "element": "V",
+      "f": [
+        0.2213,
+        0,
+        0.1437
+      ]
+    },
+    {
+      "label": "V(6)",
+      "element": "V",
+      "f": [
+        0.7787,
+        1,
+        0.8563
+      ]
+    },
+    {
+      "label": "V(7)",
+      "element": "V",
+      "f": [
+        0.7212,
+        0.5,
+        0.1437
+      ]
+    },
+    {
+      "label": "V(8)",
+      "element": "V",
+      "f": [
+        0.2787,
+        0.5,
+        0.8563
+      ]
+    },
+    {
+      "label": "O(1)",
+      "element": "O",
+      "f": [
+        0.3918,
+        0,
+        0.1152
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(2)",
+      "element": "O",
+      "f": [
+        0.6082,
+        1,
+        0.8848
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(3)",
+      "element": "O",
+      "f": [
+        0.8918,
+        0.5,
+        0.1152
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(4)",
+      "element": "O",
+      "f": [
+        0.1082,
+        0.5,
+        0.8848
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(5)",
+      "element": "O",
+      "f": [
+        0.0788,
+        0,
+        0.0814
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(6)",
+      "element": "O",
+      "f": [
+        0.9212,
+        0,
+        0.9186
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(7)",
+      "element": "O",
+      "f": [
+        0.5788,
+        0.5,
+        0.0814
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(8)",
+      "element": "O",
+      "f": [
+        0.4212,
+        0.5,
+        0.9186
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(9)",
+      "element": "O",
+      "f": [
+        0.7569,
+        1,
+        0.1077
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(10)",
+      "element": "O",
+      "f": [
+        0.2431,
+        0,
+        0.8923
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(11)",
+      "element": "O",
+      "f": [
+        0.2569,
+        0.5,
+        0.1077
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(12)",
+      "element": "O",
+      "f": [
+        0.7431,
+        0.5,
+        0.8923
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(13)",
+      "element": "O",
+      "f": [
+        0.1985,
+        0.0001,
+        0.2873
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(14)",
+      "element": "O",
+      "f": [
+        0.8014,
+        0.9999,
+        0.7127
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(15)",
+      "element": "O",
+      "f": [
+        0.6986,
+        0.4999,
+        0.2873
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(16)",
+      "element": "O",
+      "f": [
+        0.3015,
+        0.5002,
+        0.7127
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(17)",
+      "element": "O",
+      "f": [
+        0.9478,
+        0.9999,
+        0.2845
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(18)",
+      "element": "O",
+      "f": [
+        0.0522,
+        0.0001,
+        0.7155
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(19)",
+      "element": "O",
+      "f": [
+        0.4478,
+        0.5001,
+        0.2845
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(20)",
+      "element": "O",
+      "f": [
+        0.5522,
+        0.5,
+        0.7155
+      ],
+      "role": "framework_oxygen"
+    },
+    {
+      "label": "O(21)",
+      "element": "O",
+      "f": [
+        0.6493,
+        0.9985,
+        0.5117
+      ],
+      "role": "water_oxygen"
+    },
+    {
+      "label": "O(22)",
+      "element": "O",
+      "f": [
+        0.3507,
+        0.002,
+        0.4883
+      ],
+      "role": "water_oxygen"
+    },
+    {
+      "label": "O(23)",
+      "element": "O",
+      "f": [
+        0.1493,
+        0.502,
+        0.5117
+      ],
+      "role": "water_oxygen"
+    },
+    {
+      "label": "O(24)",
+      "element": "O",
+      "f": [
+        0.8507,
+        0.4985,
+        0.4883
+      ],
+      "role": "water_oxygen"
+    },
+    {
+      "label": "H(1)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.5977,
+        0.9997,
+        0.443
+      ]
+    },
+    {
+      "label": "H(2)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.4023,
+        0.0003,
+        0.557
+      ]
+    },
+    {
+      "label": "H(3)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.0977,
+        0.5004,
+        0.443
+      ]
+    },
+    {
+      "label": "H(4)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.9023,
+        0.4998,
+        0.557
+      ]
+    },
+    {
+      "label": "H(5)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.7267,
+        0.002,
+        0.4745
+      ]
+    },
+    {
+      "label": "H(6)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.2733,
+        0.9972,
+        0.5255
+      ]
+    },
+    {
+      "label": "H(7)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.2267,
+        0.4972,
+        0.4745
+      ]
+    },
+    {
+      "label": "H(8)",
+      "element": "H",
+      "role": "water_hydrogen",
+      "f": [
+        0.7733,
+        0.502,
+        0.5255
+      ]
+    }
+  ]
 }

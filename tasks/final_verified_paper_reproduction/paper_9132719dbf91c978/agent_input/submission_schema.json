@@ -1,0 +1,246 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "method",
+      "investigation",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "bounded_failure"
+        ],
+        "minLength": 1
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "input_path"
+        ],
+        "properties": {
+          "charge": {
+            "const": 0
+          },
+          "multiplicity": {
+            "const": 1
+          },
+          "input_path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "stationary_point": {
+        "type": "object",
+        "required": [
+          "minimum_n_imaginary",
+          "ts_n_imaginary",
+          "ts_frequency_cm1"
+        ],
+        "properties": {
+          "minimum_n_imaginary": {
+            "type": "integer"
+          },
+          "ts_n_imaginary": {
+            "type": "integer"
+          },
+          "ts_frequency_cm1": {
+            "type": "number"
+          }
+        }
+      },
+      "barrier": {
+        "type": "object",
+        "required": [
+          "value_kcal_mol",
+          "reference_state",
+          "uncertainty_kcal_mol"
+        ],
+        "properties": {
+          "value_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "reference_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uncertainty_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "connection_evidence": {
+        "type": "object",
+        "required": [
+          "method",
+          "supports_both_endpoints"
+        ],
+        "properties": {
+          "method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supports_both_endpoints": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure",
+          "solvent",
+          "thermal_convention"
+        ],
+        "properties": {
+          "software": {
+            "type": "string",
+            "minLength": 1
+          },
+          "electronic_structure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "solvent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "thermal_convention": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "investigation": {
+        "type": "object",
+        "required": [
+          "attempts",
+          "completion_basis"
+        ],
+        "properties": {
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "label",
+                "outcome",
+                "material_to_conclusion"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outcome": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "material_to_conclusion": {
+                  "type": "boolean"
+                },
+                "diagnostics": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "completion_basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stopping_criterion": {
+            "type": "string"
+          }
+        }
+      },
+      "failure_report": {
+        "type": "object",
+        "required": [
+          "reason",
+          "attempted_search",
+          "available_diagnostics"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attempted_search": {
+            "type": "string",
+            "minLength": 1
+          },
+          "available_diagnostics": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "success"
+          },
+          "barrier": {
+            "properties": {
+              "value_kcal_mol": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "stationary_point",
+          "barrier",
+          "connection_evidence"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_report"
+        ]
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

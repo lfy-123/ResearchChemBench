@@ -1,0 +1,35 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "task_type": "autonomous_research",
+  "version": 2,
+  "old_class": {
+    "old": "A",
+    "v1": "B"
+  },
+  "autonomy": "source_bounded_open_research_C",
+  "status": "content_developed_reference_judge_isolation_pending",
+  "baseline_package": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_9aa6d5655edfeb52",
+  "baseline_package_content_sha256": "1568b9adfe9a9aca9f26434ac0d0c63b9b48ac13ca7ffcf6091ec3c26fca9d73",
+  "baseline_manifest_sha256": "0b96d34cbc8989865b8c98c6108422e99d6670530dd70aa44755eb3ac80d4339",
+  "baseline_snapshot": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/_backup_metadata/snapshot_manifest.json",
+    "sha256": "6aec7a6cf2b705fb9700e949fb90323c4f972ee954ca16979b7c7a3082152915",
+    "inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666"
+  },
+  "plan": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/plans/paper_9aa6d5655edfeb52.json",
+  "plan_sha256": "8aef6fb56ab164b39ae7984e5c9e2acc85cee12c468fbf3fbe41c887651f4214",
+  "plan_created_before_copy": true,
+  "public_changes": [
+    "Keep fused2a complete topology and source THF observations; remove optimized geometry and target orbital/state assignment.",
+    "Remove the mandatory Br-containing precursor1a comparison, which was a builder extension with a compositional confound rather than the source photophysical comparator.",
+    "Remove cage-C-C restrained/released grid and preassigned cage-motion/CT causal explanation from public and private requirements."
+  ],
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "scientifically_validated": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "blockers": [],
+  "created_at_utc": "2026-09-28T16:49:56.785422+00:00",
+  "offline_existing_output_observation_at_utc": "2026-09-28T17:32:55.357887+00:00"
+}

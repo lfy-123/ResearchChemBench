@@ -1,0 +1,5 @@
+# V2 evidence and calibration boundary
+
+Reuse only the full-identity V1 tensor/geometry artifacts for the stated NICS definition, separating positive-side source anchors from both-side means. Evaluate alternate current-based findings on their own relevant evidence; their calibration is pending. Adversarial cases include wrong smaller graph, laboratory-zz misuse, sign reversal, unrecorded constraints, fixed-core inference ignoring residual periphery, copied23.6/19.2 and universal-aromaticity prose.
+
+No new scientific computation or semantic judge run was launched during content authoring. Reuse is limited to the exact objects, definitions and conditions in reference_reuse.json. V1 acceptance and historical archive matrices are not V2 requirements. Before scored deployment, independently test claim-conditional validity and evidence scoring on the documented positive/negative cases, audit runner isolation, and calibrate any newly used scientific route. Current file/hash/schema/runtime tests establish implementation only.

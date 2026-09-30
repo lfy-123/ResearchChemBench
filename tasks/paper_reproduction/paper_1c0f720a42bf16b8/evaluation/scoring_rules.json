@@ -81,6 +81,24 @@
       "expected": "source-backed scientific agreement with the referenced statement"
     },
     {
+      "rule_id": "rule_pr_kp6",
+      "reference_id": "kp_pr_result_4",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.observables.ground_dipole_D",
+          "$.observables.excited_dipole_D",
+          "$.observables.torsions_deg"
+        ],
+        "comparison": "expert comparison with Table S2 source values and figure-defined torsions"
+      },
+      "expected": "source-backed scientific agreement with the referenced statement"
+    },
+    {
       "rule_id": "rule_pr_con1",
       "reference_id": "con_pr_final_1",
       "type": "semantic",

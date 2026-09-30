@@ -1,0 +1,49 @@
+{
+  "definition": "Six experimental bond lengths for compound 1 from SI Table S2, printed precision 0.001 angstrom. These are experimental inputs, not calculated reference answers.",
+  "units": "angstrom",
+  "bonds": [
+    {
+      "atoms": [
+        "C1",
+        "C2"
+      ],
+      "experimental_length": 1.483
+    },
+    {
+      "atoms": [
+        "C2",
+        "C3"
+      ],
+      "experimental_length": 1.429
+    },
+    {
+      "atoms": [
+        "N1",
+        "C1"
+      ],
+      "experimental_length": 1.341
+    },
+    {
+      "atoms": [
+        "N2",
+        "C2"
+      ],
+      "experimental_length": 1.319
+    },
+    {
+      "atoms": [
+        "N3",
+        "C3"
+      ],
+      "experimental_length": 1.314
+    },
+    {
+      "atoms": [
+        "C1",
+        "C10"
+      ],
+      "experimental_length": 1.394
+    }
+  ],
+  "statistics": "RMSE uses the six calculated-minus-experimental residuals. OLS R-squared includes an intercept, experimental lengths as x and calculated lengths as y. Preserve calculated precision; do not round optimized distances before computing."
+}

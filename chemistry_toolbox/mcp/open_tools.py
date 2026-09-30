@@ -14,11 +14,14 @@ from .execution_models import (
     DocumentationReadRequest,
     DocumentationSearchRequest,
     ExecutionResourceRequest,
+    ExecutionSubmissionLookupRequest,
+    ExecutionResultObservationRequest,
     JobCancelRequest,
     JobCollectRequest,
     JobStatusRequest,
     JobWaitRequest,
     NativeJobRequest,
+    OutputContractValidationRequest,
     SoftwareInspectRequest,
     SoftwareListRequest,
     WorkspaceTextReadRequest,
@@ -30,13 +33,15 @@ from .open_execution import (
     declare_scientific_artifact as _declare_scientific_artifact,
     get_execution_job as _get_execution_job,
     get_execution_resources as _get_execution_resources,
+    lookup_execution_submission as _lookup_execution_submission,
+    list_execution_jobs as _list_execution_jobs,
     inspect_analysis_inputs as _inspect_analysis_inputs,
     read_workspace_text as _read_workspace_text,
     submit_analysis_program as _submit_analysis_program,
     submit_native_job as _submit_native_job,
     validate_native_job as _validate_native_job,
     validate_analysis_program as _validate_analysis_program,
-    wait_execution_jobs as _wait_execution_jobs,
+    wait_execution_jobs_async as _wait_execution_jobs,
     write_workspace_text as _write_workspace_text,
 )
 from .software_catalog import (
@@ -47,7 +52,7 @@ from .software_catalog import (
     search_software_documentation as _search_software_documentation,
     software_documentation_recovery,
 )
-from .tracing import execute_traced
+from .tracing import execute_traced, execute_traced_async
 
 
 RequestT = TypeVar("RequestT", bound=BaseModel)
@@ -61,12 +66,16 @@ OPEN_EXECUTION_TOOL_NAMES = (
     "write_workspace_text",
     "read_workspace_text",
     "validate_native_job",
+    "validate_output_contract",
     "submit_native_job",
     "list_analysis_runtimes",
     "inspect_analysis_inputs",
     "validate_analysis_program",
     "submit_analysis_program",
     "get_execution_resources",
+    "lookup_execution_submission",
+    "list_execution_jobs",
+    "acknowledge_execution_result",
     "get_execution_job",
     "wait_execution_jobs",
     "collect_execution_job",
@@ -80,6 +89,9 @@ ARTIFACT_CAPTURING_TOOLS = {
 
 
 TOOL_DESCRIPTIONS = {
+    "validate_output_contract": "Read-only preflight of required outputs and JSON Schema using only public submission_schema.json. Returns file/JSON paths, structured errors and the contract hash. No scientific scoring or output changes.",
+    "acknowledge_execution_result": "Confirm observation of one exact collected result receipt without rerunning or re-parsing it.",
+    "list_execution_jobs": "List durable job identities and states restricted to the current run.",
     "list_software": (
         "List and filter a paginated compact index of the complete local software/library inventory. "
         "Use query to narrow it, then inspect_software for one exact id; detailed versions, paths, "
@@ -140,6 +152,10 @@ TOOL_DESCRIPTIONS = {
     "get_execution_resources": (
         "Read the evaluator-controlled task resource budget, resources reserved by active jobs, "
         "and capacity currently available before choosing resources or submission concurrency."
+    ),
+    "lookup_execution_submission": (
+        "Look up the durable receipt for a submission_key after an MCP or Agent transport "
+        "interruption. It never starts a replacement job."
     ),
     "get_execution_job": (
         "Inspect one native/program job by exact job_id for failure diagnosis or suspected stalls, "
@@ -253,6 +269,13 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
     return _invoke("validate_native_job", request, _validate_native_job)
 
 
+def validate_output_contract(request: OutputContractValidationRequest) -> dict[str, Any]:
+    from chemistry_toolbox.src.output_contract import validate_workspace_output_contract
+    from .workspace import workspace_root
+    return _invoke("validate_output_contract", request,
+                   lambda value: validate_workspace_output_contract(workspace_root(), max_errors=value.max_errors))
+
+
 def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
     return _invoke("submit_native_job", request, _submit_native_job)
 
@@ -281,8 +304,35 @@ def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
     return _invoke("get_execution_job", request, _get_execution_job)
 
 
-def wait_execution_jobs(request: JobWaitRequest) -> dict[str, Any]:
-    return _invoke("wait_execution_jobs", request, _wait_execution_jobs)
+def acknowledge_execution_result(request: ExecutionResultObservationRequest) -> dict[str, Any]:
+    def acknowledge(value):
+        from .execution_store import execution_store
+        store = execution_store()
+        result = store.get_record("result", value.job_id)
+        if not result or result["result_receipt_id"] != value.result_receipt_id:
+            return {"status": "invalid_request", "error": {"code": "result_receipt_mismatch"}}
+        observation = {"state": "observed", "result_receipt_id": value.result_receipt_id}
+        store.put_record("observation_revision", value.result_receipt_id, observation, immutable=True)
+        store.put_record("observation", value.job_id, observation)
+        return {"status": "success", "job_id": value.job_id, "observed": True}
+    return _invoke("acknowledge_execution_result", request, acknowledge)
+
+
+def list_execution_jobs(request: ExecutionResourceRequest) -> dict[str, Any]:
+    return _invoke("list_execution_jobs", request, _list_execution_jobs)
+
+
+def lookup_execution_submission(request: ExecutionSubmissionLookupRequest) -> dict[str, Any]:
+    return _invoke(
+        "lookup_execution_submission", request, _lookup_execution_submission
+    )
+
+
+async def wait_execution_jobs(request: JobWaitRequest) -> dict[str, Any]:
+    return await execute_traced_async(
+        "wait_execution_jobs", {"request": request.model_dump(mode="json")},
+        lambda: _wait_execution_jobs(request),
+    )
 
 
 def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
@@ -305,7 +355,12 @@ def register_open_execution_tools(mcp) -> list[str]:
         for name in OPEN_EXECUTION_TOOL_NAMES
     }
     for name, function in functions.items():
-        mcp.tool(name=name, description=TOOL_DESCRIPTIONS[name])(function)
+        if name == "validate_output_contract":
+            from mcp.types import ToolAnnotations
+            mcp.tool(name=name, description=TOOL_DESCRIPTIONS[name],
+                     annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False))(function)
+        else:
+            mcp.tool(name=name, description=TOOL_DESCRIPTIONS[name])(function)
     return list(functions)
 
 

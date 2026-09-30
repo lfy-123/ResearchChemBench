@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use Egan_identity.json and egan_identity.json for the true two-Ir dimers. Each ligand binds one Ir through its two iminoxolene N,O pairs; the ester oxygens are not assigned as donors in this dimer. Full Egan has four tert-butyl groups per ligand; truncated egan replaces exactly these with H and retains the ethylene-dianthranilate tether. Opposite local helicities define the A,C starting arrangement, but no final symmetry or distance is imposed. The former mononuclear cis-alpha/beta IrCl objects are excluded. retained_heavy_mapping.json gives the exact 36-atom retained map per ligand; apply it independently to A/B copies. For neutral doublet fragments A=(ligand)Ir and B=(ligand)Ir: E_int=E_AB-E_A(frozen)-E_B(frozen); E_def=sum[E_fragment(frozen)-E_fragment(relaxed)]; E_assoc=E_int+E_def, kcal/mol. Keep fragment charge/spin, basis/BSSE and relativistic definitions identical. This operational decomposition is not a unique partition of metal–metal versus ligand pi bonding. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_dimer_states",
+      "statement": "True dimers, electronic states and paired truncation",
+      "expected": "Check actual full/truncated graph/mapping, opposite-helicity starts, spin/occupation and curvature. Mononuclear energy differences are irrelevant to Ir–Ir bond validation. Do not force a source symmetry saddle into a minimum.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_fragment_interventions",
+      "statement": "Fixed-fragment interaction/deformation and distance/twist matrix",
+      "expected": "Recompute fragment arithmetic; no missing ligand/metal atoms or state-dependent reference swaps. Examine basis superposition and scalar/SOC Hamiltonian choices. An energy decomposition alone does not uniquely isolate pi causation.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_bonding_evidence",
+      "statement": "Cross-check orbital, density, bond-index and energy explanations",
+      "expected": "Require correlated response to the explicit interventions in both model sizes and a real sensitivity. Accept direct-metal, ligand-assisted or indistinguishable explanations when evidence supports them; do not award a cartoon or single bond order as causal proof.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

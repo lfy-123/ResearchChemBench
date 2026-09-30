@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_minimum",
+      "type": "condition",
+      "expected": "Convergence, minimum validation and consistent fragment bookkeeping are explicitly evidenced. Verify atom/charge bookkeeping and E_bind = E_complex - sum(E_fragments) at a consistent electronic-energy level. Do not substitute Gibbs energy or reverse-sign dissociation energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation",
+          "$.energies"
+        ],
+        "comparison": "expert check of process evidence"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_coverage",
+      "type": "semantic",
+      "expected": "Autonomous candidate generation, deduplication and actual candidate comparison are reproducibly documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_binding",
+      "type": "numeric",
+      "target": -2.16,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.binding_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_conclusion",
+      "type": "semantic",
+      "expected": "Conclusion is bounded to the isolated gas-phase complex and does not claim bulk electrolyte or electrochemical performance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "The validated gas-phase Li+-TFPM complex and consistent fragment references give the required signed binding energy and Li-O/F coordination geometry.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

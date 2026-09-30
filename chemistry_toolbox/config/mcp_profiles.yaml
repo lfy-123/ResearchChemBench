@@ -293,7 +293,7 @@ profiles:
       commands: [verdi]
     environment_variables:
       AIIDA_PATH: .software_cache/state/aiida
-    backends: [qcelemental, cclib, pymatgen, spglib, mdtraj]
+    backends: [qcelemental, cclib, pymatgen, spglib, mdtraj, ccdc]
 
   free_energy:
     conda_name: researchchem-free-energy
@@ -316,10 +316,11 @@ profiles:
     use_project_model_cache: true
     health_checks:
       modules: [ase, mace, mace.calculators, pyscf, tblite, torch]
-      commands: [orca, mpirun]
+      commands: [orca, mpirun, fcclasses3]
       external_commands:
         - .software_cache/installations/orca/6.1.1/orca
         - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun
+        - docs/verification/group_1/software_install_audit/fcclasses3-3.0.4/install/bin/fcclasses3
       models:
         mace_medium_mpa_0:
           backend: mace_mp
@@ -331,6 +332,7 @@ profiles:
     prepend_path_entries:
       - .software_cache/installations/orca/6.1.1
       - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin
+      - docs/verification/group_1/software_install_audit/fcclasses3-3.0.4/install/bin
     prepend_library_path_entries:
       - .software_cache/shared/mpi/openmpi/4.1.8-fortran/lib
     environment_variables:
@@ -521,6 +523,12 @@ profiles:
         - .software_cache/installations/orca/6.1.1/orca
         - .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin/mpirun
         - .software_cache/installations/pyfrag/2019/bin/pyfrag-orca
+        # The conda xTB 6.7.1 build is retained for general use, but the
+        # newer official bleed build is listed first so native reaction/xTB
+        # jobs can use the large-system Klopman--Ohno gradient fix.  The
+        # filename remains ``xtb`` and therefore satisfies executable
+        # identity checks without allowing an arbitrary path in a request.
+        - .software_cache/installations/xtb-bleed/xtb-bleed/bin/xtb
     command_variables:
       CHEMGRAPH_XTB_COMMAND: xtb
       CHEMGRAPH_CREST_COMMAND: crest

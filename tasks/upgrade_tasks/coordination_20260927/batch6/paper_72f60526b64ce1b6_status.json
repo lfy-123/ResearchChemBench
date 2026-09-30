@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "old_class": "A",
+  "new_class": "B",
+  "status": "blocked",
+  "implementation_status": "implemented_pending_expanded_reference",
+  "release_ready": false,
+  "packages": [
+    {
+      "mode": "autonomous_research",
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_72f60526b64ce1b6",
+      "package_content_sha256": "67ca10985de7c52fe2a1dabfe4b051ab58a59d4c08db7fb7e23604e864516ec5",
+      "package_validation": "passed"
+    },
+    {
+      "mode": "paper_reproduction",
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_72f60526b64ce1b6",
+      "package_content_sha256": "c37e9272c4c8f24395348a96ce3b335b9005d5d10600240232bc83dc28e2d4dd",
+      "package_validation": "passed"
+    }
+  ],
+  "reference_gaps": [
+    "Only siesta is declared in native_software_guides and runtime command lists; no reviewed TranSIESTA/TBtrans end-to-end invocation contract was found.",
+    "No complete mapped allowed electrode/device input chain (pseudopotentials, principal layers, self-energy artifacts and finite-bias restart conventions) has been validated.",
+    "No actual same-junction zero/±V pilot, transport convergence or expanded control reference is available."
+  ],
+  "release_conditions": [
+    "Have the tool owner expose and review a complete SIESTA/TranSIESTA/TBtrans dependency chain with exact allowed executables and raw-output capture. Do not modify common configuration in this batch or bypass it with subprocesses.",
+    "Translate the mapped identities into explicitly recorded Au(111) lead/central-region cells, anchoring and atom ordering. Use source SI privately for atom-count/geometry auditing; independently build public starts. Validate pseudopotential/basis compatibility and electrostatic lead matching.",
+    "Execute one AD_base zero/−0.5/+0.5-V pilot with actual self-consistent outputs, transmission integration and k/energy/screening convergence. Installed binaries or zero-bias molecular jobs do not close the gate.",
+    "Only then run all three bridges, AD reversal and unilateral contact perturbation; measure noise and sensitivity, calibrate common AR/PR evaluation and review release readiness."
+  ],
+  "source_review": "source_review/paper_72f60526b64ce1b6_review.json",
+  "new_scientific_calculations_performed": false,
+  "supervisor_updated_at": "2026-09-27T14:50:24.118168+00:00",
+  "latest_change": "Current package hashes after benign ./ path compatibility; scientific status unchanged."
+}

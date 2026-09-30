@@ -1,0 +1,1205 @@
+{
+  "contract_version": "batch5-expanded-20260927",
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_2c439196c2f349c9"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "reference_definition": {
+        "const": "All three physical models share the same measured observation rows, concentration/path-length/absorption/beam definitions and measurement uncertainty. Fit data and held-out conditions are disjoint; no synthetic or interpolated points count as measurements."
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "object",
+            "properties": {
+              "software_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "electronic_or_physical_model": {
+                "type": "string",
+                "minLength": 1
+              },
+              "basis_ecp_or_parameters": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relativity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "environment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "numerical_settings": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "software_version",
+              "electronic_or_physical_model",
+              "basis_ecp_or_parameters",
+              "relativity",
+              "environment",
+              "numerical_settings"
+            ],
+            "additionalProperties": false
+          },
+          "sensitivity_protocol": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "sensitivity_protocol"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_id": {
+              "enum": [
+                "INP_solution_data"
+              ]
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "geometry_regime": {
+              "enum": [
+                "relaxed",
+                "frozen_control",
+                "displaced",
+                "single_point",
+                "reference",
+                "data_fit"
+              ]
+            },
+            "outcome": {
+              "enum": [
+                "converged",
+                "collapsed",
+                "failed"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "raw_output_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_identity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "stationarity_or_model_validity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "convergence",
+                "state_identity",
+                "stationarity_or_model_validity",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_energy": {
+              "type": "number"
+            },
+            "energy_unit": {
+              "enum": [
+                "hartree",
+                "eV"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "s2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "collapse_destination": {
+              "type": "string",
+              "minLength": 1
+            },
+            "attempt_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "record_id",
+            "object_id",
+            "formula",
+            "charge",
+            "multiplicity",
+            "state",
+            "method_id",
+            "geometry_regime",
+            "outcome",
+            "input_file",
+            "raw_output_files",
+            "validation"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "INP_solution_data"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1
+                    ]
+                  },
+                  "formula": {
+                    "const": "INP_solution"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "outcome": {
+                    "const": "collapsed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "collapse_destination",
+                  "geometry_file"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 1
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "observations": {
+            "type": "object",
+            "properties": {
+              "measured_points": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dataset_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "time_s": {
+                      "type": "number"
+                    },
+                    "power_mW": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "concentration_mM": {
+                      "enum": [
+                        0.25,
+                        0.5,
+                        1.0
+                      ]
+                    },
+                    "observable": {
+                      "enum": [
+                        "ring_count",
+                        "normalized_transmittance",
+                        "ring_radius_mm"
+                      ]
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "uncertainty": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "source_page_figure": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "digitization_file": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    }
+                  },
+                  "required": [
+                    "dataset_id",
+                    "time_s",
+                    "power_mW",
+                    "concentration_mM",
+                    "observable",
+                    "value",
+                    "uncertainty",
+                    "source_page_figure",
+                    "digitization_file"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 6
+              },
+              "beam_waist_m": {
+                "type": "number",
+                "minimum": 0
+              },
+              "thickness_m": {
+                "type": "number",
+                "minimum": 0
+              },
+              "instrument_response_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "thermal_parameter_bounds_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              }
+            },
+            "required": [
+              "measured_points",
+              "beam_waist_m",
+              "thickness_m",
+              "instrument_response_file",
+              "thermal_parameter_bounds_file"
+            ],
+            "additionalProperties": false
+          },
+          "model_comparison": {
+            "type": "object",
+            "properties": {
+              "instantaneous": {
+                "type": "object",
+                "properties": {
+                  "model_equations_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fit_dataset_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "held_out_dataset_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "shared_parameter_names": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "lower_bound": {
+                          "type": "number"
+                        },
+                        "upper_bound": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value",
+                        "unit",
+                        "lower_bound",
+                        "upper_bound"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  },
+                  "predictions_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "residuals_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "weighted_residual_sum": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "n_observations": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "n_parameters": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "model_equations_file",
+                  "fit_dataset_ids",
+                  "held_out_dataset_ids",
+                  "shared_parameter_names",
+                  "parameters",
+                  "predictions_file",
+                  "residuals_file",
+                  "weighted_residual_sum",
+                  "n_observations",
+                  "n_parameters",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "thermal": {
+                "type": "object",
+                "properties": {
+                  "model_equations_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fit_dataset_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "held_out_dataset_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "shared_parameter_names": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "lower_bound": {
+                          "type": "number"
+                        },
+                        "upper_bound": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value",
+                        "unit",
+                        "lower_bound",
+                        "upper_bound"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  },
+                  "predictions_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "residuals_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "weighted_residual_sum": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "n_observations": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "n_parameters": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "model_equations_file",
+                  "fit_dataset_ids",
+                  "held_out_dataset_ids",
+                  "shared_parameter_names",
+                  "parameters",
+                  "predictions_file",
+                  "residuals_file",
+                  "weighted_residual_sum",
+                  "n_observations",
+                  "n_parameters",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "mixed": {
+                "type": "object",
+                "properties": {
+                  "model_equations_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fit_dataset_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "held_out_dataset_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "shared_parameter_names": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "lower_bound": {
+                          "type": "number"
+                        },
+                        "upper_bound": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value",
+                        "unit",
+                        "lower_bound",
+                        "upper_bound"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  },
+                  "predictions_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "residuals_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "weighted_residual_sum": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "n_observations": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "n_parameters": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "model_equations_file",
+                  "fit_dataset_ids",
+                  "held_out_dataset_ids",
+                  "shared_parameter_names",
+                  "parameters",
+                  "predictions_file",
+                  "residuals_file",
+                  "weighted_residual_sum",
+                  "n_observations",
+                  "n_parameters",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "instantaneous",
+              "thermal",
+              "mixed"
+            ],
+            "additionalProperties": false
+          },
+          "identifiability": {
+            "type": "object",
+            "properties": {
+              "parameter_profile_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "correlation_matrix": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 1
+                },
+                "minItems": 1
+              },
+              "electronic_fraction_interval": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2
+              },
+              "held_out_predictions_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "held_out_residuals_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "memory_test": {
+                "type": "object",
+                "properties": {
+                  "left_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "right_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_value": {
+                    "type": "number"
+                  },
+                  "right_value": {
+                    "type": "number"
+                  },
+                  "difference_right_minus_left": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uncertainty": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "uncertainty_basis": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "left_record",
+                  "right_record",
+                  "left_value",
+                  "right_value",
+                  "difference_right_minus_left",
+                  "unit",
+                  "uncertainty",
+                  "uncertainty_basis",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "identified": {
+                "enum": [
+                  "unique_within_bounds",
+                  "bounded_equivalence",
+                  "models_rejected"
+                ]
+              },
+              "evidence_files": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "parameter_profile_file",
+              "correlation_matrix",
+              "electronic_fraction_interval",
+              "held_out_predictions_file",
+              "held_out_residuals_file",
+              "memory_test",
+              "identified",
+              "evidence_files"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "observations",
+          "model_comparison",
+          "identifiability"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "falsifying_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "actual_test_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "quantitative_basis": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "proposition",
+            "falsifying_observation",
+            "actual_test_records",
+            "assessment",
+            "quantitative_basis"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "alternative_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "change": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "changed_factor",
+            "baseline_records",
+            "alternative_records",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "change",
+            "unit",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "assessment": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supported_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_records": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "assessment",
+          "statement",
+          "supported_scope",
+          "limitations",
+          "evidence_records"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+        },
+        "minItems": 0
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "scientific_engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "successful_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restarts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_job_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "parallel_elapsed_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "scientific_engine_starts",
+          "successful_starts",
+          "failed_starts",
+          "restarts",
+          "allocated_cores",
+          "wall_job_hours",
+          "cpu_core_hours",
+          "parallel_elapsed_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "evidence_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "control_equivalence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "reference_comparison_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternative_control_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "held_factors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "coverage_justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "reference_comparison_id",
+            "alternative_control_definition",
+            "held_factors",
+            "changed_factor",
+            "coverage_justification",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "reference_definition",
+      "conclusion",
+      "evidence_files",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "methods",
+            "calculation_records",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "outcome"
+                ]
+              },
+              "minContains": 1
+            },
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                },
+                "evidence_records": {
+                  "minItems": 1
+                }
+              }
+            },
+            "evidence_files": {
+              "minItems": 1
+            }
+          }
+        },
+        "else": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "validation_boundary": "Format only. Raw outputs, controls, arithmetic and state identity must pass the scientific evaluator. A bounded failure is accepted for reporting, never as scientific completion."
+}

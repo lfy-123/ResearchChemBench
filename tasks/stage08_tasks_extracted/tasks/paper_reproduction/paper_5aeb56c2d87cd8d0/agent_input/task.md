@@ -1,0 +1,30 @@
+# Scientific objective
+
+Determine how neutral receptor L1 and ibuprofen anion associate as a 1:1 complex in DMSO. Independently discover and discriminate plausible solution-phase binding motifs, determine whether the calculations support a bound complex, and establish how complexation changes the lowest-energy UV-visible absorption feature of L1.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that association is organized by hydrogen bonding between the two squaramide NH donors of L1 and the guest carboxylate, with additional aromatic-region contacts, and that complexation produces a red shift of the lowest-energy absorption feature without net NH deprotonation.
+
+**Candidate route or mechanism.**
+A useful author-motivated candidate family places the ibuprofen carboxylate at the squaramide donor site, allowing both carboxylate oxygens to interact with the two NH donors. Alternative orientations can retain or vary this donor-site contact and can include an aromatic contact between the ibuprofen ring and an aromatic group attached to the squaramide; these alternatives should remain explicit competitors during the structure search.
+
+**Discriminating evidence.**
+Compare independently optimized 1:1 structures and their DMSO relative thermochemistry, verify reported minima, inspect the carboxylate–NH and aromatic contacts, and compare consistent excited-state spectra of free L1 and the selected complex or ensemble. A solvent-model or energy-quality sensitivity check should test whether the leading motif, binding-energy sign, and direction of the spectral shift persist.
+
+# Public inputs and scientific boundaries
+
+The complete identities, charge, multiplicity, stoichiometry, solvent, temperature, and stereochemical boundary are in `data/inputs/system.json`. Generate all three-dimensional structures independently from those identities. The research object is the isolated 1:1 anionic complex `[L1·IBU]−` and the isolated neutral L1 and IBU anion reference fragments in DMSO; sodium and other counterions are outside scope. Do not infer enantioselectivity from the unspecified ibuprofen stereocenter.
+
+Report (i) distinct optimized complex candidates and their relative solution-phase thermochemistry, (ii) the intermolecular interactions that distinguish the selected low-energy candidate or ensemble from alternatives, (iii) the solution-phase binding energy in kJ mol−1 defined as `E(complex) - E(L1) - E(IBU_anion)` using consistently optimized lowest reference structures and one stated solvation/electronic-structure convention, with any deformation, BSSE, thermal, or standard-state corrections separately identified, and (iv) the signed shift in nm of the lowest-energy intense absorption feature of the complex relative to free L1 under one consistent excited-state protocol. A positive signed shift means a shift to longer wavelength.
+
+# Required scientific validation/investigation
+
+Formulate multiple physically plausible association hypotheses without assuming a preferred site or interaction. Generate a diverse but finite set of L1 conformers, ibuprofen-anion conformers, and 1:1 encounter geometries that varies guest orientation, receptor torsions, and contact motifs. Deduplicate by connectivity, intermolecular contact pattern, and geometry. Advance candidates using a documented energy/geometry criterion and retain stable alternatives. Optimize finalists in a DMSO solution model and verify each reported minimum by vibrational analysis or a comparably direct minimum test. Re-evaluate the leading ordering with at least one defensible sensitivity check, such as a higher-quality energy calculation, altered solvation treatment, or expanded search. Calculate comparable spectra for free L1 and the selected complex candidate or thermally weighted ensemble.
+
+The investigation is complete when newly generated, nonduplicate motifs no longer change the leading interaction assignment, binding-energy sign, or spectral-shift direction within stated uncertainty; reported low-energy candidates pass the minimum test; and at least one sensitivity check is complete. Stop when this criterion is met or when the declared compute limit is exhausted. In the latter case, submit `bounded_failure`, preserve all computed evidence, identify which hypothesis remains unresolved, and do not fabricate a numeric result.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. It must identify methods and conventions; enumerate each advanced complex candidate with geometry identity, interaction description, and minimum-validation evidence, and with relative energy plus its definition for a resolved investigation; document the hypotheses considered when required by the local schema, deduplication, coverage, completion status, limitations, and the required sensitivity check when resolved; and state the selected candidate or ensemble identifiers, binding-energy result and corrections, assigned absorption feature and shift, leading motif, and scientific conclusion when resolved. A bounded-failure submission may leave a hypothesis without an advanced candidate and may report an empty candidate set or partial candidates without success-only numerical fields, but it must identify the unresolved hypotheses or criteria and preserve every result actually obtained. Geometry identifiers may be paths or hashes for retained structures; the JSON is the only required artifact.

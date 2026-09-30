@@ -1,0 +1,588 @@
+{
+  "states": {
+    "legacy_cis_gas": {
+      "calculation_id": "legacy_cis_gas_B3LYP_6311p2dp_optfreq",
+      "electronic_Eh": -743.897430857,
+      "G_raw_1atm_Eh": null,
+      "G_reported_Eh": null,
+      "torsion_degree": 36.669012598330944,
+      "six_bonds_A": [
+        1.4893852604688964,
+        1.4256881386804054,
+        1.339353182908078,
+        1.3161630390836845,
+        1.3099109186120244,
+        1.3989153534410155
+      ],
+      "residuals_A": [
+        0.006385260468896314,
+        -0.0033118613195946,
+        -0.0016468170919219371,
+        -0.0028369609163154674,
+        -0.0040890813879757015,
+        0.004915353441015569
+      ],
+      "RMSE_A": 0.004150935968317215,
+      "rounding_only_RMSE_bounds_A": [
+        0.003689992815094583,
+        0.0046200099405401185
+      ],
+      "minimum_frequency_cm1": 41.5578,
+      "entropy_floor_corrections_Eh": {},
+      "raw_file": "outputs/legacy_cis_gas_B3LYP_6311p2dp_optfreq/stdout.log",
+      "sha256": "783e1693501c9abed477e9f6404eb47632d43c7018234364f937de688569c786",
+      "acceptance_file": "analysis/legacy_cis_gas_B3LYP_6311p2dp_optfreq_acceptance.json",
+      "geometry_file": "structures/legacy_cis_gas_B3LYP_6311p2dp_optfreq.xyz"
+    },
+    "legacy_trans_gas": {
+      "calculation_id": "legacy_trans_gas_B3LYP_6311p2dp_optfreq",
+      "electronic_Eh": -743.906130476,
+      "G_raw_1atm_Eh": null,
+      "G_reported_Eh": null,
+      "torsion_degree": -179.8206757823277,
+      "six_bonds_A": [
+        1.4863084139424103,
+        1.4275131659483917,
+        1.3408277794709493,
+        1.3177377765079055,
+        1.30969611899364,
+        1.398953859501092
+      ],
+      "residuals_A": [
+        0.0033084139424102155,
+        -0.0014868340516083212,
+        -0.00017222052905063734,
+        -0.001262223492094483,
+        -0.004303881006360033,
+        0.004953859501092062
+      ],
+      "RMSE_A": 0.0031049224906977615,
+      "rounding_only_RMSE_bounds_A": [
+        0.002700258942374883,
+        0.003531541083862693
+      ],
+      "minimum_frequency_cm1": 30.124,
+      "entropy_floor_corrections_Eh": {},
+      "raw_file": "outputs/legacy_trans_gas_B3LYP_6311p2dp_optfreq/stdout.log",
+      "sha256": "2a676ca291e3ab2001aa0c3306424ee7832e508f58a4beeea26df193dee595a5",
+      "acceptance_file": "analysis/legacy_trans_gas_B3LYP_6311p2dp_optfreq_acceptance.json",
+      "geometry_file": "structures/legacy_trans_gas_B3LYP_6311p2dp_optfreq.xyz"
+    },
+    "cis_gas": {
+      "calculation_id": "cis_gas_B3LYP_6311p2dp_strict_optfreq_a2",
+      "electronic_Eh": -743.897430889,
+      "G_raw_1atm_Eh": -743.692965,
+      "G_reported_Eh": -743.692965,
+      "torsion_degree": 36.652415196056985,
+      "six_bonds_A": [
+        1.4893836346371612,
+        1.4256919932289023,
+        1.3393508724404528,
+        1.3161615031575717,
+        1.309911140188525,
+        1.3989213292197669
+      ],
+      "residuals_A": [
+        0.006383634637161073,
+        -0.003308006771097771,
+        -0.0016491275595471588,
+        -0.0028384968424282064,
+        -0.0040888598114749986,
+        0.004921329219766957
+      ],
+      "RMSE_A": 0.004151478488798731,
+      "rounding_only_RMSE_bounds_A": [
+        0.0036905100599663137,
+        0.004620571694412351
+      ],
+      "minimum_frequency_cm1": 41.5141,
+      "entropy_floor_corrections_Eh": {
+        "50": 0.0002469340303825252,
+        "100": 0.00173748821794516
+      },
+      "raw_file": "outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+      "sha256": "0d6e46df42cfefbe413525ee3f465ae300b69cde02256e84e89d60be668da778",
+      "acceptance_file": "analysis/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2_acceptance.json",
+      "geometry_file": "structures/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2.xyz"
+    },
+    "trans_gas": {
+      "calculation_id": "trans_gas_B3LYP_6311p2dp_strict_optfreq_a2",
+      "electronic_Eh": -743.906131199,
+      "G_raw_1atm_Eh": -743.701596,
+      "G_reported_Eh": -743.701596,
+      "torsion_degree": 179.865706033844,
+      "six_bonds_A": [
+        1.4863357901890801,
+        1.4275277244838362,
+        1.34084557509245,
+        1.3177406342748184,
+        1.309690518778388,
+        1.3989387349405273
+      ],
+      "residuals_A": [
+        0.0033357901890800346,
+        -0.0014722755161638013,
+        -0.00015442490755002147,
+        -0.0012593657251815937,
+        -0.00430948122161201,
+        0.004938734940527434
+      ],
+      "RMSE_A": 0.0031055775543126986,
+      "rounding_only_RMSE_bounds_A": [
+        0.002701178046410749,
+        0.0035317074287852133
+      ],
+      "minimum_frequency_cm1": 29.7802,
+      "entropy_floor_corrections_Eh": {
+        "50": 0.0005472331156190671,
+        "100": 0.0018425084969335029
+      },
+      "raw_file": "outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+      "sha256": "3a0a9c1703dd535e0ed0ab50842c5b05419ced062e21de0b34e446916dfa67ed",
+      "acceptance_file": "analysis/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2_acceptance.json",
+      "geometry_file": "structures/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2.xyz"
+    },
+    "cis_MeCN": {
+      "calculation_id": "cis_MeCN_B3LYP_6311p2dp_optfreq_a1",
+      "electronic_Eh": -743.909830423,
+      "G_raw_1atm_Eh": -743.705108,
+      "G_reported_Eh": -743.7020891954659,
+      "torsion_degree": 34.6358337099263,
+      "six_bonds_A": [
+        1.4893547375561678,
+        1.4253231529856665,
+        1.34216744705048,
+        1.317942326350436,
+        1.311133214047299,
+        1.3979499830891657
+      ],
+      "residuals_A": [
+        0.006354737556167667,
+        -0.003676847014333573,
+        0.0011674470504801082,
+        -0.001057673649563995,
+        -0.0028667859527009565,
+        0.003949983089165832
+      ],
+      "RMSE_A": 0.0036561438621070383,
+      "rounding_only_RMSE_bounds_A": [
+        0.0032308629737302307,
+        0.004098328967496997
+      ],
+      "minimum_frequency_cm1": 42.9775,
+      "entropy_floor_corrections_Eh": {
+        "50": 0.00021380126524445808,
+        "100": 0.0016671433868298672
+      },
+      "raw_file": "outputs/cis_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log",
+      "sha256": "ccb5ec05c94094cd61c687d35adf078e2bfb1f72299ba2197ef7dd33786e59f1",
+      "acceptance_file": "analysis/cis_MeCN_B3LYP_6311p2dp_optfreq_a1_acceptance.json",
+      "geometry_file": "structures/cis_MeCN_B3LYP_6311p2dp_optfreq_a1.xyz"
+    },
+    "trans_MeCN": {
+      "calculation_id": "trans_MeCN_B3LYP_6311p2dp_optfreq_a1",
+      "electronic_Eh": -743.914113105,
+      "G_raw_1atm_Eh": -743.710153,
+      "G_reported_Eh": -743.7071341954659,
+      "torsion_degree": 176.6716583272567,
+      "six_bonds_A": [
+        1.4870890117682936,
+        1.4263611859164562,
+        1.3427268281068945,
+        1.3187726295525692,
+        1.3110969313235392,
+        1.398276745269333
+      ],
+      "residuals_A": [
+        0.00408901176829346,
+        -0.002638814083543828,
+        0.0017268281068945068,
+        -0.0002273704474307081,
+        -0.0029030686764608404,
+        0.004276745269333082
+      ],
+      "RMSE_A": 0.0029842739898476803,
+      "rounding_only_RMSE_bounds_A": [
+        0.0025494830277920334,
+        0.0034350445370922725
+      ],
+      "minimum_frequency_cm1": 19.1914,
+      "entropy_floor_corrections_Eh": {
+        "50": 0.000968336255451994,
+        "100": 0.0022715574454049594
+      },
+      "raw_file": "outputs/trans_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log",
+      "sha256": "84140a0c00a38cfd8961d189a08274c8c87e99e47e30761713873469e35a046b",
+      "acceptance_file": "analysis/trans_MeCN_B3LYP_6311p2dp_optfreq_a1_acceptance.json",
+      "geometry_file": "structures/trans_MeCN_B3LYP_6311p2dp_optfreq_a1.xyz"
+    },
+    "gas_fixed": {
+      "calculation_id": "cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1",
+      "electronic_Eh": -743.895799661,
+      "G_raw_1atm_Eh": null,
+      "G_reported_Eh": null,
+      "torsion_degree": 3.7103806078386006e-05,
+      "six_bonds_A": [
+        1.4948910260818342,
+        1.4283774615149882,
+        1.340297679217569,
+        1.3173141075772312,
+        1.3096137603221025,
+        1.401202696458654
+      ],
+      "residuals_A": [
+        0.011891026081834122,
+        -0.0006225384850118143,
+        -0.0007023207824310429,
+        -0.001685892422768731,
+        -0.00438623967789753,
+        0.007202696458654012
+      ],
+      "RMSE_A": 0.006003297399127603,
+      "rounding_only_RMSE_bounds_A": [
+        0.0056457471319220475,
+        0.006380023404905224
+      ],
+      "minimum_frequency_cm1": null,
+      "entropy_floor_corrections_Eh": {},
+      "raw_file": "outputs/cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1/stdout.log",
+      "sha256": "2a64c2066020bb7bd2c6f0dc7f0145f67b5a77e8d10ff984b18265d4db60002b",
+      "acceptance_file": "analysis/cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1_acceptance.json",
+      "geometry_file": "structures/cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1.xyz"
+    },
+    "MeCN_fixed": {
+      "calculation_id": "cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1",
+      "electronic_Eh": -743.908464671,
+      "G_raw_1atm_Eh": null,
+      "G_reported_Eh": null,
+      "torsion_degree": 3.403209765367027e-05,
+      "six_bonds_A": [
+        1.4949081682688745,
+        1.4279714713260205,
+        1.343017628251394,
+        1.319082344825371,
+        1.3108404192860392,
+        1.4001060394020164
+      ],
+      "residuals_A": [
+        0.01190816826887442,
+        -0.0010285286739795119,
+        0.0020176282513939547,
+        8.234482537106125e-05,
+        -0.00315958071396083,
+        0.006106039402016483
+      ],
+      "RMSE_A": 0.005689267888623355,
+      "rounding_only_RMSE_bounds_A": [
+        0.00534212642853378,
+        0.00605542325504889
+      ],
+      "minimum_frequency_cm1": null,
+      "entropy_floor_corrections_Eh": {},
+      "raw_file": "outputs/cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1/stdout.log",
+      "sha256": "de72433f211e38c1269198013daae1071c3c6891e84f19f10a08692e3514e9d6",
+      "acceptance_file": "analysis/cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1_acceptance.json",
+      "geometry_file": "structures/cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1.xyz"
+    },
+    "cis_grid": {
+      "calculation_id": "cis_gas_SuperFineGrid_sensitivity_a1",
+      "electronic_Eh": -743.897428437,
+      "G_raw_1atm_Eh": null,
+      "G_reported_Eh": null,
+      "torsion_degree": 36.669012598330944,
+      "six_bonds_A": [
+        1.4893852604688964,
+        1.4256881386804054,
+        1.339353182908078,
+        1.3161630390836845,
+        1.3099109186120244,
+        1.3989153534410155
+      ],
+      "residuals_A": [
+        0.006385260468896314,
+        -0.0033118613195946,
+        -0.0016468170919219371,
+        -0.0028369609163154674,
+        -0.0040890813879757015,
+        0.004915353441015569
+      ],
+      "RMSE_A": 0.004150935968317215,
+      "rounding_only_RMSE_bounds_A": [
+        0.003689992815094583,
+        0.0046200099405401185
+      ],
+      "minimum_frequency_cm1": null,
+      "entropy_floor_corrections_Eh": {},
+      "raw_file": "outputs/cis_gas_SuperFineGrid_sensitivity_a1/stdout.log",
+      "sha256": "47f5fa39edee39be95f5692f1e1570d3d93a3967ba448c25ee37811c95c78904",
+      "acceptance_file": "analysis/cis_gas_SuperFineGrid_sensitivity_a1_acceptance.json",
+      "geometry_file": "structures/cis_gas_SuperFineGrid_sensitivity_a1.xyz"
+    },
+    "trans_grid": {
+      "calculation_id": "trans_gas_SuperFineGrid_sensitivity_a1",
+      "electronic_Eh": -743.906134761,
+      "G_raw_1atm_Eh": null,
+      "G_reported_Eh": null,
+      "torsion_degree": -179.8206757823277,
+      "six_bonds_A": [
+        1.4863084139424103,
+        1.4275131659483917,
+        1.3408277794709493,
+        1.3177377765079055,
+        1.30969611899364,
+        1.398953859501092
+      ],
+      "residuals_A": [
+        0.0033084139424102155,
+        -0.0014868340516083212,
+        -0.00017222052905063734,
+        -0.001262223492094483,
+        -0.004303881006360033,
+        0.004953859501092062
+      ],
+      "RMSE_A": 0.0031049224906977615,
+      "rounding_only_RMSE_bounds_A": [
+        0.002700258942374883,
+        0.003531541083862693
+      ],
+      "minimum_frequency_cm1": null,
+      "entropy_floor_corrections_Eh": {},
+      "raw_file": "outputs/trans_gas_SuperFineGrid_sensitivity_a1/stdout.log",
+      "sha256": "e51c3dfc2d5993803d8820edf122640daff1dd1903966eda6191e3392a1b0269",
+      "acceptance_file": "analysis/trans_gas_SuperFineGrid_sensitivity_a1_acceptance.json",
+      "geometry_file": "structures/trans_gas_SuperFineGrid_sensitivity_a1.xyz"
+    }
+  },
+  "contrasts": {
+    "gas": {
+      "trans_minus_cis_E_kJ_mol": -22.842660768348846,
+      "trans_minus_cis_G_kJ_mol": -22.66068738844671,
+      "trans_minus_cis_RMSE_A": -0.0010459009344860322,
+      "fixed_minus_cis_E_kJ_mol": 4.28278852607944,
+      "fixed_minus_cis_RMSE_A": 0.001851818910328872,
+      "entropy_floor_trans_minus_cis_G_kJ_mol": {
+        "50": -21.872252248422047,
+        "100": -22.384956683824747
+      }
+    },
+    "MeCN": {
+      "trans_minus_cis_E_kJ_mol": -11.24418004684681,
+      "trans_minus_cis_G_kJ_mol": -13.245645681163971,
+      "trans_minus_cis_RMSE_A": -0.0006718698722593579,
+      "fixed_minus_cis_E_kJ_mol": 3.5857813835392682,
+      "fixed_minus_cis_RMSE_A": 0.002033124026516317,
+      "entropy_floor_trans_minus_cis_G_kJ_mol": {
+        "50": -11.264614336399172,
+        "100": -11.658756788278529
+      }
+    }
+  },
+  "cross_comparisons": {
+    "solvent_change_in_trans_minus_cis_G_kJ_mol": 9.41504170728274,
+    "cis_medium_RMSE_change_A": -0.0004953346266916925,
+    "trans_medium_RMSE_change_A": -0.00012130356446501825,
+    "same_gas_geometry_SuperFine_trans_minus_cis_E_kJ_mol": -22.85845052305067,
+    "grid_gap_change_kJ_mol": -0.01760397486962262
+  },
+  "matrix": {
+    "conformer_environment": {
+      "cis_gas": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "cis_gas_B3LYP_6311p2dp_strict_optfreq_a2"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "electronic_Eh": -743.897430889,
+          "G_Eh": -743.692965,
+          "torsion_degree": 36.652415196056985
+        },
+        "interpretation": "87 real modes and exact graph; solution G includes 1atm→1M correction 0.0030188045341030057 Eh, gas G is1atm. Local minima, not exhaustive conformer populations."
+      },
+      "trans_gas": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "trans_gas_B3LYP_6311p2dp_strict_optfreq_a2"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "electronic_Eh": -743.906131199,
+          "G_Eh": -743.701596,
+          "torsion_degree": 179.865706033844
+        },
+        "interpretation": "87 real modes and exact graph; solution G includes 1atm→1M correction 0.0030188045341030057 Eh, gas G is1atm. Local minima, not exhaustive conformer populations."
+      },
+      "cis_MeCN": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "cis_MeCN_B3LYP_6311p2dp_optfreq_a1"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/cis_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "electronic_Eh": -743.909830423,
+          "G_Eh": -743.7020891954659,
+          "torsion_degree": 34.6358337099263
+        },
+        "interpretation": "87 real modes and exact graph; solution G includes 1atm→1M correction 0.0030188045341030057 Eh, gas G is1atm. Local minima, not exhaustive conformer populations."
+      },
+      "trans_MeCN": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "trans_MeCN_B3LYP_6311p2dp_optfreq_a1"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/trans_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "electronic_Eh": -743.914113105,
+          "G_Eh": -743.7071341954659,
+          "torsion_degree": 176.6716583272567
+        },
+        "interpretation": "87 real modes and exact graph; solution G includes 1atm→1M correction 0.0030188045341030057 Eh, gas G is1atm. Local minima, not exhaustive conformer populations."
+      }
+    },
+    "six_bond_residuals": {
+      "cis_gas": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "cis_gas_B3LYP_6311p2dp_strict_optfreq_a2"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "C1_C2_A": 1.4893836346371612,
+          "C2_C3_A": 1.4256919932289023,
+          "N1_C1_A": 1.3393508724404528,
+          "N2_C2_A": 1.3161615031575717,
+          "N3_C3_A": 1.309911140188525,
+          "C1_C10_A": 1.3989213292197669,
+          "RMSE_A": 0.004151478488798731
+        },
+        "interpretation": "Exactly the six published experimental inputs; unrounded Cartesian distances. No 7- or33-bond set pooled; rounding interval evaluated separately."
+      },
+      "trans_gas": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "trans_gas_B3LYP_6311p2dp_strict_optfreq_a2"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "C1_C2_A": 1.4863357901890801,
+          "C2_C3_A": 1.4275277244838362,
+          "N1_C1_A": 1.34084557509245,
+          "N2_C2_A": 1.3177406342748184,
+          "N3_C3_A": 1.309690518778388,
+          "C1_C10_A": 1.3989387349405273,
+          "RMSE_A": 0.0031055775543126986
+        },
+        "interpretation": "Exactly the six published experimental inputs; unrounded Cartesian distances. No 7- or33-bond set pooled; rounding interval evaluated separately."
+      },
+      "cis_MeCN": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "cis_MeCN_B3LYP_6311p2dp_optfreq_a1"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/cis_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "C1_C2_A": 1.4893547375561678,
+          "C2_C3_A": 1.4253231529856665,
+          "N1_C1_A": 1.34216744705048,
+          "N2_C2_A": 1.317942326350436,
+          "N3_C3_A": 1.311133214047299,
+          "C1_C10_A": 1.3979499830891657,
+          "RMSE_A": 0.0036561438621070383
+        },
+        "interpretation": "Exactly the six published experimental inputs; unrounded Cartesian distances. No 7- or33-bond set pooled; rounding interval evaluated separately."
+      },
+      "trans_MeCN": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "trans_MeCN_B3LYP_6311p2dp_optfreq_a1"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/trans_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "C1_C2_A": 1.4870890117682936,
+          "C2_C3_A": 1.4263611859164562,
+          "N1_C1_A": 1.3427268281068945,
+          "N2_C2_A": 1.3187726295525692,
+          "N3_C3_A": 1.3110969313235392,
+          "C1_C10_A": 1.398276745269333,
+          "RMSE_A": 0.0029842739898476803
+        },
+        "interpretation": "Exactly the six published experimental inputs; unrounded Cartesian distances. No 7- or33-bond set pooled; rounding interval evaluated separately."
+      }
+    },
+    "torsional_intervention": {
+      "gas_fixed_vs_relaxed": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1",
+          "cis_gas_B3LYP_6311p2dp_strict_optfreq_a2"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1/stdout.log",
+          "outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "torsion_degree": 3.7103806078386006e-05,
+          "delta_E_kJ_mol": 4.28278852607944,
+          "residual_change_A": 0.001851818910328872
+        },
+        "interpretation": "Matched0-degree N1-C1-C2-N2 constraint, all other coordinates relaxed. Signed constrained minus relaxed cis electronic energy and six-bond RMSE. No harmonic G for constrained geometry."
+      },
+      "MeCN_fixed_vs_relaxed": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1",
+          "cis_MeCN_B3LYP_6311p2dp_optfreq_a1"
+        ],
+        "atom_map_file": "structures/ligand_map.json",
+        "raw_files": [
+          "outputs/cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1/stdout.log",
+          "outputs/cis_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log"
+        ],
+        "data_table_file": "analysis/verified_ligand_tables.json",
+        "metrics": {
+          "torsion_degree": 3.403209765367027e-05,
+          "delta_E_kJ_mol": 3.5857813835392682,
+          "residual_change_A": 0.002033124026516317
+        },
+        "interpretation": "Matched0-degree N1-C1-C2-N2 constraint, all other coordinates relaxed. Signed constrained minus relaxed cis electronic energy and six-bond RMSE. No harmonic G for constrained geometry."
+      }
+    }
+  },
+  "standard_state_1atm_to_1M_Eh": 0.0030188045341030057,
+  "constant_Hartree_kJ_mol": 2625.4996394798254,
+  "definition": "G values gas1atm/MeCN1M; conformer differences in same medium cancel molecular standard-state correction. Constrained torsion has only electronic E. Experimental central values are printed to0.001Å and each reported ESD is0.001Å. Rounding-only bounds are separate; ESD propagation and unknown covariance are recorded in experimental_ESD_propagation.json."
+}

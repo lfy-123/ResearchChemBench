@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_c56ec62e92dbdfbc",
+  "task_type": "paper_reproduction",
+  "title": "Reproduce the origin of enantioselectivity in a CBSCA-catalyzed isochroman synthesis",
+  "category": "computational chemistry / reaction mechanisms",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The qualitative route is known, but four stereochemical pathway families, catalyst/binding conformers and transition-state conformers must be generated and discriminated.",
+    "A defensible answer requires per-candidate transition-state connectivity, common-reference free energies and search-coverage justification."
+  ],
+  "paper": {
+    "title": "Catalytic Enantioselective Synthesis of 1,1-Disubstituted Isochromans",
+    "doi": "10.1021/jacs.5c19331",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ coordinates plus explicit component identity, connectivity, charge, multiplicity, stereochemistry, product and model boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable investigation, validation, free-energy comparison, conclusion or bounded-failure record."
+    }
+  ]
+}

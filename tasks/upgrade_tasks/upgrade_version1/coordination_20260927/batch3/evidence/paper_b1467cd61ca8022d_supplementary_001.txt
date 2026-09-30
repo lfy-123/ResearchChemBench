@@ -1,0 +1,2170 @@
+
+=== PDF PAGE 1 ===
+Peer Review File
+
+Rational electrolyte solvent screening for high-energy lithiu
+m metal batteries at low temperatures
+
+Corresponding Author: Professor Qifeng Zheng
+
+
+
+This file contains all reviewer reports in order by version, followed by all author rebuttals in order by version.
+
+
+
+
+Version 0:
+
+Reviewer comments:
+
+Reviewer #1
+
+(Remarks to the Author)
+In this paper, the authors evaluate the electrochemical properties, solvation environment, and performance of asymmetric
+fluorinated solvents for lithium-ion batteries. The primary focus is to improve the low temperature operation of liquid
+electrolytes for lithium metal batteries through fluorinated solvents. They also performed theoretical calculations to offer
+possible explanations for the observed electrochemical trends and behavior. They identified 3,3,3-trifluoropropyl-1-methyl
+ether (TFPM) as the top performing solvent for low temperature operation with a 2M LiFSI salt.
+
+My primary concern with this paper is the lack of novelty for their research approach. There are countless papers and
+reviews describing the enhanced low temperature performance of fluorinated and/or asymmetric solvents for lithium ion
+batteries in this and similar journals. These reports use a similar approach to this work by understanding how to control the
+solvation/coordination of lithium with fluorinated solvents to impact factors such as ionic conductivity, kinetics, oxidation
+stability, and stable SEI formation. This also includes prior work by the authors from 2023 (Angew. Chem. Int. Ed. 2023, 62,
+e202218151) in which they look at a structurally similar 1,1,2,2-tetrafluoro-3-methoxypropane (TFMP) solvent. They use a
+7:1 mix of TFMP with DME with 1 m LiFSI. They showed cycling at -40 oC with NMC811 for 100 cycles with the electrolyte
+in coin cell format. This work and general conclusions are very similar to this current study.
+
+In the current work, the authors also present a thorough characterization of the system across multiple time and length scales
+with a variety of analytical techniques as they previously did for TFMP from 2023. They show improvement in coin cell
+cycling at -40 oC with NMC811 for 200 cycles with minimal loss in capacity for the TFPM solvent compared to the TFMP
+solvent. They also expand the practical use of the TFPM solvent by demonstration of 6.0 Ah pouch cells that can operate at
+low temperature (-40 oC) with good capacity retention and coulombic efficiency. They also demonstrate -60 oC operation in
+a coin cell with good performance for 150 cycles. The use of lean electrolyte conditions and low N/P ratio in these cells and
+comparison of its ambient and low temperature performance with current literature highlights the potential utility of the
+electrolyte solvent. However, is this enough to overcome the lack of novelty in their approach compared to prior work from
+their group and others which should be addressed? If addressed, it could be accepted. Aside from this issue, the following
+points should also be considered:
+
+1. Figure 2 only shows the coordination environment for a single lithium cation and solvent molecule. While this highlights
+the point the authors are trying to make regarding the differences in energies and bond distances for Li-O and F-O, it does
+not provide a real picture of the solvation environment. How do the bond distances and coordination environment change as
+the number of solvent molecules is increased? Additionally, where is the anion in the solvation structure? This can be
+extracted from the MD simulations and further optimized via DFT to show the “true” Li+ coordination in the solvent. This will
+provide a much more accurate representation of the bonding energies and distances in the electrolyte system.
+
+2. Why was LiFSI chosen rather than other electrolyte salts (i.e. LiTFSI, LiClO, LiPF6)? Comment on if you would expect
+similar or different behavior for other common Li salts with these solvents.
+
+3. Was the impact of LiFSI concentration on any of the electrochemical properties evaluated since it appears that only 2M
+solution was evaluated?
+
+4. While the radar chart is a visually nice figure (7f), it does not appear that there was a true qualitative methodology for
+
+=== PDF PAGE 2 ===
+assessing the designed electrolytes since 4 out of the 5 aspects show the electrolyte has the ideal properties. This makes it
+appear to readers as if these aspects have been solved, which I do not think that is the case since it is only a qualitative
+assessment. This could be deceiving to readers and should have some qualitative figures of merit for the rankings. If not, it
+should be removed from the main text.
+
+5. I think there I a typo in line 275, should it be “PM, TFPM, and TFBM” rather than “BM, TFPM, and TFBM” since the BM
+shows Al corrosion in Figure S21b while the PM, TFPM, and TFBM electrolytes do not.
+
+6. There are also multiple typos and grammar errors in the paper with the following words misused: line 40 “demanding”; line
+46 “wakening”; line 88 “enhances”; line 111 “facial”; lines117-118 sentence is very difficult to understand; and line 349
+“slighter”
+
+
+
+Reviewer #2
+
+(Remarks to the Author)
+Zehao et al. introduced a promising approach for screening electrolyte solvents for lithium-metal batteries operating under
+ultra-low temperatures and high voltages using the RESPO–μ principle. As a result, the fluorinated ethers TFPM and TFBM
+demonstrate superior electrochemical performance compared to their non-fluorinated counterparts, PM and BM. However, it
+should be noted that a conceptually similar strategy involving rational solvent tuning was previously proposed in a diethyl
+ether (DEE)-based system by Zhiao et al. (Nat. Energy 7, 94–106, 2022), where improvements in oxidation stability and low-
+temperature performance were achieved by manipulating the solvation structure. While the present manuscript is thorough,
+methodically executed, and well-organized, the central concept remains insufficiently substantiated. How solvents with
+moderate dipole moment (μ) contribute to interphase stability? This mechanism warrants further clarification through either
+direct or indirect experimental validation. Given the high standards of Nature Communications, the authors are encouraged
+to address the following concerns before the manuscript can be considered for publication.
+Some detailed comments are attached below.
+1. In the 7Li NMR spectra, the observed downfield shift (de-shielding) of Li+ in LiFSI/BM and LiFSI/PM suggests weaker
+solvation compared to LiFSI/TFPM and LiFSI/TFBM. However, molecular dynamics (MD) simulations indicate that TFPM
+and TFBM electrolytes exhibit highly similar solvation structures, as stated in the manuscript: Li+(FSI−)3.03(TFPM)0.99, and
+Li+(FSI−)2.93(TFBM)1.08 . How can the significantly lower de-solvation energy observed for LiFSI/TFPM be rationalized
+relative to the other systems?
+2. In both ¹⁷O and ¹⁹F NMR spectra, the addition of Li salt results in an upfield shift for oxygen and a downfield shift for
+fluorine. This suggests that fluorine acts as an electron donor, whereas oxygen functions as an electron acceptor. The author
+should consider the distinct electronic roles of oxygen and fluorine in the FSI⁻ anion. Particularly since LiFSI accounts for
+approximately 75% of the coordination environment.
+3. In Figure 3a-d, the TFBM has significantly more AGGs/CIPs compared to TFPM. Why does it not yield better Echem
+performance?
+4. 99.3% overall Coulombic efficiency (CE) in a Li/Cu cell is not unprecedented for LiFSI-based systems. For example,
+values of 99.4% have been reported in 1 M LiFSI in BTFE/DME (Energy Environ. Sci., 2022, 15, 1647–1658), and up to
+99.7% in 1.2 M LiFSI/F5DEE (Nat. Energy, 2022, 7, 94–106). At a minimum, the authors should provide a fair comparison
+with the current state-of-the-art.
+5. If dissolution is indeed an issue in the TFBM system, can the difference in SEI composition be identified via XPS? Based
+on the current data (Figure 5a and S14), the SEI appears similar in both the TFBM and TFPM systems. How, then, can the
+authors substantiate their claim that dissolution leads to the growth of redundant SEI?
+6. The high-voltage stability of fluorinated solvents is not surprising and has also been reported in mentioned Nature Energy
+paper. Fluorination lowers the HOMO energy level of the molecules, thereby enhancing their oxidative stability. However,
+how does solvent modification help prevent Al corrosion typically induced by LiFSI?
+7. What is the extent of gas evolution in TFBM and TFPM cells during cycling at 4.4 V?
+
+
+
+Reviewer #3
+
+(Remarks to the Author)
+Electrolyte solvent engineering could tune both the SEI structure and chemistry, which has been considered as a critical and
+pragmatic approach to enable high performance Li-metal batteries. Unfortunately, the lack of solvent screening principle has
+hindered their efficient development. In this work, the authors innovatively proposed a solvent screening principle based on
+unique RESPO-μ dual-descriptors to enable high-energy LMBs at ultra-low temperatures. Furthermore, the authors design
+and synthesize a new class of weakly solvating fluorinated ethers to validate the effectiveness of this RESPO–μ screening
+principle. The work provides valuable insights into electrolyte design to enhances electrochemical kinetics and reversibility
+simultaneously, achieving an unprecedented high energy density of 345.3 Wh kg−1 at −40°C. Therefore, from my
+perspective, this manuscript is very interesting and should be very helpful to the field that is rapidly evolving recently. I would
+enthusiastically recommend publication of this work after the following minor issues are properly addressed.
+
+1. In the research of solvent descriptors, researchers have proposed numbers of parameters as criteria for solvent screening,
+among which electrostatic potential is also a very important screening parameter. What are the advantages of the RESPO
+parameter proposed by the authors compared to electrostatic potential?
+
+2. The designed TFPM electrolyte presented good capacity retention and cycling stability at both room temperature and low
+
+=== PDF PAGE 3 ===
+temperature. Has the author explored the rate performance at low temperatures with TFPM electrolyte?
+
+3. Among the series of fluorinated ether molecules designed, the formation of a hexagonal coordination structure can
+significantly improve the performance of batteries, especially at ultra-low temperature. What influence does this configuration
+have on the lithium deposition and kinetics at low temperatures?
+
+4. The solvation of TFPM and TFBM is very similar, and the composition of SEI is almost the same at room temperature.
+However, there is a significant difference in impedance between these two at low temperatures（−40 and −60°C）, and
+there is also a significant difference in battery performance. What is the main affecting factor?
+
+
+
+Reviewer #4
+
+(Remarks to the Author)
+I co-reviewed this manuscript with one of the reviewers who provided the listed reports. This is part of the Nature
+Communications initiative to facilitate training in peer review and to provide appropriate recognition for Early Career
+Researchers who co-review manuscripts.
+
+Version 1:
+
+Reviewer comments:
+
+Reviewer #1
+
+(Remarks to the Author)
+accept revised manuscript
+
+Reviewer #3
+
+(Remarks to the Author)
+The authors have appropriately addressed the my concerns and requests by providing additional data and clarification. I
+recommend accepting the revised manuscript for publication.
+
+Reviewer #4
+
+(Remarks to the Author)
+The revised manuscript clearly explains the impact of moderate dipole moments on interphase
+stability through a self-cleaning mechanism. It is thorough, well organized, and I recommend its
+publication in Nature Communications.
+
+
+
+
+
+Open Access This Peer Review File is licensed under a Creative Commons Attribution 4.0 International License, which
+permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate
+
+=== PDF PAGE 4 ===
+credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were
+made.
+In cases where reviewers are anonymous, credit should be given to 'Anonymous Referee' and the source.
+The images or other third party material in this Peer Review File are included in the article’s Creative Commons license,
+unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons
+license and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain
+permission directly from the copyright holder.
+To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/
+
+=== PDF PAGE 5 ===
+Dear editor and reviewers,
+
+  We have carefully considered all the comments and have fully addressed them point-
+
+by-point in “response to reviewer’s comments” below. To facilitate reading of this letter,
+
+we have, (i) systematically reported the editor and reviewer comments in italics and in
+
+blue followed by our responses in red, and (ii) handled each reviewer separately. The
+
+corresponding changes made to both “Manuscript” and “Supplementary Information”
+
+were highlighted in yellow.
+
+   We once again thank the editor and reviewers for their constructive comments that
+
+help in improving and strengthening our paper. Having done our best to satisfactorily
+
+answer the editor and reviewers’ comments as well as their requests for extra data, we
+
+hope that this revised version could meet the high standards of Nature Communications.
+
+=== PDF PAGE 6 ===
+REVIEWER COMMENTS
+
+Reviewer #1 (Remarks to the Author):
+
+In  this  paper,  the  authors  evaluate  the  electrochemical  properties,  solvation
+
+environment, and performance of asymmetric fluorinated solvents for lithium-ion
+
+batteries. The primary focus is to improve the low temperature operation of liquid
+
+electrolytes  for  lithium metal  batteries through  fluorinated  solvents. They  also
+
+performed theoretical calculations to offer possible explanations for the observed
+
+electrochemical trends and behavior. They identified 3,3,3-trifluoropropyl-1-methyl
+
+ether (TFPM) as the top performing solvent for low temperature operation with a 2 M
+
+LiFSI salt.
+
+My primary concern with this paper is the lack of novelty for their research approach.
+
+There are countless papers and reviews describing the enhanced low temperature
+
+performance of fluorinated and/or asymmetric solvents for lithium-ion batteries in this
+
+and  similar  journals. These  reports use a  similar approach  to  this work by
+
+understanding how to control the solvation/coordination of lithium with fluorinated
+
+solvents to impact factors such as ionic conductivity, kinetics, oxidation stability, and
+
+stable SEI formation. This also includes prior work by the authors from 2023 (Angew.
+
+Chem. Int. Ed. 2023, 62, e202218151) in which they look at a structurally similar
+
+1,1,2,2-tetrafluoro-3-methoxypropane (TFMP) solvent. They use a 7:1 mix of TFMP
+
+with DME with 1 m LiFSI. They showed cycling at −40 °C with NMC811 for 100 cycles
+
+with the electrolyte in coin cell format. This work and general conclusions are very
+
+similar to this current study.
+
+In the current work, the authors also present a thorough characterization of the system
+
+across multiple time and length scales with a variety of analytical techniques as they
+
+previously did for TFMP from 2023. They show improvement in coin cell cycling at
+
+−40 °C with NMC811 for 200 cycles with minimal loss in capacity for the TFPM solvent
+
+compared to the TFMP solvent. They also expand the practical use of the TFPM solvent
+
+by demonstration of 6.0 Ah pouch cells that can operate at low temperature (−40 °C)
+
+with good capacity retention and coulombic efficiency. They also demonstrate −60 °C
+
+operation in a coin cell with good performance for 150 cycles. The use of lean
+
+electrolyte conditions and low N/P ratio in these cells and comparison of its ambient
+
+and low temperature performance with current literature highlights the potential utility
+
+of the electrolyte solvent. However, is this enough to overcome the lack of novelty in
+
+=== PDF PAGE 7 ===
+their approach compared to prior work from their group and others which should be
+
+addressed? If addressed, it could be accepted. Aside from this issue, the following points
+
+should also be considered:
+
+Authors’ Response: We would like to thank the reviewer for his/her useful comments
+
+and suggestions to further improve our manuscript. But we dissent from the reviewer
+
+that a work lacks novelty if something related to it has been studied, regardless of what
+
+it achieves and how important it is. However, please be aware that, for the LiCO2
+
+cathode material alone (discovered in 1980), there are many papers published on the
+
+Nature, Science and Nature sister journals in the past 10 years. Similarly, fluoroethylene
+
+carbonate (FEC) was first identified as solvent for graphite anode at 1999, they are
+
+many works investigated its effect on other types of anodes, such as silicon and lithium
+
+metal anodes, many of which have been published on Nature sister journals, Angew.
+
+Chem., JACS and PANS. Therefore, we certainly can’t conclude that a work lacks
+
+novelty if something related to it has been studied, as a matter of fact, we should
+
+look into what it achieves and how important it is.
+
+For reviewer’s concern on the novelty of our work, we would like to emphasize the
+
+novelty in the following several aspects:
+
+First, as pointed out by the Reviewer, there are indeed many papers describing the
+
+enhanced low temperature performance of fluorinated and/or asymmetric solvents for
+
+lithium-ion batteries, which was realized by controlling the solvation/coordination of
+Li+ with fluorinated solvents to promote ionic conductivity, kinetics, oxidation stability,
+
+and stable SEI formation, including our previous study (Angew. Chem. Int. Ed., 2023,
+
+62, e202218151). However, most of these studies were realized by employing multiple
+
+salts/solvents to compensate their individual drawbacks. Achieving fast kinetics,
+
+superior interphase stability, and uniform Li deposition simultaneously in a single-
+
+salt single-solvent system is extremely challenging, with only very few reports up
+
+to now. To be specific, there is one very recent paper reported the operation of Li-metal
+
+pouch-cell at low temperature of −20 °C using single-salt single-solvent electrolyte
+
+(Joule, 2025, 9, 101823). While in our study, a Li-metal pouch-cell was demonstrated
+to deliver an unprecedentedly high energy density of 345.3 Wh kg−1 over 40 cycles at
+
+−40 °C. Based on the dramatically different electrolyte system, namely multiple-
+
+solvent vs. single-solvent, one should NOT conclude that our work lacks novelty.
+
+=== PDF PAGE 8 ===
+Second, recent electrolyte solvent design based on weakening the solvation ability has
+
+shown great potential, however, the lack of solvent screening principle has hindered
+
+their efficient development. In this study, we innovatively proposed a guideline for
+
+rational electrolyte solvent screening, where the restrained electrostatic potential of the
+
+coordinated O (RESPO) was proposed as one descriptor to quantify the solvation effect,
+
+followed by introducing the dipole moment (μ) as correction descriptor to optimize
+
+solvents’ sensitivity to the electric fields and interphase stability. Under the guidance of
+
+this RESPO–μ screening principle, a new class of asymmetric fluorinated ethers was
+
+rationally designed, of which the 3,3,3-trifluoropropyl-1-methyl ether (TFPM) with
+
+moderate RESPO and μ was identified to mediate a stable six-membered chelating
+structure with Li+, significantly promoting Li kinetics and reversibility from 30 to
+
+−60 °C. This study provides a highly efficient principle for rational electrolyte solvent
+
+screening, opens up new frontiers in electrolyte design towards practical high-energy
+
+LMBs under extreme temperatures, demonstrating that our study has both scientific
+
+novelty and importance.
+
+Third, as commented by the Reviewer, the screened TFPM electrolyte exhibits much
+
+superior performance compared to previous literatures. Specifically, (1) For the Li||Cu
+
+cell, TFPM electrolyte demonstrates ultra-stable cycling for over 850 cycles with a high
+
+average CE of 99.3%, representing the pioneering work for “single salt single solvent”
+electrolytes reported thus far at relatively high current densities of 1.0 mA cm−2
+
+(Supplementary Table 2); (2) for Li-metal coin-cells with high areal capacity and low
+
+N/P ratio, the cycling life advantage for TFPM electrolyte is very obvious at low-
+
+temperature (≤ −20 °C) in comparison with other reported electrolytes (Supplementary
+
+Table 4); (3) for the Li-metal pouch-cells, the cell using TFPM electrolyte delivers an
+unprecedentedly high energy density of 345.3 Wh kg−1 over 40 cycles at −40 °C, which
+
+stands out in terms of the highest energy density and longest cycles in comparison with
+
+the reported studies at low temperatures (≤ −20 °C) (Supplementary Table 7), validating
+
+the superiority of our study.
+
+In summary, our study overcomes the long-standing challenges of Li compatibility
+
+and electrochemical kinetics, and provides a highly efficient principle for rational
+
+electrolyte solvent screening. This leads to an unprecedentedly high energy density of
+345.3 Wh kg−1 over 40 cycles at −40 °C for Li-metal pouch-cell, which is unattainable
+
+for previous electrolyte design and can be expanded to other metal batteries. Therefore,
+
+=== PDF PAGE 9 ===
+our work has both scientific novelty and importance, and will be of significant interest
+
+to the broad readership of Nat. Commun. in both scientific and industrial arena. The
+
+significant progress, as well as the importance of high-energy and low-temperature
+
+batteries in our society, warrants the publication of our manuscript in Nat. Commun.
+
+
+
+Comment #1: Figure 2 only shows the coordination environment for a single lithium
+
+cation and solvent molecule. While this highlights the point the authors are trying to
+
+make regarding the differences in energies and bond distances for Li-O and F-O, it does
+
+not provide a real picture of the solvation environment. How do the bond distances and
+
+coordination environment change as the number of solvent molecules is increased?
+
+Additionally, where is the anion in the solvation structure? This can be extracted from
+the MD simulations and further optimized via DFT to show the “true” Li+ coordination
+
+in the solvent. This will provide a much more accurate representation of the bonding
+
+energies and distances in the electrolyte system.
+
+Authors’ Response: We thank the reviewer for this insightful comment. We agree with
+
+the Reviewer that the solvation structure extracted from the MD simulation can more
+
+accurately reflect the binding energies and distances in the electrolyte system. Thus, per
+
+your suggestion, the most probable solvation structures (3 anions and 1 solvent) of four
+
+electrolytes were extracted and further optimized via DFT. As shown in the following
+
+Figure R1, the TFPM electrolyte exhibits the largest Li-O distance of 2.056 Å,
+
+indicating the weakest coordination ability of O atom in TFPM, which is consistent
+with the “single Li+ and single solvent molecule” calculated results shown in Figure 2a-
+
+d in Manuscript. Furthermore, the binding energies (i.e., negative value of de-solvation
+
+energy) were also calculated according to the solvation structure and their distributions
+
+extracted from MD simulation. As shown in the following Figure R2, the 2 M
+
+LiFSI/TFPM electrolyte exhibits the lowest Avg. ΔEdsv of 2.14 eV, outperforming that
+
+of 2 M LiFSI/PM (2.25 eV), 2 M LiFSI/TFBM (2.29 eV), and 2 M LiFSI/BM (2.62
+
+eV), which is beneficial for facile de-solvation and homogeneous Li deposition. The
+
+relevant  discussion was added  to  the Revised Manuscript and Supplementary
+
+Information.
+
+=== PDF PAGE 10 ===
+  a     Li-Osol.: 2.017 Å            b     Li-Osol.: 2.002 Å           c     Li-Osol.: 2.056 Å            d     Li-Osol.: 2.001 Å
+
+
+
+
+
+       2 M LiFSI/PM                  2 M LiFSI/BM                2 M LiFSI/TFPM                2 M LiFSI/TFBM
+       3 FSI−, 1 PM                   3 FSI−, 1 BM                3 FSI−, 1 TFPM                3 FSI−, 1 TFBM
+
+Figure R1. The most probable solvation structures of (a) 2 M LiFSI/PM, (b) 2 M
+
+LiFSI/BM, (c) 2 M LiFSI/TFPM, and (d) 2 M LiFSI/TFBM electrolytes extracted from
+
+MD simulations.
+
+                                   2.8
+                                                         2.62
+
+                                                     (eV) 2.4                                                                       2.29
+                                                   2.25
+                                                                2.14                                                        ΔEdsv
+                                                     Avg. 2.0
+
+
+                                   1.6
+
+                                 2 M LiFSI electrolyte
+
+Figure R2. Average  de-solvation energy (Avg.  ΔEdsv)  of  different  electrolytes
+
+calculated according to the solvation structure and their distributions extracted from
+
+MD simulation.
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 5 in Manuscript):
+
+According to the statistic results from MD, all electrolytes including 2 M LiFSI/PM, 2
+
+M LiFSI/BM, 2 M LiFSI/TFPM, and 2 M LiFSI/TFBM possess anion-rich solvation
+
+structure, of which more than 95% first solvation sheath was dominated by two or more
+FSI− anions (Figure 3a-d), with the most probable solvation structure being 3 anions
+and 1 solvent molecule coordinated with Li+ (Supplementary Figure 8).
+
+(Page 8 in Supplementary Information):
+
+The most probable solvation  structures of four  electrolytes were added  to the
+
+Supplementary Information as newly added Supplementary Figure 8.
+
+
+
+Comment #2: Why was LiFSI chosen rather than other electrolyte salts (i.e. LiTFSI,
+
+=== PDF PAGE 11 ===
+LiClO4, LiPF6)? Comment on if you would expect similar or different behavior for other
+
+common Li salts with these solvents.
+
+Authors’ Response: Thanks for your insightful comment. Li salt not only dominates
+
+the ion transport behavior in the bulk electrolyte, but also largely affects the solid
+
+electrolyte interphase (SEI) components on the anode, which may result in vastly
+
+different electrochemical performance of LMBs. LiFSI exhibits superior hydrolysis
+
+resistant, high conductivity, and good solubility in ether solvents. While combined with
+weakly solvating ether solvents, the reduced Li+–solvent coordination will not only
+promote the de-solvation process but also intensify the Li+–FSI− pairing to facilitate the
+
+formation of anion-derived inorganic-rich SEI  at a regular concentration, which
+
+enhances the electrochemical kinetics and reversibility simultaneously, especially for
+
+LMBs. Therefore, the combination of LiFSI-ether electrolytes has been widely adopted
+and studied for high-energy density LMBs.[1-5]
+
+As for the other Li salts mentioned by the Reviewer, (1) LiTFSI has a similar structure
+
+and elemental compositions to the LiFSI, which possesses even better thermal and
+moisture stability than LiFSI. Nevertheless, the larger volume of TFSI− anion and lower
+
+conductivity  of LiTFSI  limits  its  kinetics  at  high-rate  conditions  or  ultra-low
+
+temperatures; (2) LiClO4 does NOT contain F element and fails to contribute inorganic
+
+LiF, of which the LiF has been recognized as an excellent SEI component to promotes
+
+reversible Li plating/stripping. Furthermore, the high oxidation state of Cl (+7) raises
+
+serious safety concerns; (3) LiPF6 is the most widely used and mature Li salt in
+
+commercial Li-ion batteries. However,  it suffers from poor thermal and moisture
+
+stability as well as limited solubility in ether solvents.
+
+To comprehensively address the Reviewer’s comments, we extended our study to assess
+
+the properties of TFPM with different Li salts. First, as shown in the following Figure
+
+R3, LiFSI presents a higher max solubility (i.e., 5.9 M) than that of LiTFSI (i.e., 5.1
+
+M), LiClO4 (i.e., 3.8 M), and LiPF6 (i.e., 1.6 M) in TFPM solvent, which contributes to
+
+the sufficient ionization of LiFSI at the applied concentration (2 M) and avoid salt
+
+precipitation at ultra-low temperatures. Second, the physical properties of TFPM
+
+solvent with different Li salts at 2 M (expect 1.5 M for LiPF6) were also measured
+
+(Figure R4). Among these four TFPM electrolytes, 2 M LiFSI/TFPM electrolyte
+
+emerges as the optimal candidate for practical application due to its highest ionic
+
+conductivity, relatively lower density and viscosity. Third, to show the universality of
+
+=== PDF PAGE 12 ===
+TFPM solvent with different salts in improving the electrochemical performance, 50
+
+μm Li||4.0 mAh cm−2 NMC811 cell using 2 M LiTFSI/TFPM electrolyte was also
+
+evaluated (Figure R5), which exhibits similarly good performance as that using 2 M
+
+LiFSI/TFPM electrolyte. However, the 2 M LiTFSI/TFPM electrolyte delivers inferior
+
+rate capability and low-temperature performance.
+
+Therefore, the LiFSI salt remains the best choice in this study.
+
+                          8
+
+                                                               5.9
+                                    (M) 6                                                                           5.1
+
+                          4                  3.8                                                                                                                        solubility
+                                    Max 2      1.6
+
+
+                          0
+                                    LiPF6      LiClO4       LiFSI      LiTFSI
+                                                       Salt / TFPM
+
+Figure R3. Max solubility of different Li salts in TFPM.
+
+                    2.0                                                       4.5        1.40
+
+                    1.6                                                       4.0 s)     1.36
+                                                                                                                                                                               cm−3)                    1.2                                                       3.5        1.32                               cm−1)                                                                                                      (mPa         (g
+                     (mS 0.8                                                       3.0        1.28
+       σ                                                                                                                                                                                                                                                                                                              Viscosity                               Density                    0.4                                                       2.5        1.24
+
+                    0.0                                                       2.0        1.20
+                         1.5 M LiPF6 2 M LiClO4  2 M LiFSI  2 M LiTFSI
+                                      x M Salt / TFPM
+
+Figure R4. Physical properties of TFPM with different Li salts.
+
+=== PDF PAGE 13 ===
+              a
+               300
+                                                                               100
+                                                                                                                          (%)
+                     g−1) 240                                        2 M LiFSI/TFPM         95
+               180               2 M LiTFSI/TFPM                        (mAh                                                                               90      efficiency
+
+
+                                                                               85                                                Capacity 12060      50 μm Li||4.0 mAh cm−2 NMC811                              4.4 V, 0.2 C / 0.5 C, N/P=2.6, 30 °C                                                                                                                                       Coulombic
+                 0                                                             80
+                   0             25            50             75            100
+                                               Cycle number
+            b                                 c                     4.5                                         4.5
+                                                                       100th
+                                                                                                1st                                                  1st
+                     (V)  4.0                                              (V)  4.0
+
+                     3.5           100th                       3.5                                                 Voltage                                                                                                                         Voltage                           25th
+                                             50th
+                     3.0                                         3.0
+                        2 M LiFSI/TFPM                    2 M LiTFSI/TFPM
+                                              25th                                   50th
+
+                      0    60   120  180  240  300        0    60   120  180  240  300
+                               Capacity (mAh g−1)                        Capacity (mAh g−1)
+
+Figure R5. (a) Cycling performance of the 50 μm Li||4.0 mAh cm−2 NMC811 cells.
+
+The corresponding charge-discharge profiles of the cell with (b) 2 M LiFSI/TFPM and
+
+(c) 2 M LiTFSI/TFPM electrolytes at 30 °C.
+
+
+
+Comment #3: Was the impact of LiFSI concentration on any of the electrochemical
+
+properties evaluated since it appears that only 2 M solution was evaluated?
+
+Authors’ Response: Thanks for your comment. Prior to conducting the comprehensive
+
+study, we actually conduct preliminary evaluations of the electrolytes with different
+
+concentrations. For  the  conventional  Li-ion  batteries,  the  concentration  of  the
+
+electrolyte was normally controlled at ~ 1 M to achieve a balance between ionic
+
+conductivity,  viscosity, and  interfacial  stability.  Increasing  the  electrolyte  salt
+
+concentration could effectively reduce the solvent molecules while extensively recruit
+anions within the Li+ inner solvation sheath, leading to a high anodic stability as well
+
+as an anion-derived inorganic-rich SEI with better Li cyclability, but at a cost of high
+
+viscosity and cost.
+
+Therefore, we first evaluated the Li||Cu cells using four electrolytes at a conventional
+
+LiFSI concentration of 1 M. As shown in the following Figure R6, the cell using four
+
+electrolytes all demonstrate high CEs of ≥ 98.5% with the 1 M LiFSI/TFPM electrolyte
+
+being the highest of 99.5%. Next, to optimize the electrolyte performance, we further
+
+=== PDF PAGE 14 ===
+studied the ionic conductivity of TFPM system at different LiFSI concentration (Figure
+
+R7). The  ionic  conductivity  of LiFSI/TFPM  electrolyte demonstrated a  linear
+
+correlation with concentration at low concentrations, followed by a saturation turning
+
+point upon exceeding 2 M. Furthermore, the 2 M LiFSI/TFPM electrolyte also
+
+demonstrates better low temperature Li||Cu CE (Figure R8) and Li-metal cycling
+
+performance (Figure R9) than 1 M LiFSI/TFPM electrolyte.
+
+Therefore, the concentration of the electrolyte was optimized at 2 M in this study with
+
+a balance of ionic conductivity, viscosity, de-solvation kinetics, interfacial stability, and
+
+battery performance.
+
+                            1.0
+
+                               30 °C                          Avg. CE
+                                            1 M LiFSI/PM    99.1%
+                                            1 M LiFSI/BM    98.8%
+                            0.5                                            1 M LiFSI/TFPM  99.5%
+                                            1 M LiFSI/TFBM  98.8%                                                                                                      Voltage(V)
+
+
+                            0.0
+                                                   1 mA cm−2, 1 mAh cm−2
+
+                          0         10        20        30        40
+                                             Time (h)
+
+Figure R6. Modified Aurbach measurement of Li||Cu cells using electrolytes with 1 M
+LiFSI at a current density of 1.0 mA cm−2 for 1.0 mAh cm−2 at 30 °C.
+
+                                 2.4
+
+                                 2.0
+                                                         cm−1) 1.6
+                                 1.2
+                                      (mS
+             σ 0.8
+
+                                 0.4
+                                                         x M LiFSI/TFPM
+                                 0.0
+                                    0.0  0.4  0.8  1.2  1.6  2.0  2.4  2.8
+                                               Concentration (M)
+
+Figure R7. Concentration dependent ionic conductivity of LiFSI/TFPM electrolyte.
+
+                            1.0
+                               −60 °C                    Avg. CE
+                                         1 M LiFSI/TFPM 90.8%
+                                         2 M LiFSI/TFPM 96.1%
+                                                                                                      Voltage(V) 0.50.0
+
+
+                             -0.5
+                                                          0.1 mA cm−2, 0.1 mAh cm−2
+
+                          0            10            20            30
+                                            Time (h)
+
+=== PDF PAGE 15 ===
+Figure R8. Modified Aurbach measurement of Li||Cu cells using 1 M and 2M
+LiFSI/TFPM electrolytes at −60 °C with a current density of 0.1 mA cm−2 for 0.1 mAh
+cm−2.
+
+                       280
+                                                                100
+                                                                                                    (%)
+                                    g−1) 210             2 M LiFSI/TFPM             95
+                                        (mAh                       140                                      90      efficiency
+                                               1 M LiFSI/TFPM
+
+                        70                                      85                                                                                 Capacity                                                                                                                                                                                                                                                                                                             Coulombic                                  Li||NMC811, 4.4 V, 1 C, 30 °C
+                         0                                      80
+                           0    100   200   300   400   500
+                                            Cycle number
+
+Figure R9. Cycling performance of the Li||NMC811 cells using 1 M and 2 M
+
+LiFSI/TFPM electrolytes at 1.0 C and 30 °C.
+
+
+
+Comment #4: While the radar chart is a visually nice figure (7f), it does not appear
+
+that there was a true qualitative methodology for assessing the designed electrolytes
+
+since 4 out of the 5 aspects show the electrolyte has the ideal properties. This makes it
+
+appear to readers as if these aspects have been solved, which I do not think that is the
+
+case since it is only a qualitative assessment. This could be deceiving to readers and
+
+should have some qualitative figures of merit for the rankings. If not, it should be
+
+removed from the main text.
+
+Authors’ Response: Thank you for this valuable suggestion. We agree with the
+
+Reviewer that the original radar chart may be misleading since  it is a qualitative
+
+assessment. To better reflect the real case, following the methodology described in Nat.
+
+Energy, 2022, 7, 94. (Yu et al.) and Nat. Energy, 2025, 10, 365. (Choi et al.), we
+
+carefully listed all relevant data respects to anodic stability, Li-metal compatibility, de-
+
+solvation, ionic conduction, and interphase stability in the following Table R1. Based
+
+on these quantitative data, we reassigned the ratings to these aspects and modified the
+
+radar plot carefully (Figure R10). The relevant data and discussion have been updated
+
+in Manuscript and Supplementary Information.
+
+=== PDF PAGE 16 ===
+                            PM       TFPM
+
+                            BM       TFBM
+
+
+                                           Anodic stability
+                                             10
+                                             8
+                                Interphase          6               Li-metal
+                                          stability           4             compatibility
+                                             2
+                                             0
+
+
+
+
+
+                                        Ionic conduction      De-solvation
+
+Figure R10. Radar plot with five aspects to evaluate the designed electrolytes. Ratings
+
+of 0 to 10 are given to each electrolyte (10 stands for ideal properties).
+
+Table R1. Rationale for radar plot.
+
+                                                  2 M LiFSI/solvent
+    Aspect     Reference data & ratings
+                          PM    BM    TFPM   TFBM
+               Leakage current in CA test
+    Anodic       of Li||Al cells after 24 h       1.48        2.22        0.19        0.34
+    stability           (μA cm−2)
+                       Ratings             6         4         10         9
+                 Avg. CE (%) and cycle
+   Li-metal                           99.2@400  99.1@260  99.3@850  99.0@380
+                number of Li||Cu cells
+ compatibility
+                       Ratings             8         7         9         7
+                    Avg. ΔEdsv (eV)          2.25        2.62        2.14        2.29
+  De-solvation
+                       Ratings             8         7         9         8
+                  Ionic conductivity at 30 °C
+     Ionic                                    4.12        2.69        1.71        1.26
+                   (mS cm−1)
+  conduction
+                       Ratings             9         8         7         6
+               The S and F ratios (%) in
+             XPS after 120 s of Ar+
+                                              4.84        2.51       11.44       8.38
+  Interphase      sputtering, indicative of
+                                              9.48        6.05       12.60       8.85
+    stability          robust inorganic
+                 components in the SEI.
+                       Ratings             7         5         9         7
+
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 10 in Manuscript):
+
+Under the guidance of RESPO–μ dual descriptors, despite possessing slightly lower
+
+=== PDF PAGE 17 ===
+ionic conductivity, the TFPM electrolyte stands out in the aspects of interphase stability,
+
+de-solvation, Li-metal compatibility, and anodic stability (Figure 7f and Supplementary
+
+Table 8), which enables the stable operation of high-energy LMBs  at ultra-low
+
+temperatures.
+
+(Page 18 in Manuscript):
+
+The original Figure 7f was updated based on the quantitative data in the Manuscript.
+
+(Page 44 in Supplementary Information):
+
+Table R1 was added to Supplementary Information as newly added Supplementary
+
+Table 8.
+
+
+
+Comment #5: I think there is a typo in line 275, should it be “PM, TFPM, and TFBM”
+
+rather than “BM, TFPM, and TFBM” since the BM shows Al corrosion in Figure S21b
+
+while the PM, TFPM, and TFBM electrolytes do not.
+
+Authors’ Response: Thank you for catching this error. We have carefully checked and
+
+modified the description in the manuscript.
+
+Authors’ modification to the Manuscript:
+
+(Page 8 in Manuscript):
+
+In contrast, the PM, TFPM, and TFBM electrolytes show no Al corrosion and negligible
+
+leakage current with the TFPM electrolyte being the lowest.
+
+
+
+Comment #6: There are also multiple typos and grammar errors in the paper with the
+
+following words misused:  line 40 “demanding”;  line 46 “wakening”;  line 88
+
+“enhances”; line 111 “facial”; lines117-118 sentence is very difficult to understand;
+
+and line 349 “slighter”.
+
+Authors’ Response: Thank you for catching these errors. We have proof-read and
+
+polished the English carefully in the revised manuscript.
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 2 in Manuscript):
+
+To fulfill the demand for high-energy and ultra-low temperature LMBs, the following
+
+=== PDF PAGE 18 ===
+critical requirements for electrolytes should be met simultaneously, …
+
+(Page 2 in Manuscript):
+
+Among the various electrolyte design strategies, weakening the solvation ability of the
+
+solvent  through  steric  hindrance,  changing  chelation  sites  or  structures,  and
+
+incorporating fluorination represents the most promising approach.
+
+(Page 4 in Manuscript):
+
+The solvent with weak solvation ability could enhance Li+–anion coordination to
+
+promotes anion-derived inorganic-rich SEIs, while it often compromises the solubility
+
+and ionic conductivity.
+
+(Page 4 in Manuscript):
+
+Therefore, it is necessary to highlight molecules with moderate μ (1.5~3.5 Debye)
+
+holding great potential for facile de-solvation and interphase regulation.
+
+(Page 4 in Manuscript):
+
+RESP is a modified ESP method that incorporates physical constraints (e.g., atomic
+
+electronegativity equilibration and bond symmetry constraints) to optimize charge
+
+distributions, ensuring further improvement of the rationality of the charge model,
+
+which leads to more efficient and accurate to distinguish the ethers with different
+
+solvation ability.
+
+(Page 10 in Manuscript):
+
+Under the guidance of RESPO–μ dual descriptors, despite possessing slightly lower
+
+ionic conductivity, the TFPM electrolyte stands out in the aspects of interphase stability,
+
+de-solvation, Li-metal compatibility, and anodic stability (Figure 7f and Supplementary
+
+Table 8), which enables the stable operation of high-energy LMBs  at ultra-low
+
+temperatures.
+
+=== PDF PAGE 19 ===
+Reviewer #2 (Remarks to the Author):
+
+Zehang et al. introduced a promising approach for screening electrolyte solvents for
+
+lithium-metal batteries operating under ultra-low temperatures and high voltages using
+
+the RESPO–μ  principle. As a  result,  the  fluorinated  ethers TFPM and TFBM
+
+demonstrate superior electrochemical performance compared to their non-fluorinated
+
+counterparts, PM and BM. However, it should be noted that a conceptually similar
+
+strategy involving rational solvent tuning was previously proposed in a diethyl ether
+
+(DEE)-based  system by  Zhiao  et  al.  (Nat. Energy  2022,  7,  94–106), where
+
+improvements in oxidation stability and low-temperature performance were achieved
+
+by manipulating the solvation structure. While the present manuscript is thorough,
+
+methodically executed, and well-organized, the central concept remains insufficiently
+
+substantiated. How solvents with moderate dipole moment (μ) contribute to interphase
+
+stability? This mechanism warrants further clarification through either direct or
+
+indirect experimental validation. Given the high standards of Nature Communications,
+
+the authors are encouraged to address the following concerns before the manuscript
+
+can be considered for publication.
+
+Authors’ Response: We would like to thank the reviewer for his/her comments and
+
+insightful suggestions on our manuscript. We have addressed all comments below and
+
+revised the manuscript accordingly.
+
+Dipole moment (μ) reflects the unevenness of molecular charge distribution and is an
+
+important parameter for studying the behavior of molecule under the electric field. Li
+
+et al. compared a series of solvents with different μ and found that solvents with higher
+
+μ tend to preferentially adsorb on the surface of Li-metal anode, thereby affecting the
+electrochemical performance of the SEI.[6] Liu et al. reported an asymmetric Li salt,
+
+lithium 1,1,1-trifluoro-N-[2-[2-(2-methoxyethoxy)ethoxy)]ethyl] methanesulfonamide
+
+(LiFEA) that possesses a pseudo-crown ether-like anion, with a large molecular dipole,
+
+which allows for self-cleaning of unfavorable organic components in the SEI during
+cycling (Nat. Energy, 2023, 8, 934).[7] However, excessively high molecular dipole
+
+could also dissolve out the desired inorganic components, thus reducing the stability of
+
+SEI. Later on, they carefully designed and synthesized another Li salt, lithium 2-[2-(2-
+
+methoxy  ethoxy)ethoxy]ethanesulfonyl(trifluoromethanesulfonyl) imide (LiETFSI)
+
+with suitable molecular dipole, which rationalized this self-cleaning behavior and
+further improved its compatibility towards Li-metal anode.[8] Therefore, the μ of solvent
+
+=== PDF PAGE 20 ===
+must be regulated carefully to balance its ability to absorb and stabilize the interphase
+
+as well as its solubility to the SEI.
+
+To further clarify the vital impact of μ on the interphase stability, we first combined
+
+quartz  crystal microbalance  analysis with  electrochemical methods (EQCM)  to
+
+measure the in-situ gravimetric variation of SEI during initial Li plating and subsequent
+resting processes (Figure R11).[9-11] After 300 seconds of discharge, a high mass of
+13170 ng cm−2, corresponding to plated Li with SEI layer, was generated in the BM
+
+electrolyte (Figure R11a). During the subsequent resting process, the SEI formed by
+BM electrolyte slowly dissolved at a rate of 6.6 ng s−1 cm−2 due to the low dissolution
+
+ability of BM solvent (low μ). The initial plated Li with SEI layers formed by TFPM
+
+and TFBM electrolytes showed similar mass (Figure R11b-c). However, the SEI
+dissolved rapidly in the TFBM electrolyte at a high rate of 20.9 ng s−1 cm−2 due to the
+high μ of TFBM, whereas a moderate dissolution rate of 9.3 ng s−1 cm−2 was found for
+
+the TFPM electrolyte. This balanced dissolution process facilitated the formation of a
+
+robust inorganic-rich SEI.
+
+Next, the sensitivity of different solvents to the electric field was evaluated through
+Tafel plots (Figure R12-13).[12] Due to the higher μ, TFPM (i.e. 2.41 mA cm−2) and
+TFBM (i.e. 1.26 mA cm−2) electrolytes showed higher exchange current density (j0)
+than PM (i.e. 0.98 mA cm−2) and BM (i.e. 0.93 mA cm−2) electrolytes at 30 °C. However,
+
+TFBM electrolyte provided a lower j0 than TFPM electrolyte, which may be attributed
+
+to the high viscosity of TFBM electrolyte. Among these four electrolytes, TFPM
+
+electrolyte exhibited the highest j0 at both 30 °C and −40 °C, which enables fast charge
+
+transfer and rapid de-solvation, thereby achieving excellent rate and low-temperature
+
+performance.
+
+Based on the above thorough discussions, we can draw the conclusion that the solvent
+
+with moderate μ could achieve a good balance between interphase stability and
+
+sensitivity to the electric fields. The relevant data and discussions were added to the
+
+Manuscript and Supplementary Information.
+
+=== PDF PAGE 21 ===
+                       a                         4                                   14000
+                               SEI formation             Dissolution
+                                                             12000
+                         3
+                                     0.1 mA cm−2                      10000
+                                  (V)                                                                                                                                                    cm−2)                                                   Rate: 6.6 ng s−1 cm−2  8000
+                         2                                                            (ng
+                                                             6000                                                                               Voltage                           Resting                                                             4000   Mass                         1
+                                                             2000
+                                               2 M LiFSI/BM
+                         0                                   0
+                           0   100  200  300  400  500  600  700
+                                         Time (s)
+
+                     b                         4                                   14000
+                               SEI formation         Dissolution
+                                                             12000
+                         3                                                             10000
+                                  (V)      0.1 mA cm−2                                                             cm−2)                                                             8000
+                         2                                                            (ng
+                                                    Rate: 9.3 ng s−1 cm−2  6000                                                                               Voltage                         1                         Resting        4000   Mass
+                                                             2000
+                                              2 M LiFSI/TFPM
+                         0                                   0
+                           0   100  200  300  400  500  600  700
+                                         Time (s)
+
+                       c  4                                   14000
+                               SEI formation         Dissolution
+                                                             12000
+                         3                                                             10000
+                                  (V)      0.1 mA cm−2                                                             cm−2)
+                                                             8000                                                           Rate:                         2                                                            (ng
+                                                     20.9 ng s−1 cm−2    6000                                                                               Voltage                         1                         Resting        4000   Mass
+                                                             2000
+                                              2 M LiFSI/TFBM
+                         0                                   0
+                           0   100  200  300  400  500  600  700
+                                         Time (s)
+
+Figure R11. In-situ EQCM results of mass change in (a) 2 M LiFSI/BM (low μ), (b) 2
+
+M LiFSI/TFPM (moderate μ), and (c) 2 M LiFSI/TFBM (high μ) electrolytes during
+initial Li plating at a current density of 0.1 mA cm−2 and subsequent resting process.
+
+
+
+
+                                             2 M LiFSI
+                               4
+                              PM 0.98 mA cm−2                                                               cm−2)                              BM 0.93 mA cm−2
+                                          (mA 2      TFPM 2.41 mA cm−2
+                                 TFBM 1.26 mA cm−2
+
+                               0                                                                                                  density
+
+                                      -2                                                                                                  Current
+                                                        30 °C
+                                          Log -4
+                                         -0.2     -0.1     0.0     0.1     0.2
+                                                 Voltage (V)
+
+=== PDF PAGE 22 ===
+Figure R12. Tafel plots of Li plating/stripping in four electrolytes at 30 °C.
+
+
+
+
+                                             2 M LiFSI
+                                                               cm−2) 1    PM 5.02×10−4 mA cm−2
+                            BM 6.29×10−4 mA cm−2
+                                          (mA -1    TFPM 1.01×10−3 mA cm−2
+                               TFBM 8.48×10−4 mA cm−2
+
+                                      -3                                                                                                  density
+
+                                      -5                                                                                                  Current
+                                                      −40 °C
+                                          Log -7
+                                         -0.2     -0.1     0.0     0.1     0.2
+                                                 Voltage (V)
+
+Figure R13. Tafel plots of Li plating/stripping in four electrolytes at −40 °C.
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 7 in Manuscript):
+
+To clarify the vital impact of μ on the interphase stability, the electrochemical quartz
+
+crystal microbalance (EQCM) was employed to monitor the gravimetric variation of
+
+SEI in-situ. As shown in the Supplementary Figure 19, after 300 seconds of discharge,
+a high mass of 13170 ng cm−2, corresponding to the plated Li with SEI layer, is
+
+generated in the BM electrolyte. During the subsequent resting process, the SEI formed
+by BM electrolyte slowly dissolves at a rate of 6.6 ng s−1 cm−2 due to the low dissolution
+
+ability of BM solvent (low μ). The initial plated Li with SEI layers formed by TFPM
+
+and TFBM electrolytes show similar mass. However, the SEI dissolves rapidly in the
+TFBM electrolyte at a high rate of 20.9 ng s−1 cm−2 due to the high μ of TFBM, whereas
+a moderate dissolution rate of 9.3 ng s−1 cm−2 was found for the TFPM electrolyte,
+
+facilitating the formation of a robust inorganic-rich SEI. Moreover, the TFPM
+
+electrolyte also shows substantially higher exchange current density compared to the
+
+other three electrolytes at both 30 °C and −40 °C (Supplementary Figure 20-21),
+
+demonstrating  its  superior  sensitivity  to  the  electric  field  that  promotes  Li
+
+plating/stripping kinetics. This validates that the TFPM solvent with moderate μ could
+
+achieve a good balance between sensitivity to the electric fields within EDL and
+
+interphase stability.
+
+(Page 19 in Supplementary Information):
+
+In-situ EQCM results was added to the Supplementary Information as newly added
+
+=== PDF PAGE 23 ===
+Supplementary Figure 19.
+
+(Page 20 in Supplementary Information):
+
+Tafel plots at 30 °C was added to the Supplementary Information as newly added
+
+Supplementary Figure 20.
+
+(Page 21 in Supplementary Information):
+
+Tafel plots at −40 °C was added to the Supplementary Information as newly added
+
+Supplementary Figure 21.
+
+
+
+Comment #1: In the 7Li NMR spectra, the observed downfield shift (de-shielding) of
+Li+ in LiFSI/BM and LiFSI/PM suggests weaker solvation compared to LiFSI/TFPM
+
+and LiFSI/TFBM. However, molecular dynamics (MD) simulations indicate that TFPM
+
+and TFBM electrolytes exhibit highly similar solvation structures, as stated in the
+manuscript:  Li+(FSI−)3.03(TFPM)0.99, and  Li+(FSI−)2.93(TFBM)1.08. How can  the
+
+significantly lower de-solvation energy observed for LiFSI/TFPM be rationalized
+
+relative to the other systems?
+
+Authors’ Response: Thanks for your insightful comment. We agree with the reviewer
+that the downfield shift of Li+ in the 7Li NMR suggests weaker solvation of LiFSI/BM
+
+and LiFSI/PM electrolytes compared to LiFSI/TFPM and LiFSI/TFBM electrolytes.
+
+However, in TFPM and TFBM electrolytes, the shielding effect of Li nuclei  is
+significantly enhanced because of the coordination of F with Li+, resulting in high
+chemical shifts. To further clarify the coordination ability of different atoms, 17O and
+19F NMR spectra were also collected in the original Manuscript (Figure 2f-g), which
+
+reveals weakest coordination ability of O and strongest coordination ability of F for the
+
+TFPM solvent. The Li-F and Li-O bidentate coordination in TFPM electrolyte leads to
+the lowest coordination number of solvent (i.e., 0.99) in the Li+ primary solvation
+
+sheath, according to the MD simulations.
+
+Indeed, as commented by the Reviewer, TFPM and TFBM electrolytes exhibit similar
+solvation structures, namely Li+(FSI−)3.03(TFPM)0.99 and Li+(FSI−)2.93(TFBM)1.08. The
+
+de-solvation energies of four electrolytes were then carefully calculated according to
+
+the solvation structures and their distributions extracted from MD simulation. As shown
+
+in the following Figure R14, the 2 M LiFSI/TFPM electrolyte exhibits the lowest Avg.
+
+=== PDF PAGE 24 ===
+ΔEdsv of 2.14 eV, outperforming that of 2 M LiFSI/PM (2.25 eV), 2 M LiFSI/TFBM
+
+(2.29 eV), and 2 M LiFSI/BM (2.62 eV), which is beneficial for facile de-solvation and
+
+homogeneous Li deposition. We are fully aware that de-solvation energy for TFPM
+
+electrolyte is only slightly lower than the other three (rather than being significantly
+
+lower than). We sincerely appreciate the reviewer for identifying the inaccuracies in our
+
+Manuscript. Based on your valuable comment, we have carefully revised the relevant
+
+description to improve the accuracy of our statements.
+
+
+
+                                   2.8
+                                                         2.62
+
+                                                     (eV) 2.4                                                                       2.29
+                                                   2.25
+                                                                2.14                                                        ΔEdsv
+                                                     Avg. 2.0
+
+
+                                   1.6
+
+                                 2 M LiFSI electrolyte
+
+Figure R14. Average de-solvation energy (Avg. ΔEdsv) of  different  electrolytes
+
+calculated according to the solvation structures and their distributions extracted from
+
+MD simulation.
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 8 in Manuscript):
+
+(1) due to the weaken coordination ability of O and F-mediated coordination effect,
+
+TFPM solvent induces a stable six-membered chelating solvation structure with highly
+
+rich in anion, resulting in very low de-solvation energy while maintaining sufficient salt
+
+dissociation;
+
+
+
+Comment #2: In both ¹⁷O and ¹⁹F NMR spectra, the addition of Li salt results in an
+
+upfield shift for oxygen and a downfield shift for fluorine. This suggests that fluorine
+
+acts as an electron donor, whereas oxygen functions as an electron acceptor. The author
+
+should consider the distinct electronic roles of oxygen and fluorine in the FSI⁻ anion.
+
+Particularly  since LiFSI accounts  for approximately 75%  of  the  coordination
+
+environment.
+
+=== PDF PAGE 25 ===
+Authors’ Response: Thanks for your insightful comment. The difference in chemical
+
+shifts for O and F observed in NMR spectra predominantly arises from different
+
+coordination effects. Generally, regardless of solvent or anion, the O atom possesses a
+
+much more negative electrostatic potential (ESP) than F atom. As a result, the Li–Osol.
+
+coordination results in the O nucleus being shielded by the Li nucleus due to the strong
+
+electrostatic interactions, rendering the O atom electron-accepting. In contrast, Li–Fsol.
+
+coordination is significantly weaker than Li–Osol. coordination, leading to electron
+
+localization at the F nucleus (de-shielding effect) and rendering F atoms electron-
+
+donating.
+
+As mentioned by the Reviewer, all electrolytes possess anion-rich solvation structure
+according to the statistic results from MD simulations. However, FSI− anion always
+coordinates with Li+ through O atom rather than F atom, which has been widely
+observed in previous publications.[4,12-14] To better address the Reviewer’s concern, the
+
+most probable solvation structures (3 anions and 1 solvent) of four electrolytes were
+
+extracted from MD and further optimized via DFT. As shown in the following Figure
+R15, the FSI− anions only coordinate with Li+ through O atom in all four solvates.
+
+
+
+
+
+  a                          b                           c                          d
+
+
+
+
+
+       2 M LiFSI/PM                  2 M LiFSI/BM                2 M LiFSI/TFPM                2 M LiFSI/TFBM
+       3 FSI−, 1 PM                   3 FSI−, 1 BM                3 FSI−, 1 TFPM                3 FSI−, 1 TFBM
+
+Figure R15. The most probable solvation structures of (a) 2 M LiFSI/PM, (b) 2 M
+
+LiFSI/BM, (c) 2 M LiFSI/TFPM, and (d) 2 M LiFSI/TFBM electrolytes extracted from
+
+MD simulations.
+
+
+
+Comment #3: In Figure 3a-d, the TFBM has significantly more AGGs/CIPs compared
+
+to TFPM. Why does it not yield better Echem performance?
+
+Authors’ Response: We thank the reviewer for this insightful comment, which enables
+
+us to better clarify the differences between TFPM and TFBM. Actually, all solvents
+
+reported in this study are weakly solvating ethers, which bestows all four electrolytes
+
+=== PDF PAGE 26 ===
+rich in CIPs and AGGs according to MD simulations and Raman spectra (Figure 3).
+
+This yields very decent Li||Cu CEs in all four electrolytes. However, according to the
+
+EQCM results shown in Figure R11, the TFBM solvent with high μ exhibits a high SEI
+dissolution rate of 20.9 ng s−1 cm−2, resulting in highly unstable SEI. Furthermore, as
+
+shown  in Supplementary  Figure  10-11, TFBM  electrolyte  exhibits  the  lowest
+
+conductivity and highest viscosity among these four electrolytes, hindering efficient ion
+
+transport under high-rate and low-temperature conditions, which leads to inferior
+
+battery performance, especially under ultra-low temperature (Figure 6f).
+
+
+
+Comment #4: 99.3% overall Coulombic efficiency (CE) in a Li/Cu  cell  is not
+
+unprecedented for LiFSI-based systems. For example, values of 99.4% have been
+
+reported in 1 M LiFSI in BTFE/DME (Energy Environ. Sci., 2022, 15, 1647–1658), and
+
+up to 99.7% in 1.2 M LiFSI/F5DEE (Nat. Energy, 2022, 7, 94–106). At a minimum, the
+
+authors should provide a fair comparison with the current state-of-the-art.
+
+Authors’ Response: Thanks for your comment. As commented by the Reviewer, there
+
+are indeed some previous studies reports higher Li||Cu CEs than ours. However, most
+
+of which are multi salt or multi solvent systems, and it would be overly complex to
+
+include them all for comparison. Moreover, multi salt and/or multi solvent systems can
+
+achieve synergistic effects to promote electrochemical performance by selecting
+
+salts/solvents with desired characteristics, whereas achieving high CE and long cycle
+
+life remains a great challenge in a “single-salt single-solvent” system. In addition, the
+
+Li||Cu CEs highly depend on the testing conditions, such as current density. Generally,
+
+testing at low current densities would lead to high CEs, therefore, it is not reasonable
+
+to compare the CEs under different current densities. Based on the above considerations,
+
+we have explicitly specified in the title of Supplementary Table 2 that we only compare
+
+the state-of-the-art reported single-salt single-solvent electrolytes at a current
+
+density of 1.0 mA cm−2.
+
+The first study mentioned by the Reviewer (Energy Environment. Sci., 2022, 15, 1647-
+
+1658) reported a CE value of 99.4% with the modified Aurbach method at a current
+density of 0.5 mA cm−2 using dual solvent of BTFE/DME (our work: 99.5% at 1.0 mA
+cm−2 with a single-salt single-solvent formulation); The second paper (Nat. Energy,
+
+2022, 7, 94–106) reported long cycling CE values of up to 99.7%, however, the testing
+
+=== PDF PAGE 27 ===
+current density was also 0.5 mA cm−2, thus these work were excluded from our
+
+comparisons. As  discussed  in  our  Manuscript  (page  6): “TFPM  electrolyte
+
+demonstrates ultra-stable cycling for over 850 cycles with a high average CE of 99.3%,
+
+representing the pioneering work for “single salt single solvent” electrolytes reported
+thus far at a relatively high current density of 1.0 mA cm−2 (Supplementary Table 2),”
+
+demonstrating the superiority of our TFPM electrolyte.
+
+
+
+Comment #5: If dissolution is indeed an issue in the TFBM system, can the difference
+
+in SEI composition be identified via XPS? Based on the current data (Figure 5a and
+
+S14), the SEI appears similar in both the TFBM and TFPM systems. How, then, can the
+
+authors substantiate their claim that dissolution leads to the growth of redundant SEI?
+
+Authors’ Response: Thanks for your insightful comment. At first glance, the SEI
+
+components appear to be similar in TFPM and TFBM electrolytes. Take a closer look,
+
+it is found that the LiF peak intensity, reflecting the absolute F content, is much higher
+
+for TFPM than TFBM electrolyte (Figure 5b). Besides, more LiNxOy and Li2Sx, the
+thoroughly decomposition products of FSI− anion, were detected for TFPM electrolyte.
+
+This indicates that the SEI formed in the TFBM electrolyte maybe dissolved out by the
+
+TFBM solvent with high μ value. To verify this hypothesis, the electrochemical quartz
+
+crystal microbalance (EQCM) was newly employed  to monitor the gravimetric
+
+variation of SEI in-situ. As shown in the Figure R11, the SEI dissolves rapidly in the
+TFBM electrolyte at a high rate of 20.9 ng s−1 cm−2 due to the high μ of TFBM, whereas
+a moderate dissolution rate of 9.3 ng s−1 cm−2 was found for the TFPM electrolyte.
+
+As originally summarized in our Manuscript (page 8): “the TFPM electrolyte is superior
+
+to the TFBM electrolyte in the following aspects: (1) due to the weaken coordination
+
+ability of O and F-mediated coordination effect, TFPM solvent induces a stable six-
+
+membered chelating solvation structure with highly rich in anion, resulting in low de-
+
+solvation energy  while  maintaining  sufficient  salt  dissociation;  (2)  the TFBM
+
+electrolyte exhibits lower ionic conductivity and higher viscosity compared to the
+
+TFPM electrolyte, hindering efficient ion transport, especially under high-rate and low-
+
+temperature conditions; (3) the TFBM solvent with high μ tends to absorb on the surface
+
+of Li-metal strongly, leading to the aggressive dissolution of interphase components,
+
+while the TFPM solvent with moderate μ could achieve a balance between sensitivity
+
+to the electric fields within EDL and interphase protection; (4) because of the strong
+
+=== PDF PAGE 28 ===
+dissolution  ability of TFBM solvent, FSI− anions do not have enough time to
+
+decompose before being dissolved out, resulting in insufficient anion reduction; (5)
+
+since the “interphase dissolution–electrolyte decomposition” process  is constantly
+
+going on in the TFBM electrolyte, the interphase is in a highly dynamic evolution,
+
+which yields highly unstable SEI with large resistance. While the TFPM with moderate
+μ enables sufficient reduction of FSI− anions, leading to the formation of highly robust
+
+inorganic-rich SEI with low  resistance. These  merits  significantly enhance  the
+
+electrochemical  kinetics and  interfacial  stability  for Li-metal anodes, which  is
+
+extremely beneficial for enabling high-energy and low-temperature LMBs.”
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 7 in Manuscript):
+
+To clarify the vital impact of μ on the interphase stability, the electrochemical quartz
+
+crystal microbalance (EQCM) was employed to monitor the gravimetric variation of
+
+SEI in-situ. As shown in the Supplementary Figure 19, after 300 seconds of discharge,
+a high mass of 13170 ng cm−2, corresponding to the plated Li with SEI layer, is
+
+generated in the BM electrolyte. During the subsequent resting process, the SEI formed
+by BM electrolyte slowly dissolves at a rate of 6.6 ng s−1 cm−2 due to the low dissolution
+
+ability of BM solvent (low μ). The initial plated Li with SEI layers formed by TFPM
+
+and TFBM electrolytes show similar mass. However, the SEI dissolves rapidly in the
+TFBM electrolyte at a high rate of 20.9 ng s−1 cm−2 due to the high μ of TFBM, whereas
+a moderate dissolution rate of 9.3 ng s−1 cm−2 was found for the TFPM electrolyte,
+
+facilitating the formation of a robust inorganic-rich SEI. Moreover, the TFPM
+
+electrolyte also shows substantially higher exchange current density compared to the
+
+other three electrolytes at both 30 °C and −40 °C (Supplementary Figure 20-21),
+
+demonstrating  its  superior  sensitivity  to  the  electric  field  that  promotes  Li
+
+plating/stripping kinetics. This validates that the TFPM solvent with moderate μ could
+
+achieve a good balance between sensitivity to the electric fields within EDL and
+
+interphase stability.
+
+(Page 19 in Supplementary Information):
+
+In-situ EQCM results was added to the Supplementary Information as newly added
+
+Supplementary Figure 19.
+
+(Page 20 in Supplementary Information):
+
+=== PDF PAGE 29 ===
+Tafel plots at 30 °C was added to the Supplementary Information as newly added
+
+Supplementary Figure 20.
+
+(Page 21 in Supplementary Information):
+
+Tafel plots at −40 °C was added to the Supplementary Information as newly added
+
+Supplementary Figure 21.
+
+
+
+Comment #6: The high-voltage stability of fluorinated solvents is not surprising and
+
+has also been reported in mentioned Nature Energy paper. Fluorination lowers the
+
+HOMO energy level of the molecules, thereby enhancing their oxidative stability.
+
+However, how does solvent modification help prevent Al corrosion typically induced by
+
+LiFSI?
+
+Authors’ Response: Thanks for your insightful comment. Indeed, the Al corrosion is a
+
+critical issue associated with imide salt (e.g., LiFSI)-based electrolyte. There are many
+
+previous studies have demonstrated that by modifying the solvent structure to weaken
+its solvation ability, the resulting weakly solvating solvent can barely solvate the Al3+,
+
+thereby accumulating a passivation layer of Al(FSI)x complexes on Al surface to
+suppress  the Al  corrosion  kinetically.[15,16]  Furthermore,  the  weakly  solvating
+electrolytes could also promote the decomposition of FSI− anion, which facilitates the
+formation of a LiF-rich passivation layer.[2,16] To confirm this point, XPS analysis was
+
+applied to study the components on Al surface after CA test. As shown in the following
+
+Figure R16, a high content of LiF was detected on the Al electrode in TFPM and TFBM
+
+electrolytes, which aids in the prevention of Al corrosion.
+
+
+                                               F 1s
+
+
+           PM                BM                 TFPM                TFBM
+
+
+  0 nm                                                                                                                   LiF                                                                                    LiF                         LiF             FSI                                                      LiF              FSI                                                                                           FSI                                      FSI
+
+
+
+  2 nm
+
+
+
+       692    688    684        692    688    684        692    688    684        692    688    684
+          Binding energy (eV)          Binding energy (eV)          Binding energy (eV)          Binding energy (eV)
+
+Figure R16. F 1s XPS spectra of Al electrode after CA test before and after Ar+
+
+sputtering.
+
+=== PDF PAGE 30 ===
+Comment #7: What is the extent of gas evolution in TFBM and TFPM cells during
+
+cycling at 4.4 V?
+
+Authors’ Response: Thanks for your comment. Per your suggestion, differential
+
+electrochemical mass spectroscopy (DEMS) was carried out to evaluate the gas
+
+evolution during the initial charging-discharging of Li||NMC9055 cells (Figure R17).
+
+There is almost no gas generated for both TFPM and TFBM electrolytes during the
+
+charging process, demonstrating the excellent stability of TFPM and TFBM electrolytes
+
+even at high cut-off voltage of 4.4 V. When discharging to below 3.9 V, a small amount
+
+of CO2, C3H6, and H2 (ppm level) was detected. Specifically, more gases were released
+
+in the TFBM than that in the TFPM electrolyte, which can be attributed to the highly
+
+robust interphases derived from TFPM electrolyte, minimizing the parasitic reaction.
+
+Besides, no obvious cell swelling was observed for the pouch cell after cycling (Figure
+
+7), indicating that the gas evolution is very mild in TFPM electrolyte.
+
+=== PDF PAGE 31 ===
+    a                                             b
+                                          CO2                                           CO2
+
+ppm          0.5                                                                 0.5
+
+
+
+
+                                                C3H6                                                C3H6
+
+ppm          0.5                                                                 0.5
+
+
+
+
+                                                C2H6                                                C2H6
+
+             0.5                                                                 0.5
+ppm
+
+
+
+
+                                                 H2                                                  H2
+
+            5                                                        5
+ppm
+
+
+
+
+     4.5                                                          4.5
+
+(V)  4.0                                                          4.0
+
+                        2 M LiFSI/TFPM                                     2 M LiFSI/TFBM     3.5                                                          3.5Voltage
+
+     3.0                                                          3.0
+           Li||NMC9055, 2.8-4.4 V                                   Li||NMC9055, 2.8-4.4 V
+
+          0         6         12        18        24        0         6         12        18        24
+                          Time (h)                                            Time (h)
+
+Figure R17. In-suit DEMS analysis of gas evolution for the Li||NMC9055 cells using
+
+(a) 2 M LiFSI/TFPM and (b) 2 M LiFSI/TFBM electrolytes during the first cycle.
+
+=== PDF PAGE 32 ===
+The comments from Reviewer #3
+
+Electrolyte solvent engineering could tune both the SEI structure and chemistry, which
+
+has been considered as a critical and pragmatic approach to enable high performance
+
+Li-metal batteries. Unfortunately, the lack of solvent screening principle has hindered
+
+their efficient development. In this work, the authors innovatively proposed a solvent
+
+screening principle based on unique RESPO-μ dual-descriptors to enable high-energy
+
+LMBs at ultra-low temperatures. Furthermore, the authors design and synthesize a new
+
+class of weakly solvating fluorinated ethers to validate the effectiveness of this RESPO–
+
+μ screening principle. The work provides valuable insights into electrolyte design to
+
+enhances electrochemical  kinetics and  reversibility simultaneously, achieving an
+unprecedented high energy density of 345.3 Wh kg−1 at −40 °C. Therefore, from my
+
+perspective, this manuscript is very interesting and should be very helpful to the field
+
+that is rapidly evolving recently. I would enthusiastically recommend publication of this
+
+work after the following minor issues are properly addressed.
+
+Authors’ Response: We would like to thank the reviewer for his/her useful comments
+
+and suggestions to further improve our manuscript. We have revised our manuscript
+
+carefully based on the reviewer’s comments.
+
+
+
+Comment #1: In the research of solvent descriptors, researchers have proposed
+
+numbers of parameters as criteria for solvent screening, among which electrostatic
+
+potential is also a very important screening parameter. What are the advantages of the
+
+RESPO parameter proposed by the authors compared to electrostatic potential?
+
+Authors’ Response: Thanks for your insightful comment, which allows us to better
+
+clarify the advantages of the RESPO parameter. The electrostatic potential (ESP)
+
+reflects the charge distribution on the surface of solvent molecules rather than the
+
+intrinsic electronegativity of solvent atoms. When a strongly electronegative F atom is
+
+close to O atom, the ESP of O atom will be significantly reduced, resulting in an ESP
+
+value that does not match the solvent’s solubility and solvation ability, which reduces
+
+the accuracy of ESP as a screening parameter. The restrained electrostatic potential
+
+(RESP) is a method for calculating atomic charges and also a modified ESP method
+
+that incorporates physical constraints (e.g., atomic electronegativity equilibration and
+
+bond symmetry  constraints)  to  optimize  charge  distributions,  ensuring  further
+
+=== PDF PAGE 33 ===
+improvement of the rationality of the charge distribution model. RESPO method can
+
+eliminate the interference of F atoms and accurately describe the charge distribution of
+
+O atoms, leading to more efficient and accurate to distinguish the fluorinated ethers
+
+with different coordination ability of O atoms. The relevant discussion has been added
+
+to the Manuscript.
+
+Authors’ modification to the Manuscript:
+
+(Page 4 in Manuscript):
+
+RESP is a modified ESP method that incorporates physical constraints (e.g., atomic
+
+electronegativity equilibration and bond symmetry constraints) to optimize charge
+
+distributions, ensuring further improvement of the rationality of the charge model,
+
+which leads to more efficient and accurate to distinguish the ethers with different
+
+solvation ability.
+
+
+
+Comment #2: The designed TFPM electrolyte presented good capacity retention and
+
+cycling stability at both room temperature and low temperature. Has the author
+
+explored the rate performance at low temperatures with TFPM electrolyte?
+
+Authors’ Response: Per your suggestion, the rate performance of Li||NMC811 cells
+
+with different electrolytes at −40 °C was also tested. As shown in the following Figure
+
+R18, the Li||NMC811 cell with 2 M LiFSI/TFPM electrolyte exhibits very decent rate
+
+performance from 0.1 C to 0.5 C even at −40 °C, which still delivers a high capacity of
+109.5 mAh g−1 at 0.5 C.
+
+                          180
+                                          0.1 C            TFPM  0.1 C
+                                                    0.2 C
+                                          g−1)
+                          120                          0.5 C
+                                               (mAh             TFBM         PM
+
+                            60                                                                                              Capacity
+                                     Li||NMC811, 4.4 V, −40 °C
+                            0
+                              0       5       10      15      20
+                                               Cycle number
+
+Figure R18. Rate performance of the Li||NMC811 cells at −40 °C.
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 9 in Manuscript):
+
+=== PDF PAGE 34 ===
+Besides, the cell using TFPM electrolyte also demonstrates good rate performance even
+
+at −40 °C (Supplementary Figure 32).
+
+(Page 32 in Supplementary Information):
+
+Rate performance of the Li||NMC811 cells at −40 °C was added to the Supplementary
+
+Information as newly added Supplementary Figure 32.
+
+
+
+Comment #3: Among the series of fluorinated ether molecules designed, the formation
+
+of a hexagonal coordination structure can significantly improve the performance of
+
+batteries, especially at ultra-low temperature. What influence does this configuration
+
+have on the lithium deposition and kinetics at low temperatures?
+
+Authors’ Response: We thank the reviewer for this insightful comment, which allows
+
+us to better elucidate the correlation between the six-membered chelating solvation
+
+structure and its excellent Li compatibility at ultra-low temperatures. First, as shown in
+
+Figure 2a-d, the six-membered ring formed by Li-TFPM complexes exhibit the most
+
+negative binding energy, indicating a more stable structure. The synergistic O and F
+
+chelation is anticipated to enhance the Li salt dissociation while mitigating the ionic
+
+conductivity reduction typically associated with fluorination, thereby preventing salt
+
+precipitation and enabling fast ion transport at ultra-low temperatures. Second, at low
+
+temperatures, the de-solvation step becomes the rate-determining step. The stable six-
+
+membered chelating structure with pronounced spatial effects will inhibit further
+
+coordination of free solvents and promote anion coordination, leading to anion-rich
+coordination structure of Li+(FSI−)3.03(TFPM)0.99 with an extremely high FSI−/solvent
+
+ratio of 3.06. This consequently bestows the lowest de-solvation energy of 2.14 eV for
+
+TFPM electrolyte, enabling uniform Li deposition with fast kinetics at low temperatures.
+
+
+
+Comment #4: The solvation of TFPM and TFBM is very similar, and the composition
+
+of SEI is almost the same at room temperature. However, there is a significant difference
+
+in impedance between these two at low temperatures（−40 and −60 °C）, and there is
+
+also a significant difference in battery performance. What is the main affecting factor?
+
+Authors’ Response: Thanks for your insightful comment. Indeed, as commented by
+
+the Reviewer, the solvation structure of TFPM and TFBM electrolyte is very similar.
+
+=== PDF PAGE 35 ===
+At  first glance, the SEI components appear to be similar in TFPM and TFBM
+
+electrolytes. Take a closer look, it is found that the LiF peak intensity, reflecting the
+
+absolute F content, is much higher for TFPM than TFBM electrolyte (Figure 5b).
+Besides, more LiNxOy and Li2Sx, the thoroughly decomposition products of FSI− anion,
+
+were detected for TFPM electrolyte. This indicates that the SEI formed in the TFBM
+
+electrolyte maybe dissolved out by the TFBM solvent with high μ value. To verify this
+
+hypothesis, the electrochemical quartz crystal microbalance (EQCM) was newly
+
+employed to monitor the gravimetric variation of SEI in-situ. As shown in the Figure
+R19, the SEI dissolves rapidly in the TFBM electrolyte at a high rate of 20.9 ng s−1
+cm−2 due to the high μ of TFBM, whereas a moderate dissolution rate of 9.3 ng s−1 cm−2
+
+was found for the TFPM electrolyte. Moreover, the TFPM electrolyte also shows
+
+substantially higher exchange current density compared to the TFBM electrolyte at both
+
+30 °C and −40 °C (Figure R20-21), demonstrating its superior sensitivity to the electric
+
+field that promotes Li plating/stripping kinetics.
+
+Therefore, as summarized in our Manuscript (page 8): “the TFPM electrolyte is superior
+
+to the TFBM electrolyte in the following aspects: (1) due to the weaken coordination
+
+ability of O and F-mediated coordination effect, TFPM solvent induces a stable six-
+
+membered chelating solvation structure with highly rich in anion, resulting in low de-
+
+solvation energy  while  maintaining  sufficient  salt  dissociation;  (2)  the TFBM
+
+electrolyte exhibits lower ionic conductivity and higher viscosity compared to the
+
+TFPM electrolyte, hindering efficient ion transport, especially under high-rate and low-
+
+temperature conditions; (3) the TFBM solvent with high μ tends to absorb on the surface
+
+of Li-metal strongly, leading to the aggressive dissolution of interphase components,
+
+while the TFPM solvent with moderate μ could achieve a balance between sensitivity
+
+to the electric fields within EDL and interphase protection; (4) because of the strong
+dissolution  ability of TFBM solvent, FSI− anions do not have enough time to
+
+decompose before being dissolved out, resulting in insufficient anion reduction; (5)
+
+since the “interphase dissolution–electrolyte decomposition” process  is constantly
+
+going on in the TFBM electrolyte, the interphase is in a highly dynamic evolution,
+
+which yields highly unstable SEI with large resistance. While the TFPM with moderate
+μ enables sufficient reduction of FSI− anions, leading to the formation of highly robust
+
+inorganic-rich SEI with low  resistance. These  merits  significantly enhance  the
+
+electrochemical  kinetics and  interfacial  stability  for Li-metal anodes, which  is
+
+=== PDF PAGE 36 ===
+extremely beneficial for enabling high-energy and low-temperature LMBs.”
+
+
+
+
+                       a                          4                                   14000
+                               SEI formation             Dissolution
+                                                             12000
+                          3
+                                     0.1 mA cm−2                      10000
+                                  (V)                                                                                                                                                    cm−2)                                                   Rate: 6.6 ng s−1 cm−2  8000
+                          2                                                            (ng
+                                                             6000                                                                               Voltage                           Resting                                                             4000   Mass                          1
+                                                             2000
+                                               2 M LiFSI/BM
+                          0                                   0
+                           0   100  200  300  400  500  600  700
+                                         Time (s)
+
+                     b                         4                                   14000
+                               SEI formation         Dissolution
+                                                             12000
+                         3                                                             10000
+                                  (V)      0.1 mA cm−2                                                             cm−2)                                                             8000
+                         2                                                            (ng
+                                                    Rate: 9.3 ng s−1 cm−2  6000                                                                               Voltage                         1                         Resting        4000   Mass
+                                                             2000
+                                              2 M LiFSI/TFPM
+                         0                                   0
+                           0   100  200  300  400  500  600  700
+                                         Time (s)
+
+                       c  4                                   14000
+                               SEI formation         Dissolution
+                                                             12000
+                         3                                                             10000
+                                  (V)      0.1 mA cm−2                                                             cm−2)
+                                                             8000                                                           Rate:                         2                                                            (ng
+                                                     20.9 ng s−1 cm−2    6000                                                                               Voltage                         1                         Resting        4000   Mass
+                                                             2000
+                                              2 M LiFSI/TFBM
+                         0                                   0
+                           0   100  200  300  400  500  600  700
+                                         Time (s)
+
+Figure R19. In-situ EQCM results of mass change in (a) 2 M LiFSI/BM (low μ), (b) 2
+
+M LiFSI/TFPM (moderate μ), and (c) 2 M LiFSI/TFBM (high μ) electrolytes during
+initial Li plating at a current density of 0.1 mA cm−2 and subsequent resting process.
+
+=== PDF PAGE 37 ===
+                                             2 M LiFSI
+                               4
+                              PM 0.98 mA cm−2                                                               cm−2)                              BM 0.93 mA cm−2
+                                          (mA 2      TFPM 2.41 mA cm−2
+                                 TFBM 1.26 mA cm−2
+
+                               0                                                                                                  density
+
+                                      -2                                                                                                  Current
+                                                        30 °C
+                                          Log -4
+                                         -0.2     -0.1     0.0     0.1     0.2
+                                                 Voltage (V)
+
+Figure R20. Tafel plots of Li plating/stripping in four electrolytes at 30 °C.
+
+
+
+
+                                             2 M LiFSI
+                                                              cm−2) 1    PM 5.02×10−4 mA cm−2
+                            BM 6.29×10−4 mA cm−2
+                                          (mA -1    TFPM 1.01×10−3 mA cm−2
+                               TFBM 8.48×10−4 mA cm−2
+
+                                      -3                                                                                                  density
+
+                                      -5                                                                                                  Current
+                                                      −40 °C
+                                          Log -7
+                                         -0.2     -0.1     0.0     0.1     0.2
+                                                 Voltage (V)
+
+Figure R21. Tafel plots of Li plating/stripping in four electrolytes at −40 °C.
+
+Authors’ modification to the Manuscript and Supplementary Information:
+
+(Page 7 in Manuscript):
+
+To clarify the vital impact of μ on the interphase stability, the electrochemical quartz
+
+crystal microbalance (EQCM) was employed to monitor the gravimetric variation of
+
+SEI in-situ. As shown in the Supplementary Figure 19, after 300 seconds of discharge,
+a high mass of 13170 ng cm−2, corresponding to the plated Li with SEI layer, is
+
+generated in the BM electrolyte. During the subsequent resting process, the SEI formed
+by BM electrolyte slowly dissolves at a rate of 6.6 ng s−1 cm−2 due to the low dissolution
+
+ability of BM solvent (low μ). The initial plated Li with SEI layers formed by TFPM
+
+and TFBM electrolytes show similar mass. However, the SEI dissolves rapidly in the
+TFBM electrolyte at a high rate of 20.9 ng s−1 cm−2 due to the high μ of TFBM, whereas
+a moderate dissolution rate of 9.3 ng s−1 cm−2 was found for the TFPM electrolyte,
+
+facilitating the formation of a robust inorganic-rich SEI. Moreover, the TFPM
+
+electrolyte also shows substantially higher exchange current density compared to the
+
+=== PDF PAGE 38 ===
+other three electrolytes at both 30 °C and −40 °C (Supplementary Figure 20-21),
+
+demonstrating  its  superior  sensitivity  to  the  electric  field  that  promotes  Li
+
+plating/stripping kinetics. This validates that the TFPM solvent with moderate μ could
+
+achieve a good balance between sensitivity to the electric fields within EDL and
+
+interphase stability.
+
+(Page 19 in Supplementary Information):
+
+In-situ EQCM results was added to the Supplementary Information as newly added
+
+Supplementary Figure 19.
+
+(Page 20 in Supplementary Information):
+
+Tafel plots at 30 °C was added to the Supplementary Information as newly added
+
+Supplementary Figure 20.
+
+(Page 21 in Supplementary Information):
+
+Tafel plots at −40 °C was added to the Supplementary Information as newly added
+
+Supplementary Figure 21.
+
+=== PDF PAGE 39 ===
+The comments from Reviewer #4
+
+I co-reviewed this manuscript with one of the reviewers who provided the listed reports.
+
+This is part of the Nature Communications initiative to facilitate training in peer review
+
+and to provide appropriate recognition for Early Career Researchers who co-review
+
+manuscripts.
+
+Authors’ Response: We sincerely appreciate the reviewer for his/her useful comments
+
+and suggestions to further improve our manuscript.
+
+=== PDF PAGE 40 ===
+References
+
+
+1       Yu, Z. et al. Molecular design for electrolyte solvents enabling energy-dense and long-cycling
+         lithium metal batteries. Nature Energy 5, 526, doi:10.1038/s41560-020-0634-5 (2020).
+2       Zhang, G.  et  al. Amonofluoride  ether-based  electrolyte  solution  for  fast-charging and
+        lowtemperature non-aqueous lithium metal  batteries. Nature Communications 14, 1081,
+        doi:10.1038/s41467-023-36793-6 (2023).
+3        Piao, N. et al. Designing temperature-insensitive solvated electrolytes for low-temperature
+         lithium  metal  batteries.  Journal  of  the  American  Chemical  Society  146,  18281,
+        doi:10.1021/jacs.4c01735 (2024).
+4      Wu, L. Q. et al. Unveiling the role of fluorination in hexacyclic coordinated ether electrolytes
+         for high-voltage lithium metal batteries. Journal of the American Chemical Society 146, 5964,
+        doi:10.1021/jacs.3c11798 (2024).
+5        Li, A. M. et al. Methylation enables the use of fluorine-free ether electrolytes in high-voltage
+         lithium metal batteries. Nature Chemistry 16, 922, doi:10.1038/s41557-024-01497-x (2024).
+6        Li, P. C. et al. Dipole moment influences the reversibility and corrosion of lithium metal anodes.
+       Advanced Materials 36, e2406359, doi:10.1002/adma.202406359 (2024).
+7       Xia, Y. et al. Designing an asymmetric ether-like lithium salt to enable fast-cycling high-energy
+         lithium metal batteries. Nature Energy 8, 934, doi:10.1038/s41560-023-01282-z (2023).
+8       Zhou, P. et al. Rational lithium salt molecule tuning for fast charging/discharging lithium metal
+          battery.    Angewandte    Chemie     International     Edition     63,    e202316717,
+        doi:10.1002/anie.202316717 (2024).
+9          Ji, Y. et al. In situ probing the origin of interfacial instability of Na metal anode. Chem 9, 2943,
+        doi:10.1016/j.chempr.2023.06.002 (2023).
+10      Tułodziecki, M., Tarascon, J. M., Taberna, P. L. & Guéry, C. Catalytic reduction of TFSI-
+         containing ionic liquid in the presence of lithium cations. Electrochemistry Communications 77,
+        128, doi:10.1016/j.elecom.2017.02.014 (2017).
+11      Liu, T. et al. In situ quantification of interphasial chemistry in Li-ion battery. Nat Nanotechnol
+         14, 50, doi:10.1038/s41565-018-0284-y (2019).
+12      Choi, I. R. et al. Asymmetric ether solvents for high-rate lithium metal batteries. Nature Energy
+         10, 365, doi:10.1038/s41560-025-01716-w (2025).
+13      Yu, Z. et al. Rational solvent molecule tuning for high-performance lithium metal battery
+          electrolytes. Nature Energy 7, 94, doi:10.1038/s41560-021-00962-y (2022).
+14      Zhang, E. et al. Monofluorinated acetal electrolyte for high-performance lithium metal batteries.
+        Proceedings of the National Academy of Sciences of the United States of America 122,
+        e2418623122, doi:10.1073/pnas.2418623122 (2025).
+15      Chen, Y. et al. Steric effect tuned ion solvation enabling stable cycling of high-voltage lithium
+        metal battery. Journal of the American Chemical Society 143, 18703, doi:10.1021/jacs.1c09006
+         (2021).
+16      Ding, K. et al. Tuning the solvent alkyl chain to tailor electrolyte solvation for stable Li-metal
+          batteries. ACS Applied Materials & Interfaces 14, 44470, doi:10.1021/acsami.2c13517 (2022).

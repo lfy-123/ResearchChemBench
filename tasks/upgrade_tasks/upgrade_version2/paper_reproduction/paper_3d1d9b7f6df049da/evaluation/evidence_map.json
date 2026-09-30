@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_3d1d9b7f6df049da/documents/main.pdf",
+          "sha256": "767499d77d3e48a8377ff6668eb0ea6263ba5d3ed7a11dbc62b323f2d6a24fb4",
+          "pages": [
+            3,
+            8,
+            9,
+            10
+          ],
+          "total_pages": 19
+        },
+        {
+          "path": "papers/paper_3d1d9b7f6df049da/documents/supplementary_001.pdf",
+          "sha256": "9506646b763e5856fe966b7523096ce523255d105cf4f0f792c45769dfaf4568",
+          "pages": [
+            2,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26
+          ],
+          "total_pages": 32
+        }
+      ],
+      "scope": "Source material establishes problem, identities and bounded reference claims. See private source_scope_audit."
+    },
+    {
+      "evidence_id": "historical_evidence",
+      "source": {
+        "freeze_handoff": {
+          "validation_group_not_authoring_batch": 5,
+          "handoff_path": "docs/upgrade_tasks_v2_review_20260928/group_5/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+          "handoff_sha256": "b48a083f8b5cd4e6db80cf8adc372cf2b27b2e96143b1d7ca26108952729dc4b",
+          "recorded_at_utc": "2026-09-28T15:05:46.703865+00:00",
+          "scientific_disposition": "needs_work",
+          "completed_evidence_summary": "两笼优化已有原生结果及各收敛条件审查。原20核Hessian在平台STOPPED且未写完；保留全部日志/GBW/释放证据。相同PBE/def2-TZVP、VeryTightSCF、DEFGRID3的40核/200GiB恢复尝试已排队，复用收敛GBW，不宣称已有新最低点。",
+          "unfinished_scientific_or_input_work": [
+            "两笼Hessian和质量归一化模式投影",
+            "三类模式中心/±h/±h/2共同坐标系g/A张量与电子态/数值噪声检查",
+            "方向/刚性控制、基组敏感性与温度权重"
+          ],
+          "not_a_content_dispatch_gate": true,
+          "job_status_refreshed_this_turn": false
+        },
+        "v1_reference_plan": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_3d1d9b7f6df049da/evaluation/reference_validation_plan.md",
+        "applicability": "两笼优化和 Hessian 在途记录属于验证证据；不接管作业、不把不完整 Hessian 认作最低点或寿命验证。",
+        "new_scientific_calculations_performed": false,
+        "raw_reference": {
+          "paths": [
+            "docs/upgrade_tasks_verification/group_5/papers/paper_3d1d9b7f6df049da/report/ih_strictgrid_optimization_audit.json",
+            "docs/upgrade_tasks_verification/group_5/papers/paper_3d1d9b7f6df049da/report/d5h_strictgrid_optimization_audit.json"
+          ],
+          "scope": "Historical stringent-grid optimization audits delimit stationarity; not the expanded spin response or calibrated T1."
+        },
+        "precise_artifact_inventory": "evaluation/task_provenance/evidence_reuse_inventory.json",
+        "inventory_boundary": "File existence/hash establishes provenance only. Historical job status is a dated recorded observation, not a live platform check. V1 matrices are historical designs, not mandatory V2 evaluation routes."
+      },
+      "scope": "Read-only historical work with explicit applicability limits; not blanket V2 acceptance."
+    }
+  ],
+  "judge_calibration_status": "pending",
+  "numerical_tolerance_policy": "No new universal tolerance is asserted. Judge quantitative significance against the submission error evidence and the specific reference conditions."
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "task_type": "paper_reproduction",
+  "title": "Independent electronic-descriptor reproduction for AZ9",
+  "category": "quantum chemistry and molecular electronic structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecular identity and observables are fixed, but the Agent must perform a bounded conformer search, verify a true minimum, and assess method sensitivity without receiving the paper's computational protocol."
+  ],
+  "paper": {
+    "title": "New Azetidine-Linked Nitrogen-Bearing Heterocycles: Synthesis, Antimicrobial Assessment, DFT Profiling, ADMET Studies, and Docking Simulation Against DNA Gyrase and CYP51 Targets",
+    "doi": "10.1002/slct.202505650",
+    "journal": "ChemistrySelect",
+    "publication_date": "2026-02-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained AZ9 connectivity, formula, charge, multiplicity, stereochemical boundary, and gas-phase boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated structure-search record, electronic descriptors, sensitivity analysis, and bounded scientific conclusion."
+    }
+  ]
+}

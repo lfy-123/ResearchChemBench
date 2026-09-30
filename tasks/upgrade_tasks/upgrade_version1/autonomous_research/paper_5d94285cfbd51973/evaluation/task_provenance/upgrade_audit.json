@@ -1,0 +1,101 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_5d94285cfbd51973",
+  "task_type": "autonomous_research",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_autonomous_research/paper_5d94285cfbd51973",
+  "source_manifest_sha256": "41b08b04803e07daae0afb39c445d9b86617ce746dd6e49245b0684eb92b5767",
+  "source_package_content_sha256": "8448a037eee51c56faa511720018b7b84124d6752b0e23e797967e5f3c64f19a",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/AZ9.smi": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/AZ9.smi.snapshot",
+      "sha256": "e4238435971735ef680ef3f8a70149ba19439a834227f4ee46e3a4926cee5eb2"
+    },
+    "agent_input/data/inputs/system.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/system.json.snapshot",
+      "sha256": "f4b3711292ca55367e4126e90b08003e28fbc5707967c5922acf93b6556fa475"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "a8e99b3ec3b03214cbc49523c827acb7c47e436a1131c6a7c3579ab53c4cc7be"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "3d3c6cab5ff8f77acd247ca0fa936e339476fd777bf557f71731a32d85ee28f4"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "2f7eff959baa00a9d7170446fefda7b54d9082627b5807911619796f1f17c383"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "06fc87c1ec15df633fb76bb9ba5e8aa2270b45bafbdd18e1efcdb237aa7ec82b"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "da99f4792c3194ad9107ada301c98d00e905aa39d04e01a6b6ef92fa7e3d6c73"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "f701820952334a49a079b993b8589101c99ed394e0f47b4ae0b1b139177700a9"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "eb980aa9d37e7b47ea466edea91d81e3a49d146cee6163bc5c05475fff0fff20"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot",
+      "sha256": "e3b2424acd97141f7afe2fce170ecf8d2c8999d8029eeba6156cb34d8e04a616"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "3becdb47e459f288fe872550623baf9bf7bec361f4ff4710fcc54a172635614b"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "41b08b04803e07daae0afb39c445d9b86617ce746dd6e49245b0684eb92b5767"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "f6591908b6521bced5dbc0d606ffd44d6fa8305f392729d65f78cf234a1305a6"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "cc50b2db61b94a5298d3068f6f38d158772c87a0000b62ac3eef9e7f396f9177"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_5d94285cfbd51973/documents/supplementary_001.pdf",
+      "sha256": "9c09e4819df88ab73a3551dca09e2c5b390e7a783dac0df4f633e06e5e227f0e",
+      "pages": 49
+    },
+    {
+      "path": "papers/paper_5d94285cfbd51973/documents/main.pdf",
+      "sha256": "9a4125a542a33af7128c39ebcf9df93cbe82923038415ed18e81bc77ca65e1a2",
+      "pages": 12
+    },
+    {
+      "path": "docs/evalution/update/paper_5d94285cfbd51973.md",
+      "sha256": "f1e842b3c764bc78f5e8cdf3861629e816ac88473fb5aaec0fef09677ef8beaa"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [],
+  "new_reference_gaps": "The other nine electronic-structure references and conformer consistency, frozen out-of-fold/permutation baseline and uncertainty envelope are not yet calculated.",
+  "blockers": [],
+  "optional_not_required": "Molecular targets, docking, cross-strain generalization and drug discovery are outside scope."
+}

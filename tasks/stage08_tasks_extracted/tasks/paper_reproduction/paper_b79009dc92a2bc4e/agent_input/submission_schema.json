@@ -1,0 +1,26 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["status", "protocol", "states", "validation_summary", "limitations"],
+    "properties": {
+      "status": {"type": "string"},
+      "protocol": {"type": "object", "required": ["software", "electronic_structure_method", "basis_or_representation", "solvent_treatment", "thermal_convention", "temperature_K", "sensitivity_check"], "properties": {"software":{"type":"string"},"electronic_structure_method":{"type":"string"},"basis_or_representation":{"type":"string"},"solvent_treatment":{"type":"string"},"thermal_convention":{"type":"string"},"temperature_K":{"type":"number"},"sensitivity_check":{"type":"string"}}},
+      "states": {"type":"object","required":["singlet","triplet"],"properties":{"singlet":{"$ref":"#/$defs/state"},"triplet":{"$ref":"#/$defs/state"}}},
+      "validation_summary": {"type":"string"},
+      "limitations": {"type":"array","minItems":1,"items":{"type":"string"}},
+      "gap_kcal_mol": {"type":"number"},
+      "gap_derivation": {"type":"string"},
+      "charge_transfer": {"type":"object","required":["assessment","diagnostic","donor_region","acceptor_region","evidence"],"properties":{"assessment":{"type":"string"},"diagnostic":{"type":"string"},"donor_region":{"type":"string"},"acceptor_region":{"type":"string"},"evidence":{"type":"string"}}},
+      "conclusion": {"type":"string"},
+      "failure": {"type":"object","required":["failed_endpoint","diagnostic","supported_partial_results"],"properties":{"failed_endpoint":{"type":"string"},"diagnostic":{"type":"string"},"supported_partial_results":{"type":"string"}}}
+    },
+    "oneOf": [
+      {"required":["gap_kcal_mol","gap_derivation","charge_transfer","conclusion"]},
+      {"required":["failure"]}
+    ],
+    "$defs": {"state":{"type":"object","required":["charge","multiplicity","gibbs_free_energy_hartree","stationary_point_status","imaginary_frequency_count","evidence"],"properties":{"charge":{"type":"integer"},"multiplicity":{"type":"integer"},"gibbs_free_energy_hartree":{"type":["number","null"]},"stationary_point_status":{"type":"string"},"imaginary_frequency_count":{"type":["integer","null"]},"evidence":{"type":"string"}}}}
+  }
+}

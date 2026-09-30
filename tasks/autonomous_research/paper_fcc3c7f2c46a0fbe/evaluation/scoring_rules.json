@@ -9,7 +9,9 @@
         "artifact_paths": [
           "report/results.json"
         ],
-        "fields": ["$.status"],
+        "fields": [
+          "$.status"
+        ],
         "comparison": "presence and expert semantic comparison"
       },
       "reference_id": "p1",
@@ -23,7 +25,9 @@
         "artifact_paths": [
           "report/results.json"
         ],
-        "fields": ["$.status"],
+        "fields": [
+          "$.status"
+        ],
         "comparison": "presence and expert semantic comparison"
       },
       "reference_id": "p2",
@@ -32,12 +36,14 @@
     {
       "rule_id": "r3",
       "type": "semantic",
-      "expected": "complete atom-labeled comparison supports close geometry agreement",
+      "expected": "Compare every named bond, angle and signed periodic torsion with XRD. The isolated-molecule minimum should reproduce the published DFT geometry, including the main section 3.2 exception that the ethyl group points in the opposite direction. Do not require all signed XRD torsions to be close or minimize their signs independently.",
       "binding": {
         "artifact_paths": [
           "report/results.json"
         ],
-        "fields": ["$.status"],
+        "fields": [
+          "$.status"
+        ],
         "comparison": "presence and expert semantic comparison"
       },
       "reference_id": "p3"
@@ -45,7 +51,7 @@
     {
       "rule_id": "r4",
       "type": "semantic",
-      "expected": "final conclusion states independent validation, agreement and limitations",
+      "expected": "The validated 4b minimum reproduces the published isolated-molecule geometry: bonds and angles agree closely with XRD, while the ethyl-orientation exception and every signed periodic torsion residual are explicitly retained. Matching coverage and small numerical residuals are separate checks; high R-squared alone is insufficient.",
       "binding": {
         "artifact_paths": [
           "report/results.json"

@@ -1,0 +1,26 @@
+{
+  "reference": {
+    "charge": 1,
+    "multiplicity": 1,
+    "atom_count": 48,
+    "reactive_atoms": [
+      10,
+      5
+    ]
+  },
+  "bcs": {
+    "charge": 1,
+    "multiplicity": 1,
+    "atom_count": 49,
+    "replace_element": {
+      "28": "S"
+    },
+    "add_atoms": [
+      {
+        "map": 49,
+        "element": "O"
+      }
+    ],
+    "graph_edit": "C27-S28; S28 has O4/O5/O49 sulfonate connectivity, charge −1 overall; no pre-imposed N10–O5 bond in bcs. Preserve Ru1,O2,N6,N7,N8,N9 coordination, bda arm C11 and both pyridine graphs."
+  }
+}

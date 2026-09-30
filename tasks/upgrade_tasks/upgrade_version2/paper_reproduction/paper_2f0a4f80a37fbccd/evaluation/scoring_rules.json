@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_composition_and_model",
+      "reference_id": "kp_composition_and_model",
+      "type": "semantic",
+      "expected": "Inspect actual inputs/outputs for one Ir,twoCl,two fullPPh3,oneNO3 and declared neutral singlet model. Check atomic/electron accounting including any ECP and consistent relativistic convention. Compare metal connectivity from results, not starting labels. Wrong NO/nitrate species, omitted phenyls or unintended ligand loss cannot support the target structure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.systems",
+          "$.methods",
+          "$.records"
+        ],
+        "comparison": "Inspect actual inputs/outputs for one Ir,twoCl,two fullPPh3,oneNO3 and declared neutral singlet model. Check atomic/electron accounting including any ECP and consistent relativistic convention. Compare metal connectivity from results, not starting labels. Wrong NO/nitrate species, omitted phenyls or unintended ligand loss cannot support the target structure."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_structural_spectral_findings",
+      "reference_id": "kp_structural_spectral_findings",
+      "type": "semantic",
+      "expected": "Inspect native structural and relevant spectroscopic outputs and recompute reported comparisons. For normal-mode assignments require evidence of vibrational character rather than nearest peak alone, allowing displacement analysis or other adequate characterization. A different defensible structural inference route may earn equivalent credit. Include mismatched/unexplained observations pertinent to the claim; no preassigned hapticity, exact peak-count coverage, threshold or universal RMSE is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.records",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Inspect native structural and relevant spectroscopic outputs and recompute reported comparisons. For normal-mode assignments require evidence of vibrational character rather than nearest peak alone, allowing displacement analysis or other adequate characterization. A different defensible structural inference route may earn equivalent credit. Include mismatched/unexplained observations pertinent to the claim; no preassigned hapticity, exact peak-count coverage, threshold or universal RMSE is required."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_identifiability",
+      "reference_id": "kp_identifiability",
+      "type": "semantic",
+      "expected": "Determine whether the actual investigation challenges its proposed structural assignment and distinguishes plausibility from uniqueness. A unique assignment requires sufficient evidence against relevant alternatives, without demanding the V1 named candidate list. Supported nonuniqueness/rejection receives credit; absent sampling or one failed search is not proof of impossibility. Consider whether the published band-account discrepancy matters for the actual argument, with no compulsory fitting matrix.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.results",
+          "$.claims",
+          "$.research_log"
+        ],
+        "comparison": "Determine whether the actual investigation challenges its proposed structural assignment and distinguishes plausibility from uniqueness. A unique assignment requires sufficient evidence against relevant alternatives, without demanding the V1 named candidate list. Supported nonuniqueness/rejection receives credit; absent sampling or one failed search is not proof of impossibility. Consider whether the published band-account discrepancy matters for the actual argument, with no compulsory fitting matrix."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_comparison_validity",
+      "reference_id": "kp_comparison_validity",
+      "type": "semantic",
+      "expected": "Check stationary-point evidence for claimed stable structures and relevant method/error treatment for Ir. If comparing spectra, inspect assignments, scaling, unmatched features and method/solid-state uncertainty; candidate-dependent per-peak tuning cannot establish discrimination. If using relative energies, check common definitions and do not infer KBr phase populations from gas energies. A fixed mass-weighted participation threshold or predetermined sensitivity grid is not mandatory.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Check stationary-point evidence for claimed stable structures and relevant method/error treatment for Ir. If comparing spectra, inspect assignments, scaling, unmatched features and method/solid-state uncertainty; candidate-dependent per-peak tuning cannot establish discrimination. If using relative energies, check common definitions and do not infer KBr phase populations from gas energies. A fixed mass-weighted participation threshold or predetermined sensitivity grid is not mandatory."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "State the molecular structure information actually supported and whether it is unique at the investigated resolution. Credit a scientifically supported candidate set, source disagreement or bounded ambiguity; no eta2 winner is mandatory. Separate source crystallographic facts from findings inferred from public composition/IR and from newly generated calculations. No credit for claiming ambiguity because research was omitted, or uniqueness because a copied crystal geometry matches its own source. Limit conclusion to the nitrato characterization problem.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.limitations",
+          "$.results",
+          "$.missing_work"
+        ],
+        "comparison": "State the molecular structure information actually supported and whether it is unique at the investigated resolution. Credit a scientifically supported candidate set, source disagreement or bounded ambiguity; no eta2 winner is mandatory. Separate source crystallographic facts from findings inferred from public composition/IR and from newly generated calculations. No credit for claiming ambiguity because research was omitted, or uniqueness because a copied crystal geometry matches its own source. Limit conclusion to the nitrato characterization problem."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "composition_and_model",
+      "max_score": 15,
+      "description": "Correct full molecular composition and valid state/representation for iridium. Inspect actual inputs/outputs for one Ir,twoCl,two fullPPh3,oneNO3 and declared neutral singlet model. Check atomic/electron accounting including any ECP and consistent relativistic convention. Compare metal connectivity from results, not starting labels. Wrong NO/nitrate species, omitted phenyls or unintended ligand loss cannot support the target structure.",
+      "rule_ids": [
+        "rule_composition_and_model"
+      ]
+    },
+    {
+      "id": "structural_spectral_findings",
+      "max_score": 30,
+      "description": "Traceable structure/property evidence connected to the actual supplied observations. Inspect native structural and relevant spectroscopic outputs and recompute reported comparisons. For normal-mode assignments require evidence of vibrational character rather than nearest peak alone, allowing displacement analysis or other adequate characterization. A different defensible structural inference route may earn equivalent credit. Include mismatched/unexplained observations pertinent to the claim; no preassigned hapticity, exact peak-count coverage, threshold or universal RMSE is required.",
+      "rule_ids": [
+        "rule_structural_spectral_findings"
+      ]
+    },
+    {
+      "id": "identifiability",
+      "max_score": 25,
+      "description": "Evidence for the strength and uniqueness of the structural inference. Determine whether the actual investigation challenges its proposed structural assignment and distinguishes plausibility from uniqueness. A unique assignment requires sufficient evidence against relevant alternatives, without demanding the V1 named candidate list. Supported nonuniqueness/rejection receives credit; absent sampling or one failed search is not proof of impossibility. Consider whether the published band-account discrepancy matters for the actual argument, with no compulsory fitting matrix.",
+      "rule_ids": [
+        "rule_identifiability"
+      ]
+    },
+    {
+      "id": "comparison_validity",
+      "max_score": 20,
+      "description": "Sound treatment of molecular reliability and experimental/model mismatch. Check stationary-point evidence for claimed stable structures and relevant method/error treatment for Ir. If comparing spectra, inspect assignments, scaling, unmatched features and method/solid-state uncertainty; candidate-dependent per-peak tuning cannot establish discrimination. If using relative energies, check common definitions and do not infer KBr phase populations from gas energies. A fixed mass-weighted participation threshold or predetermined sensitivity grid is not mandatory.",
+      "rule_ids": [
+        "rule_comparison_validity"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 10,
+      "description": "State the molecular structure information actually supported and whether it is unique at the investigated resolution. Credit a scientifically supported candidate set, source disagreement or bounded ambiguity; no eta2 winner is mandatory. Separate source crystallographic facts from findings inferred from public composition/IR and from newly generated calculations. No credit for claiming ambiguity because research was omitted, or uniqueness because a copied crystal geometry matches its own source. Limit conclusion to the nitrato characterization problem.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_development_with_bounded_V1_reuse_not_V2_scientific_acceptance",
+  "scoring_notes": [
+    "Apply each criterion to demonstrated evidence: zero for unsupported assertions; partial credit proportional to valid, relevant findings; full credit requires its entire evidential purpose, not completion of a reference workflow.",
+    "Negative, alternative and demonstrated non-identifiable answers can earn full applicable credit; claimed failure or uncertainty alone cannot. Do not renormalize away missing work.",
+    "Conditional examples are validity requirements only if that observable or causal claim is made. Source numerical targets are not universal tolerances.",
+    "Scientific semantics, alternative-route calibration, blind AR trials and execution isolation remain pending. Synthetic fixture success is not science.",
+    "The process axis is the actually loaded shared open_research AR/PR rubric, not an extra package-local rubric."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "task_type": "paper_reproduction",
+  "repair": "replace_answer_bearing_public_endpoints",
+  "new_quantum_calculations": false,
+  "generator": "RDKit ETKDGv3 topology-only embedding",
+  "seeds": {"neutral.xyz": 2337, "anion.xyz": 3337},
+  "public_starters": {
+    "neutral.xyz": {"sha256": "e182b99d5199275920a7d0a50c661c1326e84e521a870560234f1375f682696a", "formula": "C10H16BO3P", "atom_count": 31, "charge": 0, "multiplicity": 1},
+    "anion.xyz": {"sha256": "c56774a24954b80385e06f50fe3313b5777844c3b31d2bfb326479a3e2ecf9a9", "formula": "C9H13BO3P", "atom_count": 27, "charge": -1, "multiplicity": 1}
+  },
+  "private_author_endpoints": {
+    "neutral.xyz": {"path": "evaluation/author_results/neutral_author_endpoint.xyz", "sha256": "c15160febe9f1dc9fc0e468eb2a4f3f9d551db2603b066f11839d46e4213bc0d"},
+    "anion.xyz": {"path": "evaluation/author_results/anion_author_endpoint.xyz", "sha256": "86e536d1a87da6ab64529e595e631799805901c6a9eb744bb1a5dae035bf9ffd"}
+  },
+  "atom_mapping_preserved": {"neutral": "P=11; O1=12; O2=13; O3=14; B=21", "anion": "P=11; O1=12; O2=13; O3=14; B=18"},
+  "evaluator_unchanged": true,
+  "applicability": "AUTHOR_ROUTE_SUPPORTED_ONLY"
+}

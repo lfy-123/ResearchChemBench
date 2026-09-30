@@ -1,0 +1,172 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "semantic",
+      "expected": "Keep the full TTA derivative graphs and define charge/state and molecular reference consistently. Distinguish orbital eigenvalues, ionization energetics, work functions and actual transferred charge. For an interface claim, document the chosen nanotube/coverage/geometry and why its model scope is applicable. Respect differing compositions and loadings. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Keep the full TTA derivative graphs and define charge/state and molecular reference consistently. Distinguish orbital eigenvalues, ionization energetics, work functions and actual transferred charge. For an interface claim, document the chosen nanotube/coverage/geometry and why its model scope is applicable. Respect differing compositions and loadings."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_measure",
+      "reference_id": "kp_measure",
+      "type": "semantic",
+      "expected": "Quantify relevant electronic differences with raw molecular or interface evidence, explicit reference conventions and applicability to the source system. Assess the claim being tested rather than merely reprinting three frontier levels. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Quantify relevant electronic differences with raw molecular or interface evidence, explicit reference conventions and applicability to the source system. Assess the claim being tested rather than merely reprinting three frontier levels."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_explain",
+      "reference_id": "kp_explain",
+      "type": "semantic",
+      "expected": "Investigate whether the molecular/interface evidence supports a plausible explanation of differences and confront the relevant confounding factors. The agent chooses the model and tests; no adsorption motif or transport solver is mandatory. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Investigate whether the molecular/interface evidence supports a plausible explanation of differences and confront the relevant confounding factors. The agent chooses the model and tests; no adsorption motif or transport solver is mandatory."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_robust",
+      "reference_id": "kp_robust",
+      "type": "semantic",
+      "expected": "Assess numerical/model dependence and whether differences are resolvable. Explicitly delimit missing nanotube ensemble/morphology/loading information and avoid treating it as a failure of the agent to recover a nonexistent unique structure. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.limitations",
+          "$.quantities",
+          "$.artifacts"
+        ],
+        "comparison": "Assess numerical/model dependence and whether differences are resolvable. Explicitly delimit missing nanotube ensemble/morphology/loading information and avoid treating it as a failure of the agent to recover a nonexistent unique structure."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_answer",
+      "reference_id": "con_answer",
+      "type": "semantic",
+      "expected": "Give a bounded account of electronic differences relevant to SWCNT interaction and the supported extent of the composite explanation. Unsupported transfer or thermoelectric claims must be withheld even when the molecular calculations are sound. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Give a bounded account of electronic differences relevant to SWCNT interaction and the supported extent of the composite explanation. Unsupported transfer or thermoelectric claims must be withheld even when the molecular calculations are sound."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Identity and scope: Keep the full TTA derivative graphs and define charge/state and molecular reference consistently. Distinguish orbital eigenvalues, ionization energetics, work functions and actual transferred charge. For an interface claim, document the chosen nanotube/coverage/geometry and why its model scope is applicable. Respect differing compositions and loadings.",
+      "rule_ids": [
+        "rule_scope"
+      ]
+    },
+    {
+      "id": "measure",
+      "max_score": 30,
+      "description": "Quantitative scientific results: Quantify relevant electronic differences with raw molecular or interface evidence, explicit reference conventions and applicability to the source system. Assess the claim being tested rather than merely reprinting three frontier levels.",
+      "rule_ids": [
+        "rule_measure"
+      ]
+    },
+    {
+      "id": "explain",
+      "max_score": 25,
+      "description": "Evidence that distinguishes the claimed explanation: Investigate whether the molecular/interface evidence supports a plausible explanation of differences and confront the relevant confounding factors. The agent chooses the model and tests; no adsorption motif or transport solver is mandatory.",
+      "rule_ids": [
+        "rule_explain"
+      ]
+    },
+    {
+      "id": "robust",
+      "max_score": 20,
+      "description": "Uncertainty and limits: Assess numerical/model dependence and whether differences are resolvable. Explicitly delimit missing nanotube ensemble/morphology/loading information and avoid treating it as a failure of the agent to recover a nonexistent unique structure.",
+      "rule_ids": [
+        "rule_robust"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Bounded answer to the question: Give a bounded account of electronic differences relevant to SWCNT interaction and the supported extent of the composite explanation. Unsupported transfer or thermoelectric claims must be withheld even when the molecular calculations are sound.",
+      "rule_ids": [
+        "rule_answer"
+      ]
+    }
+  ],
+  "reference_stage": "content_implemented_reference_and_judge_pending",
+  "scoring_notes": [
+    "AR and PR share result validity; actual open_research runtime supplies mode-specific process rubrics.",
+    "Source author outcomes are conditional reference evidence, not mandatory winners. No inherited numerical tolerance.",
+    "No penalty simply for a different justified model, hypothesis count, metric or valid analysis route. Scientific adequacy is claim-dependent.",
+    "Completion requires a substantiated answer to the stated question. Honest partial credit is distinct from passing all scientific criteria."
+  ]
+}

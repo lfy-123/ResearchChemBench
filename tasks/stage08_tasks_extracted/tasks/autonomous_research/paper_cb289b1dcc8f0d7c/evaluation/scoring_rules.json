@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_cb289b1dcc8f0d7c",
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "type": "semantic",
+      "expected": "all seven explicit member and state identities are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.members"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "type": "semantic",
+      "expected": "at least two testable hypotheses with evidence-based assessments are supplied",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.hypotheses", "$.members[*].validation", "$.members[*].provenance"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "type": "semantic",
+      "expected": "heavy-halogen SOC/ISC relationship is independently supported or qualified",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.hypotheses"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "type": "semantic",
+      "expected": "fluorescence-yield grouping and limitation are addressed",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_r2"
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "final claim connects energetics, SOC and rates without overclaiming",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c1"
+    },
+    {
+      "rule_id": "ar_c2",
+      "type": "semantic",
+      "expected": "model and convergence limitations are stated",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c2"
+    }
+  ]
+}

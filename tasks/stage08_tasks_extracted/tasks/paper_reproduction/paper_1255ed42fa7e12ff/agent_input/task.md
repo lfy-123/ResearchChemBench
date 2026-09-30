@@ -1,0 +1,26 @@
+# Scientific objective
+
+Independently determine how chalcogen identity (O, S, Se) affects excited-state intramolecular proton-transfer (ESIPT) kinetics in the three explicitly named neutral 8QBDY-X molecules. For each, calculate the S1 enol→keto activation free energy ΔG‡ (kcal mol−1) and conventional transition-state-theory rate constant k at 298.15 K (s−1), and infer the barrier/rate ordering only from your calculations and validation.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that replacing O with the heavier chalcogens S and Se facilitates the same intramolecular X-H→quinoline-N proton-transfer event in the excited state, with the substitution tuning ESIPT kinetics.
+
+**Candidate route or mechanism.**
+For each 8QBDY-X molecule, examine the direct S1 enol-to-keto proton-transfer pathway in which the X-H proton moves to the quinoline nitrogen, with the associated bond-length and electronic-structure changes along that coordinate. The authors compare the three chalcogen substitutions within this common ESIPT mechanism.
+
+**Discriminating evidence.**
+Use excited-state endpoint and pathway energetics, a relaxed potential-energy scan or equivalent search along the X-H/proton-transfer coordinate, harmonic frequencies at stationary points, and bidirectional IRC or equivalent connectivity evidence. Compare the resulting S1 activation free energies and conventional TST rates at 298.15 K across O, S, and Se.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `data/inputs/8QBDY-O-enol-S1.xyz`, `8QBDY-S-enol-S1.xyz`, and `8QBDY-Se-enol-S1.xyz`. Each is a 37-atom neutral enol starting geometry in the first singlet excited state; element symbols and Cartesian coordinates are the complete molecular identity. Use the X-H donor bond (X = O, S, or Se) and the quinoline ring nitrogen that accepts that proton as the ESIPT endpoints. The target is the lowest defensible connected S1 enol-to-keto pathway found from each named starting structure, with isolated-molecule or explicitly stated solvent treatment. Report electronic-structure method, basis, state treatment, charge/multiplicity, solvent model, thermochemical convention and temperature. Do not use the source paper, SI, general web or hidden reference values.
+
+# Required scientific validation/investigation
+
+For each molecule, optimize or otherwise establish the S1 enol and keto endpoints and locate a candidate first-order saddle on the proton-transfer pathway. Confirm each endpoint as a minimum (no imaginary harmonic frequencies) and each TS as having exactly one imaginary frequency dominated by X-H/N proton motion. Use an IRC or an equivalently explicit bidirectional connectivity test to show the TS connects the enol and keto endpoints. You must formulate and record your own plausible pathway hypothesis before searching, generate and deduplicate any alternatives, retain the best validated candidate, and state failed or incomplete searches. The calculation is complete when all three molecules have either a validated pathway with both requested observables or a documented bounded failure; stop after the stated search strategy is exhausted and no new validated pathway is found, and report coverage and limitations.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. For each named molecule, provide an unambiguous identity (including the corresponding public XYZ), status, units, ΔG‡ and k when obtained, endpoint and TS identifiers, frequency/connectivity evidence, an auditable evidence list, and a bounded search record. A bounded failure or partial result must use the corresponding status and null unavailable observables, with a reason and attempted-search record rather than fabricated numbers. Include enough commands, output filenames or inline evidence references for independent audit. Record at least one hypothesis, its test and outcome before searching. The conclusion must state the O/S/Se barrier and rate ordering only if supported by the reported results.

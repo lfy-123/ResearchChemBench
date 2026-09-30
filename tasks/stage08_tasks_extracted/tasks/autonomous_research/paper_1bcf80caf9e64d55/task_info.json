@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_1bcf80caf9e64d55",
+  "task_type": "autonomous_research",
+  "title": "Autonomous mechanism discovery for phosphine-catalysed alkyne–ester stitching",
+  "category": "reaction mechanism and free-energy profile",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must generate and discriminate a substantially open set of mechanistic hypotheses and transition-state candidates.",
+    "The agent must justify search coverage, stopping, connectivity and limitations without route disclosure."
+  ],
+  "paper": {
+    "title": "Phosphine-Catalyzed Alkyne-Ester Stitching for the Construction of Functionalized Cyclopentenones",
+    "doi": "10.1021/acs.orglett.5c04843",
+    "journal": "Organic Letters",
+    "publication_date": "2026-01-05"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed reaction identities, SMILES, charge/multiplicity, endpoint, solvent, temperature and reference boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Hypotheses, candidate records, validated pathway/profile, coverage and conclusion."
+    }
+  ]
+}

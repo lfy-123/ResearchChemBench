@@ -1,0 +1,168 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_6f9a36fff6964313",
+    "items": [
+      {
+        "key_point_id": "ar_p1",
+        "key_point_type": "process",
+        "statement": "The independent investigation covers all three fixed systems with explicit candidate/geometry coverage and deduplication context.",
+        "expected_result": "Three system records identify the actual candidates, structural deduplication and calculation outcomes; missing required results are named.",
+        "evidence_ids": [
+          "ev_doc_669ea2418368_000060_1f167845caae",
+          "ev_doc_669ea2418368_000124_e2ab044aa609"
+        ],
+        "expected": "The independent investigation covers all three fixed systems with actual candidate identities and geometry evidence. Any sensitivity claim must be supported by a corresponding computed comparison."
+      },
+      {
+        "key_point_id": "ar_p2",
+        "key_point_type": "process",
+        "statement": "Each reported charge is tied to a chemically unambiguous atom and a validated, auditable calculation.",
+        "expected_result": "Atom environments match the public definitions and validation/provenance are supplied.",
+        "evidence_ids": [
+          "ev_doc_669ea2418368_000281_0189b62ccbbf",
+          "ev_doc_669ea2418368_000283_9a95191e3314"
+        ],
+        "expected": "Each reported charge is tied to a chemically unambiguous atom and a validated, auditable calculation."
+      },
+      {
+        "key_point_id": "ar_r1",
+        "key_point_type": "result",
+        "statement": "The investigation reports the four charge values and paired differences, with sensitivity/uncertainty stated rather than hidden.",
+        "expected_result": "Four numerical charges and two differences are present when status is complete, or bounded failure explicitly identifies missing values.",
+        "evidence_ids": [
+          "ev_doc_e86d3aaecd2b_000253_d6d11a3a02fd"
+        ],
+        "expected": "The investigation reports the four charge values and paired differences, with sensitivity/uncertainty stated rather than hidden. A single-conformer result establishes only that comparison. Score sensitivity only where actually tested; disclosing uncertainty is not evidence of invariance or a substitute for missing sensitivity."
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_6f9a36fff6964313",
+    "items": [
+      {
+        "conclusion_id": "ar_c1",
+        "claim_role": "final",
+        "evidence_ids": [
+          "ev_doc_e86d3aaecd2b_000253_d6d11a3a02fd"
+        ],
+        "expected": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges.",
+        "supporting_key_point_ids": [
+          "ar_p1",
+          "ar_p2",
+          "ar_r1"
+        ],
+        "statement": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "rules": [
+      {
+        "rule_id": "ar_s1",
+        "type": "semantic",
+        "expected": "coverage and deduplication are explicit for all fixed systems",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.coverage",
+            "$.systems"
+          ],
+          "comparison": "expert semantic comparison A single-conformer result establishes only that comparison. Score sensitivity only where actually tested; disclosing uncertainty is not evidence of invariance or a substitute for missing sensitivity."
+        },
+        "reference_id": "ar_p1"
+      },
+      {
+        "rule_id": "ar_s2",
+        "type": "semantic",
+        "expected": "validated calculations and unambiguous atom identity/provenance",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "reference_id": "ar_p2"
+      },
+      {
+        "rule_id": "ar_s3",
+        "type": "semantic",
+        "expected": "four charges and paired differences are reported or bounded failure is truthful Keep each value tied to its mapped carbonyl carbon or quaternary-ammonium nitrogen in the complete identified system. Check paired differences against those four values and their signs. PR retains its declared primary protocol; AR retains its allowed model/conformer choices.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.status",
+            "$.systems",
+            "$.comparison",
+            "$.failure"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "reference_id": "ar_r1"
+      },
+      {
+        "rule_id": "ar_s4",
+        "type": "semantic",
+        "expected": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison A single-conformer result establishes only that comparison. Score sensitivity only where actually tested; disclosing uncertainty is not evidence of invariance or a substitute for missing sensitivity."
+        },
+        "reference_id": "ar_c1"
+      }
+    ],
+    "paper_id": "paper_6f9a36fff6964313",
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_6f9a36fff6964313",
+    "items": [
+      "wrong molecular connectivity, charge or multiplicity",
+      "missing identities or computed evidence for the required compared systems",
+      "reporting charges without atom identity/provenance",
+      "claiming mechanistic certainty beyond the submitted calculation",
+      "inventing target values or author-route hints in the autonomous task"
+    ]
+  },
+  "evidence_map.json": {
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_669ea2418368_000060_1f167845caae",
+        "document_id": "doc_669ea2418368",
+        "source": "SI structure characterization of [TMTFABA]OTf"
+      },
+      {
+        "evidence_id": "ev_doc_669ea2418368_000124_e2ab044aa609",
+        "document_id": "doc_669ea2418368",
+        "source": "SI structure characterization of [PTMA]OTf and TFAP"
+      },
+      {
+        "evidence_id": "ev_doc_669ea2418368_000281_0189b62ccbbf",
+        "document_id": "doc_669ea2418368",
+        "source": "SI DFT calculation method"
+      },
+      {
+        "evidence_id": "ev_doc_669ea2418368_000283_9a95191e3314",
+        "document_id": "doc_669ea2418368",
+        "source": "SI single-point Mulliken calculation description"
+      },
+      {
+        "evidence_id": "ev_doc_e86d3aaecd2b_000253_d6d11a3a02fd",
+        "document_id": "doc_e86d3aaecd2b",
+        "source": "Main paper reported Mulliken charges and interpretation"
+      }
+    ],
+    "paper_id": "paper_6f9a36fff6964313"
+  }
+}

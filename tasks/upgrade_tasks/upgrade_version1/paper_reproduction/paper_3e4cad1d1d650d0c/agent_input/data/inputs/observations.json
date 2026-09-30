@@ -1,0 +1,25 @@
+{
+  "source": "Main PDF Table 1 p4; discussion p5; SI electrochemistry p23",
+  "calibration": {
+    "Eox_1a_V_vs_SCE": -0.61
+  },
+  "E00_crossings_nm": {
+    "1a": 517,
+    "1e": 511
+  },
+  "energy_conversion": "E00_eV=1239.841984/wavelength_nm; use same constant for both",
+  "acceptor": {
+    "id": "4_chloroanisole",
+    "Ered_V_vs_SCE": -2.91,
+    "boundary": "Source-reported reduction condition; not a reversible equilibrium couple established here."
+  },
+  "challenge_only": {
+    "K_SV_intensity_M_inverse": 86540,
+    "lifetime_pattern": "Lifetime ratio essentially independent of quencher concentration over the plotted domain",
+    "raw_source": "Main PDF p5 Figure 3 intensity and lifetime plots",
+    "numeric_raw_quenching_series": "Not available locally; do not invent individual points or errors.",
+    "plot_file": "quenching_figure3.png",
+    "plot_interpretation": "Cropped original experimental Figure3 axes and plotted observations; estimate a plot-resolution bound, not instrument error bars. No calculated or author-assigned molecular outcome is included."
+  },
+  "electrode_note": "SI p23 specifies Ag/AgCl-to-SCE -0.05 V under source conditions. Main-text label differs; use the printed SCE calibration and disclose this ambiguity, not a universal offset."
+}

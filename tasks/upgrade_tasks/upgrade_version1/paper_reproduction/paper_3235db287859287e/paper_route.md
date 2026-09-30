@@ -1,0 +1,7 @@
+# Upgraded author-route and scope record
+
+The authors propose thiyl-radical addition, iodine capture, an iodide-assisted H relay and cyclic S–O reorganization, with substrate hydroxyl oxygen entering the sulfoxide. Main pp5–7 and SI p100 support this proposal; SI uses Gaussian09, SMD MeCN, 298 K/1 atm, 6-31G(C,H), 6-311G**(O,S), aug-cc-pVDZ-PP(I). The functional is not specified in the extracted SI paragraph, so do not invent one. This benchmark adds independent competing routes and reservoir-balanced barriers; the original E/Z thermochemistry did not establish kinetic selectivity.
+
+Use methyl 2-(hydroxy(phenyl)methyl)acrylate 1a and benzenethiol 2a, not benzylthiol. The local reaction uses MeCN, 298.15 K and a declared 1 M solution convention. Experimental context is 1 mmol of each substrate, 5 mL 0.1 M KI, Pt electrodes, 10 mA, room temperature, N2 (main PDF p7). Compare a finite radical/ionic and substrate-O/water-O candidate space. Reservoir species are I−/I radical, H2O, H+/electron with explicitly matched electron/proton chemical potentials; the electrochemical cell is not modeled. The unlabelled product constitution is a comparison endpoint, not an energetic winner. Isotope observations are public constraints, not blind predictions.
+
+The AR public prompt excludes this route. AR and PR share objects, schema, scientific rubric and completion requirements. Development status: implemented_pending_expanded_reference. Old route and old PASS are historical only in the snapshot.

@@ -1,0 +1,25 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": ["status", "radius_nm", "regime", "outer_radii_A", "outer_angle_rad", "validation", "method_summary", "author_hypothesis_assessment", "limitations"],
+        "properties": {
+          "status": {"type": "string"}, "radius_nm": {"type": "number"}, "regime": {"type": "string"}, "outer_radii_A": {"type": "array", "items": {"type": "number"}}, "outer_angle_rad": {"type": "number"},
+          "validation": {"type": "object", "required": ["converged", "stationarity_residual", "independent_check_agreement_nm", "local_minimum_evidence"], "properties": {"converged": {"type": "boolean"}, "stationarity_residual": {"type": "number"}, "independent_check_agreement_nm": {"type": "number"}, "local_minimum_evidence": {"type": "string"}}},
+          "method_summary": {"type": "string"}, "author_hypothesis_assessment": {"type": "string"}, "limitations": {"type": "string"}
+        }
+      },
+      {
+        "required": ["status", "validation", "method_summary", "limitations", "failure_reason", "explored_domain_nm"],
+        "properties": {
+          "status": {"type": "string"},
+          "validation": {"type": "object", "required": ["converged", "stationarity_residual", "independent_check_agreement_nm", "local_minimum_evidence"], "properties": {"converged": {"type": "boolean"}, "stationarity_residual": {"type": "number"}, "independent_check_agreement_nm": {"type": "number"}, "local_minimum_evidence": {"type": "string"}}},
+          "method_summary": {"type": "string"}, "limitations": {"type": "string"}, "failure_reason": {"type": "string"}, "explored_domain_nm": {"type": "array", "items": {"type": "number"}}
+        }
+      }
+    ]
+  }
+}

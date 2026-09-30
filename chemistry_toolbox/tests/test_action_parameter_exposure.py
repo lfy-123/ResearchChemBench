@@ -184,14 +184,14 @@ def test_timeout_is_fixed_policy_not_agent_controllable():
         policy = contract["execution_timeout_policy"]
         assert policy["agent_controllable"] is False
         assert policy["execution_class"] == ("fast" if action.data_action else "compute")
-        assert policy["timeout_seconds"] == (60 if action.data_action else 7200)
+        assert policy["timeout_seconds"] == 86400
         assert inspected["execution_timeout_policy"] == policy
 
     searched = search_actions(query="search compounds", snapshot=snapshot)
     search_policy = searched["actions"][0]["execution_timeout_policy"]
     assert search_policy == {
         "execution_class": "fast",
-        "timeout_seconds": 60,
+        "timeout_seconds": 86400,
         "source": "evaluation_policy",
         "agent_controllable": False,
     }

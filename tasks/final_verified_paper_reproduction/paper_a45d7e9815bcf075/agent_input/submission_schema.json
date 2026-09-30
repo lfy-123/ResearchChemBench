@@ -1,0 +1,555 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "system": {
+            "type": "object",
+            "properties": {
+              "pdb_id": {
+                "const": "3I40"
+              },
+              "chains": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "A",
+                    "B"
+                  ]
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true
+              },
+              "atom_mapping": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "pdb_id",
+              "chains",
+              "atom_mapping"
+            ],
+            "additionalProperties": true
+          },
+          "state": {
+            "type": "object",
+            "properties": {
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "geometry_provenance": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "charge",
+              "multiplicity",
+              "method",
+              "geometry_provenance"
+            ],
+            "additionalProperties": true
+          },
+          "conclusion": {
+            "type": "object",
+            "properties": {
+              "locality": {
+                "type": "string",
+                "minLength": 1
+              },
+              "disulfides": {
+                "type": "string",
+                "minLength": 1
+              },
+              "radius_sensitivity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "locality",
+              "disulfides",
+              "radius_sensitivity",
+              "text"
+            ],
+            "additionalProperties": true
+          },
+          "fragments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "center": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "radius_angstrom": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "included_atom_count": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "cap_policy": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "geometry_provenance": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "artifacts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "id",
+                "center",
+                "radius_angstrom",
+                "included_atom_count",
+                "cap_policy",
+                "geometry_provenance",
+                "status",
+                "artifacts"
+              ],
+              "additionalProperties": true
+            },
+            "minItems": 1
+          },
+          "validation": {
+            "type": "object",
+            "properties": {
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "coverage": {
+                "type": "object",
+                "properties": {
+                  "criterion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evaluated_atom_pairs": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "uncomputed_pairs": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "criterion",
+                  "evaluated_atom_pairs",
+                  "uncomputed_pairs"
+                ],
+                "additionalProperties": true
+              },
+              "disulfide_pairs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "pair": {
+                      "enum": [
+                        "Cys6A-Cys11A",
+                        "Cys7A-Cys7B",
+                        "Cys20A-Cys19B"
+                      ]
+                    },
+                    "fmi_nat": {
+                      "type": [
+                        "number",
+                        "null"
+                      ],
+                      "minimum": 0
+                    },
+                    "coverage": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "pair",
+                    "fmi_nat",
+                    "coverage",
+                    "evidence"
+                  ],
+                  "additionalProperties": true
+                },
+                "minItems": 3,
+                "maxItems": 3,
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "pair": {
+                          "const": "Cys6A-Cys11A"
+                        }
+                      },
+                      "required": [
+                        "pair"
+                      ]
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "pair": {
+                          "const": "Cys7A-Cys7B"
+                        }
+                      },
+                      "required": [
+                        "pair"
+                      ]
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "pair": {
+                          "const": "Cys20A-Cys19B"
+                        }
+                      },
+                      "required": [
+                        "pair"
+                      ]
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              },
+              "glu17a_arg22b": {
+                "type": "object",
+                "properties": {
+                  "radius_cases": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "radius_angstrom": {
+                          "enum": [
+                            4,
+                            5,
+                            6
+                          ]
+                        },
+                        "fmi_nat": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "minimum": 0
+                        },
+                        "coverage": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "radius_angstrom",
+                        "fmi_nat",
+                        "coverage",
+                        "evidence"
+                      ],
+                      "additionalProperties": true
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "radius_angstrom": {
+                              "const": 4
+                            }
+                          },
+                          "required": [
+                            "radius_angstrom"
+                          ]
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "radius_angstrom": {
+                              "const": 5
+                            }
+                          },
+                          "required": [
+                            "radius_angstrom"
+                          ]
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "radius_angstrom": {
+                              "const": 6
+                            }
+                          },
+                          "required": [
+                            "radius_angstrom"
+                          ]
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      }
+                    ]
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "radius_cases",
+                  "interpretation"
+                ],
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "checks",
+              "coverage",
+              "disulfide_pairs",
+              "glu17a_arg22b"
+            ],
+            "additionalProperties": true
+          },
+          "observables": {
+            "type": "object",
+            "properties": {
+              "ami_definition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fmi_definition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "matrix_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "metrics": {
+                "type": "object",
+                "minProperties": 1
+              }
+            },
+            "required": [
+              "ami_definition",
+              "fmi_definition",
+              "matrix_artifacts",
+              "metrics"
+            ],
+            "additionalProperties": true
+          },
+          "comparison": {
+            "type": "object",
+            "properties": {
+              "reference_description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "result": {
+                "type": [
+                  "object",
+                  "string"
+                ],
+                "minProperties": 1,
+                "minLength": 1
+              }
+            },
+            "required": [
+              "reference_description",
+              "method",
+              "result"
+            ],
+            "additionalProperties": true
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional and unscored commentary."
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "status",
+          "system",
+          "state",
+          "conclusion",
+          "fragments",
+          "validation",
+          "observables"
+        ],
+        "additionalProperties": true
+      },
+      {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "partial",
+              "failed",
+              "bounded_failure"
+            ]
+          },
+          "system": {
+            "type": "object",
+            "properties": {
+              "pdb_id": {
+                "const": "3I40"
+              }
+            },
+            "required": [
+              "pdb_id"
+            ],
+            "additionalProperties": true
+          },
+          "failure_report": {
+            "type": "object",
+            "properties": {
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "completed_artifacts",
+              "missing_endpoint",
+              "reason"
+            ],
+            "additionalProperties": true
+          },
+          "state": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "conclusion": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "fragments": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "validation": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "observables": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "comparison": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "limitations": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          },
+          "attempts": {
+            "description": "Include only genuinely available intermediate data; missing results may be omitted."
+          }
+        },
+        "required": [
+          "status",
+          "system",
+          "failure_report"
+        ],
+        "additionalProperties": true
+      }
+    ]
+  }
+}

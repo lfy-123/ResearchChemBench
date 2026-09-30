@@ -1,0 +1,106 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_minima",
+      "type": "condition",
+      "expected": "Evaluate actual per-system minimum validation for both named systems. A localized failure supports only demonstrated partial/process work, not completion of the failed minimum check.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert check of each system_id, geometry_status, frequency_status, and bounded-failure evidence"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_probes",
+      "type": "condition",
+      "expected": "For each successful named system, both uniquely labeled ring probes use the specified centroid-normal 1.7 Å convention and reproducible mean. Reconstruct each ring centroid and normal from the retained atom mapping. Check both 1.700 angstrom probe positions, the projected shielding tensor with the stated NICS sign, and their arithmetic mean. Neither a global Cartesian zz component without alignment nor one favorable ring substitutes for the defined pair.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert check of per-system probe_definition and ring_values ring_id/nics_ppm"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_4a",
+      "type": "numeric",
+      "target": 23.6,
+      "unit": "ppm",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "select object with system_id 4a; apply only when its status is successful"
+      },
+      "expected": " Select mean_nics_ppm from the unique record system_id=4a; never infer identity from array order or value proximity. Duplicate or missing identities do not establish coverage."
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_4c",
+      "type": "numeric",
+      "target": 19.2,
+      "unit": "ppm",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "select object with system_id 4c; apply only when its status is successful"
+      },
+      "expected": " Select mean_nics_ppm from the unique record system_id=4c; never infer identity from array order or value proximity. Duplicate or missing identities do not establish coverage."
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "The report independently supports 4a > 4c, gives at least two hypotheses with discriminating calculation evidence, and limits the conclusion to the pair and descriptor when both succeed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.comparison.ordering",
+          "$.comparison.statement",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison, conditional on available successful results"
+      }
+    },
+    {
+      "rule_id": "ar_r6",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "Evaluate the actual probe/geometry/method sensitivity check and its quantitative effect on the two-system comparison. A specific failed control may be documented but does not establish robustness; no generic disclaimer is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sensitivity"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}

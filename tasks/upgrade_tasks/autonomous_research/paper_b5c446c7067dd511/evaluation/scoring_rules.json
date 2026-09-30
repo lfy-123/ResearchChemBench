@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use the four complete named source molecules. Ph-mP and An-mP are the fixed representative pair for the detailed intervention. Use a common gas-phase baseline and identical fragment and state-energy definitions. Use the full mapped graphs and terminal_bridge_control quadruples in molecular_identities.json; no predicted high-triplet channel index is specified for autonomous research. For a matched physical Tn, delta_STn=E(S1;R_S0)-E(Tn;R_S0). Report SOC norms in cm^-1 and neighboring Tn±1 spacings at the same geometry and Hamiltonian. Energy/SOC support necessary channel prerequisites; neither is an absolute RISC rate or quantum yield. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use the four complete named source molecules. Ph-mP and An-mP are the fixed representative pair for the detailed intervention. Use a common gas-phase baseline and identical fragment and state-energy definitions. Use the full mapped graphs and terminal_bridge_control quadruples in molecular_identities.json; no predicted high-triplet channel index is specified for autonomous research. For a matched physical Tn, delta_STn=E(S1;R_S0)-E(Tn;R_S0). Report SOC norms in cm^-1 and neighboring Tn±1 spacings at the same geometry and Hamiltonian. Energy/SOC support necessary channel prerequisites; neither is an absolute RISC rate or quantum yield. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_series_states",
+      "reference_id": "kp_series_states",
+      "type": "semantic",
+      "expected": "Check actual SOC matrix and NTO outputs; fragment weights must normalize consistently. Do not assume author Tn labels remain physical states when method or geometry changes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.series_states",
+          "$.calculation_records"
+        ],
+        "comparison": "Check actual SOC matrix and NTO outputs; fragment weights must normalize consistently. Do not assume author Tn labels remain physical states when method or geometry changes."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_representative_controls",
+      "reference_id": "kp_representative_controls",
+      "type": "semantic",
+      "expected": "Require independent enlarged-window and frozen-torsion outputs. Root permutation is handled through state-density matching, not forced energy ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.representative_controls",
+          "$.calculation_records"
+        ],
+        "comparison": "Require independent enlarged-window and frozen-torsion outputs. Root permutation is handled through state-density matching, not forced energy ordering."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_channel_competition",
+      "reference_id": "kp_channel_competition",
+      "type": "semantic",
+      "expected": "Compare direct coupling, energy proximity and state character together. Adjacent triplet internal conversion can compete even when S1/Tn gaps are small; its rate is not computed by a spacing. Accept rejection/ambiguity after the required evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.channel_competition",
+          "$.calculation_records"
+        ],
+        "comparison": "Compare direct coupling, energy proximity and state character together. Adjacent triplet internal conversion can compete even when S1/Tn gaps are small; its rate is not computed by a spacing. Accept rejection/ambiguity after the required evidence."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether proposed high-triplet singlet-transfer channels remain plausible after direct SOC, neighboring-state competition and geometric/method controls across the source emitter series. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether proposed high-triplet singlet-transfer channels remain plausible after direct SOC, neighboring-state competition and geometric/method controls across the source emitter series. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "series_states",
+      "max_score": 25,
+      "description": "Four-member matched state windows with high-state SOC",
+      "rule_ids": [
+        "rule_series_states"
+      ]
+    },
+    {
+      "id": "representative_controls",
+      "max_score": 25,
+      "description": "Representative root-window and geometry interventions",
+      "rule_ids": [
+        "rule_representative_controls"
+      ]
+    },
+    {
+      "id": "channel_competition",
+      "max_score": 15,
+      "description": "Competing high-state channels and bounded inference",
+      "rule_ids": [
+        "rule_channel_competition"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Four-member matched state windows with high-state SOC",
+      "Representative root-window and geometry interventions",
+      "Competing high-state channels and bounded inference",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "batch": 5,
+  "date": "2026-09-27",
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "mode": "paper_reproduction",
+  "source": "tasks/final_verified_paper_reproduction/paper_a21b91f97ce3c68f",
+  "source_package_content_sha256": "658fe3ed718775b9859794f848708332b0c8fb1f2ae14c405cd3d7b659b1b889",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/compound_1a_axial.xyz": {
+      "sha256": "15399f61c8c1299208782e5b8731135eafb8b6e2f82af653fb1f3447f7fdf3c9",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/compound_1a_axial.xyz.snapshot"
+    },
+    "agent_input/submission_schema.json": {
+      "sha256": "dbb6cddc7873e3d218276a1ff7c73856097b53e6d8d5b4118286e735a21893b7",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot"
+    },
+    "agent_input/task.md": {
+      "sha256": "cc72b823ef8639332eddbb07c6498ba4ff861eadd5c043d483a65b0fb89e2a43",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot"
+    },
+    "evaluation/critical_failures.json": {
+      "sha256": "fbe00606ba741655b79588f3f53709b8ead8286efbd2057dcf7ac0af53692d73",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot"
+    },
+    "evaluation/evidence_map.json": {
+      "sha256": "1fe2262f446a2e399848c59da5398a16e3b425df3b51692e25e4982e8f9ad2c2",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot"
+    },
+    "evaluation/reference_conclusions.json": {
+      "sha256": "87230520c155d76b47b5dbb750f9aed4e9f7624e62cbd4f23d7300b38165926f",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot"
+    },
+    "evaluation/reference_key_points.json": {
+      "sha256": "d053be41a5a0ea7699fe521a759d0b9568c8c939ee3c849eca439fd4c0b1ab7a",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot"
+    },
+    "evaluation/scoring_rules.json": {
+      "sha256": "463e24193343c5a3e7dede2e665f3ceebc072b5abce55b53b5e4ab7ee56f6800",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot"
+    },
+    "evaluation/task_provenance/contract_regression_20260923.json": {
+      "sha256": "55ae656aa8b08f52fd91e29fb8c38725396e4459fa4100668606a8bb4b307978",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/contract_regression_20260923.json.snapshot"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "sha256": "6a7d71f296c2e223a63ceb4b97e78370c5acf8cb71a4db9f0bcbea05fc7d6439",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "sha256": "7d192130601783135d433db0375814e2d4b4673aa29b1c68cc3d983ffa634527",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot"
+    },
+    "package_manifest.json": {
+      "sha256": "7aba25189d4855a0595164a9331bf044bd51e52f16b4f96cf4539749adf49823",
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot"
+    },
+    "paper_route.md": {
+      "sha256": "9a79e32c28eb6f6f3e028098734a49c2ed4b081a403aca5708ebb4c2c9600b42",
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot"
+    },
+    "task_info.json": {
+      "sha256": "23da5c08e1550108dba00a7d8eda0dd0c5abac28b7245a9318557b24e452feee",
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_a21b91f97ce3c68f/documents/main.pdf",
+      "sha256": "637bc5dd2d5d03773819f3cf73524d6c4c2b3fc7cdd4ff6b077b811ed0ea452b",
+      "pages": [
+        1,
+        2,
+        3
+      ],
+      "total_pages": 9
+    },
+    {
+      "path": "papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf",
+      "sha256": "35c7bfcbb36da658670c057ed2e6ecdc3ac6c3707c0bd122469234fae020d12b",
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_pages": 58
+    },
+    {
+      "path": "docs/evalution/update/paper_a21b91f97ce3c68f.md",
+      "sha256": "3765871db00f62e57689d65cfe92564417bfb70f7d940a15be946eebdfbabac7",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "short_checks": "Connectivity/formula/stoichiometry checks and synthetic format regressions only.",
+  "input_blockers": [],
+  "new_reference_gaps": [
+    "New constrained J grid and method sensitivity have not been computed; no tolerance is transferred across Hamiltonians.",
+    "The exact coupling basis and orbital metric must be staged and demonstrated by the pilot."
+  ],
+  "source_read_claim": "Relevant full-text pages/sections were read; list is not a claim that every page was scientifically revalidated."
+}

@@ -1,10 +1,41 @@
 {
-  "description":"Closed molecular system for independent computational investigation of aqueous basicity of two PyDIG geometric isomers.",
-  "molecules":[
-    {"id":"EE_neutral","label":"E,E-PyDIG neutral base","smiles":"C1=CC=CC=N1/C=C/NNC(=N)NN/C=C/2N=CC=CC2","formal_charge":0,"multiplicity":1,"protonation":"neutral PyDIG","stereochemistry":"E,E at both pyridylmethylene C=N bonds"},
-    {"id":"ZZ_neutral","label":"Z,Z-PyDIG neutral base","smiles":"C1=CC=CC=N1/C=C\\NNC(=N)NN/C=C\\2N=CC=CC2","formal_charge":0,"multiplicity":1,"protonation":"neutral PyDIG","stereochemistry":"Z,Z at both pyridylmethylene C=N bonds"},
-    {"id":"EE_protonated","label":"E,E-PyDIG singly protonated conjugate acid","smiles":"C1=CC=CC=N1/C=C/NNC(=[NH2+])NN/C=C/2N=CC=CC2","formal_charge":1,"multiplicity":1,"protonation":"one added proton on central guanidine imine nitrogen"},
-    {"id":"ZZ_protonated","label":"Z,Z-PyDIG singly protonated conjugate acid","smiles":"C1=CC=CC=N1/C=C\\NNC(=[NH2+])NN/C=C\\2N=CC=CC2","formal_charge":1,"multiplicity":1,"protonation":"one added proton on central guanidine imine nitrogen"}
+  "description": "Closed molecular system for independent computational investigation of aqueous basicity of two PyDIG geometric isomers.",
+  "molecules": [
+    {
+      "id": "EE_neutral",
+      "label": "E,E-PyDIG neutral base",
+      "smiles": "C1=CC=CC=N1/C=C/NNC(=N)NN/C=C/2N=CC=CC2",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "protonation": "Neutral PyDIG; the SMILES is a representative guanidine tautomer. Redistribute guanidine N-bound hydrogens and associated bond orders when searching neutral tautomers, preserving formula, heavy-atom connectivity, total charge and both pyridylmethylene E/Z labels.",
+      "stereochemistry": "E,E at both pyridylmethylene C=N bonds"
+    },
+    {
+      "id": "ZZ_neutral",
+      "label": "Z,Z-PyDIG neutral base",
+      "smiles": "C1=CC=CC=N1/C=C\\NNC(=N)NN/C=C\\2N=CC=CC2",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "protonation": "Neutral PyDIG; the SMILES is a representative guanidine tautomer. Redistribute guanidine N-bound hydrogens and associated bond orders when searching neutral tautomers, preserving formula, heavy-atom connectivity, total charge and both pyridylmethylene E/Z labels.",
+      "stereochemistry": "Z,Z at both pyridylmethylene C=N bonds"
+    },
+    {
+      "id": "EE_protonated",
+      "label": "E,E-PyDIG singly protonated conjugate acid",
+      "smiles": "C1=CC=CC=N1/C=C/NNC(=[NH2+])NN/C=C/2N=CC=CC2",
+      "formal_charge": 1,
+      "multiplicity": 1,
+      "protonation": "Singly protonated PyDIG conjugate acid; the [NH2+] notation is a representative guanidinium form. Evaluate chemically valid conformers/tautomers of this charge state and preserve both outer E/Z labels; do not move the extra proton to a pyridine without explicitly investigating a distinct protomer."
+    },
+    {
+      "id": "ZZ_protonated",
+      "label": "Z,Z-PyDIG singly protonated conjugate acid",
+      "smiles": "C1=CC=CC=N1/C=C\\NNC(=[NH2+])NN/C=C\\2N=CC=CC2",
+      "formal_charge": 1,
+      "multiplicity": 1,
+      "protonation": "Singly protonated PyDIG conjugate acid; the [NH2+] notation is a representative guanidinium form. Evaluate chemically valid conformers/tautomers of this charge state and preserve both outer E/Z labels; do not move the extra proton to a pyridine without explicitly investigating a distinct protomer."
+    }
   ],
-  "endpoint":"aqueous thermodynamic pKa for each geometric isomer and their difference"
+  "endpoint": "aqueous thermodynamic pKa for each geometric isomer and their difference",
+  "tautomer_boundary": "The displayed neutral guanidine =NH form is not a fixed sole tautomer. Central =NH and terminal NH2 forms belong to the allowed molecular identity. Select or combine validated conformers/tautomers from calculated solution thermochemistry; no preferred tautomer, geometry or ranking is supplied."
 }

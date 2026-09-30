@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "rules": [
+    {
+      "rule_id": "ar_r_setup",
+      "reference_id": "ar_process_setup",
+      "type": "semantic",
+      "expected": "The independent route explicitly distinguishes pristine, Ni-vacancy and Al-vacancy states and their neutral charge.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.defect_identity_check"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r_validation",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "The route reports convergence/sensitivity and reconstructable formation-energy bookkeeping. Reconstruct each formation energy from the same-size pristine/defect energies and consistently computed Ni-rich reservoirs. Verify atom and formula-unit normalization. Ni-rich is the explicitly authored benchmark convention, not a claim that the source uniquely specified these chemical potentials.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energies",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r_ni",
+      "reference_id": "ar_result_ni",
+      "type": "numeric",
+      "target": 0.98,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energies.ni_vacancy_formation_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_r_al",
+      "reference_id": "ar_result_al",
+      "type": "numeric",
+      "target": 1.2,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energies.al_vacancy_formation_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_r_order",
+      "reference_id": "ar_final_order",
+      "type": "semantic",
+      "expected": "Ni vacancy formation energy is lower than Al vacancy formation energy. Recompute the ordering and difference from both formation energies under that same convention. Individual tolerance passes do not establish their relative order or the separate surface-transport mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energies",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

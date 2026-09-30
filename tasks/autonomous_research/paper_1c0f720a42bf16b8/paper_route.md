@@ -6,7 +6,7 @@ The paper uses quantum chemistry to explain how substitution in N,O-chelated BF2
 
 ## 2. System and model boundary
 
-C1 is the neutral, closed-shell N,O-chelated difluoroboron complex with formula C17H16BF2N2O, consisting of a p-dimethylaminophenyl donor, an N-phenyl substituted enaminone-derived chelate, and BF2. The reported calculations are gas phase, unconstrained molecular calculations on the isolated molecule.
+C1 is the neutral, closed-shell six-membered N,O-chelated difluoroboron complex with formula C17H17BF2N2O, consisting of a p-dimethylaminophenyl donor, an N-phenyl substituted enaminone-derived chelate, and BF2. In an explicit valence representation, B is bonded to both N and O and the neutral chelate is represented by paired `[N+]/[B-]` formal charges. The reported calculations are gas phase, unconstrained molecular calculations on the isolated molecule.
 
 ## 3. Authors' implemented computational route
 

@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json",
+    "data/inputs/kinetic_observations.json"
+  ],
+  "public_removals": [
+    {
+      "file": "kinetic_observations.json",
+      "action": "retain exact25 rows, remove mandatory holdout instruction",
+      "reason": "Preserve source categories and S2_23/S2_24 trace corrections; no prescribed fitting split."
+    },
+    {
+      "file": "species_registry.json/species.json",
+      "action": "replace with source precursor/products/solvent identities",
+      "reason": "Remove carbanion/thiolate seeds and fixed electrochemical-fragment/reference setup from public design."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "No fixed five-pool network, back_quench parameter, four rate constants or three heldouts."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

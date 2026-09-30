@@ -1,0 +1,19 @@
+{
+  "solvent":"acetonitrile",
+  "systems":[
+    {"id":"tmtfaba_otf","name":"[TMTFABA]OTf","smiles":"C[N+](C)(C)c1ccc(C(=O)C(F)(F)F)cc1.C(F)(F)(F)S(=O)(=O)[O-]","formula":"C12H13F6NO4S","charge":0,"multiplicity":1,"target_atoms":{"carbonyl_carbon":"the carbonyl carbon in the C(=O)CF3 substituent","quaternary_nitrogen":"the aryl-bound N bearing three methyl groups"}},
+    {"id":"ptma_otf","name":"[PTMA]OTf","smiles":"C[N+](C)(C)c1ccccc1.C(F)(F)(F)S(=O)(=O)[O-]","formula":"C10H14F3NO3S","charge":0,"multiplicity":1,"target_atoms":{"quaternary_nitrogen":"the aryl-bound N bearing three methyl groups"}},
+    {"id":"tfap","name":"2,2,2-trifluoroacetophenone (TFAP)","smiles":"O=C(C(F)(F)F)c1ccccc1","formula":"C8H5F3O","charge":0,"multiplicity":1,"target_atoms":{"carbonyl_carbon":"the carbonyl carbon in the C(=O)CF3 substituent"}}
+  ],
+  "identity_note":"Generate and document 3D starting geometries from these connectivity-complete structures. Do not infer a paper-selected conformer. Preserve stated charge and multiplicity."
+}
+*** Add File: outputs/autonomous_research/data/inputs/systems.json
+{
+  "solvent":"acetonitrile",
+  "systems":[
+    {"id":"tmtfaba_otf","name":"[TMTFABA]OTf","smiles":"C[N+](C)(C)c1ccc(C(=O)C(F)(F)F)cc1.C(F)(F)(F)S(=O)(=O)[O-]","formula":"C12H13F6NO4S","charge":0,"multiplicity":1,"target_atoms":{"carbonyl_carbon":"the carbonyl carbon in the C(=O)CF3 substituent","quaternary_nitrogen":"the aryl-bound N bearing three methyl groups"}},
+    {"id":"ptma_otf","name":"[PTMA]OTf","smiles":"C[N+](C)(C)c1ccccc1.C(F)(F)(F)S(=O)(=O)[O-]","formula":"C10H14F3NO3S","charge":0,"multiplicity":1,"target_atoms":{"quaternary_nitrogen":"the aryl-bound N bearing three methyl groups"}},
+    {"id":"tfap","name":"2,2,2-trifluoroacetophenone (TFAP)","smiles":"O=C(C(F)(F)F)c1ccccc1","formula":"C8H5F3O","charge":0,"multiplicity":1,"target_atoms":{"carbonyl_carbon":"the carbonyl carbon in the C(=O)CF3 substituent"}}
+  ],
+  "identity_note":"The three fixed systems and atom environments define the complete scientific object. Choose and justify a defensible computational protocol independently; do not assume any author route or expected direction."
+}

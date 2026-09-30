@@ -1,0 +1,185 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_0e835b370ddd37b6",
+    "items": [
+      {
+        "key_point_id": "kp_minima",
+        "key_point_type": "process",
+        "statement": "Both named reactants are optimized minima with zero imaginary frequencies.",
+        "evidence_ids": [
+          "ev_doc_471aa5635a97_000080_efbca894c4b1"
+        ],
+        "expected": "minimum validation for 1 and V-prime"
+      },
+      {
+        "key_point_id": "kp_ts",
+        "key_point_type": "process",
+        "statement": "Each named system has a reported H2 activation TS with exactly one H-H-cleavage imaginary mode and endpoint connectivity evidence.",
+        "evidence_ids": [
+          "ev_doc_0505660cda6b_000004_e27d0fb6c41c",
+          "ev_doc_471aa5635a97_000080_efbca894c4b1"
+        ],
+        "expected": "one validated TS per system"
+      },
+      {
+        "key_point_id": "kp_barriers",
+        "key_point_type": "result",
+        "statement": "Comparable H-H activation barriers are reported for both systems in kcal/mol.",
+        "evidence_ids": [
+          "ev_doc_471aa5635a97_000173_f6c5ba5bd173"
+        ],
+        "expected": "two comparable barriers"
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_0e835b370ddd37b6",
+    "items": [
+      {
+        "conclusion_id": "c_final",
+        "claim_role": "final",
+        "evidence_ids": [
+          "ev_doc_471aa5635a97_000173_f6c5ba5bd173"
+        ],
+        "expected": "Validated H–H activation barriers from separated reactants are lower for silylene 1 than for V-prime. The comparison must be supported by the two corresponding TSs and a common method/Gibbs convention.",
+        "supporting_key_point_ids": [
+          "kp_minima",
+          "kp_ts",
+          "kp_barriers"
+        ],
+        "statement": "Validated H–H activation barriers from separated reactants are lower for silylene 1 than for V-prime. The comparison must be supported by the two corresponding TSs and a common method/Gibbs convention."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_0e835b370ddd37b6",
+    "rules": [
+      {
+        "rule_id": "r_minima",
+        "type": "condition",
+        "expected": "for every system, when outcome_status is validated_success, optimized=true and imaginary_frequencies=0 with evidence; a bounded_failure system must still identify the minimum-search outcome truthfully in its minimum object",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems[*].minimum"
+          ],
+          "comparison": "expert validation"
+        },
+        "reference_id": "kp_minima"
+      },
+      {
+        "rule_id": "r_ts",
+        "type": "condition",
+        "expected": "for every system, candidates_attempted, candidates_validated, coverage and evidence document the H2-activation search; validated_success requires a one-imaginary-frequency H-H-cleavage TS and endpoint evidence, while bounded_failure requires the attempted coverage and explicit failure reason",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems[*].ts_search"
+          ],
+          "comparison": "expert validation"
+        },
+        "reference_id": "kp_ts"
+      },
+      {
+        "rule_id": "r_barriers",
+        "type": "condition",
+        "expected": "validated_success systems report a kcal/mol barrier computed from separated silylene + H2 reactants to the validated H-H-activation TS; bounded_failure systems report null and an explicit failure reason. When both systems succeed, compare the two barriers on the same stated model and preserve each named system identity",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems",
+            "$.method"
+          ],
+          "comparison": "expert comparison"
+        },
+        "reference_id": "kp_barriers"
+      },
+      {
+        "rule_id": "r_final",
+        "type": "semantic",
+        "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Validated H–H activation barriers from separated reactants are lower for silylene 1 than for V-prime. The comparison must be supported by the two corresponding TSs and a common method/Gibbs convention.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems",
+            "$.comparison",
+            "$.conclusion",
+            "$.method"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "reference_id": "c_final"
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_0e835b370ddd37b6",
+    "items": [
+      {
+        "failure_id": "f_identity",
+        "condition": "submitted system identity does not match public XYZ",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "f_unvalidated",
+        "condition": "barrier lacks one-imaginary-frequency TS and endpoint evidence",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "f_leak",
+        "condition": "paper values submitted without independent evidence",
+        "severity": "scientifically serious"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_0e835b370ddd37b6",
+    "evidence": [
+      {
+        "document_id": "doc_471aa5635a97",
+        "document_role": "main",
+        "page": 3,
+        "source_ref": "computational details",
+        "evidence_id": "kp_minima",
+        "source": "main document doc_471aa5635a97, page 3: computational details"
+      },
+      {
+        "document_id": "doc_471aa5635a97",
+        "document_role": "main",
+        "page": 3,
+        "source_ref": "frequency characterization",
+        "evidence_id": "kp_ts",
+        "source": "main document doc_471aa5635a97, page 3: frequency characterization"
+      },
+      {
+        "document_id": "doc_471aa5635a97",
+        "document_role": "main",
+        "page": 5,
+        "source_ref": "Table 2",
+        "evidence_id": "kp_barriers",
+        "source": "main document doc_471aa5635a97, page 5: Table 2"
+      },
+      {
+        "evidence_id": "ev_doc_0505660cda6b_000004_e27d0fb6c41c",
+        "source": "Supporting Information, computational structures section"
+      },
+      {
+        "evidence_id": "ev_doc_471aa5635a97_000080_efbca894c4b1",
+        "source": "Main paper, Computational Details"
+      },
+      {
+        "evidence_id": "ev_doc_471aa5635a97_000173_f6c5ba5bd173",
+        "source": "Main paper, Table 2 and discussion"
+      }
+    ]
+  }
+}

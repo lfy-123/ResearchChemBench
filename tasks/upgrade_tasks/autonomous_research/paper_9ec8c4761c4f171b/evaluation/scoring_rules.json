@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_matched_absorption",
+      "reference_id": "kp_matched_absorption",
+      "type": "semantic",
+      "expected": "Validate paired identities; compute corresponding TD bright states and spectra in both solvents with a common broadening. Report CF3 and aryl-extension effects separately. Keep KS gap, excitation energy, spectral maximum and absorption edge as distinct observables.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.matched_absorption",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Validate paired identities; compute corresponding TD bright states and spectra in both solvents with a common broadening. Report CF3 and aryl-extension effects separately. Keep KS gap, excitation energy, spectral maximum and absorption edge as distinct observables. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_species_crosscheck",
+      "reference_id": "kp_species_crosscheck",
+      "type": "semantic",
+      "expected": "Attempt all four7a forms with mobile-proton mapping. Validate surviving minima, record collapse, and obtain same-species spectra plus NMR/IR functional-group diagnostics. Use the correct experimental medium and one shielding reference; an absent band must be marked and explained rather than fabricated as an observed peak. Deduplicate collapsed tautomer endpoints.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.species_crosscheck",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Attempt all four7a forms with mobile-proton mapping. Validate surviving minima, record collapse, and obtain same-species spectra plus NMR/IR functional-group diagnostics. Use the correct experimental medium and one shielding reference; an absent band must be marked and explained rather than fabricated as an observed peak. Deduplicate collapsed tautomer endpoints. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_solvent_species_attribution",
+      "reference_id": "kp_solvent_species_attribution",
+      "type": "semantic",
+      "expected": "Decompose7a CHCl3→DMF shift into fixed-species and redistribution contributions using normalized same-molecule free-energy weights. Check whether optical and NMR/IR evidence support one species model jointly. Unsupported redistribution or an indistinguishable support set must remain explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.solvent_species_attribution",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Decompose7a CHCl3→DMF shift into fixed-species and redistribution contributions using normalized same-molecule free-energy weights. Check whether optical and NMR/IR evidence support one species model jointly. Unsupported redistribution or an indistinguishable support set must remain explicit. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Determine which substituent and species explanation jointly accounts for matched optical shifts and orthogonal diagnostics. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Determine which substituent and species explanation jointly accounts for matched optical shifts and orthogonal diagnostics. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "matched_absorption",
+      "max_score": 25,
+      "description": "Validate paired identities; compute corresponding TD bright states and spectra in both solvents with a common broadening. Report CF3 and aryl-extension effects separately. Keep KS gap, excitation energy, spectral maximum and absorption edge as distinct observables.",
+      "rule_ids": [
+        "r_matched_absorption"
+      ]
+    },
+    {
+      "id": "species_crosscheck",
+      "max_score": 20,
+      "description": "Attempt all four7a forms with mobile-proton mapping. Validate surviving minima, record collapse, and obtain same-species spectra plus NMR/IR functional-group diagnostics. Use the correct experimental medium and one shielding reference; an absent band must be marked and explained rather than fabricated as an observed peak. Deduplicate collapsed tautomer endpoints.",
+      "rule_ids": [
+        "r_species_crosscheck"
+      ]
+    },
+    {
+      "id": "solvent_species_attribution",
+      "max_score": 20,
+      "description": "Decompose7a CHCl3→DMF shift into fixed-species and redistribution contributions using normalized same-molecule free-energy weights. Check whether optical and NMR/IR evidence support one species model jointly. Unsupported redistribution or an indistinguishable support set must remain explicit.",
+      "rule_ids": [
+        "r_solvent_species_attribution"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Determine which substituent and species explanation jointly accounts for matched optical shifts and orthogonal diagnostics. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

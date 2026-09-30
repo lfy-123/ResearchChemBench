@@ -22,6 +22,8 @@ The systems are neutral closed-shell 1a and 1h, their dissociative one-electron 
 
 Each optimized structure was checked by harmonic frequencies as a minimum. Reaction free energies were combined with the calculated Fc/Fc+ reference electrode and converted to potentials for the two dissociative reactions. The paper compares the two sulfur-containing substrates and uses their relative redox behavior to interpret flow-reactivity observations.
 
+SI PDF page 19 describes 5.36 V (Table S6) as a calculated Fc/Fc+ output, not a measured calibration to supply to the agent. Table S5 prints G298(Fc) = -510.542802 Eh and G298(Fc+) = -510.347148 Eh; their difference implies about 5.324 V, so the source's table-level discrepancy should be reported rather than silently fitted. LANL08 includes an Fe effective core potential; a Gaussian general orbital-basis block alone does not activate it. Verify the native ECP/effective-electron record (10 Fe core electrons removed), not a job title or unused appended ECP block. These are verifier checks, not prescribed agent route choices.
+
 ## 5. Private reference results
 
 Table S10 reports −1.75 V for 1a and −2.81 V for 1h, both versus Fc/Fc+. The associated reaction free energies are −348.5 and −245.8 kJ mol−1, respectively. These values are hidden from Agent-visible inputs.

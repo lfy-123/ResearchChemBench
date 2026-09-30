@@ -1,0 +1,187 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Validate full PXX1/PXX2 and acid graph identities, model composition and sites; PXX1 has one carbonyl, not two equivalent independent ketones. All added acid units must be explicitly counted and mapped. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Validate full PXX1/PXX2 and acid graph identities, model composition and sites; PXX1 has one carbonyl, not two equivalent independent ketones. All added acid units must be explicitly counted and mapped."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_evidence",
+      "reference_id": "kp_quantitative_evidence",
+      "type": "semantic",
+      "expected": "Check quantitative absorption/species evidence against genuine calculations and the disclosed source observations, distinguishing peak, vertical state and species assignment. Any association-energy claim needs correct acid inventory and reference; uncertainty cannot be replaced by a fitted author number. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.operations",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Check quantitative absorption/species evidence against genuine calculations and the disclosed source observations, distinguishing peak, vertical state and species assignment. Any association-energy claim needs correct acid inventory and reference; uncertainty cannot be replaced by a fitted author number."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_answer",
+      "reference_id": "kp_scientific_answer",
+      "type": "semantic",
+      "expected": "Assess how well the proposed molecular account explains both source compounds and whether claimed species identification follows from discriminating evidence. Equivalent or unresolved optical signatures are permissible when demonstrated; no specific CT explanation, adduct count or frozen-geometry control is mandatory. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Assess how well the proposed molecular account explains both source compounds and whether claimed species identification follows from discriminating evidence. Equivalent or unresolved optical signatures are permissible when demonstrated; no specific CT explanation, adduct count or frozen-geometry control is mandatory."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_validity_and_uncertainty",
+      "reference_id": "kp_validity_and_uncertainty",
+      "type": "semantic",
+      "expected": "Define the optical observable, medium, electronic states and spectral comparison used. Any species-population or association claim must use balanced composition and justified thermodynamic/solution assumptions. Test the ambiguity relevant to the proposed explanation; unresolved experimental features alone do not establish coexistence or one unique species. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validations",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Define the optical observable, medium, electronic states and spectral comparison used. Any species-population or association claim must use balanced composition and justified thermodynamic/solution assumptions. Test the ambiguity relevant to the proposed explanation; unresolved experimental features alone do not establish coexistence or one unique species."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_bounded_conclusion",
+      "reference_id": "kp_bounded_conclusion",
+      "type": "semantic",
+      "expected": "Explain solution absorption within this chemical system and report what species can or cannot be distinguished. Do not infer a unique occupancy from an unresolved titration, compare unbalanced energies across acid counts, or claim emission efficiency, FRET or solid-state aggregate behavior from finite absorption calculations. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Explain solution absorption within this chemical system and report what species can or cannot be distinguished. Do not infer a unique occupancy from an unresolved titration, compare unbalanced energies across acid counts, or claim emission efficiency, FRET or solid-state aggregate behavior from finite absorption calculations."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "bounded_answer",
+      "type": "semantic",
+      "expected": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability. Explain solution absorption within this chemical system and report what species can or cannot be distinguished. Do not infer a unique occupancy from an unresolved titration, compare unbalanced energies across acid counts, or claim emission efficiency, FRET or solid-state aggregate behavior from finite absorption calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.validations",
+          "$.status"
+        ],
+        "comparison": "Check question coverage and evidence, not author agreement or the self-declared completion status."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Validate full PXX1/PXX2 and acid graph identities, model composition and sites; PXX1 has one carbonyl, not two equivalent independent ketones. All added acid units must be explicitly counted and mapped.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_evidence",
+      "max_score": 25,
+      "description": "Check quantitative absorption/species evidence against genuine calculations and the disclosed source observations, distinguishing peak, vertical state and species assignment. Any association-energy claim needs correct acid inventory and reference; uncertainty cannot be replaced by a fitted author number.",
+      "rule_ids": [
+        "rule_quantitative_evidence"
+      ]
+    },
+    {
+      "id": "scientific_answer",
+      "max_score": 25,
+      "description": "Assess how well the proposed molecular account explains both source compounds and whether claimed species identification follows from discriminating evidence. Equivalent or unresolved optical signatures are permissible when demonstrated; no specific CT explanation, adduct count or frozen-geometry control is mandatory.",
+      "rule_ids": [
+        "rule_scientific_answer"
+      ]
+    },
+    {
+      "id": "validity_and_uncertainty",
+      "max_score": 20,
+      "description": "Define the optical observable, medium, electronic states and spectral comparison used. Any species-population or association claim must use balanced composition and justified thermodynamic/solution assumptions. Test the ambiguity relevant to the proposed explanation; unresolved experimental features alone do not establish coexistence or one unique species.",
+      "rule_ids": [
+        "rule_validity_and_uncertainty"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 15,
+      "description": "Explain solution absorption within this chemical system and report what species can or cannot be distinguished. Do not infer a unique occupancy from an unresolved titration, compare unbalanced energies across acid counts, or claim emission efficiency, FRET or solid-state aggregate behavior from finite absorption calculations.",
+      "rule_ids": [
+        "rule_bounded_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_developed_existing_references_scope_limited",
+  "calibrated_expanded_tolerances": false,
+  "scientific_notes": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+  "semantic_judge_calibration": "pending; no new judge or scientific jobs in this development round",
+  "retired_matrix_policy": "V1 files archived as historical .snapshot are never normative for V2. Their valid raw facts may be used only within documented applicability, without requiring their candidate/control grid."
+}

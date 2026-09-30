@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "rules": [
+    {
+      "rule_id": "pr_r_identity",
+      "reference_id": "pr_kp_process_identity",
+      "type": "semantic",
+      "expected": "Compound-2 identity, complete tetra(triflate) composition, charge, multiplicity and CCDC provenance are explicitly verified.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.identity"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_validation",
+      "reference_id": "pr_kp_process_validation",
+      "type": "semantic",
+      "expected": "Optimization convergence and reproducible dominant-state selection evidence are reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_energy",
+      "reference_id": "pr_kp_result_energy",
+      "type": "numeric",
+      "target": 3.8436,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.excitation_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_osc",
+      "reference_id": "pr_kp_result_osc",
+      "type": "numeric",
+      "target": 0.4243,
+      "unit": "dimensionless",
+      "tolerance": 0.05,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.oscillator_strength"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_character",
+      "reference_id": "pr_kp_result_character",
+      "type": "semantic",
+      "expected": "The dominant transition is chiefly HOMO-4-to-LUMO/N6-centred, judged from spatial orbital identity rather than the label alone. Use same-state spatial orbitals, NTOs or mapped population evidence to establish N6 localization. A matching energy/f or a HOMO-4 label alone cannot establish that localization.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_final",
+      "reference_id": "pr_c_final",
+      "type": "semantic",
+      "expected": "The validated compound-2 dominant near-UV singlet excitation and oscillator strength are chiefly associated with the N6-centred HOMO-4-to-LUMO configuration, assessed by orbital identity rather than a method-dependent index alone.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

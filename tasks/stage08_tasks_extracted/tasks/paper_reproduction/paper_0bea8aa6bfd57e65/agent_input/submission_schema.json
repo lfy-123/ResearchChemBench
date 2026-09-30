@@ -1,0 +1,30 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object", "required": ["status", "systems", "protocol", "coverage", "conclusion", "limitations"],
+        "properties": {
+          "status": {"const": "complete"},
+          "systems": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["id", "candidates", "energy_kj_mol", "energy_status"], "properties": {"id": {"type": "string"}, "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "identity", "validation", "selected"], "properties": {"candidate_id": {"type": "string"}, "identity": {"type": "string"}, "validation": {"type": "object", "required": ["method", "minimum_evidence", "deduplication"], "properties": {"method": {"type": "string"}, "minimum_evidence": {"type": "string"}, "deduplication": {"type": "string"}}}, "selected": {"type": "boolean"}}}}, "energy_kj_mol": {"type": "number"}, "energy_status": {"type": "string"}}}},
+          "protocol": {"type": "object", "required": ["software", "model_chemistry", "counterpoise_definition", "charge_multiplicity"], "properties": {"software": {"type": "string"}, "model_chemistry": {"type": "string"}, "counterpoise_definition": {"type": "string"}, "charge_multiplicity": {"type": "string"}}},
+          "coverage": {"type": "object", "required": ["generation", "stopping_rule", "limitation"], "properties": {"generation": {"type": "string"}, "stopping_rule": {"type": "string"}, "limitation": {"type": "string"}}},
+          "conclusion": {"type": "object", "required": ["ordering", "interpretation", "hypothesis_test"], "properties": {"ordering": {"type": "array", "items": {"type": "string"}}, "interpretation": {"type": "string"}, "hypothesis_test": {"type": "string"}}},
+          "limitations": {"type": "string"}
+        }
+      },
+      {
+        "type": "object", "required": ["status", "systems", "protocol", "coverage", "conclusion", "limitations", "bounded_failure"],
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "systems": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["id", "candidates", "energy_kj_mol", "energy_status"], "properties": {"id": {"type": "string"}, "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "identity", "validation", "selected"], "properties": {"candidate_id": {"type": "string"}, "identity": {"type": "string"}, "validation": {"type": "object", "required": ["method", "minimum_evidence", "deduplication"], "properties": {"method": {"type": "string"}, "minimum_evidence": {"type": "string"}, "deduplication": {"type": "string"}}}, "selected": {"type": "boolean"}}}}, "energy_kj_mol": {"type": ["number", "null"]}, "energy_status": {"type": "string"}}}},
+          "protocol": {"type": "object", "required": ["software", "model_chemistry", "counterpoise_definition", "charge_multiplicity"], "properties": {"software": {"type": "string"}, "model_chemistry": {"type": "string"}, "counterpoise_definition": {"type": "string"}, "charge_multiplicity": {"type": "string"}}},
+          "coverage": {"type": "object", "required": ["generation", "stopping_rule", "limitation"], "properties": {"generation": {"type": "string"}, "stopping_rule": {"type": "string"}, "limitation": {"type": "string"}}},
+          "conclusion": {"type": "object", "required": ["ordering", "interpretation", "hypothesis_test"], "properties": {"ordering": {"type": "array", "items": {"type": "string"}}, "interpretation": {"type": "string"}, "hypothesis_test": {"type": "string"}}},
+          "limitations": {"type": "string"}, "bounded_failure": {"type": "string"}
+        }
+      }
+    ]
+  }
+}

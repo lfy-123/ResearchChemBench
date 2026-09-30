@@ -1,0 +1,345 @@
+{
+  "scope": "Local postprocessing/schema and raw-evidence recheck only; no quantum jobs, external judge call or blind-agent replay.",
+  "protocol_id": "a396_geometry_comparison_v2",
+  "tests_passed": 26,
+  "tests": [
+    "Public mapped graph generates 46-atom E-imine 3D independently; no quantum calculation performed.",
+    "PRIMARY_CIF_RESULTS.json: real calculation, full coverage, schema and arithmetic pass without limitations field.",
+    "PRIMARY_CIF_RESULTS.json: mirror preserves normalized metrics and comparison (synthetic representation test).",
+    "PRIMARY_CIF_RESULTS.json: proper_rotation_translation preserves normalized metrics and comparison (synthetic representation test).",
+    "PRIMARY_CIF_RESULTS.json: row_reordering preserves normalized metrics and comparison (synthetic representation test).",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic missing_row.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic duplicate_selector.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic wrong_metric.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic false_winner.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic wrong_mapping.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic rowwise_sign_flip.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic wrong_global_sign.",
+    "PRIMARY_CIF_RESULTS.json: rejects synthetic invalid_minimum.",
+    "SECONDARY_SI_RESULTS.json: real calculation, full coverage, schema and arithmetic pass without limitations field.",
+    "SECONDARY_SI_RESULTS.json: mirror preserves normalized metrics and comparison (synthetic representation test).",
+    "SECONDARY_SI_RESULTS.json: proper_rotation_translation preserves normalized metrics and comparison (synthetic representation test).",
+    "SECONDARY_SI_RESULTS.json: row_reordering preserves normalized metrics and comparison (synthetic representation test).",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic missing_row.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic duplicate_selector.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic wrong_metric.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic false_winner.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic wrong_mapping.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic rowwise_sign_flip.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic wrong_global_sign.",
+    "SECONDARY_SI_RESULTS.json: rejects synthetic invalid_minimum.",
+    "Circular wrap 179/-179 gives 2 degrees; exact inversion tie chooses +1."
+  ],
+  "branches": [
+    {
+      "source": "docs/verification/group_2/paper_a3968806251093cd/provenance/cif_hold_acceptance_20260921/PRIMARY_CIF_RESULTS.json",
+      "raw_audits": [
+        {
+          "model": "B3LYP",
+          "source_log": "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/cif7a_B3LYP_optfreq_20260920_20260920T150922Z/stdout.log",
+          "source_coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/cif_7a_20260920/B3LYP_optimized.xyz",
+          "coordinates_equal_final_log_orientation": true,
+          "mapped_graph_and_hydrogens_match": true,
+          "charge": 0,
+          "multiplicity": 1,
+          "E_imine_torsion_degree": -178.83234992097795,
+          "normal_terminations": 2,
+          "optimization_completed": true,
+          "positive_frequencies": 132,
+          "minimum_frequency_cm1": 6.0884,
+          "numpy_rdkit_max_difference": 2.842170943040401e-14
+        },
+        {
+          "model": "CAM-B3LYP",
+          "source_log": "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/cif7a_CAM_B3LYP_optfreq_20260920_20260920T151053Z/stdout.log",
+          "source_coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/cif_7a_20260920/CAM-B3LYP_optimized.xyz",
+          "coordinates_equal_final_log_orientation": true,
+          "mapped_graph_and_hydrogens_match": true,
+          "charge": 0,
+          "multiplicity": 1,
+          "E_imine_torsion_degree": -179.3700144895144,
+          "normal_terminations": 2,
+          "optimization_completed": true,
+          "positive_frequencies": 132,
+          "minimum_frequency_cm1": 3.9248,
+          "numpy_rdkit_max_difference": 2.842170943040401e-14
+        }
+      ],
+      "common_primary_start_confirmed": true,
+      "metrics": [
+        {
+          "model": "B3LYP",
+          "observable_kind": "bond",
+          "mae": 0.009136258352542111,
+          "rmse": 0.01194103404141596,
+          "n_rows": 13,
+          "unit": "Angstrom",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "B3LYP",
+          "observable_kind": "angle",
+          "mae": 0.8345399043253228,
+          "rmse": 1.1055723447276404,
+          "n_rows": 23,
+          "unit": "degree",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "B3LYP",
+          "observable_kind": "torsion",
+          "mae": 8.241270836049075,
+          "rmse": 13.48072020166572,
+          "n_rows": 11,
+          "unit": "degree",
+          "torsion_error_convention": "global reference sign chosen on all 11 rows, circular differences"
+        },
+        {
+          "model": "CAM-B3LYP",
+          "observable_kind": "bond",
+          "mae": 0.0072696549733733875,
+          "rmse": 0.008624190263408656,
+          "n_rows": 13,
+          "unit": "Angstrom",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "CAM-B3LYP",
+          "observable_kind": "angle",
+          "mae": 0.796413819751198,
+          "rmse": 1.0707495190397918,
+          "n_rows": 23,
+          "unit": "degree",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "CAM-B3LYP",
+          "observable_kind": "torsion",
+          "mae": 5.5219462859062025,
+          "rmse": 8.689311681165535,
+          "n_rows": 11,
+          "unit": "degree",
+          "torsion_error_convention": "global reference sign chosen on all 11 rows, circular differences"
+        }
+      ],
+      "inversion_comparison": [
+        {
+          "model": "B3LYP",
+          "selected_reference_sign": 1,
+          "branches": [
+            {
+              "reference_sign": 1,
+              "sse_degree2": 1999.0279887115807,
+              "mae_degree": 8.241270836049075,
+              "rmse_degree": 13.48072020166572
+            },
+            {
+              "reference_sign": -1,
+              "sse_degree2": 5716.859726355308,
+              "mae_degree": 10.862943611697641,
+              "rmse_degree": 22.79724809220962
+            }
+          ]
+        },
+        {
+          "model": "CAM-B3LYP",
+          "selected_reference_sign": 1,
+          "branches": [
+            {
+              "reference_sign": 1,
+              "sse_degree2": 830.5455124168377,
+              "mae_degree": 5.5219462859062025,
+              "rmse_degree": 8.689311681165535
+            },
+            {
+              "reference_sign": -1,
+              "sse_degree2": 6499.46520106878,
+              "mae_degree": 13.487843072531053,
+              "rmse_degree": 24.30762170234749
+            }
+          ]
+        }
+      ],
+      "comparison": {
+        "model_pair": [
+          "B3LYP",
+          "CAM-B3LYP"
+        ],
+        "per_kind": [
+          {
+            "kind": "bond",
+            "mae_preference": "second",
+            "rmse_preference": "second"
+          },
+          {
+            "kind": "angle",
+            "mae_preference": "second",
+            "rmse_preference": "second"
+          },
+          {
+            "kind": "torsion",
+            "mae_preference": "second",
+            "rmse_preference": "second"
+          }
+        ],
+        "overall": "second_uniformly_no_worse",
+        "interpretation": "Comparison of the actual computed conformers; not a universal functional ranking."
+      }
+    },
+    {
+      "source": "docs/verification/group_2/paper_a3968806251093cd/provenance/cif_hold_acceptance_20260921/SECONDARY_SI_RESULTS.json",
+      "raw_audits": [
+        {
+          "model": "B3LYP",
+          "source_log": "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_B3LYP_optfreq_20260920_20260920T150823Z/stdout.log",
+          "source_coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/si_conformer_20260920/B3LYP_optimized.xyz",
+          "coordinates_equal_final_log_orientation": true,
+          "mapped_graph_and_hydrogens_match": true,
+          "charge": 0,
+          "multiplicity": 1,
+          "E_imine_torsion_degree": 179.22357300970242,
+          "normal_terminations": 2,
+          "optimization_completed": true,
+          "positive_frequencies": 132,
+          "minimum_frequency_cm1": 5.901,
+          "numpy_rdkit_max_difference": 2.842170943040401e-14
+        },
+        {
+          "model": "CAM-B3LYP",
+          "source_log": "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_CAM_B3LYP_optfreq_20260920_20260920T152432Z/stdout.log",
+          "source_coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/si_conformer_20260920/CAM-B3LYP_optimized.xyz",
+          "coordinates_equal_final_log_orientation": true,
+          "mapped_graph_and_hydrogens_match": true,
+          "charge": 0,
+          "multiplicity": 1,
+          "E_imine_torsion_degree": 179.5398789106424,
+          "normal_terminations": 2,
+          "optimization_completed": true,
+          "positive_frequencies": 132,
+          "minimum_frequency_cm1": 5.0328,
+          "numpy_rdkit_max_difference": 2.842170943040401e-14
+        }
+      ],
+      "common_primary_start_confirmed": true,
+      "metrics": [
+        {
+          "model": "B3LYP",
+          "observable_kind": "bond",
+          "mae": 0.009206281813074497,
+          "rmse": 0.012073207858483816,
+          "n_rows": 13,
+          "unit": "Angstrom",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "B3LYP",
+          "observable_kind": "angle",
+          "mae": 0.9608175565821525,
+          "rmse": 1.3506512674709459,
+          "n_rows": 23,
+          "unit": "degree",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "B3LYP",
+          "observable_kind": "torsion",
+          "mae": 4.678395134966598,
+          "rmse": 5.936454954915708,
+          "n_rows": 11,
+          "unit": "degree",
+          "torsion_error_convention": "global reference sign chosen on all 11 rows, circular differences"
+        },
+        {
+          "model": "CAM-B3LYP",
+          "observable_kind": "bond",
+          "mae": 0.007247509565070604,
+          "rmse": 0.008619331644947832,
+          "n_rows": 13,
+          "unit": "Angstrom",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "CAM-B3LYP",
+          "observable_kind": "angle",
+          "mae": 0.9376718386988317,
+          "rmse": 1.344865633240589,
+          "n_rows": 23,
+          "unit": "degree",
+          "torsion_error_convention": "not applicable"
+        },
+        {
+          "model": "CAM-B3LYP",
+          "observable_kind": "torsion",
+          "mae": 5.5447110046167,
+          "rmse": 7.3797239636874705,
+          "n_rows": 11,
+          "unit": "degree",
+          "torsion_error_convention": "global reference sign chosen on all 11 rows, circular differences"
+        }
+      ],
+      "inversion_comparison": [
+        {
+          "model": "B3LYP",
+          "selected_reference_sign": 1,
+          "branches": [
+            {
+              "reference_sign": 1,
+              "sse_degree2": 387.65647174917586,
+              "mae_degree": 4.678395134966598,
+              "rmse_degree": 5.936454954915708
+            },
+            {
+              "reference_sign": -1,
+              "sse_degree2": 7053.472112344667,
+              "mae_degree": 14.633051468310361,
+              "rmse_degree": 25.322415711892077
+            }
+          ]
+        },
+        {
+          "model": "CAM-B3LYP",
+          "selected_reference_sign": 1,
+          "branches": [
+            {
+              "reference_sign": 1,
+              "sse_degree2": 599.0635835824542,
+              "mae_degree": 5.5447110046167,
+              "rmse_degree": 7.3797239636874705
+            },
+            {
+              "reference_sign": -1,
+              "sse_degree2": 6604.577477804051,
+              "mae_degree": 13.784423295641915,
+              "rmse_degree": 24.50339026228458
+            }
+          ]
+        }
+      ],
+      "comparison": {
+        "model_pair": [
+          "B3LYP",
+          "CAM-B3LYP"
+        ],
+        "per_kind": [
+          {
+            "kind": "bond",
+            "mae_preference": "second",
+            "rmse_preference": "second"
+          },
+          {
+            "kind": "angle",
+            "mae_preference": "second",
+            "rmse_preference": "second"
+          },
+          {
+            "kind": "torsion",
+            "mae_preference": "first",
+            "rmse_preference": "first"
+          }
+        ],
+        "overall": "mixed",
+        "interpretation": "Comparison of the actual computed conformers; not a universal functional ranking."
+      }
+    }
+  ]
+}

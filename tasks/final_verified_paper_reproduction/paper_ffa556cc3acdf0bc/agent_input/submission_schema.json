@@ -1,0 +1,305 @@
+{
+  "paper_id": "paper_ffa556cc3acdf0bc",
+  "task_type": "paper_reproduction",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "input_validation",
+          "candidates",
+          "comparison",
+          "validation",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "bounded_failure"
+            ]
+          },
+          "input_validation": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "atom_count",
+                "formula",
+                "charge",
+                "multiplicity",
+                "passed"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "atom_count": {
+                  "type": "integer"
+                },
+                "formula": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                },
+                "passed": {
+                  "type": "boolean"
+                },
+                "mapping_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "label",
+                "outcome"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "calculated",
+                    "bounded_failure"
+                  ]
+                },
+                "failure_reason": {
+                  "type": "string"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "fit_statistic",
+                    "fit_value",
+                    "probability",
+                    "predicted_shifts",
+                    "provenance",
+                    "validation_evidence"
+                  ],
+                  "properties": {
+                    "fit_statistic": {
+                      "type": "string"
+                    },
+                    "fit_value": {
+                      "type": "number"
+                    },
+                    "probability": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "predicted_shifts": {
+                      "type": "object",
+                      "minProperties": 30,
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    },
+                    "provenance": {
+                      "type": "string"
+                    },
+                    "validation_evidence": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "outcome": {
+                      "const": "calculated"
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "failure_reason"
+                  ],
+                  "properties": {
+                    "outcome": {
+                      "const": "bounded_failure"
+                    }
+                  }
+                }
+              ]
+            },
+            "maxItems": 2,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "candidate_id": {
+                      "const": "candidate_A"
+                    }
+                  },
+                  "required": [
+                    "candidate_id"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "candidate_id": {
+                      "const": "candidate_B"
+                    }
+                  },
+                  "required": [
+                    "candidate_id"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "method",
+              "mapping",
+              "probabilities_normalized"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "mapping": {
+                "type": "string"
+              },
+              "probabilities_normalized": {
+                "type": "boolean"
+              },
+              "probability_sum": {
+                "type": "number"
+              }
+            }
+          },
+          "validation": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "conclusion": {
+            "type": "object",
+            "required": [
+              "relative_configuration",
+              "support"
+            ],
+            "properties": {
+              "relative_configuration": {
+                "type": "string"
+              },
+              "support": {
+                "type": "string"
+              }
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "failure_reason": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "success"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "candidates": {
+                  "items": {
+                    "properties": {
+                      "outcome": {
+                        "const": "calculated"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

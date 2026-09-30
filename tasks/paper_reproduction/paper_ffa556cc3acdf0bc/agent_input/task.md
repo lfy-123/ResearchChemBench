@@ -4,7 +4,7 @@ Determine the relative configuration of pyrethalkaline A (compound 1) by indepen
 
 # Public inputs and scientific boundaries
 
-`data/inputs/experimental_13C_shifts.json` gives compound identity, charge, multiplicity, solvent context, and 30 carbon-site shifts. `candidate_8R_9aR_12aR.xyz` is candidate A, labeled 8R*,9aR*,12aR*; `candidate_8S_9aR_12aR.xyz` is candidate B, labeled 8S*,9aR*,12aR*. Each XYZ is one complete 153-atom C30H45N3O3 geometry with fixed element/coordinate order. `input_manifest.json` defines mapping and permitted conformer generation. Preserve formula, charge, multiplicity, stereochemical identity, and carbon labels. Additional conformers are allowed only without changing connectivity or protonation.
+`data/inputs/experimental_13C_shifts.json` gives compound identity, charge, multiplicity, solvent context, and 30 carbon-site shifts. `candidate_8R_9aR_12aR.xyz` is candidate A, labeled 8R*,9aR*,12aR*; `candidate_8S_9aR_12aR.xyz` is candidate B, labeled 8S*,9aR*,12aR*. Each XYZ is one complete 81-atom C30H45N3O3 geometry with fixed element/coordinate order. `input_manifest.json` defines mapping and permitted conformer generation. Preserve formula, charge, multiplicity, stereochemical identity, and carbon labels. Additional conformers are allowed only without changing connectivity or protonation.
 
 # Required scientific validation/investigation
 
@@ -13,3 +13,5 @@ Verify atom count and formula for each input, document mapping of the 30 carbon 
 # Deliverables
 
 Submit `report/results.json` conforming to `submission_schema.json`, containing status, per-candidate input validation, fit statistics, normalized probabilities when available, conclusion, validation evidence, and limitations.
+
+Each additional `*_conf2.xyz` contains a separate second conformer of the same diastereomer; never concatenate conformers into a single quantum-chemical system.

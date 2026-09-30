@@ -1,0 +1,178 @@
+{
+  "source": "tasks/final_verified_paper_reproduction/paper_43d74f8a469d9ad3",
+  "source_package_sha256": "a88e6ca30dc2bbb0e94d512c373e305200e11a2577279181f3296b7c24f93986",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/ccdc_2441197.cif": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/ccdc_2441197.cif.snapshot",
+      "sha256": "56c83d7b3439ffc340be619dece9ddaf6e5a0e710c5ed482cb393de96cf02742"
+    },
+    "agent_input/data/inputs/ccdc_record.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/ccdc_record.json.snapshot",
+      "sha256": "55e5da72043631dd78ff463bd4f1c3847f4fb7c2f5bff587054cc4d22d437e84"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "3eb4f552ea686c50560870072bcb8372de88df3cfcde991eeeaaf13fc93a4689"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "c71469d2c940929f8106fd8fe40d2a4629f7fe27ae29be94f031d314b29f6838"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "bf2a2ae441c5196c4cfc4951f02cb3d61c1cc3650a3a1f48e4e9377a0d864814"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "203e0e052b92fa24392630e38c381fe3748c85e5cb8c58e7efb3b812844532ce"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "55e5929dcbc185ed86eb182ddabedfa1b7fc9a3a4fb67e424877499a87ca5777"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "b50a8cd0269e4f8cabd472397eb7ec2b363565c976302428dcffddab2ebd47de"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "5294b75fc5a69664a679f00239d776612f10250006976dab101e7b26f78673d3"
+    },
+    "evaluation/task_provenance/contract_regression_20260923.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/contract_regression_20260923.json.snapshot",
+      "sha256": "9aed846307313bc70d906dfd8d4702aeafb6b500a34b7792d3d9716219f31133"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot",
+      "sha256": "f71044407a6b230f9ea1179af506bada00222beaedf942c4668230f0cccb63e5"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "586c533106b9d3e9f0ac13b0426dd7bc7f572497d16da9801c93c0e7fc17a5a6"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "197af6bfa265e42d7d90d1246194382206f5439e12eb6a069c2e5289512335c8"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "d84833f0b028f4a29c22e9debd7d85e6f4aee1c2abf45de94af0c883730bf0d0"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "62fc495ae234cf327739c96a9e02daa2c9f4beb5426825a00fad1a0a0aa0f53d"
+    }
+  },
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "implementation_date": "2026-09-27",
+  "batch": 3,
+  "source_docs": [
+    {
+      "path": "docs/evalution/update/paper_43d74f8a469d9ad3.md",
+      "sha256": "0468942b57c602c1c9096f3488ffff15726e17ed749fa503c4e36f382fee4956"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+      "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+      "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+      "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+    },
+    {
+      "path": "papers/paper_43d74f8a469d9ad3/documents/main.pdf",
+      "sha256": "3702c207117b172cf5f60f75a5488e55a7c10fc33cccf97eb8ff0c1a3bc721cb",
+      "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+      "role": "source_original_scope_not_expanded_reference"
+    },
+    {
+      "path": "papers/paper_43d74f8a469d9ad3/documents/supplementary_001.pdf",
+      "sha256": "7b0fafc26a4cfda88dd80c6a1b3d524940e51ec7eb20480383262cb8c4f7d3d5",
+      "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+      "role": "source_original_scope_not_expanded_reference"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "new_scientific_engine_starts": 0,
+  "scientific_reference_validated": false,
+  "blocker": null,
+  "input_preparation": "Mapped graph extraction and formula/charge checks only; source optimized coordinates are not public new answers.",
+  "first_version_spec": {
+    "matrix": "正文可比染料系列的 S0/S1 扭转，采用相同映射键的受限与松弛控制，保留光谱对应状态。",
+    "accept": "给出角度—能量—态性质连续性及关键运动限制的差异效应；根切换作为状态变化记录。基态扫描峰不能自动称 TS，势面趋势不能推出绝对光漂白速率。",
+    "optional": "非绝热轨迹、锥形交叉及绝对寿命另立模块。",
+    "pilot": "先落实具体成员/映射键，并验证一条 S1 扫描能持续跟踪态；失去态身份即暂停扩面。"
+  },
+  "reference_gaps": [
+    "All new core matrix numeric references",
+    "Stationary-state/path validation",
+    "Method/conformer uncertainty calibration",
+    "Independent upgraded trial"
+  ],
+  "source_evidence_read": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+  "source_baseline_gate": "先验证 S1 态跟踪；扫描峰不自动是 TS，不要求首版给绝对光漂白速率",
+  "historical_evidence_review": [
+    {
+      "path": "workspaces/codex_gpt56/paper_43d74f8a469d9ad3_20260924_141601_0ecc36/runs/cli_runs/batch_20260924_141602_a2e839/autonomous_research-paper_43d74f8a469d9ad3-codex-20260924_141602-257bbf/results.json",
+      "sha256": "01a1b7a88615f03cdb5256122014c49be51b2e5de1bdc8b0e1d37ab8e1a6cc8b",
+      "json_top_keys": [
+        "schema_version",
+        "result_type",
+        "generated_at",
+        "task",
+        "run",
+        "agent",
+        "judge",
+        "score",
+        "scoring",
+        "tools",
+        "process_metrics",
+        "tokens"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    },
+    {
+      "path": "workspaces/codex_gpt56/paper_43d74f8a469d9ad3_20260924_141601_0ecc36/runs/cli_runs/batch_20260924_141602_a2e839/autonomous_research-paper_43d74f8a469d9ad3-codex-20260924_141602-257bbf/report/results.json",
+      "sha256": "d9587a1b40f1f0ebe26907ea9c63a1326d03bd69665d5a85c1f109fa5e008c3d",
+      "json_top_keys": [
+        "status",
+        "scan",
+        "minimum_energy_kj_mol",
+        "maximum_relative_energy_kj_mol",
+        "metrics",
+        "validation",
+        "method",
+        "structure_provenance",
+        "conclusion"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    }
+  ],
+  "supervisor_contract_repairs": [
+    {
+      "at": "2026-09-27T12:39:14.714483+00:00",
+      "issue": "prelaunch_failure_requires_fake_job",
+      "previous_package_content_sha256": "74fba5fbfbaf50737acbc566c5eef577cffd12e044751427dacb9e139ecf57ca",
+      "changes": [
+        "zero-launch diagnostics allowed",
+        "complete requirements preserved",
+        "density-analysis records do not invent energy or geometry"
+      ],
+      "scientific_thresholds_changed": false,
+      "new_scientific_computations": 0
+    }
+  ],
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# Scientific objective
+
+Independently determine which chemically distinct bis-Mallory photocyclization mechanism(s) of neutral singlet precursor 1-cis are supported by the computed evidence. Generate and discriminate plausible site-selective pathways, predict the resulting product/connectivity selectivity, and report the evidence-supported conclusion; no author mechanism, candidate ranking or experimental product identity is supplied.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/precursor_1_cis.xyz` is the independently displaced 52-atom Cartesian starter for compound 1-cis (the original SI endpoint is evaluator-private): 52 atoms, C30H22, neutral charge, singlet multiplicity. Atom rows and coordinates define the identity/mapping; preserve them or document any unambiguous reindexing. No experimental product identity, yield or paper result is supplied as an input. The required object is isolated-molecule computational mechanism/selectivity; explicit solvent, iodine, propylene oxide, crystal packing, excited-state dynamics, rates and device properties are outside scope unless labeled optional. Any proposed product/intermediate must have an explicit atom mapping to the precursor.
+
+This is an autonomous-research task. Use the authorized public inputs to investigate the stated scientific objective independently. Do not read hidden evaluator files, private reference calculations, the target paper or its SI, or import their answer structures, rankings or numerical results. Structures explicitly supplied as given objects are authorized for the properties requested here; independently generate any structure that the task asks you to find.
+
+# Required scientific validation/investigation
+
+State a finite, chemically justified rule that generates the first-stage and sequential second-stage site/connectivity hypotheses, and remove symmetry-equivalent duplicates. For each candidate retained for comparison, optimize with stated method, charge and multiplicity, validate its stationary-point character with frequencies or a justified alternative, and compute a consistent relative free-energy quantity with temperature/standard-state and conformer treatment. Seek at least one independent electronic or structural discriminator in addition to energy. Report generated, discarded, failed and unresolved candidates individually, with coverage. Scientific completion requires all requested primary observables, the specified validation evidence and the resulting scientific comparison. A partial or failed calculation may be submitted with its actual results and diagnostics, but does not satisfy an uncomputed scientific result.
+
+# Deliverables
+
+Submit `report/results.json` matching the schema. Include one candidate record for every generated chemically distinct channel, including candidates discarded before optimization, failed calculations, and unresolved candidates. Each record must state its scientific assignment (stage/connectivity and sequential continuation where applicable), atom mapping, advancement status, and candidate-specific calculation/validation evidence. Validated advanced candidates must report the comparable relative free energy, unit, and uncertainty; non-advanced, failed, or unresolved records must explain why those quantities are unavailable. Include the independent computational plan/provenance, discriminating evidence, final mechanism/selectivity conclusion. A bounded failure must contain the unresolved candidates and the scientific consequence; do not use fabricated placeholder numerical values.
+
+Additional starting structures or investigations may be used to obtain the required results. Report auxiliary results separately; they do not replace the primary observables or their specified definitions. Optional analyses may be omitted without explanation or penalty.

@@ -1,0 +1,35 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "scientific_class": "C",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Start from independently displaced C30H22 precursor1-cis, neutral singlet. Preserve the mapped graph. Each Mallory closure joins an ortho position on each aryl flank of one vinyl bridge; enumerate symmetry-inequivalent pairs at both vinyl sites, then second-stage alternatives. Initial nonoxidative closure conserves C30H22; dehydrogenative oxidation removes two specifically mapped H atoms per stage. Compare G only within equal-composition layers or include the same H2/oxidant reservoir explicitly. Primary molecular model gas phase298.15K/1atm; DCM sensitivity may be used. Select one critical closure from each stage for S0 constrained-path and vertical excited-state tracking. Do not demand full nonadiabatic trajectories. If a calibrated excited-state path is unavailable, complete the declared S0/state diagnostic and limit the conclusion to supported candidate sets and ground-state constraints.",
+  "panels": {
+    "candidate_layers": {
+      "requirement": "Two-stage chemically distinct candidate coverage and auditable same-formula energy comparisons.",
+      "required_cells": [
+        "first_closure",
+        "second_closure"
+      ]
+    },
+    "accessibility_diagnostics": {
+      "requirement": "Real representative closure profiles and physical-state tracking; S0 diagnostics cannot establish a unique photoproduct.",
+      "required_cells": [
+        "first_representative",
+        "second_representative"
+      ]
+    },
+    "supported_set": {
+      "requirement": "Conclusion remains an evidence-supported candidate set unless a separate calibrated photochemical extension is supplied.",
+      "required_cells": [
+        "candidate_ids",
+        "excluded_ids",
+        "photochemical_unique_product_proven",
+        "critical_comparison",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "SHARC 全动力学、精确光产物分支比不默认必需。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

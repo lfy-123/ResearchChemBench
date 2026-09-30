@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/main.pdf",
+        "sha256": "a97be22902a7ec8a348c8112368e5422ea2af4782e0d4af6f818237fa2a30563",
+        "pdf_pages_1_based": [
+          4,
+          6,
+          7
+        ]
+      },
+      "scope": "Published identities/methods and original evidence, not verification of benchmark-authored extensions.",
+      "context": "Main PDF p4 methods and pp6–7 Fig4 discussion/caption; SI PDF pp22–25 molecular coordinates. Publication single-conformer values: EPI1 2.2223 D, EPI2 1.9036 D (about −14.3%). An earlier run reported about −36.02%; this disagreement is a calibration issue, not a replacement target. None of these is an ensemble <mu^2> reference. Source method/caption conflict must remain explicit."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/supplementary_001.pdf",
+        "sha256": "d4a715bfc18bff524f50298937739473903e9fb1012e7cdd5daf9692e42ae942",
+        "pdf_pages_1_based": [
+          22,
+          23,
+          24,
+          25
+        ]
+      },
+      "scope": "Published identities/methods and original evidence, not verification of benchmark-authored extensions.",
+      "context": "Main PDF p4 methods and pp6–7 Fig4 discussion/caption; SI PDF pp22–25 molecular coordinates. Publication single-conformer values: EPI1 2.2223 D, EPI2 1.9036 D (about −14.3%). An earlier run reported about −36.02%; this disagreement is a calibration issue, not a replacement target. None of these is an ensemble <mu^2> reference. Source method/caption conflict must remain explicit."
+    },
+    {
+      "evidence_id": "benchmark_extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "benchmark_authored_design",
+        "date": "2026-09-27"
+      },
+      "scope": "Expanded endpoints and controls, justified by the source question; numerical reference calculations pending.",
+      "description": "Determine whether a methoxy-associated change in molecular polarity is attributable to intramolecular hydrogen bonding, the substituent's electronic contribution, or the conformational population. Use the supplied EPI1/EPI2 fragments and interventions capable of distinguishing these explanations. Relate polarity evidence to hydroxyl geometry and vibrational response."
+    }
+  ]
+}

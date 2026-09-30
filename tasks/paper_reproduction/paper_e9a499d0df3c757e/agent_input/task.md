@@ -4,7 +4,7 @@ Independently plan and execute a computational test of the authors' qualitative 
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system.json` as the complete identity specification: quinoline N-oxide is the explicit SMILES `[O-][n+]1ccc2ccccc2c1`; DCC is `C1CCC(CC1)N=C=NC1CCCCC1`; the catalyst model is a Cu(II)-2,2'-bipyridine molecular model with DMSO ligation, charge +2 and doublet multiplicity; the uncatalyzed model is the neutral singlet reactant pair. The modeled boundary is a molecular cluster, not periodic MOF-253. Relative Gibbs energies must use a clearly stated common reference for each pathway. Do not use the paper, SI or general web as an answer source.
+Use `data/inputs/system.json` as the complete identity specification: quinoline N-oxide is the explicit SMILES `[O-][n+]1ccc2ccccc2c1`; DCC is `C1CCC(CC1)N=C=NC1CCCCC1`; the catalyst model contains Cu(II), one 2,2'-bipyridine-5,5'-dicarboxylic acid ligand (both COOH groups protonated), and two DMSO ligands in its reference state, with total charge +2 and doublet multiplicity. Retain both carboxylic acid groups: unsubstituted bipyridine is a different model. The uncatalyzed model is the neutral singlet reactant pair. The modeled boundary is a molecular cluster, not periodic MOF-253. Use separated substrate + DCC + bis-DMSO catalyst as the catalyzed energy reference and separated substrate + DCC as the uncatalyzed reference; account for any released DMSO in every energy and atom balance. Do not use the paper, SI or general web as an answer source.
 
 # Required scientific validation/investigation
 

@@ -1,0 +1,82 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.outcome"
+        ],
+        "comparison": "expert check of independent hypothesis and coverage record"
+      },
+      "reference_id": "ar_process_hypotheses",
+      "expected": "candidate-specific validation is documented"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert check of candidate-specific validation"
+      },
+      "reference_id": "ar_process_validation",
+      "expected": "candidate-specific validation is documented"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "semantic",
+      "expected": "supports hydration-induced reorganization beginning at n=3 within isolated-cluster scope",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_claim"
+    },
+    {
+      "rule_id": "ar_result_transition_rule",
+      "reference_id": "ar_result_transition",
+      "type": "semantic",
+      "expected": "reported and supported by candidate observables Use candidate-relative energies only within each hydration size; distinguish electronic E, E+ZPE and G(T,p). Compare the full n=1-5 structural evidence before inferring an onset within the finite explored set; A-series observations do not certify untested alternatives or global minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_result_spectral_rule",
+      "reference_id": "ar_result_spectral",
+      "type": "semantic",
+      "expected": "reported and supported by candidate observables Compare the supplied OH bands across all five sizes with explicit mode identity, matched and unmatched features, residuals and uncertainty. Existing hydroxide-stretch support cannot stand in for unassigned water stretches.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "paper_id": "paper_6e09640463562644",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

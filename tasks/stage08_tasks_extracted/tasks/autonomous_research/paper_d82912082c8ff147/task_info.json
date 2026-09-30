@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_d82912082c8ff147",
+  "task_type": "autonomous_research",
+  "title": "Autonomous conformer thermochemistry and jet-relaxation investigation of neutral gas-phase L-Ala3",
+  "category": "computational chemistry / conformer landscape",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must discover and prioritize a broad floppy-peptide conformer space, validate minima, compare thermochemical populations, and investigate pairwise transition-state connectivity without paper-provided conformer coordinates."
+  ],
+  "paper": {
+    "title": "Structural determination of neutral gas-phase tripeptides Gly-Gly-Gly and Ala-Ala-Ala by IRMPD-VUV spectroscopy",
+    "doi": "10.1016/j.molstruc.2026.145402",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-06-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained neutral singlet L-Ala3 molecular graph and connectivity boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated conformer, population, pathway, provenance, limitation, and conclusion results conforming to submission_schema.json."
+    }
+  ]
+}

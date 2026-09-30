@@ -1,0 +1,27 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object", "required": ["status"],
+    "oneOf": [
+      {
+        "properties": {
+          "status": {"const": "completed"},
+          "method": {"type": "object", "required": ["model", "solvent", "conformer_search", "convergence"], "properties": {"model": {"type": "string"}, "solvent": {"type": "string"}, "conformer_search": {"type": "string"}, "convergence": {"type": "string"}}},
+          "structure": {"type": "object", "required": ["smiles_or_structure_file", "charge", "multiplicity", "selection_basis"], "properties": {"smiles_or_structure_file": {"type": "string"}, "charge": {"const": 0}, "multiplicity": {"const": 1}, "selection_basis": {"type": "string"}}},
+          "validation": {"type": "object", "required": ["frequency_check", "imaginary_modes", "coverage_and_limitations"], "properties": {"frequency_check": {"type": "string"}, "imaginary_modes": {"type": "integer", "minimum": 0}, "coverage_and_limitations": {"type": "string"}}},
+          "observables": {"type": "object", "required": ["dihedrals", "homo_ev", "lumo_ev"], "properties": {"dihedrals": {"type": "object", "required": ["theta1", "theta2", "theta3"], "properties": {"theta1": {"type": "object", "required": ["label", "atom_indices", "degrees", "definition"], "properties": {"label": {"const": "theta1"}, "atom_indices": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer"}}, "degrees": {"type": "number"}, "definition": {"type": "string"}}}, "theta2": {"type": "object", "required": ["label", "atom_indices", "degrees", "definition"], "properties": {"label": {"const": "theta2"}, "atom_indices": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer"}}, "degrees": {"type": "number"}, "definition": {"type": "string"}}}, "theta3": {"type": "object", "required": ["label", "atom_indices", "degrees", "definition"], "properties": {"label": {"const": "theta3"}, "atom_indices": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer"}}, "degrees": {"type": "number"}, "definition": {"type": "string"}}}}}, "homo_ev": {"type": "number"}, "lumo_ev": {"type": "number"}}},
+          "conclusion": {"type": "string"}
+        },
+        "required": ["status", "method", "structure", "validation", "observables", "conclusion"]
+      },
+      {
+        "properties": {"status": {"const": "bounded_failure"}, "failure_reason": {"type": "string"}, "attempt_summary": {"type": "string"}, "limitations": {"type": "string"}},
+        "required": ["status", "failure_reason", "attempt_summary", "limitations"]
+      }
+    ],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]}
+    }
+  }
+}

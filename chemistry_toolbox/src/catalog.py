@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from .models import ActionSpec, BackendSpec
+from .execution_contract import action_execution_description
 from .runtime import probe_all_backends
 from .resources import resource_snapshot, resources_for_backends
 from .actions import ACTION_SPECS
@@ -347,7 +348,7 @@ def mcp_action_description(specification: ActionSpec) -> str:
     budget = resource_budget_record()
     batch_note = (
         "For two or more independent inputs using this same Action and Backend, use "
-        "submit_action_batch; repeated execute_action calls are synchronous and serial. "
+        "submit_action_batch; use the declared synchronous or persistent Action execution contract. "
         if specification.batch_safe
         else ""
     )
@@ -470,6 +471,7 @@ def agent_toolbox_overview(
 
 def progressive_toolbox_overview(
     *,
+    persistent: bool | None = None,
     snapshot: dict[str, Any] | None = None,
 ) -> str:
     """Compact first-layer index for on-demand, neutral catalog discovery."""
@@ -528,8 +530,7 @@ def progressive_toolbox_overview(
         "action_settings, and resource_limits. Numerical Actions require the provider choices "
         "declared by `inspect_action`; fixed-source and deterministic internal Actions do not accept "
         "invented provider choices. The dispatcher validates exactly what you provide and never "
-        "substitutes another choice. `execute_action` is synchronous: obey any provider-specific "
-        "maximum walltime returned by `inspect_action`.",
+        "substitutes another choice. " + action_execution_description(persistent),
         "For two or more independent inputs that use the same batch_safe Action and Backend, build "
         "one complete unique stage list and call `submit_action_batch_async` once. The toolbox "
         "queues excess items, preserves independent results and provenance, and returns stable "
@@ -570,6 +571,7 @@ def progressive_toolbox_overview(
 
 def toolbox_overview(
     *,
+    persistent: bool | None = None,
     discovery_mode: str | None = None,
     include_health: bool = True,
     snapshot: dict[str, Any] | None = None,
@@ -581,8 +583,8 @@ def toolbox_overview(
         return agent_toolbox_overview(
             include_health=include_health,
             snapshot=snapshot,
-        )
-    return progressive_toolbox_overview(snapshot=snapshot)
+        ) + "\n" + action_execution_description(persistent)
+    return progressive_toolbox_overview(snapshot=snapshot, persistent=persistent)
 
 
 def markdown_catalog(*, include_health: bool = True) -> str:

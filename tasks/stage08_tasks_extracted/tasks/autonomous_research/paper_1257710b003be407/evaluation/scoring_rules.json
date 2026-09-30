@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_1257710b003be407",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_search",
+      "type": "semantic",
+      "expected": "candidate identities, mapped structures, per-candidate validation and stopping/coverage are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[]",
+          "$.hypotheses"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "selected candidate has frequency and two-sided connectivity validation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected.validation_summary",
+          "$.candidates",
+          "$.candidates"
+        ],
+        "comparison": "expert validation comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_barrier",
+      "type": "semantic",
+      "expected": "When a validated-success branch is submitted, the selected candidate reports a model-computed activation Gibbs free energy in kcal/mol with an explicit reference state and thermochemical construction; partial-discovery or bounded-failure branches are accepted when they honestly omit an unvalidated barrier and document unresolved candidates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.selected", "$.coverage_stopping"],
+        "comparison": "conditional expert comparison of numeric success or scientifically specific incomplete-search outcome"
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_final_discovery",
+      "type": "semantic",
+      "expected": "a defensible activation explanation is concluded with coverage and limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

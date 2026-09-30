@@ -1,0 +1,104 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "evidence": [
+    {
+      "evidence_id": "source_0",
+      "source": {
+        "path": "papers/paper_d83e607f125440cc/documents/main.pdf",
+        "sha256": "d63064511e76ff3931ee92587cddf3e8cc5c9b3eb90ec95e717ab9ce7d838b2c",
+        "matches_audit": true,
+        "declared_pages": 5,
+        "material_type": "main_article",
+        "pdf_pages_read_1_based": [
+          2,
+          3,
+          4
+        ]
+      },
+      "scope": {
+        "objects": "Five full benzyl-alcohol molecules, para H/Cl/Me/OMe/SMe, with neutral starting identities. Reaction-state choices belong to the investigation, with explicit atom/electron accounting.",
+        "observed": "Main p3 reports high or quantitative conversion for para OMe/Me/Cl and relatively low hydroxyl oxidation for para SMe in the preparative study. No common quantitative yield table is fabricated.",
+        "conditions": "Flavin-mediated visible-light electrophotochemical oxidation; main p2 Table1 analytical context uses 450 nm,25 C,argon,MeCN or9:1MeCN/water,0.3V applied vs Ag wire. These are context, not calculated electrode references or automatically the entire preparative protocol.",
+        "question_boundary": "Molecular origin and explanatory limits of the substituent dependence within the source oxidation problem.",
+        "excluded": "Full flavin/electrode/oxygen reaction networks, catalytic rates, yields or proof of a complete mechanism from isolated molecular descriptors."
+      },
+      "role": "publication_facts_and_author_interpretation_separated_in_source_audit"
+    },
+    {
+      "evidence_id": "source_1",
+      "source": {
+        "path": "papers/paper_d83e607f125440cc/documents/supplementary_001.pdf",
+        "sha256": "2f5e58e7475452312c03fef41f7156127656bc4ea3a7d83f138b6c0772c540c8",
+        "matches_audit": true,
+        "declared_pages": 50,
+        "material_type": "true_supporting_information",
+        "pdf_pages_read_1_based": [
+          34,
+          35,
+          36
+        ]
+      },
+      "scope": {
+        "objects": "Five full benzyl-alcohol molecules, para H/Cl/Me/OMe/SMe, with neutral starting identities. Reaction-state choices belong to the investigation, with explicit atom/electron accounting.",
+        "observed": "Main p3 reports high or quantitative conversion for para OMe/Me/Cl and relatively low hydroxyl oxidation for para SMe in the preparative study. No common quantitative yield table is fabricated.",
+        "conditions": "Flavin-mediated visible-light electrophotochemical oxidation; main p2 Table1 analytical context uses 450 nm,25 C,argon,MeCN or9:1MeCN/water,0.3V applied vs Ag wire. These are context, not calculated electrode references or automatically the entire preparative protocol.",
+        "question_boundary": "Molecular origin and explanatory limits of the substituent dependence within the source oxidation problem.",
+        "excluded": "Full flavin/electrode/oxygen reaction networks, catalytic rates, yields or proof of a complete mechanism from isolated molecular descriptors."
+      },
+      "role": "publication_facts_and_author_interpretation_separated_in_source_audit"
+    },
+    {
+      "evidence_id": "v1_reuse",
+      "source": {
+        "path": "evaluation/reference_reuse.json"
+      },
+      "scope": {
+        "usable": "The exact bound V1 report contains five gas electronic comparisons, mapped spin, curvature, finite gas conformers/common CPCM and a retrospective Cl cross-check. It establishes one feasible molecular route and supports auditing channel bookkeeping and numerical limitations.",
+        "not_usable": "No blind AR performance, no complete mechanism, activation barrier/yield prediction, global conformational guarantee, general functional error interval or acceptance of a different V2 route.",
+        "binding": {
+          "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_d83e607f125440cc/evaluation/phase1_reference_binding.json",
+          "sha256": "635bf0b066af8892849f4ccf344faac508044a85d62cc2b9588a7933f7a6f6b2",
+          "evidence": {
+            "report/scientific_acceptance.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/scientific_acceptance.json",
+              "sha256": "49e18b9121831ce3124bf46b69e5d920702a010602026d9665de3019bc79c814"
+            },
+            "report/results.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/results.json",
+              "sha256": "70060d9972a807edf7043f6c36b6b4e4a8ac360e6486c5a29a9524ac5e264ab8"
+            },
+            "report/verification_report.md": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/verification_report.md",
+              "sha256": "86f9eb89a015d957bb92e9f7474860d8c474028d2b9d54c85492556202f40b53"
+            },
+            "report/validation/contract_checks.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/validation/contract_checks.json",
+              "sha256": "57ba85d278458a69502dcdcb0e863b8674d5d6435ec53c1d530619333e21c91c"
+            },
+            "report/resource_summary.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/report/resource_summary.json",
+              "sha256": "1e21130c422d68be48c9af1977e93abbd5bda22450df07dfdc054d8daa890b4a"
+            },
+            "evaluator_mapping.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/evaluator_mapping.json",
+              "sha256": "9fd729d8a1f3a65b13b5ea35ab6b0f95f09989194048ddb89addedc211ae4973"
+            },
+            "task_snapshot/manifest.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_d83e607f125440cc/task_snapshot/manifest.json",
+              "sha256": "0fcbbd7ffd7acb6183344d4e0037218da4ad37430e46594a7983bc70be4cb936"
+            }
+          },
+          "role": "author_informed_V1_reference_not_V2_acceptance"
+        }
+      },
+      "role": "historical_author_informed_reference_not_answer_key"
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": {
+        "path": "evaluation/task_provenance/source_scope_audit.json"
+      },
+      "scope": "Benchmark task design and claim-conditioned scientific standards; no new measurements or simulations."
+    }
+  ]
+}

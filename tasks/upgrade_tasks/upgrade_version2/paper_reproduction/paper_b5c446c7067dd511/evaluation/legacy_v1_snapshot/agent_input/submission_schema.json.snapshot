@@ -1,0 +1,2624 @@
+{
+  "contract_version": "batch5-expanded-20260927",
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_b5c446c7067dd511"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "reference_definition": {
+        "const": "For a matched physical Tn, delta_STn=E(S1;R_S0)-E(Tn;R_S0). Report SOC norms in cm^-1 and neighboring Tn±1 spacings at the same geometry and Hamiltonian. Energy/SOC support necessary channel prerequisites; neither is an absolute RISC rate or quantum yield."
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "object",
+            "properties": {
+              "software_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "electronic_or_physical_model": {
+                "type": "string",
+                "minLength": 1
+              },
+              "basis_ecp_or_parameters": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relativity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "environment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "numerical_settings": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "software_version",
+              "electronic_or_physical_model",
+              "basis_ecp_or_parameters",
+              "relativity",
+              "environment",
+              "numerical_settings"
+            ],
+            "additionalProperties": false
+          },
+          "sensitivity_protocol": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "sensitivity_protocol"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_id": {
+              "enum": [
+                "Ph-mP",
+                "Na-mP",
+                "An-mP",
+                "Py-mP"
+              ]
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "geometry_regime": {
+              "enum": [
+                "relaxed",
+                "frozen_control",
+                "displaced",
+                "single_point",
+                "reference",
+                "data_fit"
+              ]
+            },
+            "outcome": {
+              "enum": [
+                "converged",
+                "collapsed",
+                "failed"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "raw_output_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_identity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "stationarity_or_model_validity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "convergence",
+                "state_identity",
+                "stationarity_or_model_validity",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_energy": {
+              "type": "number"
+            },
+            "energy_unit": {
+              "enum": [
+                "hartree",
+                "eV"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "s2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "collapse_destination": {
+              "type": "string",
+              "minLength": 1
+            },
+            "attempt_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "record_id",
+            "object_id",
+            "formula",
+            "charge",
+            "multiplicity",
+            "state",
+            "method_id",
+            "geometry_regime",
+            "outcome",
+            "input_file",
+            "raw_output_files",
+            "validation"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "Ph-mP"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3
+                    ]
+                  },
+                  "formula": {
+                    "const": "C34H24N2"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "Na-mP"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3
+                    ]
+                  },
+                  "formula": {
+                    "const": "C38H26N2"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "An-mP"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3
+                    ]
+                  },
+                  "formula": {
+                    "const": "C42H28N2"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "Py-mP"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3
+                    ]
+                  },
+                  "formula": {
+                    "const": "C44H28N2"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "outcome": {
+                    "const": "collapsed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "collapse_destination",
+                  "geometry_file"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 1
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "series_states": {
+            "type": "object",
+            "properties": {
+              "Ph-mP": {
+                "type": "object",
+                "properties": {
+                  "geometry_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "singlet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "triplet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "energy_window_eV": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "multiplicity": {
+                          "enum": [
+                            1,
+                            3
+                          ]
+                        },
+                        "root_index": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "energy_eV": {
+                          "type": "number"
+                        },
+                        "oscillator_strength": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "hole_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "electron_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "state_match_metric": {
+                          "type": "number"
+                        },
+                        "state_match_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "transition_density_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "state_id",
+                        "multiplicity",
+                        "root_index",
+                        "energy_eV",
+                        "oscillator_strength",
+                        "hole_fragment_weights",
+                        "electron_fragment_weights",
+                        "state_match_metric",
+                        "state_match_definition",
+                        "transition_density_file",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 10
+                  },
+                  "soc_pairs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "singlet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "triplet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "components_cm1": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "minItems": 3,
+                          "maxItems": 3
+                        },
+                        "norm_cm1": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "operator_and_relativistic_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "singlet_state_id",
+                        "triplet_state_id",
+                        "components_cm1",
+                        "norm_cm1",
+                        "operator_and_relativistic_definition",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3
+                  },
+                  "state_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fragment_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "geometry_record",
+                  "singlet_root_count",
+                  "triplet_root_count",
+                  "energy_window_eV",
+                  "states",
+                  "soc_pairs",
+                  "state_map_file",
+                  "fragment_map_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "Na-mP": {
+                "type": "object",
+                "properties": {
+                  "geometry_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "singlet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "triplet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "energy_window_eV": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "multiplicity": {
+                          "enum": [
+                            1,
+                            3
+                          ]
+                        },
+                        "root_index": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "energy_eV": {
+                          "type": "number"
+                        },
+                        "oscillator_strength": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "hole_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "electron_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "state_match_metric": {
+                          "type": "number"
+                        },
+                        "state_match_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "transition_density_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "state_id",
+                        "multiplicity",
+                        "root_index",
+                        "energy_eV",
+                        "oscillator_strength",
+                        "hole_fragment_weights",
+                        "electron_fragment_weights",
+                        "state_match_metric",
+                        "state_match_definition",
+                        "transition_density_file",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 10
+                  },
+                  "soc_pairs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "singlet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "triplet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "components_cm1": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "minItems": 3,
+                          "maxItems": 3
+                        },
+                        "norm_cm1": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "operator_and_relativistic_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "singlet_state_id",
+                        "triplet_state_id",
+                        "components_cm1",
+                        "norm_cm1",
+                        "operator_and_relativistic_definition",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3
+                  },
+                  "state_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fragment_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "geometry_record",
+                  "singlet_root_count",
+                  "triplet_root_count",
+                  "energy_window_eV",
+                  "states",
+                  "soc_pairs",
+                  "state_map_file",
+                  "fragment_map_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "An-mP": {
+                "type": "object",
+                "properties": {
+                  "geometry_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "singlet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "triplet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "energy_window_eV": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "multiplicity": {
+                          "enum": [
+                            1,
+                            3
+                          ]
+                        },
+                        "root_index": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "energy_eV": {
+                          "type": "number"
+                        },
+                        "oscillator_strength": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "hole_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "electron_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "state_match_metric": {
+                          "type": "number"
+                        },
+                        "state_match_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "transition_density_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "state_id",
+                        "multiplicity",
+                        "root_index",
+                        "energy_eV",
+                        "oscillator_strength",
+                        "hole_fragment_weights",
+                        "electron_fragment_weights",
+                        "state_match_metric",
+                        "state_match_definition",
+                        "transition_density_file",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 10
+                  },
+                  "soc_pairs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "singlet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "triplet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "components_cm1": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "minItems": 3,
+                          "maxItems": 3
+                        },
+                        "norm_cm1": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "operator_and_relativistic_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "singlet_state_id",
+                        "triplet_state_id",
+                        "components_cm1",
+                        "norm_cm1",
+                        "operator_and_relativistic_definition",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3
+                  },
+                  "state_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fragment_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "geometry_record",
+                  "singlet_root_count",
+                  "triplet_root_count",
+                  "energy_window_eV",
+                  "states",
+                  "soc_pairs",
+                  "state_map_file",
+                  "fragment_map_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "Py-mP": {
+                "type": "object",
+                "properties": {
+                  "geometry_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "singlet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "triplet_root_count": {
+                    "type": "integer",
+                    "minimum": 5
+                  },
+                  "energy_window_eV": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "multiplicity": {
+                          "enum": [
+                            1,
+                            3
+                          ]
+                        },
+                        "root_index": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "energy_eV": {
+                          "type": "number"
+                        },
+                        "oscillator_strength": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "hole_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "electron_fragment_weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "state_match_metric": {
+                          "type": "number"
+                        },
+                        "state_match_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "transition_density_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "state_id",
+                        "multiplicity",
+                        "root_index",
+                        "energy_eV",
+                        "oscillator_strength",
+                        "hole_fragment_weights",
+                        "electron_fragment_weights",
+                        "state_match_metric",
+                        "state_match_definition",
+                        "transition_density_file",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 10
+                  },
+                  "soc_pairs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "singlet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "triplet_state_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "components_cm1": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "minItems": 3,
+                          "maxItems": 3
+                        },
+                        "norm_cm1": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "operator_and_relativistic_definition": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "singlet_state_id",
+                        "triplet_state_id",
+                        "components_cm1",
+                        "norm_cm1",
+                        "operator_and_relativistic_definition",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3
+                  },
+                  "state_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "fragment_map_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "geometry_record",
+                  "singlet_root_count",
+                  "triplet_root_count",
+                  "energy_window_eV",
+                  "states",
+                  "soc_pairs",
+                  "state_map_file",
+                  "fragment_map_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "Ph-mP",
+              "Na-mP",
+              "An-mP",
+              "Py-mP"
+            ],
+            "additionalProperties": false
+          },
+          "representative_controls": {
+            "type": "object",
+            "properties": {
+              "Ph-mP": {
+                "type": "object",
+                "properties": {
+                  "fixed_torsion": {
+                    "type": "object",
+                    "properties": {
+                      "geometry_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "singlet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "triplet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "energy_window_eV": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "states": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3
+                              ]
+                            },
+                            "root_index": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "energy_eV": {
+                              "type": "number"
+                            },
+                            "oscillator_strength": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "hole_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "electron_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "state_match_metric": {
+                              "type": "number"
+                            },
+                            "state_match_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "transition_density_file": {
+                              "type": "string",
+                              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "state_id",
+                            "multiplicity",
+                            "root_index",
+                            "energy_eV",
+                            "oscillator_strength",
+                            "hole_fragment_weights",
+                            "electron_fragment_weights",
+                            "state_match_metric",
+                            "state_match_definition",
+                            "transition_density_file",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 10
+                      },
+                      "soc_pairs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "singlet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "triplet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "components_cm1": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "norm_cm1": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "operator_and_relativistic_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "singlet_state_id",
+                            "triplet_state_id",
+                            "components_cm1",
+                            "norm_cm1",
+                            "operator_and_relativistic_definition",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 3
+                      },
+                      "state_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "fragment_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "geometry_record",
+                      "singlet_root_count",
+                      "triplet_root_count",
+                      "energy_window_eV",
+                      "states",
+                      "soc_pairs",
+                      "state_map_file",
+                      "fragment_map_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "expanded_roots": {
+                    "type": "object",
+                    "properties": {
+                      "geometry_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "singlet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "triplet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "energy_window_eV": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "states": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3
+                              ]
+                            },
+                            "root_index": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "energy_eV": {
+                              "type": "number"
+                            },
+                            "oscillator_strength": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "hole_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "electron_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "state_match_metric": {
+                              "type": "number"
+                            },
+                            "state_match_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "transition_density_file": {
+                              "type": "string",
+                              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "state_id",
+                            "multiplicity",
+                            "root_index",
+                            "energy_eV",
+                            "oscillator_strength",
+                            "hole_fragment_weights",
+                            "electron_fragment_weights",
+                            "state_match_metric",
+                            "state_match_definition",
+                            "transition_density_file",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 10
+                      },
+                      "soc_pairs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "singlet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "triplet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "components_cm1": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "norm_cm1": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "operator_and_relativistic_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "singlet_state_id",
+                            "triplet_state_id",
+                            "components_cm1",
+                            "norm_cm1",
+                            "operator_and_relativistic_definition",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 3
+                      },
+                      "state_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "fragment_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "geometry_record",
+                      "singlet_root_count",
+                      "triplet_root_count",
+                      "energy_window_eV",
+                      "states",
+                      "soc_pairs",
+                      "state_map_file",
+                      "fragment_map_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "root_overlap_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "torsion_atoms": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "minItems": 4
+                  },
+                  "torsion_deg": {
+                    "type": "number"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "fixed_torsion",
+                  "expanded_roots",
+                  "root_overlap_file",
+                  "torsion_atoms",
+                  "torsion_deg",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "An-mP": {
+                "type": "object",
+                "properties": {
+                  "fixed_torsion": {
+                    "type": "object",
+                    "properties": {
+                      "geometry_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "singlet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "triplet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "energy_window_eV": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "states": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3
+                              ]
+                            },
+                            "root_index": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "energy_eV": {
+                              "type": "number"
+                            },
+                            "oscillator_strength": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "hole_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "electron_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "state_match_metric": {
+                              "type": "number"
+                            },
+                            "state_match_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "transition_density_file": {
+                              "type": "string",
+                              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "state_id",
+                            "multiplicity",
+                            "root_index",
+                            "energy_eV",
+                            "oscillator_strength",
+                            "hole_fragment_weights",
+                            "electron_fragment_weights",
+                            "state_match_metric",
+                            "state_match_definition",
+                            "transition_density_file",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 10
+                      },
+                      "soc_pairs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "singlet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "triplet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "components_cm1": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "norm_cm1": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "operator_and_relativistic_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "singlet_state_id",
+                            "triplet_state_id",
+                            "components_cm1",
+                            "norm_cm1",
+                            "operator_and_relativistic_definition",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 3
+                      },
+                      "state_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "fragment_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "geometry_record",
+                      "singlet_root_count",
+                      "triplet_root_count",
+                      "energy_window_eV",
+                      "states",
+                      "soc_pairs",
+                      "state_map_file",
+                      "fragment_map_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "expanded_roots": {
+                    "type": "object",
+                    "properties": {
+                      "geometry_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "singlet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "triplet_root_count": {
+                        "type": "integer",
+                        "minimum": 5
+                      },
+                      "energy_window_eV": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "states": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "multiplicity": {
+                              "enum": [
+                                1,
+                                3
+                              ]
+                            },
+                            "root_index": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "energy_eV": {
+                              "type": "number"
+                            },
+                            "oscillator_strength": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "hole_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "electron_fragment_weights": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0
+                              },
+                              "minItems": 1
+                            },
+                            "state_match_metric": {
+                              "type": "number"
+                            },
+                            "state_match_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "transition_density_file": {
+                              "type": "string",
+                              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "state_id",
+                            "multiplicity",
+                            "root_index",
+                            "energy_eV",
+                            "oscillator_strength",
+                            "hole_fragment_weights",
+                            "electron_fragment_weights",
+                            "state_match_metric",
+                            "state_match_definition",
+                            "transition_density_file",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 10
+                      },
+                      "soc_pairs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "singlet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "triplet_state_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "components_cm1": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "norm_cm1": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "operator_and_relativistic_definition": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "evidence_files": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                              },
+                              "minItems": 1
+                            }
+                          },
+                          "required": [
+                            "singlet_state_id",
+                            "triplet_state_id",
+                            "components_cm1",
+                            "norm_cm1",
+                            "operator_and_relativistic_definition",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 3
+                      },
+                      "state_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "fragment_map_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "geometry_record",
+                      "singlet_root_count",
+                      "triplet_root_count",
+                      "energy_window_eV",
+                      "states",
+                      "soc_pairs",
+                      "state_map_file",
+                      "fragment_map_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "root_overlap_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "torsion_atoms": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "minItems": 4
+                  },
+                  "torsion_deg": {
+                    "type": "number"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "fixed_torsion",
+                  "expanded_roots",
+                  "root_overlap_file",
+                  "torsion_atoms",
+                  "torsion_deg",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "Ph-mP",
+              "An-mP"
+            ],
+            "additionalProperties": false
+          },
+          "channel_competition": {
+            "type": "object",
+            "properties": {
+              "Ph-mP": {
+                "type": "object",
+                "properties": {
+                  "candidate_triplet_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "neighbor_lower_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "neighbor_upper_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "candidate_gap_eV": {
+                    "type": "number"
+                  },
+                  "lower_spacing_eV": {
+                    "type": "number"
+                  },
+                  "upper_spacing_eV": {
+                    "type": "number"
+                  },
+                  "candidate_soc_cm1": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "alternative_channel_soc_cm1": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "CT_character_comparison_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "geometry_effect": {
+                    "type": "object",
+                    "properties": {
+                      "left_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "right_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "left_value": {
+                        "type": "number"
+                      },
+                      "right_value": {
+                        "type": "number"
+                      },
+                      "difference_right_minus_left": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "uncertainty": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "uncertainty_basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "left_record",
+                      "right_record",
+                      "left_value",
+                      "right_value",
+                      "difference_right_minus_left",
+                      "unit",
+                      "uncertainty",
+                      "uncertainty_basis",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "method_effect": {
+                    "type": "object",
+                    "properties": {
+                      "left_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "right_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "left_value": {
+                        "type": "number"
+                      },
+                      "right_value": {
+                        "type": "number"
+                      },
+                      "difference_right_minus_left": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "uncertainty": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "uncertainty_basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "left_record",
+                      "right_record",
+                      "left_value",
+                      "right_value",
+                      "difference_right_minus_left",
+                      "unit",
+                      "uncertainty",
+                      "uncertainty_basis",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "candidate_triplet_id",
+                  "neighbor_lower_id",
+                  "neighbor_upper_id",
+                  "candidate_gap_eV",
+                  "lower_spacing_eV",
+                  "upper_spacing_eV",
+                  "candidate_soc_cm1",
+                  "alternative_channel_soc_cm1",
+                  "CT_character_comparison_file",
+                  "geometry_effect",
+                  "method_effect",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "An-mP": {
+                "type": "object",
+                "properties": {
+                  "candidate_triplet_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "neighbor_lower_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "neighbor_upper_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "candidate_gap_eV": {
+                    "type": "number"
+                  },
+                  "lower_spacing_eV": {
+                    "type": "number"
+                  },
+                  "upper_spacing_eV": {
+                    "type": "number"
+                  },
+                  "candidate_soc_cm1": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "alternative_channel_soc_cm1": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "CT_character_comparison_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "geometry_effect": {
+                    "type": "object",
+                    "properties": {
+                      "left_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "right_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "left_value": {
+                        "type": "number"
+                      },
+                      "right_value": {
+                        "type": "number"
+                      },
+                      "difference_right_minus_left": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "uncertainty": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "uncertainty_basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "left_record",
+                      "right_record",
+                      "left_value",
+                      "right_value",
+                      "difference_right_minus_left",
+                      "unit",
+                      "uncertainty",
+                      "uncertainty_basis",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "method_effect": {
+                    "type": "object",
+                    "properties": {
+                      "left_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "right_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "left_value": {
+                        "type": "number"
+                      },
+                      "right_value": {
+                        "type": "number"
+                      },
+                      "difference_right_minus_left": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "uncertainty": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "uncertainty_basis": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "left_record",
+                      "right_record",
+                      "left_value",
+                      "right_value",
+                      "difference_right_minus_left",
+                      "unit",
+                      "uncertainty",
+                      "uncertainty_basis",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "candidate_triplet_id",
+                  "neighbor_lower_id",
+                  "neighbor_upper_id",
+                  "candidate_gap_eV",
+                  "lower_spacing_eV",
+                  "upper_spacing_eV",
+                  "candidate_soc_cm1",
+                  "alternative_channel_soc_cm1",
+                  "CT_character_comparison_file",
+                  "geometry_effect",
+                  "method_effect",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "Ph-mP",
+              "An-mP"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "series_states",
+          "representative_controls",
+          "channel_competition"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "falsifying_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "actual_test_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "quantitative_basis": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "proposition",
+            "falsifying_observation",
+            "actual_test_records",
+            "assessment",
+            "quantitative_basis"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "alternative_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "change": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "changed_factor",
+            "baseline_records",
+            "alternative_records",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "change",
+            "unit",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "assessment": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supported_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_records": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "assessment",
+          "statement",
+          "supported_scope",
+          "limitations",
+          "evidence_records"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+        },
+        "minItems": 0
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "scientific_engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "successful_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restarts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_job_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "parallel_elapsed_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "scientific_engine_starts",
+          "successful_starts",
+          "failed_starts",
+          "restarts",
+          "allocated_cores",
+          "wall_job_hours",
+          "cpu_core_hours",
+          "parallel_elapsed_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "evidence_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "control_equivalence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "reference_comparison_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternative_control_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "held_factors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "coverage_justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "reference_comparison_id",
+            "alternative_control_definition",
+            "held_factors",
+            "changed_factor",
+            "coverage_justification",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "reference_definition",
+      "conclusion",
+      "evidence_files",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "methods",
+            "calculation_records",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "outcome"
+                ]
+              },
+              "minContains": 1
+            },
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                },
+                "evidence_records": {
+                  "minItems": 1
+                }
+              }
+            },
+            "evidence_files": {
+              "minItems": 1
+            }
+          }
+        },
+        "else": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "validation_boundary": "Format only. Raw outputs, controls, arithmetic and state identity must pass the scientific evaluator. A bounded failure is accepted for reporting, never as scientific completion."
+}

@@ -1,0 +1,655 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "objects",
+      "method",
+      "validation",
+      "structural_comparison",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "objects": {
+        "type": "object",
+        "required": [
+          "cl_crystal",
+          "br_crystal",
+          "i_crystal"
+        ],
+        "properties": {
+          "cl_crystal": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "object_id": {
+                    "const": "cl_crystal"
+                  }
+                }
+              }
+            ]
+          },
+          "br_crystal": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "object_id": {
+                    "const": "br_crystal"
+                  }
+                }
+              }
+            ]
+          },
+          "i_crystal": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "object_id": {
+                    "const": "i_crystal"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "summary",
+          "settings",
+          "artifacts"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "settings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifacts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "status",
+          "evidence",
+          "coverage"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "coverage": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "structural_comparison": {
+        "type": "object",
+        "required": [
+          "descriptor",
+          "sign_convention",
+          "evidence"
+        ],
+        "properties": {
+          "descriptor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sign_convention": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "$defs": {
+      "gap": {
+        "type": "object",
+        "required": [
+          "gap_eV",
+          "minimum_same_k_gap_eV",
+          "vbm_energy_eV",
+          "conduction_edge_energy_eV",
+          "vbm_kpoints",
+          "conduction_edge_kpoints",
+          "directness",
+          "sampling_scope",
+          "spin_treatment",
+          "degeneracy_tolerance_eV",
+          "band_evidence",
+          "stability"
+        ],
+        "properties": {
+          "gap_eV": {
+            "type": "number"
+          },
+          "minimum_same_k_gap_eV": {
+            "type": "number"
+          },
+          "vbm_energy_eV": {
+            "type": "number"
+          },
+          "conduction_edge_energy_eV": {
+            "type": "number"
+          },
+          "vbm_kpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3
+            }
+          },
+          "conduction_edge_kpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3
+            }
+          },
+          "directness": {
+            "enum": [
+              "direct",
+              "indirect",
+              "unresolved"
+            ]
+          },
+          "sampling_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "spin_treatment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "degeneracy_tolerance_eV": {
+            "type": "number",
+            "minimum": 0
+          },
+          "band_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stability": {
+            "type": "object",
+            "required": [
+              "setting_change",
+              "primary_value_eV",
+              "check_value_eV",
+              "signed_change_eV",
+              "absolute_change_eV",
+              "same_k_signed_change_eV",
+              "same_k_absolute_change_eV",
+              "evidence"
+            ],
+            "properties": {
+              "setting_change": {
+                "type": "string",
+                "minLength": 1
+              },
+              "primary_value_eV": {
+                "type": "number"
+              },
+              "check_value_eV": {
+                "type": "number"
+              },
+              "signed_change_eV": {
+                "type": "number"
+              },
+              "absolute_change_eV": {
+                "type": "number",
+                "minimum": 0
+              },
+              "same_k_signed_change_eV": {
+                "type": "number"
+              },
+              "same_k_absolute_change_eV": {
+                "type": "number",
+                "minimum": 0
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "fundamental": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "computed",
+              "not_computed"
+            ]
+          },
+          "failure_reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "computed"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/gap"
+            }
+          },
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "not_computed"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "failure_reason"
+              ]
+            }
+          }
+        ]
+      },
+      "framework": {
+        "type": "object",
+        "required": [
+          "assignment_status"
+        ],
+        "properties": {
+          "assignment_status": {
+            "enum": [
+              "supported",
+              "ambiguous",
+              "not_computed"
+            ]
+          },
+          "assignment_criterion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "component_atom_mapping": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assignment_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lower_candidate_analysis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitation": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "assignment_status"
+              ],
+              "properties": {
+                "assignment_status": {
+                  "const": "supported"
+                }
+              }
+            },
+            "then": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/gap"
+                },
+                {
+                  "required": [
+                    "assignment_criterion",
+                    "component_atom_mapping",
+                    "assignment_evidence",
+                    "lower_candidate_analysis"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "assignment_status"
+              ],
+              "properties": {
+                "assignment_status": {
+                  "const": "ambiguous"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "assignment_evidence",
+                "limitation"
+              ]
+            }
+          },
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "assignment_status"
+              ],
+              "properties": {
+                "assignment_status": {
+                  "const": "not_computed"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "limitation"
+              ]
+            }
+          }
+        ]
+      },
+      "optical": {
+        "type": "object",
+        "required": [
+          "status",
+          "evidence",
+          "scope"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "not_established",
+              "supported_allowed",
+              "supported_forbidden"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported_allowed",
+                    "supported_forbidden"
+                  ]
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "required": [
+                "transition_definition"
+              ],
+              "properties": {
+                "transition_definition": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      "scalar": {
+        "type": "object",
+        "required": [
+          "functional",
+          "relativistic_treatment",
+          "fundamental",
+          "framework_interband",
+          "settings"
+        ],
+        "properties": {
+          "functional": {
+            "const": "HSE06"
+          },
+          "relativistic_treatment": {
+            "const": "scalar_relativistic_without_SOC"
+          },
+          "fundamental": {
+            "$ref": "#/$defs/fundamental"
+          },
+          "framework_interband": {
+            "$ref": "#/$defs/framework"
+          },
+          "settings": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "record": {
+        "type": "object",
+        "required": [
+          "object_id",
+          "compound",
+          "status",
+          "optical_allowedness"
+        ],
+        "properties": {
+          "object_id": {
+            "enum": [
+              "cl_crystal",
+              "br_crystal",
+              "i_crystal"
+            ]
+          },
+          "compound": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "scalar_relativistic": {
+            "$ref": "#/$defs/scalar"
+          },
+          "optical_allowedness": {
+            "$ref": "#/$defs/optical"
+          },
+          "validation_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "orbital_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "soc": {
+            "type": "object",
+            "required": [
+              "treatment",
+              "results",
+              "validation_evidence",
+              "limitations"
+            ],
+            "properties": {
+              "treatment": {
+                "enum": [
+                  "direct_parent_cell",
+                  "reduced_model_estimate",
+                  "not_computed"
+                ]
+              },
+              "results": {
+                "type": "object"
+              },
+              "validation_evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "limitations": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "failure_reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attempted_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scientific_consequence": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "complete"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "scalar_relativistic",
+                "validation_evidence",
+                "orbital_evidence"
+              ],
+              "properties": {
+                "scalar_relativistic": {
+                  "properties": {
+                    "fundamental": {
+                      "properties": {
+                        "status": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "framework_interband": {
+                      "properties": {
+                        "assignment_status": {
+                          "const": "supported"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "bounded_failure"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "failure_reason",
+                "attempted_evidence",
+                "scientific_consequence"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

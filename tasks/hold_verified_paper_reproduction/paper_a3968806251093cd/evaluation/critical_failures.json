@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_a3968806251093cd",
+  "items": [
+    {
+      "failure_id": "pr_cf_identity",
+      "condition": "A model has wrong connectivity, E/Z identity, tautomer, charge, multiplicity or source-label correspondence; invalidate that model's scientific evidence, not unrelated correct work.",
+      "severity": "scientifically serious",
+      "expected_action": "Identify the mismatched model and withhold credit that depends on it."
+    },
+    {
+      "failure_id": "pr_cf_calculation",
+      "condition": "The claimed complete comparison lacks two genuine converged, validated local minima or their required geometry coverage; treat it as incomplete science, not a schema/transport failure or a valid mixed ranking.",
+      "severity": "scientifically serious",
+      "expected_action": "Give credit only for supported work; a bounded_failure explanation is not a substitute for a successful calculation."
+    },
+    {
+      "failure_id": "pr_cf_evidence",
+      "condition": "Fabricated evidence, hidden-answer leakage, or paper/experimental values presented as fresh calculations invalidate the submission under the existing runtime policy. Distinguish these from transparently incomplete work or an honest arithmetic error.",
+      "severity": "scientifically serious",
+      "expected_action": "Apply the existing invalid-submission policy (zero final score) to confirmed fabrication/leakage; trace claims to actual outputs. Do not apply this sanction merely for mixed rankings, failed computations or missing optional prose."
+    },
+    {
+      "failure_id": "pr_cf_metrics",
+      "condition": "Claimed comparison uses favorable row omission, row-wise sign flips or relabeling, wrong units or arithmetic, or a ranking inconsistent with the six valid metrics; withhold the affected metric/conclusion credit. A valid mixed/tied ranking itself is not a failure.",
+      "severity": "scientifically serious",
+      "expected_action": "Re-extract and compare using the public protocol. Optional commentary and absence of a limitations paragraph never trigger a failure."
+    }
+  ]
+}

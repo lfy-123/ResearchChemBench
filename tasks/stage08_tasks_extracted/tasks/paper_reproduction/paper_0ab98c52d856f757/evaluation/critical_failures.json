@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_0ab98c52d856f757",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "The submission changes atom identity, charge, multiplicity, or dimer connectivity without declaring and justifying the change.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_no_validation",
+      "condition": "A barrier is reported without state, crossing, convergence, and structural validation diagnostics.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_fabrication",
+      "condition": "The submission reports a success value after a failed/unconverged search or invents a numeric barrier for bounded failure.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_answer_leakage",
+      "condition": "The workflow uses the paper/SI or hidden reference as an input rather than independently computing the endpoint.",
+      "severity": "critical"
+    }
+  ]
+}

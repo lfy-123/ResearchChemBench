@@ -1,0 +1,1663 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sensitivity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_settings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "energy_and_thermal_conventions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "numerical_settings",
+          "energy_and_thermal_conventions"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "species": {
+              "enum": [
+                "neutral_parent",
+                "radical_cation",
+                "benzylic_dehydrogenated_cation",
+                "H_atom"
+              ]
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "method_key": {
+              "type": "string",
+              "minLength": 1
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "kind": {
+              "enum": [
+                "minimum",
+                "constrained",
+                "single_point",
+                "atomic",
+                "failed"
+              ]
+            },
+            "geometry_file": {
+              "$ref": "#/$defs/artifact"
+            },
+            "job_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "log_file": {
+              "$ref": "#/$defs/artifact"
+            },
+            "energies": {
+              "type": "object",
+              "properties": {
+                "electronic_Eh": {
+                  "type": "number"
+                },
+                "ZPE_Eh": {
+                  "type": "number"
+                },
+                "thermal_G_correction_Eh": {
+                  "type": "number"
+                },
+                "G_Eh": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "electronic_Eh"
+              ],
+              "additionalProperties": false
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "identity_and_atom_map": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "curvature_or_constraint_evidence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "imaginary_frequencies_cm_1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 0
+                },
+                "charge_spin_checks": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "identity_and_atom_map",
+                "convergence",
+                "curvature_or_constraint_evidence",
+                "charge_spin_checks"
+              ],
+              "additionalProperties": false
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "record_id",
+            "system",
+            "species",
+            "formula",
+            "charge",
+            "multiplicity",
+            "method_key",
+            "environment",
+            "kind",
+            "job_id",
+            "log_file",
+            "validation",
+            "evidence_files"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "minimum",
+                      "constrained",
+                      "single_point",
+                      "atomic"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "energies",
+                  "geometry_file"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "species": {
+                    "const": "neutral_parent"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "species": {
+                    "const": "radical_cation"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 1
+                  },
+                  "multiplicity": {
+                    "const": 2
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "species": {
+                    "const": "benzylic_dehydrogenated_cation"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 1
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "species": {
+                    "const": "H_atom"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "object"
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discriminating_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved"
+              ]
+            },
+            "result_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "assessment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "hypothesis_id",
+            "proposition",
+            "discriminating_observation",
+            "outcome",
+            "result_record_ids",
+            "assessment",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "alternative_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "change": {
+              "type": "number"
+            },
+            "scientific_effect": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "question",
+            "baseline_record_ids",
+            "alternative_record_ids",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "unit",
+            "change",
+            "scientific_effect",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supporting_record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "scope_and_uncertainty": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "claim",
+          "supporting_record_ids",
+          "scope_and_uncertainty"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "$ref": "#/$defs/evidence_files"
+      }
+    },
+    "required": [
+      "status",
+      "methods",
+      "calculation_records",
+      "conclusion",
+      "evidence_files"
+    ],
+    "additionalProperties": false,
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "results": {
+            "type": "object",
+            "properties": {
+              "series": {
+                "type": "object",
+                "properties": {
+                  "H": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "radical_cation_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "H_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "removed_H_atom_index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "atom_map_file": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "neutral_energy_Eh": {
+                        "type": "number"
+                      },
+                      "radical_cation_energy_Eh": {
+                        "type": "number"
+                      },
+                      "fragment_energy_Eh": {
+                        "type": "number"
+                      },
+                      "H_energy_Eh": {
+                        "type": "number"
+                      },
+                      "ionization_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hydrogen_loss_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hirshfeld_partition": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "atom_indices": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "minItems": 1
+                            },
+                            "spin_population": {
+                              "type": "number"
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "region",
+                            "atom_indices",
+                            "spin_population",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "spin_sum": {
+                        "type": "number"
+                      },
+                      "S2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "neutral_record_id",
+                      "radical_cation_record_id",
+                      "fragment_record_id",
+                      "H_record_id",
+                      "removed_H_atom_index",
+                      "atom_map_file",
+                      "neutral_energy_Eh",
+                      "radical_cation_energy_Eh",
+                      "fragment_energy_Eh",
+                      "H_energy_Eh",
+                      "ionization_kJ_mol",
+                      "hydrogen_loss_kJ_mol",
+                      "hirshfeld_partition",
+                      "spin_sum",
+                      "S2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "Cl": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "radical_cation_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "H_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "removed_H_atom_index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "atom_map_file": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "neutral_energy_Eh": {
+                        "type": "number"
+                      },
+                      "radical_cation_energy_Eh": {
+                        "type": "number"
+                      },
+                      "fragment_energy_Eh": {
+                        "type": "number"
+                      },
+                      "H_energy_Eh": {
+                        "type": "number"
+                      },
+                      "ionization_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hydrogen_loss_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hirshfeld_partition": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "atom_indices": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "minItems": 1
+                            },
+                            "spin_population": {
+                              "type": "number"
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "region",
+                            "atom_indices",
+                            "spin_population",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "spin_sum": {
+                        "type": "number"
+                      },
+                      "S2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "neutral_record_id",
+                      "radical_cation_record_id",
+                      "fragment_record_id",
+                      "H_record_id",
+                      "removed_H_atom_index",
+                      "atom_map_file",
+                      "neutral_energy_Eh",
+                      "radical_cation_energy_Eh",
+                      "fragment_energy_Eh",
+                      "H_energy_Eh",
+                      "ionization_kJ_mol",
+                      "hydrogen_loss_kJ_mol",
+                      "hirshfeld_partition",
+                      "spin_sum",
+                      "S2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "Me": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "radical_cation_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "H_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "removed_H_atom_index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "atom_map_file": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "neutral_energy_Eh": {
+                        "type": "number"
+                      },
+                      "radical_cation_energy_Eh": {
+                        "type": "number"
+                      },
+                      "fragment_energy_Eh": {
+                        "type": "number"
+                      },
+                      "H_energy_Eh": {
+                        "type": "number"
+                      },
+                      "ionization_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hydrogen_loss_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hirshfeld_partition": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "atom_indices": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "minItems": 1
+                            },
+                            "spin_population": {
+                              "type": "number"
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "region",
+                            "atom_indices",
+                            "spin_population",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "spin_sum": {
+                        "type": "number"
+                      },
+                      "S2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "neutral_record_id",
+                      "radical_cation_record_id",
+                      "fragment_record_id",
+                      "H_record_id",
+                      "removed_H_atom_index",
+                      "atom_map_file",
+                      "neutral_energy_Eh",
+                      "radical_cation_energy_Eh",
+                      "fragment_energy_Eh",
+                      "H_energy_Eh",
+                      "ionization_kJ_mol",
+                      "hydrogen_loss_kJ_mol",
+                      "hirshfeld_partition",
+                      "spin_sum",
+                      "S2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "OMe": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "radical_cation_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "H_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "removed_H_atom_index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "atom_map_file": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "neutral_energy_Eh": {
+                        "type": "number"
+                      },
+                      "radical_cation_energy_Eh": {
+                        "type": "number"
+                      },
+                      "fragment_energy_Eh": {
+                        "type": "number"
+                      },
+                      "H_energy_Eh": {
+                        "type": "number"
+                      },
+                      "ionization_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hydrogen_loss_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hirshfeld_partition": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "atom_indices": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "minItems": 1
+                            },
+                            "spin_population": {
+                              "type": "number"
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "region",
+                            "atom_indices",
+                            "spin_population",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "spin_sum": {
+                        "type": "number"
+                      },
+                      "S2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "neutral_record_id",
+                      "radical_cation_record_id",
+                      "fragment_record_id",
+                      "H_record_id",
+                      "removed_H_atom_index",
+                      "atom_map_file",
+                      "neutral_energy_Eh",
+                      "radical_cation_energy_Eh",
+                      "fragment_energy_Eh",
+                      "H_energy_Eh",
+                      "ionization_kJ_mol",
+                      "hydrogen_loss_kJ_mol",
+                      "hirshfeld_partition",
+                      "spin_sum",
+                      "S2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "SMe": {
+                    "type": "object",
+                    "properties": {
+                      "neutral_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "radical_cation_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "H_record_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "removed_H_atom_index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "atom_map_file": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "neutral_energy_Eh": {
+                        "type": "number"
+                      },
+                      "radical_cation_energy_Eh": {
+                        "type": "number"
+                      },
+                      "fragment_energy_Eh": {
+                        "type": "number"
+                      },
+                      "H_energy_Eh": {
+                        "type": "number"
+                      },
+                      "ionization_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hydrogen_loss_kJ_mol": {
+                        "type": "number"
+                      },
+                      "hirshfeld_partition": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "atom_indices": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "minItems": 1
+                            },
+                            "spin_population": {
+                              "type": "number"
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "region",
+                            "atom_indices",
+                            "spin_population",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "spin_sum": {
+                        "type": "number"
+                      },
+                      "S2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "neutral_record_id",
+                      "radical_cation_record_id",
+                      "fragment_record_id",
+                      "H_record_id",
+                      "removed_H_atom_index",
+                      "atom_map_file",
+                      "neutral_energy_Eh",
+                      "radical_cation_energy_Eh",
+                      "fragment_energy_Eh",
+                      "H_energy_Eh",
+                      "ionization_kJ_mol",
+                      "hydrogen_loss_kJ_mol",
+                      "hirshfeld_partition",
+                      "spin_sum",
+                      "S2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "H",
+                  "Cl",
+                  "Me",
+                  "OMe",
+                  "SMe"
+                ],
+                "additionalProperties": false
+              },
+              "pair_controls": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "control_type": {
+                      "enum": [
+                        "gas_conformers",
+                        "common_continuum"
+                      ]
+                    },
+                    "design": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "SMe_record_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "OMe_record_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "environment_and_H_reference": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "SMe_ionization_kJ_mol": {
+                      "type": "number"
+                    },
+                    "OMe_ionization_kJ_mol": {
+                      "type": "number"
+                    },
+                    "SMe_hydrogen_loss_kJ_mol": {
+                      "type": "number"
+                    },
+                    "OMe_hydrogen_loss_kJ_mol": {
+                      "type": "number"
+                    },
+                    "difference_from_primary": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "conformer_attempts_and_collapse": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "control_type",
+                    "design",
+                    "SMe_record_ids",
+                    "OMe_record_ids",
+                    "environment_and_H_reference",
+                    "SMe_ionization_kJ_mol",
+                    "OMe_ionization_kJ_mol",
+                    "SMe_hydrogen_loss_kJ_mol",
+                    "OMe_hydrogen_loss_kJ_mol",
+                    "difference_from_primary",
+                    "conformer_attempts_and_collapse",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 2,
+                "allOf": [
+                  {
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "control_type"
+                      ],
+                      "properties": {
+                        "control_type": {
+                          "const": "gas_conformers"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "control_type"
+                      ],
+                      "properties": {
+                        "control_type": {
+                          "const": "common_continuum"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  }
+                ]
+              },
+              "prediction_test": {
+                "type": "object",
+                "properties": {
+                  "member": {
+                    "enum": [
+                      "H",
+                      "Cl",
+                      "Me",
+                      "OMe",
+                      "SMe"
+                    ]
+                  },
+                  "protocol": {
+                    "enum": [
+                      "prospective",
+                      "retrospective"
+                    ]
+                  },
+                  "prior_exposure_and_prediction_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "hypothesis_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "predicted_observable": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "comparison": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "numeric"
+                          },
+                          "predicted_value": {
+                            "type": "number"
+                          },
+                          "computed_value": {
+                            "type": "number"
+                          },
+                          "unit": {
+                            "enum": [
+                              "kJ/mol"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "predicted_value",
+                          "computed_value",
+                          "unit"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "ordering"
+                          },
+                          "reference_member": {
+                            "enum": [
+                              "H",
+                              "Cl",
+                              "Me",
+                              "OMe",
+                              "SMe"
+                            ]
+                          },
+                          "predicted_relation": {
+                            "enum": [
+                              "higher",
+                              "lower",
+                              "unresolved"
+                            ]
+                          },
+                          "observed_relation": {
+                            "enum": [
+                              "higher",
+                              "lower",
+                              "unresolved"
+                            ]
+                          },
+                          "member_value_kJ_mol": {
+                            "type": "number"
+                          },
+                          "reference_value_kJ_mol": {
+                            "type": "number"
+                          },
+                          "uncertainty_basis": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "reference_member",
+                          "predicted_relation",
+                          "observed_relation",
+                          "member_value_kJ_mol",
+                          "reference_value_kJ_mol",
+                          "uncertainty_basis"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "test_record_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "assessment": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "$ref": "#/$defs/evidence_files"
+                  }
+                },
+                "required": [
+                  "member",
+                  "protocol",
+                  "prior_exposure_and_prediction_record",
+                  "hypothesis_id",
+                  "predicted_observable",
+                  "comparison",
+                  "test_record_ids",
+                  "assessment",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "series",
+              "pair_controls",
+              "prediction_test"
+            ],
+            "additionalProperties": false
+          },
+          "methods": {
+            "required": [
+              "sensitivity"
+            ]
+          },
+          "calculation_records": {
+            "contains": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "minimum",
+                    "constrained",
+                    "single_point",
+                    "atomic"
+                  ]
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "conclusion": {
+            "properties": {
+              "supporting_record_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "required": [
+          "results",
+          "hypotheses",
+          "sensitivity"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_report"
+        ]
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "artifact": {
+        "type": "string",
+        "pattern": "^(?:\\./)?(outputs|code|data)/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))(?!/)[^\\r\\n\\\\]+$",
+        "description": "Workspace-relative path to a real artifact; no absolute, parent-traversal or external private paths."
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?:\\./)?(outputs|code|data)/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))(?!/)[^\\r\\n\\\\]+$",
+          "description": "Workspace-relative path to a real artifact; no absolute, parent-traversal or external private paths."
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "transition_set": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string",
+            "minLength": 1
+          },
+          "geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "root": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "energy_eV": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "wavelength_nm": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "oscillator_strength": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "physical_state_label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "character": {
+                  "type": "object",
+                  "properties": {
+                    "method_and_fragments": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "metrics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "definition": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "evidence_files": {
+                            "$ref": "#/$defs/evidence_files"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "value",
+                          "unit",
+                          "definition",
+                          "evidence_files"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 1
+                    },
+                    "assignment": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "NTO_or_transition_density_file": {
+                      "$ref": "#/$defs/artifact"
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "method_and_fragments",
+                    "metrics",
+                    "assignment",
+                    "NTO_or_transition_density_file",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "evidence_files": {
+                  "$ref": "#/$defs/evidence_files"
+                }
+              },
+              "required": [
+                "root",
+                "energy_eV",
+                "wavelength_nm",
+                "oscillator_strength",
+                "physical_state_label",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 5,
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 1
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 2
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 3
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 4
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 5
+                    }
+                  }
+                },
+                "minContains": 1
+              }
+            ]
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "system",
+          "geometry_record_id",
+          "TD_record_id",
+          "method_key",
+          "environment",
+          "states",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "state_comparison": {
+        "type": "object",
+        "properties": {
+          "comparison_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_root": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "right_root": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state_matching_criterion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state_correspondence_metric": {
+            "type": "number"
+          },
+          "metric_definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delta_energy_eV": {
+            "type": "number"
+          },
+          "delta_oscillator_strength": {
+            "type": "number"
+          },
+          "character_change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "interpretation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "comparison_id",
+          "left_geometry_record_id",
+          "right_geometry_record_id",
+          "left_TD_record_id",
+          "right_TD_record_id",
+          "left_root",
+          "right_root",
+          "state_matching_criterion",
+          "state_correspondence_metric",
+          "metric_definition",
+          "delta_energy_eV",
+          "delta_oscillator_strength",
+          "character_change",
+          "interpretation",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "description": "Complete means the expanded investigation is submitted, not that JSON validity establishes scientific correctness. Honest bounded failures must not invent uncomputed values. Every referenced record and evidence file must exist; the evaluator verifies arithmetic, identity and coverage."
+  }
+}

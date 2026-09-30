@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of radical-cation spin localization and benzylic C-H energetics",
+  "category": "computational chemistry / electronic-structure investigation",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The core system is fixed, while the Agent must formulate a bounded model/conformer investigation, create a comparator, and discriminate what the descriptors support without an author-route hint."
+  ],
+  "paper": {
+    "title": "Electrochemistry Facilitates the Chemoselectivity of Benzylic Alcohol Oxidations Mediated by Flavin-Based Photoredox Catalysis",
+    "doi": "10.1021/acs.orglett.5c04603",
+    "journal": "Organic Letters",
+    "publication_date": "2026-01-27"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Public 20-atom XYZ structure for the isolated 4-(methylsulfanyl)benzyl alcohol radical cation; charge +1 and doublet state are specified in the XYZ comment and task."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "JSON report containing independent plan, coverage, mapping, validation, spin density, both BDEs, limitations, and conclusion."
+    }
+  ]
+}

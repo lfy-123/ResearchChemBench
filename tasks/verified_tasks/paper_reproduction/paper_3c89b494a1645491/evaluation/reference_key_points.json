@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_3c89b494a1645491",
+  "items": [
+    {
+      "key_point_id": "pr_process_geometry",
+      "key_point_type": "process",
+      "statement": "The submitted calculation uses the pinned Au1·ClO4 record transformed to the anion-free +4 singlet cluster and validates the optimized Au4 geometry and atom mapping before AIM analysis.",
+      "expected": "Explicit record 2500223, +4/ singlet state, deterministic anion/solvent removal, convergence evidence, four named edge contacts and four BCPs.",
+      "evidence_ids": [
+        "ev_doc_39cbb1a4b138_000477_d4118622f683",
+        "ev_doc_902355b1b6ea_000137_7aae848bd8fc"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_bcp",
+      "key_point_type": "process",
+      "statement": "The four Au···Au edge contacts are individually retained through BCP analysis with per-contact provenance.",
+      "expected": "Au1-Au2, Au2-Au3, Au3-Au4 and Au4-Au1 each have a corresponding BCP row or a documented bounded failure.",
+      "evidence_ids": [
+        "ev_doc_39cbb1a4b138_000482_d579cde68818",
+        "ev_doc_39cbb1a4b138_000484_74ef8ec127b5"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_aim",
+      "key_point_type": "result",
+      "statement": "The AIM descriptors and DIs reproduce the four source-supported Au···Au contact patterns.",
+      "expected": "Per-contact values agree with SI Table S2 within evaluator tolerances and DI values lie in the reported narrow range.",
+      "evidence_ids": [
+        "ev_doc_39cbb1a4b138_000484_74ef8ec127b5",
+        "ev_doc_902355b1b6ea_000155_671c2a6799f7"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_class",
+      "key_point_type": "result",
+      "statement": "The contact classification is predominantly closed-shell metallophilic with minor shared-shell character.",
+      "expected": "The conclusion uses the |V|/G criterion and identifies the four contacts as metallophilic within the model boundary.",
+      "evidence_ids": [
+        "ev_doc_902355b1b6ea_000137_7aae848bd8fc",
+        "ev_doc_902355b1b6ea_000155_671c2a6799f7"
+      ]
+    }
+  ]
+}

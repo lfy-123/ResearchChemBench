@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. DED is 1,4-diethyl-1,4-diazabicyclo[2.2.2]octane dication, not a neutral diamine. Define A=TEA+BF4- and B=DED2+(BF4-)2 (both charge0 singlet). For each use one and two PC molecules in contact and separated configurations. PC is racemic; choose a fixed stereochemical composition and report it. Compare PC transfer A.PC+B -> A+B.PC and the corresponding second-PC exchange; compare contact/separated at equal solvent count. Source 1 M TEABF4 +0.2 M DED salt is experimental context, not a finite-cluster concentration.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. DED is 1,4-diethyl-1,4-diazabicyclo[2.2.2]octane dication, not a neutral diamine. Define A=TEA+BF4- and B=DED2+(BF4-)2 (both charge0 singlet). For each use one and two PC molecules in contact and separated configurations. PC is racemic; choose a fixed stereochemical composition and report it. Compare PC transfer A.PC+B -> A+B.PC and the corresponding second-PC exchange; compare contact/separated at equal solvent count. Source 1 M TEABF4 +0.2 M DED salt is experimental context, not a finite-cluster concentration."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_equal_composition_clusters",
+      "reference_id": "kp_equal_composition_clusters",
+      "type": "semantic",
+      "expected": "Keep correct anion count and PC count; separated structures may collapse, but only actual mapped optimization evidence establishes that fact. Core rows: TEA_PC1_contact, TEA_PC1_separated, TEA_PC2_contact, TEA_PC2_separated, DED_PC1_contact, DED_PC1_separated, DED_PC2_contact, DED_PC2_separated. Recompute electronic_Eh, G_Eh, ion_pair_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.equal_composition_clusters",
+          "$.calculation_records"
+        ],
+        "comparison": "Keep correct anion count and PC count; separated structures may collapse, but only actual mapped optimization evidence establishes that fact. Core rows: TEA_PC1_contact, TEA_PC1_separated, TEA_PC2_contact, TEA_PC2_separated, DED_PC1_contact, DED_PC1_separated, DED_PC2_contact, DED_PC2_separated. Recompute electronic_Eh, G_Eh, ion_pair_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_PC_exchange",
+      "reference_id": "kp_PC_exchange",
+      "type": "semantic",
+      "expected": "Balance both salt compositions and every PC molecule. Record component energies and coefficients so the exchange is recomputable; no direct ranking of charged DED-PC versus TEA-PC totals. Core rows: first_PC, second_PC. Recompute electronic_exchange_kJ_mol, free_energy_exchange_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.PC_exchange",
+          "$.calculation_records"
+        ],
+        "comparison": "Balance both salt compositions and every PC molecule. Record component energies and coefficients so the exchange is recomputable; no direct ranking of charged DED-PC versus TEA-PC totals. Core rows: first_PC, second_PC. Recompute electronic_exchange_kJ_mol, free_energy_exchange_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_ion_pair_control",
+      "reference_id": "kp_ion_pair_control",
+      "type": "semantic",
+      "expected": "Separate ion pairing, PC coordination count and conformer uncertainty; conclusions only concern finite molecular necessary conditions. Core rows: TEA_contact_effect, DED_contact_effect, conformer_sensitivity. Recompute delta_E_kJ_mol, delta_G_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ion_pair_control",
+          "$.calculation_records"
+        ],
+        "comparison": "Separate ion pairing, PC coordination count and conformer uncertainty; conclusions only concern finite molecular necessary conditions. Core rows: TEA_contact_effect, DED_contact_effect, conformer_sensitivity. Recompute delta_E_kJ_mol, delta_G_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Capacity, cycling lifetime and bulk GROMACS are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Capacity, cycling lifetime and bulk GROMACS are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. DED is 1,4-diethyl-1,4-diazabicyclo[2.2.2]octane dication, not a neutral diamine. Define A=TEA+BF4- and B=DED2+(BF4-)2 (both charge0 singlet). For each use one and two PC molecules in contact and separated configurations. PC is racemic; choose a fixed stereochemical composition and report it. Compare PC transfer A.PC+B -> A+B.PC and the corresponding second-PC exchange; compare contact/separated at equal solvent count. Source 1 M TEABF4 +0.2 M DED salt is experimental context, not a finite-cluster concentration.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "equal_composition_clusters",
+      "max_score": 20,
+      "description": "Keep correct anion count and PC count; separated structures may collapse, but only actual mapped optimization evidence establishes that fact. Core rows: TEA_PC1_contact, TEA_PC1_separated, TEA_PC2_contact, TEA_PC2_separated, DED_PC1_contact, DED_PC1_separated, DED_PC2_contact, DED_PC2_separated. Recompute electronic_Eh, G_Eh, ion_pair_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_equal_composition_clusters"
+      ]
+    },
+    {
+      "id": "PC_exchange",
+      "max_score": 25,
+      "description": "Balance both salt compositions and every PC molecule. Record component energies and coefficients so the exchange is recomputable; no direct ranking of charged DED-PC versus TEA-PC totals. Core rows: first_PC, second_PC. Recompute electronic_exchange_kJ_mol, free_energy_exchange_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_PC_exchange"
+      ]
+    },
+    {
+      "id": "ion_pair_control",
+      "max_score": 20,
+      "description": "Separate ion pairing, PC coordination count and conformer uncertainty; conclusions only concern finite molecular necessary conditions. Core rows: TEA_contact_effect, DED_contact_effect, conformer_sensitivity. Recompute delta_E_kJ_mol, delta_G_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_ion_pair_control"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Capacity, cycling lifetime and bulk GROMACS are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

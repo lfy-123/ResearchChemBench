@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "B",
+  "new_class": "加强B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_b5c446c7067dd511",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_b5c446c7067dd511"
+  },
+  "new_reference_gaps": [
+    "Expanded high-state SOC, geometry intervention and state-window/method uncertainty remain uncomputed."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "313b60bc253fab96fd7097f7f779dd26986993269b8a8181535eed218939c94c",
+    "paper_reproduction": "7a478070564bb7c14626b6ce0177b2e1c54ae86063be15401f816a366d6bcca4"
+  },
+  "source_review": "paper_reviews/paper_b5c446c7067dd511.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_b5c446c7067dd511",
+      "package_content_sha256": "75f60079306f69c5325be1451ed1c363df21d6f059fc0447a6f941f1293fd42b"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_b5c446c7067dd511",
+      "package_content_sha256": "125d901df216f00d0cf55ae98ca1da0ef3e556a9ee14474eac02d8e542e69276"
+    }
+  },
+  "result_panels": [
+    "series_states",
+    "representative_controls",
+    "channel_competition"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_b5c446c7067dd511/documents/main.pdf",
+      "sha256": "e14eba4b6b741eec2e479177d88173fd688caa63c7a5f9bce461d441b7f5e09d",
+      "pages": [
+        3,
+        4,
+        5
+      ],
+      "total_pages": 13
+    },
+    {
+      "path": "papers/paper_b5c446c7067dd511/documents/supplementary_001.pdf",
+      "sha256": "d8ea0572e3bcb3543cfcba2de0e31c9a4001e9f72925f9adf5caf7d0454238f0",
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_pages": 37
+    },
+    {
+      "path": "docs/evalution/update/paper_b5c446c7067dd511.md",
+      "sha256": "73e0ee14a9879f0d6ec8b61ee5fb87a73f1f46c942d55e23c3ac587d5d1eb596",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_b5c446c7067dd511/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_b5c446c7067dd511/evaluation/reference_validation_plan.md"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "system": "acetyl-peroxy + hydroperoxyl",
+  "reactants": [
+    {"id": "acetyl_peroxy", "smiles": "CC(=O)O[O]", "formula": "C2H3O3", "charge": 0, "multiplicity": 2, "atom_map": "C1 methyl, C2 carbonyl, O1 carbonyl, O2 singly bonded peroxy, O3 terminal radical oxygen"},
+    {"id": "hydroperoxyl", "smiles": "[O]O", "formula": "HO2", "charge": 0, "multiplicity": 2, "atom_map": "H1 bonded to O1; O2 terminal radical oxygen"}
+  ],
+  "conditions": {"pressure_atm": 1.0, "temperatures_K": [250, 298, 400, 500, 520, 600, 700, 800, 1000], "validation_pressure_Torr": 760, "validation_temperature_K": 520},
+  "scope": {"surfaces": ["overall doublet-pair singlet", "overall doublet-pair triplet"], "products_to_track": ["peroxy-derived oxygenated products and coproducts, with explicit atom-balanced structures"], "note": "You must independently generate and discriminate plausible channel hypotheses; no author route is provided."}
+}

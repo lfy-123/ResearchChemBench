@@ -1,0 +1,166 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Preserve (R)-4 connectivity, E alkene, alcohol and hydroperoxide identity. Map any proposed bond changes explicitly; ring size follows the actual graph. Use a chemically identified brominating source and balanced proton/electron inventory rather than treating bromide as electrophilic bromine. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.methods",
+          "$.validity_checks"
+        ],
+        "comparison": "Preserve (R)-4 connectivity, E alkene, alcohol and hydroperoxide identity. Map any proposed bond changes explicitly; ring size follows the actual graph. Use a chemically identified brominating source and balanced proton/electron inventory rather than treating bromide as electrophilic bromine. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_selectivity",
+      "reference_id": "kp_selectivity",
+      "type": "condition",
+      "expected": "New quantitative evidence must bear on the observed selectivity and distinguish what is established from what is assumed. Do not require a particular intermediate, two alkene faces or named ring-closure matrix if another valid route addresses the question. An MEP asymmetry alone is not a kinetic selectivity proof. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.records",
+          "$.claims"
+        ],
+        "comparison": "New quantitative evidence must bear on the observed selectivity and distinguish what is established from what is assumed. Do not require a particular intermediate, two alkene faces or named ring-closure matrix if another valid route addresses the question. An MEP asymmetry alone is not a kinetic selectivity proof. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_causality",
+      "reference_id": "kp_causality",
+      "type": "condition",
+      "expected": "Evaluate the claimed causal factor against important model/structural confounding. Comparing4 and7 cannot automatically isolate only hydroperoxide effects; alternative justified tests are eligible. Claimed saddles/pathways require appropriate physical evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validity_checks",
+          "$.claims",
+          "$.decision_log"
+        ],
+        "comparison": "Evaluate the claimed causal factor against important model/structural confounding. Comparing4 and7 cannot automatically isolate only hydroperoxide effects; alternative justified tests are eligible. Claimed saddles/pathways require appropriate physical evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Use consistent stoichiometry, solvent/temperature/standard-state assumptions and evidence-based uncertainty for the claimed effect. Source room-temperature/unspecified aspects must be stated rather than given invented precision. Do not confuse aqueous MEP with a DCM free-energy path. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists. For concentration-dependent claims, address the source inconsistency between 0.284 mmol NBS in 6 mL (about 47.3 mM by amount/volume) and the printed 473 mM. Preserve the source ambiguity rather than inventing a confirmed concentration.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.results",
+          "$.uncertainty"
+        ],
+        "comparison": "Use consistent stoichiometry, solvent/temperature/standard-state assumptions and evidence-based uncertainty for the claimed effect. Source room-temperature/unspecified aspects must be stated rather than given invented precision. Do not confuse aqueous MEP with a DCM free-energy path. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists. For concentration-dependent claims, address the source inconsistency between 0.284 mmol NBS in 6 mL (about 47.3 mM by amount/volume) and the printed 473 mM. Preserve the source ambiguity rather than inventing a confirmed concentration."
+      }
+    },
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "condition",
+      "expected": "Accept supported, revised or well-investigated unresolved explanations. Distinguish the selected (R)-4 model from the mixed-substrate NBS experiment and the enzyme context; no claim of enzyme control or full cascade yield from a local model. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.limitations"
+        ],
+        "comparison": "Accept supported, revised or well-investigated unresolved explanations. Distinguish the selected (R)-4 model from the mixed-substrate NBS experiment and the enzyme context; no claim of enzyme control or full cascade yield from a local model. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Correct stereochemistry and reactive inventory Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "selectivity",
+      "max_score": 30,
+      "description": "Quantitative explanation of local selectivity Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_selectivity"
+      ]
+    },
+    {
+      "id": "causality",
+      "max_score": 20,
+      "description": "Adequacy of the explanatory comparison Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_causality"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "States, references and uncertainty Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Evidence-proportional experimental interpretation Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_scope",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

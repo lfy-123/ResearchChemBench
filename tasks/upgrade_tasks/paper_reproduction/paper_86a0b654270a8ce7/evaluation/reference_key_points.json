@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Both complete IrC60H63N4O2 isomers are neutral singlets, in THF at 339 K. Preserve Ir coordination identity; report E, solvent contribution, ZPE/thermal and low-frequency correction separately with one standard state. The source predicts a preference, but a contrary converged method is not discarded. Contact-separation restraints measure interaction plus deformation and must not be called pure pi-stacking energies.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Both complete IrC60H63N4O2 isomers are neutral singlets, in THF at 339 K. Preserve Ir coordination identity; report E, solvent contribution, ZPE/thermal and low-frequency correction separately with one standard state. The source predicts a preference, but a contrary converged method is not discarded. Contact-separation restraints measure interaction plus deformation and must not be called pure pi-stacking energies.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_isomer_ensembles",
+      "statement": "Use low-energy conformer coverage and frequency evidence with identical 339 K convention; reconstruct ensemble G and document degeneracy. Core rows: isomer1, isomer2. Recompute electronic_Eh, solvation_Eh, thermal_Eh, low_frequency_Eh, G_339K_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Use low-energy conformer coverage and frequency evidence with identical 339 K convention; reconstruct ensemble G and document degeneracy. Core rows: isomer1, isomer2. Recompute electronic_Eh, solvation_Eh, thermal_Eh, low_frequency_Eh, G_339K_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_stacking_intervention",
+      "statement": "Submit mapped aromatic ring atoms and frozen/released contacts, controlling other geometry. Distortion cannot be removed by merely labeling the difference stacking. Core rows: isomer1_contact, isomer2_contact. Recompute centroid_distance_A, relative_angle_degree, delta_E_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Submit mapped aromatic ring atoms and frozen/released contacts, controlling other geometry. Distortion cannot be removed by merely labeling the difference stacking. Core rows: isomer1_contact, isomer2_contact. Recompute centroid_distance_A, relative_angle_degree, delta_E_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_ranking_robustness",
+      "statement": "Quantify sign and interval under actual methods and thermal treatment; unresolved ranking after complete data is acceptable. Isolated yields are not a scored equilibrium ratio. Core rows: method_change, thermal_model_change. Recompute delta_G_2_minus_1_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Quantify sign and interval under actual methods and thermal treatment; unresolved ranking after complete data is acceptable. Isolated yields are not a scored equilibrium ratio. Core rows: method_change, thermal_model_change. Recompute delta_G_2_minus_1_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

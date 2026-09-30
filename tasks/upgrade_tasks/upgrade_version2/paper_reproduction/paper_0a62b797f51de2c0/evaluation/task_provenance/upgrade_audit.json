@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "task_type": "paper_reproduction",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:55:14.680543+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_0a62b797f51de2c0.json",
+  "plan_sha256": "0ad1e67280b0a1fcef7f21f718fa886a5ecf821b3f1bcf666eeae8804756ca4f",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_0a62b797f51de2c0",
+  "v1_package_content_sha256": "ef78940e051292a90e5f74f5470a7552ecddf912634f645a77d7d21ffe56d09f",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "b721b4ae4522ba6bee4a576e13b7cba062d7c303e2f8edf2413511ecca6ac820",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_0a62b797f51de2c0/documents/main.pdf",
+      "sha256": "8faf62fe4d34371ac12d6c414dec1a19ecd0a08656bd4a9d692b3d0dd08f3b4a",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        4,
+        5
+      ],
+      "sections_figures_tables": "PDF p2 Scheme1c visually inspected for backbone and cyano positions; p4 Fig.2 photophysical observations; p5 Fig.3a specifies three repeats and discusses molecular charge descriptors versus material observations."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_0a62b797f51de2c0/documents/supplementary_001.pdf",
+      "sha256": "cec193840ebff26c59e3ce19abee827e02a953fafc2b62ce34761586a0039b8d",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        6
+      ],
+      "sections_figures_tables": "PDF p6 computational details: B3LYP geometry, CAM-B3LYP dipoles, Multiwfn/VMD ESP; no source recipe for a length-holdout or regioisomer intervention."
+    }
+  ],
+  "historical_class": "加强B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_fragment_method_and_legacy_monomer_context_only_reference_pending",
+  "scope_changes": [
+    "Remove mandatory n1/n2/n3 matrix, novel reversed-CN regioisomer, fixed45° torsions and n3 holdout.",
+    "Remove prescribed ESP surface threshold and obligatory NTO centroid/overlap algorithm.",
+    "Restore the actual source three-repeat molecular scope and identify H caps as modeling choices."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:02.765950+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_91ac489fbc6082be",
+  "task_type": "paper_reproduction",
+  "title": "Independent VCD absolute-configuration test for compound 2",
+  "category": "computational spectroscopy",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires two-enantiomer VCD calculations and conformer/ensemble validation.",
+    "Flexible 70-atom molecule requires open conformer search, deduplication and convergence assessment.",
+    "Independent method and spectral-processing choices must be justified against an experimental boundary."
+  ],
+  "paper": {
+    "title": "Molecular Networking-Guided Discovery of Phenolic Constituents from Fruits of Mallotus philippinensis",
+    "doi": "10.1021/acs.jnatprod.5c01322",
+    "journal": "Journal of Natural Products",
+    "publication_date": "2026-02-04"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained compound-2 geometry and system metadata."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculation, similarity metrics and conclusion."
+    }
+  ]
+}

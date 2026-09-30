@@ -1,0 +1,105 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_8d8940710de08f7f",
+  "task_type": "paper_reproduction",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_paper_reproduction/paper_8d8940710de08f7f",
+  "source_manifest_sha256": "409337609fb89e88e5023fb95d39c9e084dbd47994359d8535e304e7b212c8b9",
+  "source_package_content_sha256": "57f675292b9e55b2cd5476dad45f62a06f271fb75f12002b8c5354b576f6dfc3",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/systems.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/systems.json.snapshot",
+      "sha256": "f441123208f676590324dfd39346f584285d45629248917eb71f3368bd782ccb"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "4df0ccf7d3e527c22aa4a068f4db0cafbc81812366a1a3038c8c61317b05049b"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "84edec8f47f96d29bafe4cfb1104d2ab976fc9845ecd7f5ce27f85904cd6a041"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "05929345c614d31627d3cc68b069a33d185928da892574076039e21f4a2979f6"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "15bcd3aeca9db2ae1c9bf2cd3a49195a217b97e26f9f5d3208fd428c064d6875"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "287aa4520ebb9887ed90a6ce60b9175c31681a32ba30835b26147e596ab34365"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "fcf464d9218a0ac21116db4aa147c2e334aebd48e99a48fe64b88e573e01fbb0"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "b90bda7f443a01f7e59e67074672f1b2a3ce925a181b5cfb5fdcb50f7050d15f"
+    },
+    "evaluation/task_provenance/contract_regression_20260923.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/contract_regression_20260923.json.snapshot",
+      "sha256": "8cec3de967463a28de3fb82d0bf3fccb384e85b7f46c3c8d99430bf8d301fea5"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot",
+      "sha256": "3f99a2001740252a1296e315660a6c8bd1997476b66a08a3f2b13d62211af76a"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "d371aa41a26b588ceb8ebb1929b857885761b946daff48a8edcc869595e20627"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "409337609fb89e88e5023fb95d39c9e084dbd47994359d8535e304e7b212c8b9"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "6d40fa0b77a1bd174e32d0a2d9e1a818aa82d880b36325fa888deccc17b5eff0"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "ad22bca1cb2519cd38def19d4bf0c9da6ec36a04803e108115b55d3637c277db"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_8d8940710de08f7f/documents/supplementary_001.pdf",
+      "sha256": "d903b517aab2dfd6c2a223020cb7d93ae6d66dc85eb489ab86c4aa854561bd13",
+      "pages": 21
+    },
+    {
+      "path": "papers/paper_8d8940710de08f7f/documents/main.pdf",
+      "sha256": "a69619c718ff7d48e4dd23ce129bb8ea5a7cb58e4fcb0114ab68587d688fe9bc",
+      "pages": 14
+    },
+    {
+      "path": "docs/evalution/update/paper_8d8940710de08f7f.md",
+      "sha256": "97ec97ceddd02cd62125ab7809cbd12cf5cbff1e72027cec468e0a88b5449610"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "B",
+  "new_class": "加强B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "The operative contact is PAH C–H···O, not an N–H···O assumption.",
+    "V labels are initial basin hypotheses; empirical collapse is permitted.",
+    "Source R2SCAN has no declared D3 correction; D3 on/off is a new intervention. Source ωB97M-V/methanol density analysis and SI vacuum E/G are kept separate."
+  ],
+  "new_reference_gaps": "Matched D3 switches, methanol basins, contact-disfavoring electronic controls and thermal sensitivity remain uncalculated.",
+  "blockers": [],
+  "optional_not_required": "Different protonation states, charges and antifungal pharmacology must not be mixed into the same ensemble."
+}

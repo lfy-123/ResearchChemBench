@@ -1,0 +1,55 @@
+{
+  "source_links": [
+    "../../../papers/paper_0e835b370ddd37b6/documents/main.pdf#page=4",
+    "../../../papers/paper_0e835b370ddd37b6/documents/main.pdf#page=5",
+    "../../../papers/paper_0e835b370ddd37b6/documents/main.pdf#page=3",
+    "../../../papers/paper_0e835b370ddd37b6/documents/supplementary_001.pdf#page=7",
+    "../../../papers/paper_0e835b370ddd37b6/documents/supplementary_001.pdf#page=8",
+    "../../../papers/paper_0e835b370ddd37b6/documents/supplementary_001.pdf",
+    "../../../papers/paper_0e835b370ddd37b6/documents/main.pdf"
+  ],
+  "source_evidence_section": "## 2. 正文、SI 与升级依据\n\n| 来源位置 | 可用于升级的科学依据 | 不能直接外推的结论 |\n| --- | --- | --- |\n| 正文理论方法及电子结构讨论，PDF pp3–4 | PBE0-D3BJ/def2-TZVP、溶剂处理；孤对与接受轨道、单重–三重能隙提供候选解释 | 单一轨道能或自旋能隙与能垒相关，不等于已经证明因果 |\n| 正文 Table 2，PDF p5 | 六种骨架及 V′ 的 H₂ 比较，可从原文选最小结构对照 | 所有结构在所有小分子反应中都更优；更低加成能垒不等于催化周转更快 |\n| SI Table S1，PDF p7 | 不同泛函下电子态差异，用于预先选择稳健性对照 | 把跨方法的总能或不同态混在同一反应能中 |\n| SI Table S2，PDF p8 | 过渡态几何、键级与电荷信息可与重算逐项比较 | 某个布居数字是直接可观测的唯一成键解释 |\n\n[正文 PDF p3](../../../papers/paper_0e835b370ddd37b6/documents/main.pdf#page=3) [正文 PDF p4](../../../papers/paper_0e835b370ddd37b6/documents/main.pdf#page=4) [正文 PDF p5](../../../papers/paper_0e835b370ddd37b6/documents/main.pdf#page=5) [SI PDF p7](../../../papers/paper_0e835b370ddd37b6/documents/supplementary_001.pdf#page=7) [SI PDF p8](../../../papers/paper_0e835b370ddd37b6/documents/supplementary_001.pdf#page=8)\n\n扩题必须尊重作者未闭合的部分：Table 2 对若干体系的乙炔环加成未找到 TS。不能把“补全所有乙炔竞争路径”并入最低必达终点，更不能用缺失 TS 证明该通道绝对不存在。首轮固定 H₂ 反应，科学深度来自受控比较。\n\n",
+  "head": "# paper_0e835b370ddd37b6：科学目标分类与升级方案\n\n## 2026-09-27：首版实施规格与批次\n\n**当前分类：A；首版方向：B。** **安排：第 4 批：局部竞争路径与动力学。**\n**实施状态：有条件：先补本篇前提。** 本节是对早期较宽方案的首版收束；以下对象与判据属于待实现的新设计，本轮新增科学计算为 0。\n\n**最低计算范围。** 源 1/V′/4 的 H₂ 活化，保持苯介质、298 K、分离反应物共同零点；沿相同 H–H 坐标比较形变和相互作用。\n\n**实际验收证据与判断。** 各体系有效 TS/双向连接与片段能量保持同电荷/自旋和同坐标；报告应变与相互作用之和的闭合，不能拿各自不同反应进度比较后归因为电子效应。\n\n**先导与启动条件。** 先验证新增 4 的关键路径与成本，再扩变形分析；已有 1/V′ 两势垒不证明三体系因果对照。\n\n**软件范围。** Gaussian/ORCA＋Multiwfn；PyFrag可选。源路线用于开发可核验参考；其他方法必须支持同一物理量并完成等价性校准。软件安装、旧题 PASS 均不能代替本节新增参考。\n\n**可选扩展及停止边界。** 乙炔所有 TS、氨硼烷/CO₂ 全催化网络不强制。\n\n**给实施 agent 的完成顺序。** 先冻结对象/原子映射、介质/温度、观测公式及主方法；完成上面的最关键控制试算后，实际跑全最低矩阵，校准误差与容差，再同步 AR/PR 的科学要求和 evaluator。缺少必需计算属于未完成；完成对照后得到有证据的否定或不可区分属于可接受科学结论。下文旧扩展不能自动加入首版硬评分。\n\n**交接入口：** [共用实施规范](upgrade_implementation_guide_20260927.md) · [全部批次与复核结论](upgrade_guidance_review_20260927.md)。各篇正文/SI及原始证据链接保留在后文；正式发布前仍需新增参考和独立试运行。\n",
+  "source_task": {
+    "autonomous_research": {
+      "task": "# Scientific objective\n\nDetermine and compare H–H activation free-energy barriers for neutral singlet silylenes 1 and V′ reacting with neutral singlet H2, using separated reactants as the reference for each system.\n\n# Public inputs and scientific boundaries\n\nUse `data/inputs/silylene_1_singlet.xyz` (55 atoms), `data/inputs/silylene_Vprime_singlet.xyz` (36 atoms), and `data/inputs/h2.xyz`. These are given reactant identities, not H2-activation TSs. All are neutral singlets. The primary physical boundary is implicit benzene, 298 K and 1 atm; apply the same stated method and Gibbs convention to both systems and separated H2. Barrier = G(TS) − G(silylene) − G(H2), in kcal/mol. Conformers and TS approaches are to be constructed by the agent; no author TS is supplied. No paper, SI, evaluator, historical verification archive or general-web lookup is an agent input.\n\n# Required scientific validation/investigation\n\nOptimize and characterize the reactants as minima. Locate H–H activation TSs, verify exactly one relevant imaginary mode, and establish reactant/product connection by IRC, constrained relaxation or a justified endpoint test. Use one main row for `system_id` = `1` and one for `V-prime`, in any order; record extra attempts separately. Report candidate evidence and comparable barriers, then determine the ordering from your results. No fixed two-round stopping rule is imposed.\n\n# Deliverables\n\nSubmit `report/results.json`. Set overall status to `complete` only when both rows are `validated_success`; each requires a validated reactant, TS/connection evidence and numerical barrier. Otherwise use `bounded_failure`, with each failed row's reason and available diagnostics. Missing frequency or barrier values may be omitted/null as permitted by the schema; do not fabricate them.\n",
+      "files": [
+        "task_info.json",
+        "paper_route.md",
+        "package_manifest.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/verified_computation_reference.md",
+        "evaluation/reference_key_points.json",
+        "evaluation/critical_failures.json",
+        "evaluation/evidence_map.json",
+        "evaluation/reference_conclusions.json",
+        "agent_input/submission_schema.json",
+        "agent_input/task.md",
+        "agent_input/data/inputs/silylene_1_singlet.xyz",
+        "agent_input/data/inputs/h2.xyz",
+        "agent_input/data/inputs/silylene_Vprime_singlet.xyz",
+        "evaluation/task_provenance/maintenance_audit.md"
+      ]
+    },
+    "paper_reproduction": {
+      "task": "# Scientific objective\n\nDetermine and compare H–H activation free-energy barriers for neutral singlet silylenes 1 and V′ reacting with neutral singlet H2, using separated reactants as the reference for each system.\n\n# Author-provided scientific guidance\n\nThe authors compare a six-membered cyclic (alkyl)(amino)silylene and a known analogue as H2-activation platforms. Construct and test the H–H-cleavage pathways without assuming which is preferred.\n\n# Public inputs and scientific boundaries\n\nUse `data/inputs/silylene_1_singlet.xyz` (55 atoms), `data/inputs/silylene_Vprime_singlet.xyz` (36 atoms), and `data/inputs/h2.xyz`. These are given reactant identities, not H2-activation TSs. All are neutral singlets. The primary physical boundary is implicit benzene, 298 K and 1 atm; apply the same stated method and Gibbs convention to both systems and separated H2. Barrier = G(TS) − G(silylene) − G(H2), in kcal/mol. Conformers and TS approaches are to be constructed by the agent; no author TS is supplied. No paper, SI, evaluator, historical verification archive or general-web lookup is an agent input.\n\n# Required scientific validation/investigation\n\nOptimize and characterize the reactants as minima. Locate H–H activation TSs, verify exactly one relevant imaginary mode, and establish reactant/product connection by IRC, constrained relaxation or a justified endpoint test. Use one main row for `system_id` = `1` and one for `V-prime`, in any order; record extra attempts separately. Report candidate evidence and comparable barriers, then determine the ordering from your results. No fixed two-round stopping rule is imposed.\n\n# Deliverables\n\nSubmit `report/results.json`. Set overall status to `complete` only when both rows are `validated_success`; each requires a validated reactant, TS/connection evidence and numerical barrier. Otherwise use `bounded_failure`, with each failed row's reason and available diagnostics. Missing frequency or barrier values may be omitted/null as permitted by the schema; do not fabricate them.\n",
+      "files": [
+        "task_info.json",
+        "paper_route.md",
+        "package_manifest.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/verified_computation_reference.md",
+        "evaluation/reference_key_points.json",
+        "evaluation/critical_failures.json",
+        "evaluation/evidence_map.json",
+        "evaluation/reference_conclusions.json",
+        "agent_input/submission_schema.json",
+        "agent_input/task.md",
+        "agent_input/data/inputs/silylene_1_singlet.xyz",
+        "agent_input/data/inputs/h2.xyz",
+        "agent_input/data/inputs/silylene_Vprime_singlet.xyz",
+        "evaluation/task_provenance/maintenance_audit.md"
+      ]
+    }
+  }
+}

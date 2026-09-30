@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify complete DBC_Ph/Nap/Cbz connectivity and state/charge definitions. Do not substitute the Ant/Pyr derivatives or a truncated common core without a justified relation to the actual full molecules.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Verify complete DBC_Ph/Nap/Cbz connectivity and state/charge definitions. Do not substitute the Ant/Pyr derivatives or a truncated common core without a justified relation to the actual full molecules. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Assess auditable quantities corresponding to solution absorption and fluorescence, with correct initial/final states, geometry and medium. Neither a state label on a geometry nor an orbital gap establishes an optical process. Raw transition/spectral and analysis artifacts must support the reported results.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Assess auditable quantities corresponding to solution absorption and fluorescence, with correct initial/final states, geometry and medium. Neither a state label on a geometry nor an orbital gap establishes an optical process. Raw transition/spectral and analysis artifacts must support the reported results. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Evaluate whether the molecular explanation accounts for the nearly coincident observed spectra and any proposed differences. Require claim-relevant evidence for electronic/structural attribution while allowing a justified alternative route, negative result or unresolved attribution.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate whether the molecular explanation accounts for the nearly coincident observed spectra and any proposed differences. Require claim-relevant evidence for electronic/structural attribution while allowing a justified alternative route, negative result or unresolved attribution. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Assess numerical/model uncertainty and the resolution of the experimental peak list. Do not treat rounded1nm differences or an uncalibrated computed splitting as definitive. Source S0/S1 geometry tables need correct interpretation rather than a forced optical match.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Assess numerical/model uncertainty and the resolution of the experimental peak list. Do not treat rounded1nm differences or an uncalibrated computed splitting as definitive. Source S0/S1 geometry tables need correct interpretation rather than a forced optical match. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "State what is supported about terminal-substituent influence on Ph/Nap/Cbz molecular absorption and fluorescence in toluene. Keep similarity, lack of resolving power and equality of all molecular properties distinct; avoid material/device extrapolation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "State what is supported about terminal-substituent influence on Ph/Nap/Cbz molecular absorption and fluorescence in toluene. Keep similarity, lack of resolving power and equality of all molecular properties distinct; avoid material/device extrapolation. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Verify complete DBC_Ph/Nap/Cbz connectivity and state/charge definitions. Do not substitute the Ant/Pyr derivatives or a truncated common core without a justified relation to the actual full molecules.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Assess auditable quantities corresponding to solution absorption and fluorescence, with correct initial/final states, geometry and medium. Neither a state label on a geometry nor an orbital gap establishes an optical process. Raw transition/spectral and analysis artifacts must support the reported results.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Evaluate whether the molecular explanation accounts for the nearly coincident observed spectra and any proposed differences. Require claim-relevant evidence for electronic/structural attribution while allowing a justified alternative route, negative result or unresolved attribution.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Assess numerical/model uncertainty and the resolution of the experimental peak list. Do not treat rounded1nm differences or an uncalibrated computed splitting as definitive. Source S0/S1 geometry tables need correct interpretation rather than a forced optical match.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "State what is supported about terminal-substituent influence on Ph/Nap/Cbz molecular absorption and fluorescence in toluene. Keep similarity, lack of resolving power and equality of all molecular properties distinct; avoid material/device extrapolation.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

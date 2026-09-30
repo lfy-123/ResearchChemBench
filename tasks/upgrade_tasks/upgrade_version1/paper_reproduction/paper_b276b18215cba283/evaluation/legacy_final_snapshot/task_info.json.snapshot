@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "task_type": "paper_reproduction",
+  "title": "Conformer-resolved computational test of a merocyanine excitation shift",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Two fixed conformers require independent excited-state calculations, per-object convergence and state-character validation, and a defensible uncertainty assessment; the conformational search space is closed."
+  ],
+  "paper": {
+    "title": "Stable ultrabright nanoprobes for two-photon excitation microscopy based on octupolar merocyanine-loaded nanovesicles",
+    "doi": "10.1039/d5tb02465j",
+    "journal": "Journal of Materials Chemistry B",
+    "publication_date": "2026-02-11"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Neutral-singlet 57-atom XYZ structures for the named transoid and cisoid single-arm conformers."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-conformer excitation results, signed shift, provenance and scope-limited conclusion."
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use full tri-n-butyltin substituents on the mapped thp pair 6, 1,3-dioxan-2-yl pair 7 and 1,3-dithian-5-yl pair 13. Generate both axial and equatorial SnBu3 chair arrangements for each ring; map the same Sn, ring carbon and all three butyl alpha-carbons using supplied IDs. Couplings concern the three Sn–C_butyl bonds, with isotope signs retained. Ring nomenclature alone does not establish the chair orientation. Signed J_total(119Sn,13C)=J_FC+J_SD+J_PSO+J_DSO in Hz, for each mapped Sn–C_butyl bond; arithmetic mean over three bonds. Report raw unscaled J and the exact Hamiltonian/basis. An empirical scale or a relativistic change cannot share an uncalibrated narrow tolerance. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use full tri-n-butyltin substituents on the mapped thp pair 6, 1,3-dioxan-2-yl pair 7 and 1,3-dithian-5-yl pair 13. Generate both axial and equatorial SnBu3 chair arrangements for each ring; map the same Sn, ring carbon and all three butyl alpha-carbons using supplied IDs. Couplings concern the three Sn–C_butyl bonds, with isotope signs retained. Ring nomenclature alone does not establish the chair orientation. Signed J_total(119Sn,13C)=J_FC+J_SD+J_PSO+J_DSO in Hz, for each mapped Sn–C_butyl bond; arithmetic mean over three bonds. Report raw unscaled J and the exact Hamiltonian/basis. An empirical scale or a relativistic change cannot share an uncalibrated narrow tolerance. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_pair_matrix",
+      "reference_id": "kp_pair_matrix",
+      "type": "semantic",
+      "expected": "Inspect chair assignments, complete Sn–Bu identity, isotope convention and all four terms. Compare actual components and orbital localization; do not use absolute J or a single averaged scalar.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.pair_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect chair assignments, complete Sn–Bu identity, isotope convention and all four terms. Compare actual components and orbital localization; do not use absolute J or a single averaged scalar."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_geometric_interventions",
+      "reference_id": "kp_geometric_interventions",
+      "type": "semantic",
+      "expected": "Verify held constraints from real geometries and calculate actual decomposed J at each. Baseline can be reused when identical. Effects must be compared within a fixed Hamiltonian; a frozen geometry needs no borrowed thermal correction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.geometric_interventions",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify held constraints from real geometries and calculate actual decomposed J at each. Baseline can be reused when identical. Effects must be compared within a fixed Hamiltonian; a frozen geometry needs no borrowed thermal correction."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_mechanism_test",
+      "reference_id": "kp_mechanism_test",
+      "type": "semantic",
+      "expected": "Test the proposed orbital explanation against both ordinary pairs and the sulfur challenge using controlled changes. A correlation at relaxed geometries does not prove sufficiency; retain a negative or unresolved mechanism outcome when supported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.mechanism_test",
+          "$.calculation_records"
+        ],
+        "comparison": "Test the proposed orbital explanation against both ordinary pairs and the sulfur challenge using controlled changes. A correlation at relaxed geometries does not prove sufficiency; retain a negative or unresolved mechanism outcome when supported."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether hyperconjugation explains axial/equatorial changes in signed one-bond 119Sn–13C couplings after controlling Sn–C distance and torsion, including a sulfur-containing challenge pair. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether hyperconjugation explains axial/equatorial changes in signed one-bond 119Sn–13C couplings after controlling Sn–C distance and torsion, including a sulfur-containing challenge pair. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "pair_matrix",
+      "max_score": 25,
+      "description": "Three full axial/equatorial signed-coupling pairs",
+      "rule_ids": [
+        "rule_pair_matrix"
+      ]
+    },
+    {
+      "id": "geometric_interventions",
+      "max_score": 25,
+      "description": "Orthogonal distance and torsion interventions",
+      "rule_ids": [
+        "rule_geometric_interventions"
+      ]
+    },
+    {
+      "id": "mechanism_test",
+      "max_score": 15,
+      "description": "Hyperconjugation sufficiency and sulfur exception",
+      "rule_ids": [
+        "rule_mechanism_test"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Three full axial/equatorial signed-coupling pairs",
+      "Orthogonal distance and torsion interventions",
+      "Hyperconjugation sufficiency and sulfur exception",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_d3b4575397179146",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "heptazines.json",
+      "action": "retain four catalyst identities in systems.json",
+      "reason": "Remove mandatory state-cycle instruction while preserving the studied catalyst family."
+    },
+    {
+      "file": "species_registry.json",
+      "action": "retain substrate and oxygen feed; remove state_recipes and imposed excited/redox-state list",
+      "reason": "The agent chooses states required by its mechanistic claims."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "Remove forced SET versus EnT, all-catalyst oxygen-state matrix and dF/dOMe pilot order."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

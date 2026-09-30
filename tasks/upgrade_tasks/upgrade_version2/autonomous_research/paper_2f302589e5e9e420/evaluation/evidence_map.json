@@ -1,0 +1,104 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "evidence": [
+    {
+      "evidence_id": "source_0",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/main.pdf",
+        "sha256": "a97be22902a7ec8a348c8112368e5422ea2af4782e0d4af6f818237fa2a30563",
+        "matches_audit": true,
+        "declared_pages": 9,
+        "material_type": "main_article",
+        "pdf_pages_read_1_based": [
+          4,
+          6,
+          7
+        ]
+      },
+      "scope": {
+        "objects": "Full neutral singlet source model fragments EPI1 C13H21NO2 and EPI2 C14H23NO3, not polymer chains or epoxy monomers.",
+        "conditions": "Isolated molecular models; source computational methods omit explicit bulk polymer environment. Agent states any model temperature/environment. Experimental cured resins are a separate scale.",
+        "observations": "Main p6 reports lower dielectric constant for methoxy-containing cured analogues; main p7 reports thermal OH-band shift for methoxy-containing resin, while SI p22 FigureS34 lacks analogous blue shift without methoxy. These observations do not prove the molecular cause.",
+        "boundary": "Substitution, conformation, molecular polarity and interpretive reach within these exact source fragments; no quantitative bulk dielectric prediction."
+      },
+      "role": "publication_facts_and_author_interpretation_separated_in_source_audit"
+    },
+    {
+      "evidence_id": "source_1",
+      "source": {
+        "path": "papers/paper_2f302589e5e9e420/documents/supplementary_001.pdf",
+        "sha256": "d4a715bfc18bff524f50298937739473903e9fb1012e7cdd5daf9692e42ae942",
+        "matches_audit": true,
+        "declared_pages": 26,
+        "material_type": "true_supporting_information",
+        "pdf_pages_read_1_based": [
+          22,
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "scope": {
+        "objects": "Full neutral singlet source model fragments EPI1 C13H21NO2 and EPI2 C14H23NO3, not polymer chains or epoxy monomers.",
+        "conditions": "Isolated molecular models; source computational methods omit explicit bulk polymer environment. Agent states any model temperature/environment. Experimental cured resins are a separate scale.",
+        "observations": "Main p6 reports lower dielectric constant for methoxy-containing cured analogues; main p7 reports thermal OH-band shift for methoxy-containing resin, while SI p22 FigureS34 lacks analogous blue shift without methoxy. These observations do not prove the molecular cause.",
+        "boundary": "Substitution, conformation, molecular polarity and interpretive reach within these exact source fragments; no quantitative bulk dielectric prediction."
+      },
+      "role": "publication_facts_and_author_interpretation_separated_in_source_audit"
+    },
+    {
+      "evidence_id": "v1_reuse",
+      "source": {
+        "path": "evaluation/reference_reuse.json"
+      },
+      "scope": {
+        "usable": "Bound V1 source-like minima/dipoles, finite five-conformer/deduplicated ensemble, actual OH mode evidence and matched diagnostic structures. Source-like dipoles2.223986/1.899047D decrease, but sampled <mu²>3.426299/3.606752D² increases about5.27%, with low-frequency treatments +5.36/+5.43%. This concretely supports accepting a bounded contrary conclusion.",
+        "not_usable": "Finite local sampling is not a complete conformational partition function or bulk polymer Dk. Fixed OH nonstationary structures do not yield directly experimental IR. No V2 blind/judge calibration.",
+        "binding": {
+          "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_2f302589e5e9e420/evaluation/phase1_reference_binding.json",
+          "sha256": "8cdca0810303cf35f079177082705306a8ee03262aa6d67625da76ccc8c12fd3",
+          "evidence": {
+            "report/scientific_acceptance.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/report/scientific_acceptance.json",
+              "sha256": "97d5456f09c735b7daee9654d49af32f84b1e425a290ff14c2d334f07d77b24d"
+            },
+            "report/results.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/report/results.json",
+              "sha256": "30f211cdb050db555de1b53e6dac767044f48228b360739cd7f3bcfcb1fe3ae4"
+            },
+            "report/verification_report.md": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/report/verification_report.md",
+              "sha256": "b86a311aa48d054e4ce13d53dd7c23a9d972037727ea50eb3ab9b1da15fccc4e"
+            },
+            "report/validation/contract_checks.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/report/validation/contract_checks.json",
+              "sha256": "c165136fa0d97d07efae43418539bf65ce64fa5d8597f45dcbccc395e336b164"
+            },
+            "report/resource_summary.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/report/resource_summary.json",
+              "sha256": "3e63542605e65aa9aed46581c92cb5885bf23352198043add5e339deb715ec6f"
+            },
+            "evaluator_mapping.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/evaluator_mapping.json",
+              "sha256": "c8afe04e888da14e547a0575eba6272212a49da4bc7a7f5ed818ad415ab748bf"
+            },
+            "task_snapshot/manifest.json": {
+              "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f302589e5e9e420/task_snapshot/manifest.json",
+              "sha256": "14d3ee08883cf98e4da86c170275e3dddcbc14ace13d0b4f8bf32f3d6189a7c9"
+            }
+          },
+          "role": "author_informed_V1_reference_not_V2_acceptance"
+        }
+      },
+      "role": "historical_author_informed_reference_not_answer_key"
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": {
+        "path": "evaluation/task_provenance/source_scope_audit.json"
+      },
+      "scope": "Benchmark task design and claim-conditioned scientific standards; no new measurements or simulations."
+    }
+  ]
+}

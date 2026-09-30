@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+The authors tested closed-shell singlet, open-shell singlet and triplet initial guesses with B3LYP and BP86 in ORCA. SI S10 specifies def2-TZVP on Ni and its six directly coordinated Cl/N/C atoms, def2-SVP elsewhere; source geometries were checked by frequencies. Open-shell guesses collapsed to closed-shell singlets, and the BP86 triplet lay 25.1 kcal/mol higher; TableS1 compares bond lengths with crystallography. Main p.4 discusses occupied t2g-derived orbitals and covalent eg combinations, favors a formal Ni(IV) limiting description but explicitly cautions that physical oxidation/σ-noninnocence is not unequivocally resolved. Reproduce or justify deviations from this disclosed baseline; the shared result standard accepts scientifically supported refutation and does not impose its winner. TDDFT/SMD(toluene) and aromaticity analyses are source supplementary work, not mandatory additions to this electronic-state task.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

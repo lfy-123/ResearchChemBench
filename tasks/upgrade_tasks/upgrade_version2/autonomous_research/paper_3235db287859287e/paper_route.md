@@ -1,0 +1,7 @@
+# Private source-route and V2 scope record
+
+The authors propose thiol-derived radical addition to the Baylis–Hillman substrate, iodine capture, an iodide-assisted hydrogen relay and S–O reorganization. They interpret the isotope and protection studies as evidence for hydroxyl-to-sulfinyl oxygen transfer (main pp5–7). The paper reports an 8.9 kcal/mol local free-energy barrier and a 1.5 kcal/mol product-isomer preference; these are source claims with different meanings, not interchangeable activation data. SI p100 specifies Gaussian09, C/H 6-31G, O/S 6-311G**, I aug-cc-pVDZ-PP, SMD MeCN and298 K/1atm, but the functional is absent from that method paragraph. The SI describes a rising relaxed hydrogen-relay scan with no resolved saddle; this is not proof of zero activation free energy. Reproduce or audit this disclosed local rationale within the shared question, document the missing functional and any justified substitutions, and distinguish paper values from new results. Independent competitor pathways and the old benchmark protection calculation were not all performed by the authors.
+
+The shared scientific question is: What molecular account of the conversion of 1a and 2a into the observed sulfoxide is justified by the supplied experimental evidence, and which mechanistic conclusions remain unresolved?
+
+AR does not receive this metadata route through materialize_agent_files. The actual process rubric differs by mode under open_research. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_1255ed42fa7e12ff",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "type": "condition",
+      "expected": "Frequency validation present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[*].validation.minimums"
+        ],
+        "comparison": "expert"
+      },
+      "reference_id": "p1"
+    },
+    {
+      "rule_id": "r2",
+      "type": "condition",
+      "expected": "Connectivity validation present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[*].validation.connectivity"
+        ],
+        "comparison": "expert"
+      },
+      "reference_id": "p2"
+    },
+    {"rule_id":"r3_O","type":"numeric","target":13.54,"unit":"kcal/mol; compound=8QBDY-O","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.results[*].barrier_kcal_mol"],"comparison":"select result where compound is 8QBDY-O"},"reference_id":"p3"},
+    {"rule_id":"r3_S","type":"numeric","target":7.81,"unit":"kcal/mol; compound=8QBDY-S","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.results[*].barrier_kcal_mol"],"comparison":"select result where compound is 8QBDY-S"},"reference_id":"p3"},
+    {"rule_id":"r3_Se","type":"numeric","target":6.89,"unit":"kcal/mol; compound=8QBDY-Se","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.results[*].barrier_kcal_mol"],"comparison":"select result where compound is 8QBDY-Se"},"reference_id":"p3"},
+    {"rule_id":"r4_O","type":"numeric","target":739.0,"unit":"s^-1; compound=8QBDY-O","tolerance":0.25,"binding":{"artifact_paths":["report/results.json"],"fields":["$.results[*].rate_s_inv"],"comparison":"select result where compound is 8QBDY-O; compare log10"},"reference_id":"p4"},
+    {"rule_id":"r4_S","type":"numeric","target":11700000.0,"unit":"s^-1; compound=8QBDY-S","tolerance":0.25,"binding":{"artifact_paths":["report/results.json"],"fields":["$.results[*].rate_s_inv"],"comparison":"select result where compound is 8QBDY-S; compare log10"},"reference_id":"p4"},
+    {"rule_id":"r4_Se","type":"numeric","target":55300000.0,"unit":"s^-1; compound=8QBDY-Se","tolerance":0.25,"binding":{"artifact_paths":["report/results.json"],"fields":["$.results[*].rate_s_inv"],"comparison":"select result where compound is 8QBDY-Se; compare log10"},"reference_id":"p4"},
+    {
+      "rule_id": "r5",
+      "type": "ordering",
+      "expected": "O>S>Se barriers and O<S<Se rates",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert"
+      },
+      "reference_id": "c1"
+    }
+  ]
+}

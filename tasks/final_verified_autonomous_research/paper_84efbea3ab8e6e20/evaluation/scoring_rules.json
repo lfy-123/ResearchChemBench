@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_84efbea3ab8e6e20",
+  "rules": [
+    {
+      "rule_id": "ar_rule_coverage",
+      "reference_id": "ar_process_coverage",
+      "type": "semantic",
+      "expected": "bounded search plan and complete three-isomer coverage with retained failures",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_state",
+      "reference_id": "ar_process_state_rule",
+      "type": "semantic",
+      "expected": "energy-based common state rule and per-object SOC identities",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_trend",
+      "reference_id": "ar_result_trend",
+      "type": "semantic",
+      "expected": "Evaluator-private comparison: source PVA lifetimes are CZ1B 3.96 s, CZ4B 4.27 s, CZ2B 5.20 s (main PDF p.3 Fig.1d/f, 0.5 wt% films). Compare these with the submitted computed cross-isomer SOC/state-character evidence. Do not require the agent to state or guess the hidden lifetime values or observed ordering. Isolated SOC is not a formula for absolute film lifetime and does not alone prove host causation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_limit",
+      "reference_id": "ar_final_claim",
+      "type": "semantic",
+      "expected": "The three named isomers are compared using reproducibly selected electronic states, SOC values and state-character evidence. The evaluator compares these computed results with its private experimental lifetime reference; the previously accepted evidence-backed alternative interpretation remains admissible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

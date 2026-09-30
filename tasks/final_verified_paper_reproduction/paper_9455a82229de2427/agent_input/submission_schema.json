@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "investigation",
+          "conclusion",
+          "candidate_validation_summary",
+          "candidate_identity_summary",
+          "energy_compatibility_summary",
+          "final_claim"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "investigation": {
+            "type": "object",
+            "required": [
+              "method",
+              "coverage"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "coverage": {
+                "type": "string"
+              },
+              "stopping": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              }
+            }
+          },
+          "reactants": {
+            "type": "object",
+            "required": [
+              "sin_energy_hartree",
+              "isoprene_energy_hartree",
+              "h_energy_hartree"
+            ],
+            "properties": {
+              "sin_energy_hartree": {
+                "type": "number"
+              },
+              "isoprene_energy_hartree": {
+                "type": "number"
+              },
+              "h_energy_hartree": {
+                "type": "number",
+                "description": "0 K H atom energy in the same component-energy convention."
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "smiles",
+                "charge",
+                "multiplicity",
+                "validation",
+                "energy_hartree",
+                "reaction_energy_kj_mol"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "smiles": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "optimization",
+                    "frequency",
+                    "imaginary_frequencies",
+                    "structure_provenance"
+                  ],
+                  "properties": {
+                    "optimization": {
+                      "type": "string"
+                    },
+                    "frequency": {
+                      "type": "string"
+                    },
+                    "imaginary_frequencies": {
+                      "type": "integer"
+                    },
+                    "structure_provenance": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "energy_hartree": {
+                  "type": "number"
+                },
+                "reaction_energy_kj_mol": {
+                  "type": "number"
+                },
+                "mechanism_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "failure_details": {
+            "type": "string"
+          },
+          "attempted_candidates": {
+            "type": "array"
+          },
+          "verification_note": {
+            "type": "string"
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "reason",
+              "attempted_scope"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "attempted_scope": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "object",
+            "required": [
+              "claim",
+              "experimental_compatibility"
+            ],
+            "properties": {
+              "claim": {
+                "type": "string"
+              },
+              "experimental_compatibility": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              }
+            }
+          },
+          "candidate_validation_summary": {
+            "type": "string"
+          },
+          "candidate_identity_summary": {
+            "type": "string"
+          },
+          "energy_compatibility_summary": {
+            "type": "string"
+          },
+          "final_claim": {
+            "type": "string"
+          },
+          "attempts": {
+            "type": "array",
+            "description": "Optional earlier or extra attempts, not completed candidate results."
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "candidates": {
+                "minItems": 2
+              }
+            },
+            "required": [
+              "reactants",
+              "candidates"
+            ]
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "candidates": {
+                "minItems": 0
+              }
+            },
+            "required": [
+              "failure_details",
+              "attempted_candidates"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

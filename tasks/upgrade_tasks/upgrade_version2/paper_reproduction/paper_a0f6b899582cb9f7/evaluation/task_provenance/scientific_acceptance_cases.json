@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.320677+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_a0f6b899582cb9f7/documents/main.pdf",
+      "sha256": "536dd808e61410cb46b94a17eccf128122c410866a2933ca90121a7d20de81f0",
+      "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p2 Fig1 提供材料拓扑、pp3–4 讨论相互作用；SI p3 是 M3 合成/表征，没有作者精确封端坐标。当前 data_provenance 和 fragment_models 明示独立审查的 builder finite models。",
+      "actual_read_pages_and_sections": "Main pp2–4 Fig1 and interaction paragraph; pp7–8 method sections; SI pp3,5. Fig1a chemical drawings visually inspected and isolated from answer panels."
+    },
+    {
+      "path": "papers/paper_a0f6b899582cb9f7/documents/supplementary_001.pdf",
+      "sha256": "706d864d2d7eedd3257f86c9d9a4510612c0d6cc5fcdf10b3198f784fbd006ae",
+      "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p2 Fig1 提供材料拓扑、pp3–4 讨论相互作用；SI p3 是 M3 合成/表征，没有作者精确封端坐标。当前 data_provenance 和 fragment_models 明示独立审查的 builder finite models。",
+      "actual_read_pages_and_sections": "Main pp2–4 Fig1 and interaction paragraph; pp7–8 method sections; SI pp3,5. Fig1a chemical drawings visually inspected and isolated from answer panels."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Chemically justified finite PM6/BTP-eC9 models and M3 interaction evidence support a local explanation with explicit cuts, caps and representation limits, without the old fragment ladder.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Computed interaction evidence changes with justified finite representation; the agent demonstrates model dependence and declines a universal component affinity ordering.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "One short contact or an M3 quadrupole labeled only Debye is declared proof of increased photovoltaic efficiency.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A well-defined interaction with one material model is valid local evidence; missing evidence for the other material limits question coverage.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What can a finite molecular investigation establish about interactions of M3 with the chemical environments present in PM6 and BTP-eC9? Develop a physically supported account and determine how far the chosen models can represent those material components.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Confirm M3 chemistry and graph-derived PM6/BTP-eC9 representation against the public source drawings. Verify cut/cap chemistry, stereochemistry if relevant, formal charge and spin; source abbreviations must not be silently expanded into an unsupported side-chain isomer. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "For every material model explain what was retained and omitted and what properties it can represent. Validate the actual quantitative interaction observable and assumptions underpinning the explanation. If using multipoles, state coordinate frame, origin, convention and dimensionally correct units; if using energies, use balanced systems and disclose treatment of structural/electronic approximations. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Any conclusion applies to explicitly defined finite models. Molecular attraction, electrostatic descriptors or one optimized contact cannot establish film morphology, exciton dissociation, charge transport or photovoltaic efficiency, nor a universal PM6/BTP-eC9 affinity ordering. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "evidence": [
+    {
+      "evidence_id": "source_documents",
+      "source": [
+        {
+          "path": "papers/paper_94b0a8ae694590ea/documents/main.pdf",
+          "sha256": "9fe1fcd47f0da4b843db4f058e7482a4ca3049b1e17b0a3117b6c4c7328f130d",
+          "pages": [
+            3,
+            4,
+            5
+          ],
+          "total_pages": 12
+        },
+        {
+          "path": "papers/paper_94b0a8ae694590ea/documents/supplementary_001.pdf",
+          "sha256": "3a0f1cd4f04cb734daeb4c1cb4520edca7343964e00d8a594022193b87f659a9",
+          "pages": [
+            10,
+            15,
+            20
+          ],
+          "total_pages": 20
+        },
+        {
+          "path": "docs/evalution/update/paper_94b0a8ae694590ea.md",
+          "sha256": "4e6a7fc317ef69c42f770cee51bbb290e42639e31201c2b008a35f9ea06b6456",
+          "role": "First-version specification, not scientific evidence"
+        }
+      ],
+      "context": "Read main methods/SWCNT specification and molecular-DFT discussion; SI pp10,15,20 coordinate identities. The source does not select a chirality, so prepared ideal (10,10) geometry is explicitly benchmark-defined. ASE construction checks only; no interface energy/density computed.",
+      "scope": "Source identities, methods and observations; author conclusions remain hypotheses for the expanded comparison."
+    },
+    {
+      "evidence_id": "extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md"
+      },
+      "scope": "Benchmark-authored controls; new numerical references and error calibration pending."
+    },
+    {
+      "evidence_id": "legacy",
+      "source": {
+        "path": "evaluation/legacy_final_snapshot"
+      },
+      "scope": "Historical payload only. Old outputs/PASS certify no expanded endpoint."
+    }
+  ]
+}

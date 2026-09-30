@@ -1,0 +1,166 @@
+{
+  "paper_id": "paper_6f9a36fff6964313",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Use full catalyst identities and correct counterions. Declare modeled additives, charge/spin and any omitted inventory; maintain balanced references for association or reaction claims. Source K2CO3/water/CO2 context must not be silently equated with a unique isolated cluster. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.methods",
+          "$.validity_checks"
+        ],
+        "comparison": "Use full catalyst identities and correct counterions. Declare modeled additives, charge/spin and any omitted inventory; maintain balanced references for association or reaction claims. Source K2CO3/water/CO2 context must not be silently equated with a unique isolated cluster. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_activation",
+      "reference_id": "kp_activation",
+      "type": "condition",
+      "expected": "Produce auditable evidence for the stated catalyst comparison and define the observable. A population difference only establishes a model-dependent population difference unless further reasoning/evidence connects it to activation. No mandatory named attack pathway or fixed number of transition states. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.records",
+          "$.claims"
+        ],
+        "comparison": "Produce auditable evidence for the stated catalyst comparison and define the observable. A population difference only establishes a model-dependent population difference unless further reasoning/evidence connects it to activation. No mandatory named attack pathway or fixed number of transition states. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_explanation",
+      "reference_id": "kp_explanation",
+      "type": "condition",
+      "expected": "Assess explanatory sufficiency and important confounding. If barriers or stable complexes are asserted, establish their physical validity. A collapse or unresolved small difference can be valid with evidence; a missing calculation cannot establish equivalence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.validity_checks",
+          "$.decision_log"
+        ],
+        "comparison": "Assess explanatory sufficiency and important confounding. If barriers or stable complexes are asserted, establish their physical validity. A collapse or unresolved small difference can be valid with evidence; a missing calculation cannot establish equivalence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Use compatible standard states, temperature and inventory where energies/rates are compared. Examine uncertainties relevant to the claimed effect with actual evidence, without requiring a particular solvent count or population method. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists. If source-stage conditions are compared, distinguish Table 2 cycloaddition H2O from Tables 1/3 aqueous H2O2 and disclose the printed 6 versus 0.6 mmol discrepancy; neither value independently settles the typo. The preceding epoxidation is not an extra mandatory investigation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.uncertainty",
+          "$.methods"
+        ],
+        "comparison": "Use compatible standard states, temperature and inventory where energies/rates are compared. Examine uncertainties relevant to the claimed effect with actual evidence, without requiring a particular solvent count or population method. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists. If source-stage conditions are compared, distinguish Table 2 cycloaddition H2O from Tables 1/3 aqueous H2O2 and disclose the printed 6 versus 0.6 mmol discrepancy; neither value independently settles the typo. The preceding epoxidation is not an extra mandatory investigation."
+      }
+    },
+    {
+      "rule_id": "rule_limits",
+      "reference_id": "kp_limits",
+      "type": "condition",
+      "expected": "Give an evidence-proportional explanation, correction or unresolved result. Endpoint 94 versus76 percent is not a measured elementary barrier difference and local modeling cannot prove full oxidative carboxylation yield. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.scientific_response",
+          "$.limitations"
+        ],
+        "comparison": "Give an evidence-proportional explanation, correction or unresolved result. Endpoint 94 versus76 percent is not a measured elementary barrier difference and local modeling cannot prove full oxidative carboxylation yield. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Source catalyst and medium representation Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "activation",
+      "max_score": 30,
+      "description": "Quantitative local activation comparison Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_activation"
+      ]
+    },
+    {
+      "id": "explanation",
+      "max_score": 20,
+      "description": "Evidence discriminating the local explanation Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_explanation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Appropriate energetic and environmental references Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "limits",
+      "max_score": 15,
+      "description": "Local conclusion separated from catalytic yield Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_limits",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

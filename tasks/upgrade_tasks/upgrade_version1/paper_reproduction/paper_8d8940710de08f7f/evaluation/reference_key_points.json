@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_basins",
+      "key_point_type": "result",
+      "statement": "Attempt all three initial basins for both molecules in vacuum and methanol with dispersion on/off. Validate each retained minimum, deduplicate merged endpoints, and report E/G/weights on one convention. A documented collapse is admissible and must not create duplicated statistical weight.",
+      "expected": "Attempt all three initial basins for both molecules in vacuum and methanol with dispersion on/off. Validate each retained minimum, deduplicate merged endpoints, and report E/G/weights on one convention. A documented collapse is admissible and must not create duplicated statistical weight.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_interventions",
+      "key_point_type": "result",
+      "statement": "Supply matched D3 on/off single points and separately relaxed contrasts. Define the mapped PAH C-H donor and S=O acceptor; document the restrained contact-disfavoring control and its strain/nonadditivity. Do not assign constrained points equilibrium G or isolate a hydrogen-bond energy by assumption.",
+      "expected": "Supply matched D3 on/off single points and separately relaxed contrasts. Define the mapped PAH C-H donor and S=O acceptor; document the restrained contact-disfavoring control and its strain/nonadditivity. Do not assign constrained points equilibrium G or isolate a hydrogen-bond energy by assumption.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_thermochemical_robustness",
+      "key_point_type": "result",
+      "statement": "Reconstruct ΔG from ΔE and thermal terms; test low-frequency treatment and methanol effects. Check whether nominal mirror-like V basins are numerically or entropically distinct at the resolution achieved. Reward a supported near-degeneracy rather than a forced ordering.",
+      "expected": "Reconstruct ΔG from ΔE and thermal terms; test low-frequency treatment and methanol effects. Check whether nominal mirror-like V basins are numerically or entropically distinct at the resolution achieved. Reward a supported near-degeneracy rather than a forced ordering.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

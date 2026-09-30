@@ -1,0 +1,14 @@
+{
+  "type":"object",
+  "required":["status","method","systems","hypotheses","paths","conclusion","search_coverage"],
+  "properties":{
+    "status":{"type":"string"},
+    "method":{"type":"object","required":["software","model_chemistry","temperature_K","units"]},
+    "systems":{"type":"array","minItems":2,"items":{"type":"object","required":["system","charge","multiplicity","stationary_point_validation"]}},
+    "hypotheses":{"type":"array","minItems":1,"items":{"type":"object","required":["hypothesis_id","description","test_or_rejection"]}},
+    "paths":{"type":"array","items":{"type":"object","required":["path_id","isomer","mechanism_label","endpoint_connectivity","barrier_kcal_mol","rate_forward","rate_backward","validation"]}},
+    "conclusion":{"type":"string"},"search_coverage":{"type":"string"},"failure_details":{"type":"string"}
+  },
+  "required_files":["report/results.json"],"primary_result_file":"report/results.json",
+  "result_schema":{"type":"object","required":["status","method","systems","hypotheses","paths","conclusion","search_coverage"],"properties":{"status":{"type":"string"},"method":{"type":"object","required":["software","model_chemistry","temperature_K","units"]},"systems":{"type":"array","minItems":2,"items":{"type":"object","required":["system","charge","multiplicity","stationary_point_validation"]}},"hypotheses":{"type":"array","minItems":1,"items":{"type":"object","required":["hypothesis_id","description","test_or_rejection"]}},"paths":{"type":"array","items":{"type":"object","required":["path_id","isomer","mechanism_label","endpoint_connectivity","barrier_kcal_mol","rate_forward","rate_backward","validation"]}},"conclusion":{"type":"string"},"search_coverage":{"type":"string"},"failure_details":{"type":"string"}}}
+}

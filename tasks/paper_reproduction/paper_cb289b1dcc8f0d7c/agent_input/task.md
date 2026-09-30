@@ -4,7 +4,35 @@ Independently plan and execute calculations for the neutral BQ1–BQ7 boron(III)
 
 # Public inputs and scientific boundaries
 
-Use only `data/inputs/bq_series.json` and your own calculations. Every member is a neutral monomer (charge 0), with singlet S0/S1 and triplet T1/T2; B is bonded to two phenyl ipso carbons and the N/O atoms of one deprotonated 8-hydroxyquinolinate. Substitution positions and formulas are explicit in the manifest. The default boundary is an isolated monomer with implicit toluene; a BQ7 dimer in water is optional and must be separately identified. Do not use the paper, SI, general web, or hidden evaluator files. Software, functional, basis, relativistic treatment and execution order are your choice. Do not treat experimental values as computed targets.
+Use `data/inputs/bq_series.json`, `data/inputs/experimental_solution_fluorescence.json` (observed toluene solution values only), and your own calculations. Every member is a neutral monomer (charge 0), with singlet S0/S1 and triplet T1/T2; B is bonded to two phenyl ipso carbons and the N/O atoms of one deprotonated 8-hydroxyquinolinate. Substitution positions and formulas are explicit in the manifest. The default boundary is an isolated monomer with implicit toluene; a BQ7 dimer in water is optional and must be separately identified. Do not use the paper, SI, general web, or hidden evaluator files. Treat the supplied observations as measurements for comparison, not as computed targets.
+
+The primary route under evaluation is the authors' published computational route, because
+the purpose of this task is to test reproduction of the paper's core calculation rather
+than agreement obtained with an arbitrary proxy.  Use the following route for the required
+monomer calculations unless a documented bounded failure makes a step impossible:
+
+* S0 geometry optimization: Gaussian 16 DFT, MPW1PW91 with 6-31+G(d,p) on the
+  first-row atoms and LanL2DZ/ECP for iodine, with PCM/toluene.
+* S1, T1 and T2 geometry optimization: Gaussian 16 TD-DFT with the
+  Tamm-Dancoff approximation (TDA), MPW1PW91 and the same mixed basis/PCM(toluene).
+  Preserve the state multiplicities in the manifest and explicitly track the requested
+  root during optimization.
+* S1/T1 spin–orbit coupling: ORCA SOMF/RI with CAM-B3LYP, ZORA-def2-TZVP, and
+  SARC-ZORA-TZVP for iodine, using RIJCOSX and PCM/toluene; evaluate at the T1
+  optimized geometry and record state/root mapping.
+* S1→T1 ISC and S1→S0 fluorescence rates: the adiabatic-Hessian (AH) model with
+  both Franck–Condon (FC) and Herzberg–Teller (HT) terms.  Use Cartesian coordinates,
+  the time-dependent (TD) formulation, Lorentzian HWHM 0.01 eV, and PCM/toluene.
+  FCclasses3 is the named rate backend for this step.  If it cannot be executed, use
+  an explicitly identified, documented equivalent implementation only after a public
+  FC/HT regression test; otherwise report a bounded failure and do not substitute
+  oscillator strengths, xTB, or an unrelated TD-DFT rate.
+
+These method choices are task-visible protocol requirements, not reference answers:
+the agent must still construct/validate structures, choose convergence and state-tracking
+details, perform post-processing, quantify uncertainty, and decide how to handle failures.
+Any software/backend substitution, different basis, solvent model, or state treatment
+must be labeled non-equivalent and cannot be reported as an author-route success.
 
 # Required scientific validation/investigation
 

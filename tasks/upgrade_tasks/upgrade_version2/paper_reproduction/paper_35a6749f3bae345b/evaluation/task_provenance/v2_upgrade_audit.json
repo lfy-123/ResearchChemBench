@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "task_type": "paper_reproduction",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T17:00:36.351576+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_35a6749f3bae345b.json",
+  "plan_sha256": "e825e050ed860115a62373435272a445b5e91aab9ce8e8c6d678c308475f0804",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_35a6749f3bae345b",
+  "v1_package_content_sha256": "ab34ae4089bbf0625b7a5951d77702defc41297dc53c2295ea668200f65da5e1",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "a989fc48031bb04ffcfc7ca910ba88c1443476fae92f85080664efb573be0d7e",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_35a6749f3bae345b/documents/main.pdf",
+      "sha256": "8d9c00625c2bce148224c2bd64afdd9e50ce58c62013879e5a1bd37bc63e2345",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "sections_figures_tables": "PDF p3 optical/theoretical methods; p4 Scheme1 and discussion of closely similar spectra; p5 Table1/Fig.3 measured absorption/emission; p6 electronic interpretation."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_35a6749f3bae345b/documents/supplementary_001.pdf",
+      "sha256": "c689ac62aab028b9263116896d5791a0222388c2afc0289dba4cf2d30ad4094f",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        11
+      ],
+      "sections_figures_tables": "PDF p11 TableS5 explicitly compares TD results at S0 and S1 optimized geometries, with TableS6 orbital contributions; geometry label is not an excited-state-absorption label."
+    }
+  ],
+  "historical_class": "加强B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_solution_spectra_and_legacy_state_context_only_reference_pending",
+  "scope_changes": [
+    "Remove required S0/S1 four-point cycle, common45° core intervention and Cbz holdout.",
+    "Do not assume a terminal substituent effect exists; frame the question around observed similarities and possible distinguishable changes.",
+    "Remove inherited ESA language unsupported by the source TD reference-state definition."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:04.942520+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

@@ -1,0 +1,411 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "status",
+              "method",
+              "validation",
+              "isomers",
+              "comparison",
+              "interpretation"
+            ],
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "isomers": {
+                "required": [
+                  "Ih",
+                  "D5h"
+                ],
+                "properties": {
+                  "Ih": {
+                    "required": [
+                      "result_status",
+                      "modes"
+                    ],
+                    "properties": {
+                      "result_status": {
+                        "const": "complete"
+                      },
+                      "modes": {
+                        "minItems": 4,
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "frequency_cm-1",
+                            "assignment_evidence"
+                          ]
+                        },
+                        "maxItems": 4,
+                        "uniqueItems": true
+                      }
+                    }
+                  },
+                  "D5h": {
+                    "required": [
+                      "result_status",
+                      "modes"
+                    ],
+                    "properties": {
+                      "result_status": {
+                        "const": "complete"
+                      },
+                      "modes": {
+                        "minItems": 4,
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "frequency_cm-1",
+                            "assignment_evidence"
+                          ]
+                        },
+                        "maxItems": 4,
+                        "uniqueItems": true
+                      }
+                    }
+                  }
+                }
+              },
+              "comparison": {
+                "required": [
+                  "statistic_name",
+                  "statistic_value",
+                  "units",
+                  "direction"
+                ]
+              }
+            }
+          },
+          {
+            "required": [
+              "status",
+              "method",
+              "validation",
+              "isomers",
+              "failure_diagnostics"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "isomers": {
+                "required": [
+                  "Ih",
+                  "D5h"
+                ],
+                "properties": {
+                  "Ih": {
+                    "required": [
+                      "result_status",
+                      "modes",
+                      "diagnostics"
+                    ],
+                    "properties": {
+                      "modes": {
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "assignment_evidence"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "D5h": {
+                    "required": [
+                      "result_status",
+                      "modes",
+                      "diagnostics"
+                    ],
+                    "properties": {
+                      "modes": {
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "assignment_evidence"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software_or_code",
+              "model_or_algorithm",
+              "settings"
+            ],
+            "properties": {
+              "software_or_code": {
+                "type": "string"
+              },
+              "model_or_algorithm": {
+                "type": "string"
+              },
+              "settings": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "input_checks",
+              "frequency_run",
+              "assignment_rule",
+              "supporting_artifacts"
+            ],
+            "properties": {
+              "input_checks": {
+                "type": "string"
+              },
+              "frequency_run": {
+                "type": "string"
+              },
+              "assignment_rule": {
+                "type": "string"
+              },
+              "supporting_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "isomers": {
+            "type": "object",
+            "required": [
+              "Ih",
+              "D5h"
+            ],
+            "properties": {
+              "Ih": {
+                "type": "object",
+                "properties": {
+                  "result_status": {
+                    "type": "string",
+                    "enum": [
+                      "complete",
+                      "partial",
+                      "failed"
+                    ]
+                  },
+                  "modes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "description": "Four primary distinct physical modes when complete. Each native mode_id must be unique; physical identity is checked with assignment evidence."
+                  },
+                  "diagnostics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "additional_modes": {
+                    "type": "array",
+                    "description": "Optional other examined/mixed candidates, excluded from the primary four-frequency selector; not an exploration limit.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "D5h": {
+                "type": "object",
+                "properties": {
+                  "result_status": {
+                    "type": "string",
+                    "enum": [
+                      "complete",
+                      "partial",
+                      "failed"
+                    ]
+                  },
+                  "modes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "description": "Four primary distinct physical modes when complete. Each native mode_id must be unique; physical identity is checked with assignment evidence."
+                  },
+                  "diagnostics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "additional_modes": {
+                    "type": "array",
+                    "description": "Optional other examined/mixed candidates, excluded from the primary four-frequency selector; not an exploration limit.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "statistic_name",
+              "statistic_value",
+              "units",
+              "direction"
+            ],
+            "properties": {
+              "statistic_name": {
+                "type": "string"
+              },
+              "statistic_value": {
+                "type": "number"
+              },
+              "units": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string"
+              }
+            }
+          },
+          "interpretation": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "failure_diagnostics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

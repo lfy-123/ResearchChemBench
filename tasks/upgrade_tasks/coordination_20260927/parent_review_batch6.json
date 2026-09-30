@@ -1,0 +1,40 @@
+{
+  "reviewed_at": "2026-09-27T11:24:05.877542+00:00",
+  "batch": 6,
+  "scope": "Parent read of source-specific implementations, structured schema, evidence/rubric mapping and prerequisite boundaries; no chemistry calculation",
+  "status": "passed_development_review_blocked_for_science",
+  "papers": [
+    {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "scientific_review": "Real symmetry-neighbor inventory, molecule-resolved surface area and raw/CP fixed-geometry interactions are required. Cutoff and H/basis sensitivity are explicit; contact frequency is not passed off as energy or area. Source CIF gate correctly remains open.",
+      "source_checks": "CCDC 2445596 cell metadata and checkCIF are insufficient to instantiate atom coordinates; no fictitious neighbor dimers accepted.",
+      "first_version_coverage": "core covered; optional SAPT/docking excluded",
+      "remaining_scientific_gap": "Authenticated CIF, neighbor/area/energy pilot, expanded numerical reference"
+    },
+    {
+      "paper_id": "paper_72f60526b64ce1b6",
+      "scientific_review": "Three Group A molecules, fixed-laboratory AD reversal, one unilateral contact perturbation, five configurations at zero and both bias signs, signed Landauer integration, current-floor-aware rectification and numerical convergence are defined. Molecular dipoles cannot substitute for transport.",
+      "source_checks": "SI junction coordinates do exist (72 Au per junction); blocker narrowed to executable native chain and calibrated finite-bias reference. Source QuantumATK method not claimed equivalent to available SIESTA.",
+      "first_version_coverage": "core covered; optional Group B excluded",
+      "remaining_scientific_gap": "Allowed validated NEGF dependency chain, mapped device inputs, same-junction ±V pilot"
+    },
+    {
+      "paper_id": "paper_c7217910ecbee1d9",
+      "scientific_review": "n0/n1/n2 13/47/81-atom identities and electron parity, free neutral/anion endpoints, vertical attachment, one common bare-neutral core for frozen controls, same-grid attachment density, ZPE distinction and documented reconstruction exclusions are explicit.",
+      "source_checks": "Formal DOCX SI present; historical reconstructed xTB aggregate is not an intact cluster reference. Graph-defined starts do not claim minimum stability.",
+      "first_version_coverage": "core covered; full shell proof, graphene and AIMD optional",
+      "remaining_scientific_gap": "Intact ligated neutral/anion DFT minimum pair and expanded series reference"
+    }
+  ],
+  "implementation_findings": [
+    {
+      "severity": "must_fix",
+      "scope": "All six schemas and batch6 generator",
+      "issue": "Artifact paths outputs/../evaluation/hidden.json and report/../hidden.json are accepted by current regex. Dot segments must be rejected at every position including the first segment after root.",
+      "evidence": "parent_batch6_initial.json, 6 failures among 138 independent checks",
+      "required_repair": "Repair generator and regenerate only own schemas/manifests, test normal nested paths and direct/nested traversal. No added science claims.",
+      "resolution": "Worker independently fixed all generator/schema dot-segment patterns and added negative tests; parent read-back 138/138 passed in parent_batch6_readback.json."
+    }
+  ],
+  "scientific_reference_validation": false
+}

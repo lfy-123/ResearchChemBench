@@ -21,6 +21,8 @@ SENSITIVE_KEY_PARTS = (
     "secret",
 )
 SENSITIVE_TEXT_PATTERNS = (
+    re.compile(r'''(?i)(["'](?:api_key|authorization|access_token|refresh_token|password|secret)["']\s*:\s*["'])[^"']*'''),
+    re.compile(r"\bagt_codex_[A-Za-z0-9_-]{8,}\b"),
     re.compile(r"(?i)(Bearer\s+)[A-Za-z0-9._~+/=-]+"),
     re.compile(r"(?i)\bsk-[A-Za-z0-9_-]{12,}\b"),
     re.compile(
@@ -373,12 +375,31 @@ def export_model_io_trace(workspace: str | Path) -> dict[str, Any]:
 
     workspace = Path(workspace).resolve()
     database = workspace / "_opencode" / "opencode.db"
-    if database.is_file():
+    try:
+        meta = json.loads((workspace / "_meta.json").read_text())
+    except (OSError, ValueError):
+        meta = {}
+    if meta.get("agent_kind") == "external":
+        records, context_refs = [], {}
+        stats = {"input_message_count": None, "model_step_count": None, "context_record_count": 0, "session_count": None}
+        capture_mode = "external_agent_reported_events"
+    elif database.is_file():
         records, stats, context_refs = _opencode_records(workspace)
         capture_mode = "opencode_database_event_sourced"
     else:
         records, stats, context_refs = _fallback_records(workspace)
         capture_mode = "agent_event_stream_event_sourced"
+
+    from .agent_events import event_capture_summary, load_agent_events
+    observed = load_agent_events(workspace)
+    capture = event_capture_summary(observed)
+    # Provider CLI events are observable turns and operations, not HTTP calls.
+    if meta.get("agent_kind") == "external" or any(e.get("provider") == "codex" for e in observed):
+        records.extend({"record_type": "agent_event", "record_id": f"agent_event:{e['sequence']}",
+                        "event": _redact(e)} for e in observed)
+        stats["model_step_count"] = None
+        if meta.get("agent_kind") != "external":
+            capture_mode = "provider_observed_events"
 
     errors = _model_errors(workspace, context_refs)
     created_at = datetime.now(timezone.utc).isoformat()
@@ -388,6 +409,7 @@ def export_model_io_trace(workspace: str | Path) -> dict[str, Any]:
         "format_version": FORMAT_VERSION,
         "created_at": created_at,
         "capture_mode": capture_mode,
+        "event_capture": capture,
         "representation": (
             "Event-sourced model trajectory. Each model_step input lists ordered "
             "references to the initial input and prior step outputs, avoiding full "
@@ -422,6 +444,7 @@ def export_model_io_trace(workspace: str | Path) -> dict[str, Any]:
         "path": str(path),
         "format_version": FORMAT_VERSION,
         "capture_mode": capture_mode,
+        "event_capture": capture,
         "model_step_count": stats["model_step_count"],
         "model_error_count": len(errors),
         "session_count": stats["session_count"],

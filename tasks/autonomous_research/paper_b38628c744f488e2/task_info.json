@@ -5,7 +5,8 @@
   "category": "quantum chemistry",
   "difficulty": "medium",
   "difficulty_reasons": [
-    "The fixed molecular system is closed, but contact geometries and competing conformers must be proposed, searched, deduplicated and validated independently."
+    "The fixed molecular system is closed; the bounded evaluator validates the submitted public radical-anion/dianion one-methanol pose subset rather than claiming the complete ConfLEX ensemble.",
+    "Contact geometries, stationary-point evidence, isolated-fragment references and ΔH arithmetic must remain explicit and reproducible."
   ],
   "paper": {
     "title": "Enthalpy–Entropy Compensation Governs the Solvent-Mixing Effect in Electrochemical Thermoelectric Conversion",
@@ -16,7 +17,7 @@
   "data": [
     {
       "path": "data/inputs",
-      "description": "Canonical Q(CH3)4 and methanol SMILES plus explicit states and observable definitions."
+      "description": "Canonical Q(CH3)4 and methanol SMILES plus explicit states, observable definitions and the public-conformer subset boundary."
     }
   ],
   "required_deliverables": [

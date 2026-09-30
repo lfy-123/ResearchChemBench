@@ -1,0 +1,18 @@
+{
+  "status": "blocked",
+  "implementation_status": "implemented_pending_expanded_reference",
+  "release_ready": false,
+  "missing_prerequisites": [
+    "Authenticated CCDC 2445596 CIF and complete fractional atom/occupancy/symmetry data are not available.",
+    "Correct symmetry-inequivalent neighbor inventory and graph mapping cannot be generated without that CIF.",
+    "No representative pair area/interaction-energy pilot or full expanded references exist."
+  ],
+  "unblocking_conditions": [
+    "Obtain the actual deposition through a permitted CCDC/publisher access route, hash it, check DOI/deposition/formula/cell and inspect disorder/occupancy/quality alerts. A downloaded checkCIF or HTML page is not sufficient.",
+    "Rebuild full molecules and neighbors, establish a bijective label map and normalize H consistently; review symmetry/multiplicity against source packing.",
+    "Demonstrate one real pair with converged surface area and frozen-geometry CP energies through Gaussian/ORCA or an equivalent calibrated method.",
+    "Complete all primary pairs plus the specified cutoff and decisive sensitivity controls; freeze numerical intervals from actual evidence; then review release readiness and run independent AR/PR checks."
+  ],
+  "no_new_reference_calculations": true,
+  "instructions": "Development package only. Diagnose missing prerequisites; do not treat an open gate or an old result as completed science."
+}

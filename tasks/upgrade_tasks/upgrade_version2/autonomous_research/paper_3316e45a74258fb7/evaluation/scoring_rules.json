@@ -1,0 +1,172 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "semantic",
+      "expected": "Preserve the mapped full structures and distinguish the three donor connectivities. State what geometry, state and environment each excitation quantity describes. Track state character consistently when comparing models; vertical transitions, spectral maxima and adiabatic gaps are different observables. A claimed rate or spin-conversion pathway requires evidence beyond a favorable energy gap. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Preserve the mapped full structures and distinguish the three donor connectivities. State what geometry, state and environment each excitation quantity describes. Track state character consistently when comparing models; vertical transitions, spectral maxima and adiabatic gaps are different observables. A claimed rate or spin-conversion pathway requires evidence beyond a favorable energy gap."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_measure",
+      "reference_id": "kp_measure",
+      "type": "semantic",
+      "expected": "Provide quantitative state/optical evidence for the specified donor family with raw structures, inputs/outputs or analysis and clear quantity definitions. Relate calculations to supplied observations only at matching physical conditions or with explicit approximation limits. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Provide quantitative state/optical evidence for the specified donor family with raw structures, inputs/outputs or analysis and clear quantity definitions. Relate calculations to supplied observations only at matching physical conditions or with explicit approximation limits."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_explain",
+      "reference_id": "kp_explain",
+      "type": "semantic",
+      "expected": "Show how the evidence supports or limits an explanation of the substitution dependence; distinguish correlation from causal interpretation. A self-chosen study is valid without fixed torsions, a prescribed number of roots or a named partition method. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Show how the evidence supports or limits an explanation of the substitution dependence; distinguish correlation from causal interpretation. A self-chosen study is valid without fixed torsions, a prescribed number of roots or a named partition method."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_robust",
+      "reference_id": "kp_robust",
+      "type": "semantic",
+      "expected": "Assess state assignment, conformation/model/environment sensitivity to the extent required by the claim. Report unresolved near-degeneracy, state switching or collapsed conformers honestly rather than counting duplicate states as confirmation. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.limitations",
+          "$.quantities",
+          "$.artifacts"
+        ],
+        "comparison": "Assess state assignment, conformation/model/environment sensitivity to the extent required by the claim. Report unresolved near-degeneracy, state switching or collapsed conformers honestly rather than counting duplicate states as confirmation."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_answer",
+      "reference_id": "con_answer",
+      "type": "semantic",
+      "expected": "Give a bounded explanation of the donor-dependent molecular behavior, or identify which proposed explanation is refuted or unresolvable with the chosen evidence. An old scalar gap or copied source state label alone does not answer the comparative question. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Give a bounded explanation of the donor-dependent molecular behavior, or identify which proposed explanation is refuted or unresolvable with the chosen evidence. An old scalar gap or copied source state label alone does not answer the comparative question."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Identity and scope: Preserve the mapped full structures and distinguish the three donor connectivities. State what geometry, state and environment each excitation quantity describes. Track state character consistently when comparing models; vertical transitions, spectral maxima and adiabatic gaps are different observables. A claimed rate or spin-conversion pathway requires evidence beyond a favorable energy gap.",
+      "rule_ids": [
+        "rule_scope"
+      ]
+    },
+    {
+      "id": "measure",
+      "max_score": 30,
+      "description": "Quantitative scientific results: Provide quantitative state/optical evidence for the specified donor family with raw structures, inputs/outputs or analysis and clear quantity definitions. Relate calculations to supplied observations only at matching physical conditions or with explicit approximation limits.",
+      "rule_ids": [
+        "rule_measure"
+      ]
+    },
+    {
+      "id": "explain",
+      "max_score": 25,
+      "description": "Evidence that distinguishes the claimed explanation: Show how the evidence supports or limits an explanation of the substitution dependence; distinguish correlation from causal interpretation. A self-chosen study is valid without fixed torsions, a prescribed number of roots or a named partition method.",
+      "rule_ids": [
+        "rule_explain"
+      ]
+    },
+    {
+      "id": "robust",
+      "max_score": 20,
+      "description": "Uncertainty and limits: Assess state assignment, conformation/model/environment sensitivity to the extent required by the claim. Report unresolved near-degeneracy, state switching or collapsed conformers honestly rather than counting duplicate states as confirmation.",
+      "rule_ids": [
+        "rule_robust"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Bounded answer to the question: Give a bounded explanation of the donor-dependent molecular behavior, or identify which proposed explanation is refuted or unresolvable with the chosen evidence. An old scalar gap or copied source state label alone does not answer the comparative question.",
+      "rule_ids": [
+        "rule_answer"
+      ]
+    }
+  ],
+  "reference_stage": "content_implemented_reference_and_judge_pending",
+  "scoring_notes": [
+    "AR and PR share result validity; actual open_research runtime supplies mode-specific process rubrics.",
+    "Source author outcomes are conditional reference evidence, not mandatory winners. No inherited numerical tolerance.",
+    "No penalty simply for a different justified model, hypothesis count, metric or valid analysis route. Scientific adequacy is claim-dependent.",
+    "Completion requires a substantiated answer to the stated question. Honest partial credit is distinct from passing all scientific criteria."
+  ]
+}

@@ -1,0 +1,507 @@
+
+=== PDF PAGE 1 ===
+                                                   Journal of Molecular Structure 1349 (2026) 143691
+
+                                                 Contents lists available at ScienceDirect
+                         Journal of Molecular Structure
+
+
+                                           journal homepage: www.elsevier.com/locate/molstr
+
+
+Unveiling multi-responsive colorimetric and fluorescent sensing behavior
+and DFT insights of a novel coumarin and 8-hydroxyquinoline conjugate for
+Cd2+, Co2+, and Ni2+ ions detection
+G. Durga Prasad a, Raghvendra Niranjan a, Mariyaraj Arockiaraj b,
+Venkatachalam Rajeshkumar b, Ashok K. Sundramoorthy c, Surendra H. Mahadevegowda a,*
+a Department of Chemistry, School of Sciences, National Institute of Technology Andhra Pradesh, Tadepalligudem 534101, Andhra Pradesh, India
+b Organic Synthesis & Catalysis Lab, Department of Chemistry, National Institute of Technology Warangal, Hanumakonda 506004, Telangana, India
+c Centre for Nano-Biosensors, Department of Prosthodontics, Saveetha Dental College and Hospitals, Saveetha Institute of Medical and Technical Sciences, Poonamallee
+High Road, Velappanchavadi, Chennai 600077, Tamil Nadu, India
+
+
+A R T I C L E  I N F O                  A B S T R A C T
+
+Keywords:                                          In this work, we have developed and systematically evaluated a new fluorescent chemosensor, DQCS, capable of
+Coumarin                                             selectively and sensitively detecting Cd2+, Co2+, and Ni2+ ions. The sensing performance was investigated in a
+8‑hydroxy quinoline                     DMSO–H2O (9:1, v/v) medium, where DQCS exhibited significant fluorescence quenching upon interactionFluorescent probe                                              with these target ions. Selectivity studies confirmed minimal interference from other common metal ions,Multi selective ligand                                                   highlighting the high specificity of the DQCS probe. Job’s method indicated that the probe interacts with the
+                                              metal ions in a 1:1 molar ratio. At the same time, fluorescence titration experiments yielded low limits of
+                                                  detection values of 4.75×10–5 M for Cd2+, 3.63×10–5 M for Co2+, and 2.99×10–5 M for Ni2+, indicating high
+                                                          sensitivity. Furthermore, binding constants of 1.57×104 M-1 (Cd2+), 4.32×104 M-1 (Co2+), and 6.43×104 M-1
+                                                  (Ni2+) was obtained. Among the tested ions, Ni2+ exhibited the highest binding constant and strongest inter­
+                                                  action with DQCS. Theoretical studies using DFT and TD-DFT methods provided insight into the electronic and
+                                                      structural changes upon metal coordination with the probe. A notable change in molecular electrostatic potential
+                                               (ESP) and a reduced HOMO-LUMO energy gap collectively confirmed enhanced charge transfer interactions,
+                                                     especially in the case of Ni2+ complex. Overall, the combined experimental and computational results indicate
+                                                    that DQCS is an effective, multi-responsive fluorescent sensor with significant potential for tracing specified
+                                              metal ions in environmental and analytical samples.
+
+
+1. Introduction                                                        production,    electroplating,   pigment    formulation,     fertilizer
+                                                                      manufacturing, and the development of rechargeable batteries [7,8].
+   Metal ions serve as essential components in the biological systems of    Prolonged exposure leads to cadmium buildup in body tissues, which
+humans. Even in trace concentrations, they are actively involved in a     induces the enlargement of critical organs, weakening of bones, and
+variety of vital functions, including metabolism, enzyme activation,     disruptions in cardiovascular, immune, and reproductive system func­
+regulation of osmotic pressure, energy transfer, mineral deposition in     tions [9]. Cobalt is widely employed as a catalyst in chemical industries,
+tissues, and intracellular signaling [1–3]. However, maintaining a pre­    and  it is essential to the manufacturing of rechargeable lithium-ion
+cisely balanced concentration of metal ions is essential because both     batteries [10]. While  it serves an essential function in mammalian
+deficiency and excess can disrupt normal physiological functions and    metabolism as a trace element, excessive exposure to cobalt has led to
+pose serious health risks. Elevated levels of certain metal ions cause     adverse health effects, including cardiomyopathy and thyroid gland
+toxicity,  adversely  affecting human  health due  to environmental     hyperplasia [11–15]. Nickel is extensively utilized in the production of
+contamination [4–6]. Cadmium is one of the toxic metals, and it is    nickel-cadmium (Ni-Cd) batteries and electroplating processes [16].
+commonly  utilized  in numerous  industrial  sectors, such  as  alloy    However, prolonged or high-level exposure to nickel can cause several
+
+
+ * Corresponding author.
+    E-mail address: surendra@nitandhra.ac.in (S.H. Mahadevegowda).
+https://doi.org/10.1016/j.molstruc.2025.143691
+Received 6 June 2025; Received in revised form 14 August 2025; Accepted 18 August 2025
+Available online 19 August 2025
+0022-2860/© 2025 Elsevier B.V. All rights are reserved, including those for text and data mining, AI training, and similar technologies.
+
+=== PDF PAGE 2 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+health issues, including cardiovascular disorders, kidney damage, and     the 1H, 13C, and DEPT-135 NMR spectra by using an NMR spectrometer
+respiratory diseases [17]. Thus, advancing a sensitive and selective     (Bruker Avance III HD 400 MHz), with CDCl3 as the solvent. Tetramethyl
+detection strategy for these metal ions in real-world applications is of     silane (TMS) was used as an internal reference, with its chemical shift set
+great importance for environmental and health safety.                       at δ = 0.00 ppm. In the 1H NMR spectra, signal multiplicities are denoted
+   These metal ions are typically detected using a range of advanced     as follows: dd = doublet of doublets,  t = triplet, s = singlet, m =
+analytical tools, including AAS, ETAAS, and plasma-based techniques     multiplet, q = quartet, and d = doublet. Coupling constants (J) values
+like ICP-MS and ICP-AES [18–23]. Additionally, spectrophotometry     are presented in hertz (Hz). The CDCl3 central peak was calibrated at
+[24], molecular fluorescence spectroscopy [25,26], and electrochemical    77.16 ppm for 13C NMR spectra. Infrared (IR) spectra of the probe were
+methods [27,28] have also been employed for metal ion detection.     obtained using an FT-IR spectrophotometer (Bruker Alpha II). High-
+These  techniques, while highly  effective,  often  require expensive     resolution mass spectra (HRMS-ESI) were recorded by using a mass
+instrumentation, a trained operator, and complicated steps involved in     spectrometer (Agilent Q-TOF 6530). UV–Visible absorption spectra and
+the preparation of the sample. Therefore, there is always a demand for     fluorescence emission spectra of the probe were measured using a
+easy, effective, and affordable techniques for the detection of trace    UV–Vis spectrophotometer (Agilent Cary 60) and a fluorescence spec­
+amounts of heavy metal ions in real samples. Lately, a variety of sensing     trophotometer (Agilent Cary Eclipse), respectively. All experiments
+approaches, such as potentiometric,  ratiometric,  colorimetric, and     involving  photophysical  property  analysis were  carried out  at a
+fluorescence-based techniques, have gained widespread attention for     controlled room temperature to ensure consistency.
+their effectiveness in selectively detecting metal ions like Cd2+, Co2+,
+and Ni2+ in environmental and biological samples [29,30]. Recently,                                                                                 2.3. Computational analysisSchiff-base derivatives have gained significant attention as effective
+fluorescent and colorimetric sensors for detecting metal ions. For                                                                The Gaussian 09 W software package was used to perform theexample, a cyanobiphenyl-based Schiff-base probe has been designed for                                                                     computational analysis based on density functional theory (DFT), andthe fluorometric “turn-on” detection of Cd2+ with high selectivity [31].                                                               GaussView 5.0.8. was used for structural visualization and interpreta­A pyridine-based Schiff-base serves as a colorimetric sensor, specifically                                                                             tion of the probe DQCS. By using the B3LYP functional theory and thetargeting Co2+ ions [32]. Furthermore, a novel Schiff-base receptor has                                                                  6–311G(d,p) basis set, the ground-state geometry of the molecule wasbeen developed as an “off-on-off” colorimetric sensor for Ni2+, showing                                                                     optimized in DMSO. For the metal complexes of the probe DQCS with
+excellent selectivity without interference from other metal ions [33].     Cd2+, Co2+, and Ni2+, structural optimizations were completed using theAdditionally, several fluorescent and colorimetric probes have been                                                           LanL2DZ basis set with the same functional and solvent model. Variousreported for detecting toxic ions [34–36]. Currently, our research is                                                                              electronic characteristics were obtained from the optimized structures,focused on the development of new fluorescent small-molecule hybrids                                                                         including Mulliken atomic charge distributions, HOMO and LUMO or­that have emerged as a promising strategy for heavy metal ion detection                                                                                        bitals,  electrostatic  potential (ESP)  surfaces, and  reactivity-relatedin sensing applications [37–40]. In  this work, we report a novel                                                                       parameters.Schiff-base derivative, which is synthesized by conjugating a coumarin
+moiety with 8-hydroxyquinoline and displays multi-selective colori­
+metric and fluorescent sensing behavior for the metal ion detection, such     2.4. Preparation and structural analysis of the probe 7-(diethylamino)-3-
+as Cd2+, Co2+, and Ni2+ ions. The sensing performance of the synthe­     ((E)-4-(((E)-(8-hydroxyquinolin-2-yl) methylene) amino) styryl)-2H-
+sized probe DQCS was evaluated against a range of metal ions, and     chromen-2-one (DQCS)
+studies reveal high selectivity towards Cd2+, Co2+, and Ni2+. Alongside
+the detailed investigation of photophysical properties, we also report       As illustrated in Scheme 1, coumarin amine derivative was synthe­
+density functional theory (DFT) and time-dependent DFT (TD-DFT)     sized starting from coumarin aldehyde 1 via Wittig reaction and then a
+computations for the probe DQCS and its metal complexes, providing     fluorescent probe DQCS was synthesized through a straightforward
+deeper insight into the electronic structures and sensing mechanisms.      condensation   between   (E)-3-(4-aminostyryl)-7-(diethylamino)-2H-
+                                                                  chromen-2-one  (3) and  8-hydroxyquinoline-2-carbaldehyde  (4)  to
+2. Experimental                                                          afford the product in an 82 % yield.
+                                                                        Experimental procedure: The compound (E)-3-(4-aminostyryl)-7-
+2.1. Materials & methods                                              (diethylamino)-2H-chromen-2-one (3) was synthesized from the 7-
+                                                                     (diethylamino)-2-oxo-2H-chromene-3-carbaldehyde  (1)  following  a
+    All chemicals required for the synthesis of the DQCS probe were     previously reported procedure [39]. To prepare the target chemosensor
+purchased from commercial suppliers and utilized without further pu­    DQCS, a solution of compound 3 (600 mg, 1.794 mmol) in dry ethanol
+rification. The synthesis reactions were performed under an inert ni­    (20 mL) was prepared. To this solution, 1.3 equivalents of aldehyde 4
+trogen atmosphere using glassware that had been thoroughly dried in an    (373 mg, 2.153 mmol) were added at ambient temperature. Subse­
+oven before use. Reaction progress was monitored using thin-layer     quently, a catalytic quantity of acetic acid was added. Then, the
+chromatography (TLC) on Merck silica gel 60/Kieselguhr F254 plates.     resulting solution was refluxed at 90 ◦C for 6 h. The progress of the re­
+TLC spots were detected either under UV light at 254 nm and 365 nm or     action was observed by thin-layer chromatography (TLC) using a 30 %
+by exposure to iodine vapors. After completion of the reaction remaining
+solvents were removed by using a rotary evaporator under reduced
+pressure with a water bath temperature maintained at 50 ◦C. Double-
+distilled water was used in all the experimental studies. Metal ion so­
+lutions were  prepared from  the  following  salts:  SnCl2⋅2H2O,  Al
+(NO3)3⋅9H2O,   Ca(NO3)2⋅4H2O,   Sr(NO3)2,   Hg(NO3)2.H2O,   Cu
+(NO3)2⋅3H2O,  MnSO4.H2O,  Mg(NO3)2⋅6H2O,  Cd(NO3)2⋅4H2O,  Pb
+(NO3)2, Co(NO3)2⋅6H2O, Zn(NO3)2⋅6H2O, FeSO4⋅7H2O, Fe(NO3)3⋅9H2O,
+Cr(NO3)3⋅9H2O, Ba(NO3)2, and Ni(NO3)2⋅6H2O.
+
+2.2. Instruments
+
+   For structural characterisation of the probe DQCS, we have recorded         Scheme 1. Preparation pathway for the fluorescent probe DQCS.
+
+                                                                        2
+
+=== PDF PAGE 3 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+ethyl acetate/hexane solvent mixture. Upon completion of the reaction,     centered at 452 nm in the range of 365 to 560 nm. In comparison to the
+the solvent was evaporated under reduced pressure using a rotary     parent donor molecule, 7-(diethylamino)-2H-chromen-2-one, which
+evaporator. The resulting crude product was then purified through    shows maximum absorption at 378 nm (within 290–440 nm) [41], the
+crystallization using a mixture of dichloromethane and methanol,   DQCS probe shows a significant red shift of approximately 74 nm. This
+yielding a probe DQCS as reddish brown solid (82 %); Melting point:    bathochromic shift is because of the enhanced π-conjugation, which
+192 ◦C; 1H NMR (400 MHz, CDCl3): δ (ppm) 8.80 (s, 1H), 8.37 (d, J =     results from the attachment of the 8-hydroxyquinoline moiety through
+8.6 Hz, 1H), 8.25 (d, J = 8.4 Hz, 2H), 7.70 (s, 1H), 7.60 (d, J = 8.4 Hz,     the styryl linker. The optical band gap (Eg) of the DQCS probe is 2.409
+2H), 7.52 (s, 1H), 7.51 (dd, J = 16.3, 1.2 Hz, 1H), 7.40–7.36 (m, 3H),     eV, which was observed based on the initial rise in absorption at the
+7.30 (d, J = 8.8 Hz, 1H), 7.22 (dd, J = 7.6, 1.2 Hz, 1H), 7.13 (d, J = 16.3     lower-energy region of the spectrum.
+Hz, 1H), 6.60 (dd, J = 8.8, 2.5 Hz, 1H), 6.52 (s, 1H), 3.43 (q, J = 7.1 Hz,
+4H), 1.23 (t, J = 7.1 Hz, 6H); 13C NMR (100 MHz, CDCl3): δ (ppm)     3.3. Evaluation of the selectivity of the DQCS probe for metal ions
+161.57, 159.46, 155.73, 152.69, 150.59, 149.77, 138.30, 138.00,
+137.03, 136.73, 129.38, 129.23, 128.97, 127.62, 123.51, 121.98,       The chemo-selectivity exhibited by the sensor plays a key role in
+119.43,  118.05,  117.76,  110.70,  109.26,  97.27,  44.99,  12.63;     ensuring accurate and reliable detection of specific target ions, espe­
+DEPT-135 NMR (100 MHz, CDCl3): δ (ppm) 159.46, 138.30, 136.73,      cially when multiple metal ions are present in the sample. In this study,
+129.38, 129.21, 128.97, 127.62, 123.51, 121.98, 119.43, 118.05,    we aimed to examine the selectivity of the probe DQCS by testing its
+110.70, 109.26, 97.27, 44.99, 12.63; IR (KBr, cm-1): 3444, 2966, 2349,     response to various metal ions. These includes Al3+, Ca2+, Sr2+, Hg2+,
+1703, 1511, 1409, 1166; HRMS (ESI): m/z calculated for C31H28N3O3     Cu2+, Mn2+, Mg2+, Cd2+, Co2+, Fe2+, Fe3+, Pb2+, Zn2+, Ni2+, Sn2+, Cr3+,
+[M + H]+ 490.2131; found 490.2127.                               and Ba2+. Fig. 2a illustrates the absorption spectra of the DQCS probe
+                                                                     recorded in the presence of various metal ions (5 equivalents). Upon
+3. Results and discussion                                              analysing the spectra, it was revealed that the DQCS probe showed
+                                                                          noticeable spectral changes in the presence of Cd2+, Co2+, and Ni2+ ions.
+3.1. Synthesis                                                              In contrast, no significant alteration in the absorption profile of the
+                                                                  probe was observed upon exposure to other tested metal ions, including
+   The synthesis of fluorescent probe DQCS was accomplished through     Al3+, Ca2+, Sr2+, Hg2+, Cu2+, Mn2+, Mg2+, Fe2+, Fe3+, Cr3+, Ba2+, Pb2+,
+a three-step procedure, as illustrated in Scheme 1. The synthesis begins     Zn2+, and Sn2+. Specifically, the main absorption band of DQCS, which
+with a Wittig reaction between coumarin aldehyde (1) and 4-nitroben­      initially appeared at 452 nm, shifted to 460 nm upon the addition of
+zyl triphenyl phosphonium bromide, resulted a nitro-containing inter­     Cd2+, Co2+, and Ni2+ ions. This red shift indicates a possible interaction
+mediate (2). This nitro derivative was then subjected to reduction using    between the probe and specific ions, altering the electronic environment
+SnCl2⋅2H2O to afford the corresponding amine  (3). Subsequently,     of the chromophore within DQCS. Also, in the case of Ni2+ ions, a
+compound 3 condensation with 8-hydroxyquinoline-2-carbaldehyde (4)     greater hypochromic shift was observed.
+to form the desired probe DQCS. Purification of the probe was carried       To further investigate the interaction between the probe DQCS and
+out by recrystallization using a dichloromethane and methanol solvent     selected metal ions, a concentration-dependent absorption study was
+system. The synthesized compound’s structure was validated through    performed using Cd2+, Co2+, and Ni2+ ions. The concentrations of these
+detailed spectroscopic analysis, comprising 1H and 13C NMR, DEPT-135,     metal ions were varied from 0 to 10 equivalents, and the corresponding
+HRMS, and FTIR. The data obtained (supporting information Fig. S1-S5)     absorption spectra were recorded. As shown in Fig. 2b–d, the probe
+strongly confirmed the structure of compound DQCS.                     displayed a characteristic absorption peak at 452 nm. Upon gradual
+                                                                         addition of Cd2+, Co2+, and Ni2+, this peak shifted to 460 nm, providing
+                                                                     evidence for the binding interaction between the probe and metal ions.3.2. UV–Vis spectral analysis                                                                 Along with the red shift, the intensity of the absorption peak at 460 nm
+                                                                         increased slightly for all three ions. However, in the case of Ni2+, a more   The obtained UV–vis absorption spectrum of the DQCS probe (20                                                                pronounced hypochromic shift was initially observed. Specifically, uponµM) in a DMSO–H2O (9:1, v/v) at room temperature is presented in                                                                   adding 0.5 equivalents of Ni2+, the peak at 452 nm shifted to 460 nmFig. 1. The spectrum exhibits a broad, low-energy absorption band                                                                    with an intensity decrease. As the concentration of Ni2+ increases from 1
+                                                                            to 10 equivalents, almost similar absorbance intensities were observed
+                                                                                at the absorbance maxima of 460 nm. These findings support that the
+                                                   DQCS probe exhibits selective recognition and distinct spectral re­
+                                                                      sponses towards Cd2+, Co2+, and Ni2+.
+                                                                                      Figs. 3a and 3b display photographs taken under visible light and UV
+                                                                                   light (365 nm) to visually assess the emission characteristics of the
+                                                   DQCS probe in the presence of various metal ions. The solutions of the
+                                                   DQCS probe were treated with a range of metal ions (Cu2+, Sr2+, Hg2+,
+                                                              Mn2+, Ca2+, Mg2+, Al3+, Cd2+, Co2+, Fe2+, Fe3+, Cr3+, Ba2+, Pb2+, Zn2+,
+                                                                         Ni2+, and Sn2+) in a DMSO–H2O solvent system (9:1, v/v), followed by
+                                                                              visual inspection of the resulting solutions. As shown in Fig. 3a, the
+                                                   DQCS probe alone exhibits a yellow colour in the solvent mixture. Upon
+                                                                        the addition of different metal ions (5 equivalents), only Cd2+, Co2+, and
+                                                                   Ni2+ caused a visible colour change from yellow to orange. In the case of
+                                                                        the other tested metal  ions, a noticeable colour change was not
+                                                                        observed. Under UV light at 365 nm (Fig. 3b), the DQCS probe showed
+                                                                         strong yellow fluorescence, which was significantly quenched in the
+                                                                      presence of Cd2+, Co2+, and Ni2+. With the remaining metal ions, the
+                                                                          fluorescence  intensity  remained  unchanged.  These  observations
+                                                                    demonstrate that the DQCS probe exhibits a distinct and selective
+Fig. 1. UV–Visible absorption spectrum of DQCS (20 µM) in DMSO–H2O (9:1,     response towards Cd2+, Co2+, and Ni2+ ions. Thus, we believe that
+v/v) at room temperature.                                   DQCS  functions  effectively  as  a  multiselective  colorimetric and
+
+                                                                        3
+
+=== PDF PAGE 4 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+
+
+
+
+Fig. 2. (a) UV–Visible absorption spectra of 20 µM DQCS in the presence of different metal ions (5 equivalents) and UV–Visible absorption spectra of 20 µM DQCS
+with increasing concentrations (0–10 equivalents) of (b) Cd2+, (c) Co2+, and (d) Ni2+ ions in DMSO–H2O (9:1, v/v) at room temperature.
+
+
+
+
+
+Fig. 3. Visualization of selectivity of the probe DQCS (20 µM) towards different metal ions (5 equivalents) in DMSO–H2O (9:1) under (a) visible light, (b) UV
+radiation of 365 nm at room temperature.
+
+fluorescent sensor for the naked-eye detection of these three metal ions.   DQCS probe emits light green fluorescence in solvents such as acetone,
+                                                                   dichloromethane (DCM), dioxane, and tetrahydrofuran (THF), with
+                                                                                   slight variations in absorbance and emission intensities. In contrast, the
+3.4. Spectral studies on fluorescence properties                           probe showed sky-blue colour emission in chloroform, yellow emission
+                                                                              in DMSO, and light orange emission in dimethylformamide (DMF).
+   As illustrated in Fig. 4, the probe DQCS, when excited at 452 nm in     Furthermore, we observed that the intensity of fluorescence emission of
+the DMSO–H2O  (9:1, v/v)  solvent system  at room temperature,     the DQCS probe decreased gradually with increasing water content in
+exhibited a distinct fluorescence emission band centered at 552 nm. As     the DMSO solvent, as presented in the supporting Fig. S9-S11.
+shown in Fig. S6-S8, solvatochromic studies further revealed that the
+
+                                                                        4
+
+=== PDF PAGE 5 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+                                                DMSO–H2O (9:1, v/v) solvent system. The metal ions which are tested
+                                                                          includes Al3+, Ca2+, Sr2+, Hg2+, Cu2+, Mn2+, Mg2+, Cd2+, Co2+, Fe2+,
+                                                                         Fe3+, Cr3+, Ba2+, Pb2+, Zn2+, Ni2+, and Sn2+. As shown in Fig. 5a,
+                                                                        notable fluorescence quenching of DQCS was observed upon adding
+                                                                    Cd2+, Co2+, and Ni2+ ions. In contrast, the other metal ions caused only
+                                                                                   slight variations in the fluorescence signal. Among the metal ions that
+                                                                    caused quenching, Ni2+ exhibited the most significant quenching effect,
+                                                                      followed by Cd2+ and Co2+. To gain deeper insight into the interaction
+                                                                between DQCS and these three metal ions, fluorescence titration ex­
+                                                                     periments were carried out with increasing concentrations of metal ions
+                                                                        (0 to 10 equivalents). As shown in Fig. 5b–d, the free probe shows a
+                                                                  prominent emission peak at 552 nm. Upon incremental addition of the
+                                                                    metal ions, the emission spectrum exhibited a noticeable decrease in
+                                                                               intensity (hypochromic behavior). Notably, Ni2+ caused a more pro­
+                                                               nounced hypochromic shift than the metal ions Cd2+and Co2+, sug­
+                                                                           gesting a stronger complex formation with DQCS. These findings
+                                                                            indicate that DQCS demonstrates selective recognition and distinct
+                                                                          fluorescence responses toward Cd2+, Co2+, and Ni2+ ions, specifically
+                                                                    with the highest sensitivity for Ni2+.
+Fig. 4. Fluorescence emission spectrum of DQCS (20 µM) in DMSO–H2O (9:1).
+                                                                                 3.5.  Anti-interference studies
+   The selectivity and sensitivity of the newly synthesized DQCS probe
+toward various metal ions were assessed by monitoring changes in its       To evaluate the practical applicability of DQCS as a selective fluo­
+fluorescence emission spectra by treating it with different metal ions in a     rescence chemosensor for Cd2+, Co2+, and Ni2+ ions, competitive
+
+
+
+
+
+Fig. 5. (a) Fluorescence emission spectra of 20 µM DQCS in the presence of various metal ions (5 equivalents) and with increasing concentrations (0–10 equivalents)
+of (b) Cd2+, (c) Co2+, and (d) Ni2+ ions in DMSO–H2O (9:1, v/v) at room temperature.
+
+                                                                        5
+
+=== PDF PAGE 6 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+binding studies were conducted in the presence of various potentially
+interfering metal ions. These included Al3+, Ca2+, Sr2+, Hg2+, Cu2+,
+Mn2+, Mg2+, Fe2+, Fe3+, Cr3+, Ba2+, Pb2+, Zn2+, and Sn2+, each added
+at 5 equivalents. The DQCS probe exhibited negligible changes in
+fluorescence emission intensity in the presence of these competing metal
+ions. However, the addition of 5 equivalents of Cd2+ (Fig. 6a), Co2+
+(Fig. 6b), and Ni2+ (Fig. 6c) led to significant fluorescence quenching in
+each case. These results confirm that DQCS demonstrates high selec­
+tivity towards Cd2+, Co2+, and Ni2+ ions, with minimal interference
+from other common metal ions. Among the three, Ni2+ showed the    Scheme 2. Proposed plausible interaction mechanism between probe DQCS
+                                                             = Cd2+, Co2+, Ni2+).strongest interaction with the probe, indicating a particularly high     and metal ions (Mn+
+binding affinity. Overall, the selective fluorescence quenching behav­
+iour observed suggests that DQCS can serve as an effective multi­    most plausible binding mode of the DQCS probe with the metal ions
+selective fluorescent chemosensor for the detection of Cd2+, Co2+, and     involves the formation of five-membered chelate rings through coordi­
+Ni2+ ions, even in complex mixtures containing other metal ions.     nation with the imine nitrogen, the hydroxyl group, and the nitrogen
+Further, we recorded the 1HNMR spectrum of the probe DQCS and its    atom of the quinoline moiety.
+complexes with Cd2+, Co2+, and Ni2+ ions in CDCl3 and obtained results
+presented in Fig. S12.                                                                                 3.7.  limit of detection and binding constant
+3.6. Stoichiometric analysis                                          The limit of detection (LOD) values for Cd2+, Co2+, and Ni2+ ions
+                                                                       using the DQCS probe were determined based on changes in the fluo­
+   The binding stoichiometry between the DQCS ligand and the metal     rescence emission intensity at 552 nm upon the addition of metal ions
+ions Cd2+, Co2+, and Ni2+ was determined using Job’s method. The    with increasing concentrations. The obtained corresponding fluores­
+analysis was conducted by monitoring changes in the intensity of the     cence intensity plots are shown in Fig. 7a–c. The LOD values were
+emission of the probe at 552 nm after treating it with metal ions, which     calculated using the standard formula LOD = 3.3σ/k, where σ is the
+corresponds to the maximum emission of DQCS. Separate stock solu­     relative standard deviation, and k is the slope of the calibration curve
+tions of DQCS and the metal ions (Cd2+, Co2+, and Ni2+) were prepared     [42]. The obtained values were 4.75×10–5M for Cd2+, 3.63×10–5 M for
+at a concentration of 50 µM in DMSO–H2O (9:1, v/v). A series of so­     Co2+, and 2.99×10–5 M for Ni2+. Among the three metal ions, Ni2+
+lutions varying the mole fractions of the probe and metal ions was     exhibited the lowest LOD, indicating the highest sensitivity of the probe
+prepared by mixing stock solutions in different ratios. The mole fraction    towards that ion.
+of the metal ions was plotted against the corresponding emission values        Additionally, the binding constants between DQCS and the respec­
+at 552 nm to generate the Job’s plots as shown in Fig. 6d–f. The Job’s     tive metal ions were evaluated using the Stern-Volmer equation: I0/(I0 −
+plots revealed that the maximum emission intensity was observed at       I) = 1/A + 1/KA ⋅ 1/[Q], where I0 is the fluorescence intensity of free
+mole fractions of approximately 0.51 for Cd2+, 0.60 for Co2+, and 0.50    DQCS, I is the fluorescence intensity of the DQCS in the presence of
+for Ni2+. These values suggest a 1:1 binding stoichiometry between     Cd2+, Co2+, and Ni2+, [Q] represents the concentration of the metal ions
+DQCS with each of the three metal ions. As illustrated in Scheme 2, the     (Cd2+, Co2+, Ni2+), A is a constant, and K is the binding constant [43].
+
+
+
+
+
+Fig. 6. Fluorescence emission response of the DQCS probe (20 µM) at 552 nm in DMSO–H2O (9:1, v/v) upon interaction with various metal ions (5 equivalents) and
+their combinations with (a) Cd2+, (b) Co2+, and (c) Ni2+, along with Job’s plots depicting the stoichiometric complexation of DQCS with (d) Cd2+, (e) Co2+, and (f)
+Ni2+ at room temperature.
+
+                                                                        6
+
+=== PDF PAGE 7 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+
+
+
+
+Fig. 7. Variation in emission intensity of the DQCS probe (20 μM) at 552 nm with increasing concentrations (0–10 equivalents) of (a) Cd2+, (b) Co2+, and (c) Ni2+
+ions in DMSO–H2O (9:1, v/v) at room temperature for determination of the limit of detection (LOD). Calculation of the binding constants of the DQCS probe with (d)
+Cd2+, (e) Co2+, and (f) Ni2+ ions in DMSO–H2O (9:1, v/v) by using Stern-Volmer plots.
+
+The binding  constants were found  to be 1.57×104 M-1  for  the     resulting  optimized  structures  are shown  in  Fig.  8a–d, and  the
+DQCS-Cd2þ complex (Fig. 7d), 4.32×104 M-1 for DQCS-Co2þ(Fig. 7e),     ground-state geometry atomic coordinates for the DQCS complexes with
+and 6.43×104 M-1 for DQCS-Ni2þ (Fig. 7f). These results reveal that     Cd2+, Co2+, and Ni2+ ions, along with computational parameters, are
+DQCS exhibits the strongest binding affinity toward Ni2+ among the     provided in the Supporting Information (Tables S1-S3).
+three tested metal ions.                                                      Analysis of the optimized geometries revealed notable dihedral an­
+                                                                               gles (C37–C40–N63–C45) of −36.0◦, −22.2◦, −29.3◦, and −36.1◦for the
+                                                                                free DQCS probe, its complexes with Cd2+, Co2+, and Ni2+, respectively.3.8. Theoretical analysis                                                                  These values indicate a deviation in planarity between the coumarin
+                                                                            unit and the 8-hydroxyquinoline moieties, in both the free probe and its   Using density functional theory with the B3LYP functional and the                                                                    metal complexes. These deviations from planarity likely play a role in6–311G(d,p) basis set, considering DMSO as the solvent, the ground-                                                                             controlling the photophysical properties of the probe upon metalstate geometry of the DQCS probe was optimized. Geometry optimiza­                                                                          coordination.tions for the metal complexes of DQCS with Cd2+, Co2+, and Ni2+ ions                                                                                      Fig. 9a–d presents the ESP maps of the optimized ground-state ge­were performed using the same functional and solvent model, but with                                                                       ometries of the DQCS probe and its metal complexes with Cd2+, Co2+,the LanL2DZ basis set that is suitable for transition metals [44,45]. The
+
+
+
+
+
+Fig. 8. The optimized molecular structure of the probe (a) DQCS and its complexes with (b) Cd2+, (c) Co2+, and (d) Ni2+ were computed using DFT at the B3LYP/
+6–311G(d,p) level for DQCS and B3LYP/LanL2DZ for the metal complexes with DQCS in DMSO.
+
+                                                                        7
+
+=== PDF PAGE 8 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+                                                                   2.738 eV. Upon complexation, the energy gap further decreases to 1.997
+                                                          eV for Cd2+, 1.511 eV for Co2+, and 1.243 eV for Ni2+. This progressive
+                                                                        reduction in the energy gap reflects significant changes in the electronic
+                                                                             structure of the probe upon metal ion binding. Among the three metal
+                                                                                 ions, Ni2+ induces the most significant decrease in the energy band gap,
+                                                                            indicating the strongest interaction with probe DQCS.
+                                                              To gain deeper insights into the electronic characteristics and
+                                                                    chemical reactivity of the DQCS probe and its metal complexes, global
+                                                                                reactivity parameters were calculated based on DFT results using for­
+                                                                mulas available in the literature report [46,47]. The calculated reac­
+                                                                                      tivity parameters of the probe DQCS are summarized in Table 1. The
+                                                   DQCS probe exhibited moderate hardness and electrophilicity, indi­
+                                                                           cating  balanced  nucleophilic  and  electrophilic  behavior.  Upon
+                                                                    complexation with Cd2+, Co2+, and Ni2+ions, a decrease in globalFig. 9. Electrostatic potential map (ESP) of the probe (a) DQCS and its com­                                                                     hardness and an increase in electrophilicity were observed, suggestingplexes with (b) Cd2+, (c) Co2+, and (d) Ni2+ were computed using DFT at the
+B3LYP/6–311G(d,p) level for DQCS and B3LYP/LanL2DZ for the metal com­    enhanced reactivity and charge transfer ability in complexation. Among
+plexes with DQCS in DMSO.                                                the three, the Ni2+ complex showed the highest electrophilicity index
+                                                              and lowest hardness, correlating well with its smallest HOMO-LUMO
+                                                                gap and strongest binding affinity. These reactivity parameters rein­and Ni2+ ions. In the ESP map of the free DQCS molecule, highly
+                                                                            force the experimental and theoretical evidence that DQCS forms thenegative potential regions (depicted in red) are observed around the                                                               most stable and reactive complex with Ni2+.imine nitrogen, hydroxyl group, and the nitrogen atom of the quinoline
+                                                              To further explore the electronic excitation behavior of the DQCSmoiety, indicating these sites can serve as potential coordination cen­
+                                                                  probe and its metal complexes, we performed TD-DFT calculations.tres. Upon complexation with Cd2+, Co2+, and Ni2+ ions, these nega­
+tively charged regions become significantly shifted to more positively
+charged regions (represented by blue coloration), suggesting a redistri­     Table 1
+bution of electron density upon metal binding. This change is indicative     Calculated reactivity parameters of the probe DQCS and its complexes with
+of intramolecular charge transfer (ICT) from the electron-rich ligand to     Cd2+, Co2+, and Ni2+ were computed using DFT at the B3LYP/6–311G(d,p) level
+the electron-deficient metal centre. Additionally, the Mulliken atomic      for DQCS and B3LYP/LanL2DZ for the metal complexes with DQCS in DMSO.
+charge distribution analysis for each atom in the free DQCS probe and its        Parameters            DQCS    DQCS+Cd2+   DQCS+Co2+   DQCS+Ni2+
+metal complexes with Cd2+, Co2+, and Ni2+ ions is provided in Table S4-                                                                                              Electron affinity (EA)      2.530     3.460         4.022         4.331
+S7 of the Supporting Information, further supporting the observed        Ionization potential (IP)    5.268     5.457         5.533         5.574
+changes in electronic properties upon complex formation.                      Chemical softness (σ)      0.730     1.002         1.324         1.610
+   The electronic structures, including HOMO-LUMO orbital distribu­        Electronegativity (χ)       3.899     4.458         4.777         4.952
+tions and band gaps, were calculated for the DQCS probe and its com­       Chemical hardness (η)     1.369     0.998         0.755         0.621                                                                                         Global softness (S)        0.365     0.501         0.662         0.805
+plexes  with  Cd2+,  Co2+, and  Ni2+  ions,  based on  ground-state        Nucleophilicity index      0.180     0.100         0.066         0.051
+optimizations in DMSO. These density functional theory (DFT) calcu­          (N)
+lations were carried out using the B3LYP functional with a 6–311G(d,p)       Chemical potential (µ)     −3.899   −4.458       −4.777       −4.952
+basis set for the free DQCS ligand, while the LanL2DZ basis set was         Electrophilicity index      5.552     9.957         15.112        19.744
+employed for its metal complexes. The results presented in Fig. 10 show          (ω)                                                                                              Electron-accepting        3.774     7.850         12.811        17.334
+that the HOMO orbitals in both the free DQCS and its metal complexes           capability (ω+)
+are primarily localized on the coumarin moiety. In contrast, the LUMO        Electron-donating         7.673     12.308        17.589        22.286
+in the free DQCS molecule is delocalized over both the coumarin and           capability (ω-)
+quinoline units, whereas in the metal complexes, the LUMO is pre­        Optical softness (σo)       0.365     0.501         0.662         0.804                                                                                           (eV−1)
+dominantly localized on the quinoline moiety. This shift indicates a        Additional electronic      2.848     4.467         6.327         7.974
+significant redistribution of electron density upon metal coordination.           charges (ΔNmax)
+   The calculated HOMO-LUMO energy gap for the free DQCS probe is
+
+
+
+
+
+Fig. 10. HOMO-LUMO energy gaps of the probe DQCS and its complexes with Cd2+, Co2+, and Ni2+ were computed using DFT at the B3LYP/6–311G(d,p) level for
+DQCS and B3LYP/LanL2DZ for the metal complexes with DQCS in DMSO.
+
+                                                                        8
+
+=== PDF PAGE 9 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+These calculations focused on the first ten singlet excited-state transi­    Data availability
+tions (S0 → S1 through S10) for the free DQCS molecule and its com­
+plexes with Cd2+, Co2+, and Ni2+ ions. The theoretical analysis yielded       The data generated in this study is included in the manuscript and
+values  for  excitation energy, wavelength,  oscillator  strength, and     supporting information.
+dominant orbital transitions, with their relative contributions, all of
+which are detailed in Supporting Information Table S8. These TD-DFT    References
+results offer valuable insights into the photophysical properties upon
+metal ion coordination.                                                               [1]  F. Gavino, M.N. Valeria, R. Alberto, F. Daniela, N. Sonia, G. Clara, G.Karel Peter,                                                                                              Zinc in gastrointestinal and liver disease, Coord. Chem. Rev. 252 (2008)
+                                                                                     1257–1269.
+4. Conclusion                                                                         [2]  J. Osredkar, N. Sustar, Copper and zinc, biological role and significance of copper/
+                                                                                                    zinc imbalance, J. Clin. Toxicol. 3 (2011) 0495.
+   In summary, we successfully designed and synthesized a new small-       [3] A.industrialAzimi, A.wastewaters:Azari, M. Rezakazemi,a review, ChemBioEngM. Ansarpour,Rev.Removal4 (2017)of37–59.heavy metals from
+molecular fluorescent probe, DQCS, by conjugating a coumarin deriv­       [4] A.Ernest Merian, Introduction on environmental chemistry and global cycles of
+ative and an 8-hydroxyquinoline moiety. The photophysical studies          chromium, nickel, cobalt, beryllium, arsenic, cadmium, and selenium, and their
+demonstrated that DQCS exhibits selective and efficient fluorescence             derivatives, Toxicol. Environ. Chem. 8 (1984) 9–38.                                                                                           [5]  in: P.B. Tchounwou, C.G. Yedjou, A.K. Patlolla, D.J. Sutton, Heavy metal toxicity
+quenching in the presence of Cd2+, Co2+, and Ni2+ ions, with negligible          and the environment (Ed.), in: A. Luch (Ed.), Molecular, Clinical and
+response toward other tested metal ions such as Hg2+, Cu2+, Mn2+, Al3+,           Environmental Toxicology: Volume 3: Environmental Toxicology, Springer Basel,
+Ca2+, Sr2+, Mg2+, Fe2+, Fe3+, Cr3+, Ba2+, Pb2+, Zn2+, and Sn2+. Results             Basel, 2012, pp. 133–164.                                                                                           [6] R. Singh, N. Gautam, A. Mishra, R. Gupta, Heavy metals and living systems: an
+from Job’s method demonstrated that the ligand binds Cd2+, Co2+, and           overview, Indian J. Pharmacol. 43 (2011) 246–253.
+Ni2+ ions with an equimolar (1:1) stoichiometry. The detection limits       [7] K. Renata, B. Iva, V. Marketa, M. Vedran, B. Lucie, H. David, K. Pavel, N. Marie,
+were determined to be 4.75×10–5 M for Cd2+, 3.63×10–5 M for Co2+,             Z. Josef, P. Miroslav, T. Libuse, A. Vojtech, K. Rene, The effect of cadmium ions and                                                                            cadmium nanoparticles on chicken embryos and evaluation of organ accumulation,
+and 2.99×10–5 M for Ni2+, indicating high sensitivity. Furthermore,              Int. J. Electrochem. Sci. 10 (2015) 3623–3634.
+binding constants of 1.57×104 M-1 (Cd2+), 4.32×104 M-1 (Co2+), and       [8] A. Naila, G. Meerdink, V. Jayasena, A.Z. Sulaiman, A.B. Ajit, G. Berta, A review on
+6.43×104 M-1 (Ni2+). Among the tested ions, Ni2+ exhibited the highest            global metal accumulators-mechanism, enhancement, commercial application, and                                                                                                 research trend, Environ. Sci. Pollut. Res. 26 (2019) 26449–26471.
+binding constant and strongest interaction with DQCS. Computational       [9] H.N. Kim, W.X. Ren, J.S. Kim, J. Yoon, Fluorescent and colorimetric sensors for
+investigations using DFT and TD-DFT provided further insight into the            detection of lead, cadmium, and mercury ions, Chem. Soc. Rev. 41 (2012)
+electronic transitions, reactivity parameters, and structural features of          3210–3244.
+the DQCS-metal complexes. The observed decrease in HOMO-LUMO      [10] H.Y.for detectingAu-Yeung,cobaltE.J. New,in livingC.J.cells,Chang,Chem.A selectiveCommun.reaction-based48 (2012) 5268–5270.fluorescent probe
+energy gaps and shift in charge distribution upon coordination sup­      [11]  I.S. Anders, N. Carin, K.-S. Christine, H.-L. Eva, Cobalt release from glazed
+ported the experimental findings. These findings establish DQCS as a           earthenware: observations in a case of lead poisoning, Environ. Toxicol.
+promising fluorescent probe for the selective detection of Cd2+, Co2+,           Pharmacol. 23 (2007) 129–131.                                                                                      [12] T. Hossein, D.-R. Gohar, P. Abolfath, M.Seyede Zahra, A novel development of
+and Ni2+ ions in complex environments.                                                 dithizone as a dual-analyte colorimetric chemosensor: detection and determination
+                                                                                                       of cyanide and cobalt (II) ions in dimethyl sulfoxide/water media with biological
+CRediT authorship contribution statement                                             applications, J. Photochem. Photobiol. B: Biol. 125 (2013) 121–130.                                                                                      [13] N. Kessarin, T. Thawatchai, N. Wittaya, l-cysteine modified luminescence
+                                                                                             nanomaterials as fluorescence sensor for Co2+: effects of core nanomaterials in
+   G. Durga Prasad: Writing – original draft, Methodology, Investiga­            detection selectivity, Sens. Actuators B: Chem. 216 (2015) 150–158.
+tion, Data curation. Raghvendra Niranjan: Formal analysis. Mariyaraj      [14] D. Maity, V. Kumar, T. Govindaraju, Reactive probes for ratiometric detection of                                                                        Co2+ and Cu+ based on excited-state intramolecular proton transfer mechanism,
+Arockiaraj: Formal  analysis. Venkatachalam Rajeshkumar:  Re­           Org. Lett. 14 (2012) 6008–6011.
+sources, Formal analysis. Ashok K. Sundramoorthy: Formal analysis.      [15] K. Renata, C. Olivier, Vitamin B12 absorption: mammalian physiology and
+Surendra H. Mahadevegowda: Writing – review & editing, Supervi­           acquired and inherited disorders, Biochimie 95 (2013) 1002–1007.                                                                                      [16] A.A. Fasil, E. Carla Sue, R. Guda, S. Ekkehard, A ‘turn-on’ fluorescent sensor for the
+sion,     Resources,     Project     administration,     Investigation,             selective detection of cobalt and nickel ions in aqueous media, Tetrahedron Lett. 52
+Conceptualization.                                                                     (2011) 5554–5558.
+                                                                                      [17] E.Panel o.C.i.t.F. Chain, D. Schrenk, M. Bignami, L. Bodin, J.K. Chipman, J. del
+Declaration of competing interest                                              Mazo,E. Ntzani,B. Grasl-Kraupp,A. Petersen, S.C.Sand,Hogstrand,T. Schwerdtle,L. Hoogenboom,C. Vleminckx,J.-C. H.Leblanc,Wallace,C.S.T. Nebbia,Gu´erin,
+                                                                                                        P. Massanyi, H. Van Loveren, K. Baert, P. Gergelova, E. Nielsen, Update of the risk
+   The authors declare that they have no known competing financial           assessment of nickel in food and drinking water, EFSA J. 18 (2020) e06268.
+interests or personal relationships that could have appeared to influence      [18] K. Ohta, K. Ishida, S.-i. Itoh, S. Kaneco, T. Mizuno, Determination of nickel in water                                                                                   by electrothermal atomic absorption spectrometry with preconcentration on a
+the work reported in this paper.                                                         tungsten foil, Microchim. Acta 129 (1998) 127–132.
+                                                                                      [19]  S. Sarre, I.Smolders K, G. Krieken, Y. Michotte, The use of microdialysis for the
+Acknowledgements                                                                     determination of plasma protein binding of drugs, J. Pharm. Biomed. Anal. 10                                                                                         (1992) 735–739.
+                                                                                      [20] M. Mohammad, M.S. Niassary, K.A. Mohammad, Pentacyclooctaaza as a neutral
+   This work was supported by the National Institute of Technology,             carrier in coated-wire ion-selective electrode for nickel (II), Sens. Actuators B:
+Andhra  Pradesh  (SEED  grant No  NITAP/SD-G/19/2020).  Ven­          Chem. 82 (2002) 259–264.                                                                                      [21]  J. Krzysztof, Y. Jun, K. Krzysztof, J. Adrianna, S. Anna, Multielement
+katachalam Rajeshkumar thanks the Department of Science and Tech­           determination of heavy metals in water samples by continuous powder
+nology (DST), New Delhi, India, for the financial support under a DST-            introduction microwave-induced plasma atomic emission spectrometry after
+SERB Start-up Research Grant SRG/2020/001836. The authors thank           preconcentration on activated carbon, Spectrochim. Acta B: At. Spectrosc. 60                                                                                         (2005) 369–375.
+the National Institute of Technology, Andhra Pradesh, for providing the      [22] Z. Dragica, P. Gorica, C. Katarina, S. Trajce, Electrothermal atomic absorption
+departmental infrastructure.                                                               spectrometric determination of cobalt, copper, lead, and nickel traces in aragonite
+                                                                                                following flotation and extraction separation, Talanta 54 (2001) 139–146.
+Supplementary materials                                                       [23] A.andSunil,nickelS.J.(II)Rao,simultaneouslyFirst derivativeusingspectrophotometric1-(2-hydroxyphenyl)determinationthiourea, J.ofAnal.copperChem.(II)
+                                                                                70 (2015) 154–158.
+   Supplementary material associated with this article can be found, in      [24] M.J. Ahmed, U.K. Roy, A simple spectrophotometric method for the determination
+the online version, at doi:10.1016/j.molstruc.2025.143691.                           of iron (II) aqueous solutions, Turk. J. Chem. 33 (2009) 709–726.                                                                                      [25] A. Hafuka, A. Takitani, H. Suzuki, T. Iwabuchi, M. Takahashi, S. Okabe, H. Satoh,
+                                                                                           Determination of cadmium in brown rice samples by fluorescence spectroscopy
+                                                                                               using a fluoroionophore after purification of cadmium by anion exchange resin,
+                                                                                               Sensors 17 (2017) 2291.
+
+                                                                        9
+
+=== PDF PAGE 10 ===
+G.D. Prasad et al.                                                                                                                 Journal of Molecular Structure 1349 (2026) 143691
+
+[26]  L. Guo-Hua, C. Zhi-Lei, G. Lu-Lu, L. Xiao-Xia, M. Chen-Yin, D. Ming-Xia, D. Wen-            isomeric ratiometric fluorescent probes: a comparative investigation of
+      Kui, An efficient copper (II) salamo-based complex fluorescence chemosensor for             photophysical and Hg (II)-sensing behaviors, J. Fluoresc. 34 (2024) 2613–2628.
+      detecting sulfide ions: structure exploration and practical application, J. Mol.          [38] G.D. Prasad, R. Niranjan, M. Arockiaraj, V. Rajeshkumar, S.H. Mahadevegowda,
+      Struct. 1306 (2024) 137878.                                                                Synthesis of di (thiophen-2-yl) substituted pyrene-pyridine conjugated scaffold and
+[27]  J. Huang, S. Bai, G. Yue, W. Cheng, L. Wang, Coordination matrix/signal amplifier         DFT insights: a selective and sensitive colorimetric, and ratiometric fluorescent
+      strategy for simultaneous electrochemical determination of cadmium (II), lead (II),            sensor for Fe (III) ions, J. Fluoresc. 35 (2025) 789–803.
+     copper (II), and mercury (II) ions based on polyfurfural film/multi-walled carbon      [39] N. Raghvendra, G.D. Prasad, A. Mariyaraj, R. Venkatachalam, H.M. Surendra,
+     nanotube modified electrode, RSC Adv. 7 (2017) 28556–28563.                          Novel coumarin-Schiff base derived electronically distinct fluorescent probes:
+[28] Q. Danfeng, C. Anran, M. Xamxikamar, L. Yongtao, H. Xun, W. Ping, C. Hao,                 synthesis and comparative investigations of their unique selective sensing
+     D. Yemin, H. Guangzhi, Double-shelled yolk-shell Si@C microspheres based                   properties with Cu2+ and Cu+ ions, J. Mol. Struct. 1321 (2025) 139929.
+      electrochemical sensor for determination of cadmium and lead ions, Anal. Chim.       [40] G.D. Prasad, N. Raghvendra, A. Mariyaraj, R. Venkatachalam, H.M. Surendra,
+     Acta 1078 (2019) 32–41.                                              A coumarin and 1,8-napthyridine conjugated novel molecular hybrid: synthesis,
+[29]  L. Seong Youl, K. So Young, K. Jin Ah, K. Cheal, A dual chemosensor: colorimetric         DFT insights and unveiling the selective fluorescent sensing of Hg2+ ions with live-
+      detection of Co2+ and fluorometric detection of Zn2+, J. Lumin. 179 (2016)                    cell imaging application, Spectrochim. Acta A: Mol. Biomol. Spectrosc. 329 (2025)
+     602–609.                                                                         125606.
+[30]  L. Zhaodi, W. Wenlong, X. Huajie, S. Liangquan, C. Shuisheng, H. Deqian, S. Fei,       [41] C. Renuka, Y. Nadaf, G. Sriprakash, S.Rajendra Prasad, Solvent dependence on
+    A “naked eye” and ratiometric chemosensor for cobalt (II) based on coumarin                 structure and electronic properties of 7-(diethylamino)-2H-1-benzopyran-2-one (C-
+     platform in aqueous solution, Inorg. Chem. Commun. 62 (2015) 19–23.                    466) laser dye, J. Fluoresc. 28 (2018) 839–854.
+[31] Y. Jing Ying, H. Jia Hong, S. Zhuo Bin, W. Yu, S. Shao Min, New Schiff base probe      [42] M. Subramani, M. Athianna, N. Raju, Charles, Recognition of Fe3+ by a new azine-
+      for the fluorometric turn-on sensing of Cd2+ ions and bio-imaging application,             based fluorescent “turn-off” chemosensor and its binding mode analysis using DFT,
+       J. Lumin. 249 (2022) 119017.                                                                           J. Mol. Struct. 1208 (2020) 127834.
+[32] A. Saadman, B. Md, R.P. Ismet, Md Douglas, Colorimetric and spectroscopic cobalt      [43]  F. Ye, Q. Chai, X.-M. Liang, M.-Q. Li, Z.-Q. Wang, Y. Fu, A highly selective and
+       (II) sensing by a simple Schiff base, Polyhedron 187 (2020) 114681.                           sensitive fluorescent turn-off probe for Cu2+ based on a guanidine derivative,
+[33] G.G.V. Kumar, M.P. Kesavan, M. Sankarganesh, K. Sakthipandi, J. Rajesh,                   Molecules 22 (2017) 1741.
+     G. Sivaraman, A Schiff base receptor as a fluorescence turn-on sensor for Ni2+ ions      [44] V. Kumar, P. Kumar, S. Kumar, D. Singhal, R. Gupta, Turn-on fluorescent sensors
+      in living cells and logic gate application, New J. Chem. 42 (2018) 2865–2873.                 for the selective detection of Al3+ (and Ga3+) and PPi ions, Inorg. Chem. 58
+[34] H. Shi, X. Li, H. Chen, J. Xing, R. Zhang, J. Liu, A novel colorimetric and                   (2019) 10364–10376.
+      ratiometric fluoride ion sensor derived from gallic acid, New J. Chem. 45 (2021)       [45] R. Bhaskar, K. Gujuluva Gangatharan Vinoth, S. Gandhi, R. Jegathalaprathaban,
+     597–602.                                                                                               S. Sarveswari, Fluorescence “turn-on” sensor for highly selective recognition of Cu2
+[35] H. Shi, H. Chen, X. Li, J. Xing, G. Zhang, R. Zhang, J. Liu, A simple colorimetric and       + ion and its application to living cell imaging, Inorg. Chem. Commun. 104 (2019)
+      ratiometric fluoride ion probe with large color change, Rsc Adv. 11 (2021) 1–6.            110–118.
+[36] H. Chen, X. Li, P. Gao, Y. Pan, J. Liu, A BODIPY-based turn-off fluorescent probe for      [46] T. Sasitha, W.J. John, Design, docking, and DFT investigations of 2, 6-bis (3, 4-
+     mercury ion detection in solution and on test strips, J. Mol. Struct. 1262 (2022)             dihydroxyphenyl)-3-phenethylpiperidin-4-one, Heliyon 7 (2021).
+     133015.                                                                         [47] P. KUMAR, V. DANGI, B. ARYA, A conceptual DFT-based analysis of
+[37] R. Niranjan, G.D. Prasad, S. Achankunju, M. Arockiaraj, K. Velumani,                     thermodynamic and global reactivity parameter indices for pyrogallol-based
+      K. Nachimuthu, A.K. Sundramoorthy, I. Neogi, J.L. Nallasivam, V. Rajeshkumar,            complex with Al3+, Cr3+ and Fe3+ metal ions, Orient. J. Chem. 40 (2024).
+     Multicomponent reaction-based tolyl-substituted and pyrene-pyridine conjugated
+
+
+
+
+
+                                                                        10

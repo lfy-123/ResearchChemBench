@@ -302,6 +302,11 @@ _PUBCHEM_ACTIONS = (
     "retrieve_compound_structure", "search_similar_compounds", "search_substructures",
 )
 for _field_path, _default, _description, _impact, _extra in (
+    ("action_settings.component_policy", "full_crystal", "How the CCDC connector returns deposited crystal components.", "Selecting a molecular component versus the full periodic crystal changes the downstream model boundary.", {"type": "string", "allowed_values": ["full_crystal", "unique_molecule"]}),
+    ("action_settings.hydrogen_policy", "as_deposited", "Whether deposited hydrogens are retained or transformed by a later Agent step.", "Hydrogen handling changes atom count, valence interpretation, and all downstream coordinates.", {"type": "string", "allowed_values": ["as_deposited", "add_standard", "omit"]}),
+):
+    _register_parameter("ccdc", ("retrieve_crystal_structure",), _field_path, description=_description, default=_default, impact=_impact, **_extra)
+for _field_path, _default, _description, _impact, _extra in (
     ("action_settings.max_retries", 1, "Maximum retry count for a transient PubChem request failure.", "More retries improve resilience but increase worst-case latency and duplicate remote requests.", {"type": "integer", "minimum": 0}),
     ("action_settings.retry_backoff_seconds", 1.0, "Initial delay between PubChem retry attempts.", "Longer backoff reduces pressure on a failing service but increases latency.", {"type": "number", "minimum": 0}),
     ("action_settings.minimum_request_interval_seconds", 0.25, "Cross-worker minimum interval between PubChem HTTP requests.", "A longer interval reduces rate-limit risk but lowers throughput.", {"type": "number", "minimum": 0}),

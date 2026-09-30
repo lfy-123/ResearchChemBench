@@ -1,0 +1,152 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "type": "semantic",
+      "expected": "independent hypotheses, candidate ledger, coverage and stopping rule are explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.candidates",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison",
+        "object_identity": "Each candidate record retains candidate_id, mechanism_class, structure_reference and per-candidate validation; aggregate coverage does not substitute for item identity."
+      },
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "type": "semantic",
+      "expected": "frequency and endpoint evidence validates scored stationary points",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].validation"
+        ],
+        "comparison": "expert semantic comparison",
+        "object_identity": "Each candidate record retains candidate_id, mechanism_class, structure_reference and per-candidate validation; aggregate coverage does not substitute for item identity."
+      },
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "type": "numeric",
+      "target": 40.8,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energy_profile[*].candidate_id",
+          "$.energy_profile[*].mechanism_class",
+          "$.energy_profile[*].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference",
+        "object_identity": "The submitted energy_profile item must carry the mechanism_class and object_role corresponding to the reference statement; candidate_id must resolve to the matching validated candidate.",
+        "required_context_fields": [
+          "candidate_id",
+          "mechanism_class",
+          "object_role",
+          "reference_state",
+          "barrier_definition"
+        ]
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "type": "numeric",
+      "target": 36.4,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energy_profile[*].candidate_id",
+          "$.energy_profile[*].mechanism_class",
+          "$.energy_profile[*].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference",
+        "object_identity": "The submitted energy_profile item must carry the mechanism_class and object_role corresponding to the reference statement; candidate_id must resolve to the matching validated candidate.",
+        "required_context_fields": [
+          "candidate_id",
+          "mechanism_class",
+          "object_role",
+          "reference_state",
+          "barrier_definition"
+        ]
+      },
+      "reference_id": "ar_r2"
+    },
+    {
+      "rule_id": "ar_s5",
+      "type": "numeric",
+      "target": 44.6,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energy_profile[*].candidate_id",
+          "$.energy_profile[*].mechanism_class",
+          "$.energy_profile[*].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference",
+        "object_identity": "The submitted energy_profile item must carry the mechanism_class and object_role corresponding to the reference statement; candidate_id must resolve to the matching validated candidate.",
+        "required_context_fields": [
+          "candidate_id",
+          "mechanism_class",
+          "object_role",
+          "reference_state",
+          "barrier_definition"
+        ]
+      },
+      "reference_id": "ar_r3"
+    },
+    {
+      "rule_id": "ar_s6",
+      "type": "semantic",
+      "expected": "a source-supported, independently reasoned mechanism conclusion explains kinetic viability or exclusion within scope",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.mechanism_statement",
+          "$.conclusion.kinetic_statement"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c1"
+    },
+    {
+      "rule_id": "ar_s7",
+      "reference_id": "ar_c2",
+      "type": "semantic",
+      "expected": "bounded limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison",
+        "object_identity": "Each candidate record retains candidate_id, mechanism_class, structure_reference and per-candidate validation; aggregate coverage does not substitute for item identity."
+      }
+    }
+  ]
+}

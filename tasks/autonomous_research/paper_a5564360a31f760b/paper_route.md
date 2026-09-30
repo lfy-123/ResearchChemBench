@@ -1,5 +1,7 @@
 # Private paper route
 
+> Packaging note (2026-08-30): CCDC 1941938 and 2480480 are now supplied directly as immutable CIF inputs in `agent_input/data/inputs/`; database retrieval is not scored. Component selection, atom mapping and octyl-to-methyl transformation remain evaluated work.
+
 ## 1. Scientific objective and author claim
 
 The paper uses calculations of the S1-to-S0 reorganization energy (λ), RMSD between relaxed excited- and ground-state geometries, and Huang–Rhys (HR) factors to explain the different fluorescence widths, Stokes shifts, and non-radiative rates of B←N-embedded isomers. The author claim is that the pyrazine-derived, para-oriented double-B←N compound p-2BN has stronger intramolecular charge transfer and a more rigid/conformationally stable structure than the pyrimidine-derived meta-oriented isomer m-2BN, producing smaller λ and RMSD; the dominant displacement patterns differ between backbone and side phenyl groups.

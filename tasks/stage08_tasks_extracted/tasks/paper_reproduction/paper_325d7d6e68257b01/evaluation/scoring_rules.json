@@ -1,0 +1,124 @@
+{
+  "paper_id": "paper_325d7d6e68257b01",
+  "rules": [
+    {
+      "rule_id": "r_pr_freq",
+      "reference_id": "kp_pr_process_freq",
+      "type": "condition",
+      "expected": "all four systems have explicit frequency validation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.h3bo3_oxidized.frequency_validation",
+          "$.systems.h3bo3_reduced.frequency_validation",
+          "$.systems.tris_oxidized.frequency_validation",
+          "$.systems.tris_reduced.frequency_validation"
+        ],
+        "comparison": "expert validation"
+      }
+    },
+    {
+      "rule_id": "r_pr_spin",
+      "reference_id": "kp_pr_process_spin",
+      "type": "condition",
+      "expected": "reduced systems report doublet and localized Ce spin",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.h3bo3_oxidized.spin_validation",
+          "$.systems.h3bo3_reduced.spin_validation",
+          "$.systems.tris_oxidized.spin_validation",
+          "$.systems.tris_reduced.spin_validation"
+        ],
+        "comparison": "expert validation"
+      }
+    },
+    {
+      "rule_id": "r_pr_con",
+      "reference_id": "con_pr_final",
+      "type": "semantic",
+      "expected": "reduction makes both buffer insertions less favorable and state-dependent binding supports kinetic anisotropy",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_val_1",
+      "reference_id": "kp_pr_result_values",
+      "type": "numeric",
+      "target": -0.29,
+      "unit": "kcal/mol",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.h3bo3_oxidized.delta_g_buf_kcal_mol"
+        ],
+        "comparison": "object h3bo3_oxidized absolute difference; Table 4 entry A"
+      }
+    },
+    {
+      "rule_id": "r_pr_val_2",
+      "reference_id": "kp_pr_result_values",
+      "type": "numeric",
+      "target": 3.21,
+      "unit": "kcal/mol",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.h3bo3_reduced.delta_g_buf_kcal_mol"
+        ],
+        "comparison": "object h3bo3_reduced absolute difference; Table 4 entry D"
+      }
+    },
+    {
+      "rule_id": "r_pr_val_3",
+      "reference_id": "kp_pr_result_values",
+      "type": "numeric",
+      "target": -2.11,
+      "unit": "kcal/mol",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.tris_oxidized.delta_g_buf_kcal_mol"
+        ],
+        "comparison": "object tris_oxidized absolute difference; Table 4 entry B"
+      }
+    },
+    {
+      "rule_id": "r_pr_val_4",
+      "reference_id": "kp_pr_result_values",
+      "type": "numeric",
+      "target": 1.97,
+      "unit": "kcal/mol",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.tris_reduced.delta_g_buf_kcal_mol"
+        ],
+        "comparison": "object tris_reduced absolute difference; Table 4 entry E"
+      }
+    }
+  ]
+}

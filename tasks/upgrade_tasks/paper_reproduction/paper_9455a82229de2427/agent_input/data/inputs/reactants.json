@@ -1,0 +1,35 @@
+{
+  "reaction": "SiN + isoprene -> SiNC5H7 + H",
+  "reactants": [
+    {
+      "id": "sin_radical",
+      "smiles": "[Si]#N",
+      "formula": "SiN",
+      "charge": 0,
+      "multiplicity": 2
+    },
+    {
+      "id": "isoprene",
+      "smiles": "CC(=C)C=C",
+      "formula": "C5H8",
+      "charge": 0,
+      "multiplicity": 1
+    }
+  ],
+  "experimental_boundary": {
+    "single_collision": true,
+    "collision_energy_kj_mol": 25,
+    "uncertainty_kj_mol": 1,
+    "observed_product_mass_channel": "SiNC5H7 (m/z 109) with atomic-H loss",
+    "measured_reaction_energy_kj_mol": -162,
+    "reaction_energy_uncertainty_kj_mol": 27,
+    "reaction_energy_convention": "Products minus separated reactants; negative means exoergic. This is an experimental translational-energy-derived channel boundary, not a computed candidate energy or a branching ratio.",
+    "source": "Published crossed-beam measurement, main article PDF page 4, Fig. 3a discussion."
+  },
+  "product_constraint": {
+    "formula": "SiNC5H7",
+    "charge": 0,
+    "multiplicity": 1
+  },
+  "reaction_energy_definition": "DeltaE0 = E0(product) + E0(H atom, neutral doublet) - E0(SiN, neutral doublet) - E0(isoprene, neutral singlet); E0 is electronic energy plus ZPE at 0 K; use the same method and zero for all components. Negative values mean exoergic."
+}

@@ -1,0 +1,51 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T17:02:53.491077+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_3deba7268b769ce6.json",
+  "plan_sha256": "517412a5f07f2acb01a394a45cda73c29bc5dc3a936d849cd862466529d28674",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_3deba7268b769ce6",
+  "v1_package_content_sha256": "59fa01dbb9298af1604d3995b1feb8ea9b9b1cbabf81d4155c604f85f09f6da2",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "6552f8ddd43bededbc774fa196cf3a4cb75312c0ccef5d03e8ef0622b5c449af",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_3deba7268b769ce6/documents/main.pdf",
+      "sha256": "eebb2e959d968083e791e2ac19995200be51c821cdfe0ae30ecd75c64b5d6472",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        5
+      ],
+      "sections_figures_tables": "PDF p2 structures, in-situ generation and stability discussion; p3 Fig.2 spectra/limited solvent interpretation; p5 experimental preparation and separate geometry/TD computational levels."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_3deba7268b769ce6/documents/supplementary_001.pdf",
+      "sha256": "2627a34461502ae5fe699c00912eca71ff17f9b55fda53d322910ba210d51761",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        5
+      ],
+      "sections_figures_tables": "PDF p5 TableS2 lists lower-energy band energies, including toluene,ethyl acetate,methanol. This table is distinct from the higher-energy band in TableS1."
+    }
+  ],
+  "historical_class": "加强B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_bands_and_legacy_anion_context_only_expanded_reference_pending",
+  "scope_changes": [
+    "Remove prescribed dielectric/hydrogen-bond/state-switch candidate menu and one-MeOH remote/contact control.",
+    "Remove methanol holdout and fixed spectrum matrix/method; preserve all measured values openly.",
+    "Replace experimental counterion-free implication with explicit base preparation and bare-anion modeling distinction."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:05.069815+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

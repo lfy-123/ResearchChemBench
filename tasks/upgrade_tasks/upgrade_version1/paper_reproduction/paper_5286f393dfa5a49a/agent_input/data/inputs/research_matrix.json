@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "scope": "Test whether π extension from complete mono-ClPDI-Ph to di-ClPDI-Ph changes corresponding molecular UV/ECD response through electronic coupling or helix/sidechain geometry, using fixed-backbone stereochemical comparisons, a common-subunit geometry control and properly bounded conformer weighting.",
+  "species": [
+    {
+      "id": "di_R",
+      "mapped_smiles": "[O:1]=[c:2]1[c:3]2[c:4]3[c:5]4[c:6]5[c:7]6[c:8]7[c:9]([c:10]8[c:11](=[O:21])[n:12]([C@H:13]([CH3:14])[c:15]9[cH:16][cH:17][cH:18][cH:19][cH:20]9)[c:28](=[O:29])[c:27]9[c:22]8[c:23]8[c:24]([c:25]([Cl:138])[cH:26]9)[c:33]9[c:32]%10[c:31]([c:30]78)[c:53]([cH:52][c:51]7[c:47](=[O:48])[n:38]([C@H:39]([CH3:40])[c:41]8[cH:42][cH:43][cH:44][cH:45][cH:46]8)[c:37](=[O:49])[c:36]([cH:35][c:34]9[Cl:137])[c:50]%107)[c:54]6[c:55]3[c:91](=[O:92])[n:82]1[C@H:83]([CH3:84])[c:85]1[cH:86][cH:87][cH:88][cH:89][cH:90]1)[c:60]1[c:59]5[c:58]3[c:57]([c:56]4[c:80]([Cl:135])[cH:81]2)[c:79]([Cl:136])[cH:78][c:64]2[c:63]3[c:62]([cH:61]1)[c:75](=[O:76])[n:66]([C@H:67]([CH3:68])[c:69]1[cH:70][cH:71][cH:72][cH:73][cH:74]1)[c:65]2=[O:77]",
+      "formula": "C80H42Cl4N4O8",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Graph transcribed from source Fig1 and SI full-sidechain coordinates; no source optimized coordinates exported.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "di_S",
+      "mapped_smiles": "[O:1]=[c:2]1[c:3]2[c:4]3[c:5]4[c:6]5[c:7]6[c:8]7[c:9]([c:10]8[c:11](=[O:21])[n:12]([C@@H:13]([CH3:14])[c:15]9[cH:16][cH:17][cH:18][cH:19][cH:20]9)[c:28](=[O:29])[c:27]9[c:22]8[c:23]8[c:24]([c:25]([Cl:138])[cH:26]9)[c:33]9[c:32]%10[c:31]([c:30]78)[c:53]([cH:52][c:51]7[c:47](=[O:48])[n:38]([C@@H:39]([CH3:40])[c:41]8[cH:42][cH:43][cH:44][cH:45][cH:46]8)[c:37](=[O:49])[c:36]([cH:35][c:34]9[Cl:137])[c:50]%107)[c:54]6[c:55]3[c:91](=[O:92])[n:82]1[C@@H:83]([CH3:84])[c:85]1[cH:86][cH:87][cH:88][cH:89][cH:90]1)[c:60]1[c:59]5[c:58]3[c:57]([c:56]4[c:80]([Cl:135])[cH:81]2)[c:79]([Cl:136])[cH:78][c:64]2[c:63]3[c:62]([cH:61]1)[c:75](=[O:76])[n:66]([C@@H:67]([CH3:68])[c:69]1[cH:70][cH:71][cH:72][cH:73][cH:74]1)[c:65]2=[O:77]",
+      "formula": "C80H42Cl4N4O8",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Graph transcribed from source Fig1 and SI full-sidechain coordinates; no source optimized coordinates exported.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "mono_R",
+      "mapped_smiles": "[O:1]=[C:2]1[c:3]2[c:4]3[c:5]4[c:6]([cH:7][c:54]([Cl:203])[c:55]3[C:91](=[O:92])[N:82]1[C@H:83]([CH3:84])[c:85]1[cH:86][cH:87][cH:88][cH:89][cH:90]1)[c:59]1[c:58]3[c:57]([c:56]4[c:80]([Cl:135])[cH:81]2)[c:79]([Cl:136])[cH:78][c:64]2[c:63]3[c:62]([cH:61][c:60]1[Cl:202])[C:75](=[O:76])[N:66]([C@H:67]([CH3:68])[c:69]1[cH:70][cH:71][cH:72][cH:73][cH:74]1)[C:65]2=[O:77]",
+      "formula": "C40H22Cl4N2O4",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Graph transcribed from source Fig1 and SI full-sidechain coordinates; no source optimized coordinates exported.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "mono_S",
+      "mapped_smiles": "[O:1]=[C:2]1[c:3]2[c:4]3[c:5]4[c:6]([cH:7][c:54]([Cl:203])[c:55]3[C:91](=[O:92])[N:82]1[C@@H:83]([CH3:84])[c:85]1[cH:86][cH:87][cH:88][cH:89][cH:90]1)[c:59]1[c:58]3[c:57]([c:56]4[c:80]([Cl:135])[cH:81]2)[c:79]([Cl:136])[cH:78][c:64]2[c:63]3[c:62]([cH:61][c:60]1[Cl:202])[C:75](=[O:76])[N:66]([C@@H:67]([CH3:68])[c:69]1[cH:70][cH:71][cH:72][cH:73][cH:74]1)[C:65]2=[O:77]",
+      "formula": "C40H22Cl4N2O4",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Graph transcribed from source Fig1 and SI full-sidechain coordinates; no source optimized coordinates exported.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "mono_di_mapping": "Public maps derive from the di graph. Conceptually sever di bonds(9,60),(8,7),(53,54), restore Cl at9,53,60,54 and H at8,7. This produces two chemically complete C40H22Cl4N2O4 monomers; the supplied mono graph is the fragment with N66/N82. Retained atom maps encode the subunit correspondence; newCl maps202/203 identify the restored bay substituents. This is graph reconstruction, not a chemical reaction-energy reference.",
+    "backbone_definition": "Define the operational M-family by positive signed bay torsions using ordered quadruples [59,58,57,56] in the mapped mono subunit and [31,32,33,24] in the second di subunit. Start both in +15–35° windows, preserve the sign during sidechain sampling; mirror family reverses these signs. Operational signs are authoritative and must not be inferred solely from a drawing. Record exact helicity maps/final angles and any drift.",
+    "stereocenters": {
+      "di_R": "CIP R at13,39,67,83",
+      "di_S": "CIP S at13,39,67,83",
+      "mono_R": "CIP R at67,83",
+      "mono_S": "CIP S at67,83"
+    },
+    "common_geometry": "From a solver-generated di_R M-family geometry transfer the retained mono subunit heavy-atom coordinates to mono_R, restore missingCl/H by graph valence, constrain mapped common heavy atoms and relax only restored caps/sidechains consistently. Compare with independently relaxedmono_R anddi_R; this is a common-subunit geometry spectral control, not an unbalanced energy subtraction.",
+    "ensemble_boundary": "Sample rotations of N–CH(Ph)Me and phenyl sidechains within each fixed backbone/configuration. Normalize only mutually interconvertible conformers of that member. Do not mixR/S sidechain stereoisomers orM/P backbone diastereomers into one equilibrium unless kinetic evidence supports it. Source VT-NMR distinguishes slow backbone and faster sidechain changes.",
+    "spectrum_definition": "Calculate oscillator and rotatory strengths with explicit electric/magnetic transition moments and gauge/units. Convolve UVepsilon andECD Δepsilon on the same energy grid with Gaussian0.20eV FWHM baseline and0.15/0.25 sensitivity. gabs=Δepsilon/epsilon only where epsilon exceeds1% of that spectrum maximum; mask near-zero denominators. No arbitrary sign reversal or independent broadening for UV andECD.",
+    "mirror_check": "One true mirror control inverts both sidechain stereocenters and the backbone torsion signs. Compare equal energy/oppositeECD as a convention test; do not impose it onRRRR-MM versusSSSS-MM."
+  },
+  "source_notes": [
+    "Main PDF p3 Fig1 molecular structure inspected; SI pp7–13 methods, full1-phenylethyl substituents and dynamic stereochemical distinctions.",
+    "SI pp27–42 source coordinate tables used privately for connectivity and mapping."
+  ],
+  "molecular_boundary": "Use the complete1-phenylethyl sidechains and exact molecular graphs. Mono formulaC40H22Cl4N2O4 and di formulaC80H42Cl4N4O8. q=0 singlets, dichloromethane. Fix the same M-family backbone for R andS sidechain alternatives; these are diastereomeric comparisons, not necessarily mirror pairs. Device gph and crystal transport are out of scope. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Optoelectronic device response and complete solid-state packing are outside this version."
+}

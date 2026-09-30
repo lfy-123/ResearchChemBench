@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_2aca1dd116799b28",
+  "task_type": "autonomous_research",
+  "title": "Independent computational test of Bergman cyclization barriers",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Three fixed systems require independent conformer and transition-state exploration with candidate deduplication.",
+    "The agent must discriminate electronic and geometric explanations using computed observables while validating stationary points and connectivity."
+  ],
+  "paper": {
+    "title": "Triazolyl Scaffolded Enediyne-Amino Acid Hybrids: Modulation of Thermal Reactivity Toward Bergman Cyclization via Through-Bond Charge-Transfer-Delocalization",
+    "doi": "10.1002/slct.202507441",
+    "journal": "ChemistrySelect",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Three labeled neutral singlet XYZ reactant geometries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated barriers, evidence, ordering and independently inferred explanations."
+    }
+  ]
+}

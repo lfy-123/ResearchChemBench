@@ -1,0 +1,1908 @@
+{
+  "definition": "Primary: absolute normalized Hilbert-Schmidt overlap of signed transition kernel sqrt(2)*Cocc*(X+Y)*Cvirt.T. Independent reconstructed dipole/f checks coefficient and orbital alignment. NTO hole/electron reduced-density overlap (>99.5% pair weight) is an additional phase-insensitive diagnostic, not unique state identity. Exact AO integrals on public heavy-atom mapped, properly rotated nuclei; ambiguous roots retained.",
+  "basis_reconstruction": "Every fchk primitive/contraction, SP split, Gaussian5D -> PySCF spherical order; native MO/NTO orthonormality and rotated AO overlap independently checked.",
+  "systems": {
+    "BN": {
+      "source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_9a58a1fa6ed7d780/provenance/local_recovery_20260918/BN_AkFlu_TD6_fullcoeff_resume_20260918/fullcoeff.fchk",
+      "sha256": "603c890896a8667af73157fc4c47328201305ce5374b4b5e9df5f87a70675c95",
+      "Gaussian_MO_orthonormality_max_error": 8.333414691641394e-08,
+      "alignment_RMSD_A": 9.776685110758296e-16,
+      "rotation": [
+        [
+          1.0000000000000007,
+          2.036854994413868e-16,
+          -1.725879925829145e-24
+        ],
+        [
+          -8.515907620603043e-17,
+          1.0000000000000002,
+          -1.3944401251313428e-16
+        ],
+        [
+          1.724067352185177e-24,
+          1.3944401251313423e-16,
+          1.0
+        ]
+      ],
+      "states": [
+        {
+          "root": 1,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_NTO6_native_a2/S1.fch",
+          "sha256": "675471e5b0cb4055069b6dfc8fcda69521928b7466487a4d2a2cf31e351ed815",
+          "NTO_weight_sum": 1.0047816633816142,
+          "top_weights_normalized": [
+            0.9847549085140933,
+            0.011296205846154267,
+            0.0006323516761458709,
+            0.0005339213219660917,
+            0.0004424517397180586,
+            0.00039246176893082
+          ],
+          "retained_pairs": 2,
+          "retained_weight": 0.9960511143602474
+        },
+        {
+          "root": 2,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_NTO6_native_a2/S2.fch",
+          "sha256": "c678a6ca9c2252bb7f148ed0d4df0b7397c9d4fec2bf93ea8f57a7bfc64fa32f",
+          "NTO_weight_sum": 1.0006463560065617,
+          "top_weights_normalized": [
+            0.5319103035803288,
+            0.4627289973331634,
+            0.0025765731664575144,
+            0.0017607065867218795,
+            0.00027800630495493036,
+            0.0002573944645417877
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.9972158740799496
+        },
+        {
+          "root": 3,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_NTO6_native_a2/S3.fch",
+          "sha256": "ce2bb316f6a67efadfd1f6be30ef174e8e97c6325bc440016addf9ad52397e40",
+          "NTO_weight_sum": 1.002694098758454,
+          "top_weights_normalized": [
+            0.8789267515299312,
+            0.11796074211113208,
+            0.0005994479968958053,
+            0.000589516378656174,
+            0.0002063484189806154,
+            0.00013701433584790176
+          ],
+          "retained_pairs": 2,
+          "retained_weight": 0.9968874936410633
+        },
+        {
+          "root": 4,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_NTO6_native_a2/S4.fch",
+          "sha256": "dafc4cca2edd8249e93cb3c4c608367d99c4cfd75472b1b6017f085573ba5b33",
+          "NTO_weight_sum": 1.0010708718345713,
+          "top_weights_normalized": [
+            0.8740858790511276,
+            0.11954389680791351,
+            0.002644452819957255,
+            0.002454964317857129,
+            0.0004192664733425174,
+            0.00013241512037711676
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.9962742286789984
+        },
+        {
+          "root": 5,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_NTO6_native_a2/S5.fch",
+          "sha256": "abd25b9e305d7eb59de86204fc583bd321f49ab1e6445acf7ef3d6c5e3457db4",
+          "NTO_weight_sum": 1.0227126518293501,
+          "top_weights_normalized": [
+            0.5251422831616788,
+            0.46337540280969847,
+            0.0011930711405764417,
+            0.0009084392760157474,
+            0.0008372523381502833,
+            0.0008153775632954075
+          ],
+          "retained_pairs": 12,
+          "retained_weight": 0.9953237537437365
+        },
+        {
+          "root": 6,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_NTO6_native_a2/S6.fch",
+          "sha256": "b4dd57b4d245b6a966ac366084d589ebf2aa6eeee5372931bf22cd31a49e2e26",
+          "NTO_weight_sum": 1.0015895217129451,
+          "top_weights_normalized": [
+            0.5350999629902309,
+            0.30576364005510326,
+            0.08311888482781041,
+            0.07443750706626068,
+            0.00021585676798040898,
+            0.00017541037739645244
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9984199949394054
+        }
+      ],
+      "transition_response": [
+        {
+          "root": 1,
+          "eV": 2.1401,
+          "f": 0.0081,
+          "recomputed_f": 0.008136484731214666,
+          "RPA_normalization": 0.9999889135999998
+        },
+        {
+          "root": 2,
+          "eV": 2.8502,
+          "f": 0.0001,
+          "recomputed_f": 6.249029860049191e-05,
+          "RPA_normalization": 1.0000113288
+        },
+        {
+          "root": 3,
+          "eV": 2.9876,
+          "f": 0.0,
+          "recomputed_f": 3.2266945956533475e-08,
+          "RPA_normalization": 0.9999983908000001
+        },
+        {
+          "root": 4,
+          "eV": 3.401,
+          "f": 0.0,
+          "recomputed_f": 1.962184018788355e-09,
+          "RPA_normalization": 0.9999938070000001
+        },
+        {
+          "root": 5,
+          "eV": 3.6111,
+          "f": 1.8535,
+          "recomputed_f": 1.8548804464086432,
+          "RPA_normalization": 0.9999991228
+        },
+        {
+          "root": 6,
+          "eV": 3.7195,
+          "f": 0.0,
+          "recomputed_f": 3.4821748555492467e-09,
+          "RPA_normalization": 1.0000022783999998
+        }
+      ]
+    },
+    "CC": {
+      "source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_AkFlu_author_B3LYP_6311Gdp_optfreq_TD6_a1/calculation.fchk",
+      "sha256": "7840d62a7d9b61ed34521f44b320fb80d9bb764ea2a6bb96d3a7f8915b13ab1e",
+      "Gaussian_MO_orthonormality_max_error": 2.532886345107954e-07,
+      "alignment_RMSD_A": 0.05394593634924999,
+      "rotation": [
+        [
+          1.6198268507664517e-06,
+          0.9999999999986885,
+          1.0749640719415709e-11
+        ],
+        [
+          7.918851764944339e-06,
+          -2.077527996976175e-12,
+          -0.9999999999686459
+        ],
+        [
+          -0.9999999999673348,
+          1.6198268508007874e-06,
+          -7.918851764903522e-06
+        ]
+      ],
+      "states": [
+        {
+          "root": 1,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_NTO6_native_a2/S1.fch",
+          "sha256": "c2468985b220096a559b3ef350aaed6206bc5cec6ccf17ef8032a5dfd539ce97",
+          "NTO_weight_sum": 1.0043769344736653,
+          "top_weights_normalized": [
+            0.9823274371757981,
+            0.011335144714335839,
+            0.0024272206641996717,
+            0.0007349459786099405,
+            0.000563772416076772,
+            0.0004611378697607317
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.9960898025543337
+        },
+        {
+          "root": 2,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_NTO6_native_a2/S2.fch",
+          "sha256": "efbc1fc72264419d7b4686e64ac30085ff3b132bc8b27d814e3bdf26d1388550",
+          "NTO_weight_sum": 1.0072640414381715,
+          "top_weights_normalized": [
+            0.9249758898071315,
+            0.06824116703486953,
+            0.0014729295189389218,
+            0.0011241878826362402,
+            0.0006392760036192808,
+            0.0005761588283955663
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9958141742435761
+        },
+        {
+          "root": 3,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_NTO6_native_a2/S3.fch",
+          "sha256": "84002c8cf203f27a299faa1aa8e8a944929e4c9e74fdab3bc1432defe6df75dd",
+          "NTO_weight_sum": 1.0014225351154404,
+          "top_weights_normalized": [
+            0.9434856465368873,
+            0.053580183407610935,
+            0.0008639435160107177,
+            0.0008027466846522788,
+            0.00010425888108056637,
+            9.338478316669758e-05
+          ],
+          "retained_pairs": 2,
+          "retained_weight": 0.9970658299444982
+        },
+        {
+          "root": 4,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_NTO6_native_a2/S4.fch",
+          "sha256": "73d2291b339c514a8ba7e4f86e6cfa048fcd4bf29fa18ebca2de1ab9c340c753",
+          "NTO_weight_sum": 1.001125649419817,
+          "top_weights_normalized": [
+            0.6893387861952619,
+            0.30528381045588077,
+            0.002341512138220118,
+            0.0007261701539874755,
+            0.0006119529395286642,
+            0.0005692902887167984
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.9969641087893627
+        },
+        {
+          "root": 5,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_NTO6_native_a2/S5.fch",
+          "sha256": "2b79311519f3cc461e2a643af61f376adaf810894342cdd47d8d824a33bdc40f",
+          "NTO_weight_sum": 1.0122588971747108,
+          "top_weights_normalized": [
+            0.6483141593832121,
+            0.2676051045400162,
+            0.04226319177772182,
+            0.024058162558977022,
+            0.006866112739931211,
+            0.00464892570777551
+          ],
+          "retained_pairs": 8,
+          "retained_weight": 0.9951079937390205
+        },
+        {
+          "root": 6,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_NTO6_native_a2/S6.fch",
+          "sha256": "46fefe737f6bf0d56bc025497aca2b27add0d9c06e572db8529340d611632d51",
+          "NTO_weight_sum": 1.002106777604301,
+          "top_weights_normalized": [
+            0.7853099386089039,
+            0.1024560688487248,
+            0.06285588403122448,
+            0.04630787091465415,
+            0.0013315796577986073,
+            0.00024134746756048883
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9969297624035073
+        }
+      ],
+      "transition_response": [
+        {
+          "root": 1,
+          "eV": 2.7731,
+          "f": 0.0114,
+          "recomputed_f": 0.01140297606341896,
+          "RPA_normalization": 1.0000032453999999
+        },
+        {
+          "root": 2,
+          "eV": 3.0152,
+          "f": 0.4081,
+          "recomputed_f": 0.4086469888823636,
+          "RPA_normalization": 0.9999855353999998
+        },
+        {
+          "root": 3,
+          "eV": 3.4964,
+          "f": 0.0,
+          "recomputed_f": 2.2411001599703236e-20,
+          "RPA_normalization": 1.0000055133999999
+        },
+        {
+          "root": 4,
+          "eV": 3.7231,
+          "f": 0.0,
+          "recomputed_f": 8.309015410990186e-21,
+          "RPA_normalization": 1.0000066229999998
+        },
+        {
+          "root": 5,
+          "eV": 3.9145,
+          "f": 0.0,
+          "recomputed_f": 7.774635894221137e-20,
+          "RPA_normalization": 0.9999944296000002
+        },
+        {
+          "root": 6,
+          "eV": 3.9645,
+          "f": 0.0,
+          "recomputed_f": 1.473655363683974e-20,
+          "RPA_normalization": 0.9999963695999999
+        }
+      ]
+    },
+    "BN_on_CC": {
+      "source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/BN_on_CC_B3LYP_6311Gdp_TD6_a1/calculation.fchk",
+      "sha256": "2f9e0219362faa7cc5ebb23fe4a1a2236781305efa05b314b505ed2bd0fa30a0",
+      "Gaussian_MO_orthonormality_max_error": 1.0905813956074706e-07,
+      "alignment_RMSD_A": 0.05394593634924999,
+      "rotation": [
+        [
+          1.6198268507664517e-06,
+          0.9999999999986885,
+          1.0749640719415709e-11
+        ],
+        [
+          7.918851764944339e-06,
+          -2.077527996976175e-12,
+          -0.9999999999686459
+        ],
+        [
+          -0.9999999999673348,
+          1.6198268508007874e-06,
+          -7.918851764903522e-06
+        ]
+      ],
+      "states": [
+        {
+          "root": 1,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_on_CC_NTO6_native_a2/S1.fch",
+          "sha256": "75145bd9ad584cb1cb581cecdf9ecb63c868b9fe5877eaa1a60f8a1158f703d2",
+          "NTO_weight_sum": 1.0048825078618733,
+          "top_weights_normalized": [
+            0.9854434048284937,
+            0.009846393148043583,
+            0.0009150594231722801,
+            0.0008834715044338606,
+            0.0005451663937962606,
+            0.0003976375117228375
+          ],
+          "retained_pairs": 2,
+          "retained_weight": 0.9952897979765373
+        },
+        {
+          "root": 2,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_on_CC_NTO6_native_a2/S2.fch",
+          "sha256": "7c40b879277719e87230fd9e2d03ed3167a338b8e067c7d2a6f5a4bc7c5d2503",
+          "NTO_weight_sum": 1.0007689333460557,
+          "top_weights_normalized": [
+            0.5553340461337277,
+            0.43888609984271065,
+            0.0028696928974382206,
+            0.0019225741386345396,
+            0.00028456539517851374,
+            0.00023001161539893962
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.9970898388738766
+        },
+        {
+          "root": 3,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_on_CC_NTO6_native_a2/S3.fch",
+          "sha256": "ef25abb96c56e4e684d4cea3d8c69b56d25270e5c00bb8967b793c221f47504a",
+          "NTO_weight_sum": 1.0023233469769899,
+          "top_weights_normalized": [
+            0.9546000528529697,
+            0.042209885390379176,
+            0.0009455029316220808,
+            0.0007099893853079498,
+            0.00016260538227664528,
+            0.00012836125726098008
+          ],
+          "retained_pairs": 2,
+          "retained_weight": 0.9968099382433487
+        },
+        {
+          "root": 4,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_on_CC_NTO6_native_a2/S4.fch",
+          "sha256": "ccc144ec66fa6d2b0df9039364cd17d9233f440f14b994d7af09c2eb52ed900a",
+          "NTO_weight_sum": 1.0016571670099472,
+          "top_weights_normalized": [
+            0.9458710047752209,
+            0.043702176794353516,
+            0.0045254748024530275,
+            0.0040301225538577025,
+            0.0004865230001345964,
+            0.00015488518138707567
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9981287789258851
+        },
+        {
+          "root": 5,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_on_CC_NTO6_native_a2/S5.fch",
+          "sha256": "d747892555a68cac151ffc1684212f954031ed75033ea485700cb471bf72f5f2",
+          "NTO_weight_sum": 1.0019865096196858,
+          "top_weights_normalized": [
+            0.5075877081349557,
+            0.3274970998607075,
+            0.10772353815518813,
+            0.055681858452542046,
+            0.0001649736841893628,
+            0.00016480434159006535
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9984902046033933
+        },
+        {
+          "root": 6,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/BN_on_CC_NTO6_native_a2/S6.fch",
+          "sha256": "6685fed68d229d5aae95a6ccaec39a12a883417bd25cd80f5cd49e63802e6412",
+          "NTO_weight_sum": 1.0005075351420307,
+          "top_weights_normalized": [
+            0.692544389384971,
+            0.2764244488780779,
+            0.019826979810985593,
+            0.010197320101693854,
+            0.0003178332284672478,
+            8.389661182120344e-05
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9989931381757282
+        }
+      ],
+      "transition_response": [
+        {
+          "root": 1,
+          "eV": 2.174,
+          "f": 0.0087,
+          "recomputed_f": 0.008710045654961272,
+          "RPA_normalization": 0.9999972489999999
+        },
+        {
+          "root": 2,
+          "eV": 2.7725,
+          "f": 0.001,
+          "recomputed_f": 0.0010104489542828515,
+          "RPA_normalization": 0.9999967042000001
+        },
+        {
+          "root": 3,
+          "eV": 2.9572,
+          "f": 0.0,
+          "recomputed_f": 9.731259875718073e-21,
+          "RPA_normalization": 1.0000124283999998
+        },
+        {
+          "root": 4,
+          "eV": 3.5854,
+          "f": 0.0,
+          "recomputed_f": 9.496260371929747e-21,
+          "RPA_normalization": 1.0000132852
+        },
+        {
+          "root": 5,
+          "eV": 3.6058,
+          "f": 0.0,
+          "recomputed_f": 1.8724399432636868e-20,
+          "RPA_normalization": 0.9999867965999999
+        },
+        {
+          "root": 6,
+          "eV": 3.7831,
+          "f": 0.0,
+          "recomputed_f": 1.7679173803257887e-21,
+          "RPA_normalization": 1.0000017538
+        }
+      ]
+    },
+    "CC_on_BN": {
+      "source": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/outputs/CC_on_BN_B3LYP_6311Gdp_TD6_a1/calculation.fchk",
+      "sha256": "c300a945ebfd8a9737812e3c63f9771bc2cc4195b33d025b157ef12dd8fd577d",
+      "Gaussian_MO_orthonormality_max_error": 2.1471821354257514e-07,
+      "alignment_RMSD_A": 2.6378147243599336e-07,
+      "rotation": [
+        [
+          1.539871152678807e-08,
+          1.0000000000000004,
+          9.703729852132675e-17
+        ],
+        [
+          -4.112499890658341e-08,
+          5.362347248166026e-16,
+          0.9999999999999991
+        ],
+        [
+          0.9999999999999998,
+          -1.5398711526787758e-08,
+          4.112499890601113e-08
+        ]
+      ],
+      "states": [
+        {
+          "root": 1,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_on_BN_NTO6_native_a2/S1.fch",
+          "sha256": "d56ccde8c5aeb44b9cc54f9280528e29735d483d0b3bb9d98fa6ab083b4e8415",
+          "NTO_weight_sum": 1.0040691414910672,
+          "top_weights_normalized": [
+            0.9815723621745905,
+            0.013279067296301945,
+            0.002195648386052519,
+            0.0005276566344955373,
+            0.0004055677892811955,
+            0.0002482904131779036
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.997047077856945
+        },
+        {
+          "root": 2,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_on_BN_NTO6_native_a2/S2.fch",
+          "sha256": "b921a540fe75c8ad2213ff5cf63ddb5d572518bea2b7a61e00db6771243ffa0f",
+          "NTO_weight_sum": 1.0062845928523045,
+          "top_weights_normalized": [
+            0.9074861967344378,
+            0.08568520169388633,
+            0.0016456523847852011,
+            0.0011580151761014128,
+            0.0007955034109495625,
+            0.0004582527858177014
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9959750659892108
+        },
+        {
+          "root": 3,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_on_BN_NTO6_native_a2/S3.fch",
+          "sha256": "25b0d6d595223172068fa225e5cce0c6d1257035ed2c1ccbc84d7d73b6884018",
+          "NTO_weight_sum": 1.0018780270467365,
+          "top_weights_normalized": [
+            0.7848075292336169,
+            0.20563320527877935,
+            0.005201520134503259,
+            0.0025921254882245795,
+            0.00020044273013149138,
+            0.00016807046811512214
+          ],
+          "retained_pairs": 3,
+          "retained_weight": 0.9956422546468995
+        },
+        {
+          "root": 4,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_on_BN_NTO6_native_a2/S4.fch",
+          "sha256": "28a6b2064d4292a451d8ae0c9d78e9c5cef8061a4ec4f9e77c2f7fa31c0bc82c",
+          "NTO_weight_sum": 1.001609687279866,
+          "top_weights_normalized": [
+            0.7270041836132283,
+            0.21481594350822236,
+            0.03850627473935703,
+            0.017440684851442477,
+            0.0009760242531748237,
+            0.00019950864746794754
+          ],
+          "retained_pairs": 4,
+          "retained_weight": 0.9977670867122501
+        },
+        {
+          "root": 5,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_on_BN_NTO6_native_a2/S5.fch",
+          "sha256": "3fa33e467a264ebb0b3079550d34cf3757f2e4a12f77677c604d52ef98de46ed",
+          "NTO_weight_sum": 1.0027037205043747,
+          "top_weights_normalized": [
+            0.8548552373664602,
+            0.12719703875821367,
+            0.007813116367075273,
+            0.004158368962571142,
+            0.0020289454286423225,
+            0.0019630795515647157
+          ],
+          "retained_pairs": 5,
+          "retained_weight": 0.9960527068829624
+        },
+        {
+          "root": 6,
+          "file": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_9a58a1fa6ed7d780/analysis/CC_on_BN_NTO6_native_a2/S6.fch",
+          "sha256": "24f6977cd386ebfff4b95fbf34c7016c046d7b5bd72876c28c11f8c3a8de084d",
+          "NTO_weight_sum": 1.0032789376093103,
+          "top_weights_normalized": [
+            0.743691002601863,
+            0.20201752214888635,
+            0.03682625550581192,
+            0.010377216753706307,
+            0.004177946813064944,
+            0.00047778041981248477
+          ],
+          "retained_pairs": 5,
+          "retained_weight": 0.9970899438233327
+        }
+      ],
+      "transition_response": [
+        {
+          "root": 1,
+          "eV": 2.6482,
+          "f": 0.0063,
+          "recomputed_f": 0.006367915709551768,
+          "RPA_normalization": 1.0000026878000003
+        },
+        {
+          "root": 2,
+          "eV": 3.0806,
+          "f": 0.3723,
+          "recomputed_f": 0.37285722129865134,
+          "RPA_normalization": 1.0000136532000001
+        },
+        {
+          "root": 3,
+          "eV": 3.447,
+          "f": 0.0,
+          "recomputed_f": 2.1756651173373953e-09,
+          "RPA_normalization": 1.0000092185999998
+        },
+        {
+          "root": 4,
+          "eV": 3.7746,
+          "f": 0.0,
+          "recomputed_f": 3.568359811129308e-09,
+          "RPA_normalization": 1.0000150328
+        },
+        {
+          "root": 5,
+          "eV": 3.8231,
+          "f": 0.0,
+          "recomputed_f": 4.5449270572418763e-08,
+          "RPA_normalization": 0.9999993994000002
+        },
+        {
+          "root": 6,
+          "eV": 3.9793,
+          "f": 0.0596,
+          "recomputed_f": 0.05975502879361203,
+          "RPA_normalization": 1.0000043448000002
+        }
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "left": "BN",
+      "right": "CC",
+      "similarity": [
+        [
+          0.9362942665414334,
+          2.4954739220068676e-08,
+          0.0001071472363779122,
+          2.099509353721695e-12,
+          2.1316666657868272e-12,
+          1.4547500027839484e-05
+        ],
+        [
+          1.9846838753940993e-08,
+          0.8537582138278994,
+          2.3608782276314135e-12,
+          4.119687993558802e-05,
+          0.0001413749467510922,
+          4.022716709295181e-13
+        ],
+        [
+          0.00011039398932767486,
+          3.142718743215649e-12,
+          0.9297417030134923,
+          1.4511396205103702e-08,
+          2.021092866627227e-08,
+          0.03156454562531776
+        ],
+        [
+          5.314662053542112e-05,
+          1.327293071350324e-12,
+          0.14321349916064904,
+          5.415877016353123e-09,
+          7.60421750138363e-09,
+          0.6987088329681491
+        ],
+        [
+          1.8026411771219224e-08,
+          0.4454593111172157,
+          1.9175045410517856e-12,
+          4.149387344105907e-05,
+          8.91699022000786e-05,
+          6.590376706618171e-13
+        ],
+        [
+          4.7006027501454525e-12,
+          0.00016220386911333374,
+          7.076289993442595e-09,
+          0.4604568675660049,
+          0.7120546262137172,
+          2.045316374185189e-09
+        ]
+      ],
+      "NTO_density_similarity": [
+        [
+          0.9389092929449466,
+          0.2526140605432999,
+          0.24376527899882322,
+          0.049866862364365584,
+          0.14120348895870893,
+          0.21836308993027242
+        ],
+        [
+          0.6654157903420346,
+          0.7714957011367543,
+          0.15767796434476525,
+          0.44884034371489245,
+          0.45600538126101114,
+          0.2996210551803844
+        ],
+        [
+          0.35726346929770536,
+          0.0927568436014336,
+          0.9373466210929536,
+          0.03787876752720241,
+          0.2272021773680683,
+          0.1517793746815681
+        ],
+        [
+          0.3590133132158359,
+          0.09975743197559388,
+          0.17595243611425024,
+          0.053092270696419475,
+          0.13674863014523356,
+          0.7173706898043759
+        ],
+        [
+          0.6654504042811316,
+          0.6903354374222176,
+          0.15793186369082357,
+          0.39454208653740663,
+          0.4128969740640711,
+          0.2785517499101171
+        ],
+        [
+          0.6099323113437207,
+          0.35185191910829955,
+          0.2682273718891391,
+          0.801595264737967,
+          0.4483662356182736,
+          0.36386582424531827
+        ]
+      ],
+      "hole_density_cosine": [
+        [
+          0.9037575965948014,
+          0.06572826967931156,
+          0.8930461396928401,
+          0.0027855305499005713,
+          0.052144074378388784,
+          0.04950577123894851
+        ],
+        [
+          0.6022368489812401,
+          0.7669116474005097,
+          0.5983419575021969,
+          0.2992153368692575,
+          0.6909888711094098,
+          0.1191370281021182
+        ],
+        [
+          0.9074308594342337,
+          0.06659387036994222,
+          0.9080795791930941,
+          0.002815082315033199,
+          0.05487278170917248,
+          0.11258373207957983
+        ],
+        [
+          0.1332481402491563,
+          0.01028859819106366,
+          0.16959413275261634,
+          0.003002035272568953,
+          0.038377194529684175,
+          0.5315745120885036
+        ],
+        [
+          0.686281209623663,
+          0.6964015461094442,
+          0.6807107555599541,
+          0.26536519085469135,
+          0.6327357803943033,
+          0.11616425907605864
+        ],
+        [
+          0.4460580093483492,
+          0.1474950734353238,
+          0.4464670769379136,
+          0.794806444318006,
+          0.4446969328535301,
+          0.15225718091067178
+        ]
+      ],
+      "electron_density_cosine": [
+        [
+          0.9754282162605398,
+          0.9708739313467709,
+          0.06653800806508378,
+          0.8927218415017358,
+          0.38237183288415527,
+          0.9631693002771006
+        ],
+        [
+          0.7352226533224093,
+          0.7761071550940387,
+          0.04155205919988951,
+          0.6732865241935441,
+          0.3009323542434813,
+          0.7535253995966585
+        ],
+        [
+          0.14065775388574714,
+          0.1291985581721683,
+          0.9675569280559139,
+          0.5096835079094029,
+          0.94073651440496,
+          0.20462084666410016
+        ],
+        [
+          0.9672972457642086,
+          0.9672401477403236,
+          0.18254912049167984,
+          0.938959389804151,
+          0.4872734465291247,
+          0.9681064364213257
+        ],
+        [
+          0.6452518797662457,
+          0.6843221684720807,
+          0.03664180911661833,
+          0.5866008934628079,
+          0.26943934020141136,
+          0.667942773406626
+        ],
+        [
+          0.834011309346463,
+          0.8393485293898933,
+          0.1611449684576841,
+          0.8084420717067591,
+          0.4520658146943309,
+          0.8695704022748328
+        ]
+      ],
+      "optimal_assignment": [
+        {
+          "left_root": 1,
+          "right_root": 1,
+          "score": 0.9362942665414334,
+          "row_runner_up": 0.0001071472363779122,
+          "ambiguous": false
+        },
+        {
+          "left_root": 2,
+          "right_root": 2,
+          "score": 0.8537582138278994,
+          "row_runner_up": 0.0001413749467510922,
+          "ambiguous": false
+        },
+        {
+          "left_root": 3,
+          "right_root": 3,
+          "score": 0.9297417030134923,
+          "row_runner_up": 0.03156454562531776,
+          "ambiguous": false
+        },
+        {
+          "left_root": 4,
+          "right_root": 6,
+          "score": 0.6987088329681491,
+          "row_runner_up": 0.14321349916064904,
+          "ambiguous": false
+        },
+        {
+          "left_root": 5,
+          "right_root": 4,
+          "score": 4.149387344105907e-05,
+          "row_runner_up": 8.91699022000786e-05,
+          "ambiguous": true
+        },
+        {
+          "left_root": 6,
+          "right_root": 5,
+          "score": 0.7120546262137172,
+          "row_runner_up": 0.4604568675660049,
+          "ambiguous": false
+        }
+      ]
+    },
+    {
+      "left": "BN",
+      "right": "BN_on_CC",
+      "similarity": [
+        [
+          0.993681579256172,
+          1.4376183321871728e-11,
+          0.00011995141046630347,
+          2.8209107110997955e-05,
+          2.75772897371705e-13,
+          5.6067500103211276e-14
+        ],
+        [
+          2.5983726548745856e-11,
+          0.994189561134658,
+          2.6510696719321967e-13,
+          2.147198483980264e-12,
+          0.00016950432767337548,
+          3.0198327761369628e-05
+        ],
+        [
+          0.00011258058672238289,
+          2.1264094357301622e-13,
+          0.9826301696539695,
+          0.11815156738343675,
+          4.192188990459042e-09,
+          3.3896561881678903e-09
+        ],
+        [
+          5.2508995233834776e-05,
+          1.0924116348475568e-13,
+          0.17360107602205396,
+          0.9827808614666365,
+          1.2596174387379322e-08,
+          9.250303231088143e-09
+        ],
+        [
+          1.3101745298355412e-10,
+          0.01487610680675451,
+          3.598109900456772e-13,
+          2.2999057841405154e-12,
+          4.3035098851270936e-05,
+          8.85063411086713e-06
+        ],
+        [
+          1.971882598601744e-13,
+          0.0001642974110872102,
+          2.3035993588133943e-09,
+          1.3651200101454918e-08,
+          0.9898409221964248,
+          0.0548613703063093
+        ]
+      ],
+      "NTO_density_similarity": [
+        [
+          0.994111128238445,
+          0.6910181668361928,
+          0.2333399406760834,
+          0.22875446483804476,
+          0.6588220817402702,
+          0.10004864330713953
+        ],
+        [
+          0.6981117986994072,
+          0.9933546619600702,
+          0.14647769587875673,
+          0.16174600980186676,
+          0.5662332657285862,
+          0.45259987768241783
+        ],
+        [
+          0.3742867917661844,
+          0.25179585727008,
+          0.9898453977150946,
+          0.17513740904961447,
+          0.3878178866064326,
+          0.16308760007840128
+        ],
+        [
+          0.37269734841385677,
+          0.2590890419772692,
+          0.17643001837407224,
+          0.9892357895850824,
+          0.36663739601682427,
+          0.09325130778099822
+        ],
+        [
+          0.7008751339268446,
+          0.9728614764525588,
+          0.1470355318367107,
+          0.15189192269455545,
+          0.5573057666371225,
+          0.3988298696077329
+        ],
+        [
+          0.6431589414283913,
+          0.5419008137901806,
+          0.2754012835478374,
+          0.36628031236997727,
+          0.9897866316927736,
+          0.4380273078482378
+        ]
+      ],
+      "hole_density_cosine": [
+        [
+          0.9939403745025435,
+          0.6122929566065246,
+          0.9858894792923398,
+          0.05272335887967795,
+          0.5284653726870219,
+          0.02648963234079487
+        ],
+        [
+          0.6530011906919823,
+          0.9943368057934678,
+          0.6525687463238781,
+          0.034786432938621735,
+          0.4743945184980172,
+          0.7134907969204557
+        ],
+        [
+          0.9868122719830672,
+          0.6110258238299684,
+          0.9903507943530341,
+          0.17375761213114257,
+          0.5354650139990872,
+          0.027655470697181068
+        ],
+        [
+          0.1419111317120716,
+          0.08681256017188027,
+          0.1766128639397546,
+          0.9878601911799582,
+          0.16156288012495754,
+          0.017752451065887964
+        ],
+        [
+          0.7465348771372337,
+          0.9763568874221128,
+          0.7442475051231225,
+          0.03504083210085548,
+          0.5115950123499142,
+          0.6294858033659709
+        ],
+        [
+          0.48730305803873225,
+          0.3917952427403743,
+          0.48911967440388304,
+          0.15673519588344154,
+          0.9915885361158597,
+          0.4373580556339978
+        ]
+      ],
+      "electron_density_cosine": [
+        [
+          0.9942819113089417,
+          0.7798654251130153,
+          0.055226806917343246,
+          0.9925127362003133,
+          0.8213339185908077,
+          0.3778735355335201
+        ],
+        [
+          0.7463387363304322,
+          0.9923734882270488,
+          0.03287885837441073,
+          0.7520682483595322,
+          0.6758512139490493,
+          0.2871048234431216
+        ],
+        [
+          0.1419627688750783,
+          0.1037618235854092,
+          0.9893402589915862,
+          0.1765281628379056,
+          0.280882427870696,
+          0.9617469755104784
+        ],
+        [
+          0.9788049171262018,
+          0.7732421615005256,
+          0.17624736210661057,
+          0.990613303515287,
+          0.8320164882801724,
+          0.48983694536557787
+        ],
+        [
+          0.6580080427597645,
+          0.9693785792451377,
+          0.029048733752796138,
+          0.6584077716375222,
+          0.6071007535831051,
+          0.25269078991261024
+        ],
+        [
+          0.848862770539828,
+          0.7495152057807231,
+          0.15506607267890798,
+          0.8559740935891589,
+          0.987988001671752,
+          0.4386975841628012
+        ]
+      ],
+      "optimal_assignment": [
+        {
+          "left_root": 1,
+          "right_root": 1,
+          "score": 0.993681579256172,
+          "row_runner_up": 0.00011995141046630347,
+          "ambiguous": false
+        },
+        {
+          "left_root": 2,
+          "right_root": 2,
+          "score": 0.994189561134658,
+          "row_runner_up": 0.00016950432767337548,
+          "ambiguous": false
+        },
+        {
+          "left_root": 3,
+          "right_root": 3,
+          "score": 0.9826301696539695,
+          "row_runner_up": 0.11815156738343675,
+          "ambiguous": false
+        },
+        {
+          "left_root": 4,
+          "right_root": 4,
+          "score": 0.9827808614666365,
+          "row_runner_up": 0.17360107602205396,
+          "ambiguous": false
+        },
+        {
+          "left_root": 5,
+          "right_root": 6,
+          "score": 8.85063411086713e-06,
+          "row_runner_up": 4.3035098851270936e-05,
+          "ambiguous": true
+        },
+        {
+          "left_root": 6,
+          "right_root": 5,
+          "score": 0.9898409221964248,
+          "row_runner_up": 0.0548613703063093,
+          "ambiguous": false
+        }
+      ]
+    },
+    {
+      "left": "CC",
+      "right": "CC_on_BN",
+      "similarity": [
+        [
+          0.9895778610034359,
+          2.621678525385332e-08,
+          7.11332263125193e-05,
+          7.871322556035132e-05,
+          3.062998090798656e-12,
+          0.06691033630713127
+        ],
+        [
+          2.637729799281746e-08,
+          0.9942219717158866,
+          1.0341220365459576e-12,
+          1.8868974475475606e-13,
+          0.00013747680482390913,
+          1.5241691326315113e-09
+        ],
+        [
+          0.00010250804066152919,
+          2.1977857841750628e-12,
+          0.9579859975969807,
+          0.254744524146032,
+          1.0439312693663954e-08,
+          6.57335307405809e-06
+        ],
+        [
+          2.4152799426576478e-12,
+          9.806528147434755e-05,
+          1.4226641901892457e-08,
+          7.401297825111786e-09,
+          0.9698422153175418,
+          2.862258007775167e-12
+        ],
+        [
+          2.4485700039013424e-12,
+          0.00016585192576571998,
+          2.0050304203560396e-08,
+          9.685855694999417e-09,
+          0.20010483241606297,
+          9.549463142652328e-14
+        ],
+        [
+          1.3616751399655006e-05,
+          1.0079781957321027e-12,
+          0.24234423562094254,
+          0.9292564583941622,
+          2.680881592132285e-09,
+          8.411275635576872e-05
+        ]
+      ],
+      "NTO_density_similarity": [
+        [
+          0.9901726823967258,
+          0.3068089538730935,
+          0.503128651011103,
+          0.5196032057526963,
+          0.09466738735542882,
+          0.12408976163760396
+        ],
+        [
+          0.26828577893541705,
+          0.9946345167281468,
+          0.1380221390698009,
+          0.2592687531703046,
+          0.3766394845697665,
+          0.49789818266294167
+        ],
+        [
+          0.2597852363475164,
+          0.07203044808552878,
+          0.9693978650575508,
+          0.33151384047277416,
+          0.04209879112357036,
+          0.04463043382020806
+        ],
+        [
+          0.05890182544387046,
+          0.6032497130693112,
+          0.05750207926853577,
+          0.2013319507517895,
+          0.9586943655097487,
+          0.35690848471655967
+        ],
+        [
+          0.1537362467612753,
+          0.5874020593452484,
+          0.2610281838313466,
+          0.24583967010047741,
+          0.5066565714638089,
+          0.31718354984236763
+        ],
+        [
+          0.22612051774762154,
+          0.3553810380602517,
+          0.2928153296155848,
+          0.9475833567656894,
+          0.2776458235559566,
+          0.284976254877383
+        ]
+      ],
+      "hole_density_cosine": [
+        [
+          0.9865306569939243,
+          0.09554948250631935,
+          0.9631421745432809,
+          0.2845524059848648,
+          0.009145736635731965,
+          0.01610011728128561
+        ],
+        [
+          0.07258614882684329,
+          0.995266760746348,
+          0.07580715197427002,
+          0.07081211390084576,
+          0.14465130525961337,
+          0.2569063727082099
+        ],
+        [
+          0.9705588041532506,
+          0.09351076677878434,
+          0.9655985703875295,
+          0.3307605923419964,
+          0.008840557505742669,
+          0.02972523006681832
+        ],
+        [
+          0.0037954872997006854,
+          0.4019147988553387,
+          0.00534586548047815,
+          0.04119322137743604,
+          0.9587543099653416,
+          0.14461859887836814
+        ],
+        [
+          0.06058979951392042,
+          0.9146296631623463,
+          0.06949833603610112,
+          0.09744606122400774,
+          0.5065387539932945,
+          0.2613516475920331
+        ],
+        [
+          0.052055373681937966,
+          0.12896533883615982,
+          0.26462336022810246,
+          0.9276587050150695,
+          0.07850698654473788,
+          0.0838884812995877
+        ]
+      ],
+      "electron_density_cosine": [
+        [
+          0.9938281532499457,
+          0.9851621558544436,
+          0.2628256203070848,
+          0.9488146497796238,
+          0.979900754378715,
+          0.9564072530810658
+        ],
+        [
+          0.9916114898269042,
+          0.9940026743434718,
+          0.2512970132405097,
+          0.9492766515148688,
+          0.9806845578225551,
+          0.9649530982270487
+        ],
+        [
+          0.0695355796427133,
+          0.05548436431578053,
+          0.9732121086312182,
+          0.3322688039915384,
+          0.20047471134198794,
+          0.06700959482912336
+        ],
+        [
+          0.9140921222141322,
+          0.9054411963795056,
+          0.6185133412502607,
+          0.9840103065045591,
+          0.9586344248020793,
+          0.8808249246682792
+        ],
+        [
+          0.3900794153117088,
+          0.377246871843248,
+          0.9803934401954314,
+          0.620211249546346,
+          0.5067744163378661,
+          0.38494268246454516
+        ],
+        [
+          0.9822326674449281,
+          0.9792994253535878,
+          0.32401076452198296,
+          0.9679359587368347,
+          0.9819151992814876,
+          0.9680884024340811
+        ]
+      ],
+      "optimal_assignment": [
+        {
+          "left_root": 1,
+          "right_root": 1,
+          "score": 0.9895778610034359,
+          "row_runner_up": 0.06691033630713127,
+          "ambiguous": false
+        },
+        {
+          "left_root": 2,
+          "right_root": 2,
+          "score": 0.9942219717158866,
+          "row_runner_up": 0.00013747680482390913,
+          "ambiguous": false
+        },
+        {
+          "left_root": 3,
+          "right_root": 3,
+          "score": 0.9579859975969807,
+          "row_runner_up": 0.254744524146032,
+          "ambiguous": false
+        },
+        {
+          "left_root": 4,
+          "right_root": 5,
+          "score": 0.9698422153175418,
+          "row_runner_up": 9.806528147434755e-05,
+          "ambiguous": false
+        },
+        {
+          "left_root": 5,
+          "right_root": 6,
+          "score": 9.549463142652328e-14,
+          "row_runner_up": 0.00016585192576571998,
+          "ambiguous": true
+        },
+        {
+          "left_root": 6,
+          "right_root": 4,
+          "score": 0.9292564583941622,
+          "row_runner_up": 0.24234423562094254,
+          "ambiguous": false
+        }
+      ]
+    },
+    {
+      "left": "BN",
+      "right": "CC_on_BN",
+      "similarity": [
+        [
+          0.9507962502592116,
+          4.626969541688306e-13,
+          2.723281838538373e-05,
+          2.1717076337632625e-05,
+          1.5840678991594433e-12,
+          0.05257035441685324
+        ],
+        [
+          3.2468095978449947e-12,
+          0.8767101531028229,
+          9.553580433141779e-12,
+          5.588060920499105e-12,
+          2.3245483428823474e-05,
+          6.037804040844077e-13
+        ],
+        [
+          1.8962722180958463e-05,
+          2.0598782774246261e-13,
+          0.9343568128954264,
+          0.1793458278976642,
+          1.920016958967681e-12,
+          3.092906824260055e-05
+        ],
+        [
+          4.509094110477368e-06,
+          8.926294636191537e-13,
+          0.08442774805275928,
+          0.8480021497545384,
+          2.1059174533434835e-12,
+          5.500268623122727e-05
+        ],
+        [
+          9.645849604004136e-13,
+          0.42178257970830063,
+          1.2421828499312162e-11,
+          6.026588499797575e-12,
+          3.235963920957519e-05,
+          2.993959510686991e-12
+        ],
+        [
+          1.136091821730008e-13,
+          9.770370404860631e-07,
+          9.370842236840389e-12,
+          5.073637831992051e-12,
+          0.6151018301767988,
+          1.5548539746085007e-12
+        ]
+      ],
+      "NTO_density_similarity": [
+        [
+          0.9531259840684579,
+          0.29032815044762667,
+          0.48265144665483983,
+          0.4937891861905223,
+          0.08939156897081901,
+          0.1048818114402148
+        ],
+        [
+          0.6717302953150226,
+          0.7929285471687347,
+          0.3346095452526203,
+          0.3861524668500238,
+          0.2923406321584235,
+          0.40261931331129097
+        ],
+        [
+          0.36339345894952135,
+          0.10642907705906648,
+          0.9456251368315473,
+          0.37238473496725305,
+          0.048653406755497515,
+          0.053723854190355545
+        ],
+        [
+          0.36152270035948647,
+          0.11364320535355432,
+          0.3493622716766856,
+          0.8395061897358815,
+          0.08988446648423844,
+          0.10246778167753844
+        ],
+        [
+          0.6714997195815784,
+          0.7088282489134348,
+          0.33385287337378367,
+          0.37701737360412185,
+          0.2562176202103434,
+          0.37674002358696146
+        ],
+        [
+          0.6179114009598375,
+          0.36635434885066037,
+          0.3894075507823956,
+          0.4513505266974132,
+          0.8461727658439651,
+          0.25794325195122597
+        ]
+      ],
+      "hole_density_cosine": [
+        [
+          0.9208185955121962,
+          0.08622349361665262,
+          0.8914276210836957,
+          0.25900627313385854,
+          0.00822362091329059,
+          0.011542599236437268
+        ],
+        [
+          0.6050520466675247,
+          0.7910354654189504,
+          0.5919754464402747,
+          0.2066022624388453,
+          0.11558635298866815,
+          0.19412059634530052
+        ],
+        [
+          0.9150070197938386,
+          0.08702026349540692,
+          0.915695952227843,
+          0.34405137383324563,
+          0.008657229206287474,
+          0.020618320575033443
+        ],
+        [
+          0.13311662652351888,
+          0.013217369842408032,
+          0.3259080392580898,
+          0.7215174435650301,
+          0.008165461933340284,
+          0.011057010167172253
+        ],
+        [
+          0.6911476268584162,
+          0.716897632182961,
+          0.6737199310878832,
+          0.22537378951006284,
+          0.10198184603418144,
+          0.1829735983839426
+        ],
+        [
+          0.4519018806489809,
+          0.1582047798261257,
+          0.4638759977654039,
+          0.23921560953171803,
+          0.8392800616170794,
+          0.07820860123385401
+        ]
+      ],
+      "electron_density_cosine": [
+        [
+          0.9865668937768904,
+          0.9775808356489565,
+          0.2613251075559144,
+          0.9413971231217411,
+          0.9716951556157324,
+          0.9530084295273589
+        ],
+        [
+          0.7457566537114007,
+          0.7948261593835463,
+          0.18913545899147616,
+          0.7217429562200303,
+          0.7393869864478316,
+          0.8350598262273464
+        ],
+        [
+          0.14432108513992703,
+          0.1301667909135046,
+          0.97653254579986,
+          0.40305140854877647,
+          0.2734309017943872,
+          0.13998484981175058
+        ],
+        [
+          0.9818357502631224,
+          0.9771065103734144,
+          0.37450440666926443,
+          0.9767894718145331,
+          0.9894378764008492,
+          0.9495918085603866
+        ],
+        [
+          0.65241036194791,
+          0.7008496944365107,
+          0.16543631250445012,
+          0.6306949016048001,
+          0.6437172051606966,
+          0.7757023233181386
+        ],
+        [
+          0.8449057545142796,
+          0.8483657008928575,
+          0.3268939141857304,
+          0.8516053711913857,
+          0.8531220773629004,
+          0.8507340647638751
+        ]
+      ],
+      "optimal_assignment": [
+        {
+          "left_root": 1,
+          "right_root": 1,
+          "score": 0.9507962502592116,
+          "row_runner_up": 0.05257035441685324,
+          "ambiguous": false
+        },
+        {
+          "left_root": 2,
+          "right_root": 2,
+          "score": 0.8767101531028229,
+          "row_runner_up": 2.3245483428823474e-05,
+          "ambiguous": false
+        },
+        {
+          "left_root": 3,
+          "right_root": 3,
+          "score": 0.9343568128954264,
+          "row_runner_up": 0.1793458278976642,
+          "ambiguous": false
+        },
+        {
+          "left_root": 4,
+          "right_root": 4,
+          "score": 0.8480021497545384,
+          "row_runner_up": 0.08442774805275928,
+          "ambiguous": false
+        },
+        {
+          "left_root": 5,
+          "right_root": 6,
+          "score": 2.993959510686991e-12,
+          "row_runner_up": 3.235963920957519e-05,
+          "ambiguous": true
+        },
+        {
+          "left_root": 6,
+          "right_root": 5,
+          "score": 0.6151018301767988,
+          "row_runner_up": 9.770370404860631e-07,
+          "ambiguous": false
+        }
+      ]
+    },
+    {
+      "left": "BN_on_CC",
+      "right": "CC",
+      "similarity": [
+        [
+          0.955991858979257,
+          2.5344624668125072e-08,
+          1.3239255056802442e-13,
+          1.8318693001089e-13,
+          7.408352023174719e-15,
+          1.7150641997686134e-13
+        ],
+        [
+          2.050864612385634e-08,
+          0.8745835964297751,
+          1.0874366161537762e-13,
+          2.7447587978557074e-14,
+          2.4616308398662517e-13,
+          1.170653797771923e-13
+        ],
+        [
+          3.051490016060868e-13,
+          1.5009835025448233e-13,
+          0.9562105979597011,
+          1.2573778017780114e-08,
+          2.2967607409583918e-08,
+          0.08091329192161413
+        ],
+        [
+          2.9299974366565067e-13,
+          1.6576553426227146e-13,
+          0.008240941918355078,
+          1.840901579771854e-08,
+          4.4234682226320525e-09,
+          0.718677022699677
+        ],
+        [
+          2.4718659574207784e-13,
+          5.582848676507948e-13,
+          1.1037367885302607e-08,
+          0.42020506865973223,
+          0.7529253109028923,
+          1.161659241130415e-08
+        ],
+        [
+          3.1717390126504186e-13,
+          5.413307974665891e-14,
+          2.031257680556645e-08,
+          0.8809689395628498,
+          0.4383963720666286,
+          1.033636638572931e-08
+        ]
+      ],
+      "NTO_density_similarity": [
+        [
+          0.9583883822340887,
+          0.2582298217131989,
+          0.2467873105111941,
+          0.050897182050313405,
+          0.14288884729205717,
+          0.22493024632751893
+        ],
+        [
+          0.6714323221778548,
+          0.8091609800075061,
+          0.15934212784676174,
+          0.47189052874711696,
+          0.47979232110921194,
+          0.3143916014938163
+        ],
+        [
+          0.2262134393435788,
+          0.05453738865800945,
+          0.9602147811253325,
+          0.035801806526515115,
+          0.22198381136770978,
+          0.09297769365273685
+        ],
+        [
+          0.22473749359692496,
+          0.09040466130871458,
+          0.09366009379774975,
+          0.07423962984864886,
+          0.12848848256557507,
+          0.7307933892385329
+        ],
+        [
+          0.6365798803388768,
+          0.4107784043497038,
+          0.3279537792366599,
+          0.8054476668500972,
+          0.4949527316137297,
+          0.3457360715890326
+        ],
+        [
+          0.10018898898282855,
+          0.5770229942879508,
+          0.15099191548755997,
+          0.7038339570631941,
+          0.9754452303310571,
+          0.24762656094157434
+        ]
+      ],
+      "hole_density_cosine": [
+        [
+          0.9322415274744804,
+          0.06815546461035536,
+          0.9245095929476256,
+          0.0028832367855951896,
+          0.05301611797684177,
+          0.05211839791528061
+        ],
+        [
+          0.5826966055828756,
+          0.8076244157442151,
+          0.5795947078321592,
+          0.31525642352350414,
+          0.7306423195814559,
+          0.12529800189691712
+        ],
+        [
+          0.9373949105535679,
+          0.06913012230056063,
+          0.9380337391492546,
+          0.0029203041581241924,
+          0.05318703258714744,
+          0.07159978451847114
+        ],
+        [
+          0.051192018725160285,
+          0.008295711545987306,
+          0.08866459940702577,
+          0.0059913660358565275,
+          0.03965114020755425,
+          0.5450540175217706
+        ],
+        [
+          0.4980759299551629,
+          0.20730883918553272,
+          0.49723478629103846,
+          0.8008499755320233,
+          0.4913569884599362,
+          0.14046873115082417
+        ],
+        [
+          0.026698314409216477,
+          0.908239832162907,
+          0.024639566255247106,
+          0.7027068865215459,
+          0.9683893491083614,
+          0.1402359724793572
+        ]
+      ],
+      "electron_density_cosine": [
+        [
+          0.9852685855881027,
+          0.9783902318508868,
+          0.06587706292496935,
+          0.8984774173266455,
+          0.38511349867923905,
+          0.9707438781061377
+        ],
+        [
+          0.773681121437436,
+          0.810700467696203,
+          0.0438063242531991,
+          0.7063477680562836,
+          0.31506616195902015,
+          0.7888559880720536
+        ],
+        [
+          0.05459014078648203,
+          0.04302504700777386,
+          0.9829203230235461,
+          0.43891638718391,
+          0.9264817026329576,
+          0.12073851304331795
+        ],
+        [
+          0.9866174901089476,
+          0.985208169430232,
+          0.09893704171530013,
+          0.91991085289725,
+          0.4163635664847482,
+          0.9798276144866876
+        ],
+        [
+          0.8135987299943166,
+          0.8139493624247953,
+          0.21630361406905915,
+          0.810071753580673,
+          0.498574788362591,
+          0.8509611371762956
+        ],
+        [
+          0.37597255615269093,
+          0.3665942894666084,
+          0.9252824626223847,
+          0.7049628353116261,
+          0.9825525221355345,
+          0.43725523914898085
+        ]
+      ],
+      "optimal_assignment": [
+        {
+          "left_root": 1,
+          "right_root": 1,
+          "score": 0.955991858979257,
+          "row_runner_up": 2.5344624668125072e-08,
+          "ambiguous": false
+        },
+        {
+          "left_root": 2,
+          "right_root": 2,
+          "score": 0.8745835964297751,
+          "row_runner_up": 2.050864612385634e-08,
+          "ambiguous": false
+        },
+        {
+          "left_root": 3,
+          "right_root": 3,
+          "score": 0.9562105979597011,
+          "row_runner_up": 0.08091329192161413,
+          "ambiguous": false
+        },
+        {
+          "left_root": 4,
+          "right_root": 6,
+          "score": 0.718677022699677,
+          "row_runner_up": 0.008240941918355078,
+          "ambiguous": false
+        },
+        {
+          "left_root": 5,
+          "right_root": 5,
+          "score": 0.7529253109028923,
+          "row_runner_up": 0.42020506865973223,
+          "ambiguous": false
+        },
+        {
+          "left_root": 6,
+          "right_root": 4,
+          "score": 0.8809689395628498,
+          "row_runner_up": 0.4383963720666286,
+          "ambiguous": false
+        }
+      ]
+    }
+  ]
+}

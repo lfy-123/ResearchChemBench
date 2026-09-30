@@ -1,0 +1,100 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_freq",
+      "type": "condition",
+      "expected": "Frequency evidence shows 0 imaginary modes for Int-3 and exactly 1 for the TS.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.frequency_validation"
+        ],
+        "comparison": "expert comparison",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_connection",
+      "type": "condition",
+      "expected": "IRC or equivalent connects TS to stated reactant and products.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.connection_validation"
+        ],
+        "comparison": "expert comparison",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_barrier",
+      "type": "numeric",
+      "target": 9.07,
+      "unit": "kcal/mol",
+      "tolerance": 2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_result_identity",
+      "type": "semantic",
+      "expected": "Reported channel is acetophenone plus ethyl radical with atom-balanced identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.channel"
+        ],
+        "comparison": "expert semantic comparison",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "The beta-scission analysis establishes a chemically valid product channel, relevant transition state and local connection, and an activation barrier on a consistent free-energy scale. The source-supported channel is acetophenone plus ethyl.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.failure"
+        ],
+        "comparison": "outcome-branch expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

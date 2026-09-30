@@ -1,0 +1,170 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_9132719dbf91c978",
+    "items": [
+      {
+        "key_point_id": "kp_process_minimum",
+        "key_point_type": "process",
+        "statement": "The submission validates the supplied neutral singlet INT-G as a stationary-point minimum and reports its imaginary-frequency count.",
+        "expected": "A defensible minimum validation is reported with charge 0, multiplicity 1 and no imaginary frequencies (or a clearly justified reoptimization result).",
+        "evidence_ids": [
+          "ev_doc_ad8d4ad88545_000309_79c551457e0b",
+          "ev_doc_ad8d4ad88545_000312_53250658d885"
+        ]
+      },
+      {
+        "key_point_id": "kp_process_ts",
+        "key_point_type": "process",
+        "statement": "The submission validates a transition state for H2 reductive elimination and demonstrates endpoint connectivity.",
+        "expected": "One imaginary mode is reported for the TS and an IRC, mode-following, scan, or equivalent evidence supports both INT-G-side and H2/Pd(0)-side endpoints.",
+        "evidence_ids": [
+          "ev_doc_ad8d4ad88545_000195_afed2f27e96a"
+        ]
+      },
+      {
+        "key_point_id": "kp_result_barrier",
+        "key_point_type": "result",
+        "statement": "The submission reports the computed free-energy barrier for H2 reductive elimination from INT-G.",
+        "expected": "The reported barrier is approximately 0.9 kcal/mol within the stated comparison tolerance, with units and reference state explicit.",
+        "evidence_ids": [
+          "ev_doc_ad8d4ad88545_000199_c59d4d6aeb1b"
+        ]
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_9132719dbf91c978",
+    "items": [
+      {
+        "conclusion_id": "c_final_barrier",
+        "claim_role": "final",
+        "statement": "The computed terminal H2-elimination step has a very small free-energy barrier consistent with the authors' catalytic-cycle interpretation, within the stated model limitations.",
+        "expected": "Real minimum, H2-elimination saddle and connection evidence support a very small terminal barrier and corresponding regeneration-step interpretation.",
+        "supporting_key_point_ids": [
+          "kp_process_minimum",
+          "kp_process_ts",
+          "kp_result_barrier"
+        ],
+        "evidence_ids": [
+          "ev_doc_ad8d4ad88545_000199_c59d4d6aeb1b"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_9132719dbf91c978",
+    "rules": [
+      {
+        "rule_id": "r_kp_minimum",
+        "reference_id": "kp_process_minimum",
+        "type": "condition",
+        "expected": "minimum_n_imaginary is 0 and system charge/multiplicity identify the supplied INT-G",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.stationary_point.minimum_n_imaginary",
+            "$.system.charge",
+            "$.system.multiplicity"
+          ],
+          "comparison": "expert validation"
+        }
+      },
+      {
+        "rule_id": "r_kp_ts",
+        "reference_id": "kp_process_ts",
+        "type": "condition",
+        "expected": "ts_n_imaginary is 1 and connection_evidence supports both endpoints",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.stationary_point",
+            "$.connection_evidence",
+            "$.investigation"
+          ],
+          "comparison": "expert validation"
+        }
+      },
+      {
+        "rule_id": "r_barrier",
+        "reference_id": "kp_result_barrier",
+        "type": "numeric",
+        "target": 0.9,
+        "unit": "kcal/mol",
+        "tolerance": 2.0,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.barrier.value_kcal_mol"
+          ],
+          "comparison": "absolute difference"
+        }
+      },
+      {
+        "rule_id": "r_final",
+        "reference_id": "c_final_barrier",
+        "type": "semantic",
+        "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Real minimum, H2-elimination saddle and connection evidence support a very small terminal barrier and corresponding regeneration-step interpretation.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion",
+            "$.barrier",
+            "$.method",
+            "$.connection_evidence"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_9132719dbf91c978",
+    "items": [
+      {
+        "failure_id": "cf_wrong_system",
+        "condition": "The report uses a different connectivity, charge, multiplicity or endpoint than supplied INT-G.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "cf_unvalidated_ts",
+        "condition": "A barrier is claimed without a TS stationary-point diagnostic and endpoint-connection evidence.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "cf_answer_only",
+        "condition": "A numerical barrier is asserted without traceable calculations, method, units or an identified reference state.",
+        "severity": "scientifically serious"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_9132719dbf91c978",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_ad8d4ad88545_000195_afed2f27e96a",
+        "source": "SI Section 4.1, computational methods: stationary-point frequency criteria and electronic-structure protocol."
+      },
+      {
+        "evidence_id": "ev_doc_ad8d4ad88545_000199_c59d4d6aeb1b",
+        "source": "SI Section 4.2, discussion of Figure S4: INT-G H2 reductive-elimination barrier and mechanistic interpretation."
+      },
+      {
+        "evidence_id": "ev_doc_ad8d4ad88545_000309_79c551457e0b",
+        "source": "SI Section 4.3, coordinate appendix: INT-G label and charge/multiplicity block."
+      },
+      {
+        "evidence_id": "ev_doc_ad8d4ad88545_000312_53250658d885",
+        "source": "SI Section 4.3, coordinate appendix: INT-G Nimag = 0."
+      }
+    ]
+  }
+}

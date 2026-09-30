@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "task_type": "autonomous_research",
+  "title": "Autonomous computational validation of quinoxaline ligand 1 geometry",
+  "category": "molecular geometry optimization and vibrational validation",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The endpoint is fixed but the Agent must independently formulate and prioritize a protocol and any conformer alternatives.",
+    "The Agent must justify candidate/protocol coverage, validate a stationary point, map the crystal and optimized structures, and report quantitative geometry agreement."
+  ],
+  "paper": {
+    "title": "Structural and antimicrobial studies on a tricarbonyl rhenium(i) complex with the 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline ligand",
+    "doi": "10.1039/d5nj04125b",
+    "journal": "New Journal of Chemistry",
+    "publication_date": "2026-01-09"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Controlled CCDC record specification for compound 1, including record identity, charge and multiplicity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured independent investigation, validation, mapped bond comparison and conclusion."
+    }
+  ]
+}

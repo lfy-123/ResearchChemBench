@@ -1,0 +1,5 @@
+# V2 evidence and calibration boundary
+
+Use the documented finite-ensemble reversal as a genuine accepted counter-conclusion scenario, while retaining source single-conformer reconstruction as a separate route. Calibrate actual judging on wrong topology, conflated <mu>/<mu²>, duplicated basins, geometry-labeled Hbond without evidence, single-structure generalization and molecular-to-bulk overreach. Test evidence-backed partial or opposite conclusions without requiring any V1 control axis.
+
+No new scientific computation or semantic judge run was launched during content authoring. Reuse is limited to the exact objects, definitions and conditions in reference_reuse.json. V1 acceptance and historical archive matrices are not V2 requirements. Before scored deployment, independently test claim-conditional validity and evidence scoring on the documented positive/negative cases, audit runner isolation, and calibrate any newly used scientific route. Current file/hash/schema/runtime tests establish implementation only.

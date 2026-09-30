@@ -1,0 +1,26 @@
+# Scientific objective
+
+Determine the aqueous 298 K, 1 M standard-state Gibbs free-energy difference between the two supplied 1:1 [La-KHQ]+ conformers, defined exactly as ΔG_conf = G°aq(anti-La-KHQ+) − G°aq(syn-La-KHQ+), in kcal mol−1, and determine which supplied conformer is thermodynamically preferred under that definition. Investigate the supplied syn and anti endpoints independently and generate and test your own explanations for their relative stability.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors proposed that two 8-hydroxyquinoline arms in the 1:1 lanthanum complex can adopt distinct syn and anti arrangements around La3+, and treated their relative aqueous free energies as a conformational and thermodynamic comparison relevant to lanthanide binding and size selectivity.
+
+**Candidate route or mechanism.**
+The source considered the supplied syn and anti arm arrangements as competing endpoint conformers of [La-KHQ]+. Its computational comparison used optimized endpoint structures, with gas-phase electronic and thermal terms combined with an aqueous continuum correction to assess the conformational free-energy difference.
+
+**Discriminating evidence.**
+Test the claim by independently optimizing both supplied endpoints, checking each for stationary-point character with vibrational information, and comparing consistently defined 298 K aqueous Gibbs free energies. Structural persistence of the arm arrangement after optimization and the signed anti-minus-syn free-energy difference are the key evidence.
+
+# Public inputs and scientific boundaries
+
+Use only the two public XYZ files: `syn_La_KHQ.xyz` and `anti_La_KHQ.xyz`. Each contains exactly 81 atoms: one La atom and the C32H38N4O6 ligand in the +1 charge, singlet state. The labels syn and anti identify the two supplied arm-arrangement endpoints; they are not claims about the computed ordering. The system boundary is the isolated cation in an aqueous continuum at 298 K and 1 M standard state. Water molecules are not included in the supplied endpoints and no explicit solvent, counterion, proton transfer, alternative protonation state, metal substitution, or reaction pathway is part of the scored object. You may generate conformers or repair geometries only as documented alternatives to the supplied endpoints; do not change atom identity or charge.
+
+# Required scientific validation/investigation
+
+Choose and document a defensible electronic-structure and solution-thermochemistry route. For each endpoint, optimize the supplied structure, verify that the result is a stationary point by a vibrational calculation or a scientifically justified equivalent, and report whether imaginary modes remain. Apply an explicit aqueous free-energy treatment and state temperature, standard state, and all corrections. Compute ΔG_conf with the definition above using consistently treated endpoints. Compare at least the supplied-starting-geometry result with any alternative conformers or retries you use, deduplicate alternatives by connectivity and a stated structural criterion, and explain whether the endpoint assignment survived optimization. If an endpoint cannot be validated or the calculation cannot be completed, report bounded failure with the attempted calculations, diagnostics, and the limitation; do not fabricate a number. Completion requires either two validated endpoint free energies and a computed ΔG_conf, or a fully documented bounded-failure report. Stop when both endpoints have converged validated minima under the stated route and additional documented retries no longer change the selected endpoint assignment, or when a concrete resource/software/validation blocker prevents that outcome.
+
+# Deliverables
+
+Submit `report/results.json` only in the declared schema. Include the route and software, endpoint identities, optimized structures or unambiguous paths to them, electronic and solvation/thermal settings, validation diagnostics, free energies with units and standard state, ΔG_conf with its sign convention, preferred endpoint, convergence/retry coverage, and limitations. A bounded-failure branch must identify the failed endpoint or stage and preserve all diagnostics needed to assess what was learned.

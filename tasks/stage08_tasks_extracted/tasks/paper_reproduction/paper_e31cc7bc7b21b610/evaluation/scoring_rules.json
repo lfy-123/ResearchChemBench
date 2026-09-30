@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "rules": [
+    {
+      "rule_id": "r_pr_alpha_process",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.cis_alpha"
+        ],
+        "comparison": "expert check of item identity and validation"
+      },
+      "type": "condition",
+      "reference_id": "kp_pr_process_alpha",
+      "expected": "The cis-alpha item reports its input identity, optimization method/state, energy and explicit stationary-point validation."
+    },
+    {
+      "rule_id": "r_pr_beta_process",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.cis_beta"
+        ],
+        "comparison": "expert check of item identity and validation"
+      },
+      "type": "condition",
+      "reference_id": "kp_pr_process_beta",
+      "expected": "The cis-beta item reports its input identity, optimization method/state, energy and explicit stationary-point validation."
+    },
+    {
+      "rule_id": "r_pr_energy",
+      "target": 1.44,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.relative_energy.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "kp_pr_result_energy"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "type": "semantic",
+      "reference_id": "con_pr_final",
+      "expected": "Final conclusion states the computed ordering and limits interpretation to gas-phase electronic energy rather than kinetics/solution thermodynamics."
+    }
+  ]
+}

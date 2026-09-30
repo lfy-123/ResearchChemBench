@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_d3b4575397179146",
+  "visibility": "All observations in this file are public; no blind-holdout claim.",
+  "records": [
+    {
+      "id": "source_1a_screen",
+      "source": "SI PDF p54 TableS4 entries18–24; p55 product2a",
+      "conditions": "1a0.1 mmol;2.5 mol% catalyst;MeCN0.1 M;O2 atmosphere;setupA0 °C;8 h;456 nm. NMR yields using CH2Br2 internal standard.",
+      "rows": [
+        {
+          "catalyst": "dFHeptZ",
+          "yield_percent": 81
+        },
+        {
+          "catalyst": "dClHeptZ",
+          "yield_percent": 75
+        },
+        {
+          "catalyst": "dOMeHeptZ",
+          "yield_percent": 26
+        },
+        {
+          "catalyst": "dMeHeptZ",
+          "yield_percent": 38
+        }
+      ],
+      "controls": [
+        {
+          "change": "no catalyst",
+          "yield": "traces"
+        },
+        {
+          "change": "argon instead of oxygen",
+          "catalyst": "dFHeptZ",
+          "yield": "traces"
+        },
+        {
+          "change": "dark",
+          "catalyst": "dFHeptZ",
+          "yield": "traces"
+        }
+      ],
+      "limitation": "No table error bars or elementary rates; experimental performance is an interpretation constraint, not a blind ranking target."
+    }
+  ]
+}

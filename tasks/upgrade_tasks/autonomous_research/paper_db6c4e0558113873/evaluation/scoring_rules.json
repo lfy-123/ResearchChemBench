@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Freeze allenoate 6b (ethyl 4-phenyl-2-propylbuta-2,3-dienoate), PhSO2Cl and an acac-supported copper local model. Compare C–Cl formation from the CuIII allyl(acac)Cl singlet against chlorine-atom transfer to the matching allyl radical from PhSO2Cl. Include CuII(acac)Cl doublet and CuI(acac) singlet reservoirs as required by the ledger; do not compare isolated Cu-bound and metal-free total energies. Main pp6–8 and SI pp56–65 define the source system. Use MeCN, 313.15 K (experimental 40°C), 1 M; reproduce the former 298.15 K endpoint only as a separately labelled baseline. Full photoredox catalyst and regeneration network are outside this local exit comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Freeze allenoate 6b (ethyl 4-phenyl-2-propylbuta-2,3-dienoate), PhSO2Cl and an acac-supported copper local model. Compare C–Cl formation from the CuIII allyl(acac)Cl singlet against chlorine-atom transfer to the matching allyl radical from PhSO2Cl. Include CuII(acac)Cl doublet and CuI(acac) singlet reservoirs as required by the ledger; do not compare isolated Cu-bound and metal-free total energies. Main pp6–8 and SI pp56–65 define the source system. Use MeCN, 313.15 K (experimental 40°C), 1 M; reproduce the former 298.15 K endpoint only as a separately labelled baseline. Full photoredox catalyst and regeneration network are outside this local exit comparison."
+      }
+    },
+    {
+      "rule_id": "rule_exit_paths",
+      "reference_id": "kp_exit_paths",
+      "type": "condition",
+      "expected": "Cu-organized and free-radical chlorine exits with real endpoint validation. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.exit_paths",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Cu-organized and free-radical chlorine exits with real endpoint validation. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_reservoir_ledger",
+      "reference_id": "kp_reservoir_ledger",
+      "type": "condition",
+      "expected": "Charge/spin/chemical-potential ledger connecting different molecularities. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.reservoir_ledger",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Charge/spin/chemical-potential ledger connecting different molecularities. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_stereochemical_control",
+      "reference_id": "kp_stereochemical_control",
+      "type": "condition",
+      "expected": "Competing stereochemical exits, conformation and spin sensitivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.stereochemical_control",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Competing stereochemical exits, conformation and spin sensitivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "condition",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_local_investigation",
+      "type": "semantic",
+      "expected": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Freeze allenoate 6b (ethyl 4-phenyl-2-propylbuta-2,3-dienoate), PhSO2Cl and an acac-supported copper local model. Compare C–Cl formation from the CuIII allyl(acac)Cl singlet against chlorine-atom transfer to the matching allyl radical from PhSO2Cl. Include CuII(acac)Cl doublet and CuI(acac) singlet reservoirs as required by the ledger; do not compare isolated Cu-bound and metal-free total energies. Main pp6–8 and SI pp56–65 define the source system. Use MeCN, 313.15 K (experimental 40°C), 1 M; reproduce the former 298.15 K endpoint only as a separately labelled baseline. Full photoredox catalyst and regeneration network are outside this local exit comparison.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "exit_paths",
+      "max_score": 30,
+      "description": "Cu-organized and free-radical chlorine exits with real endpoint validation. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_exit_paths"
+      ]
+    },
+    {
+      "id": "reservoir_ledger",
+      "max_score": 25,
+      "description": "Charge/spin/chemical-potential ledger connecting different molecularities. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_reservoir_ledger"
+      ]
+    },
+    {
+      "id": "stereochemical_control",
+      "max_score": 15,
+      "description": "Competing stereochemical exits, conformation and spin sensitivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_stereochemical_control"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 10,
+      "description": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping.",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Schema/transport validation does not establish scientific correctness or calibrated scoring.",
+    "No new target tolerance is frozen; calibrate using complete paths, conformer/method sensitivity and source measurement uncertainty.",
+    "Supporting, contradictory and fully evidenced indistinguishable results receive equal endpoint credit.",
+    "Uncomputed core controls receive no endpoint credit; bounded failure cannot acquire a completion PASS."
+  ]
+}

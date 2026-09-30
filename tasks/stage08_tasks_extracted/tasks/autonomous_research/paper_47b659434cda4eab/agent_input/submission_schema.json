@@ -1,0 +1,159 @@
+{
+  "type": "object",
+  "required": [
+    "candidate_generation_rule",
+    "models",
+    "candidates",
+    "hypotheses",
+    "conclusion",
+    "limitations"
+  ],
+  "properties": {
+    "candidate_generation_rule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "models": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "model_id",
+          "status",
+          "method",
+          "validation",
+          "energy_reference",
+          "evidence"
+        ],
+        "properties": {
+          "model_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "validation": {
+            "type": "string"
+          },
+          "energy_reference": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minimum_energy": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "model_id",
+        "status",
+        "method",
+        "validation",
+        "energy_reference"
+      ]
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "parent_model_id",
+          "pathway",
+          "status",
+          "validation",
+          "evidence"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "parent_model_id": {
+            "type": "string"
+          },
+          "pathway": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "validation": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "barrier_kcal_mol": {
+            "type": "number"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "candidate_id",
+        "parent_model_id",
+        "pathway",
+        "status",
+        "validation",
+        "evidence"
+      ]
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "hypothesis",
+          "evidence",
+          "assessment"
+        ],
+        "properties": {
+          "hypothesis": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "assessment": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limitations": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "result_schema": {
+    "type": "object",
+    "required": ["candidate_generation_rule", "models", "candidates", "hypotheses", "conclusion", "limitations"],
+    "properties": {
+      "candidate_generation_rule": {"type": "string"},
+      "models": {"type": "array", "items": {"type": "object", "required": ["model_id", "status", "validation", "energy_reference", "evidence"], "properties": {"model_id": {"type": "string"}, "status": {"type": "string"}, "validation": {"type": "string"}, "energy_reference": {"type": "string"}, "evidence": {"type": "string"}}}},
+      "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "parent_model_id", "validation", "evidence"], "properties": {"candidate_id": {"type": "string"}, "parent_model_id": {"type": "string"}, "validation": {"type": "string"}, "evidence": {"type": "string"}}}},
+      "hypotheses": {"type": "array", "items": {"type": "object", "required": ["hypothesis", "evidence", "assessment"], "properties": {"hypothesis": {"type": "string"}, "evidence": {"type": "string"}, "assessment": {"type": "string"}}}},
+      "conclusion": {"type": "string"},
+      "limitations": {"type": "string"}
+    }
+  },
+  "additionalProperties": false,
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json"
+}

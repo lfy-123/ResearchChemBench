@@ -1,0 +1,54 @@
+Supplementary Note 9. Molecular dynamics (MD) simulations
+
+Polymerization simulation methods. Monomer molecular models were  constructed and
+
+described  using  the  general AMBER  force  field12.  1050 TMC  molecules  and  1575
+
+ODA/6FODA/PFMB molecules were packed in a cubic cell of size 100 Å with a low density of
+
+0.4 g cm−3. The chlorines in TMC molecules and the amino hydrogens in ODA/6FODA/PFMB
+
+molecules  were  removed.  Carbons  of  carbonyls  in TMC  molecules  and  nitrogens  in
+
+ODA/6FODA/PFMB molecules were marked with a tag, and then the polymerization steps were
+
+performed between the tagged carbons and nitrogens within a cut-off of 6 Å, using energy
+
+minimization and molecular dynamics (MD) steps to adjust the molecules. Unreacted carbonyls
+
+and amine ends were restored to chlorines and hydrogens. GROMACS 2023.2 was used in the MD
+
+steps for both polymerization and equilibrium13. Zeo++ was used to analyze fractional free volume
+
+and accessible surface, with a probe radius of 0.6, 1.0, and 1.8 Å, respectively. Zeo++ was used to
+
+analyze voids, pore size distribution, and surface area14.
+
+MD Parameters. All all-atom MD simulations were based on a general AMBER force field with
+
+RESP charges and were conducted using the Gromacs-2023.2 software package. The system was
+
+a relaxed liquid configuration at 298 K. The total run time for the equilibrium MD simulation was
+
+50 ns NPT. We used the relaxed system as a starting configuration. As  it is prior to system
+
+relaxation MD, energy minimization was carried out with a composite protocol of steepest descent
+
+using termination gradients of 100 kJ mol−1 nm−1. The equilibrium temperature was maintained at
+
+298 K using a Nose´-Hoover thermostat, and periodic boundary conditions were imposed on all
+
+three dimensions15. The Particle Mesh-Ewald method was used to compute the long-range
+
+electrostatics within a relative tolerance of 1×10–6 16. A cut-off distance of 1nm was applied to real-
+
+space Ewald interactions. The same value was used for van der Waals interactions. The LINCS
+
+algorithm was applied to constrain the bond lengths of hydrogen atoms17. A leap-frog algorithm
+
+was used with a time step of 2 fs18.
+
+
+
+
+                                                  13

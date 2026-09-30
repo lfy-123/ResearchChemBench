@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_identity",
+      "key_point_type": "process",
+      "statement": "The submission uses the three specified 300 K experimental P21/c crystals and preserves their individual Cl, Br, and I identities through calculation and reporting.",
+      "expected": "All three named object fields map to the correct CCDC records, with no substitute crystal or altered composition.",
+      "evidence_ids": [
+        "ev_doc_bb6e4f756d2c_000310_ac23b9c709ae",
+        "ev_approved_band_observables_20260914"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_process_validation",
+      "key_point_type": "process",
+      "statement": "Every reported gap and band-edge assignment is supported by validation evidence for that same named crystal.",
+      "expected": "For each computed quantity require same-object raw bands, reciprocal edge locations, assignment evidence and per-quantity numerical stability. Distinguish edge gap from minimum same-k gap. Directness compares extremal k sets, not Gamma membership. Ambiguous assignment remains partial; finite meshes do not prove full-zone extrema.",
+      "evidence_ids": [
+        "ev_doc_bb6e4f756d2c_000057_20b506efb7ff",
+        "ev_doc_bb6e4f756d2c_000061_447852ce6d75",
+        "ev_approved_band_observables_20260914"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_gap_values",
+      "key_point_type": "result",
+      "statement": "Source scalar-relativistic HSE06 Pb-framework-related interband energies are approximately Cl 4.63, Br 4.64, I 4.44 eV; these are not the fundamental gaps to the lowest unoccupied organic states.",
+      "expected": "Compare only the independently assigned framework_interband edge gap on the public primary scale, with the same physical manifold identified from projections/dispersion and lower-state analysis. Report fundamental and minimum same-k gaps separately; no fixed band ordinal, target-nearest selection, SOC substitution or automatic optical-allowedness claim.",
+      "evidence_ids": [
+        "ev_doc_bb6e4f756d2c_000145_b18a4cc481f7",
+        "ev_doc_bb6e4f756d2c_000147_ff4cca47a9a8",
+        "ev_doc_bb6e4f756d2c_000149_861dd7011649",
+        "ev_approved_band_observables_20260914"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_explanation",
+      "key_point_type": "result",
+      "statement": "The computed cross-crystal trend is interpreted using a clearly defined structural descriptor and independently considered alternatives, without requiring the authors' interpretation.",
+      "expected": "The report defines the descriptor and sign, compares its evidence with at least one plausible structural or orbital alternative, and limits causal language to what the calculations support. Keep fundamental and assigned framework-interband trends separate and identify whether limited reciprocal sampling or orbital mixing affects the explanation.",
+      "evidence_ids": [
+        "ev_doc_bb6e4f756d2c_000145_b18a4cc481f7",
+        "ev_doc_bb6e4f756d2c_000156_c29e5b98f41a",
+        "ev_approved_band_observables_20260914"
+      ]
+    }
+  ]
+}

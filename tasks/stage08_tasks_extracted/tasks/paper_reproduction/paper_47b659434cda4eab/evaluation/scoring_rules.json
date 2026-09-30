@@ -1,0 +1,83 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr-r-1",
+      "type": "condition",
+      "expected": "Six individually identified model records with status, method, validation and energy reference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.models[].model_id", "$.models[].status", "$.models[].validation", "$.models[].energy_reference"],
+        "comparison": "expert check of complete named-model coverage"
+      },
+      "reference_id": "pr-kp-1"
+    },
+    {
+      "rule_id": "pr-r-2",
+      "type": "condition",
+      "expected": "Candidate-level validation identifies frequency/saddle evidence and IRC or justified alternative connectivity evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.candidates[].candidate_id", "$.candidates[].parent_model_id", "$.candidates[].validation", "$.candidates[].evidence"],
+        "comparison": "expert check of candidate-specific validation"
+      },
+      "reference_id": "pr-kp-2"
+    },
+    {
+      "rule_id": "pr-r-3",
+      "type": "semantic",
+      "expected": "C10 alpha is unstable, rearranges or is otherwise not retained as a stable alpha minimum, with a stated limitation if search failure is involved.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.models[].model_id", "$.models[].status", "$.models[].evidence", "$.conclusion"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr-kp-3"
+    },
+    {
+      "rule_id": "pr-r-4",
+      "type": "semantic",
+      "expected": "C15/C17 alpha behavior is described as more supportive of direct dehydrogenation than the C10 short-chain case within the submitted scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.models[].model_id", "$.models[].status", "$.models[].evidence", "$.conclusion"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr-kp-4"
+    },
+    {
+      "rule_id": "pr-r-5",
+      "type": "semantic",
+      "expected": "Chain length changes stability and pathway preference, with short-chain versus long-chain behavior explicitly contrasted.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.conclusion"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr-c-1"
+    },
+    {
+      "rule_id": "pr-r-6",
+      "type": "semantic",
+      "expected": "Exact reproduction limits from coordinates, conformers, solvation and method sensitivity are acknowledged.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.limitations"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr-c-2"
+    }
+  ],
+  "paper_id": "paper_47b659434cda4eab"
+}

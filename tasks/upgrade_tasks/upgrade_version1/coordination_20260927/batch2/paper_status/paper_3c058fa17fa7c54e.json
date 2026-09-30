@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "title": "Bridge and torsion interventions on anthracene singlet/triplet compatibility",
+  "status": "implemented_pending_expanded_reference",
+  "packages": [
+    {
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_3c058fa17fa7c54e",
+      "task_type": "autonomous_research",
+      "package_content_sha256": "9b44394e92d8b261a8355cc3cb2a99784883e44e3f9cf0ba22f870cb8df542f7"
+    },
+    {
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_3c058fa17fa7c54e",
+      "task_type": "paper_reproduction",
+      "package_content_sha256": "8687804b9e46c2000487044c1499146db2b8401942062ed135efb3dc6ffe83ed"
+    }
+  ],
+  "new_reference_gaps": "Ethynyl control geometries, matched torsions, NTO correspondence and separately relaxed excited-state references are missing.",
+  "blockers": [],
+  "source_review": {
+    "paper_main": "Structures, source B3LYP calculation and inconsistent S/T labeling passages read; molecule-level energetic statement is distinct from TTA kinetics.",
+    "paper_si": "Actual available SI inspected for B3LYP/6-31G(d,p) protocol; prior documentation did not fully exploit this local SI."
+  },
+  "source_corrections": [
+    "New π bridge explicitly changes composition, so only property contrasts are used; no unbalanced total-energy comparison.",
+    "Complete two-arm mapping excludes changed bridge carbons; both ethynyl attachment sites retain para-arm connectivity."
+  ],
+  "check_summary": "Package-specific checks pending final batch regression; no scientific validation claimed."
+}

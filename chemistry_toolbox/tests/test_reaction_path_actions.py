@@ -158,7 +158,8 @@ def test_relaxed_scan_converts_angstrom_to_bohr_and_returns_aligned_points(
         return {
             "available": True,
             "returncode": 0,
-            "stdout": "Converged!\nConverged!\n",
+            "stdout": "| RUNNING STEP 00, COORD=1.7008 AU |\nConverged!\n"
+            "| RUNNING STEP 01, COORD=1.8897 AU |\nConverged!\n",
             "stderr": "",
             "command": ["pysis", "pysis.yaml"],
         }
@@ -187,6 +188,9 @@ def test_relaxed_scan_converts_angstrom_to_bohr_and_returns_aligned_points(
     assert result["status"] == "success"
     assert result["result"]["coordinate_values"] == pytest.approx([0.9, 1.0])
     assert result["result"]["energies_hartree"] == [-1.0, -0.9]
+    assert result["result"]["target_values"] == pytest.approx([0.9, 1.0])
+    assert result["result"]["points"][1]["delta"] == pytest.approx(0.0, abs=1e-9)
+    assert result["result"]["points"][0]["native"]["status"] == "converged"
     scan = result["provenance"]["generated_config"]["scan"]
     assert scan["start"] == pytest.approx(0.9 * 1.8897261254578281)
     assert scan["end"] == pytest.approx(1.0 * 1.8897261254578281)

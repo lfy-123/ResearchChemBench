@@ -1,0 +1,12 @@
+{
+  "system_id":"G2plus_betaCD3_isolated_complex",
+  "guest":{"label":"G2plus","database":"PubChem","record_id":"name:N,N′-di[2-(4-fluorophenyl)-2-oxoethyl]-4,4′-(1,4-phenylene)-bipyridinium","record_purpose":"retrieve the exact viologen dication constitution; retain +2 charge and do not add chloride counterions","selection_rule":"exact systematic name match"},
+  "host":{"label":"beta-CD","database":"PubChem","record_id":"CID 444041","record_purpose":"retrieve beta-cyclodextrin with its native stereochemistry and neutral constitution","selection_rule":"CID match"},
+  "stoichiometry":"one G2plus guest and three beta-CD hosts",
+  "charge":2,
+  "multiplicity":1,
+  "environment":"isolated gas-phase molecular complex; no solvent, counterions or periodic lattice",
+  "reported_binding_boundary":"thread the guest through three beta-CD cavities, with the two terminal fluorophenyl units, central phenylene and portions of pyridinium units inside the cavities and remaining pyridinium portions outside portals",
+  "allowed_transformations":["generate 3-D conformers from retrieved connectivity","assemble a chemically plausible threaded complex","use explicit hydrogen atoms and neutral beta-CD hosts"],
+  "tools_manifest":"toolbox_capabilities.json"
+}

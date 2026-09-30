@@ -1,0 +1,134 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_s1",
+      "type": "semantic",
+      "expected": "three systems have auditable validated structures",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.method"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p1"
+    },
+    {
+      "rule_id": "pr_s2",
+      "type": "semantic",
+      "expected": "atom identity and charge provenance are explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p2"
+    },
+    {
+      "rule_id": "pr_s3",
+      "type": "numeric",
+      "target": 0.204,
+      "unit": "e",
+      "tolerance": 0.02,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.tfap_carbonyl_charge"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s4",
+      "type": "numeric",
+      "target": 0.2,
+      "unit": "e",
+      "tolerance": 0.02,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.tmtfaba_carbonyl_charge"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s5",
+      "type": "numeric",
+      "target": 0.036,
+      "unit": "e",
+      "tolerance": 0.02,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ptma_nitrogen_charge"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s6",
+      "type": "numeric",
+      "target": 0.04,
+      "unit": "e",
+      "tolerance": 0.02,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.tmtfaba_nitrogen_charge"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s7",
+      "type": "semantic",
+      "expected": "conditional paired trend and cooperation interpretation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c1"
+    },
+    {
+      "rule_id": "pr_s8",
+      "type": "semantic",
+      "expected": "limitations include Mulliken and geometry/conformer dependence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c2"
+    }
+  ],
+  "paper_id": "paper_6f9a36fff6964313"
+}

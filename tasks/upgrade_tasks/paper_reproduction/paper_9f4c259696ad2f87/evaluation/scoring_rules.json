@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PXX1 C43H28O3 and PXX2 C50H30O4, neutral singlets; acid is neutral B(C6F5)3. Each PXX has 0, 1 and 2 acid units; PXX1 has one carbonyl, so its second acid explores the available ether/carbonyl-site competition as a new candidate, not an asserted second independent ketone. PXX2 has two carbonyls. All whole complexes are neutral singlets. CH2Cl2 is the shared primary medium. Compare sequential acid association reactions, never bare total energies of different acid counts. Use 298.15 K and 1 M as explicit development thermochemistry conventions; no equilibrium population is inferred without concentration evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PXX1 C43H28O3 and PXX2 C50H30O4, neutral singlets; acid is neutral B(C6F5)3. Each PXX has 0, 1 and 2 acid units; PXX1 has one carbonyl, so its second acid explores the available ether/carbonyl-site competition as a new candidate, not an asserted second independent ketone. PXX2 has two carbonyls. All whole complexes are neutral singlets. CH2Cl2 is the shared primary medium. Compare sequential acid association reactions, never bare total energies of different acid counts. Use 298.15 K and 1 M as explicit development thermochemistry conventions; no equilibrium population is inferred without concentration evidence."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_stoichiometric_series",
+      "reference_id": "kp_stoichiometric_series",
+      "type": "semantic",
+      "expected": "Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Core rows: PXX1_acid0, PXX1_acid1, PXX1_acid2, PXX2_acid0, PXX2_acid1, PXX2_acid2. Recompute G_Eh, excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.stoichiometric_series",
+          "$.calculation_records"
+        ],
+        "comparison": "Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Core rows: PXX1_acid0, PXX1_acid1, PXX1_acid2, PXX2_acid0, PXX2_acid1, PXX2_acid2. Recompute G_Eh, excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_balanced_binding",
+      "reference_id": "kp_balanced_binding",
+      "type": "semantic",
+      "expected": "Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Core rows: PXX1_step1, PXX1_step2, PXX2_step1, PXX2_step2. Recompute delta_G_kJ_mol, interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.balanced_binding",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Core rows: PXX1_step1, PXX1_step2, PXX2_step1, PXX2_step2. Recompute delta_G_kJ_mol, interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_geometry_and_spectrum",
+      "reference_id": "kp_geometry_and_spectrum",
+      "type": "semantic",
+      "expected": "Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Core rows: PXX1_acid_removed, PXX2_acid_removed, titration_discrimination. Recompute excitation_change_eV, oscillator_strength_change, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.geometry_and_spectrum",
+          "$.calculation_records"
+        ],
+        "comparison": "Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Core rows: PXX1_acid_removed, PXX2_acid_removed, titration_discrimination. Recompute excitation_change_eV, oscillator_strength_change, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. FRET, full concentration dynamics and absolute emission efficiency are outside the core.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. FRET, full concentration dynamics and absolute emission efficiency are outside the core."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PXX1 C43H28O3 and PXX2 C50H30O4, neutral singlets; acid is neutral B(C6F5)3. Each PXX has 0, 1 and 2 acid units; PXX1 has one carbonyl, so its second acid explores the available ether/carbonyl-site competition as a new candidate, not an asserted second independent ketone. PXX2 has two carbonyls. All whole complexes are neutral singlets. CH2Cl2 is the shared primary medium. Compare sequential acid association reactions, never bare total energies of different acid counts. Use 298.15 K and 1 M as explicit development thermochemistry conventions; no equilibrium population is inferred without concentration evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "stoichiometric_series",
+      "max_score": 20,
+      "description": "Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Core rows: PXX1_acid0, PXX1_acid1, PXX1_acid2, PXX2_acid0, PXX2_acid1, PXX2_acid2. Recompute G_Eh, excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_stoichiometric_series"
+      ]
+    },
+    {
+      "id": "balanced_binding",
+      "max_score": 25,
+      "description": "Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Core rows: PXX1_step1, PXX1_step2, PXX2_step1, PXX2_step2. Recompute delta_G_kJ_mol, interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_balanced_binding"
+      ]
+    },
+    {
+      "id": "geometry_and_spectrum",
+      "max_score": 20,
+      "description": "Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Core rows: PXX1_acid_removed, PXX2_acid_removed, titration_discrimination. Recompute excitation_change_eV, oscillator_strength_change, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_geometry_and_spectrum"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. FRET, full concentration dynamics and absolute emission efficiency are outside the core.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

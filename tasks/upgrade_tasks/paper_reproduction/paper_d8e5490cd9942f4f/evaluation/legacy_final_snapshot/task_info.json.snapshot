@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "task_type": "paper_reproduction",
+  "title": "Aqueous syn/anti conformational thermochemistry of [La-KHQ]+",
+  "category": "coordination thermochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Two explicitly defined conformers must be optimized and thermochemically validated.",
+    "The qualitative syn/anti conformational hypothesis is exposed, while the computed ordering and numerical result are withheld."
+  ],
+  "paper": {
+    "title": "d5dt03015c 3413..3421 ++",
+    "doi": "10.1039/d5dt03015c",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-28"
+  },
+  "data": [
+    {
+      "path": "data/inputs/syn_La_KHQ.xyz",
+      "description": "81-atom XYZ starting geometry for the syn [La-KHQ]+ conformer; La, C32H38N4O6, charge +1, singlet. This is a given source-optimized object, not an independent geometry-discovery input."
+    },
+    {
+      "path": "data/inputs/anti_La_KHQ.xyz",
+      "description": "81-atom XYZ starting geometry for the anti [La-KHQ]+ conformer; La, C32H38N4O6, charge +1, singlet. This is a given source-optimized object, not an independent geometry-discovery input."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computational results and conclusion conforming to submission_schema.json."
+    }
+  ]
+}

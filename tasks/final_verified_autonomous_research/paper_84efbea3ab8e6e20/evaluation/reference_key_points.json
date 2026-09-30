@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_84efbea3ab8e6e20",
+  "items": [
+    {
+      "key_point_id": "ar_process_coverage",
+      "key_point_type": "process",
+      "statement": "The investigation defines candidate/state generation, deduplication, advancement and validation, and attempts all three named molecules.",
+      "expected": "Computed candidate/state coverage is explicit and every attempted object retains identity and failure context.",
+      "evidence_ids": [
+        "ev_doc_d5323eaeff10_000001_d0be096319f3"
+      ]
+    },
+    {
+      "key_point_id": "ar_process_state_rule",
+      "key_point_type": "process",
+      "statement": "A common, justified rule selects SOC-relevant triplets relative to S1 and validates state labels by energies.",
+      "expected": "Per-isomer S1/triplet energies and the selection rule are reported, with SOC pair identities.",
+      "evidence_ids": [
+        "ev_doc_9e063f9c1ba7_000045_ddf2aa77b5a5",
+        "ev_doc_9e063f9c1ba7_000046_242e7bdb6158"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_trend",
+      "key_point_type": "result",
+      "statement": "The evaluator, not the agent, compares computed molecular evidence with the private experimental lifetime reference. SOC/state-character evidence remains required.",
+      "expected": "Evaluator-private comparison: source PVA lifetimes are CZ1B 3.96 s, CZ4B 4.27 s, CZ2B 5.20 s (main PDF p.3 Fig.1d/f, 0.5 wt% films). Compare these with the submitted computed cross-isomer SOC/state-character evidence. Do not require the agent to state or guess the hidden lifetime values or observed ordering. Isolated SOC is not a formula for absolute film lifetime and does not alone prove host causation.",
+      "evidence_ids": [
+        "ev_doc_9e063f9c1ba7_000041_4df704c45076"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "system_name": "taurine_hydrogen_bond_donor_complexes",
+  "complex_stoichiometry": "one taurine plus two molecules of each named donor",
+  "electronic_state": {"charge": 0, "multiplicity": 1},
+  "molecules": [
+    {"id": "Tau", "name": "taurine (2-aminoethanesulfonic acid; zwitterionic form)", "smiles": "NCCS(=O)(=O)[O-]", "formal_charge": 0, "component_charge_note": "Use the neutral zwitterionic representation [NH3+]CCS(=O)(=O)[O-]; the compact SMILES omits explicit proton transfer only for toolkit portability."},
+    {"id": "Im", "name": "imidazole", "smiles": "C1=NC=CN1", "formal_charge": 0},
+    {"id": "Gly", "name": "glycerol (propane-1,2,3-triol; paper abbreviation Gly)", "smiles": "OCC(O)CO", "formal_charge": 0},
+    {"id": "MEA", "name": "ethanolamine (2-aminoethan-1-ol)", "smiles": "NCCO", "formal_charge": 0}
+  ],
+  "allowed_representation": "The supplied connectivity and state define the system. Agents may add explicit hydrogens, generate conformers, and choose a reproducible 3D model, but must not change protonation, charge, multiplicity, identity, or 1:2 stoichiometry."
+}

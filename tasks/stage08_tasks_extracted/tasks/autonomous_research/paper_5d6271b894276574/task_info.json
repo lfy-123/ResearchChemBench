@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_5d6271b894276574",
+  "task_type": "autonomous_research",
+  "title": "Autonomous investigation of anion-dependent 7-azaindole association",
+  "category": "computational chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must propose plausible motifs and prioritize a broad set of AI-anion and AI2 candidates.",
+    "Eight complexes require coverage, deduplication, validation and independent counterpoise energetics."
+  ],
+  "paper": {
+    "title": "Dimer formation of 7-azaindole in phosphonium-based ionic liquids: anion-dependent behavior",
+    "doi": "10.1039/d5cp04361a",
+    "journal": "Physical Chemistry Chemical Physics",
+    "publication_date": "2026-01-22"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed isolated AI and seven-anion identities, coordinates, charges and multiplicities."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Autonomous hypotheses, validated per-complex structures, interaction energies, coverage and conclusions."
+    }
+  ]
+}

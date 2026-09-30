@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "items": [
+    {
+      "key_point_id": "kp_zinc_system_identity",
+      "statement": "Correct full complex, graph/state identity and configuration mapping.",
+      "expected": "Check all80atoms and the supplied connectivity, including N-Dipp and cyclic groups, in actual inputs/outputs; ensure Zn/carbene/biphenyl identities survive transformations. Inspect charge, electronic state and declared model. Different atomic orderings require explicit mapping, not assumed indices. Deleting bulky groups changes the physical problem unless its approximation is validated.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_configuration_optical_evidence",
+      "statement": "Real molecular configuration and low-energy absorption findings.",
+      "expected": "Inspect native structures and actual electronic excitation/response evidence relevant to the proposed interpretation. Recompute energies/units and any reported thermochemistry. For optical claims check transition energy, strength and state character or an appropriate alternative optical observable; a ground-state orbital gap alone is not a vertical transition. The number of states must cover the claimed absorption range, not an arbitrary five-root quota. Source values alone earn no new evidence credit.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_structure_property_explanation",
+      "statement": "Evidence for the relation of configurations, optical behavior and any Zn contribution.",
+      "expected": "Assess whether the chosen study discriminates the claimed relation instead of reading planarity labels or assuming metal participation. A Zn-role claim needs an explicit, meaningful population/transition analysis and actual mapped evidence; different justified partitions are acceptable and not expected to reproduce8.5%. Corresponding states across geometries must be justified rather than assumed by root index. If dispersion causation is claimed, require separation adequate to that claim, not the V1 decomposition matrix for every submission. Reject unique causation if residual changes remain unaccounted.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_state_thermo_reliability",
+      "statement": "Uncertainty and validity appropriate to the state and stability claims.",
+      "expected": "Validate minima when called stable, distinguish constrained diagnostics and failed searches, and check thermodynamic conventions if using G/populations. Small energy differences need uncertainty sufficient for the claim; low-frequency ambiguity cannot be hidden in many digits. Distinguish molecular absorption and crystal edges, and thermal population from a single structure. Accept other justified reliability strategies without fixed method/D3/temperature/family requirements.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    }
+  ]
+}

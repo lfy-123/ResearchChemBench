@@ -1,0 +1,16 @@
+{
+  "record_type": "controlled_crystal_structure_record",
+  "database": "Cambridge Structural Database/CCDC",
+  "record_id": "2498911",
+  "record_doi": "10.5517/ccdc.csd.cc2pwb1z",
+  "compound_label": "complex 2",
+  "formula_as_crystallized": "C49H40CuIN3OP2·CH4O",
+  "molecular_unit_for_calculation": "[CuI(L)(PPh3)2]",
+  "ligand_identity": "L = 2-phenyl-5-(4-pyridyl)-1,3,4-oxadiazole",
+  "charge": 0,
+  "starting_multiplicity": 1,
+  "state_definitions": {"S0": {"multiplicity": 1}, "S1": {"multiplicity": 1, "state_index": 1}, "T1": {"multiplicity": 3, "state_index": 1}},
+  "deterministic_preparation": ["retrieve CCDC 2498911 CIF", "select one crystallographically reported complex molecule", "remove methanol solvent molecule", "retain all complex atoms and reported stereochemical/connectivity information", "generate any missing hydrogen coordinates deterministically and record the tool and settings"],
+  "allowed_connectors": ["CCDC/CSD record retrieval using the stable record ID above"],
+  "answer_independence": "This record contains identity and starting geometry only; it contains no target emission values or selected excited-state geometries."
+}

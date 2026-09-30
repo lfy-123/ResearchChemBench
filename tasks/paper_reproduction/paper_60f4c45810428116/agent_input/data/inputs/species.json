@@ -9,8 +9,8 @@
     {"id":"precursor_1h","label":"1h","smiles":"c1ccccc1SCSCc1ccccc1","formal_charge":0,"multiplicity":1,"role":"neutral precursor"},
     {"id":"radical_fragment_1h","label":"1h carbon fragment","smiles":"[CH2]SCc1ccccc1","formal_charge":0,"multiplicity":2,"role":"neutral carbon-centered radical after C-S cleavage"},
     {"id":"benzenethiolate","label":"benzenethiolate","smiles":"c1ccccc1[S-]","formal_charge":-1,"multiplicity":1,"role":"anionic leaving fragment"},
-    {"id":"ferrocene","label":"ferrocene","smiles":"[Fe]1([cH]2[cH][cH][cH][cH]2)[cH]2[cH][cH][cH][cH]2","formal_charge":0,"multiplicity":1,"role":"reference reduced state"},
-    {"id":"ferrocenium","label":"ferrocenium","smiles":"[Fe+]1([cH]2[cH][cH][cH][cH]2)[cH]2[cH][cH][cH][cH]2","formal_charge":1,"multiplicity":2,"role":"reference oxidized state"}
+    {"id":"ferrocene","label":"ferrocene","smiles":"[Fe+2].[CH-]1C=CC=C1.[CH-]1C=CC=C1","formal_charge":0,"multiplicity":1,"role":"reference reduced state","formula":"C10H10Fe","coordination":"Single bis(eta5-cyclopentadienyl)iron sandwich complex. The disconnected SMILES records formal fragments only; it does not mean three separated solutes. Construct both five-membered Cp rings eta5-coordinated to the same Fe, preserving ten ring carbons and ten hydrogens."},
+    {"id":"ferrocenium","label":"ferrocenium","smiles":"[Fe+3].[CH-]1C=CC=C1.[CH-]1C=CC=C1","formal_charge":1,"multiplicity":2,"role":"reference oxidized state","formula":"C10H10Fe+","coordination":"Single bis(eta5-cyclopentadienyl)iron sandwich cation with the same ligand connectivity as ferrocene. The disconnected SMILES records formal fragments only; construct the eta5 coordination, not isolated ions."}
   ],
   "reactions": [
     {"id":"reaction_1a","substrate":"precursor_1a","products":["radical_fragment_1a","chloride"],"electrons":1,"electrode_system":"ferrocene/ferrocenium"},

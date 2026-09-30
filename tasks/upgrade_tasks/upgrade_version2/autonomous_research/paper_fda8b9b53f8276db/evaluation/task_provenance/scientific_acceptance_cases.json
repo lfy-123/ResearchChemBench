@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.362145+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_fda8b9b53f8276db/documents/main.pdf",
+      "sha256": "0afa69242ab928c082802d029d66eaa4c3c58cea7f791438d64de1c7f88de8d1",
+      "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p4 区分气相优化 cis 与晶体 trans；SI Table S2 印刷 S10–S11 的六个键长均带 (1)，当前 experimental_bonds.json 已给 standard_uncertainty_A=0.001。",
+      "actual_read_pages_and_sections": "Main p4 §2.4; SI pp10–11 TableS2 and pp11–15 molecular coordinates/frequency/structure figures; authentic CCDC record and atom-label mapping."
+    },
+    {
+      "path": "papers/paper_fda8b9b53f8276db/documents/supplementary_001.pdf",
+      "sha256": "13ace6b2daec90e737a69c21f21a4af2d7cab7a54b967859e270ca1147c496de",
+      "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p4 区分气相优化 cis 与晶体 trans；SI Table S2 印刷 S10–S11 的六个键长均带 (1)，当前 experimental_bonds.json 已给 standard_uncertainty_A=0.001。",
+      "actual_read_pages_and_sections": "Main p4 §2.4; SI pp10–11 TableS2 and pp11–15 molecular coordinates/frequency/structure figures; authentic CCDC record and atom-label mapping."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Independent finite-ligand geometry and genuine CIF bond mappings support a molecular account of crystal-versus-model geometry with appropriate uncertainty, without a compulsory cis/trans or packing ladder.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Observed geometry differences remain compatible with multiple environment/model effects after relevant checks; no lattice mechanism is claimed as calculated.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "A CIF 1.XXX(1) uncertainty is treated as mere rounding and only favorably matching bonds are selected for a universal accuracy claim.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A valid local stationary structure and all mapped bond differences are reported, with no global-minimum or lattice-effect claim.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular description of the free quinoxaline ligand is supported by the supplied crystal structure and an independent molecular investigation, and how should agreement or disagreement with the crystal geometry be interpreted? Establish which structural conclusions are reliable and which remain model dependent.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Map the full ligand graph and CIF labels consistently; distinguish free ligand1 from the Re complex and do not confuse molecular orientations with connectivity changes. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Verify any claimed optimized state or structural minimum and define the molecular/experimental environments compared. If reporting residuals, state the included atoms/bonds and statistic; separate marginal crystallographic ESDs, absent covariance, rounding and model error. A local minimum is not a certified global minimum, and bond agreement alone cannot explain a phase-dependent conformation. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Do not equate agreement of several local bonds with a globally correct conformation or phase equilibrium. Finite molecular energies do not establish crystal lattice free energy, solid-state conformer populations, Re-complex behavior or biological activity. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

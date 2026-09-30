@@ -1,0 +1,104 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_5286f393dfa5a49a",
+  "task_type": "paper_reproduction",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_paper_reproduction/paper_5286f393dfa5a49a",
+  "source_manifest_sha256": "e02852625716ed546c8f2a0b8f1b658f929343ec5808ef4a7b7110d748e9e2bf",
+  "source_package_content_sha256": "9696388d1a492ef886fbddc2cb9cf85f6ab652537c16256abdacde58bee87c9a",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/crystal.xyz": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/crystal.xyz.snapshot",
+      "sha256": "b0d3eb94d61960f01d02c02fc3d640ce442e414a503a1ccb2ac43669ca919db6"
+    },
+    "agent_input/data/inputs/rrrr.xyz": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/rrrr.xyz.snapshot",
+      "sha256": "d3e4c0ed0160e87e235a3979f5ba153a929291cbcefd840ff88ba06c80cad0f6"
+    },
+    "agent_input/data/inputs/ssss.xyz": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/ssss.xyz.snapshot",
+      "sha256": "07a42078aef33d2e77716d74ba464633bc670357d3c3536c3b21d4aa1648685b"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "f3c4b3c69e6a2e7068e7eeba8bae4037519990a2ca3dc63fe51e803e039efe4b"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "92ce81f3e62139f2c0afb783e6ed90de83066f19f4873cc25f7aa93c7cd48a94"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "a65c32f7dff6fd6c4769fab363018d38c37cfff0d56847120002ac1d077cfca2"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "18a30ea3952bb043ba32b5f8bb35eb1e7545abdb7ef4e175783ec3649bf988b8"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "1f88a5429aa6358fdde7c6511dde5c0e7469e629dac2c9e5679482f8df7b6739"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "0b9eabad9785af6c1f072be78b69b34e5838957903b76de9c7413e5bb06f75b6"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "cbc8954554bc7fe0244ffc17d8d877f8c7e56104d33feb82b6198dda7c6241a0"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "74981a6819bda78356b3790e7970ff4cac9c42fed81bc6d9b96326b85be06647"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "e02852625716ed546c8f2a0b8f1b658f929343ec5808ef4a7b7110d748e9e2bf"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "62b57b80e25518f206021cfa3a04dc90f895fdccf6b6669225af079a7f74baf6"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "f119162a5b3ade6c28a3780e73659828633ffb917bc5782265e5f3c42fee80bf"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_5286f393dfa5a49a/documents/supplementary_001.pdf",
+      "sha256": "c82dd9a778b5e845a4ed4ff2d2141653e79fb530488318a03c6b661ad6062156",
+      "pages": 48
+    },
+    {
+      "path": "papers/paper_5286f393dfa5a49a/documents/main.pdf",
+      "sha256": "5a66fa0198121ae0667252defdc0916a09d0a76ab7f4b664848c9361e8087d4d",
+      "pages": 9
+    },
+    {
+      "path": "docs/evalution/update/paper_5286f393dfa5a49a.md",
+      "sha256": "ce00f6155859dec133a1a177f256fd2c1dfdefc3d97de4e3ade040c5cea8f531"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "Monomer graph recovered by exact mapped bond/cap reconstruction, formulaC40H22Cl4N2O4; no sourceCIF invented.",
+    "Fixed-backboneR/S alternatives remain diastereomers; only inversion of backbone and sidechains gives a true mirror control."
+  ],
+  "new_reference_gaps": "Independent starts and fixed-helicity minima, corresponding mono/di TDCD, common-subunit spectra and bounded sidechain ensemble references are not yet calculated.",
+  "blockers": [],
+  "optional_not_required": "Optoelectronic device response and complete solid-state packing are outside this version."
+}

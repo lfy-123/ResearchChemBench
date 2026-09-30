@@ -6,7 +6,7 @@ The paper studies whether substitution changes the geometry and electronic struc
 
 ## 2. System and model boundary
 
-The target is neutral, closed-shell HPY 10a in dichloromethane continuum. The molecule is ethyl (E)-6-(2-((3-(ethoxycarbonyl)-4,5-diphenyl-1H-pyrrol-2-yl)methylene)hydrazineyl)-5-isocyano-2-methyl-4-phenylnicotinate. The reported computational object is its optimized ground-state geometry, harmonic frequencies, three substituent dihedrals, and frontier orbital energies.
+The target is neutral, closed-shell HPY 10a in dichloromethane continuum. The molecule is ethyl (E)-6-(2-((3-(ethoxycarbonyl)-4,5-diphenyl-1H-pyrrol-2-yl)methylene)hydrazineyl)-5-cyano-2-methyl-4-phenylnicotinate. The reported computational object is its optimized ground-state geometry, harmonic frequencies, three substituent dihedrals, and frontier orbital energies.
 
 ## 3. Authors' implemented computational route
 

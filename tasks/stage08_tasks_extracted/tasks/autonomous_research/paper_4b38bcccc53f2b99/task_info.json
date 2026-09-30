@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_4b38bcccc53f2b99",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of Pr(NPC2) redox thermochemistry",
+  "category": "molecular electronic structure and redox thermochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must choose and discriminate plausible counterion/oxidation-state models for a large lanthanide complex.",
+    "Candidate coverage, deduplication, stationary-point validation and a bounded stopping rule are required before concluding."
+  ],
+  "paper": {
+    "title": "Ligand Design Criteria for the Stability of High Oxidation State Praseodymium Complexes",
+    "doi": "10.1021/acs.inorgchem.5c05024",
+    "journal": "Inorganic Chemistry",
+    "publication_date": "2026-01-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Controlled Figshare coordinate-record specification and chemical identity for 1-KPr(NPC2)."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated JSON report containing candidate coverage, identity audits, thermochemistry, potential(s) and conclusion or bounded failure."
+    }
+  ]
+}

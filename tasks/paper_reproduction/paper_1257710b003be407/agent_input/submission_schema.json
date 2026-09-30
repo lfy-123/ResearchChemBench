@@ -1,23 +1,413 @@
 {
   "type": "object",
-  "required": ["required_files", "primary_result_file", "result_schema"],
+  "required": [
+    "required_files",
+    "primary_result_file",
+    "result_schema"
+  ],
   "properties": {
-    "required_files": {"type": "array", "items": {"type": "string"}, "minItems": 1},
-    "primary_result_file": {"type": "string"}
+    "required_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "primary_result_file": {
+      "type": "string"
+    }
   },
-  "required_files": ["report/results.json"],
+  "required_files": [
+    "report/results.json"
+  ],
   "primary_result_file": "report/results.json",
   "result_schema": {
-    "type": "object",
-    "required": ["status", "system", "candidates", "selected", "coverage_stopping", "conclusion", "limitations"],
-    "properties": {
-      "status": {"type": "string", "enum": ["validated_success", "bounded_failure"]},
-      "system": {"type": "object", "required": ["charge", "multiplicity", "method", "solvent", "temperature_K"], "properties": {"charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "method": {"type": "string"}, "solvent": {"type": "string"}, "temperature_K": {"type": "number"}}},
-      "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "reactant_structure", "frequency_validation", "connectivity_validation", "validation_status"], "properties": {"candidate_id": {"type": "string"}, "reactant_structure": {"type": "string"}, "ts_structure": {"type": "string"}, "frequency_validation": {"type": "object", "required": ["reactant_imaginary_count", "ts_imaginary_count", "mode_description"], "properties": {"reactant_imaginary_count": {"type": "integer"}, "ts_imaginary_count": {"type": "integer"}, "mode_description": {"type": "string"}}}, "connectivity_validation": {"type": "object", "required": ["method", "result"], "properties": {"method": {"type": "string"}, "result": {"type": "string"}}}, "validation_status": {"type": "string", "enum": ["validated", "failed"]}, "deltaG_activation_kcal_mol": {"type": "number"}, "failure_reason": {"type": "string"}}}},
-      "selected": {"oneOf": [{"type": "object", "required": ["candidate_id", "deltaG_activation_kcal_mol", "validation_summary"], "properties": {"candidate_id": {"type": "string"}, "deltaG_activation_kcal_mol": {"type": "number"}, "validation_summary": {"type": "string"}}}, {"type": "object", "required": ["candidate_id", "validation_summary", "failure_reason"], "properties": {"candidate_id": {"type": "string"}, "validation_summary": {"type": "string"}, "failure_reason": {"type": "string"}}}]},
-      "coverage_stopping": {"type": "string"},
-      "conclusion": {"type": "string"},
-      "limitations": {"type": "string"}
-    }
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "candidates",
+          "selected",
+          "coverage_stopping",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "validated_success"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "charge",
+              "multiplicity",
+              "method",
+              "solvent",
+              "temperature_K"
+            ],
+            "properties": {
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "method": {
+                "type": "string"
+              },
+              "solvent": {
+                "type": "string"
+              },
+              "temperature_K": {
+                "type": "number"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "reactant_structure",
+                "frequency_validation",
+                "connectivity_validation",
+                "validation_status"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "reactant_structure": {
+                  "type": "string"
+                },
+                "ts_structure": {
+                  "type": "string"
+                },
+                "frequency_validation": {
+                  "type": "object",
+                  "required": [
+                    "reactant_imaginary_count",
+                    "ts_imaginary_count",
+                    "mode_description"
+                  ],
+                  "properties": {
+                    "reactant_imaginary_count": {
+                      "type": "integer"
+                    },
+                    "ts_imaginary_count": {
+                      "type": "integer"
+                    },
+                    "mode_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "connectivity_validation": {
+                  "type": "object",
+                  "required": [
+                    "method",
+                    "result"
+                  ],
+                  "properties": {
+                    "method": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "validation_status": {
+                  "type": "string",
+                  "enum": [
+                    "validated",
+                    "failed"
+                  ]
+                },
+                "deltaG_activation_kcal_mol": {
+                  "type": "number"
+                },
+                "failure_reason": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "selected": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "deltaG_activation_kcal_mol",
+                  "validation_summary"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "deltaG_activation_kcal_mol": {
+                    "type": "number"
+                  },
+                  "validation_summary": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "validation_summary",
+                  "failure_reason"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "validation_summary": {
+                    "type": "string"
+                  },
+                  "failure_reason": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "coverage_stopping": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "candidates",
+          "selected",
+          "coverage_stopping",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "charge",
+              "multiplicity",
+              "method",
+              "solvent",
+              "temperature_K"
+            ],
+            "properties": {
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "method": {
+                "type": "string"
+              },
+              "solvent": {
+                "type": "string"
+              },
+              "temperature_K": {
+                "type": "number"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "reactant_structure",
+                "frequency_validation",
+                "connectivity_validation",
+                "validation_status"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "reactant_structure": {
+                  "type": "string"
+                },
+                "ts_structure": {
+                  "type": "string"
+                },
+                "frequency_validation": {
+                  "type": "object",
+                  "required": [
+                    "reactant_imaginary_count",
+                    "ts_imaginary_count",
+                    "mode_description"
+                  ],
+                  "properties": {
+                    "reactant_imaginary_count": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "ts_imaginary_count": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "mode_description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "connectivity_validation": {
+                  "type": "object",
+                  "required": [
+                    "method",
+                    "result"
+                  ],
+                  "properties": {
+                    "method": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "validation_status": {
+                  "type": "string",
+                  "enum": [
+                    "validated",
+                    "failed"
+                  ]
+                },
+                "deltaG_activation_kcal_mol": {
+                  "type": "number"
+                },
+                "failure_reason": {
+                  "type": "string"
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "validation_status": {
+                        "const": "validated"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "frequency_validation": {
+                        "type": "object",
+                        "required": [
+                          "reactant_imaginary_count",
+                          "ts_imaginary_count",
+                          "mode_description"
+                        ],
+                        "properties": {
+                          "reactant_imaginary_count": {
+                            "type": "integer"
+                          },
+                          "ts_imaginary_count": {
+                            "type": "integer"
+                          },
+                          "mode_description": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "else": {
+                    "required": [
+                      "failure_reason"
+                    ],
+                    "properties": {
+                      "failure_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "selected": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "deltaG_activation_kcal_mol",
+                  "validation_summary"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "deltaG_activation_kcal_mol": {
+                    "type": "number"
+                  },
+                  "validation_summary": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "validation_summary",
+                  "failure_reason"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "validation_summary": {
+                    "type": "string"
+                  },
+                  "failure_reason": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "coverage_stopping": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      }
+    ]
   }
 }

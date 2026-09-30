@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Start from independently displaced C30H22 precursor1-cis, neutral singlet. Preserve the mapped graph. Each Mallory closure joins an ortho position on each aryl flank of one vinyl bridge; enumerate symmetry-inequivalent pairs at both vinyl sites, then second-stage alternatives. Initial nonoxidative closure conserves C30H22; dehydrogenative oxidation removes two specifically mapped H atoms per stage. Compare G only within equal-composition layers or include the same H2/oxidant reservoir explicitly. Primary molecular model gas phase298.15K/1atm; DCM sensitivity may be used. Select one critical closure from each stage for S0 constrained-path and vertical excited-state tracking. Do not demand full nonadiabatic trajectories. If a calibrated excited-state path is unavailable, complete the declared S0/state diagnostic and limit the conclusion to supported candidate sets and ground-state constraints.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Start from independently displaced C30H22 precursor1-cis, neutral singlet. Preserve the mapped graph. Each Mallory closure joins an ortho position on each aryl flank of one vinyl bridge; enumerate symmetry-inequivalent pairs at both vinyl sites, then second-stage alternatives. Initial nonoxidative closure conserves C30H22; dehydrogenative oxidation removes two specifically mapped H atoms per stage. Compare G only within equal-composition layers or include the same H2/oxidant reservoir explicitly. Primary molecular model gas phase298.15K/1atm; DCM sensitivity may be used. Select one critical closure from each stage for S0 constrained-path and vertical excited-state tracking. Do not demand full nonadiabatic trajectories. If a calibrated excited-state path is unavailable, complete the declared S0/state diagnostic and limit the conclusion to supported candidate sets and ground-state constraints."
+      }
+    },
+    {
+      "rule_id": "rule_candidate_layers",
+      "reference_id": "kp_candidate_layers",
+      "type": "condition",
+      "expected": "Two-stage chemically distinct candidate coverage and auditable same-formula energy comparisons. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.candidate_layers",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Two-stage chemically distinct candidate coverage and auditable same-formula energy comparisons. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_accessibility_diagnostics",
+      "reference_id": "kp_accessibility_diagnostics",
+      "type": "condition",
+      "expected": "Real representative closure profiles and physical-state tracking; S0 diagnostics cannot establish a unique photoproduct. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.accessibility_diagnostics",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Real representative closure profiles and physical-state tracking; S0 diagnostics cannot establish a unique photoproduct. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_supported_set",
+      "reference_id": "kp_supported_set",
+      "type": "condition",
+      "expected": "Conclusion remains an evidence-supported candidate set unless a separate calibrated photochemical extension is supplied. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.supported_set",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Conclusion remains an evidence-supported candidate set unless a separate calibrated photochemical extension is supplied. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "condition",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_local_investigation",
+      "type": "semantic",
+      "expected": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Start from independently displaced C30H22 precursor1-cis, neutral singlet. Preserve the mapped graph. Each Mallory closure joins an ortho position on each aryl flank of one vinyl bridge; enumerate symmetry-inequivalent pairs at both vinyl sites, then second-stage alternatives. Initial nonoxidative closure conserves C30H22; dehydrogenative oxidation removes two specifically mapped H atoms per stage. Compare G only within equal-composition layers or include the same H2/oxidant reservoir explicitly. Primary molecular model gas phase298.15K/1atm; DCM sensitivity may be used. Select one critical closure from each stage for S0 constrained-path and vertical excited-state tracking. Do not demand full nonadiabatic trajectories. If a calibrated excited-state path is unavailable, complete the declared S0/state diagnostic and limit the conclusion to supported candidate sets and ground-state constraints.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "candidate_layers",
+      "max_score": 30,
+      "description": "Two-stage chemically distinct candidate coverage and auditable same-formula energy comparisons. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_candidate_layers"
+      ]
+    },
+    {
+      "id": "accessibility_diagnostics",
+      "max_score": 25,
+      "description": "Real representative closure profiles and physical-state tracking; S0 diagnostics cannot establish a unique photoproduct. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_accessibility_diagnostics"
+      ]
+    },
+    {
+      "id": "supported_set",
+      "max_score": 15,
+      "description": "Conclusion remains an evidence-supported candidate set unless a separate calibrated photochemical extension is supplied. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_supported_set"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 10,
+      "description": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence.",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Schema/transport validation does not establish scientific correctness or calibrated scoring.",
+    "No new target tolerance is frozen; calibrate using complete paths, conformer/method sensitivity and source measurement uncertainty.",
+    "Supporting, contradictory and fully evidenced indistinguishable results receive equal endpoint credit.",
+    "Uncomputed core controls receive no endpoint credit; bounded failure cannot acquire a completion PASS."
+  ]
+}

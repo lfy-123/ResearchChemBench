@@ -1,0 +1,12 @@
+{
+  "description": "Source-defined molecular identities for independent gas-phase electronic-structure calculations. Systematic names are taken from the Supporting Information; no coordinates or result values are supplied.",
+  "state_boundary": {"charge": 0, "multiplicity": 1, "environment": "isolated molecule, vacuum/gas phase", "stereochemistry": "none specified or required by the source structures"},
+  "fragment_definition": {"fragment_1": "phenanthro[9,10-d]imidazole core including the 2-position phenylene linkage atom", "fragment_2": "p-tolyl substituent attached to imidazole N1", "fragment_3": "terminal aromatic group attached at the para position of the phenylene bridge"},
+  "molecules": [
+    {"id":"Ph-mP","systematic_name":"2-(biphenyl-4-yl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole","formula":"C34H24N2","terminal_group":"phenyl","attachment":"phenylene bridge bonded to phenyl at its 4-position"},
+    {"id":"Na-mP","systematic_name":"2-(4-(naphthalen-1-yl)phenyl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole","formula":"C38H26N2","terminal_group":"naphthalen-1-yl","attachment":"phenylene bridge bonded to naphthalen-1-yl"},
+    {"id":"An-mP","systematic_name":"2-(4-(anthracen-9-yl)phenyl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole","formula":"C42H28N2","terminal_group":"anthracen-9-yl","attachment":"phenylene bridge bonded to anthracen-9-yl"},
+    {"id":"Py-mP","systematic_name":"2-(4-(pyren-1-yl)phenyl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole","formula":"C44H28N2","terminal_group":"pyren-1-yl","attachment":"phenylene bridge bonded to pyren-1-yl"}
+  ],
+  "source_evidence": ["ev_doc_586e5801e993_000008_2902da14d0c3", "ev_doc_586e5801e993_000019_e02e18f03cbc"]
+}

@@ -1,1 +1,44 @@
-{"system":"Cu(111) with Li first-layer adsorption","lattice_constant_A":3.63,"slab_layers":5,"lateral_cell":"p(5x5)","in_plane_vectors_A":[[12.833,0,0],[6.4165,11.113,0]],"vacuum_A":15,"fixed_layers":"bottom two Cu layers","relaxed_layers":"top three Cu layers","adsorption_site":"fcc hollow","coverages":{"theta_0.04":{"file":"li_cu111_theta004.xyz","Li_count":1},"theta_1":{"file":"li_cu111_theta1.xyz","Li_count":25}},"charge":0,"multiplicity":1,"reference":{"file":"li_atom.xyz","species":"neutral Li atom"},"xyz_convention":"coordinates are Cartesian Angstrom; periodic cell vectors are supplied here; add vacuum along z before calculation","method_freedom":"choose and justify a computational method; do not assume the paper protocol is mandatory"}
+{
+  "system": "Cu(111) with Li first-layer adsorption",
+  "lattice_constant_A": 3.63,
+  "slab_layers": 5,
+  "lateral_cell": "p(5x5)",
+  "in_plane_vectors_A": [
+    [
+      12.833988078535835,
+      0.0,
+      0.0
+    ],
+    [
+      6.416994039267918,
+      11.11455970787867,
+      0.0
+    ]
+  ],
+  "vacuum_A": 15,
+  "fixed_layers": "bottom two Cu layers",
+  "relaxed_layers": "top three Cu layers",
+  "adsorption_site": "fcc hollow",
+  "coverages": {
+    "theta_0.04": {
+      "file": "li_cu111_theta004.xyz",
+      "Li_count": 1
+    },
+    "theta_1": {
+      "file": "li_cu111_theta1.xyz",
+      "Li_count": 25
+    }
+  },
+  "charge": 0,
+  "reference": {
+    "file": "li_atom.xyz",
+    "species": "neutral Li atom",
+    "multiplicity": 2,
+    "spin_basis": "Neutral isolated Li ground state is a doublet. The paper specifies the isolated neutral atom reference; the spin assignment is a physical identity inference, not a quoted input line."
+  },
+  "xyz_convention": "coordinates are Cartesian Angstrom; periodic cell vectors are supplied here; add vacuum along z before calculation",
+  "method_freedom": "choose and justify a computational method; do not assume the paper protocol is mandatory",
+  "periodic_spin_treatment": "Metallic periodic slabs have no prescribed molecular multiplicity; document the chosen spin treatment. This is distinct from the isolated atom.",
+  "stacking": "ABCAB (fcc Cu(111)); layers ordered bottom to top",
+  "coordinate_note": "Source-aligned fcc stacking and hollow registry. Initial z positions are construction guesses, not claimed author-optimized distances; preserve the specified relaxation boundary."
+}

@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:56:28.856213+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_46f6118697c6397c.json",
+  "plan_sha256": "ddc2306c1c72e5d43e5f83e6f337f2160710fbbb6b505e65293663bbd7f86fe6",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_46f6118697c6397c",
+  "v1_package_content_sha256": "9a85fb43f7f8054a326587cfdd03b8a4e79a9ab94ff6b8ff6a7db6a97a17f75c",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "ec385e26890dfcb1a39a772e2edb693e26a835801be231fd252f34a72915ca87",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_46f6118697c6397c/documents/main.pdf",
+      "sha256": "4633e67606dc23badd9f553b89ec95d96540bd4fa637876897ae830a4e31901c",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4
+      ],
+      "sections_figures_tables": "PDF p2 Scheme1 and Fig.2 establish substitutions; Table1/Fig.3 report solution spectra; p3 reports compound2 solvent observations; pp3–4 give DFT/TD interpretation."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_46f6118697c6397c/documents/supplementary_001.pdf",
+      "sha256": "d25723e53953f2a507b014af89f62abe1f1c229886d0090fd80943b24dd21cfa",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        10,
+        14,
+        16
+      ],
+      "sections_figures_tables": "PDF p10 crystallographic provenance; p14 absorption data; p16 computational details specify DFT-D3BJ and begin TD tables."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_TD_and_legacy_narrow_reference_only_expanded_reference_pending",
+  "scope_changes": [
+    "Remove mandatory relaxed/common-core matrix, preassigned N6 orbital fractions and fixed effect-partition formula.",
+    "Keep the covalent OTf identity and experimental spectra; do not silently simplify compound2 to free counterions."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:03.124705+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

@@ -1,0 +1,45 @@
+{
+  "protocol_id": "a396_geometry_comparison_v2",
+  "authority": "Benchmark comparison convention for the supplied experimental geometry, not an author-reported optimization protocol or computed answer.",
+  "input_files": {
+    "identity": "molecule.json",
+    "selectors": "atom_map.json",
+    "experimental_observations": "experimental_geometry.csv"
+  },
+  "identity": "Isolated neutral singlet E-imine 7a, N5-H thione. E means C8 and N4 are opposite across C17=N3. Single-bond conformations remain investigator choices.",
+  "expected_rows_per_model": {
+    "bond": 13,
+    "angle": 23,
+    "torsion": 11
+  },
+  "label_mapping": "Use the supplied atom-map IDs as stable identities, not coordinate row numbers. Preserve a whole-molecule mapping from construction through optimization; Cl1 and Cl2 are aliases for the same atom. Report per-model row maps if coordinate ordering changes. Do not independently remap individual selectors or switch symmetry-equivalent ring labels to improve a method's result.",
+  "units": {
+    "bond": "Angstrom",
+    "angle": "degree",
+    "torsion": "degree"
+  },
+  "signed_torsion_definition": "For p0,p1,p2,p3 in selector order: u=normalize(p2-p1); v=(p0-p1)-dot(p0-p1,u)*u; w=(p3-p2)-dot(p3-p2,u)*u; phi=atan2(dot(cross(u,v),w),dot(v,w))*180/pi, in [-180,180].",
+  "circular_difference": "d(phi,reference)=abs(((phi-reference+180) mod 360)-180), with mod returning [0,360). Keep raw signed phi; do not take the absolute value of each torsion before comparing.",
+  "experimental_inversion_equivalence": {
+    "reason": "The supplied molecular experimental geometry has inversion-related representations. Their signed torsions differ by a single global sign; bond lengths, bond angles and E/Z identity do not.",
+    "branches": [
+      1,
+      -1
+    ],
+    "scope": "Choose ONE reference sign s for ALL 11 torsions of each calculated model. The same algorithm applies independently to every model, including both members of a comparison.",
+    "selection": "For each s, form d(phi_i,s*reference_i), SSE=sum(d_i^2) and MAE=mean(d_i). Choose smaller SSE. If SSE differs by <=1e-8 degree^2, choose smaller MAE. If MAE also differs by <=1e-8 degree, choose s=+1. This tie convention concerns numerical representation only.",
+    "sse_tie_tolerance_degree2": 1e-8,
+    "mae_tie_tolerance_degree": 1e-8,
+    "reporting": "Preserve both SSE/MAE/RMSE branch summaries and selected_reference_sign. Raw signed observed angles never change. No row-wise sign choice, no physical geometry change and no method-winner-based selection.",
+    "incomplete_case": "With fewer than all 11 torsions, show available raw values but use a null full-set torsion MAE/RMSE and null selected_reference_sign. Do not choose a sign from a favorable subset."
+  },
+  "metrics": "For each model/kind compute MAE=mean(d) and RMSE=sqrt(mean(d^2)) over exactly its required unique selectors. For bonds/angles use absolute differences; torsions use the chosen global-reference-sign branch. No cross-unit combined score. Missing rows are failures, never zero error.",
+  "reporting_tolerance": {
+    "bond_A": 0.000001,
+    "angular_degree": 0.0001,
+    "meaning": "Absolute tolerance for checking reported observables/metrics against re-extraction and for numerical ties in method comparison; NOT an allowed physical error against experiment or a reproduction tolerance against hidden DFT values."
+  },
+  "method_comparison": "Compare per-kind MAE and RMSE separately. A model is uniformly no worse only if none of the six metrics is worse beyond the corresponding reporting tolerance and at least one is better. Crossing metrics give mixed; all tied metrics give indistinguishable_on_reported_metrics. Incomplete results give unresolved_incomplete, not mixed. These are comparisons on the computed models/conformers, not universal method rankings.",
+  "minimum_scope": "At least two primary models and one independently generated common starting conformer for the primary comparison; no exhaustive search is required. Extra starts may be reported separately and must not be selected retrospectively to favor a method. If optimization ends in different basins, retain both outcomes and identify the resulting comparison as model-plus-conformer dependent.",
+  "acceptance": "A complete, valid, full-coverage comparison may have a uniform, mixed or indistinguishable result. Whether any author hypothesis is recovered is a separate scientific statement, not a mandatory winner."
+}

@@ -1,1 +1,145 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","type":"object","oneOf":[{"required":["status","system","calculation","minimum_validation","transition","conclusion"],"properties":{"status":{"const":"complete"},"system":{"type":"object","required":["smiles","charge","multiplicity","solvent"],"properties":{"smiles":{"type":"string"},"charge":{"type":"integer"},"multiplicity":{"type":"integer"},"solvent":{"type":"string"}}},"calculation":{"type":"object","required":["method","software","geometry_provenance"],"properties":{"method":{"type":"string"},"software":{"type":"string"},"geometry_provenance":{"type":"string"},"convergence":{"type":"string"}}},"minimum_validation":{"type":"object","required":["validated","evidence"],"properties":{"validated":{"type":"boolean"},"evidence":{"type":"string"},"imaginary_frequency_count":{"type":"number"}}},"transition":{"type":"object","required":["state_label","energy_kcal_mol","oscillator_strength","character","evidence"],"properties":{"state_label":{"type":"string"},"energy_kcal_mol":{"type":"number"},"oscillator_strength":{"type":"number"},"character":{"type":"string"},"evidence":{"type":"string"}}},"conclusion":{"type":"string"}}},{"required":["status","failure"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["attempts","limitation"],"properties":{"attempts":{"type":"string"},"limitation":{"type":"string"}}}}}],"result_schema":{"type":"object","oneOf":[{"required":["status","system","calculation","minimum_validation","transition","conclusion"],"properties":{"status":{"const":"complete"},"system":{"type":"object","required":["smiles","charge","multiplicity","solvent"],"properties":{"smiles":{"type":"string"},"charge":{"type":"integer"},"multiplicity":{"type":"integer"},"solvent":{"type":"string"}}},"calculation":{"type":"object","required":["method","software","geometry_provenance"],"properties":{"method":{"type":"string"},"software":{"type":"string"},"geometry_provenance":{"type":"string"},"convergence":{"type":"string"}}},"minimum_validation":{"type":"object","required":["validated","evidence"],"properties":{"validated":{"type":"boolean"},"evidence":{"type":"string"},"imaginary_frequency_count":{"type":"number"}}},"transition":{"type":"object","required":["state_label","energy_kcal_mol","oscillator_strength","character","evidence"],"properties":{"state_label":{"type":"string"},"energy_kcal_mol":{"type":"number"},"oscillator_strength":{"type":"number"},"character":{"type":"string"},"evidence":{"type":"string"}}},"conclusion":{"type":"string"}}},{"required":["status","failure"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["attempts","limitation"],"properties":{"attempts":{"type":"string"},"limitation":{"type":"string"}}}}}]}}
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "system",
+          "calculation",
+          "minimum_validation",
+          "transition",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "smiles",
+              "charge",
+              "multiplicity",
+              "solvent"
+            ],
+            "properties": {
+              "smiles": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "solvent": {
+                "type": "string"
+              }
+            }
+          },
+          "calculation": {
+            "type": "object",
+            "required": [
+              "method",
+              "software",
+              "geometry_provenance"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "software": {
+                "type": "string"
+              },
+              "geometry_provenance": {
+                "type": "string"
+              },
+              "convergence": {
+                "type": "string"
+              }
+            }
+          },
+          "minimum_validation": {
+            "type": "object",
+            "required": [
+              "validated",
+              "evidence"
+            ],
+            "properties": {
+              "validated": {
+                "type": "boolean"
+              },
+              "evidence": {
+                "type": "string"
+              },
+              "imaginary_frequency_count": {
+                "type": "number"
+              }
+            }
+          },
+          "transition": {
+            "type": "object",
+            "required": [
+              "state_label",
+              "energy_kcal_mol",
+              "oscillator_strength",
+              "character",
+              "evidence"
+            ],
+            "properties": {
+              "state_label": {
+                "type": "string"
+              },
+              "energy_kcal_mol": {
+                "type": "number"
+              },
+              "oscillator_strength": {
+                "type": "number"
+              },
+              "character": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "attempts",
+              "limitation"
+            ],
+            "properties": {
+              "attempts": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

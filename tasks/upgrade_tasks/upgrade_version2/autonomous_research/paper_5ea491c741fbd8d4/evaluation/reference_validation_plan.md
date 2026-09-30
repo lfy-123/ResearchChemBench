@@ -1,0 +1,7 @@
+# Source and reference plan
+
+Read main PDF pp2–4 and pp5–6, Table1/§3.2–3.3/Figs2–5; checked all4pages of the real checkCIF SI. Source cell and graph are valid known facts; full coordinates are missing. Original isolated-molecule calculations do not calibrate crystal interaction claims. Historical source-acquisition audits remain evidence of the input gap, not proof that a deposition does not exist.
+
+No reference workflow is compulsory. When an authorized source CIF becomes available, first authenticate composition, cell, labels, symmetry, occupancy and H conventions. A future smallest useful reference should demonstrate at least one source-linked representation with reproducible data of the kind claimed, and test its actual uncertainty. A broader reference should calibrate the scope claimed by the eventual investigation; do not prescribe the old 0.5/1.0-angstrom neighbor matrix. Managed molecular quantum tools may support selected energy analyses; an installed area or periodic analysis capability must be demonstrated separately. No new calculations are run in this content-upgrade phase.
+
+This V2 development did not launch scientific jobs or a semantic judge. Future scientific calibration is a separate authorization/workstream. Existing evidence is listed with SHA256 in task_provenance/existing_evidence_reuse.json. No old narrow target interval is inherited. Alternative routes require method-appropriate uncertainty; source agreement alone is insufficient. Access-control isolation and actual judge calibration remain pending.

@@ -1,0 +1,81 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "methods",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "methods": {
+        "type": "object",
+        "required": [
+          "software",
+          "geometry_method",
+          "excited_state_method"
+        ]
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "system_id",
+            "validation",
+            "outcome"
+          ],
+          "properties": {
+            "system_id": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "minimum_status",
+                "diagnostics",
+                "charge",
+                "multiplicity"
+              ],
+              "properties": {
+                "minimum_status": {"type": "string"},
+                "diagnostics": {"type": "array", "items": {"type": "string"}},
+                "charge": {"type": "integer"},
+                "multiplicity": {"type": "integer"}
+              }
+            },
+            "outcome": {
+              "oneOf": [
+                {"type": "object", "required": ["kind", "states", "s1_analysis"], "properties": {
+                  "kind": {"const": "success"},
+                  "states": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"type": "object", "required": ["state", "energy_eV", "wavelength_nm", "oscillator_strength", "dominant_configuration"]}},
+                  "s1_analysis": {"type": "object", "required": ["method", "conclusion", "evidence"]}
+                }},
+                {"type": "object", "required": ["kind", "failure_diagnostics"], "properties": {
+                  "kind": {"const": "bounded_failure"},
+                  "failure_diagnostics": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+                  "partial_states": {"type": "array", "items": {"type": "object", "required": ["state", "missing_data_reason"]}}
+                }}
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

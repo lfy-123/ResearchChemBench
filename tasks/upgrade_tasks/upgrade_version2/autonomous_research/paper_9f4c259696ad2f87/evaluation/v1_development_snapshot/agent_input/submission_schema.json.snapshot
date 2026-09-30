@@ -1,0 +1,2496 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "schema_version": "batch3-upgrade.v1",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_9f4c259696ad2f87"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "protocol": {
+        "type": "object",
+        "properties": {
+          "software_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "basis_ecp": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "temperature_K": {
+            "type": "number",
+            "minimum": 0
+          },
+          "standard_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "energy_reference": {
+            "const": "matched_object_state_geometry_protocol"
+          },
+          "thermal_and_low_frequency": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state_tracking": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_convergence": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "software_version",
+          "method",
+          "basis_ecp",
+          "environment",
+          "temperature_K",
+          "standard_state",
+          "energy_reference",
+          "thermal_and_low_frequency",
+          "state_tracking",
+          "numerical_convergence"
+        ],
+        "additionalProperties": false
+      },
+      "object_records": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PXX1"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PXX2"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "acid"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PXX1_acid1"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PXX1_acid2"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PXX2_acid1"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PXX2_acid2"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "PXX1",
+                    "PXX2",
+                    "acid",
+                    "PXX1_acid1",
+                    "PXX1_acid2",
+                    "PXX2_acid1",
+                    "PXX2_acid2"
+                  ]
+                }
+              ]
+            },
+            "kind": {
+              "enum": [
+                "successful",
+                "failed"
+              ]
+            },
+            "role": {
+              "enum": [
+                "optimization_frequency",
+                "single_point",
+                "TD",
+                "excited_optimization",
+                "path",
+                "density_analysis"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "output_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "electronic_Eh": {
+              "type": "number"
+            },
+            "ZPE_Eh": {
+              "type": "number"
+            },
+            "thermal_Eh": {
+              "type": "number"
+            },
+            "state_label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "convergence_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "failure_diagnostics": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "object_id",
+            "kind",
+            "role",
+            "input_file",
+            "output_file",
+            "state_label"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "successful"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "convergence_file"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "successful"
+                  },
+                  "role": {
+                    "not": {
+                      "const": "density_analysis"
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "electronic_Eh"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_diagnostics"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "stoichiometric_series": {
+            "type": "object",
+            "properties": {
+              "PXX1_acid0": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "evidenced_collapse"
+                    ]
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "G_Eh": {
+                        "type": "number",
+                        "description": "G_Eh; unit hartree. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "excitation_eV": {
+                        "type": "number",
+                        "description": "excitation_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength": {
+                        "type": "number",
+                        "description": "oscillator_strength; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "CT_distance_A": {
+                        "type": "number",
+                        "description": "CT_distance_A; unit angstrom. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "G_Eh",
+                      "excitation_eV",
+                      "oscillator_strength",
+                      "CT_distance_A"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX1_acid0: Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX1_acid1": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "evidenced_collapse"
+                    ]
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "G_Eh": {
+                        "type": "number",
+                        "description": "G_Eh; unit hartree. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "excitation_eV": {
+                        "type": "number",
+                        "description": "excitation_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength": {
+                        "type": "number",
+                        "description": "oscillator_strength; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "CT_distance_A": {
+                        "type": "number",
+                        "description": "CT_distance_A; unit angstrom. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "G_Eh",
+                      "excitation_eV",
+                      "oscillator_strength",
+                      "CT_distance_A"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX1_acid1: Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX1_acid2": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "evidenced_collapse"
+                    ]
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "G_Eh": {
+                        "type": "number",
+                        "description": "G_Eh; unit hartree. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "excitation_eV": {
+                        "type": "number",
+                        "description": "excitation_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength": {
+                        "type": "number",
+                        "description": "oscillator_strength; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "CT_distance_A": {
+                        "type": "number",
+                        "description": "CT_distance_A; unit angstrom. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "G_Eh",
+                      "excitation_eV",
+                      "oscillator_strength",
+                      "CT_distance_A"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX1_acid2: Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX2_acid0": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "evidenced_collapse"
+                    ]
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "G_Eh": {
+                        "type": "number",
+                        "description": "G_Eh; unit hartree. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "excitation_eV": {
+                        "type": "number",
+                        "description": "excitation_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength": {
+                        "type": "number",
+                        "description": "oscillator_strength; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "CT_distance_A": {
+                        "type": "number",
+                        "description": "CT_distance_A; unit angstrom. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "G_Eh",
+                      "excitation_eV",
+                      "oscillator_strength",
+                      "CT_distance_A"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX2_acid0: Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX2_acid1": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "evidenced_collapse"
+                    ]
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "G_Eh": {
+                        "type": "number",
+                        "description": "G_Eh; unit hartree. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "excitation_eV": {
+                        "type": "number",
+                        "description": "excitation_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength": {
+                        "type": "number",
+                        "description": "oscillator_strength; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "CT_distance_A": {
+                        "type": "number",
+                        "description": "CT_distance_A; unit angstrom. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "G_Eh",
+                      "excitation_eV",
+                      "oscillator_strength",
+                      "CT_distance_A"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX2_acid1: Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX2_acid2": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "computed",
+                      "evidenced_collapse"
+                    ]
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "G_Eh": {
+                        "type": "number",
+                        "description": "G_Eh; unit hartree. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "excitation_eV": {
+                        "type": "number",
+                        "description": "excitation_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength": {
+                        "type": "number",
+                        "description": "oscillator_strength; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "CT_distance_A": {
+                        "type": "number",
+                        "description": "CT_distance_A; unit angstrom. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "G_Eh",
+                      "excitation_eV",
+                      "oscillator_strength",
+                      "CT_distance_A"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX2_acid2: Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              }
+            },
+            "required": [
+              "PXX1_acid0",
+              "PXX1_acid1",
+              "PXX1_acid2",
+              "PXX2_acid0",
+              "PXX2_acid1",
+              "PXX2_acid2"
+            ],
+            "additionalProperties": false
+          },
+          "balanced_binding": {
+            "type": "object",
+            "properties": {
+              "PXX1_step1": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "delta_G_kJ_mol": {
+                        "type": "number",
+                        "description": "delta_G_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "delta_G_kJ_mol",
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX1_step1: Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX1_step2": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "delta_G_kJ_mol": {
+                        "type": "number",
+                        "description": "delta_G_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "delta_G_kJ_mol",
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX1_step2: Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX2_step1": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "delta_G_kJ_mol": {
+                        "type": "number",
+                        "description": "delta_G_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "delta_G_kJ_mol",
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX2_step1: Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX2_step2": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "delta_G_kJ_mol": {
+                        "type": "number",
+                        "description": "delta_G_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "delta_G_kJ_mol",
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX2_step2: Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              }
+            },
+            "required": [
+              "PXX1_step1",
+              "PXX1_step2",
+              "PXX2_step1",
+              "PXX2_step2"
+            ],
+            "additionalProperties": false
+          },
+          "geometry_and_spectrum": {
+            "type": "object",
+            "properties": {
+              "PXX1_acid_removed": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "excitation_change_eV": {
+                        "type": "number",
+                        "description": "excitation_change_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength_change": {
+                        "type": "number",
+                        "description": "oscillator_strength_change; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "uncertainty_eV": {
+                        "type": "number",
+                        "description": "uncertainty_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "excitation_change_eV",
+                      "oscillator_strength_change",
+                      "uncertainty_eV"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX1_acid_removed: Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PXX2_acid_removed": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "excitation_change_eV": {
+                        "type": "number",
+                        "description": "excitation_change_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength_change": {
+                        "type": "number",
+                        "description": "oscillator_strength_change; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "uncertainty_eV": {
+                        "type": "number",
+                        "description": "uncertainty_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "excitation_change_eV",
+                      "oscillator_strength_change",
+                      "uncertainty_eV"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PXX2_acid_removed: Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "titration_discrimination": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "excitation_change_eV": {
+                        "type": "number",
+                        "description": "excitation_change_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "oscillator_strength_change": {
+                        "type": "number",
+                        "description": "oscillator_strength_change; unit dimensionless. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "uncertainty_eV": {
+                        "type": "number",
+                        "description": "uncertainty_eV; unit eV. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "excitation_change_eV",
+                      "oscillator_strength_change",
+                      "uncertainty_eV"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "titration_discrimination: Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              }
+            },
+            "required": [
+              "PXX1_acid_removed",
+              "PXX2_acid_removed",
+              "titration_discrimination"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "stoichiometric_series",
+          "balanced_binding",
+          "geometry_and_spectrum"
+        ],
+        "additionalProperties": false
+      },
+      "hypothesis_tests": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "rival": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discriminating_comparison": {
+              "type": "string",
+              "minLength": 1
+            },
+            "calculation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "predicted_discriminator": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observed_contrast": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved"
+              ]
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim",
+            "rival",
+            "discriminating_comparison",
+            "calculation_ids",
+            "predicted_discriminator",
+            "observed_contrast",
+            "unit",
+            "outcome",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "object",
+        "properties": {
+          "factor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "primary_value": {
+            "type": "number"
+          },
+          "control_value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "difference": {
+            "type": "number"
+          },
+          "uncertainty": {
+            "type": "number",
+            "minimum": 0
+          },
+          "uncertainty_basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "calculation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 2
+          },
+          "raw_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "minItems": 2
+          }
+        },
+        "required": [
+          "factor",
+          "primary_value",
+          "control_value",
+          "unit",
+          "difference",
+          "uncertainty",
+          "uncertainty_basis",
+          "calculation_ids",
+          "raw_files"
+        ],
+        "additionalProperties": false
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supporting_rows": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "core_matrix_complete": {
+            "const": true
+          }
+        },
+        "required": [
+          "outcome",
+          "statement",
+          "supporting_rows",
+          "limitations",
+          "core_matrix_complete"
+        ],
+        "additionalProperties": false
+      },
+      "raw_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+        },
+        "minItems": 1
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restart_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "summed_job_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "calendar_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_starts",
+          "failed_starts",
+          "restart_starts",
+          "allocated_cores",
+          "summed_job_hours",
+          "calendar_hours",
+          "core_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "next_required_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "observed_failure",
+          "attempted_scope",
+          "missing_endpoints",
+          "next_required_evidence",
+          "raw_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "protocol",
+      "object_records",
+      "calculation_records",
+      "raw_files",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypothesis_tests",
+            "sensitivity",
+            "conclusion"
+          ],
+          "properties": {
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "const": "successful"
+                  },
+                  "role": {
+                    "not": {
+                      "const": "density_analysis"
+                    }
+                  }
+                },
+                "required": [
+                  "kind",
+                  "role"
+                ]
+              },
+              "minContains": 1,
+              "minItems": 1
+            },
+            "resources": {
+              "properties": {
+                "allocated_cores": {
+                  "minimum": 1
+                }
+              }
+            },
+            "object_records": {
+              "allOf": [
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PXX1"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PXX2"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "acid"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PXX1_acid1"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PXX1_acid2"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PXX2_acid1"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PXX2_acid2"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                }
+              ],
+              "minItems": 1
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ]
+        }
+      }
+    ]
+  },
+  "scientific_boundary": "Contract acceptance is not scientific acceptance. Linked files require evaluator verification, including correct graph, state, raw output, coverage and recomputable quantities. Missing controls cannot be labeled indistinguishable.",
+  "development_status": "implemented_pending_expanded_reference"
+}

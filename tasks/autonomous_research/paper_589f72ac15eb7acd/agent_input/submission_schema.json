@@ -1,4 +1,43 @@
 {
+  "$defs": {
+    "system": {
+      "type": "object",
+      "required": ["HS", "LS"],
+      "properties": {
+        "HS": {
+          "type": "object",
+          "required": ["outcome"],
+          "properties": {
+            "outcome": {"type": "string", "enum": ["selected", "not_selected"]},
+            "charge": {"type": "integer"},
+            "multiplicity": {"type": "integer"},
+            "energy_hartree": {"type": ["number", "null"]},
+            "geometry_file": {"type": ["string", "null"]},
+            "frequency_validation": {"type": ["string", "object", "null"]},
+            "convergence": {"type": ["boolean", "string", "null"]},
+            "diagnostics": {"type": ["string", "array", "null"]}
+          },
+          "additionalProperties": true
+        },
+        "LS": {
+          "type": "object",
+          "required": ["outcome"],
+          "properties": {
+            "outcome": {"type": "string", "enum": ["selected", "not_selected"]},
+            "charge": {"type": "integer"},
+            "multiplicity": {"type": "integer"},
+            "energy_hartree": {"type": ["number", "null"]},
+            "geometry_file": {"type": ["string", "null"]},
+            "frequency_validation": {"type": ["string", "object", "null"]},
+            "convergence": {"type": ["boolean", "string", "null"]},
+            "diagnostics": {"type": ["string", "array", "null"]}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
   "required_files": [
     "report/results.json"
   ],
@@ -7,7 +46,6 @@
     "type": "object",
     "required": [
       "status",
-      "plan",
       "plan",
       "method",
       "systems",

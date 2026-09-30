@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "rules": [
+    {
+      "rule_id": "r_kp_minimum",
+      "reference_id": "kp_process_minimum",
+      "type": "condition",
+      "expected": "minimum_n_imaginary is 0 and system charge/multiplicity identify the supplied INT-G",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.stationary_point.minimum_n_imaginary",
+          "$.system.charge",
+          "$.system.multiplicity"
+        ],
+        "comparison": "expert validation"
+      }
+    },
+    {
+      "rule_id": "r_kp_ts",
+      "reference_id": "kp_process_ts",
+      "type": "condition",
+      "expected": "ts_n_imaginary is 1 and connection_evidence supports both endpoints",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.stationary_point.ts_n_imaginary",
+          "$.connection_evidence.supports_both_endpoints"
+        ],
+        "comparison": "expert validation"
+      }
+    },
+    {
+      "rule_id": "r_barrier",
+      "reference_id": "kp_result_barrier",
+      "type": "numeric",
+      "target": 0.9,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier.value_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_barrier",
+      "type": "semantic",
+      "expected": "conclusion interprets the terminal barrier and states limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

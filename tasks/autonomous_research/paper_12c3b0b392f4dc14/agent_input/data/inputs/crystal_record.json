@@ -2,8 +2,9 @@
   "record_type": "controlled_database_record",
   "database": "Cambridge Structural Database / CCDC",
   "record_id": "2449676",
-  "record_purpose": "Retrieve the deposited compound-1 crystal structure as the experimental geometry reference.",
-  "retrieval_contract": "Use the controlled CCDC connector for record 2449676. Extract the unique organic molecular component, preserve atom labels and Cartesian or fractional coordinates, and record the cell, space group, temperature and any disorder/occupancy information returned by the record.",
+  "record_purpose": "Use the supplied deposited compound-1 crystal structure as the experimental geometry reference.",
+  "input_cif": "data/inputs/ccdc_2449676.cif",
+  "retrieval_contract": "Read the supplied immutable CIF directly. The CCDC record number is provenance only and CCDC database retrieval is not required or scored. Extract the unique organic molecular component, preserve atom labels and Cartesian or fractional coordinates, and record the cell, space group, temperature and any disorder/occupancy information present in the CIF.",
   "identity_metadata": {
     "compound_name": "3-(5-(butylthio)-1H-1,2,4-triazol-3-yl)-2-ethylimidazo[1,2-a]pyridine",
     "formula": "C15H19N5S",

@@ -1,0 +1,124 @@
+{
+  "kind": "postprocessing of existing FC outputs and newly supplied source experiment, NOT a new FC/quantum calculation",
+  "source_fc": "docs/verification/group_1/paper_80cc1ffb2cf73fc5/artifacts/fc_closure_20260914/fc_analysis.json",
+  "experimental_source": "published black measured trace in SI Figure S1, vector extraction",
+  "alignment": {
+    "experimental_origin_cm1": 19444,
+    "existing_calculated_00_cm1": 18926.1908,
+    "derived_translation_cm1": 517.8091999999997,
+    "absolute_detachment_accuracy_claimed": false
+  },
+  "diagnostic_peak_rule": "For this audit only: sort vertices, average repeated x, linear interpolate on 1 cm-1 grid, scipy find_peaks prominence 0.02 signal units and minimum separation 25 cm-1. Public raw vector vertices are unchanged. This is not a new evaluator threshold or fitted measurement uncertainty.",
+  "observed_selected_peaks_cm1": [
+    19445.0,
+    19523.0,
+    19602.0,
+    19694.0,
+    19748.0,
+    19788.0,
+    19844.0,
+    19889.0,
+    19920.0,
+    19957.0,
+    20012.0,
+    20038.0,
+    20093.0
+  ],
+  "matches": [
+    {
+      "FC_transition": "0",
+      "calculated_relative_cm1": 0.0,
+      "aligned_calculated_cm1": 19444.0,
+      "strength": 0.07306,
+      "nearest_selected_experimental_cm1": 19445.0,
+      "residual_cm1": -1.0
+    },
+    {
+      "FC_transition": "3^1",
+      "calculated_relative_cm1": 85.9573,
+      "aligned_calculated_cm1": 19529.9573,
+      "strength": 0.09069,
+      "nearest_selected_experimental_cm1": 19523.0,
+      "residual_cm1": 6.957299999998213
+    },
+    {
+      "FC_transition": "3^2",
+      "calculated_relative_cm1": 171.9146,
+      "aligned_calculated_cm1": 19615.9146,
+      "strength": 0.05856,
+      "nearest_selected_experimental_cm1": 19602.0,
+      "residual_cm1": 13.914600000000064
+    },
+    {
+      "FC_transition": "3^3",
+      "calculated_relative_cm1": 257.8719,
+      "aligned_calculated_cm1": 19701.8719,
+      "strength": 0.02617,
+      "nearest_selected_experimental_cm1": 19694.0,
+      "residual_cm1": 7.871899999998277
+    },
+    {
+      "FC_transition": "10^1;3^1",
+      "calculated_relative_cm1": 295.7205,
+      "aligned_calculated_cm1": 19739.7205,
+      "strength": 0.004206,
+      "nearest_selected_experimental_cm1": 19748.0,
+      "residual_cm1": -8.279500000000553
+    },
+    {
+      "FC_transition": "3^4",
+      "calculated_relative_cm1": 343.8292,
+      "aligned_calculated_cm1": 19787.8292,
+      "strength": 0.00909,
+      "nearest_selected_experimental_cm1": 19788.0,
+      "residual_cm1": -0.17079999999987194
+    },
+    {
+      "FC_transition": "16^1",
+      "calculated_relative_cm1": 449.491,
+      "aligned_calculated_cm1": 19893.491,
+      "strength": 0.007145,
+      "nearest_selected_experimental_cm1": 19889.0,
+      "residual_cm1": 4.491000000001804
+    },
+    {
+      "FC_transition": "18^1",
+      "calculated_relative_cm1": 510.0662,
+      "aligned_calculated_cm1": 19954.0662,
+      "strength": 0.06959,
+      "nearest_selected_experimental_cm1": 19957.0,
+      "residual_cm1": -2.9337999999988824
+    },
+    {
+      "FC_transition": "16^1;3^1",
+      "calculated_relative_cm1": 535.4483,
+      "aligned_calculated_cm1": 19979.4483,
+      "strength": 0.008858,
+      "nearest_selected_experimental_cm1": 19957.0,
+      "residual_cm1": 22.448300000000017
+    },
+    {
+      "FC_transition": "18^1;3^1",
+      "calculated_relative_cm1": 596.0235,
+      "aligned_calculated_cm1": 20040.0235,
+      "strength": 0.08438,
+      "nearest_selected_experimental_cm1": 20038.0,
+      "residual_cm1": 2.0234999999993306
+    },
+    {
+      "FC_transition": "16^1;3^2",
+      "calculated_relative_cm1": 621.4056,
+      "aligned_calculated_cm1": 20065.4056,
+      "strength": 0.005714,
+      "nearest_selected_experimental_cm1": 20038.0,
+      "residual_cm1": 27.40559999999823
+    }
+  ],
+  "matching_limitations": "All archived FC transitions within the window are listed. Nearest-peak association is diagnostic, not a unique physical assignment; unmodeled observed bands remain. No universal all-peak agreement or absolute energy accuracy is asserted.",
+  "existing_physical_progression": {
+    "reference_mode_number": 3,
+    "scaled_frequency_cm1": 85.9573,
+    "huang_rhys": 1.20932
+  },
+  "interpretation": "Existing FC evidence supports a prominent relative in-plane progression and some higher-window features, while substantial observed features/intensity differences remain. This is the approved bounded Z1-only claim, not full experimental spectrum reconstruction."
+}

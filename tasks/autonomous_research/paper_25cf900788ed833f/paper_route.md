@@ -17,12 +17,16 @@ The calculated object is the neutral, singlet 1bb molecule. The reported DCM cal
 
 ## 4. Validation and analysis protocol
 
-The paper compares calculated DCM transitions with experimental photophysical data, presents the lowest-transition NTOs, and extends the implicit-solvent comparison to DCM, MeOH and DMSO. The DCM table identifies the 1bb lowest transition as 4.3134 eV, 287.44 nm, oscillator strength 0.3412 and transition dipole 3.2290 D. The authors interpret the relevant NTOs as π→π* and describe the solvent effect as minimal.
+The paper compares calculated DCM transitions with experimental photophysical data, presents the lowest-transition NTOs, and extends the implicit-solvent comparison to DCM, MeOH and DMSO. The DCM table identifies the 1bb lowest transition as 4.3134 eV, 287.44 nm, oscillator strength 0.3412 and Table4 D-column value 3.2290 (unit qualification below). The authors interpret the relevant NTOs as π→π* and describe the solvent effect as minimal.
 
 ## 5. Private reference results
 
-For 1bb in implicit DCM: E = 4.3134 eV; λ = 287.44 nm; f = 0.3412; transition dipole = 3.2290 D. The transition is described as π→π*. Table 4 places this value among the lowest-energy transitions for the compound series. The paper's broader conclusion is that the calculated spectra agree reasonably with experiment and support the photophysical interpretation.
+For 1bb in implicit DCM: E = 4.3134 eV; λ = 287.44 nm; f = 0.3412; Table4 D-column value = 3.2290 (unit qualification below). The transition is described as π→π*. Table 4 places this value among the lowest-energy transitions for the compound series. The paper's broader conclusion is that the calculated spectra agree reasonably with experiment and support the photophysical interpretation.
 
 ## 6. Limitations and interpretation boundaries
 
 These are vertical electronic-transition results within a single-molecule, implicit-continuum model, not an absorption spectrum including vibronic structure, aggregation, explicit solvent, thermal ensemble averaging or fluorescence dynamics. Numerical agreement is method- and geometry-dependent. The supplied evidence identifies SI Table S3 but does not expose its solvent-specific numerical entries; therefore this task scores only the source-complete DCM endpoint from Table 4.
+
+## Source-unit qualification
+
+Source-unit review 2026-09-15: Table 4 labels its last column D without explicit units. Across all nine rows, D satisfies f=(2/3)*E(Hartree)*D within rounding, so it is numerically consistent with dipole strength |mu|^2 in atomic units, not a Debye magnitude. For 1bb D=3.2290 corresponds to |mu| approximately 4.5674 Debye. This is an explicit dimensional inference. Preserve the source f=0.3412 and all numeric scoring tolerances; never compare a computed Debye magnitude directly with 3.2290.

@@ -1,0 +1,187 @@
+{
+  "paper_id": "paper_98b6f8a0352f72c2",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify12a dimethylamino and12d diethylamino complete graphs; do not substitute the source12b/12e ring-methyl analogues. Track molecular and electronic-state identity across media and geometries rather than assuming an S1 label has identical character. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Verify12a dimethylamino and12d diethylamino complete graphs; do not substitute the source12b/12e ring-methyl analogues. Track molecular and electronic-state identity across media and geometries rather than assuming an S1 label has identical character."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_evidence",
+      "reference_id": "kp_quantitative_evidence",
+      "type": "semantic",
+      "expected": "Verify quantitative spectral/state evidence and any derived rates against the full molecular identities, medium, measurement type, units and real artifacts. Preserve distinction between observed fluorescence lifetime and computed radiative lifetime. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.operations",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Verify quantitative spectral/state evidence and any derived rates against the full molecular identities, medium, measurement type, units and real artifacts. Preserve distinction between observed fluorescence lifetime and computed radiative lifetime."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_answer",
+      "reference_id": "kp_scientific_answer",
+      "type": "semantic",
+      "expected": "Judge whether the freely designed investigation supports a molecular account of the observed absorption and emission, including discrepancies and uncertainty. Do not require a torsion intervention, fixed root count, author ICT assignment or source S1 energy as a unique answer. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Judge whether the freely designed investigation supports a molecular account of the observed absorption and emission, including discrepancies and uncertainty. Do not require a torsion intervention, fixed root count, author ICT assignment or source S1 energy as a unique answer."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_validity_and_uncertainty",
+      "reference_id": "kp_validity_and_uncertainty",
+      "type": "semantic",
+      "expected": "Separate absorption, emission, adiabatic gaps and total/radiative lifetimes. State what model and physical evidence support any relaxed-state or kinetic claim. If combining quantum yield and total lifetime, use matched conditions and correct yield units, propagate or disclose uncertainty, and do not treat source theoretical lifetimes as measured values. Choose relevant validation without an imposed torsion/solvent grid. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validations",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Separate absorption, emission, adiabatic gaps and total/radiative lifetimes. State what model and physical evidence support any relaxed-state or kinetic claim. If combining quantum yield and total lifetime, use matched conditions and correct yield units, propagate or disclose uncertainty, and do not treat source theoretical lifetimes as measured values. Choose relevant validation without an imposed torsion/solvent grid."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_bounded_conclusion",
+      "reference_id": "kp_bounded_conclusion",
+      "type": "semantic",
+      "expected": "A vertical absorption energy is not a relaxed emission energy or an emitting-state assignment. A theoretical radiative lifetime is not a measured total fluorescence lifetime; do not infer a nonradiative mechanism, yield or sensor/device performance from an oscillator strength alone. Bound any molecular explanation by its actual state, solvent and sampling evidence. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. A vertical absorption energy is not a relaxed emission energy or an emitting-state assignment. A theoretical radiative lifetime is not a measured total fluorescence lifetime; do not infer a nonradiative mechanism, yield or sensor/device performance from an oscillator strength alone. Bound any molecular explanation by its actual state, solvent and sampling evidence."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "bounded_answer",
+      "type": "semantic",
+      "expected": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability. A vertical absorption energy is not a relaxed emission energy or an emitting-state assignment. A theoretical radiative lifetime is not a measured total fluorescence lifetime; do not infer a nonradiative mechanism, yield or sensor/device performance from an oscillator strength alone. Bound any molecular explanation by its actual state, solvent and sampling evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.validations",
+          "$.status"
+        ],
+        "comparison": "Check question coverage and evidence, not author agreement or the self-declared completion status."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Verify12a dimethylamino and12d diethylamino complete graphs; do not substitute the source12b/12e ring-methyl analogues. Track molecular and electronic-state identity across media and geometries rather than assuming an S1 label has identical character.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_evidence",
+      "max_score": 25,
+      "description": "Verify quantitative spectral/state evidence and any derived rates against the full molecular identities, medium, measurement type, units and real artifacts. Preserve distinction between observed fluorescence lifetime and computed radiative lifetime.",
+      "rule_ids": [
+        "rule_quantitative_evidence"
+      ]
+    },
+    {
+      "id": "scientific_answer",
+      "max_score": 25,
+      "description": "Judge whether the freely designed investigation supports a molecular account of the observed absorption and emission, including discrepancies and uncertainty. Do not require a torsion intervention, fixed root count, author ICT assignment or source S1 energy as a unique answer.",
+      "rule_ids": [
+        "rule_scientific_answer"
+      ]
+    },
+    {
+      "id": "validity_and_uncertainty",
+      "max_score": 20,
+      "description": "Separate absorption, emission, adiabatic gaps and total/radiative lifetimes. State what model and physical evidence support any relaxed-state or kinetic claim. If combining quantum yield and total lifetime, use matched conditions and correct yield units, propagate or disclose uncertainty, and do not treat source theoretical lifetimes as measured values. Choose relevant validation without an imposed torsion/solvent grid.",
+      "rule_ids": [
+        "rule_validity_and_uncertainty"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 15,
+      "description": "A vertical absorption energy is not a relaxed emission energy or an emitting-state assignment. A theoretical radiative lifetime is not a measured total fluorescence lifetime; do not infer a nonradiative mechanism, yield or sensor/device performance from an oscillator strength alone. Bound any molecular explanation by its actual state, solvent and sampling evidence.",
+      "rule_ids": [
+        "rule_bounded_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_developed_existing_references_scope_limited",
+  "calibrated_expanded_tolerances": false,
+  "scientific_notes": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+  "semantic_judge_calibration": "pending; no new judge or scientific jobs in this development round",
+  "retired_matrix_policy": "V1 files archived as historical .snapshot are never normative for V2. Their valid raw facts may be used only within documented applicability, without requiring their candidate/control grid."
+}

@@ -2,6 +2,13 @@
 
 from __future__ import annotations
 
+from contextvars import ContextVar
+
+MCP_REQUEST_ID = ContextVar("mcp_request_id", default=None)
+
+import asyncio
+from contextlib import contextmanager
+
 import hashlib
 import json
 import logging
@@ -14,22 +21,14 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .workspace import relative_workspace_path, workspace_root
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES
 
 
 _LOCK = threading.Lock()
 DEFAULT_MAX_ARTIFACT_BYTES = 100 * 1024 * 1024
 DEFAULT_MAX_ARTIFACT_FILES = 1000
 LOGGER = logging.getLogger(__name__)
-ACTION_RESULT_STATUSES = {
-    "success",
-    "partial_success",
-    "invalid_request",
-    "unsupported",
-    "unavailable",
-    "failed",
-    "timeout",
-    "cancelled",
-}
+ACTION_RESULT_STATUSES = TERMINAL_STATES
 
 
 def _positive_environment_integer(name: str, default: int) -> int:
@@ -115,6 +114,7 @@ def _excluded(path: Path) -> bool:
         "tool_logs",
     } or rel.name.startswith("_agent_output") or rel.name in {
         "_tool_trace.jsonl",
+        "_tool_call_events.jsonl",
         "_meta.json",
         "_score.json",
         "_toolbox_catalog.json",
@@ -188,10 +188,10 @@ def _capture_changed_artifacts(
     return records
 
 
-def execute_traced(
+@contextmanager
+def _trace_operation(
     tool_name: str,
     arguments: dict[str, Any],
-    function: Callable[[], Any],
     *,
     capture_artifacts: bool = True,
 ) -> Any:
@@ -208,20 +208,21 @@ def execute_traced(
     started = time.monotonic()
     status = "success"
     error = None
-    operation_exception: Exception | None = None
-    result: Any = None
+    operation_exception: BaseException | None = None
+    outcome = {"result": None}
+    _append_call_event(root, {"sequence": sequence, "tool": tool_name, "phase": "started", "at": started_wall,
+                             "arguments": _jsonable(arguments), "mcp_request_id": MCP_REQUEST_ID.get(), "host_call_id": None})
     try:
-        result = function()
-        return result
-    except Exception as exc:
-        status = "error"
+        yield outcome
+    except BaseException as exc:
+        status = "cancelled" if isinstance(exc, asyncio.CancelledError) else "error"
         error = f"{type(exc).__name__}: {exc}"
         operation_exception = exc
         raise
     finally:
         try:
             duration = time.monotonic() - started
-            result_payload = _jsonable(result)
+            result_payload = _jsonable(outcome["result"])
             transport_status = status
             recorded_status = status
             recorded_error: Any = error
@@ -232,7 +233,7 @@ def execute_traced(
             ):
                 recorded_status = str(result_payload["status"])
                 if recorded_status not in {"success", "partial_success"}:
-                    recorded_error = result_payload.get("error")
+                    recorded_error = result_payload.get("error") or (result_payload.get("execution_feedback") or {}).get("diagnostic")
             result_path = result_dir / f"{sequence:04d}_{tool_name}.json"
             result_path.write_text(
                 json.dumps(
@@ -241,6 +242,8 @@ def execute_traced(
                         "transport_status": transport_status,
                         "result": result_payload,
                         "error": recorded_error,
+                        "original_exception": outcome.get("original_exception"),
+                        "display_projection": outcome.get("display_projection"),
                     },
                     ensure_ascii=False,
                     indent=2,
@@ -266,6 +269,8 @@ def execute_traced(
                     os.environ.get("RESEARCHCHEMBENCH_RUN_ID", ""),
                 ),
                 "tool": tool_name,
+                "mcp_request_id": MCP_REQUEST_ID.get(),
+                "host_call_id": None,
                 "arguments": _jsonable(arguments),
                 "status": recorded_status,
                 "transport_status": transport_status,
@@ -279,6 +284,10 @@ def execute_traced(
             with _LOCK:
                 with trace_path.open("a", encoding="utf-8") as handle:
                     handle.write(json.dumps(event, ensure_ascii=False) + "\n")
+            _append_call_event(root, {"sequence": sequence, "tool": tool_name,
+                "phase": "cancelled" if status == "cancelled" else "finished",
+                "at": datetime.now(timezone.utc).isoformat(), "status": recorded_status,
+                "result_path": relative_workspace_path(result_path)})
         except Exception:
             if operation_exception is None:
                 raise
@@ -287,3 +296,45 @@ def execute_traced(
                 "original tool exception",
                 tool_name,
             )
+
+
+def _append_call_event(root: Path, event: dict) -> None:
+    with _LOCK:
+        with (root / "_tool_call_events.jsonl").open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(event, ensure_ascii=False) + "\n")
+
+
+def execute_traced(tool_name, arguments, function, *, capture_artifacts=True):
+    from chemistry_toolbox.src.execution_feedback import normalize_tool_feedback, exception_feedback, feedback_schema_version
+    with _trace_operation(tool_name, arguments, capture_artifacts=capture_artifacts) as outcome:
+        try:
+            outcome["result"] = function()
+        except Exception as exc:
+            if feedback_schema_version() != 2:
+                raise
+            outcome["result"] = exception_feedback(exc, tool=tool_name)
+            import traceback
+            outcome["original_exception"] = {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()}
+        return _project_traced(outcome, tool_name)
+
+
+async def execute_traced_async(tool_name, arguments, function, *, capture_artifacts=False):
+    from chemistry_toolbox.src.execution_feedback import normalize_tool_feedback, exception_feedback, feedback_schema_version
+    with _trace_operation(tool_name, arguments, capture_artifacts=capture_artifacts) as outcome:
+        try:
+            outcome["result"] = await function()
+        except Exception as exc:
+            if feedback_schema_version() != 2:
+                raise
+            outcome["result"] = exception_feedback(exc, tool=tool_name)
+            import traceback
+            outcome["original_exception"] = {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()}
+        return _project_traced(outcome, tool_name)
+
+
+def _project_traced(outcome, tool_name):
+    from chemistry_toolbox.src.execution_feedback import normalize_tool_feedback, feedback_schema_version
+    view = normalize_tool_feedback(outcome["result"], tool=tool_name)
+    outcome["display_projection"] = {"function": "normalize_tool_feedback", "schema_version": feedback_schema_version(),
+        "tool": tool_name, "sha256": hashlib.sha256(json.dumps(_jsonable(view), sort_keys=True, ensure_ascii=False).encode()).hexdigest()}
+    return view

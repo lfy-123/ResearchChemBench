@@ -1,0 +1,89 @@
+{
+  "coordinate_unit": "angstrom",
+  "models": [
+    {
+      "file": "glycosyl_nhpi_22c.xyz",
+      "source_label": "22c",
+      "atom_count": 49,
+      "composition": {
+        "O": 9,
+        "C": 18,
+        "N": 1,
+        "H": 21
+      },
+      "charge": 0,
+      "multiplicity": 1,
+      "spin_evidence": "Closed-shell neutral precursor model.",
+      "source": {
+        "document": "SI Data S1, Optimized geometries",
+        "doi": "10.1016/j.chempr.2025.102713",
+        "physical_page": 1,
+        "column": 1
+      }
+    },
+    {
+      "file": "ni0_ligand_complex.xyz",
+      "source_label": "Ni(0)L",
+      "atom_count": 45,
+      "composition": {
+        "C": 18,
+        "N": 2,
+        "H": 24,
+        "Ni": 1
+      },
+      "charge": 0,
+      "multiplicity": 1,
+      "spin_evidence": "Closed-shell neutral precursor model.",
+      "source": {
+        "document": "SI Data S1, Optimized geometries",
+        "doi": "10.1016/j.chempr.2025.102713",
+        "physical_page": 3,
+        "column": 1
+      }
+    },
+    {
+      "file": "int1_reference_precursor.xyz",
+      "source_label": "int1",
+      "atom_count": 60,
+      "composition": {
+        "C": 26,
+        "N": 3,
+        "H": 28,
+        "Ni": 1,
+        "O": 2
+      },
+      "charge": 0,
+      "multiplicity": 2,
+      "spin_evidence": "Neutral Ni(I) d9 plus neutral diimine and imide anion: doublet inference.",
+      "source": {
+        "document": "SI Data S1, Optimized geometries",
+        "doi": "10.1016/j.chempr.2025.102713",
+        "physical_page": 4,
+        "column": 2
+      }
+    },
+    {
+      "file": "glycosyl_radical_r.xyz",
+      "source_label": "R_radical",
+      "atom_count": 31,
+      "composition": {
+        "C": 9,
+        "H": 17,
+        "O": 5
+      },
+      "charge": 0,
+      "multiplicity": 2,
+      "spin_evidence": "Neutral carbon monoradical: doublet.",
+      "source": {
+        "document": "SI Data S1, Optimized geometries",
+        "doi": "10.1016/j.chempr.2025.102713",
+        "physical_page": 3,
+        "column": 2
+      }
+    }
+  ],
+  "addition_system": "int1 + R",
+  "addition_atom_count": 91,
+  "surface_boundary": "Two neutral doublets can couple to total singlet or triplet; justify the surface and do not assign a closed-shell singlet to isolated odd-electron int1.",
+  "source_scope": "Full reactant identities only. No TS/product coordinates, barriers or selectivity answer are supplied."
+}

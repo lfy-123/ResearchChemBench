@@ -1,0 +1,5464 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "reviewed_at_utc": "2026-09-28T17:35:20.545052+00:00",
+  "operation": "read and parse already-frozen bytes only",
+  "new_scientific_jobs": 0,
+  "scientific_acceptance": false,
+  "scope": "保留已有 S1 pilot、频率/结构与在途输出；完整物理态对应和所有扫描不是现已完成参考。",
+  "limitations": [
+    "The full four-profile S0/S1 matrix is incomplete. Completed pilot endpoints require physical transition-density correspondence; the queued complete-pilot analysis remains unreviewed.",
+    "Dye2 released S1 anchor has 150 positive internal modes, preserved public graph and torsion78.267531 degrees; density correspondence remains pending. Dye1 free S1 remains running.",
+    "S0 residual angles/recovery, root-window checks, selected trajectory-jump diagnoses, paired motion/environment controls and full numeric profile table remain incomplete.",
+    "Inputs AU(8) and AV(9) were submitted before the scope correction; no further S1 expansion was staged or submitted."
+  ],
+  "raw_log_reviews": [
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/07ce3b022fbf3c29_gaussian.log.snapshot",
+      "sha256": "07ce3b022fbf3c29267240d399452df13e862bceeb8515bd7f1ab919b8b78152",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion0/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 569325,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 7,
+        "last_energy_records": [
+          {
+            "line": 4756,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69566173,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 5760,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69598101,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6768,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69610962,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 7780,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69621367,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/0b7f408d19eeee59_gaussian.log.snapshot",
+      "sha256": "0b7f408d19eeee59e5559298963b758c5d5177f4c7c9f1947d119f1dc8b36781",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion120/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 6282631,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 98,
+        "last_energy_records": [
+          {
+            "line": 92053,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69699614,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 92983,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69699817,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 93913,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69700153,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 94843,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69700291,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/f4ae29dbb978418d_gaussian.log.snapshot",
+      "sha256": "f4ae29dbb978418db33d5af3760b740a8a2664a68657ba056cd622985800583a",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion150/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2458970,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 36,
+        "last_energy_records": [
+          {
+            "line": 32546,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69634659,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 33459,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69634659,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 34370,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69634659,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 35270,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69634659,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/9d25fa27e8a44912_gaussian.log.snapshot",
+      "sha256": "9d25fa27e8a44912c91d3af2429a6d330b271fabebf2a424892044e96b5f3698",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion150_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2950963,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 799,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69634659,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1102,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8138,
+            "wavelength_nm": 440.63,
+            "oscillator_strength": 0.0019
+          },
+          {
+            "line": 3375,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8599,
+            "wavelength_nm": 433.53,
+            "oscillator_strength": 0.0736
+          },
+          {
+            "line": 15498,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0732,
+            "wavelength_nm": 403.44,
+            "oscillator_strength": 0.1057
+          },
+          {
+            "line": 29417,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7756,
+            "wavelength_nm": 328.38,
+            "oscillator_strength": 0.0151
+          },
+          {
+            "line": 35729,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8707,
+            "wavelength_nm": 320.32,
+            "oscillator_strength": 0.2257
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 70819,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3599,
+            "wavelength_nm": 284.38,
+            "oscillator_strength": 0.013
+          },
+          {
+            "line": 74121,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4487,
+            "wavelength_nm": 278.7,
+            "oscillator_strength": 0.0167
+          },
+          {
+            "line": 82660,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5524,
+            "wavelength_nm": 272.35,
+            "oscillator_strength": 0.0219
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/783e8dd3f956468b_gaussian.log.snapshot",
+      "sha256": "783e8dd3f956468b85b5d992eb16f8ea19ae5de6f2e8248e53fe2b5e76b8968b",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion180/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3632559,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 54,
+        "last_energy_records": [
+          {
+            "line": 50322,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69638041,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 51242,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69638041,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 52164,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69638041,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 53065,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69638041,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/eea0d7cc9a068514_gaussian.log.snapshot",
+      "sha256": "eea0d7cc9a0685146b5d3c21d5d46fefa1a45f619914700401d0549635190f0b",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion180_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2953688,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 814,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69638041,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1118,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8787,
+            "wavelength_nm": 430.7,
+            "oscillator_strength": 0.0053
+          },
+          {
+            "line": 5313,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0077,
+            "wavelength_nm": 412.22,
+            "oscillator_strength": 0.1022
+          },
+          {
+            "line": 19248,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0471,
+            "wavelength_nm": 406.89,
+            "oscillator_strength": 0.0822
+          },
+          {
+            "line": 32093,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8337,
+            "wavelength_nm": 323.4,
+            "oscillator_strength": 0.01
+          },
+          {
+            "line": 38447,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9107,
+            "wavelength_nm": 317.04,
+            "oscillator_strength": 0.2396
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 72683,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3632,
+            "wavelength_nm": 284.16,
+            "oscillator_strength": 0.0058
+          },
+          {
+            "line": 75936,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5034,
+            "wavelength_nm": 275.31,
+            "oscillator_strength": 0.0111
+          },
+          {
+            "line": 81826,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5364,
+            "wavelength_nm": 273.31,
+            "oscillator_strength": 0.0328
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/7f51af32a1c45b5a_gaussian.log.snapshot",
+      "sha256": "7f51af32a1c45b5a8bcf2581a58a13955b77f65b9dae79fbb337877e799e1a2f",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion30/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3065882,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 46,
+        "last_energy_records": [
+          {
+            "line": 41436,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69726681,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 42372,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69726681,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 43306,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69726681,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 44216,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69726681,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/dc0f2d629113015d_gaussian.log.snapshot",
+      "sha256": "dc0f2d629113015d326335ce0414680445216c1f7676049750b217368f55f200",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion60/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2166000,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 32,
+        "last_energy_records": [
+          {
+            "line": 27939,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69863705,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 28860,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69863705,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 29781,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69863705,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 30691,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69863705,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/dd5031db5bd5a7c6_gaussian.log.snapshot",
+      "sha256": "dd5031db5bd5a7c6f73b6d15e59d67e84960164dd54b321759c319e9f92505da",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion75/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 719971,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 9,
+        "last_energy_records": [
+          {
+            "line": 6245,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6988782,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 7150,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6988782,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 8056,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6988782,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 8952,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6988782,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/f2ab974273ccfd3f_gaussian.log.snapshot",
+      "sha256": "f2ab974273ccfd3f82e163954d965458b0b627dcd7a3ae246f810d62b22366ac",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion75_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3149484,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 814,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6988782,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1143,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9037,
+            "wavelength_nm": 426.99,
+            "oscillator_strength": 0.0338
+          },
+          {
+            "line": 10913,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.956,
+            "wavelength_nm": 419.44,
+            "oscillator_strength": 0.0711
+          },
+          {
+            "line": 23088,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1641,
+            "wavelength_nm": 391.85,
+            "oscillator_strength": 0.0949
+          },
+          {
+            "line": 35591,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8607,
+            "wavelength_nm": 321.14,
+            "oscillator_strength": 0.0378
+          },
+          {
+            "line": 43169,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9075,
+            "wavelength_nm": 317.3,
+            "oscillator_strength": 0.2948
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 75884,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.386,
+            "wavelength_nm": 282.68,
+            "oscillator_strength": 0.0178
+          },
+          {
+            "line": 81148,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4862,
+            "wavelength_nm": 276.37,
+            "oscillator_strength": 0.0195
+          },
+          {
+            "line": 90302,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5965,
+            "wavelength_nm": 269.74,
+            "oscillator_strength": 0.0245
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/fc3edadeeab1aa4d_gaussian.log.snapshot",
+      "sha256": "fc3edadeeab1aa4d758a1837162ca6b3f591b5b345ffe5c5e25b1508fc9617e2",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion75_frozen_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3150325,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 814,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69887813,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1143,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9032,
+            "wavelength_nm": 427.06,
+            "oscillator_strength": 0.0338
+          },
+          {
+            "line": 10909,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9556,
+            "wavelength_nm": 419.48,
+            "oscillator_strength": 0.0711
+          },
+          {
+            "line": 23098,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1636,
+            "wavelength_nm": 391.91,
+            "oscillator_strength": 0.0949
+          },
+          {
+            "line": 35595,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8605,
+            "wavelength_nm": 321.16,
+            "oscillator_strength": 0.0377
+          },
+          {
+            "line": 43171,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9073,
+            "wavelength_nm": 317.31,
+            "oscillator_strength": 0.295
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 75890,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3859,
+            "wavelength_nm": 282.69,
+            "oscillator_strength": 0.0178
+          },
+          {
+            "line": 81157,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4862,
+            "wavelength_nm": 276.37,
+            "oscillator_strength": 0.0195
+          },
+          {
+            "line": 90312,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5963,
+            "wavelength_nm": 269.75,
+            "oscillator_strength": 0.0245
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/f3ecce4ef1ec332f_gaussian.log.snapshot",
+      "sha256": "f3ecce4ef1ec332f778773d9a9e9f5f3e2b1c9b52322448cf609ee7c7ad264bf",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion90/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 1678800,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 24,
+        "last_energy_records": [
+          {
+            "line": 20655,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69866195,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 21585,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69866197,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 22503,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69866197,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 23423,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69866197,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/af18ec3e119f94b8_gaussian.log.snapshot",
+      "sha256": "af18ec3e119f94b88d5e8115bfe996b1c0636016cf645084106929c41a259dfd",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion90_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3128432,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 814,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69866197,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1143,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.864,
+            "wavelength_nm": 432.91,
+            "oscillator_strength": 0.037
+          },
+          {
+            "line": 11312,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9294,
+            "wavelength_nm": 423.24,
+            "oscillator_strength": 0.0643
+          },
+          {
+            "line": 22816,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1502,
+            "wavelength_nm": 393.58,
+            "oscillator_strength": 0.0942
+          },
+          {
+            "line": 35790,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8337,
+            "wavelength_nm": 323.41,
+            "oscillator_strength": 0.0252
+          },
+          {
+            "line": 42691,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8999,
+            "wavelength_nm": 317.92,
+            "oscillator_strength": 0.3127
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 76204,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3734,
+            "wavelength_nm": 283.5,
+            "oscillator_strength": 0.0106
+          },
+          {
+            "line": 80506,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4799,
+            "wavelength_nm": 276.76,
+            "oscillator_strength": 0.0212
+          },
+          {
+            "line": 89784,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5947,
+            "wavelength_nm": 269.84,
+            "oscillator_strength": 0.0193
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/82572911cd376d3a_gaussian.log.snapshot",
+      "sha256": "82572911cd376d3acd66b4f5b926bc4dc83f7f75a294dc27e1c5553be079a287",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S0_torsion90_frozen_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3127246,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 814,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69849796,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1143,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8834,
+            "wavelength_nm": 430.0,
+            "oscillator_strength": 0.0377
+          },
+          {
+            "line": 11455,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9401,
+            "wavelength_nm": 421.7,
+            "oscillator_strength": 0.0624
+          },
+          {
+            "line": 22774,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1724,
+            "wavelength_nm": 390.82,
+            "oscillator_strength": 0.0921
+          },
+          {
+            "line": 35687,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8446,
+            "wavelength_nm": 322.49,
+            "oscillator_strength": 0.0261
+          },
+          {
+            "line": 42701,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.907,
+            "wavelength_nm": 317.34,
+            "oscillator_strength": 0.3066
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 76171,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3767,
+            "wavelength_nm": 283.28,
+            "oscillator_strength": 0.0104
+          },
+          {
+            "line": 80288,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4759,
+            "wavelength_nm": 277.0,
+            "oscillator_strength": 0.0205
+          },
+          {
+            "line": 89768,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5984,
+            "wavelength_nm": 269.62,
+            "oscillator_strength": 0.0185
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/c2c7234f5818a64c_gaussian.log.snapshot",
+      "sha256": "c2c7234f5818a64c7101f186cef62621dbc42d9e83e2180f395c86060f3602d7",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_free_optfreq/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 91634,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 1117,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69887817,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/4ebd5188c8c1ab2a_gaussian.log.snapshot",
+      "sha256": "4ebd5188c8c1ab2ae70d204bc831eb59a3bd1be2000016572610dacd39db431a",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_free_optfreq_recovery1/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 76561,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 1117,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69887817,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/9f2f784a7528b4a0_gaussian.log.snapshot",
+      "sha256": "9f2f784a7528b4a014da9bf5e642181be064163f09b414ac2ac37f5f445d821a",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_free_optfreq_recovery2/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 197533908,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 6248316,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          },
+          {
+            "line": 6248293,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check Test GenChk RPBE1PBE TD(FC,Re"
+          }
+        ],
+        "electronic_energy_records": 68,
+        "last_energy_records": [
+          {
+            "line": 5969922,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6786903,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6062506,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67869024,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6154944,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6786903,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6249107,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6786903,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 680,
+        "first_gaussian_excitations": [
+          {
+            "line": 1542,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9029,
+            "wavelength_nm": 427.11,
+            "oscillator_strength": 0.034
+          },
+          {
+            "line": 11360,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9554,
+            "wavelength_nm": 419.51,
+            "oscillator_strength": 0.0709
+          },
+          {
+            "line": 23520,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1638,
+            "wavelength_nm": 391.88,
+            "oscillator_strength": 0.0949
+          },
+          {
+            "line": 36039,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8602,
+            "wavelength_nm": 321.19,
+            "oscillator_strength": 0.0375
+          },
+          {
+            "line": 43594,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9073,
+            "wavelength_nm": 317.32,
+            "oscillator_strength": 0.2953
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 6249325,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7712,
+            "wavelength_nm": 328.77,
+            "oscillator_strength": 0.006
+          },
+          {
+            "line": 6249330,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2801,
+            "wavelength_nm": 289.68,
+            "oscillator_strength": 0.03
+          },
+          {
+            "line": 6249339,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3548,
+            "wavelength_nm": 284.7,
+            "oscillator_strength": 0.014
+          }
+        ],
+        "frequency_rows": 46,
+        "last_frequency_rows": [
+          {
+            "line": 6252592,
+            "values_cm_inverse": [
+              3191.5897,
+              3193.2405,
+              3194.3645
+            ]
+          },
+          {
+            "line": 6252647,
+            "values_cm_inverse": [
+              3209.3126,
+              3216.2195,
+              3220.1712
+            ]
+          },
+          {
+            "line": 6252702,
+            "values_cm_inverse": [
+              3224.7346,
+              3226.8174,
+              3227.4909
+            ]
+          },
+          {
+            "line": 6252757,
+            "values_cm_inverse": [
+              3231.5779,
+              3231.7867,
+              3245.4402
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/2f3d990de693060c_gaussian.log.snapshot",
+      "sha256": "2f3d990de693060cfb13b205e92226d84d181522f3fa8ee011699957c5ca05cd",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion75/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 152780380,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 50,
+        "last_energy_records": [
+          {
+            "line": 4466606,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67902556,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4562109,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67902549,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4657614,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67902544,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4753062,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67902541,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 500,
+        "first_gaussian_excitations": [
+          {
+            "line": 1545,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9032,
+            "wavelength_nm": 427.06,
+            "oscillator_strength": 0.0338
+          },
+          {
+            "line": 11319,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9556,
+            "wavelength_nm": 419.48,
+            "oscillator_strength": 0.0712
+          },
+          {
+            "line": 23519,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1636,
+            "wavelength_nm": 391.91,
+            "oscillator_strength": 0.0949
+          },
+          {
+            "line": 36023,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8605,
+            "wavelength_nm": 321.16,
+            "oscillator_strength": 0.0377
+          },
+          {
+            "line": 43608,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9073,
+            "wavelength_nm": 317.31,
+            "oscillator_strength": 0.2949
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 4817054,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7869,
+            "wavelength_nm": 327.41,
+            "oscillator_strength": 0.0196
+          },
+          {
+            "line": 4826173,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2533,
+            "wavelength_nm": 291.5,
+            "oscillator_strength": 0.0278
+          },
+          {
+            "line": 4836781,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3226,
+            "wavelength_nm": 286.83,
+            "oscillator_strength": 0.0109
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/85f42cac90042557_gaussian.log.snapshot",
+      "sha256": "85f42cac90042557585bfe2f83aab47fcbcf62152b0d2b67255cc05c4b491732",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion75_final_TD20/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 5707480,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=20,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 848,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67902548,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 20,
+        "first_gaussian_excitations": [
+          {
+            "line": 1382,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.7955,
+            "wavelength_nm": 690.52,
+            "oscillator_strength": 0.0006
+          },
+          {
+            "line": 3945,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.3371,
+            "wavelength_nm": 530.51,
+            "oscillator_strength": 0.0781
+          },
+          {
+            "line": 17226,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.5669,
+            "wavelength_nm": 483.02,
+            "oscillator_strength": 0.0614
+          },
+          {
+            "line": 27879,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.3318,
+            "wavelength_nm": 372.12,
+            "oscillator_strength": 0.0229
+          },
+          {
+            "line": 33844,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4632,
+            "wavelength_nm": 358.01,
+            "oscillator_strength": 0.4503
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 144821,
+            "root": 18,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.949,
+            "wavelength_nm": 250.52,
+            "oscillator_strength": 0.0173
+          },
+          {
+            "line": 155939,
+            "root": 19,
+            "label": "Singlet-?Sym",
+            "energy_eV": 5.0794,
+            "wavelength_nm": 244.09,
+            "oscillator_strength": 0.034
+          },
+          {
+            "line": 168659,
+            "root": 20,
+            "label": "Singlet-?Sym",
+            "energy_eV": 5.1662,
+            "wavelength_nm": 239.99,
+            "oscillator_strength": 0.0183
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/90f87e4a1aaec480_gaussian.log.snapshot",
+      "sha256": "90f87e4a1aaec4801fcc9328ee2b04be7e819362fbcf9da697741edeceecca7c",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion90/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 142635049,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 47,
+        "last_energy_records": [
+          {
+            "line": 4143909,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67948492,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4239150,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67948459,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4334400,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67948455,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4429576,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67948461,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 470,
+        "first_gaussian_excitations": [
+          {
+            "line": 1545,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8834,
+            "wavelength_nm": 430.0,
+            "oscillator_strength": 0.0377
+          },
+          {
+            "line": 11856,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9401,
+            "wavelength_nm": 421.7,
+            "oscillator_strength": 0.0624
+          },
+          {
+            "line": 23189,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1724,
+            "wavelength_nm": 390.82,
+            "oscillator_strength": 0.0921
+          },
+          {
+            "line": 36106,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8446,
+            "wavelength_nm": 322.49,
+            "oscillator_strength": 0.0261
+          },
+          {
+            "line": 43124,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.907,
+            "wavelength_nm": 317.34,
+            "oscillator_strength": 0.3065
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 4493247,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7834,
+            "wavelength_nm": 327.71,
+            "oscillator_strength": 0.0168
+          },
+          {
+            "line": 4502404,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2577,
+            "wavelength_nm": 291.2,
+            "oscillator_strength": 0.0267
+          },
+          {
+            "line": 4513132,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3458,
+            "wavelength_nm": 285.3,
+            "oscillator_strength": 0.0156
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/adeee7627be891b5_gaussian.log.snapshot",
+      "sha256": "adeee7627be891b5b6439dba8127ff1f4392914b325a74f2a58fda4b21bf8cdd",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion90_final_TD20/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 5679199,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=20,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 848,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.67948466,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 20,
+        "first_gaussian_excitations": [
+          {
+            "line": 1382,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.7957,
+            "wavelength_nm": 690.46,
+            "oscillator_strength": 0.0005
+          },
+          {
+            "line": 3727,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.3517,
+            "wavelength_nm": 527.2,
+            "oscillator_strength": 0.0782
+          },
+          {
+            "line": 17063,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.5515,
+            "wavelength_nm": 485.93,
+            "oscillator_strength": 0.0585
+          },
+          {
+            "line": 27809,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.3165,
+            "wavelength_nm": 373.84,
+            "oscillator_strength": 0.0172
+          },
+          {
+            "line": 33423,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4614,
+            "wavelength_nm": 358.19,
+            "oscillator_strength": 0.4655
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 145967,
+            "root": 18,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.959,
+            "wavelength_nm": 250.02,
+            "oscillator_strength": 0.0147
+          },
+          {
+            "line": 155836,
+            "root": 19,
+            "label": "Singlet-?Sym",
+            "energy_eV": 5.0812,
+            "wavelength_nm": 244.0,
+            "oscillator_strength": 0.0262
+          },
+          {
+            "line": 168160,
+            "root": 20,
+            "label": "Singlet-?Sym",
+            "energy_eV": 5.1607,
+            "wavelength_nm": 240.25,
+            "oscillator_strength": 0.01
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/f3ce29de6c79ad97_gaussian.log.snapshot",
+      "sha256": "f3ce29de6c79ad975faf2a70c4a528849410f36d88804db12a7a0e4cf4d27abb",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion90_iteration002_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3260677,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 832,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.68995674,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1137,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.2291,
+            "wavelength_nm": 556.21,
+            "oscillator_strength": 0.0072
+          },
+          {
+            "line": 6765,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.5768,
+            "wavelength_nm": 481.16,
+            "oscillator_strength": 0.0757
+          },
+          {
+            "line": 19937,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8374,
+            "wavelength_nm": 436.97,
+            "oscillator_strength": 0.0749
+          },
+          {
+            "line": 32165,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.5191,
+            "wavelength_nm": 352.32,
+            "oscillator_strength": 0.0185
+          },
+          {
+            "line": 38374,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.6181,
+            "wavelength_nm": 342.67,
+            "oscillator_strength": 0.3556
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73004,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0173,
+            "wavelength_nm": 308.63,
+            "oscillator_strength": 0.0125
+          },
+          {
+            "line": 78193,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3732,
+            "wavelength_nm": 283.51,
+            "oscillator_strength": 0.0515
+          },
+          {
+            "line": 89702,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4163,
+            "wavelength_nm": 280.74,
+            "oscillator_strength": 0.0071
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/bf720b4f48c622d9_gaussian.log.snapshot",
+      "sha256": "bf720b4f48c622d954bae094319cba51dcddf7bd5b1922a408da6942a29592bf",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion90_iteration018_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3080720,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 848,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.6801177,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1161,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.8486,
+            "wavelength_nm": 670.68,
+            "oscillator_strength": 0.0021
+          },
+          {
+            "line": 4661,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.3414,
+            "wavelength_nm": 529.53,
+            "oscillator_strength": 0.0707
+          },
+          {
+            "line": 17621,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.5505,
+            "wavelength_nm": 486.13,
+            "oscillator_strength": 0.0641
+          },
+          {
+            "line": 28913,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.3266,
+            "wavelength_nm": 372.71,
+            "oscillator_strength": 0.0197
+          },
+          {
+            "line": 34794,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4668,
+            "wavelength_nm": 357.63,
+            "oscillator_strength": 0.4645
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 71637,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8294,
+            "wavelength_nm": 323.77,
+            "oscillator_strength": 0.0058
+          },
+          {
+            "line": 75249,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2672,
+            "wavelength_nm": 290.55,
+            "oscillator_strength": 0.0258
+          },
+          {
+            "line": 86107,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.349,
+            "wavelength_nm": 285.09,
+            "oscillator_strength": 0.0128
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/f714c7f80cb475e5_gaussian.log.snapshot",
+      "sha256": "f714c7f80cb475e5e687e78eb3bc7e1c84a09590ace9c88e973735438851fae7",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_S1_torsion90_iteration019_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3035071,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 848,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.66599191,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1230,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.612,
+            "wavelength_nm": 769.13,
+            "oscillator_strength": 0.0002
+          },
+          {
+            "line": 3252,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.2908,
+            "wavelength_nm": 541.23,
+            "oscillator_strength": 0.0771
+          },
+          {
+            "line": 16086,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.3793,
+            "wavelength_nm": 521.1,
+            "oscillator_strength": 0.0707
+          },
+          {
+            "line": 28203,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1528,
+            "wavelength_nm": 393.25,
+            "oscillator_strength": 0.0214
+          },
+          {
+            "line": 34257,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.2826,
+            "wavelength_nm": 377.7,
+            "oscillator_strength": 0.4618
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 71464,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7372,
+            "wavelength_nm": 331.76,
+            "oscillator_strength": 0.0026
+          },
+          {
+            "line": 73285,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0719,
+            "wavelength_nm": 304.49,
+            "oscillator_strength": 0.0181
+          },
+          {
+            "line": 84129,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3696,
+            "wavelength_nm": 283.75,
+            "oscillator_strength": 0.0274
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/d44312241a38857f_gaussian.log.snapshot",
+      "sha256": "d44312241a38857fb71a2fa416574166e2eae482c6126be1cbdd77720cb889eb",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_free_TD10_DCM/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3223549,
+        "charge_multiplicity_records": [
+          {
+            "line": 103,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 826,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.71560664,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1157,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0644,
+            "wavelength_nm": 404.59,
+            "oscillator_strength": 0.2173
+          },
+          {
+            "line": 17036,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.3038,
+            "wavelength_nm": 375.28,
+            "oscillator_strength": 0.0046
+          },
+          {
+            "line": 20221,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4848,
+            "wavelength_nm": 355.78,
+            "oscillator_strength": 0.0675
+          },
+          {
+            "line": 28534,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8759,
+            "wavelength_nm": 319.89,
+            "oscillator_strength": 0.4267
+          },
+          {
+            "line": 43744,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2329,
+            "wavelength_nm": 292.9,
+            "oscillator_strength": 0.0015
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 70796,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5962,
+            "wavelength_nm": 269.76,
+            "oscillator_strength": 0.0248
+          },
+          {
+            "line": 77823,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.6287,
+            "wavelength_nm": 267.86,
+            "oscillator_strength": 0.0198
+          },
+          {
+            "line": 87222,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.7274,
+            "wavelength_nm": 262.27,
+            "oscillator_strength": 0.0611
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/1d77c7d40335e9c1_multiwfn.log.snapshot",
+      "sha256": "1d77c7d40335e9c187daa111d3ae2685774159758b4ea474963bcf4274ab5e96",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_free_TD10_hole_electron_NTO/multiwfn.log",
+      "parsed": {
+        "bytes_of_text": 85374,
+        "charge_multiplicity_records": [],
+        "reported_NAtoms": [],
+        "route_lines": [],
+        "electronic_energy_records": 0,
+        "last_energy_records": [],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/35085ea0ed9b2725_nto.log.snapshot",
+      "sha256": "35085ea0ed9b27255dadade7071a5e0febe15f53248b06425e986e1ba1cea93c",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_free_TD10_hole_electron_NTO/nto.log",
+      "parsed": {
+        "bytes_of_text": 24440,
+        "charge_multiplicity_records": [],
+        "reported_NAtoms": [],
+        "route_lines": [],
+        "electronic_energy_records": 0,
+        "last_energy_records": [],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/9d6332ef89824d84_td.log.snapshot",
+      "sha256": "9d6332ef89824d84300b16d6837e80d432ec026fd1f61f8373889cda3ffd10d8",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_free_TD10_hole_electron_NTO/td.log",
+      "parsed": {
+        "bytes_of_text": 3162233,
+        "charge_multiplicity_records": [
+          {
+            "line": 104,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) Density=Current Pop"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 816,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69887817,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1241,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9029,
+            "wavelength_nm": 427.11,
+            "oscillator_strength": 0.034
+          },
+          {
+            "line": 11059,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9554,
+            "wavelength_nm": 419.51,
+            "oscillator_strength": 0.0709
+          },
+          {
+            "line": 23219,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1638,
+            "wavelength_nm": 391.88,
+            "oscillator_strength": 0.0949
+          },
+          {
+            "line": 35738,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8602,
+            "wavelength_nm": 321.19,
+            "oscillator_strength": 0.0375
+          },
+          {
+            "line": 43293,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9073,
+            "wavelength_nm": 317.32,
+            "oscillator_strength": 0.2953
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 76039,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3858,
+            "wavelength_nm": 282.7,
+            "oscillator_strength": 0.0177
+          },
+          {
+            "line": 81279,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4861,
+            "wavelength_nm": 276.38,
+            "oscillator_strength": 0.0195
+          },
+          {
+            "line": 90437,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5964,
+            "wavelength_nm": 269.74,
+            "oscillator_strength": 0.0244
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/9d6332ef89824d84_gaussian.log.snapshot",
+      "sha256": "9d6332ef89824d84300b16d6837e80d432ec026fd1f61f8373889cda3ffd10d8",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye1_free_TD10_pilot/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3162233,
+        "charge_multiplicity_records": [
+          {
+            "line": 104,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          48
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) Density=Current Pop"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 816,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1191.69887817,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 1241,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9029,
+            "wavelength_nm": 427.11,
+            "oscillator_strength": 0.034
+          },
+          {
+            "line": 11059,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9554,
+            "wavelength_nm": 419.51,
+            "oscillator_strength": 0.0709
+          },
+          {
+            "line": 23219,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1638,
+            "wavelength_nm": 391.88,
+            "oscillator_strength": 0.0949
+          },
+          {
+            "line": 35738,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8602,
+            "wavelength_nm": 321.19,
+            "oscillator_strength": 0.0375
+          },
+          {
+            "line": 43293,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9073,
+            "wavelength_nm": 317.32,
+            "oscillator_strength": 0.2953
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 76039,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3858,
+            "wavelength_nm": 282.7,
+            "oscillator_strength": 0.0177
+          },
+          {
+            "line": 81279,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4861,
+            "wavelength_nm": 276.38,
+            "oscillator_strength": 0.0195
+          },
+          {
+            "line": 90437,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5964,
+            "wavelength_nm": 269.74,
+            "oscillator_strength": 0.0244
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/ea0726c799d32031_gaussian.log.snapshot",
+      "sha256": "ea0726c799d320314cbf44169b36b0270b127aae9d1840b2b9389a64d5d7454c",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion0/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3957871,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 77,
+        "last_energy_records": [
+          {
+            "line": 55306,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.0067231,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 55973,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.0067231,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 56636,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.0067231,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 57313,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.0067231,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/b2fc7ddb2cfc5573_gaussian.log.snapshot",
+      "sha256": "b2fc7ddb2cfc557396f5794eb6674d248bcee0bba279a6e7693fafefe24619d5",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion0_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3042723,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.0067231,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 831,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6453,
+            "wavelength_nm": 468.7,
+            "oscillator_strength": 0.1168
+          },
+          {
+            "line": 18232,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8697,
+            "wavelength_nm": 432.05,
+            "oscillator_strength": 0.0048
+          },
+          {
+            "line": 22160,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0035,
+            "wavelength_nm": 412.81,
+            "oscillator_strength": 0.0155
+          },
+          {
+            "line": 27503,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7179,
+            "wavelength_nm": 333.48,
+            "oscillator_strength": 0.167
+          },
+          {
+            "line": 42602,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8214,
+            "wavelength_nm": 324.45,
+            "oscillator_strength": 0.1151
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 74614,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3167,
+            "wavelength_nm": 287.22,
+            "oscillator_strength": 0.0174
+          },
+          {
+            "line": 84129,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3866,
+            "wavelength_nm": 282.64,
+            "oscillator_strength": 0.0087
+          },
+          {
+            "line": 91097,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5061,
+            "wavelength_nm": 275.15,
+            "oscillator_strength": 0.0119
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/5966e7ad1a476ab2_gaussian.log.snapshot",
+      "sha256": "5966e7ad1a476ab205c1041f2204a5ab832ecb0be2a5913dc7f4ac5ca2f45933",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion120/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 11797329,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 250,
+        "last_energy_records": [
+          {
+            "line": 173469,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00740365,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 174156,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00723919,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 174843,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00740366,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 175530,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00723919,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 2,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/96bfdd1139a97367_gaussian.log.snapshot",
+      "sha256": "96bfdd1139a97367acd224c12c14b51495f9e027042bdb438749036bbc216a43",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion120_calcfc_recovery1/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 6695167,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 145,
+        "last_energy_records": [
+          {
+            "line": 98427,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00703812,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 99114,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00752724,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 99801,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00703812,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 100488,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00752725,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 0,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/6ef12cb632de33df_gaussian.log.snapshot",
+      "sha256": "6ef12cb632de33dff64433cf78c2dd9f8384d06c31a5e8bf25c528399db22503",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion150/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2669800,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 53,
+        "last_energy_records": [
+          {
+            "line": 35863,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00670783,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 36544,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00670783,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 37215,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00670783,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 37893,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00670783,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/69fc4fb7ee1b7bfc_gaussian.log.snapshot",
+      "sha256": "69fc4fb7ee1b7bfce2951737a594202c3d902c6e69969f1059a5662d3f52fe44",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion150_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2881602,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00670783,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 837,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6033,
+            "wavelength_nm": 476.27,
+            "oscillator_strength": 0.1218
+          },
+          {
+            "line": 18195,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.797,
+            "wavelength_nm": 443.27,
+            "oscillator_strength": 0.0007
+          },
+          {
+            "line": 19017,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9342,
+            "wavelength_nm": 422.54,
+            "oscillator_strength": 0.0036
+          },
+          {
+            "line": 24776,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.6762,
+            "wavelength_nm": 337.26,
+            "oscillator_strength": 0.1628
+          },
+          {
+            "line": 39471,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7576,
+            "wavelength_nm": 329.96,
+            "oscillator_strength": 0.101
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73108,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3205,
+            "wavelength_nm": 286.97,
+            "oscillator_strength": 0.0198
+          },
+          {
+            "line": 83654,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3656,
+            "wavelength_nm": 284.01,
+            "oscillator_strength": 0.012
+          },
+          {
+            "line": 86815,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4813,
+            "wavelength_nm": 276.67,
+            "oscillator_strength": 0.0021
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/e2eba0a6e9b4c768_gaussian.log.snapshot",
+      "sha256": "e2eba0a6e9b4c76843364fc662af65b2002186204ee8af60477fe30ce88e11e5",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion180/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3662773,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 72,
+        "last_energy_records": [
+          {
+            "line": 50785,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00671812,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 51455,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00671812,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 52125,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00671812,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 52771,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00671812,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/07ef2c1ca4c2916f_gaussian.log.snapshot",
+      "sha256": "07ef2c1ca4c2916fe04f3ede69b6e4b1c033a37d32fd04749ad3fedf1e66d75a",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion180_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3043233,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00671812,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 831,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6457,
+            "wavelength_nm": 468.62,
+            "oscillator_strength": 0.1169
+          },
+          {
+            "line": 18267,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8709,
+            "wavelength_nm": 431.87,
+            "oscillator_strength": 0.0047
+          },
+          {
+            "line": 22157,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0045,
+            "wavelength_nm": 412.66,
+            "oscillator_strength": 0.0156
+          },
+          {
+            "line": 27534,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7177,
+            "wavelength_nm": 333.49,
+            "oscillator_strength": 0.1667
+          },
+          {
+            "line": 42628,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8213,
+            "wavelength_nm": 324.45,
+            "oscillator_strength": 0.1151
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 74686,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3172,
+            "wavelength_nm": 287.19,
+            "oscillator_strength": 0.0173
+          },
+          {
+            "line": 84238,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3884,
+            "wavelength_nm": 282.53,
+            "oscillator_strength": 0.0086
+          },
+          {
+            "line": 91134,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5079,
+            "wavelength_nm": 275.04,
+            "oscillator_strength": 0.0119
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/e22cd58b20e4abdf_gaussian.log.snapshot",
+      "sha256": "e22cd58b20e4abdf9f7a621ae6cb15ed09dfa2b6730acca51e00d1c787b5c15f",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion30/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2467338,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 49,
+        "last_energy_records": [
+          {
+            "line": 32794,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00750323,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 33479,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00750323,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 34169,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00750323,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 34853,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00750323,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/576a598ee1ccb8e7_gaussian.log.snapshot",
+      "sha256": "576a598ee1ccb8e7100411da5f04ddbcdd600f261e405244df5d07a2093d97b6",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion30_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2933069,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 565,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00750323,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 871,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6536,
+            "wavelength_nm": 467.23,
+            "oscillator_strength": 0.113
+          },
+          {
+            "line": 18240,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9163,
+            "wavelength_nm": 425.15,
+            "oscillator_strength": 0.0008
+          },
+          {
+            "line": 21397,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0897,
+            "wavelength_nm": 401.28,
+            "oscillator_strength": 0.0349
+          },
+          {
+            "line": 28659,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7751,
+            "wavelength_nm": 328.42,
+            "oscillator_strength": 0.1986
+          },
+          {
+            "line": 43610,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8603,
+            "wavelength_nm": 321.18,
+            "oscillator_strength": 0.1156
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73826,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3291,
+            "wavelength_nm": 286.39,
+            "oscillator_strength": 0.0127
+          },
+          {
+            "line": 82981,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3959,
+            "wavelength_nm": 282.04,
+            "oscillator_strength": 0.01
+          },
+          {
+            "line": 88859,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5739,
+            "wavelength_nm": 271.07,
+            "oscillator_strength": 0.014
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/be88eb64759c169c_gaussian.log.snapshot",
+      "sha256": "be88eb64759c169c7955d430c5d5624e39da1b235fef6896b871fab2ae77860a",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion60/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 1725026,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 34,
+        "last_energy_records": [
+          {
+            "line": 22033,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00883224,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 22706,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00883224,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 23377,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00883224,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 24036,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00883224,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/26616677cc03a015_gaussian.log.snapshot",
+      "sha256": "26616677cc03a0153378f87e43820e0d7fbbe18fb6d78a9f79660a3ddd5c2b74",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion60_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2890283,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00883224,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 884,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6297,
+            "wavelength_nm": 471.48,
+            "oscillator_strength": 0.111
+          },
+          {
+            "line": 17848,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.9198,
+            "wavelength_nm": 424.64,
+            "oscillator_strength": 0.0014
+          },
+          {
+            "line": 21031,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0952,
+            "wavelength_nm": 400.56,
+            "oscillator_strength": 0.0381
+          },
+          {
+            "line": 28897,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7864,
+            "wavelength_nm": 327.45,
+            "oscillator_strength": 0.2555
+          },
+          {
+            "line": 44529,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8536,
+            "wavelength_nm": 321.74,
+            "oscillator_strength": 0.0907
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73595,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3252,
+            "wavelength_nm": 286.66,
+            "oscillator_strength": 0.0172
+          },
+          {
+            "line": 83550,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4034,
+            "wavelength_nm": 281.56,
+            "oscillator_strength": 0.0132
+          },
+          {
+            "line": 87456,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.569,
+            "wavelength_nm": 271.36,
+            "oscillator_strength": 0.0142
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/c3e5d1f532618a20_gaussian.log.snapshot",
+      "sha256": "c3e5d1f532618a20c9f9aac0036cf7a8a356fb7e9e51057336a0963354eb892e",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion75/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 1070478,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 21,
+        "last_energy_records": [
+          {
+            "line": 12374,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908519,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 13037,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908519,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 13717,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908519,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 14384,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908519,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/be5f3f19a8d4fc16_gaussian.log.snapshot",
+      "sha256": "be5f3f19a8d4fc1600170f57566e1d2f74da29633dcc62d7a56dda5f5466e88f",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion75_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2922521,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908519,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 861,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6092,
+            "wavelength_nm": 475.18,
+            "oscillator_strength": 0.1109
+          },
+          {
+            "line": 17718,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8997,
+            "wavelength_nm": 427.57,
+            "oscillator_strength": 0.0022
+          },
+          {
+            "line": 20959,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0718,
+            "wavelength_nm": 403.62,
+            "oscillator_strength": 0.0341
+          },
+          {
+            "line": 28809,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7758,
+            "wavelength_nm": 328.37,
+            "oscillator_strength": 0.2509
+          },
+          {
+            "line": 44370,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.834,
+            "wavelength_nm": 323.38,
+            "oscillator_strength": 0.1028
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 74130,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3111,
+            "wavelength_nm": 287.59,
+            "oscillator_strength": 0.0184
+          },
+          {
+            "line": 84073,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4027,
+            "wavelength_nm": 281.61,
+            "oscillator_strength": 0.009
+          },
+          {
+            "line": 88353,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5584,
+            "wavelength_nm": 271.99,
+            "oscillator_strength": 0.0082
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/abfb4710c4f1d3fe_gaussian.log.snapshot",
+      "sha256": "abfb4710c4f1d3fe0851ef034d9787bce03620638c4cbd93e2b75b103aaaa741",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion75_frozen_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2921759,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908462,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 861,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6081,
+            "wavelength_nm": 475.39,
+            "oscillator_strength": 0.111
+          },
+          {
+            "line": 17707,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8985,
+            "wavelength_nm": 427.76,
+            "oscillator_strength": 0.0022
+          },
+          {
+            "line": 20967,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0706,
+            "wavelength_nm": 403.78,
+            "oscillator_strength": 0.0342
+          },
+          {
+            "line": 28824,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7752,
+            "wavelength_nm": 328.42,
+            "oscillator_strength": 0.2513
+          },
+          {
+            "line": 44389,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8333,
+            "wavelength_nm": 323.44,
+            "oscillator_strength": 0.1025
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 74119,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3107,
+            "wavelength_nm": 287.62,
+            "oscillator_strength": 0.0185
+          },
+          {
+            "line": 84060,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4023,
+            "wavelength_nm": 281.63,
+            "oscillator_strength": 0.009
+          },
+          {
+            "line": 88345,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5581,
+            "wavelength_nm": 272.01,
+            "oscillator_strength": 0.0082
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/e5aa2e41b630434f_gaussian.log.snapshot",
+      "sha256": "e5aa2e41b630434f9af3b5518e1500d1a98e1f55dc9fe4abdce88c10f69c591f",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion90/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2015417,
+        "charge_multiplicity_records": [
+          {
+            "line": 112,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 40,
+        "last_energy_records": [
+          {
+            "line": 26234,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00888566,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 26899,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00888566,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 27576,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00888566,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 28241,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00888566,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/e064d7b29db0a2d5_gaussian.log.snapshot",
+      "sha256": "e064d7b29db0a2d54ca64f0710299539963693f7798a2585c48c1e1e6677e009",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion90_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2993551,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00888566,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 854,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.5895,
+            "wavelength_nm": 478.79,
+            "oscillator_strength": 0.1111
+          },
+          {
+            "line": 17756,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8708,
+            "wavelength_nm": 431.88,
+            "oscillator_strength": 0.0042
+          },
+          {
+            "line": 21363,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0407,
+            "wavelength_nm": 407.75,
+            "oscillator_strength": 0.0278
+          },
+          {
+            "line": 29176,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7591,
+            "wavelength_nm": 329.82,
+            "oscillator_strength": 0.2111
+          },
+          {
+            "line": 44053,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8096,
+            "wavelength_nm": 325.45,
+            "oscillator_strength": 0.1375
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 75870,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2991,
+            "wavelength_nm": 288.4,
+            "oscillator_strength": 0.0175
+          },
+          {
+            "line": 85642,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4009,
+            "wavelength_nm": 281.72,
+            "oscillator_strength": 0.0054
+          },
+          {
+            "line": 90793,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5513,
+            "wavelength_nm": 272.42,
+            "oscillator_strength": 0.003
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/e18cdab665d3868c_gaussian.log.snapshot",
+      "sha256": "e18cdab665d3868c6a903d254ae73ddbdf88da59aedb36d3e02a251051286dfc",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S0_torsion90_frozen_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2998792,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00872775,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 857,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6058,
+            "wavelength_nm": 475.79,
+            "oscillator_strength": 0.1105
+          },
+          {
+            "line": 17787,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8877,
+            "wavelength_nm": 429.36,
+            "oscillator_strength": 0.0041
+          },
+          {
+            "line": 21224,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0575,
+            "wavelength_nm": 405.51,
+            "oscillator_strength": 0.0257
+          },
+          {
+            "line": 29126,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7687,
+            "wavelength_nm": 328.98,
+            "oscillator_strength": 0.2064
+          },
+          {
+            "line": 44043,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8205,
+            "wavelength_nm": 324.52,
+            "oscillator_strength": 0.1366
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 75829,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.304,
+            "wavelength_nm": 288.07,
+            "oscillator_strength": 0.0164
+          },
+          {
+            "line": 85482,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4016,
+            "wavelength_nm": 281.68,
+            "oscillator_strength": 0.0056
+          },
+          {
+            "line": 90775,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5519,
+            "wavelength_nm": 272.38,
+            "oscillator_strength": 0.0029
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/b0f3ebd5206ed3f6_gaussian.log.snapshot",
+      "sha256": "b0f3ebd5206ed3f68d900b421bbada57d799404db013fe0972f1653dbd417dfa",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_free_optfreq/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 139136402,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 4407018,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          },
+          {
+            "line": 4406995,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check Test GenChk RPBE1PBE TD(FC,Re"
+          }
+        ],
+        "electronic_energy_records": 47,
+        "last_energy_records": [
+          {
+            "line": 4121588,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97839649,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4216492,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.9783972,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4311422,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97839705,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4407576,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97839705,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 470,
+        "first_gaussian_excitations": [
+          {
+            "line": 1299,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.608,
+            "wavelength_nm": 475.41,
+            "oscillator_strength": 0.111
+          },
+          {
+            "line": 18177,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8982,
+            "wavelength_nm": 427.8,
+            "oscillator_strength": 0.0023
+          },
+          {
+            "line": 21439,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0701,
+            "wavelength_nm": 403.84,
+            "oscillator_strength": 0.0337
+          },
+          {
+            "line": 29321,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7749,
+            "wavelength_nm": 328.44,
+            "oscillator_strength": 0.2497
+          },
+          {
+            "line": 44850,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8326,
+            "wavelength_nm": 323.5,
+            "oscillator_strength": 0.1041
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 4407789,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8179,
+            "wavelength_nm": 324.74,
+            "oscillator_strength": 0.0137
+          },
+          {
+            "line": 4407794,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0196,
+            "wavelength_nm": 308.45,
+            "oscillator_strength": 0.0021
+          },
+          {
+            "line": 4407798,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.1583,
+            "wavelength_nm": 298.16,
+            "oscillator_strength": 0.0121
+          }
+        ],
+        "frequency_rows": 50,
+        "last_frequency_rows": [
+          {
+            "line": 4411081,
+            "values_cm_inverse": [
+              3174.4161,
+              3177.9658,
+              3192.7774
+            ]
+          },
+          {
+            "line": 4411140,
+            "values_cm_inverse": [
+              3194.6635,
+              3205.9216,
+              3219.6897
+            ]
+          },
+          {
+            "line": 4411199,
+            "values_cm_inverse": [
+              3221.7191,
+              3223.5361,
+              3230.0882
+            ]
+          },
+          {
+            "line": 4411258,
+            "values_cm_inverse": [
+              3233.179,
+              3252.1498,
+              3255.6701
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/603432ae464b66c3_gaussian.log.snapshot",
+      "sha256": "603432ae464b66c3ab89ec90e135b60d8318ea7cec8818ebdde8c584e7d70f9a",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion75/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 128786336,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 43,
+        "last_energy_records": [
+          {
+            "line": 3714898,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97808744,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 3809713,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97808553,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 3904561,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97808494,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 3999491,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97808474,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 430,
+        "first_gaussian_excitations": [
+          {
+            "line": 1302,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6081,
+            "wavelength_nm": 475.39,
+            "oscillator_strength": 0.111
+          },
+          {
+            "line": 18161,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8985,
+            "wavelength_nm": 427.76,
+            "oscillator_strength": 0.0022
+          },
+          {
+            "line": 21425,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0706,
+            "wavelength_nm": 403.78,
+            "oscillator_strength": 0.034
+          },
+          {
+            "line": 29302,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7752,
+            "wavelength_nm": 328.42,
+            "oscillator_strength": 0.2513
+          },
+          {
+            "line": 44880,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8333,
+            "wavelength_nm": 323.44,
+            "oscillator_strength": 0.1024
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 4069707,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8151,
+            "wavelength_nm": 324.99,
+            "oscillator_strength": 0.0137
+          },
+          {
+            "line": 4079508,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0142,
+            "wavelength_nm": 308.87,
+            "oscillator_strength": 0.0028
+          },
+          {
+            "line": 4081519,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.1537,
+            "wavelength_nm": 298.49,
+            "oscillator_strength": 0.0084
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/79600e552e30d5b4_gaussian.log.snapshot",
+      "sha256": "79600e552e30d5b47ca978a82ce677b4e4dda8c01ed3552165b1372cd1b0d09d",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion75_final_TD20/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 6015775,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=20,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 612,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97808461,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 20,
+        "first_gaussian_excitations": [
+          {
+            "line": 1096,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.3984,
+            "wavelength_nm": 886.6,
+            "oscillator_strength": 0.0226
+          },
+          {
+            "line": 13531,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.0684,
+            "wavelength_nm": 599.41,
+            "oscillator_strength": 0.0017
+          },
+          {
+            "line": 16980,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.241,
+            "wavelength_nm": 553.24,
+            "oscillator_strength": 0.05
+          },
+          {
+            "line": 29132,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0419,
+            "wavelength_nm": 407.59,
+            "oscillator_strength": 0.0224
+          },
+          {
+            "line": 43265,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.3863,
+            "wavelength_nm": 366.14,
+            "oscillator_strength": 0.0162
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 168392,
+            "root": 18,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.8115,
+            "wavelength_nm": 257.68,
+            "oscillator_strength": 0.0037
+          },
+          {
+            "line": 171581,
+            "root": 19,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.9438,
+            "wavelength_nm": 250.79,
+            "oscillator_strength": 0.0067
+          },
+          {
+            "line": 183225,
+            "root": 20,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.9779,
+            "wavelength_nm": 249.07,
+            "oscillator_strength": 0.0038
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/6146c1f450d4cfd2_gaussian.log.snapshot",
+      "sha256": "6146c1f450d4cfd21a3948fb81c024c766937fc8c7145505fb3ff7a019f9e5eb",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion75_iteration007_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2909150,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 599,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.99012336,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 932,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.7545,
+            "wavelength_nm": 706.67,
+            "oscillator_strength": 0.0492
+          },
+          {
+            "line": 15528,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.2394,
+            "wavelength_nm": 553.65,
+            "oscillator_strength": 0.0012
+          },
+          {
+            "line": 18826,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.3885,
+            "wavelength_nm": 519.09,
+            "oscillator_strength": 0.0401
+          },
+          {
+            "line": 29688,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.1917,
+            "wavelength_nm": 388.45,
+            "oscillator_strength": 0.0546
+          },
+          {
+            "line": 43903,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4763,
+            "wavelength_nm": 356.65,
+            "oscillator_strength": 0.0316
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73410,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8986,
+            "wavelength_nm": 318.02,
+            "oscillator_strength": 0.0207
+          },
+          {
+            "line": 83821,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.1462,
+            "wavelength_nm": 299.03,
+            "oscillator_strength": 0.006
+          },
+          {
+            "line": 86986,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2774,
+            "wavelength_nm": 289.86,
+            "oscillator_strength": 0.0165
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/d91175e60484a9ba_gaussian.log.snapshot",
+      "sha256": "d91175e60484a9ba2be9e6dad1af7bdb4e69fb78bc7ec492d785db92e1834180",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion75_iteration008_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3049445,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 612,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.97233492,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 894,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.2724,
+            "wavelength_nm": 974.42,
+            "oscillator_strength": 0.0183
+          },
+          {
+            "line": 12834,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.0035,
+            "wavelength_nm": 618.85,
+            "oscillator_strength": 0.0024
+          },
+          {
+            "line": 16033,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.2131,
+            "wavelength_nm": 560.24,
+            "oscillator_strength": 0.0512
+          },
+          {
+            "line": 28672,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0592,
+            "wavelength_nm": 405.29,
+            "oscillator_strength": 0.0221
+          },
+          {
+            "line": 43004,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.3068,
+            "wavelength_nm": 374.93,
+            "oscillator_strength": 0.005
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73201,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7788,
+            "wavelength_nm": 328.11,
+            "oscillator_strength": 0.0138
+          },
+          {
+            "line": 83164,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.9886,
+            "wavelength_nm": 310.85,
+            "oscillator_strength": 0.0021
+          },
+          {
+            "line": 85822,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.032,
+            "wavelength_nm": 307.5,
+            "oscillator_strength": 0.0044
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/1f5c2ba56b640094_gaussian.log.snapshot",
+      "sha256": "1f5c2ba56b640094c34d2fdf0515341c590b9be93f37b2f18f44c1e600805b2d",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion75_iteration009_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2907277,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 612,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.98635768,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 944,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.6387,
+            "wavelength_nm": 756.62,
+            "oscillator_strength": 0.0371
+          },
+          {
+            "line": 14775,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.17,
+            "wavelength_nm": 571.35,
+            "oscillator_strength": 0.0008
+          },
+          {
+            "line": 17617,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.3348,
+            "wavelength_nm": 531.02,
+            "oscillator_strength": 0.0487
+          },
+          {
+            "line": 29593,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.135,
+            "wavelength_nm": 395.49,
+            "oscillator_strength": 0.0317
+          },
+          {
+            "line": 43657,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4515,
+            "wavelength_nm": 359.22,
+            "oscillator_strength": 0.026
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 73226,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8587,
+            "wavelength_nm": 321.31,
+            "oscillator_strength": 0.0174
+          },
+          {
+            "line": 83368,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0964,
+            "wavelength_nm": 302.67,
+            "oscillator_strength": 0.004
+          },
+          {
+            "line": 86144,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.2388,
+            "wavelength_nm": 292.5,
+            "oscillator_strength": 0.0175
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/e3592244316b36a5_gaussian.log.snapshot",
+      "sha256": "e3592244316b36a55b296f9001a24e6b5f99e776e88af086170b006721a21be1",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion90/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 144194190,
+        "charge_multiplicity_records": [
+          {
+            "line": 119,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) O"
+          }
+        ],
+        "electronic_energy_records": 47,
+        "last_energy_records": [
+          {
+            "line": 4209040,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.98001547,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4303463,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.98001532,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4398025,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.98001562,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4492449,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.98001547,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 470,
+        "first_gaussian_excitations": [
+          {
+            "line": 1298,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6058,
+            "wavelength_nm": 475.79,
+            "oscillator_strength": 0.1106
+          },
+          {
+            "line": 18239,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8877,
+            "wavelength_nm": 429.36,
+            "oscillator_strength": 0.0042
+          },
+          {
+            "line": 21675,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0575,
+            "wavelength_nm": 405.51,
+            "oscillator_strength": 0.0256
+          },
+          {
+            "line": 29594,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7687,
+            "wavelength_nm": 328.98,
+            "oscillator_strength": 0.2064
+          },
+          {
+            "line": 44507,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8205,
+            "wavelength_nm": 324.52,
+            "oscillator_strength": 0.1366
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 4566775,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8251,
+            "wavelength_nm": 324.14,
+            "oscillator_strength": 0.0138
+          },
+          {
+            "line": 4576866,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0464,
+            "wavelength_nm": 306.41,
+            "oscillator_strength": 0.0006
+          },
+          {
+            "line": 4579038,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.1817,
+            "wavelength_nm": 296.49,
+            "oscillator_strength": 0.0134
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/f97e537299460c9a_gaussian.log.snapshot",
+      "sha256": "f97e537299460c9a62d46c6e4b449f72ca6eac7ece1df00ab90f526f3772df20",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_S1_torsion90_final_TD20/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 6181070,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=20,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 612,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1305.9800155,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 20,
+        "first_gaussian_excitations": [
+          {
+            "line": 1135,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 1.4543,
+            "wavelength_nm": 852.56,
+            "oscillator_strength": 0.0246
+          },
+          {
+            "line": 13836,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.0996,
+            "wavelength_nm": 590.53,
+            "oscillator_strength": 0.0002
+          },
+          {
+            "line": 15777,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.2642,
+            "wavelength_nm": 547.6,
+            "oscillator_strength": 0.0505
+          },
+          {
+            "line": 28312,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0644,
+            "wavelength_nm": 404.59,
+            "oscillator_strength": 0.0228
+          },
+          {
+            "line": 42288,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4029,
+            "wavelength_nm": 364.35,
+            "oscillator_strength": 0.0051
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 173640,
+            "root": 18,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.8393,
+            "wavelength_nm": 256.2,
+            "oscillator_strength": 0.001
+          },
+          {
+            "line": 176030,
+            "root": 19,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.9599,
+            "wavelength_nm": 249.97,
+            "oscillator_strength": 0.0112
+          },
+          {
+            "line": 187783,
+            "root": 20,
+            "label": "Singlet-?Sym",
+            "energy_eV": 5.0104,
+            "wavelength_nm": 247.46,
+            "oscillator_strength": 0.0011
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/9f5a026e5798abfb_gaussian.log.snapshot",
+      "sha256": "9f5a026e5798abfb7a6907bbedc467081acf9fc48a5f57ba2944d1d0647843fe",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_free_TD10/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 2926323,
+        "charge_multiplicity_records": [
+          {
+            "line": 102,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP NoSymm Int=UltraFine SCF=(Tight,XQC,MaxCycle=512) T"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 552,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908559,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 861,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.608,
+            "wavelength_nm": 475.4,
+            "oscillator_strength": 0.1109
+          },
+          {
+            "line": 17731,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.8982,
+            "wavelength_nm": 427.8,
+            "oscillator_strength": 0.0023
+          },
+          {
+            "line": 20997,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.0701,
+            "wavelength_nm": 403.84,
+            "oscillator_strength": 0.0338
+          },
+          {
+            "line": 28868,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7749,
+            "wavelength_nm": 328.44,
+            "oscillator_strength": 0.2497
+          },
+          {
+            "line": 44388,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.8326,
+            "wavelength_nm": 323.5,
+            "oscillator_strength": 0.1042
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 74205,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.3104,
+            "wavelength_nm": 287.64,
+            "oscillator_strength": 0.0184
+          },
+          {
+            "line": 84132,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.4027,
+            "wavelength_nm": 281.61,
+            "oscillator_strength": 0.0088
+          },
+          {
+            "line": 88461,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.558,
+            "wavelength_nm": 272.01,
+            "oscillator_strength": 0.0079
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/b8c5d91a00ad4c0c_gaussian.log.snapshot",
+      "sha256": "b8c5d91a00ad4c0cdafdc030a6570ac00d80c83952686b8a13743a0307f606af",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_free_TD10_DCM/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 3170399,
+        "charge_multiplicity_records": [
+          {
+            "line": 103,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP TD=(Singlets,NStates=10,Root=1) IOp(9/40=4) NoSymm"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 593,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.02719833,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 10,
+        "first_gaussian_excitations": [
+          {
+            "line": 919,
+            "root": 1,
+            "label": "Singlet-?Sym",
+            "energy_eV": 2.6524,
+            "wavelength_nm": 467.44,
+            "oscillator_strength": 0.145
+          },
+          {
+            "line": 17877,
+            "root": 2,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.2696,
+            "wavelength_nm": 379.2,
+            "oscillator_strength": 0.0028
+          },
+          {
+            "line": 20560,
+            "root": 3,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.4268,
+            "wavelength_nm": 361.81,
+            "oscillator_strength": 0.029
+          },
+          {
+            "line": 27015,
+            "root": 4,
+            "label": "Singlet-?Sym",
+            "energy_eV": 3.7591,
+            "wavelength_nm": 329.82,
+            "oscillator_strength": 0.5397
+          },
+          {
+            "line": 44271,
+            "root": 5,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.0414,
+            "wavelength_nm": 306.78,
+            "oscillator_strength": 0.0193
+          }
+        ],
+        "last_gaussian_excitations": [
+          {
+            "line": 71518,
+            "root": 8,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5404,
+            "wavelength_nm": 273.07,
+            "oscillator_strength": 0.02
+          },
+          {
+            "line": 80559,
+            "root": 9,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.5887,
+            "wavelength_nm": 270.2,
+            "oscillator_strength": 0.012
+          },
+          {
+            "line": 84587,
+            "root": 10,
+            "label": "Singlet-?Sym",
+            "energy_eV": 4.6909,
+            "wavelength_nm": 264.31,
+            "oscillator_strength": 0.0458
+          }
+        ],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_43d74f8a469d9ad3/0fee4a111ca8fdfa_gaussian.log.snapshot",
+      "sha256": "0fee4a111ca8fdfa93aaff0283ce184cae82f6f2e88446edf612628293577ec9",
+      "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_43d74f8a469d9ad3/outputs/dye2_mapped_source_optfreq/gaussian.log",
+      "parsed": {
+        "bytes_of_text": 1054234,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 7774,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          52
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p PBE1PBE/def2SVP Opt=(Tight,CalcFC,MaxCycles=200) Freq NoSymm Int=Ul"
+          },
+          {
+            "line": 7754,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RPBE1PBE/def2SVP Freq"
+          }
+        ],
+        "electronic_energy_records": 10,
+        "last_energy_records": [
+          {
+            "line": 5373,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908559,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 5998,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908559,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6640,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908559,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 8330,
+            "method_label": "RPBE1PBE",
+            "value_Eh": -1306.00908559,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 50,
+        "last_frequency_rows": [
+          {
+            "line": 11485,
+            "values_cm_inverse": [
+              3160.9096,
+              3171.5509,
+              3177.8138
+            ]
+          },
+          {
+            "line": 11544,
+            "values_cm_inverse": [
+              3178.0427,
+              3179.1221,
+              3189.2651
+            ]
+          },
+          {
+            "line": 11603,
+            "values_cm_inverse": [
+              3203.9349,
+              3220.4386,
+              3221.265
+            ]
+          },
+          {
+            "line": 11662,
+            "values_cm_inverse": [
+              3222.897,
+              3230.8486,
+              3244.5952
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    }
+  ],
+  "no_native_logs_in_selected_inventory": false,
+  "reference_use": "Exact identity/method/segment matching is required before scientific use. This inventory deliberately does not promote queued or failed work, re-score old PASS, or set expanded tolerances."
+}

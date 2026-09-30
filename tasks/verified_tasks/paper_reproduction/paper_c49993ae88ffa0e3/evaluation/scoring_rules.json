@@ -1,0 +1,121 @@
+{
+  "paper_id": "paper_c49993ae88ffa0e3",
+  "rules": [
+    {
+      "rule_id": "r_pr_states",
+      "reference_id": "kp_pr_process_states",
+      "type": "semantic",
+      "expected": "state identity, charge, multiplicity/coupling and water stoichiometry are explicit per endpoint",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_coverage",
+      "reference_id": "kp_pr_process_coverage",
+      "type": "semantic",
+      "expected": "per-candidate coverage and stopping rationale are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_ptdry",
+      "reference_id": "kp_pr_dry_values",
+      "type": "numeric",
+      "target": -0.9,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.pt_dry.delta_g_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_etdry",
+      "reference_id": "kp_pr_dry_values",
+      "type": "numeric",
+      "target": -1.6,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.et_dry.delta_g_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_eth2o",
+      "reference_id": "kp_pr_water_et",
+      "type": "numeric",
+      "target": -8.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.et_hydrated.delta_g_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_ptwater",
+      "reference_id": "kp_pr_water_pt_discrepancy",
+      "type": "semantic",
+      "expected": "Assess the computed hydrated PT endpoint, consistent water stoichiometry/ensemble treatment and any actual sensitivity result. The main-text/SI difference is private source context, not information the agent must know; no single new PT gold or generic disclaimer requirement is introduced.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.pt_hydrated",
+          "$.water_effect",
+          "$.sensitivity",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "reference_id": "c_pr_thermo",
+      "type": "semantic",
+      "expected": "both dry alternatives are thermodynamically accessible in the model and water especially stabilizes ET",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

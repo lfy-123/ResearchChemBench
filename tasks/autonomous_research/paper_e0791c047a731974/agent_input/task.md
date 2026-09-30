@@ -4,7 +4,7 @@ For the specified selenium-containing heptamethine cyanine cation Cy2, independe
 
 # Public inputs and scientific boundaries
 
-The sole molecular input is `data/inputs/cy2_s0.xyz`, the 120-atom Cy2 cation S0 Cartesian geometry extracted from SI Section 5. The XYZ comment specifies charge +1, singlet multiplicity 1 and omission of iodide counterions. Use this connectivity, protonation and charge exactly; do not add counterions or change the molecule. Chloroform is the solvent boundary, represented by a defensible continuum or explicit-solvent model. Requested observables are vertical S1, T1 and T2 energies from S0 and relaxed T1 adiabatic energy relative to S0, in eV. Method and software choices are open, but must be reported and justified.
+The sole molecular input is `data/inputs/cy2_s0.xyz`, the 62-atom Cy2 cation S0 Cartesian geometry extracted from SI Section 5. The XYZ comment specifies charge +1, singlet multiplicity 1 and omission of iodide counterions. Use this connectivity, protonation and charge exactly; do not add counterions or change the molecule. Chloroform is the solvent boundary, represented by a defensible continuum or explicit-solvent model. Requested observables are vertical S1, T1 and T2 energies from S0 and relaxed T1 adiabatic energy relative to S0, in eV. Method and software choices are open, but must be reported and justified.
 
 # Required scientific validation/investigation
 

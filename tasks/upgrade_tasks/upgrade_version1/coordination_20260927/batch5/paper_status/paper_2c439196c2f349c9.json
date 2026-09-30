@@ -1,0 +1,78 @@
+{
+  "paper_id": "paper_2c439196c2f349c9",
+  "status": "blocked",
+  "old_class": "A",
+  "new_class": "B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_2c439196c2f349c9",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_2c439196c2f349c9"
+  },
+  "new_reference_gaps": [
+    "Complete power/Z-scan measured rows and traceable SSPM beam, instrument-response, measurement-noise and thermal bounds remain needed; 27 temporal markers alone do not resolve identifiability.",
+    "No fitted expanded reference, residual distribution or noise-based tolerance has been computed."
+  ],
+  "blockers": [
+    "Figure 10 now has 27 traceable discrete temporal marker rows with pixel-reading bounds. Independent power/intensity and Z-scan measurement rows from the remaining figures, with defensible experimental/digitization errors, remain missing. Fitted curves and fitted time constants are not independent observations.",
+    "The available source text does not establish a complete calibrated SSPM beam-waist, instrument-response and thermal-parameter dataset. Obtain measurement/plot digitization with bounded parameter provenance before completing model discrimination."
+  ],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "9cc5fbbe37e12ffda282791b4093505baf8a70730bc848ffbe8bd5836519363c",
+    "paper_reproduction": "cfd2b40cd586b800ead7ccce64f88130a974278d98322ed5e7c11179810e0758"
+  },
+  "source_review": "paper_reviews/paper_2c439196c2f349c9.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_2c439196c2f349c9",
+      "package_content_sha256": "ec948c278478d5129e6f210b9ec53482d1dd140b4e88103566a3f1b790ae80e6"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_2c439196c2f349c9",
+      "package_content_sha256": "658e89492f458fc6ad3f9c5d19f4b4c5a9fe4e9df71f8fb1153e2bbcef0e76ab"
+    }
+  },
+  "result_panels": [
+    "observations",
+    "model_comparison",
+    "identifiability"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_2c439196c2f349c9/documents/main.pdf",
+      "sha256": "1470f926af7414723c25e43c91ebe0fc964aa269e3943752deb4d469907ae3e7",
+      "pages": [
+        3,
+        9,
+        10,
+        11
+      ],
+      "total_pages": 12
+    },
+    {
+      "path": "papers/paper_2c439196c2f349c9/documents/supplementary_001.pdf",
+      "sha256": "2f1a3ca284a417a10d01c535fe535c5fcfc4d3f39d1ad9391a835f06094b2669",
+      "pages": [
+        6,
+        7
+      ],
+      "total_pages": 7
+    },
+    {
+      "path": "docs/evalution/update/paper_2c439196c2f349c9.md",
+      "sha256": "957d14dfad2b4a4f777f9b3eb0fe9f60a31cc92772ef5726cda387843c1185b7",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_2c439196c2f349c9/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_2c439196c2f349c9/evaluation/reference_validation_plan.md"
+  }
+}

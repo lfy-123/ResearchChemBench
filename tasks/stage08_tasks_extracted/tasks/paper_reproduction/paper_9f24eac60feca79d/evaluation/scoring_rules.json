@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "rules": [
+    {
+      "rule_id": "prr1",
+      "reference_id": "pr1",
+      "type": "semantic",
+      "expected": "Validation is present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.pathways[].validation.frequency_evidence",
+          "$.pathways[].validation.connectivity_evidence",
+          "$.pathways[].candidate_records[].evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "prr2",
+      "reference_id": "pr2",
+      "type": "semantic",
+      "expected": "State checks are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.pathways[].validation.electronic_state_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "prr3",
+      "reference_id": "pr3",
+      "type": "numeric",
+      "target": 31.0,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.cycloaddition_barrier_kcal_mol"
+        ],
+        "comparison": "pathway identified absolute difference"
+      }
+    },
+    {
+      "rule_id": "prr3b",
+      "reference_id": "pr3",
+      "type": "numeric",
+      "target": 37.1,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aza_claisen_barrier_kcal_mol"
+        ],
+        "comparison": "identified aza-Claisen barrier"
+      }
+    },
+    {
+      "rule_id": "prrc",
+      "reference_id": "prc",
+      "type": "semantic",
+      "expected": "Preferred pathway conclusion is supported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

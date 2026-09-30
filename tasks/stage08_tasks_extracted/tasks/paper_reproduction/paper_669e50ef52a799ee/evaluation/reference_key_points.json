@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_669e50ef52a799ee",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_minimum",
+      "key_point_type": "process",
+      "statement": "The investigation verifies that advanced optimized structures are converged minima using vibrational evidence and reports any discarded structures.",
+      "evidence_ids": [
+        "ev_doc_8040742dc4b6_000598_21a41a4d524f"
+      ],
+      "expected": "At least one advanced structure has an explicit optimization result and zero-imaginary-frequency or an honestly reported alternative validation; coverage and exclusions are identified."
+    },
+    {
+      "key_point_id": "kp_pr_process_spectrum",
+      "key_point_type": "process",
+      "statement": "The Agent defines and applies a reproducible prominent-band/state-selection rule and reports oscillator strengths and states considered.",
+      "evidence_ids": [
+        "ev_doc_8040742dc4b6_000598_21a41a4d524f"
+      ],
+      "expected": "Each reported band has wavelength, oscillator strength and selection basis, with geometry/method/solvent provenance."
+    },
+    {
+      "key_point_id": "kp_pr_bands",
+      "key_point_type": "result",
+      "statement": "The M06 calculation reports prominent bands at approximately 319 nm and 288 nm.",
+      "evidence_ids": [
+        "ev_doc_8040742dc4b6_000137_77cd0a04c879"
+      ],
+      "expected": "Two prominent M06 bands near 319 and 288 nm, allowing method/geometry limitations."
+    },
+    {
+      "key_point_id": "kp_pr_assignment",
+      "key_point_type": "result",
+      "statement": "The near-310-nm feature is assigned to the combined HOMO-1 to LUMO, HOMO-2 to LUMO and HOMO-2 to LUMO+1 contributions with mainly ligand-to-Ag character.",
+      "evidence_ids": [
+        "ev_doc_8040742dc4b6_000137_77cd0a04c879",
+        "ev_doc_24bd28ca2fc1_000054_98c068dbef52"
+      ],
+      "expected": "Submitted orbital/fragment evidence supports this assignment, or explicitly explains a justified contradiction/uncertainty."
+    }
+  ]
+}

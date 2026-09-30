@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "Ih": {
+      "formula": "C87H7Y2",
+      "charge": 0,
+      "multiplicities": [
+        2
+      ],
+      "identity_file": "y2_ih.xyz"
+    },
+    "D5h": {
+      "formula": "C87H7Y2",
+      "charge": 0,
+      "multiplicities": [
+        2
+      ],
+      "identity_file": "y2_d5h.xyz"
+    }
+  },
+  "identity_files": [
+    "y2_d5h.xyz",
+    "y2_ih.xyz"
+  ],
+  "control_definitions": {
+    "modes": "Normalize Y relative displacements with the equilibrium Y–Y axis. Report the four largest lateral-projection modes per cage and select one representative lateral, longitudinal and cage-dominated mode for tensor derivatives. Projection selection precedes looking at derivatives.",
+    "finite_difference": "For each selected mode compute +/-h and +/-h/2 at the same electronic method; hold geometry otherwise fixed.",
+    "orientation": "Rigidly rotate one displaced/undisplaced set, rotate the tensor back with R^T T R and verify invariance. Do not finite-difference independently sorted principal values near degeneracy.",
+    "thermal": "Use 20 K and 100 K as common comparison temperatures, with occupation and derivative contributions reported separately."
+  },
+  "observable_definition": "In a common molecule-fixed Cartesian frame, dT/dQ=[T(+h)-T(-h)]/(2h) for T=g or hyperfine A, with mass-weighted normal coordinate Q and units declared. Compare h/2. Report n=1/(exp(hc nu/kT)-1) and n(n+1) separately from the derivative-based coupling; use positive vibrational frequencies.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "mode_assignment",
+      "description": "Mode eigenvectors and reproducible displacement classification"
+    },
+    {
+      "id": "tensor_derivatives",
+      "description": "Six central tensor derivatives with step control"
+    },
+    {
+      "id": "thermal_and_frame_controls",
+      "description": "Occupation versus coupling and rotational covariance"
+    }
+  ],
+  "optional_not_scored": "Full relaxation-rate integration, all modes and Gd analogues are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

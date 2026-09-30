@@ -1,0 +1,716 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "task_type": "paper_reproduction",
+  "title": "Independent test of the proposed low-energy transition in 1M-TIPS",
+  "category": "computational spectroscopy",
+  "difficulty": "easy",
+  "difficulty_reasons": [
+    "The molecular object and target observables are fixed; the work is a direct ground-state validation and vertical-excitation calculation with state-character analysis."
+  ],
+  "paper": {
+    "title": "Synthesis of Diindeno-Fused Dibenzochrysenes: A Route to Low-Bandgap Polycyclic Aromatic Hydrocarbons",
+    "doi": "10.1021/acs.joc.5c01690",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Public 102-atom C58H42Si2 Cartesian geometry and system conditions for neutral singlet 1M-TIPS."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated vertical-excitation result or a truthful bounded-failure report."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The paper uses model compounds to assign the intense low-energy UV–vis absorption of the 1-series PAHs. For 1M-TIPS, the authors claim that a TD-DFT vertical transition reproduces the near-700-nm band and is a HOMO-to-LUMO, delocalized π–π* excitation.
+
+## 2. System and model boundary
+
+1M-TIPS is the neutral singlet model compound in which the TIPS-acetylene substituents are represented by –C≡C–SiH3 groups. The supplied stationary-point geometry contains 102 atoms (C58H42Si2). The calculation is gas-phase geometry optimization/frequency followed by a vertical excitation in a CHCl3 continuum.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Optimize the model and establish a minimum | 1M-TIPS Cartesian geometry | Gaussian 09; dispersion-corrected DFT | (u)B3LYP-D3/def2-SVP; neutral singlet model | optimized stationary point and Hessian | ev_doc_6d706569f912_000470_52f281b0ceb6; ev_doc_6d706569f912_000471_ef4e0e599cae; ev_doc_6d706569f912_000472_749afafc8b7f; ev_doc_6d706569f912_000473_ee6b64824d08; ev_doc_6d706569f912_000474_31a0d0c3b7a2 |
+| 2 | Compute vertical absorption properties | optimized 1M-TIPS geometry | TD-DFT with implicit solvent | PCM(CHCl3), same B3LYP-D3/def2-SVP level | excitation energies/wavelengths and oscillator strengths | ev_doc_6d706569f912_000479_401997cee9b0; ev_doc_7cc730197b18_000101_867703d9d235 |
+| 3 | Assign the intense band | TD-DFT state list and orbitals | orbital/state inspection | compare energy and oscillator strength; inspect transition character | HOMO→LUMO π–π* assignment | ev_doc_7cc730197b18_000109_a785b37a682f; ev_doc_7cc730197b18_000110_5e7d2710cc90 |
+
+## 4. Validation and analysis protocol
+
+The SI says all species were frequency-characterized and had positive-definite Hessians. The main paper assigns the strong low-energy transition from excitation energy, oscillator strength, and orbital character. The reference comparison is to the reported 1M-TIPS vertical wavelength and oscillator strength, with the transition assignment checked qualitatively.
+
+## 5. Private reference results
+
+For 1M-TIPS the paper reports λcalc = 735 nm and oscillator strength 1.24 for the intense low-energy transition. It identifies the transition as HOMO→LUMO between highly delocalized π orbitals, hence π–π*.
+
+## 6. Limitations and interpretation boundaries
+
+This is a vertical, model-compound calculation rather than a vibronic spectrum or a calculation on the full dodecyl/TIPS experimental molecule. Agreement is a benchmark of the reported computational claim, not proof that one functional/basis is universally accurate. Geometry and state ordering can be method-sensitive; the evaluator therefore scores reported numerical observables and evidence-backed assignment/validation separately.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "rules": [
+    {
+      "rule_id": "pr_r_geom",
+      "reference_id": "pr_process_geometry",
+      "type": "semantic",
+      "expected": "validated converged stationary point and reported frequency/curvature result",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.stationary_point_test",
+          "$.validation.imaginary_frequency_count"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_state",
+      "reference_id": "pr_process_state",
+      "type": "semantic",
+      "expected": "state selection is supported by state-resolved energy/oscillator and orbital or transition-density evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.state_selection_evidence",
+          "$.investigation.selection_rule"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_wave",
+      "reference_id": "pr_wavelength",
+      "type": "numeric",
+      "target": 735,
+      "unit": "nm",
+      "tolerance": 25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.wavelength_nm"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_osc",
+      "reference_id": "pr_oscillator",
+      "type": "numeric",
+      "target": 1.24,
+      "unit": "dimensionless",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.oscillator_strength"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_char",
+      "reference_id": "pr_character",
+      "type": "semantic",
+      "expected": "HOMO-to-LUMO transition with delocalized pi orbitals and pi-pi* character",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.dominant_transition",
+          "$.result.transition_character"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_final",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "The validated neutral-singlet model has the required intense low-energy vertical transition, wavelength and oscillator strength with delocalized HOMO-to-LUMO pi-pi* character supported by the transition analysis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算链：1M-TIPS D3 / PCM TD20
+
+- 论文 ID：`paper_c23cfabbd34b087f`
+- 本任务模式：`paper_reproduction`（论文复现模式）
+- 论文 DOI：`10.1021/acs.joc.5c01690`
+- 归档日期：2026-09-16（历史验证完成日期以原始记录为准）
+- 验证来源：[group_2](../../../../docs/verification/group_2/paper_c23cfabbd34b087f)；[本组通过清单](../../../../docs/verification/all_verified_tasks/group_2.md)
+- 最新已归档科学状态：显式 D3 几何→同几何 D3/PCM TD20 作者路线及跃迁审计通过。
+- 2026-09-17 最终包审查通过；当前目录/审批状态：已按负责人授权迁入 `final_verified_paper_reproduction`。该状态适用于本包声明的科学范围；部署访问隔离仍需单独确认。
+
+## 1. 本文件用途与任务版本
+
+本文件记录已经真实完成、被最新作者路线审计采纳的计算步骤和结果，不是新增计算，也不是评估评分规则。评分仍由本目录下 `critical_failures.json`、`evidence_map.json`、`reference_conclusions.json`、`reference_key_points.json`、`scoring_rules.json` 决定。本文件及其链接中的作者结构、数值答案均属于 evaluator 侧资料，不能作为 agent 输入。
+
+本任务的入库基线已保存于 Git `e67441a9`；格式整理检查点为 `42970e03`。来源为 [canonical 源任务](../../../paper_reproduction/paper_c23cfabbd34b087f)，后续维护只调整本副本，不覆盖原始验证记录。本文件归档历史真实计算；包的现行指令、输入和 evaluator 应按维护后的版本核对，不能把“入库时原样复制”理解成此后从未修改。
+
+验证者允许知道正文/SI 的作者路线，并可用作者结构作为验证起点。验证的含义是：相应科学子问题已有真实计算支持；不是要求当时验证过程模拟待评 agent 的信息受限探索，也不是将私有作者 endpoint 重新提供给 agent 的授权。本模式记录作者子路线的科学可计算性；不把它扩大为整篇论文复现或自主 agent 盲测通过。
+
+## 2. 真实有效的计算流程
+
+1. 确认 1M-TIPS 计算模型是 C58H42Si2、102 原子中性单重态，保持论文采用的截取/取代模型边界。
+
+2. 在气相以 B3LYP-D3/def2SVP 完成 Gaussian Opt/Freq；最终为 300 实频、0 虚频的局部极小值。
+
+3. 使用该实际末态几何，执行显式带 D3 的 B3LYP/def2SVP TD20，PCM 氯仿；核对优化末态与 TD 输入逐坐标一致。不把旧未显式带 D3 的 TD 输出替换进本链。
+
+4. 从全部 20 个 singlet 中按 f≥0.001 选最低允许跃迁，得到 state 1；同时从占据数确认 209 个 α 和 209 个 β 电子，HOMO/LUMO 对应 209/210。
+
+5. 读取 209→210 的主要振幅 0.69912，并结合归档轨道性质讨论 π–π* 与共轭离域；与 evaluator 的波长、强度及定性解释逐项对照。
+
+## 3. 实际结果与支持的结论
+
+| 量 | 实际值 | evaluator 参考 |
+|---|---:|---:|
+| 最低允许跃迁 | state 1 | 最低满足强度门槛的 singlet |
+| 波长 / nm | 735.93 | 735 ± 25 |
+| 振子强度 f | 1.2539 | 1.24 ± 0.25 |
+| 主贡献 | 209→210，振幅 0.69912 | HOMO→LUMO 主导 |
+
+支持该模型低能吸收的 HOMO–LUMO 主导 π–π* 指认。
+
+## 4. 原始输入与输出索引
+
+下表按有效链列出原始输入/命令及日志。多个 `Normal termination` 通常对应组合输入中的多个计算段，不等于多个独立体系。正常终止标记只是执行证据，科学判断同时依赖上文频率、身份、数值及下文专门审计。成功重提作业可作为证据；失败尝试不列为有效步骤。
+
+| 阶段 | 原始输入/命令/波函数 | 原始输出 | 执行证据与限定 |
+|---|---|---|---|
+| author_b3lypd3_def2svp_optfreq_retry_20260911 | [input.com](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/qzcli_hpc/author_b3lypd3_def2svp_optfreq_retry_20260911_hpc20_20260911T062741Z/input.com) | [stdout.log](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/qzcli_hpc/author_b3lypd3_def2svp_optfreq_retry_20260911_hpc20_20260911T062741Z/stdout.log) | Gaussian 正常终止标记 2 处；有优化收敛标记 |
+| author_b3lypd3_def2svp_td20_pcm_exact_d3_20260912 | [input.com](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/qzcli_hpc/author_b3lypd3_def2svp_td20_pcm_exact_d3_20260912_hpc20_20260912T212836Z/input.com) | [stdout.log](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/qzcli_hpc/author_b3lypd3_def2svp_td20_pcm_exact_d3_20260912_hpc20_20260912T212836Z/stdout.log) | Gaussian 正常终止标记 1 处 |
+
+## 5. 后处理、结果与逐项核验依据
+
+- [provenance/author_route_evaluation_audit.json](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/author_route_evaluation_audit.json)
+- [provenance/1m_tips_td_state_parse.json](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/1m_tips_td_state_parse.json)
+- [report/results.json](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/report/results.json)
+- [verification_report.md](../../../../docs/verification/group_2/paper_c23cfabbd34b087f/verification_report.md)
+
+以上脚本/输入仅作为历史流程索引，不要求本次重新运行。总报告可能保留早期失败或旧状态；应以本文件明确选定的原始成功输出、最新专门审计和正式结果为准，不将旧尝试混入成功链。
+
+## 6. 保留的科学与记录边界
+
+- 102 原子是论文计算模型，不等于包含全部实验取代基/环境的完整实验体系。
+- 当前记录支持轨道层面的定性解释，不声称做过没有证据的 NTO 或完整激发态动力学。
+
+## 7. 成功阶段计时
+
+原始 Gaussian 与 HPC 汇总存在应用时间/调度时间口径差异；保留各成功日志，不拼接不一致的时间字段。
+
+本次归档没有提交、重启或停止任何计算作业。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "items": [
+    {
+      "key_point_id": "pr_process_geometry",
+      "key_point_type": "process",
+      "statement": "The submitted workflow validates the optimized 1M-TIPS ground state as a stationary minimum with a frequency or equivalent curvature test and reports the imaginary-frequency count.",
+      "expected": "A converged geometry and explicit stationary-point validation are documented; the paper reports positive-definite Hessians.",
+      "evidence_ids": [
+        "ev_doc_6d706569f912_000474_31a0d0c3b7a2"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_state",
+      "key_point_type": "process",
+      "statement": "The selected absorption is identified from a state-resolved calculation using energy and oscillator strength, with retained state identity and orbital/transition evidence.",
+      "expected": "The Agent reports a reproducible state-selection rule and evidence rather than assuming an excitation index.",
+      "evidence_ids": [
+        "ev_doc_6d706569f912_000479_401997cee9b0"
+      ]
+    },
+    {
+      "key_point_id": "pr_wavelength",
+      "key_point_type": "result",
+      "statement": "The calculated intense low-energy 1M-TIPS transition has the paper's reported vertical wavelength.",
+      "expected": "735 nm",
+      "evidence_ids": [
+        "ev_doc_7cc730197b18_000103_120afe570a87"
+      ]
+    },
+    {
+      "key_point_id": "pr_oscillator",
+      "key_point_type": "result",
+      "statement": "The calculated intense low-energy 1M-TIPS transition has the paper's reported oscillator strength.",
+      "expected": "1.24",
+      "evidence_ids": [
+        "ev_doc_7cc730197b18_000103_120afe570a87"
+      ]
+    },
+    {
+      "key_point_id": "pr_character",
+      "key_point_type": "result",
+      "statement": "The intense low-energy transition is assigned to a delocalized HOMO-to-LUMO pi-pi* excitation.",
+      "expected": "HOMO to LUMO; highly delocalized pi orbitals; pi-pi* character.",
+      "evidence_ids": [
+        "ev_doc_7cc730197b18_000109_a785b37a682f",
+        "ev_doc_7cc730197b18_000110_5e7d2710cc90"
+      ]
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "items": [
+    {
+      "failure_id": "pr_cf_identity",
+      "condition": "submitted system changes the supplied atom count, charge, multiplicity, or molecular identity",
+      "scientific_severity": "invalid physical system"
+    },
+    {
+      "failure_id": "pr_cf_unvalidated",
+      "condition": "reports a spectral result without convergence and stationary-point/state validation evidence",
+      "scientific_severity": "unsupported result"
+    },
+    {
+      "failure_id": "pr_cf_state",
+      "condition": "selects a state by an unexplained index or omits oscillator/orbital evidence",
+      "scientific_severity": "wrong endpoint risk"
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{"paper_id":"paper_c23cfabbd34b087f","evidence":[{"evidence_id":"ev_doc_6d706569f912_000474_31a0d0c3b7a2","source":"Supporting Information, Computational Details, p. S42: all species frequency-characterized with positive-definite Hessians."},{"evidence_id":"ev_doc_6d706569f912_000479_401997cee9b0","source":"Supporting Information, Computational Details, p. S42: TD-DFT on optimized geometries and assignment using energy and oscillator strength; coordinates supplied."},{"evidence_id":"ev_doc_7cc730197b18_000103_120afe570a87","source":"Main paper, TD-DFT discussion: 1M-TIPS calculated wavelength 735 nm and oscillator strength 1.24."},{"evidence_id":"ev_doc_7cc730197b18_000109_a785b37a682f","source":"Main paper: transitions are HOMO-to-LUMO, highly delocalized along the pi framework."},{"evidence_id":"ev_doc_7cc730197b18_000110_5e7d2710cc90","source":"Main paper: assigned strong absorptions are pi-pi* transitions."}]}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "items": [
+    {
+      "conclusion_id": "pr_final",
+      "claim_role": "final",
+      "statement": "The validated neutral-singlet model has the required intense low-energy vertical transition, wavelength and oscillator strength with delocalized HOMO-to-LUMO pi-pi* character supported by the transition analysis.",
+      "expected": "The validated neutral-singlet model has the required intense low-energy vertical transition, wavelength and oscillator strength with delocalized HOMO-to-LUMO pi-pi* character supported by the transition analysis.",
+      "supporting_key_point_ids": [
+        "pr_process_geometry",
+        "pr_process_state",
+        "pr_wavelength",
+        "pr_oscillator",
+        "pr_character"
+      ],
+      "evidence_ids": [
+        "ev_doc_7cc730197b18_000103_120afe570a87",
+        "ev_doc_7cc730197b18_000109_a785b37a682f"
+      ]
+    }
+  ]
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 当前目录与审批状态（2026-09-17）
+
+本包已完成最终包审查，并按负责人“检查通过后移动到 final”的明确授权，迁入 `tasks/final_verified_paper_reproduction/paper_c23cfabbd34b087f`。
+
+当前任务范围、有效计算依据和限制见[已验证计算参考](../verified_computation_reference.md)。本次迁移及元数据收尾未改变任务科学内容，也未新增量化计算或模型盲测。
+
+下方“仍在 verified_tasks”“未批准迁移”“已退回 verified_tasks”等文字属于此前维护阶段的历史状态，不代表当前目录或审批状态；当前状态以本节为准。历史科学事实和修复记录保留不变。
+
+---
+
+# 历史实施状态（2026-09-16）
+
+## 已批准修复记录（2026-09-16）
+
+按已批准边界保留 source-optimized 给定对象/初态；统一 XYZ 注释和 task_info，不称其为独立生成或待发现几何。待求性质/中间关键点仍由 agent 计算，未公开结果或排名。
+
+本包仍在 verified_tasks；未新增量化计算，未批准迁移。下方保留审批前历史，若与本节冲突以本节为准。
+
+---
+
+# 本批维护审查：1M-TIPS D3 / PCM TD20
+
+> 当前状态：已按负责人指令退回 verified_tasks 复审；本文件下方为前轮审查记录，不是负责人验收/迁移批准。当前仅记录问题和建议，等待确认后才改任务；再次迁入 final 或 hold 还需独立的明确确认。
+
+## 本次复审结论（2026-09-16，待负责人确认）
+
+本模式：`paper_reproduction`。工作目录：`tasks/verified_tasks/paper_reproduction/paper_c23cfabbd34b087f`。本批全部34包均已退回暂存；本包未获得 final/hold 迁移确认。
+
+AR/PR 的固定模型吸收成立；作者优化几何作为已给定模型的角色待验收。
+
+复审摘要：102原子截短模型，300实频+TD20有据；不得外推实验长链/聚集体系。
+
+具体文件/规则、论文及真实输出依据、模式差异和建议修法见[集中报告中的本篇分析](../../../../verified_tasks/MAINTENANCE_REPORT.md#paper_c23cfabbd34b087f)。本轮只分析；没有再修改 task.md、科学输入、schema 或 evaluator，也没有新增量化计算。即使建议无需科学修复，也须负责人验收并另行批准去向后才可迁移。
+
+**下方为前轮维护历史。其“移 final/hold”“通过”字样仅记录前轮审查者判断，迁移已撤回，不代表当前验收或授权；以本次复审和集中报告为准。**
+
+日期：2026-09-16。论文：`paper_c23cfabbd34b087f`；group：`group_2`；模式：`paper_reproduction`。
+
+结论：**当前既有科学范围通过，移入 final**。当前既有科学范围内可移入 final；作者路线证据不等于自主盲测通过。
+
+修复前版本：`e67441a9`；格式检查点：`42970e03`。本记录不是 evaluator 规则，也不证明运行时隔离或自主 agent 盲测通过。
+
+## 1. 原文依据与对象
+
+正文 PDF p4 的模型近红外吸收与跃迁指认；SI PDF p42 计算方法、p44–46 的 1M-TIPS 模型坐标。
+
+- [正文](../../../../../papers/paper_c23cfabbd34b087f/documents/main.pdf)
+- [SI](../../../../../papers/paper_c23cfabbd34b087f/documents/supplementary_001.pdf)
+- [当前任务](../../agent_input/task.md)、[提交 schema](../../agent_input/submission_schema.json)
+
+## 2. 输入、答案边界与必要信息
+
+102 原子 C58H42Si2，charge 0/singlet、CHCl3；不得补成实验 dodecyl 体系。XYZ 全匹配 SI，原 task 已明确是 supplied model geometry 的吸收性质计算，不是几何发现；本轮明示这个既有范围，未临时重定义目标。
+
+模式核对：PR 可以给作者定性假设/待比较路线，但不能把已求得的结构/TS、排序或参考值当作指导输入；存在该问题的包已明确 hold，不以数值通过替代隔离修复。
+
+## 3. 历史真实计算支持与限制
+
+真实显式 D3/PCM(CHCl3) 模型 Opt/Freq 有 300 实频，TD20 得到 735.93 nm/f=1.2539；209→210 为 HOMO→LUMO，系数0.69912，支持 π–π* 指认。与735±25 nm、1.24±0.25相容。
+
+只支持现有截短分子模型吸收，不是全实验取代体系/聚集光谱；未执行 NTO 不能补写 NTO 图。state index 不是强制物理身份。
+
+完整有效步骤及输入/输出索引见 [verified_computation_reference.md](../verified_computation_reference.md)，不依赖本文件作为评分标准。原始 [group 结果](../../../../../docs/verification/group_2/paper_c23cfabbd34b087f/report/results.json) 保持只读。
+
+专门核查记录：
+
+- [provenance/author_route_evaluation_audit.json](../../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/author_route_evaluation_audit.json)
+- [provenance/1m_tips_td_state_parse.json](../../../../../docs/verification/group_2/paper_c23cfabbd34b087f/provenance/1m_tips_td_state_parse.json)
+
+## 4. 当前评分契约核对
+
+原有五个 evaluator JSON 已核对。下表是与实际结果的字段绑定/算术复核；semantic 行的科学解释见上节，**没有重新运行 LLM judge**。格式成立不消除上节的科学问题；尤其错误分子的数值不能认证论文目标。
+
+| 规则 → 关键点/结论 | 类型与真实结果核对 | 绑定 |
+|---|---|---|
+| `pr_r_geom` → `pr_process_geometry` | semantic；真实证据/适用边界见第 3 节 | `$.validation.stationary_point_test` / `$.validation.imaginary_frequency_count` |
+| `pr_r_state` → `pr_process_state` | semantic；真实证据/适用边界见第 3 节 | `$.validation.state_selection_evidence` / `$.investigation.selection_rule` |
+| `pr_r_wave` → `pr_wavelength` | 735.93；参考 735 ± 25 nm；算术通过 | `$.result.wavelength_nm` |
+| `pr_r_osc` → `pr_oscillator` | 1.2539；参考 1.24 ± 0.25 dimensionless；算术通过 | `$.result.oscillator_strength` |
+| `pr_r_char` → `pr_character` | semantic；真实证据/适用边界见第 3 节 | `$.result.dominant_transition` / `$.result.transition_character` |
+| `pr_r_final` → `pr_final` | semantic；真实证据/适用边界见第 3 节 | `$.result.conclusion` / `$.limitations` |
+
+历史正式 results.json 直接通过当前 result_schema 检查。
+
+当前绑定均能在真实结果中定位；值、单位、符号和候选/态身份仍以上述逐篇科学判断为准。
+
+## 5. 本轮实际修改
+
+- 先按统一章节整理 task.md；PR 单列既有作者定性 guidance。格式步骤没有改变非标题文字。
+- `agent_input/task.md`：澄清既有给定结构角色/公开来源，或补全格式拆分后的主语；不改变目标、方法或评分。
+- 更新 reference 的任务版本说明，避免把维护后的副本仍称为“原样仅复制”。
+- 包迁移只调整目录与相对链接；manifest 随文件变化重建。源任务、正文/SI 和 group 原始记录不修改。
+
+## 6. 后续行动与发布边界
+
+两模式移 final；保留实际轨道展开作为指认，不新增隐藏指标。
+
+前轮建议去向（迁移已撤回）：`tasks/final_verified_paper_reproduction/paper_c23cfabbd34b087f`。集中报告：[MAINTENANCE_REPORT.md](../../../../verified_tasks/MAINTENANCE_REPORT.md)。相对链接已按退回 verified_tasks 后的实际位置重算。
+
+没有新增量化计算、HPC 操作或 benchmark 发布。包校验/软件回归不能替代科学审计；只交付 agent_input 的物化路径已核查，真实运行环境的挂载、共享目录、网络和检索隔离尚未作端到端测试。任务的五个 evaluator JSON 与 reference 继续位于私有侧；task_provenance 是可移除的维护资料，不是 agent 必需输入。
+
+- 定向复核给定 C58H42Si2/102 原子及 CHCl3，300 实频、TD20/735.93 nm/f1.2539 支持模型吸收；不硬编码轨道 209→210，不要求新增 NTO 或实验长链/聚集模型。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "method",
+      "validation",
+      "investigation",
+      "result"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "name",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "ground_state_method",
+          "basis",
+          "solvent_model",
+          "excited_state_method"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "ground_state_method": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          },
+          "solvent_model": {
+            "type": "string"
+          },
+          "excited_state_method": {
+            "type": "string"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "geometry_converged",
+          "stationary_point_test",
+          "imaginary_frequency_count",
+          "excited_state_converged",
+          "state_selection_evidence"
+        ],
+        "properties": {
+          "geometry_converged": {
+            "type": "boolean"
+          },
+          "stationary_point_test": {
+            "type": "string"
+          },
+          "imaginary_frequency_count": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "excited_state_converged": {
+            "type": "boolean"
+          },
+          "state_selection_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "investigation": {
+        "type": "object",
+        "required": [
+          "states_examined",
+          "selection_rule",
+          "attempted_calculations"
+        ],
+        "properties": {
+          "states_examined": {
+            "type": "integer"
+          },
+          "selection_rule": {
+            "type": "string"
+          },
+          "attempted_calculations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "wavelength_nm",
+          "oscillator_strength",
+          "state_identity",
+          "dominant_transition",
+          "transition_character",
+          "conclusion"
+        ],
+        "properties": {
+          "wavelength_nm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "oscillator_strength": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "state_identity": {
+            "type": "string"
+          },
+          "dominant_transition": {
+            "type": "string"
+          },
+          "transition_character": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ]
+    },
+    "else": {
+      "properties": {
+        "validation": {
+          "properties": {
+            "imaginary_frequency_count": {
+              "type": "integer"
+            }
+          }
+        },
+        "result": {
+          "properties": {
+            "wavelength_nm": {
+              "type": "number"
+            },
+            "oscillator_strength": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+For the explicitly supplied neutral singlet 1M-TIPS model geometry, independently plan and perform a defensible electronic-structure calculation that determines the intense lowest-energy vertical absorption. Report its wavelength, oscillator strength, dominant orbital transition, and whether the transition has π–π* character.
+
+# Author-provided scientific guidance
+
+The authors qualitatively proposed a delocalized HOMO-to-LUMO π–π* assignment for this class; test that hypothesis independently without assuming any numerical result.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/1M-TIPS.xyz`, a 102-atom Cartesian geometry in Å, together with `data/inputs/system.json` (charge 0, multiplicity 1, implicit CHCl3 solvent). The model is the supplied C58H42Si2 molecular system; do not add the experimental dodecyl groups or infer a different protonation, charge, or spin state. Geometry optimization is allowed. The measured endpoint is a vertical electronic excitation from the optimized ground-state geometry, including wavelength (nm), oscillator strength (dimensionless), state identity, and orbital/transition character. Report all computational choices, convergence settings, and any solvent approximation.
+
+The prescribed model coordinates originate from a source-optimized structure. The scored target is the calculated absorption and its electronic assignment, not discovery of that geometry; the input contains no excitation energies or oscillator strengths.
+
+# Required scientific validation/investigation
+
+Validate that the ground-state structure is converged and a true stationary point by a frequency or an equivalently justified curvature/stability test; report imaginary-frequency findings. Generate and inspect enough low-lying excited states to identify the intense lowest-energy absorption rather than selecting a state by an assumed index. Deduplicate equivalent state descriptions, retain the selected state identity and evidence (energies, oscillator strength, orbital contributions or transition-density analysis), and check that the selected state is converged. Completion requires a converged geometry/ground state, a validated excited-state calculation, and an explicit state-selection justification. Stop once these conditions and all deliverables are met. Do not claim agreement from a guessed or unvalidated state.
+
+# Deliverables
+
+Submit `report/results.json` conforming to the supplied schema. Report validated results when available, or use the partial/unsuccessful submission branch below; do not substitute guessed values for a calculation. Numerical values must be the Agent's calculations, not copied from the paper. Include enough provenance to reproduce the actual investigation and a concise conclusion about the transition assignment.
+
+Scientific completion requires all requested primary observables, the specified validation evidence and the resulting scientific comparison. A partial or failed calculation may be submitted with its actual results and diagnostics, but does not satisfy an uncomputed scientific result.
+
+Additional starting structures or investigations may be used to obtain the required results. Report auxiliary results separately; they do not replace the primary observables or their specified definitions. Optional analyses may be omitted without explanation or penalty.
+
+# Partial or unsuccessful submission
+
+Use `status: "partial"` or `status: "bounded_failure"` when required calculations or analyses remain unavailable. Retain all actual partial results in their original fields. Include `failure` with a nonempty `reason`, a nonempty `missing_observables` array naming the unavailable result fields, and an `evidence` array of existing input, output or diagnostic paths (empty only if no artifact was produced). Explain which calculation failed or was not attempted; do not invent output files.
+
+For these two statuses, the schema permits `null` for the specified unavailable calculated values, selected structures, state assignments or output paths. Keep the known molecular identities, charges, multiplicities, units and attempted methods. Report actual counts, including zero generated/validated candidates when appropriate. An unavailable frequency result is `null`, not zero imaginary modes or an empty list claiming a completed frequency analysis. A genuinely computed zero or an established empty imaginary-mode list remains valid evidence. A missing comparison is not a zero difference or zero RMSE.
+
+Other statuses, and omission of status where the original schema permits it, retain the complete-result format. Passing this format check does not establish scientific completion: uncomputed endpoints receive no completion credit, and existing scientific rules still assess the actual evidence. This reporting branch does not change the scientific target, required successful investigation, or numerical acceptance criteria.
+
+=== agent_input/data/inputs/system.json ===
+{"system_name":"1M-TIPS model compound","charge":0,"multiplicity":1,"atom_count":102,"solvent":"CHCl3 implicit solvent","geometry_file":"1M-TIPS.xyz"}

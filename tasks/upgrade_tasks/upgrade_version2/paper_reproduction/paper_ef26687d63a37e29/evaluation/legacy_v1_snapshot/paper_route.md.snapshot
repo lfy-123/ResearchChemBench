@@ -1,0 +1,7 @@
+# Upgraded author-route and scope record
+
+The source attributes dilution tolerance to phosphonium/chain-oxygen interactions and Et3B association; original B3LYP-D3BJ/6-31G(d), ADCH (SI pp4–5) compared only free phosphine/PO/PA local models. The added short-chain graphs, propagation/backbite barriers and concentration competition are benchmark extensions. They must not be attributed to already validated author calculations.
+
+Retain the source phosphine and PA/PO zwitterion identities, but do not mistake them for a growing polycarbonate chain. The new finite active chain model is PA-derived acylphosphonium with a two-PO/one-CO2 segment and terminal O−, net-neutral singlet with internal P+/O−. species_registry.json supplies its complete graph and a matched no-PA chain. Include one Et3B bound to the chain O and one free Et3B for incoming PO activation, consistent with the local 1:2 catalyst inventory. Compare CO2 insertion/PO propagation with backbiting to a cyclic carbonate, retaining the shortened chain coproduct. Use THF continuum 353.15K, solutes1M, CO2 fugacity convention explicitly stated; source neat/THF dilution is represented only by a declared concentration control, not a bulk polymer model.
+
+The AR public prompt excludes this route. AR and PR share objects, schema, scientific rubric and completion requirements. Development status: implemented_pending_expanded_reference. Old route and old PASS are historical only in the snapshot.

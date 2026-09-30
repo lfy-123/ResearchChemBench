@@ -1,0 +1,30 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["results"],
+    "properties": {
+      "results": {
+        "type": "array", "minItems": 2,
+        "items": {
+          "oneOf": [
+            {"type": "object", "required": ["complex_id", "status", "validation", "observables", "conclusion"], "properties": {
+              "complex_id": {"type": "string"}, "status": {"const": "complete"},
+              "validation": {"type": "object", "required": ["minimum_evidence", "state_boundary"], "properties": {"minimum_evidence": {"type": "string"}, "state_boundary": {"type": "string"}}},
+              "observables": {"type": "object", "required": ["s0_s1_energy_eV", "s0_t1_energy_eV", "dominant_triplet_transition", "triplet_localization"], "properties": {"s0_s1_energy_eV": {"type": "number"}, "s0_t1_energy_eV": {"type": "number"}, "dominant_triplet_transition": {"type": "string"}, "triplet_localization": {"type": "string"}}},
+              "conclusion": {"type": "string"}
+            }},
+            {"type": "object", "required": ["complex_id", "status", "validation", "observables", "failure_details", "conclusion"], "properties": {
+              "complex_id": {"type": "string"}, "status": {"const": "bounded_failure"},
+              "validation": {"type": "object", "required": ["minimum_evidence", "state_boundary"], "properties": {"minimum_evidence": {"type": "string"}, "state_boundary": {"type": "string"}}},
+              "observables": {"type": "object", "required": ["s0_s1_energy_eV", "s0_t1_energy_eV", "dominant_triplet_transition", "triplet_localization"], "properties": {"s0_s1_energy_eV": {"type": ["number", "null"]}, "s0_t1_energy_eV": {"type": ["number", "null"]}, "dominant_triplet_transition": {"type": ["string", "null"]}, "triplet_localization": {"type": ["string", "null"]}}},
+              "failure_details": {"type": "object", "required": ["failed_observables", "limitation", "evidence"], "properties": {"failed_observables": {"type": "array", "items": {"type": "string"}}, "limitation": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}}},
+              "conclusion": {"type": "string"}
+            }}
+          ]
+        }
+      }
+    }
+  }
+}

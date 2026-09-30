@@ -1,0 +1,27 @@
+# Scientific objective
+
+Determine and compare the free-energy barriers for H–H bond activation by the two named neutral singlet silylenes `1` and `V′` reacting with neutral H₂. The goal is an independent computational test of their relative H₂ activation propensity, with no assumed mechanism or expected direction.
+
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that the designed six-membered cyclic (alkyl)(amino)silylene `1` may activate H₂ more readily than the experimentally known NacNacSi analogue `V′`, based on the electronic and structural design of the silylene framework.
+
+**Candidate route or mechanism.**
+A candidate explanation is direct cooperative H–H cleavage at the silylene center, with the two hydrogen atoms becoming bonded to the silicon framework to form the corresponding H₂-splitting product. The comparison should focus on the analogous activation event for `1` and `V′`.
+
+**Discriminating evidence.**
+Use optimized isolated-reactant minima, candidate H₂-activation transition structures, their H–H-cleavage imaginary modes, endpoint connectivity checks, and consistently defined thermal free energies to distinguish the proposed relative activation propensity.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/silylene_1_singlet.xyz`, `data/inputs/silylene_Vprime_singlet.xyz`, and `data/inputs/h2.xyz`. Each XYZ file is self-contained and identifies atom symbols and Cartesian coordinates; all three species are neutral, and the silylenes are singlets. The object is the H–H activation transition structure and its barrier from separated silylene + H₂. You may generate conformers and choose computational methods, but must state method, basis, solvent treatment, temperature, pressure, charge and multiplicity. No paper, SI or general-web lookup is permitted.
+
+# Required scientific validation/investigation
+
+Optimize and characterize both isolated silylenes as minima, then investigate H₂ activation for each. Generate and retain distinct starting approaches or TS candidates, deduplicate equivalent structures, and advance candidates only when they preserve the named reactant identity and the H–H-cleavage event. A successful TS has exactly one imaginary frequency whose displacement involves H–H cleavage and must connect the reactant-side complex and an H–H-splitting product by IRC, constrained relaxation, or another explicitly justified endpoint test. Report failed searches and coverage. The investigation is complete when both systems have a validated TS and barrier, or when a bounded-failure report documents all attempted candidates, validation outcomes and the reason a validated TS could not be obtained; stop after no new distinct validated candidate or scientifically informative approach is found in two successive search rounds.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include method and model details, per-system minima and TS validation evidence, barriers in kcal/mol where available, comparison, and a conclusion restricted to the computed model. Include explicit limitations and any bounded failure branch; do not report paper reference values.

@@ -1,0 +1,7 @@
+# V2 paper route and provenance
+
+The authors assigned compound1 as 1′S by comparison with experimental ECD (main p4 Figure2). Main p7 reports Spartan14/MMFF94 initial sampling, a10kcal/mol window, M06-2X-GD3/6-311G(d,p) optimizations and frequency checks, gas-phase M06-2X-GD3/6-311+G(2d,p) energies with thermal corrections, and298.15K Boltzmann populations. Conformers over1% were retained for CAM-B3LYP/6-31+G(2d,p) TD-ECD in methanol IEFPCM and SpecDis1.70.1 averaging. SI TableS1 lists16 source conformers; the gas-phase weighting and solution excitation calculations are distinct steps. The former benchmark’s independent dual search, fixed broadening/energy windows and held-out band were added controls, not a disclosed author protocol. Reproduction must evaluate rather than simply repeat the S label.
+
+Source main Figure2 provides a true experimental observation, while SI TableS1 provides private author conformer evidence. The original final task and run metadata preserved under evaluation/legacy_final_snapshot contain a three-conformer reference; their source populations sum to52.06%, so renormalizing those three does not establish complete sampling. These energies/geometries may inform future pilot feasibility privately but are not authorized public starting answers or an expanded V2 reference.
+
+AR is not instructed to follow this private author route. This file is package metadata, not an exported agent input. The active public task and V2 rubric supersede all archived V1 requirements.

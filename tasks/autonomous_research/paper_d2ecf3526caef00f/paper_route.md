@@ -6,7 +6,7 @@ The paper tests whether a selective semiempirical DFT+α correction for Ge 4s-li
 
 ## 2. System and model boundary
 
-Bulk elemental Ge in the diamond structure (Fd3̅m), two atoms per conventional cubic cell, nonrelativistic PAW pseudopotential including 3d electrons. The computed observables are the equilibrium lattice constant, Γ–Γ and Γ–L gaps, and B0, C11, C12, C44. Phonons and HSE are contextual validation, not required task outputs.
+Bulk elemental Ge in the diamond structure (Fd3̅m), two atoms per fcc primitive cell (equivalently eight atoms per conventional cubic cell), nonrelativistic PAW pseudopotential including 3d electrons. The computed observables are the equilibrium lattice constant, Γ–Γ and Γ–L gaps, and B0, C11, C12, C44. Phonons and HSE are contextual validation, not required task outputs.
 
 ## 3. Authors' implemented computational route
 

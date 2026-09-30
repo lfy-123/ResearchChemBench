@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_ba190e5225cd154f",
+  "task_type": "paper_reproduction",
+  "title": "Internal electron and hole reorganization energies of BImCY2",
+  "category": "computational chemistry / charge transport",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The scientific object is fixed, but the Agent must generate starting geometry from connectivity, justify an electronic-structure protocol, complete three open-shell/closed-shell optimizations plus seven state/geometry energy evaluations, and validate two coupled energy cycles for a 54-atom molecule."
+  ],
+  "paper": {
+    "title": "Design, one-pot synthesis, single-crystal XRD, spectral and computational analysis of Bipolar Cyanophenyl-Imidazole Derivatives as electron-transport and NLO materials",
+    "doi": "10.1016/j.molstruc.2025.144832",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-03-05"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Answer-neutral BImCY2 chemical identity/connectivity with explicit charge, multiplicity, unit and physical-boundary definition; no optimized geometry is supplied."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable success or bounded-failure record containing method, state-specific evidence, energy-cycle evidence when available, conclusion and limitations."
+    }
+  ]
+}

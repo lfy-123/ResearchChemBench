@@ -5,7 +5,7 @@
       "rule_id": "pr_r1",
       "reference_id": "pr_process_identity",
       "type": "semantic",
-      "expected": "ordered B\u2013ipso-aryl dihedral and stable atom mapping are explicitly documented",
+      "expected": "ordered B–ipso-aryl dihedral and stable atom mapping are explicitly documented",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -68,12 +68,14 @@
       "rule_id": "pr_r5",
       "reference_id": "pr_final_conclusion",
       "type": "semantic",
-      "expected": "final conclusion covers the computed torsion profile, qualitative hypothesis and limitations",
+      "expected": "final conclusion covers the computed torsion profile, qualitative hypothesis and limitations Limit interpretation to the specified 24-point isolated electronic-energy scan. Missing source SI curves cannot be replaced with invented numerical targets, and this scan does not establish photolysis rates or substituent causality.",
       "binding": {
         "artifact_paths": [
           "report/results.json"
         ],
         "fields": [
+          "$.scan",
+          "$.validation",
           "$.conclusion"
         ],
         "comparison": "expert semantic comparison"

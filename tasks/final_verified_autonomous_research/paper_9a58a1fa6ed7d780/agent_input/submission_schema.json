@@ -1,0 +1,785 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BN-AkFlu excited-state validation result",
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$defs": {
+      "protocol": {
+        "type": "object",
+        "required": [
+          "ground_state",
+          "excited_state",
+          "hole_electron",
+          "job_ids"
+        ],
+        "properties": {
+          "ground_state": {
+            "type": "string"
+          },
+          "excited_state": {
+            "type": "string"
+          },
+          "hole_electron": {
+            "type": "string"
+          },
+          "job_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "state": {
+        "type": "object",
+        "required": [
+          "state",
+          "energy_ev",
+          "wavelength_nm",
+          "oscillator_strength"
+        ],
+        "properties": {
+          "state": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          },
+          "energy_ev": {
+            "type": "number"
+          },
+          "wavelength_nm": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "oscillator_strength": {
+            "type": "number"
+          },
+          "dominant_orbital_contribution": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "states": {
+        "type": "array",
+        "minItems": 6,
+        "maxItems": 6,
+        "items": {
+          "$ref": "#/$defs/state"
+        },
+        "description": "Exactly one entry per state, ordered S1 through S6.",
+        "prefixItems": [
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/state"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/state"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 2
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/state"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/state"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 4
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/state"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/state"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 6
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "hole_electron_descriptor": {
+        "type": "object",
+        "required": [
+          "state",
+          "energy_ev",
+          "D_angstrom",
+          "Sr",
+          "H_angstrom",
+          "t_angstrom",
+          "HDI",
+          "EDI"
+        ],
+        "properties": {
+          "state": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "energy_ev": {
+            "type": "number"
+          },
+          "D_angstrom": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Euclidean hole-electron centroid separation D in angstrom."
+          },
+          "Sr": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "H_angstrom": {
+            "type": "number",
+            "minimum": 0,
+            "description": "H=(|sigma_hole|+|sigma_electron|)/2, the mean overall RMS spatial extent, in angstrom."
+          },
+          "t_angstrom": {
+            "type": "number",
+            "description": "t=D-H_CT in angstrom, with H_CT=|H_vector dot u_CT|."
+          },
+          "HDI": {
+            "type": "number"
+          },
+          "EDI": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": true
+      },
+      "hole_electron": {
+        "type": "array",
+        "minItems": 4,
+        "maxItems": 4,
+        "items": {
+          "$ref": "#/$defs/hole_electron_descriptor"
+        },
+        "description": "Exactly one entry per state, ordered S1 through S4.",
+        "prefixItems": [
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/hole_electron_descriptor"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/hole_electron_descriptor"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 2
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/hole_electron_descriptor"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 3
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/hole_electron_descriptor"
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": 4
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "optimization_converged",
+          "normal_termination",
+          "imaginary_frequency_count",
+          "frequency_count",
+          "td_states_count",
+          "geometry_identity"
+        ],
+        "properties": {
+          "optimization_converged": {
+            "type": "boolean"
+          },
+          "normal_termination": {
+            "type": "boolean"
+          },
+          "imaginary_frequency_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "frequency_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "td_states_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "geometry_identity": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "completed": {
+        "type": "object",
+        "required": [
+          "status",
+          "protocol",
+          "states",
+          "hole_electron",
+          "validation",
+          "conclusion",
+          "s1_energy_eV",
+          "s1_Sr"
+        ],
+        "properties": {
+          "status": {
+            "const": "completed"
+          },
+          "paper_id": {
+            "type": "string"
+          },
+          "protocol": {
+            "$ref": "#/$defs/protocol"
+          },
+          "states": {
+            "$ref": "#/$defs/states"
+          },
+          "hole_electron": {
+            "$ref": "#/$defs/hole_electron"
+          },
+          "validation": {
+            "$ref": "#/$defs/validation"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          },
+          "s1_energy_eV": {
+            "type": "number"
+          },
+          "s1_Sr": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "bounded_failure": {
+        "type": "object",
+        "required": [
+          "status",
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "const": "failed"
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "missing_artifact",
+              "diagnostic"
+            ],
+            "properties": {
+              "missing_artifact": {
+                "type": "string"
+              },
+              "diagnostic": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "oneOf": [
+      {
+        "$ref": "#/$defs/completed"
+      },
+      {
+        "$ref": "#/$defs/bounded_failure"
+      }
+    ]
+  },
+  "$defs": {
+    "protocol": {
+      "type": "object",
+      "required": [
+        "ground_state",
+        "excited_state",
+        "hole_electron",
+        "job_ids"
+      ],
+      "properties": {
+        "ground_state": {
+          "type": "string"
+        },
+        "excited_state": {
+          "type": "string"
+        },
+        "hole_electron": {
+          "type": "string"
+        },
+        "job_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "state": {
+      "type": "object",
+      "required": [
+        "state",
+        "energy_ev",
+        "wavelength_nm",
+        "oscillator_strength"
+      ],
+      "properties": {
+        "state": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "energy_ev": {
+          "type": "number"
+        },
+        "wavelength_nm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "oscillator_strength": {
+          "type": "number"
+        },
+        "dominant_orbital_contribution": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "states": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/state"
+      },
+      "description": "Exactly one entry per state, ordered S1 through S6.",
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/state"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 6
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "hole_electron_descriptor": {
+      "type": "object",
+      "required": [
+        "state",
+        "energy_ev",
+        "D_angstrom",
+        "Sr",
+        "H_angstrom",
+        "t_angstrom",
+        "HDI",
+        "EDI"
+      ],
+      "properties": {
+        "state": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "energy_ev": {
+          "type": "number"
+        },
+        "D_angstrom": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Euclidean hole-electron centroid separation D in angstrom."
+        },
+        "Sr": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "H_angstrom": {
+          "type": "number",
+          "minimum": 0,
+          "description": "H=(|sigma_hole|+|sigma_electron|)/2, the mean overall RMS spatial extent, in angstrom."
+        },
+        "t_angstrom": {
+          "type": "number",
+          "description": "t=D-H_CT in angstrom, with H_CT=|H_vector dot u_CT|."
+        },
+        "HDI": {
+          "type": "number"
+        },
+        "EDI": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true
+    },
+    "hole_electron": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/hole_electron_descriptor"
+      },
+      "description": "Exactly one entry per state, ordered S1 through S4.",
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/hole_electron_descriptor"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/hole_electron_descriptor"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/hole_electron_descriptor"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/hole_electron_descriptor"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": 4
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "optimization_converged",
+        "normal_termination",
+        "imaginary_frequency_count",
+        "frequency_count",
+        "td_states_count",
+        "geometry_identity"
+      ],
+      "properties": {
+        "optimization_converged": {
+          "type": "boolean"
+        },
+        "normal_termination": {
+          "type": "boolean"
+        },
+        "imaginary_frequency_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frequency_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "td_states_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "geometry_identity": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "completed": {
+      "type": "object",
+      "required": [
+        "status",
+        "protocol",
+        "states",
+        "hole_electron",
+        "validation",
+        "conclusion",
+        "s1_energy_eV",
+        "s1_Sr"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "paper_id": {
+          "type": "string"
+        },
+        "protocol": {
+          "$ref": "#/$defs/protocol"
+        },
+        "states": {
+          "$ref": "#/$defs/states"
+        },
+        "hole_electron": {
+          "$ref": "#/$defs/hole_electron"
+        },
+        "validation": {
+          "$ref": "#/$defs/validation"
+        },
+        "conclusion": {
+          "type": "string"
+        },
+        "limitations": {
+          "type": "string",
+          "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+        },
+        "s1_energy_eV": {
+          "type": "number"
+        },
+        "s1_Sr": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "bounded_failure": {
+      "type": "object",
+      "required": [
+        "status",
+        "failure"
+      ],
+      "properties": {
+        "status": {
+          "const": "failed"
+        },
+        "failure": {
+          "type": "object",
+          "required": [
+            "missing_artifact",
+            "diagnostic"
+          ],
+          "properties": {
+            "missing_artifact": {
+              "type": "string"
+            },
+            "diagnostic": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

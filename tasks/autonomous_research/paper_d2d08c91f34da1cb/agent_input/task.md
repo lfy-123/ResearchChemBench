@@ -4,7 +4,7 @@ Independently determine and validate the low-frequency harmonic vibrational mode
 
 # Public inputs and scientific boundaries
 
-`data/inputs/rhodamine101_S0.xyz` and `rhodamine101_S1.xyz` are explicit 67-atom Cartesian starting geometries for the same molecule, each with charge 0 and multiplicity 1. S0 means the electronic ground state; S1 means the first singlet excited state. The solvent boundary is methanol represented by a declared continuum or other explicitly described solvent treatment. The observable is harmonic vibrational frequency in cm−1; only modes in 0–125 cm−1 are in scope. Experimental comparison is limited to state-matched observed low-frequency peaks supplied by your declared evidence source or openly reported data; do not use the paper, SI, or general web as input, and do not claim unobserved peaks are measured.
+`data/inputs/rhodamine101_S0.xyz` and `rhodamine101_S1.xyz` are explicit 67-atom Cartesian starting geometries for the same molecule, each with charge 0 and multiplicity 1. S0 means the electronic ground state; S1 means the first singlet excited state. The solvent boundary is methanol represented by a declared continuum or other explicitly described solvent treatment. The observable is harmonic vibrational frequency in cm−1; only modes in 0–125 cm−1 are in scope. Experimental comparison is limited to state-matched observed low-frequency peaks supplied in `data/inputs/experimental_slt_peaks.csv`; do not use the paper, SI, or general web as input, and do not claim blank entries are measured.
 
 # Required scientific validation/investigation
 

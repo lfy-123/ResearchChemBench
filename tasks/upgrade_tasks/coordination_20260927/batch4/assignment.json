@@ -1,0 +1,331 @@
+{
+  "batch": {
+    "number": 4,
+    "name": "局部竞争路径与动力学",
+    "reason": "先做一个有限主反应和竞争通道，核查守恒、模式/端点和能量零点；不直接扩成全文网络。",
+    "papers": [
+      "paper_3235db287859287e",
+      "paper_4e9774f4128551d3",
+      "paper_60f4c45810428116",
+      "paper_db6c4e0558113873",
+      "paper_e2d9397dff2a3f0f",
+      "paper_fcc3c7f2c46a0fbe",
+      "paper_0e835b370ddd37b6",
+      "paper_9132719dbf91c978",
+      "paper_534ae3b6e2fb695f",
+      "paper_6f9a36fff6964313",
+      "paper_c625cba3ce868eb1",
+      "paper_d3b4575397179146",
+      "paper_ef26687d63a37e29",
+      "paper_0dc85595cab7bc0a",
+      "paper_a3892396b1843698",
+      "paper_8fefc96b015c4577"
+    ]
+  },
+  "records": [
+    {
+      "paper_id": "paper_3235db287859287e",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "C",
+      "weakness": "两个产物 E/Z 自由能不能给出重排机制",
+      "minimum": "限定一个底物的局部氧转移，独立比较自由基/离子及不同氧来源路径",
+      "software": "Gaussian/ORCA＋pysisyphus/IRC",
+      "gate": "先有主/竞争 TS、原子映射和同位素约束；不扩为完整电极反应网络",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "只选源一个底物的局部氧转移，列有限自由基/离子和不同氧来源候选，保持同位素原子映射与电子/质子守恒。",
+        "accept": "必须有主通道和最有竞争力替代通道的连通 TS/路径、共同参考势垒与同位素约束；E/Z 产物 ΔG 不是重排机理或动力学选择性。",
+        "optional": "完整电极过程、所有底物和完整反应网络不加入。",
+        "pilot": "先固定氧源/质子源与一个代表路径；来源不清不能由预设产物逆填机制。"
+      }
+    },
+    {
+      "paper_id": "paper_4e9774f4128551d3",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "C",
+      "weakness": "两个端点稳定性不能推出立体选择性",
+      "minimum": "限定一个硅化前体的两面再质子化通道，比较连通的竞争路径",
+      "software": "Gaussian/ORCA＋pysisyphus/IRC",
+      "gate": "核准各阶段试剂、溶剂和质子来源；先完成两条 TS，不强制全部硅化/脱硅网络",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "固定一个硅化前体、实际质子源及再质子化阶段；两面进攻与必要前体构象比较，条件按反应阶段分列。",
+        "accept": "各通道的 TS、虚频位移、双向端点和同参考 G 必须齐；同时列前体/局部势垒与共同零点。较稳产物不自动决定 cis 动力学生成。",
+        "optional": "完整硅化/脱硅网络和全部底物不加入。",
+        "pilot": "先落实质子受体/供体、溶剂和两条可复现代表 TS，再开放搜索任务。"
+      }
+    },
+    {
+      "paper_id": "paper_60f4c45810428116",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "先B，条件满足再C",
+      "weakness": "单电子电势不能识别毫秒竞争反应网络",
+      "minimum": "先验证生成/回淬/分解/捕获的有限竞争，再用独立速率范围做预测",
+      "software": "Gaussian/ORCA路径＋Python/SciPy ODE",
+      "gate": "先检验参数可识别性；不能以自由拟合速率或曲线插值当机制证据",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "第一版 B 固定一个源底物的生成、回淬、分解、捕获有限竞争网络，使用可追溯独立参数区间；检验温度/停留时间趋势。",
+        "accept": "输出守恒方程、速率来源、可识别性/参数剖面和留出条件预测；不能每个条件独立拟合任意速率或 RBF 曲线后声称发现机制。区间无法分解时允许有界不可识别结论。",
+        "optional": "仅在主/竞争路径和速率范围验证后升 C；全文毫秒流动优化不强制。",
+        "pilot": "先做最小网络的参数可识别性检查，实验时间/温度与浓度数据不足则先准备数据。"
+      }
+    },
+    {
+      "paper_id": "paper_db6c4e0558113873",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "C",
+      "weakness": "两个 Cu 中间体稳定性不等于出口选择性",
+      "minimum": "限定一个 allene/磺酰氯体系，自主寻找 Cu/氯转移竞争出口",
+      "software": "Gaussian/ORCA＋pysisyphus/IRC",
+      "gate": "先有正确 Cu 自旋及连通 TS；不扩成全部光/金属双催化闭环",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "一个 allene/磺酰氯及论文 Cu 配体的局部竞争出口，比较 Cu 参与与可行氯转移路径，有限开壳层/构象空间。",
+        "accept": "核对 Cu 氧化态、自旋和电子守恒；TS/IRC 与端点对应后比较同参照 ΔΔG‡。中间体能差不是出口选择性的充分证据；保留更低替代通道。",
+        "optional": "全光/金属双催化闭环、所有底物不加入。",
+        "pilot": "先验证一个真实出口及其最强竞争路径；没有有效 TS 前不冻结 Z 选择性的数值验收。"
+      }
+    },
+    {
+      "paper_id": "paper_e2d9397dff2a3f0f",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "C",
+      "weakness": "给定局部 N–O TS 不足以发现配体依赖路径",
+      "minimum": "先校准原步骤，再在一个关键段比较配体相关主/竞争路径",
+      "software": "Gaussian/ORCA＋TS/IRC",
+      "gate": "先解决虚频身份、IRC与势垒差异；禁止直接扩大成全 Ru 氨氧化网络",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "先恢复源 Ru N–O 关键步骤的正确端点，再只选一个明确配体干预比较局部主/竞争路径；MeCN 电子/质子参考固定。",
+        "accept": "核查虚频沿真正反应坐标及双向连接；旧约 109.995i 横向模式与 13.8434 kcal/mol 不能单凭一个虚频证明目标 TS。ΔGox、电子势垒、自由能垒分开。",
+        "optional": "三配体完整氨活化/PCET/N–N/NO 网络不纳入首版。",
+        "pilot": "先解决现路径身份和参考差异，再试新配体；旧单 TS 的成本不得直接外推整套网络。"
+      }
+    },
+    {
+      "paper_id": "paper_fcc3c7f2c46a0fbe",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "单个 4b XRD 几何不能解释抗氧化途径",
+      "minimum": "4b/c/h/i 正确失 H 位点的 HAT、SET/PT、SPLET 竞争",
+      "software": "Gaussian/ORCA＋局部路径/热化学",
+      "gate": "甲氧基不是酚羟基；核准介质/IC50，允许作者机制被否定，不预测精确活性",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "4b/c/h/i 先逐原子确认真实可失 H 位点；限定实际测量介质，对 HAT、SET/PT、SPLET 写守恒的有限循环并做决定性局部路径。",
+        "accept": "能量/自由能分列，结合必要动力学判断是否支持相应途径；甲氧基不是酚羟基，不可假造 phenoxide。IC50 不溶/未测值与活性数值区别记录。",
+        "optional": "精确 IC50 预测、全生物氧化网络不加入。",
+        "pilot": "先核准结构和实验终点，排除不存在的路径，再验证一条竞争反应；允许作者解释被否定。"
+      }
+    },
+    {
+      "paper_id": "paper_0e835b370ddd37b6",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "1/V′ 两个 H2 活化能垒不足以解释来源",
+      "minimum": "1/V′/4 系列，在相同 H–H 坐标比较形变与相互作用",
+      "software": "Gaussian/ORCA＋Multiwfn；PyFrag可选",
+      "gate": "需新增构象/TS参考与成本试算；不用孤立描述符代替能垒控制",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "源 1/V′/4 的 H₂ 活化，保持苯介质、298 K、分离反应物共同零点；沿相同 H–H 坐标比较形变和相互作用。",
+        "accept": "各体系有效 TS/双向连接与片段能量保持同电荷/自旋和同坐标；报告应变与相互作用之和的闭合，不能拿各自不同反应进度比较后归因为电子效应。",
+        "optional": "乙炔所有 TS、氨硼烷/CO₂ 全催化网络不强制。",
+        "pilot": "先验证新增 4 的关键路径与成本，再扩变形分析；已有 1/V′ 两势垒不证明三体系因果对照。"
+      }
+    },
+    {
+      "paper_id": "paper_9132719dbf91c978",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "一个低还原消除能垒不能证明催化剂顺利再生",
+      "minimum": "H–H 成键→结合 H2→解离/配位再生的有限自由能与路径比较",
+      "software": "Gaussian/ORCA＋TS/IRC＋构象分析",
+      "gate": "统一标准态/H2化学势；不扩到完整光催化循环",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "原 Pd 二氢化物→结合 η²-H₂→分离 H₂/再配位有限步骤，实际溶剂、浓度和气体标准态明确，保留局部和全局零点。",
+        "accept": "交付 H–H 形成 TS/端点、结合 H₂ 与解离/再生能量和对应自由能；1 atm 的 −1.76058 与全溶质 1 M 的 +0.133748 kcal/mol 属不同约定，不能合并。",
+        "optional": "完整光催化回路、精确周转频率不加入。",
+        "pilot": "先校准 H₂ 化学势和一个解离/再配位端点；小成键势垒不直接推出放氢自发或快速。"
+      }
+    },
+    {
+      "paper_id": "paper_534ae3b6e2fb695f",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "二胺亲核描述符不等于酰化活性",
+      "minimum": "同一首步酰化边界比较电子亲核性、形变和真实 TS",
+      "software": "Gaussian/ORCA＋TS/IRC",
+      "gate": "先核准质子/溶剂/反应物；界面扩散和膜MD是独立扩展，不混作首版必需",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "真实 TMC 与论文三种胺的同一首步酰化，固定质子接收体、Cl 离去与介质；代表进攻构象与变形/相互作用对照。",
+        "accept": "真实 TS 及连接后比较势垒与全局/局部亲核描述符是否同序，报告成对形变/相互作用项。允许最强亲核性并非最低总障碍。",
+        "optional": "短聚酰胺片段、膜界面扩散与 MD 是独立扩展，不列首版第4个必做工作。",
+        "pilot": "先核准反应物/质子计量和一条主路径；不得用仅孤立胺结果冻结动力学结论。"
+      }
+    },
+    {
+      "paper_id": "paper_6f9a36fff6964313",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "局部电荷稳健性可做B，但距论文催化协同较远",
+      "minimum": "只选环氧化或 CO2 环加成一个阶段，双/单功能匹配 TS 与预组织控制",
+      "software": "Gaussian/ORCA＋CREST＋TS/IRC",
+      "gate": "当前负结果仍合法；新增催化参考必须实际算，不能用换布居法代替反应证据",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "首版明确只选环氧化或 CO₂ 环加成一个阶段，固定双功能与匹配单功能模型；实际 TS 与预组织控制同计量。",
+        "accept": "用成对势垒及预组织/相互作用区分电子协同；微小电荷差的负结果合法。约 15 cm⁻¹ 小虚频检查位移/收敛，不按绝对阈值直接认极小值。",
+        "optional": "另一反应阶段、完整催化循环不加入；阶段选择须先写进任务版本。",
+        "pilot": "先从源数据选择结构/介质最齐的一阶段并冻结名单，再跑代表 TS。只替换布居算法不能完成机制升级。"
+      }
+    },
+    {
+      "paper_id": "paper_c625cba3ce868eb1",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "先加强B，再C",
+      "weakness": "反应物电荷/MEP 不能建立区域选择性机制",
+      "minimum": "先核准活性卤化/质子物种，再自主比较有限环化竞争出口",
+      "software": "Gaussian/ORCA＋TS/IRC",
+      "gate": "活性物种和代表路径未完成前不发布C；酶 QM/MM 不默认已有",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "先核对实际活性卤化/质子物种，在一个源底物上比较五/六元成环及必要质子转移；阶段一为有界 B，路径搜索有足够参考后才 C。",
+        "accept": "ESP 仅用于提出候选；用守恒路径、TS/IRC、构象预平衡和共同自由能零点检验出口。缺失活性物种不得直接用裸卤素离子替代。",
+        "optional": "酶 QM/MM 和完整生物催化环境非默认范围。",
+        "pilot": "先拿到活性物种和一条有效环化通道；未满足时仅做数据/模型准备，不发布 C。"
+      }
+    },
+    {
+      "paper_id": "paper_d3b4575397179146",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "加强B",
+      "weakness": "四个激发态趋势不足以检验催化通道",
+      "minimum": "选论文一个真实底物，以统一热力学检验 SET/EnT 必要条件",
+      "software": "Gaussian/ORCA TD＋GoodVibes",
+      "gate": "核准氧物种、电位零点和计量；不推完整氧化产率",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "论文四个催化剂先用一对试点，配一个有完整条件的 N-甲基氧化底物；统一溶剂、电位参考与氧物种，比较 SET/EnT 必要条件。",
+        "accept": "报告基态循环、E00、三重态条件、态身份与可用 O₂/淬灭约束；若两路线热力学均可行则标明无法仅凭这些量区分机制，不能推出精确氧化收率。",
+        "optional": "全氧化动力学和全部底物不加入。",
+        "pilot": "先固定底物名称、氧态/电子计量和跨代码 NTO 映射；一对校准后再扩四催化剂。"
+      }
+    },
+    {
+      "paper_id": "paper_ef26687d63a37e29",
+      "origin": "final",
+      "current_class": "B",
+      "action": "upgrade",
+      "target": "先加强B，再C",
+      "weakness": "局部 P 中心电荷/距离不能判传播与环化竞争",
+      "minimum": "明确 Et3B/链端，寻找传播/回咬路径并检验浓度影响",
+      "software": "Gaussian/ORCA＋TS/IRC；SciPy动力学可选",
+      "gate": "先验证代表 TS/链端；缺速率来源时不做拟合式完整聚合网络",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "固定 Et₃B、实际链端及 PO/CO₂/PA 计量，先选代表传播与回咬路径；浓度以明确标准态进入小网络。",
+        "accept": "交付连通 TS/IRC、同参照势垒和速率来源，区分能垒误差与浓度影响；用一项保留浓度/酸酐控制检验，不用自由拟合重现曲线冒充机制。",
+        "optional": "高聚链、全分子量分布和完整聚合网络不加入；C 留待通道参考成熟。",
+        "pilot": "先审计三个旧模型的链端身份，再做一对传播/回咬试点；缺速率来源时只做有界能量判断。"
+      }
+    },
+    {
+      "paper_id": "paper_0dc85595cab7bc0a",
+      "origin": "final",
+      "current_class": "C",
+      "action": "upgrade",
+      "target": "加强C",
+      "weakness": "独立候选已具发现性，但产物能量不足以证明光环化可达性",
+      "minimum": "保留两阶段位点/连接搜索，补可校准的代表路径/光态判别",
+      "software": "Gaussian/ORCA＋局部路径/态分析",
+      "gate": "光态可达性未验证时收窄机制结论；不把基态最低能产物当唯一光产物",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "保留两阶段有限位点/连接搜索，加入临界几何/构象候选；代表闭环步骤必须说明使用哪个光/基态势面。",
+        "accept": "提交候选覆盖、DFT 精化、组成守恒和可达性证据。不能把最低基态产物认作唯一光产物；光态无法校准时结论限于可支持产物集合和基态约束。",
+        "optional": "SHARC 全动力学、精确光产物分支比不默认必需。",
+        "pilot": "先验证代表光态/闭环路径与公开输入的答案泄露风险，再增加机制评分。"
+      }
+    },
+    {
+      "paper_id": "paper_a3892396b1843698",
+      "origin": "final",
+      "current_class": "C",
+      "action": "upgrade",
+      "target": "加强C",
+      "weakness": "已有两类重排 TS 搜索，但预组织因果与连通证据薄弱",
+      "minimum": "补原通道双向端点，再加桥连/非桥连的匹配竞争路径",
+      "software": "Gaussian/ORCA＋pysisyphus/IRC",
+      "gate": "先校准原有两通道；负电子能差不能直接叫负活化自由能",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "原两个重排通道补多初猜与双向端点，再对正文一桥连变体或明确受控几何重复匹配比较。",
+        "accept": "同一温度/标准态报告电子势垒与自由能势垒、前体预组织代价、TS/IRC；负电子能差不直接叫负活化自由能。",
+        "optional": "短轨迹只在静态证据提示分叉且模型可校准时加入，不强制大规模动力学。",
+        "pilot": "先复核原两通道的连通性与共同零点，再把桥效应列必需终点。"
+      }
+    },
+    {
+      "paper_id": "paper_8fefc96b015c4577",
+      "origin": "final",
+      "current_class": "C",
+      "action": "upgrade",
+      "target": "加强C",
+      "weakness": "已自主搜索两种环化，条件范围仍很窄",
+      "minimum": "两链长×两溶剂的路径矩阵，区分形变/电子与条件效应",
+      "software": "Gaussian/ORCA＋CREST/xTB＋TS/IRC",
+      "gate": "先有新增路径参考；长链差约0.52 kcal/mol，不强制反转或夸大选择性",
+      "feasibility": "C",
+      "batch": 4,
+      "first_version_spec": {
+        "matrix": "两链长×DMSO/DCE 两溶剂，每个条件比较两类迁移路径；各路径多构象并以同体系的共同前体和分离反应物分别列账。",
+        "accept": "真实模式/连通性验证后比较 ΔΔG‡ 及形变/电子贡献；源长链约 0.52 kcal/mol 差可小于模型不确定性，不强制显著反转。实验链长伴随添加剂变化，须说明溶剂交叉模型未涵盖添加剂。",
+        "optional": "全自由基网络、全部添加剂和精准产物比例不加入。",
+        "pilot": "先试一个新增链长/溶剂角点及两通道；8 个比较组合不等于 8 次引擎启动。"
+      }
+    }
+  ]
+}

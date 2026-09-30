@@ -109,9 +109,13 @@ def _repairable_invalid(
         error_details={
             "missing_fields": list(missing_fields),
             "repair_guidance": (
-                "Correct the reported fields in this same Action/Backend request, then retry "
-                "once. Do not switch providers or resubmit the unchanged request."
+                "Inspect this same Action/Backend contract and correct the reported fields. "
+                "A changed request is a new calculation and requires a new submission_key; "
+                "use the original key only to look up or replay the original submission."
             ),
+            "category": "invalid_input",
+            "repairability": "input_correction",
+            "retryable_semantics": "A new calculation after input correction, not a repeat of an accepted job.",
             "inspect_action_request": {
                 "action_id": action_id,
                 "backend_id": backend_id,
@@ -599,7 +603,7 @@ def _validate_inline_atomic_structures(
     return None
 
 
-def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]) -> dict[str, Any]:
+def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any], *, _managed_allocation: dict | None = None, _validate_only: bool = False) -> dict[str, Any]:
     actions = action_specs()
     backends = backend_specs()
     if action_id not in actions:
@@ -622,6 +626,10 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             "cannot be supplied by the Agent",
             code="evaluator_controlled_timeout",
         )
+    if _managed_allocation is None and not _validate_only:
+        from chemistry_toolbox.mcp.managed_execution import recovery_enabled, submit_action
+        if request.submission_key or recovery_enabled():
+            return submit_action(action_id, request.model_dump(mode="json"))
     execution_timeout = timeout_seconds_for(specification.execution_class)
     timeout_policy = timeout_policy_record(specification.execution_class)
     policy = specification.selection_policy
@@ -847,9 +855,22 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
     )
     if invalid_inline_structure is not None:
         return invalid_inline_structure
+    from .electronic_state import preflight_inputs, ElectronicStateError
+    try:
+        execution_inputs, effective_inputs = preflight_inputs(backend, specification, request.inputs, request.method_spec)
+    except ElectronicStateError as exc:
+        return _invalid(action_id, backend_id, str(exc), code=exc.details["code"],
+                        error_details=exc.details, retryable=True)
+    except (ValueError, KeyError, OSError) as exc:
+        return _invalid(action_id, backend_id, f"Structure preflight failed: {exc}", code="backend_input_error", retryable=True)
     resource_references = collect_resource_references(
         {"inputs": request.inputs, "method_spec": request.method_spec}
     )
+    if _validate_only:
+        return {"status": "success", "validation_only": True, "action": action_id, "backend": backend_id,
+                "effective_inputs": effective_inputs, "resource_limits": normalize_resource_limits(request.resource_limits),
+                "checks": {"input_contract": "valid", "backend_availability": "not_checked", "scientific_validity": "not_checked"},
+                "message": "Input contract checked; no submission, resource reservation or calculation was performed."}
 
     health_values = probe_all_backends((backend, *component_specs))
     health = health_values[backend_id]
@@ -922,9 +943,15 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         "action_id": action_id,
         "backend_id": backend_id,
         "request": execution_request,
+        # Preserve the public request and ArtifactRefs for provenance and replay.
+        # Only the worker's backend invocation receives the resolved state.
+        "resolved_electronic_inputs": {key: value for key, value in execution_inputs.items() if value != request.inputs.get(key)},
     }
     reservation = None
-    if distributed_enabled():
+    if _managed_allocation is not None:
+        worker = invoke_worker(runtime=backend.runtime, payload=worker_payload,
+                               timeout_seconds=execution_timeout, resource_allocation=_managed_allocation)
+    elif distributed_enabled():
         worker = invoke_worker(
             runtime=backend.runtime,
             payload=worker_payload,
@@ -1019,6 +1046,7 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
             )
 
     provenance = {
+        "effective_inputs": effective_inputs,
         "catalog_hash": active_catalog_hash(),
         "agent_selected_action": action_id,
         "agent_selected_backend": backend_id,
@@ -1042,6 +1070,9 @@ def execute_action(action_id: str, request_value: ActionRequest | dict[str, Any]
         ),
         **dict(worker.get("provenance") or {}),
     }
+    for state in effective_inputs.get("electronic_state", {}).values():
+        if isinstance(state, dict):
+            worker.setdefault("warnings", []).extend(state.get("warnings", []))
     return ActionResult(
         status=status,
         action=action_id,

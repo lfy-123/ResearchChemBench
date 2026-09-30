@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_63a9254b8e68a23c",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_candidates",
+      "type": "semantic",
+      "expected": "The chosen continuum treatment has reproducible numerical evidence and independent stability checks. Do not require two model narratives.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidate_models"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_coverage",
+      "type": "semantic",
+      "expected": "Search coverage, convergence, regime consistency and local stability are documented. Check the conserved area, admissible radius/regime, numerical minimum and positive local curvature or equivalent local-minimum evidence. A stationary root without stability is not an equilibrium-radius solution; molecular-software job counts are irrelevant.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search_coverage",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_radius",
+      "type": "numeric",
+      "target": 2.69,
+      "unit": "nm",
+      "tolerance": 0.2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.radius_nm"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_physics",
+      "type": "semantic",
+      "expected": "The computed energy terms explain spontaneous-curvature, bending and interlayer contributions to the selected radius.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_c1",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "The continuum energy calculation yields a stable equilibrium inner radius near 2.69 nm and explains its selection through spontaneous curvature, bending stiffness and interlayer attraction, with regime and numerical-stability checks.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.radius_nm",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

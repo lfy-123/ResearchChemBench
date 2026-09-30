@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_13639735b154735a",
+  "items": [
+    {
+      "key_point_id": "kp_process_minimum",
+      "key_point_type": "process",
+      "statement": "The reactant reference is a converged minimum with no imaginary vibrational frequencies.",
+      "evidence_ids": [
+        "ev_doc_27e0b7483446_000034_e687800c7438"
+      ],
+      "expected": "{'imaginary_frequency_count': 0}"
+    },
+    {
+      "key_point_id": "kp_process_ts",
+      "key_point_type": "process",
+      "statement": "The selected ring-opening transition state is a first-order saddle with one imaginary mode corresponding to epoxide opening.",
+      "evidence_ids": [
+        "ev_doc_27e0b7483446_000034_e687800c7438"
+      ],
+      "expected": "{'imaginary_frequency_count': 1, 'mode_assignment': 'epoxide ring opening'}"
+    },
+    {
+      "key_point_id": "kp_process_connectivity",
+      "key_point_type": "process",
+      "statement": "The selected transition state connectivity is verified to connect the ring-opening reactant and successor state by IRC or a justified equivalent path test.",
+      "evidence_ids": [
+        "ev_doc_27e0b7483446_000034_e687800c7438"
+      ],
+      "expected": "{'connectivity': 'reactant-to-ring-opened pathway'}"
+    },
+    {
+      "key_point_id": "kp_result_barrier",
+      "key_point_type": "result",
+      "statement": "The electronic barrier for the ECH ring-opening event is approximately 12 kcal mol-1.",
+      "evidence_ids": [
+        "ev_doc_24eccd5c8b30_000283_436bd07e7d80"
+      ],
+      "expected": "{'barrier_kcal_mol': 12.0, 'unit': 'kcal/mol'}"
+    }
+  ]
+}

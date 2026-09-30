@@ -1,0 +1,12 @@
+{
+  "system": "linear alkyl carbocations formed after decarboxylation of saturated fatty acids",
+  "models": [
+    {"id":"C10_alpha","chain_carbon_count":10,"carbocation_position":"terminal (alpha)","smiles":"[CH2+]CCCCCCCCC","charge":1,"multiplicity":2},
+    {"id":"C10_beta","chain_carbon_count":10,"carbocation_position":"second carbon (beta)","smiles":"C[CH+]CCCCCCCC","charge":1,"multiplicity":2},
+    {"id":"C15_alpha","chain_carbon_count":15,"carbocation_position":"terminal (alpha)","smiles":"[CH2+]CCCCCCCCCCCCCC","charge":1,"multiplicity":2},
+    {"id":"C15_beta","chain_carbon_count":15,"carbocation_position":"second carbon (beta)","smiles":"C[CH+]CCCCCCCCCCCCC","charge":1,"multiplicity":2},
+    {"id":"C17_alpha","chain_carbon_count":17,"carbocation_position":"terminal (alpha)","smiles":"[CH2+]CCCCCCCCCCCCCCCC","charge":1,"multiplicity":2},
+    {"id":"C17_beta","chain_carbon_count":17,"carbocation_position":"second carbon (beta)","smiles":"C[CH+]CCCCCCCCCCCCCCC","charge":1,"multiplicity":2}
+  ],
+  "notes": "Generate 3-D conformers independently. The SMILES encode connectivity and charge only; no optimized transition state, conformer, energy or expected ranking is supplied. OH-containing competitors, if studied, must be explicitly identified in the submission."
+}

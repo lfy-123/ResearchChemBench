@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "task_type": "autonomous_research",
+  "title": "Local lithium solvation in four ether electrolytes",
+  "category": "computational thermochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The source compares PM, BM, TFPM and TFBM in LiFSI electrolytes and proposes a molecular solvation rationale. The task selects their local molecular interactions, not full electrolyte transport, interphase formation or battery performance.",
+    "Choose a local molecular representation that can address the four-solvent comparison and justify its relation to the stated electrolyte context."
+  ],
+  "paper": {
+    "title": "",
+    "doi": "",
+    "journal": "",
+    "publication_date": ""
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Chemical identities, authorized observations and physical scope; research design is chosen by the agent."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured model, execution, quantitative evidence and claim records with raw artifact links."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Scientific answer, evidence, revisions, uncertainty and scope."
+    }
+  ]
+}

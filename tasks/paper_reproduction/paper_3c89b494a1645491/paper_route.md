@@ -1,5 +1,7 @@
 # Private paper route
 
+> Packaging note (2026-08-30): CCDC 2500223 is now supplied directly as `agent_input/data/inputs/ccdc_2500223.cif`; database retrieval is not part of the evaluated route. The scientific extraction and analysis route below is unchanged.
+
 ## 1. Scientific objective and author claim
 
 The paper investigates whether the short Au(I)···Au(I) contacts in the tetranuclear cation derived from Au1·ClO4 are genuine aurophilic/metallophilic interactions and characterizes their electronic bonding. The authors claim that the Au4 core is a bent square stabilized by predominantly closed-shell Au···Au contacts with measurable electron sharing.

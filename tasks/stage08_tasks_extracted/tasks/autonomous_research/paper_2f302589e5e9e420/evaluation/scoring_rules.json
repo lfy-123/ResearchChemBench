@@ -1,0 +1,118 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "rules": [
+    {
+      "rule_id": "r_process_minimum",
+      "type": "condition",
+      "expected": "Each of EPI1 and EPI2 has an optimization and minimum-test record, or a truthful bounded-failure record.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+          "fields": [
+            "$.fragments",
+          "$.method.minimum_test",
+          "$.candidate_records"
+        ],
+        "comparison": "expert validation of per-fragment evidence"
+      },
+      "reference_id": "kp_process_minimum"
+    },
+    {
+      "rule_id": "r_process_consistent",
+      "type": "condition",
+      "expected": "A single explicit comparison protocol and unambiguous fragment IDs are used.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.fragments"
+        ],
+        "comparison": "expert process comparison"
+      },
+      "reference_id": "kp_process_consistent"
+    },
+    {
+      "rule_id": "r_result_dipole",
+      "type": "numeric",
+      "target": 1.9036,
+      "unit": "Debye for EPI2; EPI1 reference 2.2223 Debye",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragments[*].dipole_debye"
+        ],
+        "comparison": "absolute difference after matching fragment id"
+      },
+      "reference_id": "kp_result_dipole"
+    },
+    {
+      "rule_id": "r_result_percent",
+      "type": "numeric",
+      "target": 14.3,
+      "unit": "percent reduction EPI2 relative to EPI1",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.percent_change_ePI2_vs_EPI1"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_dipole"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "The submitted validated comparison supports, rejects, or bounds the claim that EPI2 is less polar than EPI1, with evidence and uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_polarity"
+    },
+    {
+      "rule_id": "r_limits",
+      "type": "semantic",
+      "expected": "The report states fragment-model and method/conformer limitations and does not equate the calculation directly with bulk Dk.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limitations"
+    },
+    {
+      "rule_id": "r_result_esp",
+      "reference_id": "kp_result_esp",
+      "type": "semantic",
+      "expected": "If ESP is reported, EPI2 hydroxyl oxygen is less negative than EPI1; otherwise the limitation explains omission.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragments[*].hydroxyl_oxygen_esp_kcal_mol",
+          "$.fragments[*].esp_definition"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

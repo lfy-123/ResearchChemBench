@@ -1,0 +1,97 @@
+{
+  "paper_id": "paper_4b38bcccc53f2b99",
+  "rules": [
+    {
+      "rule_id": "pr_rule_identity",
+      "reference_id": "pr_process_identity",
+      "type": "semantic",
+      "expected": "identity, controlled-record provenance and charge/spin audit are explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.identity_audit"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_validation",
+      "reference_id": "pr_process_validation",
+      "type": "semantic",
+      "expected": "both states have convergence and stationary-point/frequency evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_reference",
+      "reference_id": "pr_process_reference",
+      "type": "semantic",
+      "expected": "THF and Fc/Fc+ reference plus auditable terms are documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.reference_calculation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_potential",
+      "reference_id": "pr_result_potential",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.result",
+          "$.failure_details"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "a validated computed potential is reported when both states and the reference are complete, or the bounded-failure branch truthfully reports why no potential was obtained"
+    },
+    {
+      "rule_id": "pr_rule_conclusion",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "retained-K model is supported within the stated model and compared to the experimental boundary",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_limitation",
+      "reference_id": "pr_limitation",
+      "type": "semantic",
+      "expected": "model sensitivity and non-uniqueness limitations are stated",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

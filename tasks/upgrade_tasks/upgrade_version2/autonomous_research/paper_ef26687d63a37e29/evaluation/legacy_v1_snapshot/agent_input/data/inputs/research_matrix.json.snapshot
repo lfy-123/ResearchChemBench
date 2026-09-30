@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_ef26687d63a37e29",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Retain the source phosphine and PA/PO zwitterion identities, but do not mistake them for a growing polycarbonate chain. The new finite active chain model is PA-derived acylphosphonium with a two-PO/one-CO2 segment and terminal O−, net-neutral singlet with internal P+/O−. species_registry.json supplies its complete graph and a matched no-PA chain. Include one Et3B bound to the chain O and one free Et3B for incoming PO activation, consistent with the local 1:2 catalyst inventory. Compare CO2 insertion/PO propagation with backbiting to a cyclic carbonate, retaining the shortened chain coproduct. Use THF continuum 353.15K, solutes1M, CO2 fugacity convention explicitly stated; source neat/THF dilution is represented only by a declared concentration control, not a bulk polymer model.",
+  "panels": {
+    "chain_paths": {
+      "requirement": "Actual short-chain propagation/backbite with two Et3B reservoirs.",
+      "required_cells": [
+        "PA_propagation",
+        "PA_backbite",
+        "noPA_propagation",
+        "noPA_backbite"
+      ]
+    },
+    "chain_end_audit": {
+      "requirement": "Explicit chain connectivity, charge separation and coproduct balance.",
+      "required_cells": [
+        "chain_graph_file",
+        "terminal_O_map",
+        "carbonate_C_map",
+        "Et3B_count",
+        "propagation_stoichiometry_file",
+        "backbite_stoichiometry_file",
+        "raw_identity_evidence"
+      ]
+    },
+    "concentration_test": {
+      "requirement": "A retained concentration control with a transparent uncertainty range.",
+      "required_cells": [
+        "primary_PO",
+        "tenfold_dilution"
+      ]
+    }
+  },
+  "optional_not_required": "高聚链、全分子量分布和完整聚合网络不加入；C 留待通道参考成熟。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

@@ -1,9 +1,11 @@
 {
   "database": "CCDC",
   "records": [
-    {"object_id":"cl_crystal","compound":"3-Cl-C5H4NH-PbBr3","ccdc_deposition":"2499860","temperature_K":300,"space_group":"P21/c","formula_units_per_cell":4},
-    {"object_id":"br_crystal","compound":"3-Br-C5H4NH-PbBr3","ccdc_deposition":"2499862","temperature_K":300,"space_group":"P21/c","formula_units_per_cell":4},
-    {"object_id":"i_crystal","compound":"3-I-C5H4NH-PbBr3","ccdc_deposition":"2499861","temperature_K":300,"space_group":"P21/c","formula_units_per_cell":4}
+    {"object_id":"cl_crystal","compound":"3-Cl-C5H4NH-PbBr3","ccdc_deposition":"2499860","input_cif":"data/inputs/ccdc_2499860.cif","temperature_K":300,"space_group":"P21/c","formula_units_per_cell":4},
+    {"object_id":"br_crystal","compound":"3-Br-C5H4NH-PbBr3","ccdc_deposition":"2499862","input_cif":"data/inputs/ccdc_2499862.cif","temperature_K":300,"space_group":"P21/c","formula_units_per_cell":4},
+    {"object_id":"i_crystal","compound":"3-I-C5H4NH-PbBr3","ccdc_deposition":"2499861","input_cif":"data/inputs/ccdc_2499861.cif","temperature_K":300,"space_group":"P21/c","formula_units_per_cell":4}
   ],
-  "retrieval_rule":"Retrieve the deposited experimental 300 K record by its CCDC deposition number; preserve the deposited cell, atom identities, coordinates, occupancy, symmetry and composition. Record any disorder treatment or deterministic conversion used."
+  "input_status":"all three immutable CIFs are supplied; archive IDs, formulas and P21/c cells verified",
+  "input_sha256":{"2499860":"563f2b8888d4f9041281f3d8cfff64a29c5be259cc0261b79b2ba0f3ac1c23cd","2499861":"23c07419f96646ebc7742a0ea795e12fb709c8db90af95fec204b1607b095001","2499862":"680d426526427f205277ca9a99ac5ebd53acc55527a473f7672d2cb0219b733c"},
+  "retrieval_rule":"Read the three supplied immutable CIFs directly. CCDC deposition numbers are provenance only; CCDC database retrieval is not required or scored. Preserve cell, atom identities, coordinates, occupancy, symmetry and composition; do not substitute name-generated crystals."
 }

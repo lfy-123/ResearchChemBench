@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_c7949b95fdc8bea6",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_endpoints",
+      "key_point_type": "process",
+      "statement": "The submitted calculation preserves the supplied Si/Li composition and explicit initial-to-final Li atom mapping, and relaxes both endpoints before path comparison.",
+      "expected_result": "Two relaxed endpoints with identical Si framework mapping and Li at the two supplied endpoint sites.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000067_2fc7fd89c941",
+        "ev_doc_474f0d99b606_000026_8e0b2bb40d0a"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system.endpoint_mapping_verified",
+          "$.system.atom_count"
+        ]
+      },
+      "expected": "Two relaxed endpoints with identical Si framework mapping and Li at the two supplied endpoint sites."
+    },
+    {
+      "key_point_id": "kp_pr_process_path",
+      "key_point_type": "process",
+      "statement": "A continuous, validated migration path connects the two named tetrahedral sites and its maximum is treated as the migration saddle/barrier.",
+      "expected_result": "Path continuity and saddle validation are documented with candidate/path identity and a stopping rule.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000067_2fc7fd89c941",
+        "ev_doc_474f0d99b606_000011_7651d6b86012"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.path_validation"
+        ]
+      },
+      "expected": "Path continuity and saddle validation are documented with candidate/path identity and a stopping rule."
+    },
+    {
+      "key_point_id": "kp_pr_result_effect",
+      "key_point_type": "result",
+      "statement": "Adding one electron lowers the bulk Li migration barrier relative to the neutral HSE state.",
+      "expected_result": "The excess-electron barrier is lower than the neutral barrier and the conclusion states the sign of the change.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000104_a1ac4b4885f2",
+        "ev_doc_42d5442bda71_000108_dfcafb1d8e03"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.conclusion"
+        ]
+      },
+      "expected": "The excess-electron barrier is lower than the neutral barrier and the conclusion states the sign of the change."
+    },
+    {
+      "key_point_id": "kp_pr_result_interpretation",
+      "key_point_type": "result",
+      "statement": "The barrier-region excess-electron electronic state is assessed as evidence for or against localization/trapping around Li, with method limitations stated.",
+      "expected_result": "A physically bounded interpretation tied to an explicit computed observable or an explicit unavailable-observable limitation.",
+      "evidence_ids": [
+        "ev_doc_42d5442bda71_000012_1799fb255a6d",
+        "ev_doc_42d5442bda71_000108_dfcafb1d8e03"
+      ],
+      "submission_binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ]
+      },
+      "expected": "A physically bounded interpretation tied to an explicit computed observable or an explicit unavailable-observable limitation."
+    }
+  ]
+}

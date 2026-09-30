@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.541517+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_2877efc02814175d/documents/supplementary_001.pdf",
+      "sha256": "9244bf34a4da6ee7f3829c7eb75798289030a65fc3cf8107e6f8026a90edf45f",
+      "locator": "Recovered user-supplied main PDF (10 pages; source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf), p2 computational section and pp7-8 Figs8-10; SI pp11-13 TablesS1-S3 and p18 TableS8 directly checked. The default papers/main.pdf has no readable body and is not the evidence source. Experimental sensing is DMSO/water9:1, distinct from the bounded DMSO electronic calculation.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "恢复正文来自 docs/verification/group_2/.../user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf，p7明确DMSO计算和金属基组；SI pp11–13给电荷/自旋坐标。默认papers/main.pdf无可读正文。",
+      "actual_read_pages_and_sections": "Recovered main pp2–5,7–8; Fig1 absorption, Fig2 metal additions, Figs4–5 emission context; SI pp11–13 state/identity tables and p18 TableS8."
+    },
+    {
+      "path": "docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf",
+      "sha256": "3ed031e94536c075f14d4aaec6fced89d457235c3202c1bc2eb8c7a236ee2d39",
+      "locator": "Recovered main PDF pp2,7-8 computational methods, structures and electronic analysis",
+      "role": "recovered_readable_primary_source",
+      "material_type": "main_article",
+      "review_locator": "恢复正文来自 docs/verification/group_2/.../user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf，p7明确DMSO计算和金属基组；SI pp11–13给电荷/自旋坐标。默认papers/main.pdf无可读正文。",
+      "actual_read_pages_and_sections": "Recovered main pp2–5,7–8; Fig1 absorption, Fig2 metal additions, Figs4–5 emission context; SI pp11–13 state/identity tables and p18 TableS8."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "A source-bounded DQCS/metal investigation with explicit charge, spin, coordination and medium assumptions explains the observed response without imposing the source root labels or complex geometries.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual optical/speciation evidence demonstrates that similar measured shifts do not uniquely identify the complexes or underlying response, with uncertainty and assumptions disclosed.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "A Co(II) doublet calculation is relabeled singlet to match SI18 headings, or nonmonotonic roots are treated as a physically ordered progression without examining output.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A conditional DMSO molecular spectrum is retained without claiming the unestablished solution species in the measured DMSO/water mixture.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: How does association with Cd(II), Co(II) or Ni(II) affect the molecular electronic and optical behavior of DQCS, and what explanation is supported? Determine what the chosen molecular models can establish about the supplied spectral observations and what remains unassigned.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify C31H27N3O3 ligand topology and hydrogens, metal identities, total charge/spin and any changed proton count. Cd/Co/Ni oxidation states are not automatic complex multiplicities. ECP core electron removal and open-shell Co treatment must be consistent with the actual calculation. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Identify physical states and observables rather than equating root numbers or frontier gaps. Validate the submitted model and electronic description to the extent required by its claims, including relevant spin and medium assumptions. Electronic hardness/softness derived from the same orbital gap are algebraically related, not independent confirmation of a mechanism. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Do not infer DNA binding, detection limits, quenching rates, solution binding constants or thermal stability from molecular frontier gaps or vertical excitations alone. Different electronic-state populations and the experimental mixed solvent are not resolved by one DMSO model; limit statements to the evidence and explicitly modeled composition. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use Egan_identity.json and egan_identity.json for the true two-Ir dimers. Each ligand binds one Ir through its two iminoxolene N,O pairs; the ester oxygens are not assigned as donors in this dimer. Full Egan has four tert-butyl groups per ligand; truncated egan replaces exactly these with H and retains the ethylene-dianthranilate tether. Opposite local helicities define the A,C starting arrangement, but no final symmetry or distance is imposed. The former mononuclear cis-alpha/beta IrCl objects are excluded. retained_heavy_mapping.json gives the exact 36-atom retained map per ligand; apply it independently to A/B copies. For neutral doublet fragments A=(ligand)Ir and B=(ligand)Ir: E_int=E_AB-E_A(frozen)-E_B(frozen); E_def=sum[E_fragment(frozen)-E_fragment(relaxed)]; E_assoc=E_int+E_def, kcal/mol. Keep fragment charge/spin, basis/BSSE and relativistic definitions identical. This operational decomposition is not a unique partition of metal–metal versus ligand pi bonding. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use Egan_identity.json and egan_identity.json for the true two-Ir dimers. Each ligand binds one Ir through its two iminoxolene N,O pairs; the ester oxygens are not assigned as donors in this dimer. Full Egan has four tert-butyl groups per ligand; truncated egan replaces exactly these with H and retains the ethylene-dianthranilate tether. Opposite local helicities define the A,C starting arrangement, but no final symmetry or distance is imposed. The former mononuclear cis-alpha/beta IrCl objects are excluded. retained_heavy_mapping.json gives the exact 36-atom retained map per ligand; apply it independently to A/B copies. For neutral doublet fragments A=(ligand)Ir and B=(ligand)Ir: E_int=E_AB-E_A(frozen)-E_B(frozen); E_def=sum[E_fragment(frozen)-E_fragment(relaxed)]; E_assoc=E_int+E_def, kcal/mol. Keep fragment charge/spin, basis/BSSE and relativistic definitions identical. This operational decomposition is not a unique partition of metal–metal versus ligand pi bonding. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_dimer_states",
+      "reference_id": "kp_dimer_states",
+      "type": "semantic",
+      "expected": "Check actual full/truncated graph/mapping, opposite-helicity starts, spin/occupation and curvature. Mononuclear energy differences are irrelevant to Ir–Ir bond validation. Do not force a source symmetry saddle into a minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.dimer_states",
+          "$.calculation_records"
+        ],
+        "comparison": "Check actual full/truncated graph/mapping, opposite-helicity starts, spin/occupation and curvature. Mononuclear energy differences are irrelevant to Ir–Ir bond validation. Do not force a source symmetry saddle into a minimum."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_fragment_interventions",
+      "reference_id": "kp_fragment_interventions",
+      "type": "semantic",
+      "expected": "Recompute fragment arithmetic; no missing ligand/metal atoms or state-dependent reference swaps. Examine basis superposition and scalar/SOC Hamiltonian choices. An energy decomposition alone does not uniquely isolate pi causation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.fragment_interventions",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute fragment arithmetic; no missing ligand/metal atoms or state-dependent reference swaps. Examine basis superposition and scalar/SOC Hamiltonian choices. An energy decomposition alone does not uniquely isolate pi causation."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_bonding_evidence",
+      "reference_id": "kp_bonding_evidence",
+      "type": "semantic",
+      "expected": "Require correlated response to the explicit interventions in both model sizes and a real sensitivity. Accept direct-metal, ligand-assisted or indistinguishable explanations when evidence supports them; do not award a cartoon or single bond order as causal proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.bonding_evidence",
+          "$.calculation_records"
+        ],
+        "comparison": "Require correlated response to the explicit interventions in both model sizes and a real sensitivity. Accept direct-metal, ligand-assisted or indistinguishable explanations when evidence supports them; do not award a cartoon or single bond order as causal proof."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether metal–ligand orbital mixing is needed to explain the Ir–Ir bonding response, using full and exactly truncated dimers, fixed fragment definitions and distance/twist interventions. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether metal–ligand orbital mixing is needed to explain the Ir–Ir bonding response, using full and exactly truncated dimers, fixed fragment definitions and distance/twist interventions. Reject one-Ir surrogates, Egan/egan/Hap truncations conflated, wrong fragment charge/spin, unsupported effective minima, or a unique pi-causality claim from a single bond index. A mononuclear isomer gap is not an Ir–Ir bond energy. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "dimer_states",
+      "max_score": 25,
+      "description": "True dimers, electronic states and paired truncation",
+      "rule_ids": [
+        "rule_dimer_states"
+      ]
+    },
+    {
+      "id": "fragment_interventions",
+      "max_score": 25,
+      "description": "Fixed-fragment interaction/deformation and distance/twist matrix",
+      "rule_ids": [
+        "rule_fragment_interventions"
+      ]
+    },
+    {
+      "id": "bonding_evidence",
+      "max_score": 15,
+      "description": "Cross-check orbital, density, bond-index and energy explanations",
+      "rule_ids": [
+        "rule_bonding_evidence"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "True dimers, electronic states and paired truncation",
+      "Fixed-fragment interaction/deformation and distance/twist matrix",
+      "Cross-check orbital, density, bond-index and energy explanations",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

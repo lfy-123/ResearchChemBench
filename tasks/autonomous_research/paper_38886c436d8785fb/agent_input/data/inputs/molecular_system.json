@@ -6,6 +6,8 @@
     "ionic_liquid_anion": {"name": "bis(trifluoromethylsulfonyl)imide anion", "smiles": "C(F)(F)(F)S(=O)(=O)[N-]S(=O)(=O)C(F)(F)F", "charge": -1, "multiplicity": 1}
   },
   "complexes": {"binary": {"components": ["aldehyde", "diamine"], "stoichiometry": "1:1", "total_charge": 0, "multiplicity": 1}, "ternary": {"components": ["ionic_liquid_cation", "ionic_liquid_anion", "aldehyde", "diamine"], "stoichiometry": "1:1:1:1", "total_charge": 0, "multiplicity": 1}},
-  "energy_definition": "Report E(complex) − sum(E of separated components), with the geometry and correction convention explicitly stated.",
+  "energy_definition": "Compare diamine association with two hosts. Binary: E(aldehyde.diamine) - E(aldehyde) - E(diamine). Ion-pair-containing case: E(ion_pair.aldehyde.diamine) - E(ion_pair.aldehyde) - E(diamine), keeping the cation, anion and aldehyde together as one reference group. Do not substitute total assembly from four isolated molecules. Use a consistent electronic-structure level and explicitly state relaxed-versus-frozen fragment geometry and counterpoise/BSSE or other corrections.",
+  "energy_reference_groups": {"binary": [["aldehyde"], ["diamine"]], "ternary": [["ionic_liquid_cation", "ionic_liquid_anion", "aldehyde"], ["diamine"]]},
+  "reference_definition_boundary": "No unique conformer or external solvent/control convention is supplied. Report the declared model and its limits; correspondence to an external numerical control requires separately verified reference definitions.",
   "units": "kJ/mol, plus native raw energies"
 }

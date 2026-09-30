@@ -1,0 +1,1 @@
+The model system is supplied as self-contained molecular identities. Use the stated charge and multiplicity; generate and document 3-D conformers independently. No author mechanism, route, candidate labels, energies, or method answer is supplied.

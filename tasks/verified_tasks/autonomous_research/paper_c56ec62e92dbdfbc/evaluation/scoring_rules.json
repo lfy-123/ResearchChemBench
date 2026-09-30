@@ -1,0 +1,97 @@
+{
+  "paper_id": "paper_c56ec62e92dbdfbc",
+  "rules": [
+    {
+      "rule_id": "r_ts",
+      "reference_id": "kp_process_ts",
+      "type": "condition",
+      "expected": "All candidates used for the final ordering have per-candidate saddle-point, intended-mode and connectivity evidence; unsupported candidates are not treated as validated. Each selected_R_pathway_id and selected_S_pathway_id must resolve to exactly one candidate of the matching product configuration with complete successful validation; a missing, duplicated or failed candidate cannot support the final ordering. This cross-record scientific check requires semantic review, not schema validation alone.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage.hypotheses_considered",
+          "$.candidates",
+          "$.selected_R_pathway_id",
+          "$.selected_S_pathway_id"
+        ],
+        "comparison": "expert validation of each candidate record"
+      }
+    },
+    {
+      "rule_id": "r_coverage",
+      "reference_id": "kp_process_coverage",
+      "type": "condition",
+      "expected": "Coverage counts and stopping_basis are present and scientifically specific.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage",
+          "$.status"
+        ],
+        "comparison": "expert comparison of coverage and stopping record"
+      }
+    },
+    {
+      "rule_id": "r_delta",
+      "reference_id": "kp_result_ordering",
+      "type": "numeric",
+      "target": 2.0,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_R_pathway_id",
+          "$.selected_S_pathway_id",
+          "$.barrier_R_kcal_mol",
+          "$.barrier_S_kcal_mol",
+          "$.delta_delta_G_dagger_kcal_mol",
+          "$.method.reference_definition",
+          "$.method.temperature_K"
+        ],
+        "comparison": "absolute difference; applies when status is success"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_selectivity",
+      "type": "semantic",
+      "expected": "The favored configuration and selectivity-determining event are supported by the selected pathway energies and connectivity, with partial credit for the scientific components actually established.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.selectivity_determining_event"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_mechanism",
+      "reference_id": "kp_result_mechanism",
+      "type": "semantic",
+      "expected": "Compare the retained C–C and subsequent rearomatization steps on the same atom-balanced free-energy reference, and connect the favored product configuration to the actual computed step ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.step_comparison",
+          "$.candidates",
+          "$.method"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

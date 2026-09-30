@@ -1,0 +1,26 @@
+# Scientific objective
+
+Determine, for the two explicitly defined zwitterionic amino-acid molecules AL and AB in water, how the change in carbon-chain length affects the accessible conformers, their relative stability, and their molecular dipole moments. The paper's qualitative hypothesis is that AL can be stabilized by a compact terminal-group contact while AB can favor a more extended arrangement; independently test that hypothesis. Report structures using the public IDs and the structural definitions in the input. The scored observables are the identity/description of the lowest-energy conformer for each molecule, relative conformer energies within each molecule, and dipole moments.
+
+# Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that the shorter-chain AL may favor a compact arrangement in which the terminal ammonium and carboxylate groups approach one another, whereas the longer-chain AB may favor a more extended arrangement that separates those groups. They associate the chain-length-dependent conformational difference with a difference in molecular dipole moment.
+
+**Candidate route or mechanism.**
+Compare compact, terminal-group-contact conformers of AL with open or extended backbone conformers, and compare the analogous compact and extended possibilities for AB. Treat these as candidate structural explanations to test for the isolated zwitterions in the stated aqueous environment.
+
+**Discriminating evidence.**
+Use a conformational survey followed by consistent aqueous geometry optimization, within-molecule relative energies, geometry-based compact/open descriptors, and dipole moments for validated candidates. Candidate-level convergence and stationary-point checks should establish whether the proposed structural comparison is supported.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/molecular_system.json` uniquely defines AL as `[NH3+]CCC(=O)[O-]` and AB as `[NH3+]CCCC(=O)[O-]`; each is neutral overall, singlet, and modeled in water. “Folded” means a compact conformer with ammonium N and carboxylate O in a contact region; “extended” means an open backbone with separated terminal charged groups. You may generate 3-D geometries and solvent models. Do not use the paper, SI, general web, or hidden reference values. Do not claim that a molecular calculation directly proves battery lifetime or electrode behavior. Choose and state a defensible electronic-structure/solvation model, energy convention, and conformer-identification metric.
+
+# Required scientific validation/investigation
+
+Generate a documented set of distinct conformers for both AL and AB, including plausible compact and open geometries where found. Deduplicate using a stated connectivity-preserving geometry criterion, retain a stable candidate ID for every conformer, and record the generation method and provenance. Optimize every retained candidate in a consistent aqueous model, verify that the optimization converged to a stationary point (or clearly mark and exclude a failed optimization), and calculate a dipole for every validated candidate with a stated charge convention. Define relative energy within each molecule against that molecule's lowest validated candidate, and do not compare absolute energies between AL and AB. Report whether the compact/open labels are based on a measurable geometric descriptor and give the descriptor values. A successful investigation has at least one validated conformer for each molecule and a reproducible explanation of why the reported set is adequate. Stop when repeated independent generation/seeding no longer adds a distinct validated conformer under your stated criterion, or when computational limits prevent that test; in the latter case submit a bounded-failure report with all attempted candidates, failures, and coverage limitations. Compare your results with the qualitative author hypothesis only after completing the independent calculations.
+
+# Deliverables
+
+Submit `report/results.json` and `report/validation.json`. For a complete investigation, report a validated lowest-energy candidate for each molecule and the requested candidate energies and dipoles. If computational limits or failed optimizations prevent that outcome, submit `status: "bounded_failure"`, set unavailable selections/observables to JSON `null`, and include `failure_report` listing attempted candidates, failures and coverage limitations; do not fabricate a preferred conformer or numeric value. `validation.json` must document generation, deduplication, optimization/convergence, stationary-point or failure checks, energy reference conventions, and stopping/coverage evidence. Values must include units and enough geometry/provenance information for another researcher to reproduce the analysis.

@@ -1,0 +1,237 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "method",
+          "minimum_validation",
+          "sn_bu_pairs",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "bounded_failure"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "geometry_method",
+              "coupling_method",
+              "sign_convention"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "geometry_method": {
+                "type": "string"
+              },
+              "coupling_method": {
+                "type": "string"
+              },
+              "sign_convention": {
+                "type": "string"
+              }
+            }
+          },
+          "minimum_validation": {
+            "type": "object",
+            "required": [
+              "is_minimum",
+              "imaginary_frequency_count",
+              "evidence"
+            ],
+            "properties": {
+              "is_minimum": {
+                "type": "boolean"
+              },
+              "imaginary_frequency_count": {
+                "type": "integer"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "sn_bu_pairs": {
+            "type": "array",
+            "description": "Report these pairs using the original 1-based indices of the supplied XYZ: Sn=1 and butyl carbons=2,3,7. If the calculation reorders atoms, map pair indices back before submission and include the complete original-to-working mapping in supporting files.",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "sn_atom_index",
+                "carbon_atom_index",
+                "distance_angstrom"
+              ],
+              "properties": {
+                "sn_atom_index": {
+                  "type": "integer",
+                  "const": 1
+                },
+                "carbon_atom_index": {
+                  "type": "integer"
+                },
+                "distance_angstrom": {
+                  "type": "number"
+                },
+                "coupling_hz": {
+                  "type": "number"
+                }
+              }
+            },
+            "minItems": 3,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "carbon_atom_index": {
+                      "const": 2
+                    }
+                  },
+                  "required": [
+                    "carbon_atom_index"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "carbon_atom_index": {
+                      "const": 3
+                    }
+                  },
+                  "required": [
+                    "carbon_atom_index"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "carbon_atom_index": {
+                      "const": 7
+                    }
+                  },
+                  "required": [
+                    "carbon_atom_index"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          },
+          "mean_coupling_hz": {
+            "type": "number"
+          },
+          "anomeric_coupling_hz": {
+            "type": "number"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "failure_details": {
+            "type": "string"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "status",
+              "mean_coupling_hz"
+            ],
+            "properties": {
+              "status": {
+                "const": "success"
+              },
+              "sn_bu_pairs": {
+                "minItems": 3,
+                "items": {
+                  "required": [
+                    "coupling_hz"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "required": [
+              "status",
+              "failure_details"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure_details": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

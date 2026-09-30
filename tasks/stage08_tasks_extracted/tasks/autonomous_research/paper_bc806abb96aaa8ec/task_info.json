@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_bc806abb96aaa8ec",
+  "task_type": "autonomous_research",
+  "title": "Autonomous six-state spectroscopy and photodissociation interpretation",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The system and six-state endpoint are fixed, while the agent must formulate and discriminate plausible state and dynamics explanations with sensitivity validation."
+  ],
+  "paper": {
+    "title": "H atom product channels in the ultraviolet photodissociation of the 2-methyl-1-propenyl radical",
+    "doi": "10.1039/d5cp04745e",
+    "journal": "Physical Chemistry Chemical Physics",
+    "publication_date": "2026-01-08"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Unique neutral doublet radical XYZ and measurement boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated six-state spectroscopy results and interpretation."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "items": [
+    {
+      "key_point_id": "kp_pr_input",
+      "key_point_type": "process",
+      "statement": "The submission validates the supplied structure as 74-atom neutral C43H28O3 compound 1 in singlet state and states the geometry strategy.",
+      "evidence_ids": [
+        "ev_doc_d98bbe83bb8d_001856_490c62cc6a36"
+      ],
+      "expected": "74 atoms; C43H28O3; charge 0; multiplicity 1; geometry validation documented."
+    },
+    {
+      "key_point_id": "kp_pr_state",
+      "key_point_type": "process",
+      "statement": "The submission establishes a defensible converged or explicitly bounded ground-state calculation before extracting S1.",
+      "evidence_ids": [
+        "ev_doc_d98bbe83bb8d_000118_ad95fccfeac8",
+        "ev_doc_d98bbe83bb8d_000120_d25b019ad274"
+      ],
+      "expected": "Protocol and convergence evidence are reported, with S1 identified as the lowest singlet state."
+    },
+    {
+      "key_point_id": "kp_pr_energy",
+      "key_point_type": "result",
+      "statement": "The computed S1 excitation energy for compound 1 is approximately 2.204 eV.",
+      "evidence_ids": [
+        "ev_doc_d98bbe83bb8d_001910_5d6e289df037",
+        "ev_doc_674420e5be25_000317_a5bc4d34e6fb"
+      ],
+      "expected": 2.204
+    },
+    {
+      "key_point_id": "kp_pr_character",
+      "key_point_type": "result",
+      "statement": "S1 is dominated by the HOMO-to-LUMO transition, reported as orbital 155→156 with 98.8% contribution.",
+      "evidence_ids": [
+        "ev_doc_d98bbe83bb8d_001921_fd2d6d3e9bb1"
+      ],
+      "expected": "155→156; 98.8% HOMO→LUMO contribution."
+    }
+  ]
+}

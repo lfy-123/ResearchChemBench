@@ -1,0 +1,17 @@
+{
+  "structure": "iso_pvc_r_f1000.xyz",
+  "charge": 0,
+  "multiplicity": 1,
+  "electronic_state": "broken-symmetry unrestricted open-shell singlet (BS-UDFT); do not model as a closed-shell singlet or a doublet",
+  "force_model": {
+    "name": "terminal tensile force",
+    "magnitude_pN": 1000,
+    "sites": {
+      "terminal_methyl_carbon_1based": [1, 30],
+      "terminal_methyl_hydrogens_1based": [[2, 3, 4], [31, 32, 33]]
+    },
+    "direction_convention": "apply equal and opposite tensile forces to the centers of the two terminal methyl groups along their instantaneous connecting axis; report the implementation and any projection/constrained-coordinate approximation",
+    "thermal_channel": "remove the external force and reoptimize the same isotactic radical model before searching the thermal pathway"
+  },
+  "source": "supplementary_001.pdf pp. 11, 16, 23-25; force-labeled structures are printed with 0 1 and the methods specify unrestricted DFT/open-shell singlets"
+}

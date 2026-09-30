@@ -1,10 +1,10 @@
 # Scientific objective
 
-Using the two mapped reactants and the four supplied CuAAC connectivity classes, independently determine the thermodynamic ordering of the resulting adducts and the kinetic ordering of their formation pathways under a neutral, closed-shell isolated-molecule computational model. Explain which computed observables support the final selectivity conclusion.
+Using the mapped reactants, their explicitly defined neutral azide tautomers, and the four supplied connectivity-plus-tautomer candidate identities, independently determine the thermodynamic ordering of the resulting azide–alkyne adducts and the kinetic ordering of their formation pathways under a neutral, closed-shell isolated-molecule computational model. Explain which computed observables support the final selectivity conclusion.
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/reactants_and_candidate_definitions.json`. It uniquely defines reactant identity, atom preservation, charge 0, multiplicity 1, and the complete four-member candidate set Pdt1–Pdt4. Interpret each immutable definition by the named atom roles (the two alkyne carbons, the two terminal azide nitrogens, and the azide ring atom), and preserve those identities in every product and pathway record. The boundary excludes explicit copper, solvent, and counterions unless separately explored and labelled. No paper route, candidate preference, product geometry, transition-state geometry, reference value, ranking, or paper protocol is provided; do not claim a broader catalytic mechanism than the calculation supports.
+Use `data/inputs/reactants_and_candidate_definitions.json`. It defines explicit heavy-atom maps, neutral azide tautomers, charge 0, multiplicity 1, and the complete four-member set Pdt1–Pdt4. C1/C2 are the terminal/substituted alkyne carbons; N13/N14/N15 are the proximal/central/distal azide nitrogens. Preserve these identities, the original C16–N17–C18–N19–N20 ring, and the specified N–H position. Use each candidate's matching neutral azide tautomer; any proton-transfer process must be identified separately, never hidden by atom remapping. The boundary excludes explicit copper, solvent, and counterions unless separately explored and labelled. No paper route, candidate preference, product/TS coordinates, reference values or rankings are provided; do not claim an intramolecular reaction or a broader catalytic mechanism than this two-reactant organic model supports.
 
 # Required scientific validation/investigation
 

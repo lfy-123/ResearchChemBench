@@ -6,7 +6,7 @@ The paper compares the E and Z isomers of 1,2-bis(tetrazol-5-yl)ethylene (H2bte)
 
 ## 2. System and model boundary
 
-The molecular systems are neutral, closed-shell E-H2bte and Z-H2bte, formula C4H4N8. The molecular calculations use isolated molecules in a methanol continuum; crystal packing and experimental thermal/mechanical measurements are interpretation context, not recomputed outputs. The paper reports E-H2bte as planar and Z-H2bte as non-planar/less regularly packed, while the normalized extraction contains a contradictory phrase about near-planarity; the crystal discussion and figures are the controlling evidence for structural interpretation.
+The molecular systems are neutral, closed-shell E-H2bte and Z-H2bte, formula C4H4N8. The molecular ESP/LOL calculations use isolated molecules in a methanol continuum. Intermolecular NCI is a separate crystal-derived pair-density problem. Experimental thermal/mechanical measurements remain context, not outputs of this task. The paper reports E-H2bte as planar and Z-H2bte as non-planar/less regularly packed, while the normalized extraction contains a contradictory phrase about near-planarity; the crystal discussion and figures are the controlling evidence for structural interpretation.
 
 ## 3. Authors' implemented computational route
 
@@ -28,3 +28,8 @@ The paper reports ESP extrema of E-H2bte from -40.41 to 70.01 kcal mol-1 and Z-H
 ## 6. Limitations and interpretation boundaries
 
 ESP extrema and visual NCI/LOL-p comparisons depend on density, surface, grid, isovalue, and geometry choices; the paper does not provide machine-readable NCI scalar tables. The task therefore scores source-backed extrema and qualitative features, while requiring the agent to disclose settings and uncertainty. Molecular calculations alone do not establish crystal sensitivity causality; conclusions must be limited to consistency with the reported experimental trends.
+
+
+## Source-bound crystal scope repair — 2026-09-25
+
+The user selected the more demanding explicit-crystal scope rather than deleting the intermolecular criterion. Main Fig5c/d is intermolecular; SI p6 specifies the molecular B3LYP-D3BJ/6-311+G** PCM-methanol level, but does not uniquely specify the original NCI finite cluster/environment/grid. The public protocol supplies an auditable complete-first-shell pair reconstruction and matched gas/PCM sensitivity. It is a source-informed benchmark completion, not a recovered verbatim author input. CCDC1872388 contains half an E molecule: C3–C3 symmetry2_766 requires inversion plus[2,1,1]. CCDC2474069 has three independent Z molecules. Frozen pairs need single-point electronic convergence, not minimum frequencies. Source qualitative NCI and numerical ESP targets/tolerances remain unchanged; agreement must still be demonstrated and can fail.

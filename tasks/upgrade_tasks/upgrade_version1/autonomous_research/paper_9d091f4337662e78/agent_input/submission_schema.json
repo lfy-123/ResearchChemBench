@@ -1,0 +1,1231 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "paper_id",
+      "status",
+      "methods",
+      "resources",
+      "calculation_records",
+      "evidence_files",
+      "conclusion"
+    ],
+    "properties": {
+      "paper_id": {
+        "const": "paper_9d091f4337662e78"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure",
+          "blocked"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "primary",
+          "software_versions",
+          "solvent_and_state_convention",
+          "energy_zero_and_units",
+          "state_matching",
+          "conformer_coverage",
+          "uncertainty_protocol"
+        ],
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "solvent_and_state_convention": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "energy_zero_and_units": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "state_matching": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "conformer_coverage": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "uncertainty_protocol": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          }
+        }
+      },
+      "resources": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "engine_calls",
+          "wall_seconds",
+          "cpu_core_hours",
+          "max_memory_MB",
+          "accounting_basis",
+          "attempt_log"
+        ],
+        "properties": {
+          "engine_calls": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "max_memory_MB": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "accounting_basis": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "attempt_log": {
+            "type": "string",
+            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+          }
+        }
+      },
+      "calculation_records": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "calculation_id",
+            "system",
+            "record_type",
+            "kind",
+            "method",
+            "environment",
+            "input_file",
+            "output_file",
+            "convergence"
+          ],
+          "properties": {
+            "calculation_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "system": {
+              "type": "string",
+              "enum": [
+                "candidate_R",
+                "candidate_S"
+              ]
+            },
+            "record_type": {
+              "type": "string",
+              "enum": [
+                "electronic_structure",
+                "analysis"
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "failed"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "output_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "convergence": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "geometry_role": {
+              "type": "string",
+              "enum": [
+                "relaxed_minimum",
+                "constrained_control",
+                "single_point",
+                "excited_state"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "electronic_energy_hartree": {
+              "type": "number"
+            },
+            "imaginary_frequencies_cm1": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "number"
+              }
+            },
+            "state_identity": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "analysis_type": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "source_evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "candidate_R"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "candidate_S"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "charge",
+                  "multiplicity",
+                  "basis",
+                  "geometry_role"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "electronic_energy_hartree",
+                  "state_identity"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "analysis"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "analysis_type",
+                  "source_evidence_files"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "evidence_files": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "verdict",
+          "claim",
+          "scope_limit",
+          "evidence_files"
+        ],
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "not_established"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "scope_limit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      },
+      "results": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ensemble_search",
+          "ensemble_ECD",
+          "configuration_discrimination"
+        ],
+        "properties": {
+          "ensemble_search": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_R",
+              "candidate_S"
+            ],
+            "properties": {
+              "candidate_R": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "search_seeds",
+                  "n_generated",
+                  "n_unique",
+                  "deduplication_definition",
+                  "search_archive",
+                  "conformers",
+                  "weight_sum",
+                  "coverage_extension_file"
+                ],
+                "properties": {
+                  "search_seeds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "n_generated": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "n_unique": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "deduplication_definition": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "search_archive": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "conformers": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "conformer_id",
+                        "G_hartree",
+                        "relative_G_kcal_mol",
+                        "weight",
+                        "degeneracy",
+                        "imaginary_modes",
+                        "geometry_file",
+                        "rotatory_strength_file",
+                        "transition_file",
+                        "calculation_ids",
+                        "evidence_files"
+                      ],
+                      "properties": {
+                        "conformer_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        },
+                        "G_hartree": {
+                          "type": "number"
+                        },
+                        "relative_G_kcal_mol": {
+                          "type": "number"
+                        },
+                        "weight": {
+                          "type": "number"
+                        },
+                        "degeneracy": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "imaginary_modes": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "geometry_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        },
+                        "rotatory_strength_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        },
+                        "transition_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        },
+                        "calculation_ids": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Nonempty scientific explanation"
+                          }
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "weight_sum": {
+                    "type": "number"
+                  },
+                  "coverage_extension_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  }
+                }
+              },
+              "candidate_S": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "search_seeds",
+                  "n_generated",
+                  "n_unique",
+                  "deduplication_definition",
+                  "search_archive",
+                  "conformers",
+                  "weight_sum",
+                  "coverage_extension_file"
+                ],
+                "properties": {
+                  "search_seeds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "n_generated": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "n_unique": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "deduplication_definition": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "search_archive": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "conformers": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "conformer_id",
+                        "G_hartree",
+                        "relative_G_kcal_mol",
+                        "weight",
+                        "degeneracy",
+                        "imaginary_modes",
+                        "geometry_file",
+                        "rotatory_strength_file",
+                        "transition_file",
+                        "calculation_ids",
+                        "evidence_files"
+                      ],
+                      "properties": {
+                        "conformer_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        },
+                        "G_hartree": {
+                          "type": "number"
+                        },
+                        "relative_G_kcal_mol": {
+                          "type": "number"
+                        },
+                        "weight": {
+                          "type": "number"
+                        },
+                        "degeneracy": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "imaginary_modes": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "geometry_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        },
+                        "rotatory_strength_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        },
+                        "transition_file": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        },
+                        "calculation_ids": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Nonempty scientific explanation"
+                          }
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "weight_sum": {
+                    "type": "number"
+                  },
+                  "coverage_extension_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  }
+                }
+              }
+            }
+          },
+          "ensemble_ECD": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_R",
+              "candidate_S"
+            ],
+            "properties": {
+              "candidate_R": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "spectrum_file",
+                  "epsilon_file",
+                  "rotatory_strength_units",
+                  "rotatory_strength_gauge",
+                  "broadening_FWHM_eV",
+                  "energy_shift_eV",
+                  "sign_convention",
+                  "paired_mirror_energy_error_kcal_mol",
+                  "paired_mirror_ECD_error",
+                  "freeze_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "spectrum_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "epsilon_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "rotatory_strength_units": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "rotatory_strength_gauge": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "broadening_FWHM_eV": {
+                    "type": "number"
+                  },
+                  "energy_shift_eV": {
+                    "type": "number"
+                  },
+                  "sign_convention": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "paired_mirror_energy_error_kcal_mol": {
+                    "type": "number"
+                  },
+                  "paired_mirror_ECD_error": {
+                    "type": "number"
+                  },
+                  "freeze_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "candidate_S": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "spectrum_file",
+                  "epsilon_file",
+                  "rotatory_strength_units",
+                  "rotatory_strength_gauge",
+                  "broadening_FWHM_eV",
+                  "energy_shift_eV",
+                  "sign_convention",
+                  "paired_mirror_energy_error_kcal_mol",
+                  "paired_mirror_ECD_error",
+                  "freeze_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "spectrum_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "epsilon_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "rotatory_strength_units": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "rotatory_strength_gauge": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "broadening_FWHM_eV": {
+                    "type": "number"
+                  },
+                  "energy_shift_eV": {
+                    "type": "number"
+                  },
+                  "sign_convention": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Nonempty scientific explanation"
+                  },
+                  "paired_mirror_energy_error_kcal_mol": {
+                    "type": "number"
+                  },
+                  "paired_mirror_ECD_error": {
+                    "type": "number"
+                  },
+                  "freeze_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "configuration_discrimination": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidates",
+              "supported_configurations",
+              "decision_rule",
+              "comparison_file"
+            ],
+            "properties": {
+              "candidates": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "candidate_R",
+                  "candidate_S"
+                ],
+                "properties": {
+                  "candidate_R": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "heldout_RMSE",
+                      "tail_RMSE",
+                      "heldout_sign_score",
+                      "cutoff_sensitivity",
+                      "broadening_sensitivity",
+                      "population_sensitivity",
+                      "digitization_bound_used",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "heldout_RMSE": {
+                        "type": "number"
+                      },
+                      "tail_RMSE": {
+                        "type": "number"
+                      },
+                      "heldout_sign_score": {
+                        "type": "number"
+                      },
+                      "cutoff_sensitivity": {
+                        "type": "number"
+                      },
+                      "broadening_sensitivity": {
+                        "type": "number"
+                      },
+                      "population_sensitivity": {
+                        "type": "number"
+                      },
+                      "digitization_bound_used": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "candidate_S": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "heldout_RMSE",
+                      "tail_RMSE",
+                      "heldout_sign_score",
+                      "cutoff_sensitivity",
+                      "broadening_sensitivity",
+                      "population_sensitivity",
+                      "digitization_bound_used",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "heldout_RMSE": {
+                        "type": "number"
+                      },
+                      "tail_RMSE": {
+                        "type": "number"
+                      },
+                      "heldout_sign_score": {
+                        "type": "number"
+                      },
+                      "cutoff_sensitivity": {
+                        "type": "number"
+                      },
+                      "broadening_sensitivity": {
+                        "type": "number"
+                      },
+                      "population_sensitivity": {
+                        "type": "number"
+                      },
+                      "digitization_bound_used": {
+                        "type": "number"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "supported_configurations": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "R",
+                    "S"
+                  ]
+                }
+              },
+              "decision_rule": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              },
+              "comparison_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "prediction",
+            "falsifier",
+            "discriminating_panel"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "prediction": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "falsifier": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "discriminating_panel": {
+              "type": "string",
+              "enum": [
+                "ensemble_search",
+                "ensemble_ECD",
+                "configuration_discrimination"
+              ]
+            }
+          }
+        }
+      },
+      "sensitivity": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "setting",
+            "baseline_value",
+            "perturbed_value",
+            "unit",
+            "conclusion_changed",
+            "uncertainty_basis",
+            "calculation_ids",
+            "evidence_files"
+          ],
+          "properties": {
+            "setting": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "conclusion_changed": {
+              "type": "boolean"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "calculation_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              }
+            },
+            "evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          }
+        }
+      },
+      "failure_report": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "recovery_condition",
+          "evidence_files"
+        ],
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            }
+          },
+          "recovery_condition": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            },
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "record_type"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "bounded_failure",
+                "blocked"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "const": "not_established"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "calculation_records": {
+              "maxItems": 0
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "resources": {
+              "properties": {
+                "engine_calls": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

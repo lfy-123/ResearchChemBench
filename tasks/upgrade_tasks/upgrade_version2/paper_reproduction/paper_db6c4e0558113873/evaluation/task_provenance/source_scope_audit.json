@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "source_documents": [
+    {
+      "path": "papers/paper_db6c4e0558113873/documents/main.pdf",
+      "sha256": "9b9d8841f0eb5ec7561cb770ad3bd43d0820639e443412d5da1bc74842318c8c",
+      "page_count": 11,
+      "pdf_pages_1_based": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_db6c4e0558113873/documents/supplementary_001.pdf",
+      "sha256": "a6585fbc4d364923517f436132456b23b012d972eeecb7a818a8a4259c1a6608",
+      "page_count": 255,
+      "pdf_pages_1_based": [
+        56,
+        60,
+        64,
+        65
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "What molecular account of local C–Cl bond formation can explain the observed chlorosulfonylation selectivity of allenoate6b under the source photo/copper conditions, and what evidence limits that account?",
+    "scope": "Focus on local bond formation and selectivity for6b/benzenesulfonyl chloride with Cu(acac)2 in MeCN. A model may include chemically justified intermediates and states, but the full photoredox cycle, other allenoates and quantitative reaction yield are outside the task.",
+    "facts": "6b is ethyl4-phenyl-2-propyl-2,3-butadienoate; the source uses benzenesulfonyl chloride, Cu(acac)2 (10mol%) and4CzIPN (1mol%) with427nm irradiation in MeCN underN2 at40°C. Standard mechanistic experiments use0.05M6b and2equiv sulfonyl chloride. The observed product places chlorine at the benzylic terminus and phenylsulfonyl at the central allene carbon, with the reported Z alkene geometry. This is a measured selectivity to explain, not a hidden product prediction. Any active copper oxidation state or coordination model is a research inference.",
+    "claim_source_map": [
+      {
+        "claim": "Reactant identities and experimental conditions",
+        "source": "main PDFp6 Scheme3; SIp56,60,64"
+      },
+      {
+        "claim": "Observed chlorination position/Z selectivity and controls",
+        "source": "main PDFpp6–8"
+      },
+      {
+        "claim": "Author Cu pathway and intermediate-energy rationale",
+        "source": "main PDFpp8–9 Fig1; SIp65",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "Source method/temperature ambiguity",
+        "source": "SI PDFp65",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Reactant identities and experimental conditions",
+      "source": "main PDFp6 Scheme3; SIp56,60,64"
+    },
+    {
+      "claim": "Observed chlorination position/Z selectivity and controls",
+      "source": "main PDFpp6–8"
+    },
+    {
+      "claim": "Author Cu pathway and intermediate-energy rationale",
+      "source": "main PDFpp8–9 Fig1; SIp65",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "Source method/temperature ambiguity",
+      "source": "SI PDFp65",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Expanded raw path/state evidence and numerical sensitivity remain incomplete.",
+    "Exact source thermal convention needs clarification; retain source label without inventing corrected values.",
+    "Alternative-route semantic calibration and execution isolation pending."
+  ]
+}

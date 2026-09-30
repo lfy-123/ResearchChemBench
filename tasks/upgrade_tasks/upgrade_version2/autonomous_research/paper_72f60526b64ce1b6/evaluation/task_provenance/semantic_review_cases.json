@@ -1,0 +1,63 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "status": "designed_not_executed_by_real_judge",
+  "fixture_boundary": "These are review-case specifications, not submissions or scientific data. Any executable synthetic fixture is confined to temporary work/test_runs directories.",
+  "positive_cases": [
+    {
+      "case": "valid_alternative_route",
+      "expected": "Eligible for criterion-specific credit if the actual evidence supports the stated scope; no automatic pass.",
+      "route": "The source DFT–NEGF route is one valid reference design if reproduced with documented limitations; an independently converged implementation must establish its own evidence."
+    },
+    {
+      "case": "valid_alternative_route",
+      "expected": "Eligible for criterion-specific credit if the actual evidence supports the stated scope; no automatic pass.",
+      "route": "A different physically justified transport representation may answer a bounded explanatory question if validated for the claimed conditions; a toy or isolated-molecule model alone cannot prove real-junction performance."
+    },
+    {
+      "case": "supported_refutation_or_unresolved",
+      "expected": "Same scientific standard as supported author conclusion; uncertainty must follow substantive evidence."
+    },
+    {
+      "case": "honest_prerequisite_failure",
+      "expected": "Recognize missing input/infrastructure; do not score the input defect as poor agent science or call the objective complete."
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "scientific_invalid_1",
+      "scenario": "Substitutes isolated dipole, gap or uniform-field energy for actual current when claiming device rectification.",
+      "expected": "Reject affected scientific claim and dependent completion credit; retain valid independent parts.",
+      "enforcement": "Real artifact/semantic review is required; not proved by schema tests."
+    },
+    {
+      "case": "scientific_invalid_2",
+      "scenario": "Claims a bias-direction asymmetry from incomparable devices, mismatched chemical-potential/energy zeros or an unconverted current/ratio sign.",
+      "expected": "Reject affected scientific claim and dependent completion credit; retain valid independent parts.",
+      "enforcement": "Real artifact/semantic review is required; not proved by schema tests."
+    },
+    {
+      "case": "scientific_invalid_3",
+      "scenario": "Uses a wrong molecular graph/terminal-H composition or interprets isolated dithiolate charge as the total open-device occupation.",
+      "expected": "Reject affected scientific claim and dependent completion credit; retain valid independent parts.",
+      "enforcement": "Real artifact/semantic review is required; not proved by schema tests."
+    },
+    {
+      "case": "scientific_invalid_4",
+      "scenario": "Reports unsupported model/code outputs as a validated source-junction result or extrapolates GroupA calculations to macroscopic efficiency.",
+      "expected": "Reject affected scientific claim and dependent completion credit; retain valid independent parts.",
+      "enforcement": "Real artifact/semantic review is required; not proved by schema tests."
+    },
+    {
+      "case": "well_formed_fabricated_story",
+      "scenario": "Complete schema and hashes point to invented or unrelated files; no real computation supports the conclusion.",
+      "expected": "No scientific credit for that conclusion; inspect actual artifacts and managed execution provenance.",
+      "enforcement": "Host output format alone can accept its shape. Author-side integrity detects missing or corrupted files, not scientifically plausible fabrication."
+    },
+    {
+      "case": "unsupported_non_identifiability",
+      "scenario": "No discriminating evidence is generated but the submission calls the question scientifically undecidable.",
+      "expected": "Incomplete investigation, not a complete unresolved answer.",
+      "enforcement": "Actual semantic evidence review pending."
+    }
+  ]
+}

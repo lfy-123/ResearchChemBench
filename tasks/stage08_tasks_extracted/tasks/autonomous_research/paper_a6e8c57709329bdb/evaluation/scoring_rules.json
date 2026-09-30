@@ -1,0 +1,120 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.validation"
+        ],
+        "comparison": "expert validation of identity and convergence"
+      },
+      "expected": "Identity and convergence/force validation are explicit.",
+      "type": "condition",
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.gap_eV",
+          "$.validation.gap_recomputed",
+          "$.orbital_localization.evidence"
+        ],
+        "comparison": "arithmetic and evidence check"
+      },
+      "expected": "Gap equals LUMO minus HOMO and localization is evidenced.",
+      "type": "condition",
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "target": -5.44,
+      "unit": "eV (HOMO)",
+      "tolerance": 0.75,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.homo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "target": -1.12,
+      "unit": "eV (LUMO)",
+      "tolerance": 0.75,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.lumo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s5",
+      "target": 4.32,
+      "unit": "eV (gap)",
+      "tolerance": 0.75,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.gap_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s6",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.orbital_localization"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Conjugated/aromatic and methylene frontier localization is supported.",
+      "type": "semantic",
+      "reference_id": "ar_r2"
+    },
+    {
+      "rule_id": "ar_s7",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Conclusion is limited to isolated-HL electronic stability and charge redistribution, without unsupported sensing claims.",
+      "type": "semantic",
+      "reference_id": "ar_c1"
+    }
+  ]
+}

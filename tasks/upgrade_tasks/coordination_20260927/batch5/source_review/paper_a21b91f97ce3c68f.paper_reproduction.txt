@@ -1,0 +1,663 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "task_type": "paper_reproduction",
+  "title": "Independent 119Sn–13C coupling calculation for axial galactose stannane",
+  "category": "NMR coupling / relativistic quantum chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecule and observables are fixed, but the agent must choose a defensible heavy-atom relativistic/NMR protocol and validate stationarity and atom-pair assignment."
+  ],
+  "paper": {
+    "title": "Hyperconjugation Controls One-Bond Carbon–Tin Coupling Constants in Anomeric Tin Compounds: A Theoretical Study",
+    "doi": "10.1021/acs.joc.5c02630",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-21"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Neutral-singlet 62-atom XYZ geometry for the fixed axial galactose-derived tributyltin molecule."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculation results and scientific interpretation conforming to submission_schema.json."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The paper tests whether one-bond ^119Sn–^13C couplings in anomeric tributyltin compounds track antiperiplanar donor→σ*(C–Sn) hyperconjugation. The authors claim that stronger donation weakens/lengthens C–Sn and lowers the coupling magnitude; β/equatorial congeners generally have larger couplings than α/axial congeners. They also report an empirical sign/magnitude correction for absolute agreement with experiment.
+
+## 2. System and model boundary
+
+The benchmark system is the neutral singlet, axial galactose-derived tributyltin structure labelled 1a (62 atoms), with the SnBu3 group bonded at the anomeric carbon. The reported observable is ^1J(^119Sn–^13C_Bu), the average one-bond coupling over the three Sn–butyl carbon pairs; the anomeric Sn–C coupling and NBO donor terms are secondary analyses.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Generate low-energy conformers | 2D/starting geometry for each structure | CREST/GFN2-xTB | Lowest-energy axial and equatorial structures selected | Selected conformer | ev_doc_b3b050e4eca6_000020_de771cfa704f |
+| 2 | Obtain stationary geometry and donor analysis | Selected conformer | Gaussian16 | (GD3)B3LYP/Def2TZVPP, gas phase; optimization, frequencies, NBO 3.1/3.17 | Optimized minimum and NBO donor energies | ev_doc_b3b050e4eca6_000020_de771cfa704f |
+| 3 | Compute heavy-atom couplings | Optimized geometry | Gaussian16 | (GD3)B3LYP/TZP-ZORA; nmr=(spinspin,mixed,readatoms); integral=NoXCTest | ^1J(Sn–C) couplings and single-point properties | ev_doc_b3b050e4eca6_000020_de771cfa704f; ev_doc_b3b050e4eca6_000021_298c8dc9c778 |
+| 4 | Compare with experiment | Calculated couplings | Author analysis | Average Sn–C_Bu values; empirical linear correction reported in SI | Corrected coupling and error/trend analysis | ev_doc_63683f376088_000028_fcd1e21c9979; ev_doc_b3b050e4eca6_000052_* |
+
+## 4. Validation and analysis protocol
+
+The authors benchmarked C–H couplings (maximum error about 9 Hz; MAE about 5 Hz), checked axial/equatorial trends, examined solvent sensitivity, and compared calculated tin couplings with available experimental data. Frequencies establish minima. Solvent tests retained qualitative trends and showed a maximum gas/solvent difference of 6.65 Hz for the tested structures.
+
+## 5. Private reference results
+
+For 1a, the SI reports the optimized anomeric coupling as −248.14 Hz and the average butyl coupling as −217 Hz. The main paper/SI report the experimental ^1J(Sn–C) values and a fitted correction J(corrected)=−1.419·J(calculated); these values are evaluator-only.
+
+## 6. Limitations and interpretation boundaries
+
+This is a single-structure reproduction/calibration test, not a claim of universal predictive accuracy. Heavy-atom coupling signs differ between quantum-chemical convention and common experimental reporting. Conformer selection, functional/basis sensitivity, relativistic treatment, solvent, and averaging over butyl sites are method-dependence considerations, not mandatory disclaimer deliverables. Agreement with one experimental value cannot establish the full mechanistic model.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "rules": [
+    {
+      "rule_id": "r_pr_minimum",
+      "type": "condition",
+      "expected": "Minimum/stationarity evidence is present and scientifically interpretable.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum_validation"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "kp_pr_process_minimum"
+    },
+    {
+      "rule_id": "r_pr_pairs",
+      "type": "condition",
+      "expected": "Three pair objects identify Sn atom 1 and butyl carbons 2,3,7 using the original 1-based XYZ indices, with distances and evidence confirming the final-geometry assignment. Program-internal reordering is allowed; use the supplied mapping to connect working logs to the original-index result pairs.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sn_bu_pairs"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "kp_pr_process_pairs"
+    },
+    {
+      "rule_id": "r_pr_mean",
+      "type": "numeric",
+      "target": -217,
+      "unit": "Hz",
+      "tolerance": 15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sn_bu_pairs",
+          "$.mean_coupling_hz",
+          "$.method"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_pr_result_mean",
+      "expected": "Recompute the signed arithmetic mean of all three identified full Sn-C coupling values. FC-only, absolute-value or empirically corrected values cannot silently replace the declared full coupling."
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "type": "semantic",
+      "expected": "A validated, sign-aware coupling result is reported with computational evidence and no claim of universal accuracy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_pr_final"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算参考 — paper_a21b91f97ce3c68f / paper_reproduction
+
+整理日期：2026-09-23。本文件只记录既有成功的科学计算链，属于 evaluator 私有档案，不是评分规则，也不是 agent 必须照做的脚本。未在本次维护中新增量化计算；失败/重试不计入下列成功结果。
+
+## 1. 来源与实际范围（Group 4）
+
+正文与 SI S2 方法、S5 理论 J、S10–11 的 1a 坐标。
+
+[论文正文](../../../../papers/paper_a21b91f97ce3c68f/documents/main.pdf)；[当前成功结果与证据索引](../../../../docs/verification/group_4/paper_a21b91f97ce3c68f/report/results.json)。
+[补充材料 supplementary_001.pdf](../../../../papers/paper_a21b91f97ce3c68f/documents/supplementary_001.pdf)
+
+## 2. 真实有效计算流程
+
+1. 给定 axial-1a，完整 62 原子中性 singlet；任务本来就是该对象的 Sn–C coupling，几何不是待发现的答案。Gaussian16 B3LYP-GD3/def2TZVPP 气相 Opt/Freq，180 正频，最低 14.6467 cm⁻¹。
+2. 配对该最低点和 NMR 输入/输出，保留原子顺序，Sn index1、butyl carbon indices2/3/7。B3LYP-GD3/TZP-ZORA，NMR=(SpinSpin,Mixed,ReadAtoms)，Integral=NoXCTest，指定 119Sn/13C。TZP-ZORA 是基组名，不据此虚称 Gaussian 启用了 ZORA Hamiltonian。
+3. 从 FC+SD+PSO+DSO 的完整 signed J 提取 −249.688、−223.744、−205.060 Hz，算术均值 −226.164 Hz；与理论 −217±15 Hz 比较，不取绝对值、不乘作者面向实验的经验校准因子。
+4. 三个键距离约 2.1844/2.1891 Å 等身份/几何数据和 native NMR isotopes、分量表作为过程证据；该单结构链不证明整个 axial/equatorial 系列或 NBO 因果。
+
+## 3. 有效产物与原始输入/输出
+
+- [provenance/sn_coupling_closure_20260918.json](../../../../docs/verification/group_4/paper_a21b91f97ce3c68f/provenance/sn_coupling_closure_20260918.json)
+
+下列日志/后处理由上述有效链索引。输入取同目录 input.com/input.inp（存在时直链）；路径本身不是通过判据，科学量与步骤见第2节。
+
+- [local_stage_tests_20260914/compound_1a_computed_parent_tzp_zora_sn119_c13_spinspin_20260916/stdout.log](../../../../docs/verification/group_4/paper_a21b91f97ce3c68f/provenance/local_stage_tests_20260914/compound_1a_computed_parent_tzp_zora_sn119_c13_spinspin_20260916/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_a21b91f97ce3c68f/provenance/local_stage_tests_20260914/compound_1a_computed_parent_tzp_zora_sn119_c13_spinspin_20260916/input.com)
+- [local_stage_tests_20260914/compound_1a_full62_si_optfreq_20260915/stdout.log](../../../../docs/verification/group_4/paper_a21b91f97ce3c68f/provenance/local_stage_tests_20260914/compound_1a_full62_si_optfreq_20260915/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_a21b91f97ce3c68f/provenance/local_stage_tests_20260914/compound_1a_full62_si_optfreq_20260915/input.com)
+
+## 4. 当前 evaluator 对应关系
+
+以下对应是证据核对，不是本轮运行 LLM judge 的评分，也不宣称复现了 AR 的自主探索过程。
+
+| 项目 | 当前要求 | 本参考支持方式 |
+|---|---|---|
+| `kp_pr_process_minimum` | The final reported geometry is checked for stationarity and the report states the imaginary-frequency evidence. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_pr_process_pairs` | The three Sn–butyl carbon pairs are identified explicitly from the final geometry and retained with per-pair context. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_pr_result_mean` | The submission reports the signed average one-bond 119Sn–13C_Bu coupling for 1a in Hz. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `c_pr_final` | The validated calculation yields a defensible signed average Sn–C_Bu coupling and the interpretation explicitly distinguishes computed sign/magnitude from experimental convention. | 上述关键点与实际数值/物理解释共同支持；源值和验证值不混写。 |
+
+## 5. 不能扩大解释的地方
+
+不新增 equatorial/NBO 必评工作；保留当前 signed-mean 科学目标。
+
+参考使用作者知情路线和可能的作者端点，能支持此科学子问题存在真实可行计算链；不要求向被评 agent 公开端点，也不证明任意方法、初猜都必然收敛。任务的公开身份和必要定义须另行自包含核对。普通 limitation 不作为评估成果；本段只是维护档案的事实说明。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_minimum",
+      "key_point_type": "process",
+      "statement": "The final reported geometry is checked for stationarity and the report states the imaginary-frequency evidence.",
+      "evidence_ids": [
+        "ev_doc_b3b050e4eca6_000020_de771cfa704f"
+      ],
+      "expected": "A reproducible minimum check is supplied; a bounded failure may instead document the failed check and evidence."
+    },
+    {
+      "key_point_id": "kp_pr_process_pairs",
+      "key_point_type": "process",
+      "statement": "The three Sn–butyl carbon pairs are identified explicitly from the final geometry and retained with per-pair context.",
+      "evidence_ids": [
+        "ev_doc_b3b050e4eca6_000020_de771cfa704f"
+      ],
+      "expected": "Exactly three unambiguous Sn–C_Bu pairs with atom indices and distances are reported."
+    },
+    {
+      "key_point_id": "kp_pr_result_mean",
+      "key_point_type": "result",
+      "statement": "The submission reports the signed average one-bond 119Sn–13C_Bu coupling for 1a in Hz.",
+      "evidence_ids": [
+        "ev_doc_b3b050e4eca6_000052_*"
+      ],
+      "expected": "A numeric mean is supplied for success and is compared to the hidden SI/paper reference; bounded failure explains why it is unavailable."
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "items": [
+    {
+      "failure_id": "cf_pr_identity",
+      "condition": "Atom indices or Sn–butyl pair identity cannot be reconstructed.",
+      "scientific_severity": "invalid target observable"
+    },
+    {
+      "failure_id": "cf_pr_unvalidated",
+      "condition": "A claimed successful coupling lacks convergence/stationarity evidence.",
+      "scientific_severity": "unsupported result"
+    },
+    {
+      "failure_id": "cf_pr_leakage",
+      "condition": "The report cites hidden reference values as inputs or presents them as independently computed evidence.",
+      "scientific_severity": "benchmark contamination"
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{"paper_id":"paper_a21b91f97ce3c68f","evidence":[{"evidence_id":"ev_doc_b3b050e4eca6_000020_de771cfa704f","source":"{'document_id': 'doc_b3b050e4eca6', 'document_role': 'supporting_information', 'page': 2, 'source_ref': 'Computational Methods'}"},{"evidence_id":"ev_doc_63683f376088_000028_fcd1e21c9979","source":"{'document_id': 'doc_63683f376088', 'document_role': 'main_paper', 'page': 1, 'source_ref': 'empirical scaling statement'}"},{"evidence_id":"ev_doc_b3b050e4eca6_000052_*","source":"{'document_id': 'doc_b3b050e4eca6', 'document_role': 'supporting_information', 'page': 5, 'source_ref': 'Table S3 (Section 6, begins S5; caption S7), 1a galactose-ax row'}"}]}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "items": [
+    {
+      "conclusion_id": "c_pr_final",
+      "claim_role": "final",
+      "statement": "The validated calculation yields a defensible signed average Sn–C_Bu coupling and the interpretation explicitly distinguishes computed sign/magnitude from experimental convention.",
+      "evidence_ids": [
+        "ev_doc_63683f376088_000028_fcd1e21c9979",
+        "ev_doc_b3b050e4eca6_000052_*"
+      ],
+      "supporting_key_point_ids": [
+        "kp_pr_process_minimum",
+        "kp_pr_process_pairs",
+        "kp_pr_result_mean"
+      ],
+      "expected": "The validated calculation yields a defensible signed average Sn–C_Bu coupling and the interpretation explicitly distinguishes computed sign/magnitude from experimental convention."
+    }
+  ]
+}
+
+=== evaluation/task_provenance/contract_regression_20260923.json ===
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "mode": "paper_reproduction",
+  "source": "docs/verification/group_4/paper_a21b91f97ce3c68f/report/results.json",
+  "mapping": [],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pr_mean",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_pr_mean",
+      "observed": [
+        -226.164
+      ],
+      "target": -217,
+      "tolerance": 15,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 13,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": []
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 已批准修复记录（2026-09-23）
+
+授权：负责人同意 MAINTENANCE_REPORT 第 15 节方案及 D1–D7。正文/SI 为主，验证计算为辅；只在 verified_tasks 修复，无新量化计算、无迁移授权。
+
+已按批准方案分离 PR guidance，取消普通 limitation/停止表态的 required 和独立得分，显式采用 scientific_results 策略；保留真实失败诊断、对象/态/收敛/敏感性证据与原科学数值容差，修复已发现的 [] 选择器并接回必要关键点。
+
+收尾复查：修复清理后的残句及“失败也称 complete”矛盾；保留主结果要求，提供不必虚构数值/结构的早期失败格式。针对主对象重复/缺失与成功状态做契约检查；普通免责声明不作为必需字段或成果。
+
+计算档案已补成有效链、源方法/验证差异、原始输入输出和当前 3 个关键点/1 条科学结论对应；不把 reference 变成 evaluator、不写入虚构计算。
+
+## 2026-09-24 原子编号提交约定修复
+
+负责人已同意末轮审查提出的修法。复核 SI PDF S2（Bu 为三个 Sn–丁基碳的均值）、S5（1a 理论值 −217 Hz）及真实 group_4 三个 signed full J 后，确认科学对象和结果不需变化；问题是旧 task 同时允许“完整 remapping”却未要求映射回输入编号，而 schema 已固定 Sn=1、碳=2/3/7。
+
+现统一 task、schema 描述与 pairs 评分说明：程序内部可重排，results.json 的 sn_bu_pairs 必须使用公开 XYZ 原始 1-based 编号；发生重排时附完整原始→工作编号映射，日志按映射核验。没有修改 schema 校验条件、结构、三耦合均值定义、−217±15 Hz 靶或科学结论。原始编号结果和重排后映射回原始编号的结果均合法；未回映的工作编号、重复/缺失/错碳仍拒绝。具体测试及版本见 MAINTENANCE_REPORT.md 第20节；无新量化计算或迁移。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "method",
+          "minimum_validation",
+          "sn_bu_pairs",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "bounded_failure"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "geometry_method",
+              "coupling_method",
+              "sign_convention"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "geometry_method": {
+                "type": "string"
+              },
+              "coupling_method": {
+                "type": "string"
+              },
+              "sign_convention": {
+                "type": "string"
+              }
+            }
+          },
+          "minimum_validation": {
+            "type": "object",
+            "required": [
+              "is_minimum",
+              "imaginary_frequency_count",
+              "evidence"
+            ],
+            "properties": {
+              "is_minimum": {
+                "type": "boolean"
+              },
+              "imaginary_frequency_count": {
+                "type": "integer"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "sn_bu_pairs": {
+            "type": "array",
+            "description": "Report these pairs using the original 1-based indices of the supplied XYZ: Sn=1 and butyl carbons=2,3,7. If the calculation reorders atoms, map pair indices back before submission and include the complete original-to-working mapping in supporting files.",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "sn_atom_index",
+                "carbon_atom_index",
+                "distance_angstrom"
+              ],
+              "properties": {
+                "sn_atom_index": {
+                  "type": "integer",
+                  "const": 1
+                },
+                "carbon_atom_index": {
+                  "type": "integer"
+                },
+                "distance_angstrom": {
+                  "type": "number"
+                },
+                "coupling_hz": {
+                  "type": "number"
+                }
+              }
+            },
+            "minItems": 3,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "carbon_atom_index": {
+                      "const": 2
+                    }
+                  },
+                  "required": [
+                    "carbon_atom_index"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "carbon_atom_index": {
+                      "const": 3
+                    }
+                  },
+                  "required": [
+                    "carbon_atom_index"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "carbon_atom_index": {
+                      "const": 7
+                    }
+                  },
+                  "required": [
+                    "carbon_atom_index"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          },
+          "mean_coupling_hz": {
+            "type": "number"
+          },
+          "anomeric_coupling_hz": {
+            "type": "number"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "failure_details": {
+            "type": "string"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "status",
+              "mean_coupling_hz"
+            ],
+            "properties": {
+              "status": {
+                "const": "success"
+              },
+              "sn_bu_pairs": {
+                "minItems": 3,
+                "items": {
+                  "required": [
+                    "coupling_hz"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "required": [
+              "status",
+              "failure_details"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure_details": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+Independently plan and execute a defensible calculation for the fixed neutral-singlet axial galactose-derived tributyltin molecule in `data/inputs/compound_1a_axial.xyz`. Test the authors' qualitative hypothesis that antiperiplanar donor-to-σ*(C–Sn) hyperconjugation influences one-bond tin–carbon coupling, while determining the average signed ^1J(^119Sn–^13C_Bu) coupling over the three butyl carbons bonded directly to Sn.
+
+# Author-provided scientific guidance
+
+The qualitative hyperconjugation proposal is interpretive context for the specified three couplings. This task does not require an equatorial analogue, NBO causal decomposition or a separate anomeric-carbon coupling.
+
+The author hypothesis is qualitative only: stronger donation is expected to weaken/lengthen C–Sn and lower coupling magnitude, and an equatorial analogue would generally be expected to have a larger coupling; no target value or winning calculation is supplied.
+
+# Public inputs and scientific boundaries
+
+Report the three full signed one-bond 119Sn–13C couplings and their arithmetic mean. Do not substitute absolute values, Fermi-contact-only terms or empirical scaling for the declared full coupling. In `report/results.json`, `sn_bu_pairs` must use the original 1-based indices of the supplied XYZ: Sn=1 and butyl carbons=2,3,7. Calculation programs may reorder atoms, but map the reported pairs back to these original indices and provide the complete original-to-working index mapping with the supporting files when reordering occurs. The optional anomeric-carbon result does not affect completion.
+
+The sole molecular input is the 62-atom XYZ file, whose first line gives atom count and whose comment declares charge 0 and multiplicity 1. The supplied atom order defines the reporting indices, not a restriction on program-internal ordering. The Sn atom is atom 1; in the supplied geometry the three directly bonded butyl carbons are the three closest carbon atoms to Sn (atoms 2, 3, and 7, approximately 2.18–2.20 Å initially). Reconfirm that assignment from the final geometry and report atom indices and distances explicitly. The system boundary is the isolated molecule; solvent may be added only as a separately labelled sensitivity test. The measured quantities are optimized-geometry minimum evidence, signed ^1J(^119Sn–^13C) for each identified Sn–butyl carbon pair, their arithmetic mean in Hz, and optionally the anomeric Sn–C coupling if the corresponding carbon is identified unambiguously. Do not use the paper, SI, general web, or hidden reference values.
+
+# Required scientific validation/investigation
+
+Choose and justify the electronic-structure and relativistic/NMR method. Optimize the supplied structure and perform a vibrational or equivalent stationarity check; report whether the final structure is a minimum and give the evidence (for example, imaginary-frequency count). Compute the three individual one-bond Sn–C_Bu couplings and the mean, stating sign convention, isotope treatment, units, geometry, and software. Validate atom-pair assignment from the final geometry rather than silently assuming labels. If the preferred calculation fails, submit a bounded-failure report with logs and the last valid geometry/results. Completion requires a converged, validated calculation with all three couplings and their mean. Otherwise submit a failure/partial report with reproducibility details and any completed results. Discuss how the result bears on the qualitative hypothesis without importing the paper's numerical answer.
+
+A complete outcome requires the requested scientific results and their validation evidence. If only part succeeds, use the existing failure/partial pathway and submit completed results plus the specific missing calculations and diagnostics; do not fabricate values. Extra exploratory attempts are allowed and do not invalidate completed main results. General limitations or stopping statements are optional, not scored deliverables.
+
+# Deliverables
+
+For an early or partial failure, a compact alternative submission is `status: bounded_failure` with `failure_report: {reason, missing_endpoint, completed_artifacts}`. Use nonempty reasons, identify the missing calculation, and list only artifacts that exist (the list may be empty if failure preceded computation). Include any available partial results; never fill unavailable scientific values. This branch is a valid submission, not successful completion.
+
+Submit `report/results.json` conforming to `submission_schema.json`, plus supporting files under `report/` as needed (input-to-output atom mapping, optimization/frequency and NMR logs, and method details). The JSON must include status, method, minimum validation, explicit pair identities, individual couplings when available, mean coupling when available, computational evidence, and a concise scientific conclusion.

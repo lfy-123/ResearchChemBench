@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.343656+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_b276b18215cba283/documents/main.pdf",
+      "sha256": "389f29d6530237e6642f504587587564347b11765747bb427fc6568960d0b1c4",
+      "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p8 讨论 700 nm 新带和乙醇稀释实验；SI pp15–16 FigsS12/S13 明确单臂简化模型和三臂 cisoid/transoid，CAM-B3LYP/6-31G(d,p)。",
+      "actual_read_pages_and_sections": "Main p8 complete molecular interpretation and observation paragraph; SI pp15–16 FigsS12–S13 and source coordinate identities TablesS8–S11."
+    },
+    {
+      "path": "papers/paper_b276b18215cba283/documents/supplementary_001.pdf",
+      "sha256": "2c5e532a011fe24841808d9dd1c9f5ef653d924992cc1080a13cbc7e7ee09abf",
+      "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p8 讨论 700 nm 新带和乙醇稀释实验；SI pp15–16 FigsS12/S13 明确单臂简化模型和三臂 cisoid/transoid，CAM-B3LYP/6-31G(d,p)。",
+      "actual_read_pages_and_sections": "Main p8 complete molecular interpretation and observation paragraph; SI pp15–16 FigsS12–S13 and source coordinate identities TablesS8–S11."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Agent-selected full-dye molecular states and optical evidence explain aspects of the observed long-wavelength feature and distinguish finite models from the quatsome sample.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual optical calculations reveal multiple plausible molecular accounts consistent with the qualitative light/dilution observations, with insufficient evidence to select one.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "The author single-arm shift alone is claimed to identify the full three-arm 700 nm carrier or uniquely determine a photoisomer.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A validated single-arm calculation is labeled a source simplification and used only for its demonstrated local applicability.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular explanation for the long-wavelength absorption behavior of the source three-arm dye is supported by the supplied observations and a defensible molecular investigation? Determine how well the explanation accounts for the full dye and what cannot be established from a simplified model.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify C66H69N3O3 full-dye and any reduced source-derived graphs, correct arm connectivity and atom correspondence. One-arm and three-arm total energies cannot be compared as the same chemical composition. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Define absorption versus emission and the molecular state represented. Validate the computed observable and any structural or excited-state assignment used in the account. Assess assumptions material to transferring a simplified model to the full dye and to interpreting a solution/vesicle observation; decide the checks rather than following a fixed matrix. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "A finite linear optical calculation cannot establish the unique photoproduct, irreversible reaction, quatsome membrane structure, two-photon brightness or imaging performance. Distinguish compatibility with the observed band from proof of its origin, and full-dye claims from a single-arm model. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

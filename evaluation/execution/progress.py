@@ -106,7 +106,7 @@ class LiveProgressReporter:
                         self._handle = None
 
     def handle_agent_line(self, line: str) -> None:
-        """Summarize one OpenCode/Agent JSON stream event."""
+        """Summarize one Codex, OpenCode, or other Agent JSON stream event."""
 
         if not self.enabled:
             return
@@ -119,60 +119,29 @@ class LiveProgressReporter:
             self.emit("AGENT_STREAM", value=event)
             return
 
-        event_type = str(event.get("type") or "")
-        part = event.get("part") if isinstance(event.get("part"), dict) else {}
-        if event_type == "step_start":
-            self.emit(
-                "MODEL_STEP_START",
-                session_id=event.get("sessionID") or part.get("sessionID"),
-                message_id=part.get("messageID"),
-            )
-            return
-        if event_type == "text":
-            self.emit("MODEL_OUTPUT", text=part.get("text", ""))
-            return
-        if event_type == "assistant":
-            message = event.get("message") if isinstance(event.get("message"), dict) else {}
-            self.emit(
-                "MODEL_OUTPUT",
-                text=event.get("content") or message.get("content") or part.get("text") or "",
-            )
-            return
-        if event_type == "reasoning":
-            self.emit(
-                "MODEL_REASONING",
-                text=part.get("text") or part.get("reasoning") or "",
-            )
-            return
-        if event_type == "tool_use":
-            state = part.get("state") if isinstance(part.get("state"), dict) else {}
-            tool = str(part.get("tool") or "unknown")
-            kind = "MCP_AGENT_EVENT" if "researchchem" in tool else "NATIVE_TOOL"
-            self.emit(
-                kind,
-                tool=tool,
-                call_id=part.get("callID"),
-                status=state.get("status"),
-                input=state.get("input"),
-                output=state.get("output"),
-                error=state.get("error"),
-            )
-            return
-        if event_type == "step_finish":
-            self.emit(
-                "MODEL_STEP",
-                session_id=event.get("sessionID") or part.get("sessionID"),
-                message_id=part.get("messageID"),
-                reason=part.get("reason"),
-                tokens=part.get("tokens"),
-                cost=part.get("cost"),
-            )
-            return
-        if event_type in {"error", "session_error"}:
-            self.emit("AGENT_ERROR", error=event.get("error") or part or event)
-            return
-        if event_type == "result":
-            self.emit("AGENT_RESULT", result=event)
+        from ..provenance.agent_events import normalize_agent_event
+        value = normalize_agent_event(event)
+        kind = value["kind"]
+        if kind == "session":
+            self.emit("AGENT_SESSION", session_id=value.get("session_id"))
+        elif kind == "turn":
+            if value.get("phase") == "failed":
+                self.emit("AGENT_ERROR", error=value.get("error"))
+            elif value.get("phase") == "started":
+                self.emit("MODEL_STEP_START")
+            else:
+                self.emit("MODEL_STEP", tokens=value.get("usage"))
+        elif kind in {"message", "reasoning"}:
+            self.emit("MODEL_OUTPUT" if kind == "message" else "MODEL_REASONING", text=value.get("text"))
+        elif kind in {"native_tool", "mcp_tool"}:
+            self.emit("NATIVE_TOOL" if kind == "native_tool" else "MCP_AGENT_EVENT",
+                      tool=value.get("tool"), server=value.get("server"), call_id=value.get("call_id"),
+                      status=value.get("status"), input=value.get("arguments"), output=value.get("result_preview"),
+                      exit_code=value.get("exit_code"), error=value.get("error"))
+        elif kind == "error":
+            self.emit("AGENT_ERROR", error=value.get("error"))
+        else:
+            self.emit("AGENT_RESULT" if kind == "result" else "AGENT_STREAM", event=event)
 
     def handle_tool_trace_line(self, line: str) -> None:
         """Summarize one completed Chemistry MCP trace event."""

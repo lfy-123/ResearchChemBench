@@ -1,0 +1,102 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "type": "semantic",
+      "expected": "public system identity and state are explicitly verified",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.system_identity",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "type": "semantic",
+      "expected": "both phases document settings, convergence/state evidence, and derivation conventions or truthful failure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.phases",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "type": "semantic",
+      "expected": "requested descriptors and oxygen row charges are compared or honestly unavailable fields are listed",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.phases"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "type": "semantic",
+      "expected": "interpretation is grounded in submitted directions and includes limitations without biological overclaim",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_r2"
+    },
+    {
+      "rule_id": "ar_s5",
+      "type": "semantic",
+      "expected": "final phase conclusion is evidence-based and model-scoped",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c1"
+    },
+    {
+      "rule_id": "ar_s6",
+      "type": "semantic",
+      "expected": "limitations cover model, solvent, descriptor and frequency boundaries",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c2"
+    }
+  ],
+  "paper_id": "paper_adbbf3d29d1cd737"
+}

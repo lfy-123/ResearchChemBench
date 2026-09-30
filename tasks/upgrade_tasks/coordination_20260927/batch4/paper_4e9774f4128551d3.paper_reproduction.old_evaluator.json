@@ -1,0 +1,191 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "items": [
+      {
+        "key_point_id": "kp_identity",
+        "key_point_type": "process",
+        "statement": "The submitted calculation keeps the supplied structure_50 and structure_S20 identities distinct and verifies both are 53-atom structures.",
+        "expected": "Both named files are used without identity conflation and each has atom_count 53.",
+        "evidence_ids": [
+          "ev_doc_e93721ef1f70_001500_48366ce0b361",
+          "ev_doc_e93721ef1f70_001503_5a633e22e0fa"
+        ]
+      },
+      {
+        "key_point_id": "kp_stationary",
+        "key_point_type": "process",
+        "statement": "The free-energy comparison is supported by stationary-point/frequency validation for both structures.",
+        "expected": "The report gives frequency validation for each structure and identifies any imaginary frequencies; the SI reference structures have no negative frequencies.",
+        "evidence_ids": [
+          "ev_doc_e93721ef1f70_001501_4d3c3de9c148",
+          "ev_doc_e93721ef1f70_001502_6c1cfd5b3b3f"
+        ]
+      },
+      {
+        "key_point_id": "kp_delta",
+        "key_point_type": "result",
+        "statement": "The signed pairwise solution Gibbs-energy difference is computed with the convention G(S20) minus G(50).",
+        "expected": "A numeric signed ΔG(sol) is reported with kcal/mol units and arithmetic traceability.",
+        "evidence_ids": [
+          "ev_doc_e93721ef1f70_001500_48366ce0b361"
+        ]
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "items": [
+      {
+        "conclusion_id": "c_final",
+        "claim_role": "final",
+        "statement": "The validated structure-50 and structure-S20 calculations give a signed G(S20)-G(50) and identify the lower-free-energy structure under the primary methanol thermochemical protocol.",
+        "expected": "The validated structure-50 and structure-S20 calculations give a signed G(S20)-G(50) and identify the lower-free-energy structure under the primary methanol thermochemical protocol.",
+        "supporting_key_point_ids": [
+          "kp_identity",
+          "kp_stationary",
+          "kp_delta"
+        ],
+        "evidence_ids": [
+          "ev_doc_01f8c875ed87_000167_61753ec138fa",
+          "ev_doc_e93721ef1f70_001500_48366ce0b361"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "rules": [
+      {
+        "rule_id": "r_identity",
+        "reference_id": "kp_identity",
+        "type": "semantic",
+        "expected": "Both supplied named structures are individually represented, each with 53 atoms.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.structures"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "r_validation",
+        "reference_id": "kp_stationary",
+        "type": "semantic",
+        "expected": "Per-structure frequency/stationary-point validation is reported, including imaginary-mode information. Verify the gas-phase thermal correction and solution single-point components refer to the same identified endpoint and the declared primary protocol.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.structures"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "r_delta",
+        "reference_id": "kp_delta",
+        "type": "numeric",
+        "applies_when": {
+          "$.status": "completed"
+        },
+        "target": 2.3171919,
+        "unit": "kcal/mol",
+        "tolerance": 1,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.delta_g_sol"
+          ],
+          "comparison": "absolute difference"
+        }
+      },
+      {
+        "rule_id": "r_conclusion",
+        "reference_id": "c_final",
+        "type": "semantic",
+        "applies_when": {
+          "$.status": [
+            "completed",
+            "bounded_failure"
+          ]
+        },
+        "expected": "The validated structure-50 and structure-S20 calculations give a signed G(S20)-G(50) and identify the lower-free-energy structure under the primary methanol thermochemical protocol. Reconstruct each G_sol as E_SP,sol + (G_low,gas - E_low,gas), then form G(S20)-G(50) with consistent units and standard state. Numerical and endpoint-validation evidence must both be present.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.structures",
+            "$.conditions",
+            "$.delta_g_sol",
+            "$.sign_convention",
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "items": [
+      {
+        "failure_id": "f_identity",
+        "condition": "Structure files are swapped, conflated, altered without disclosure, or atom counts are not verified.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "f_unvalidated",
+        "condition": "A free-energy difference is asserted without per-structure stationary-point/frequency validation or an honest bounded-failure report.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "f_undefined",
+        "condition": "The sign convention, units, or calculation conditions are absent so the reported difference cannot be interpreted.",
+        "severity": "scientifically serious"
+      },
+      {
+        "failure_id": "f_fabricated",
+        "condition": "A missing or failed calculation is replaced by an invented numerical value.",
+        "severity": "scientifically serious"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_4e9774f4128551d3",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_01f8c875ed87_000167_61753ec138fa",
+        "source": "Main paper, p. 6: DFT comparison reports trans-isomer 2.32 kcal/mol more stable than cis alternative and discusses epimerization relevance."
+      },
+      {
+        "evidence_id": "ev_doc_e93721ef1f70_001495_76f07baeaa72",
+        "source": "SI, p. S71: computational experiments and DFT setup description."
+      },
+      {
+        "evidence_id": "ev_doc_e93721ef1f70_001500_48366ce0b361",
+        "source": "SI, p. S71: energy summary table reports structures 50 and S20 and ΔG(sol) 2.3171919 kcal/mol."
+      },
+      {
+        "evidence_id": "ev_doc_e93721ef1f70_001501_4d3c3de9c148",
+        "source": "SI, p. S71: Table S35 coordinates for optimized structure 50."
+      },
+      {
+        "evidence_id": "ev_doc_e93721ef1f70_001502_6c1cfd5b3b3f",
+        "source": "SI, p. S71: Table S37 frequencies for optimized structure 50."
+      },
+      {
+        "evidence_id": "ev_doc_e93721ef1f70_001503_5a633e22e0fa",
+        "source": "SI, p. S71: Table S36 coordinates for optimized structure S20."
+      }
+    ]
+  }
+}

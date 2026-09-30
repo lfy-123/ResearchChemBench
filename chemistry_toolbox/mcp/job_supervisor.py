@@ -7,6 +7,8 @@ specification.  It never parses shell syntax and always launches an argv vector.
 
 from __future__ import annotations
 
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES
+
 import json
 import os
 import resource
@@ -22,6 +24,8 @@ from chemistry_toolbox.src.remote_scratch import (
     cleanup_remote_scratch,
     prepare_remote_scratch,
 )
+
+from chemistry_toolbox.mcp.execution_store import ExecutionStore
 
 
 def _now() -> str:
@@ -43,6 +47,20 @@ def _preexec(
     resource_allocation: dict[str, Any],
 ):
     def configure() -> None:
+        # Gaussian can emit multi-gigabyte ELF core images when a native
+        # process aborts (for example after a filesystem write failure).  Core
+        # images are not part of the scientific evidence contract: input,
+        # stdout, stderr, checkpoint, status, and cancellation/recovery
+        # records are retained separately.  Disable only core dumping for the
+        # child process group so a crash cannot consume the user's quota and
+        # prevent subsequent author-route retries.  This does not impose a
+        # wall-clock limit or alter Gaussian's numerical calculation.
+        try:
+            resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+        except (AttributeError, OSError, ValueError):
+            # Platforms without RLIMIT_CORE (or restrictive launchers) keep
+            # the prior behavior; supervision must still proceed.
+            pass
         # The supervisor enforces walltime for the complete process group.
         # RLIMIT_CPU counts aggregate thread CPU time for one process and can
         # terminate a valid parallel calculation well before its walltime.
@@ -121,10 +139,19 @@ def supervise(spec_path: Path) -> int:
     resources = dict(specification.get("resource_limits") or {})
     resource_allocation = dict(specification.get("resource_allocation") or {})
     evaluation_budget = dict(specification.get("evaluation_resource_budget") or {})
-    walltime = max(1, int(resources.get("walltime_seconds") or 7200))
+    raw_walltime = resources.get("walltime_seconds")
+    # ``None`` is an explicit evaluator policy for a native job that must be
+    # allowed to finish naturally (for example a long Gaussian optimization).
+    # Resource and cancellation supervision remain active in this mode.
+    walltime = max(1, int(raw_walltime)) if raw_walltime is not None else None
     memory_limit_mb = _memory_limit_mb(resources, evaluation_budget)
+    run_deadline = specification.get("run_deadline")
+    absolute_deadline = datetime.fromisoformat(run_deadline).timestamp() if run_deadline else None
     started_at = _now()
     started_monotonic = time.monotonic()
+    job_deadline = min(time.time() + walltime if walltime is not None else float("inf"),
+                       absolute_deadline if absolute_deadline is not None else float("inf"))
+    job_deadline_at = datetime.fromtimestamp(job_deadline, timezone.utc).isoformat() if job_deadline != float("inf") else None
     child: subprocess.Popen[bytes] | None = None
     cancellation_signal: int | None = None
     cancellation_path = job_directory / "cancel_requested"
@@ -134,6 +161,7 @@ def supervise(spec_path: Path) -> int:
     reservation_path = Path(reservation_path_raw) if reservation_path_raw else None
     scratch_directory: Path | None = None
     last_reservation_heartbeat = 0.0
+    last_activity_at, activity = 0.0, None
 
     def heartbeat_reservation(*, force: bool = False) -> None:
         nonlocal last_reservation_heartbeat
@@ -166,6 +194,9 @@ def supervise(spec_path: Path) -> int:
             "resource_allocation": resource_allocation,
             "submitted_at": specification["submitted_at"],
             "started_at": started_at,
+            "process_started": child is not None,
+            "child_pid": child.pid if child is not None else None,
+            "deadline_at": job_deadline_at,
             "metadata": specification.get("metadata") or {},
             "execution_mode": specification.get("execution_mode", "local"),
             "compute_worker_id": specification.get("compute_worker_id"),
@@ -175,6 +206,22 @@ def supervise(spec_path: Path) -> int:
             **extra,
         }
         _atomic_json(status_path, value)
+        if specification.get("recovery_managed"):
+            from chemistry_toolbox.src.recovery_io import atomic_json, process_identity
+            value["launch_token"] = specification["launch_token"]
+            value["recovery_managed"] = True
+            store = ExecutionStore(Path(specification["workspace"]), run_id=specification["run_id"])
+            if state in TERMINAL_STATES:
+                atomic_json(store.directory / "terminal" / (specification["job_id"] + ".json"), value)
+            _atomic_json(status_path, value)
+            try:
+                store.record_job_state(specification["job_id"], state, state_payload={
+                    "status": value, "supervisor_identity": process_identity(os.getpid()),
+                    **({"child_identity": process_identity(extra["child_pid"])} if extra.get("child_pid") else {})})
+            except Exception as exc:
+                # Keep supervising the child; the trusted terminal fact above
+                # can be reconciled even if SQLite was temporarily unavailable.
+                print(f"execution_store_write_failed: {type(exc).__name__}: {exc}", file=sys.stderr, flush=True)
 
     def terminate_child(sig: int) -> None:
         nonlocal cancellation_signal
@@ -205,6 +252,10 @@ def supervise(spec_path: Path) -> int:
                 )
                 return 6
         heartbeat_reservation(force=True)
+        if absolute_deadline is not None and time.time() >= absolute_deadline:
+            status("timeout", finished_at=_now(), duration_seconds=0, return_code=None,
+                   error={"code": "run_deadline_exceeded", "message": "Original run deadline expired before launch"})
+            return 3
         if cancellation_path.is_file():
             status(
                 "cancelled",
@@ -249,6 +300,14 @@ def supervise(spec_path: Path) -> int:
             peak_process_group_rss_kb = 0
             while child.poll() is None:
                 heartbeat_reservation()
+                if time.monotonic() - last_activity_at >= 30:
+                    last_activity_at = time.monotonic()
+                    try:
+                        from chemistry_toolbox.src.process_activity import process_activity
+                        activity = process_activity(child.pid, (stdout_path, stderr_path), activity)
+                        _atomic_json(job_directory / "activity.json", activity)
+                    except Exception:
+                        pass  # Observability must never change process supervision.
                 if cancellation_path.is_file() and cancellation_signal is None:
                     cancellation_signal = signal.SIGTERM
                     try:
@@ -257,7 +316,7 @@ def supervise(spec_path: Path) -> int:
                         pass
                 if cancellation_signal is not None:
                     break
-                if time.monotonic() - started_monotonic > walltime:
+                if (walltime is not None and time.monotonic() - started_monotonic > walltime) or (absolute_deadline is not None and time.time() >= absolute_deadline):
                     timed_out = True
                     try:
                         os.killpg(child.pid, signal.SIGTERM)
@@ -303,6 +362,20 @@ def supervise(spec_path: Path) -> int:
                 except ProcessLookupError:
                     pass
             usage = resource.getrusage(resource.RUSAGE_CHILDREN)
+            if specification.get("recovery_managed"):
+                from chemistry_toolbox.src.recovery_io import token_processes, signal_identity
+                survivors = [item for item in token_processes(specification["launch_token"]) if item["pid"] != os.getpid()]
+                for item in survivors:
+                    signal_identity(item)
+                if survivors:
+                    time.sleep(0.2)
+                    for item in token_processes(specification["launch_token"]):
+                        if item["pid"] != os.getpid():
+                            signal_identity(item, signal.SIGKILL)
+                    time.sleep(0.1)
+                    if any(item["pid"] != os.getpid() for item in token_processes(specification["launch_token"])):
+                        status("needs_reconciliation", error={"code": "surviving_descendants", "message": "Managed descendants could not be stopped"})
+                        return 7
             common = {
                 "finished_at": _now(),
                 "duration_seconds": round(time.monotonic() - started_monotonic, 6),
@@ -317,6 +390,13 @@ def supervise(spec_path: Path) -> int:
                 },
             }
             if cancellation_signal is not None:
+                cancel_reason = None
+                if cancellation_path.is_file():
+                    try: cancel_reason = json.loads(cancellation_path.read_text()).get("reason")
+                    except (OSError, ValueError): pass
+                if cancel_reason == "deadline":
+                    status("timeout", **common, error={"code": "run_deadline_exceeded", "message": "Original run deadline expired"})
+                    return 3
                 status(
                     "cancelled",
                     **common,
@@ -345,6 +425,18 @@ def supervise(spec_path: Path) -> int:
                     },
                 )
                 return 5
+            if specification.get("recovery_managed") and specification["job_type"] == "predefined_action":
+                from .action_result_io import read_action_result
+                store = ExecutionStore(Path(specification["workspace"]), run_id=specification["run_id"])
+                result, problem = read_action_result(store, specification["job_id"], launch_token=specification["launch_token"])
+                if problem:
+                    status("failed", **common, error=problem)
+                    return 4
+                if child.returncode < 0 or (child.returncode != 0 and result["status"] in {"success", "partial_success"}):
+                    status("failed", **common, error={"code": "result_process_conflict", "message": "Action result conflicts with abnormal worker termination"})
+                    return 4
+                status(result["status"], **common, error=result.get("error"))
+                return 0 if result["status"] in {"success", "partial_success"} else 4
             if child.returncode == 0:
                 status("success", **common, error=None)
                 return 0

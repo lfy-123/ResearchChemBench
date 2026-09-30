@@ -1,0 +1,20 @@
+{
+  "problem": "What can the supplied time- and intensity-dependent diffraction-ring observations establish about the nonlinear optical response of INP in chloroform, and which physical properties remain unidentifiable from those observations?",
+  "facts": [
+    "27 time-series markers and 22 intensity-series markers are available; fitted lines and author-fit parameters are excluded.",
+    "Reported solution absorption coefficients at 532 nm are 3.22, 6.9 and 7.36 cm^-1 at 0.25, 0.5 and 1.0 mM.",
+    "A 16 micrometre waist is reported for the Z-scan arrangement; the SSPM arrangement has no independently calibrated waist or instrument-response trace in these inputs."
+  ],
+  "scope": "Analyze the supplied discrete ring-count observations for 0.25, 0.5 and 1.0 mM INP solution under 532 nm continuous-wave illumination. Time-series observations were collected at 50 mW. The solution path is 1 mm. The separate PMMA film and its device performance are outside this dataset. Data are digitized measurements with pixel-reading envelopes, not independent measurements of microscopic response components.",
+  "data_files": [
+    "fig10_digitization_provenance.json",
+    "fig10_measured_markers.csv",
+    "fig6_digitization_provenance.json",
+    "fig6_measured_markers.csv",
+    "inp_molecule.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "SSPM waist calibration, time-zero/exposure response, independent thermal constants and experimental counting error are absent. Unique decomposition into microscopic contributions is input-blocked; this package can address observational inference and defensible identifiability only."
+  ]
+}

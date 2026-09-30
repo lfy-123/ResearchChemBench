@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Both supplied named structures are individually represented, each with 53 atoms.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_validation",
+      "reference_id": "kp_stationary",
+      "type": "semantic",
+      "expected": "Per-structure frequency/stationary-point validation is reported, including imaginary-mode information.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_delta",
+      "reference_id": "kp_delta",
+      "type": "numeric",
+      "applies_when": {"$.status": "completed"},
+      "target": 2.3171919,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.delta_g_sol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "applies_when": {"$.status": ["completed", "bounded_failure"]},
+      "expected": "The report gives the signed stability relationship and explicitly limits it to thermodynamic preference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

@@ -1,0 +1,2599 @@
+{
+  "date": "2026-09-29",
+  "baseline": {
+    "date": "2026-09-29",
+    "head": "238d70c4d9fd21b9e4669fcc149637ae704e4ca1",
+    "archive": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.git/maintenance_backups/20260929_eight_papers/before_reference_and_copy.tar.gz",
+    "paths": [
+      "tasks/autonomous_research/paper_589f72ac15eb7acd",
+      "tasks/autonomous_research/paper_3c3d73b8715d5fcd",
+      "tasks/autonomous_research/paper_c49993ae88ffa0e3",
+      "tasks/autonomous_research/paper_c56ec62e92dbdfbc",
+      "tasks/autonomous_research/paper_1e3a1d290a02e5f0",
+      "tasks/autonomous_research/paper_9e7293af88532cd4",
+      "tasks/autonomous_research/paper_1255ed42fa7e12ff",
+      "tasks/autonomous_research/paper_3c89b494a1645491",
+      "tasks/paper_reproduction/paper_589f72ac15eb7acd",
+      "tasks/paper_reproduction/paper_3c3d73b8715d5fcd",
+      "tasks/paper_reproduction/paper_c49993ae88ffa0e3",
+      "tasks/paper_reproduction/paper_c56ec62e92dbdfbc",
+      "tasks/paper_reproduction/paper_1e3a1d290a02e5f0",
+      "tasks/paper_reproduction/paper_9e7293af88532cd4",
+      "tasks/paper_reproduction/paper_1255ed42fa7e12ff",
+      "tasks/paper_reproduction/paper_3c89b494a1645491",
+      "tasks/verified_tasks/MAINTENANCE_REPORT.md"
+    ],
+    "source_packages": 16,
+    "stage_packages_before": 0,
+    "notes": "Includes all files, hidden and untracked, only named packages and report; no git add/commit/reset."
+  },
+  "raw_log_counts": {
+    "589f72ac15eb7acd": 6,
+    "3c3d73b8715d5fcd": 73,
+    "c49993ae88ffa0e3": 58,
+    "c56ec62e92dbdfbc": 24,
+    "1e3a1d290a02e5f0": 12,
+    "9e7293af88532cd4": 4,
+    "1255ed42fa7e12ff": 16,
+    "3c89b494a1645491": 1
+  },
+  "value_errors": [],
+  "postprocessing": {
+    "geometry_parents": [
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "CO low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_CO_SI_PW6B95D3_mixed_optfreq_20260915_20260915T115903Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_CO_validated_minimum_SMD_dioxane_SP_20260915_20260916T043451Z",
+        "atoms": 2,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "CO low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_CO_SI_PW6B95D3_mixed_optfreq_20260915_20260915T115903Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_CO_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 2,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "Rh_dimer low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_Rh_dimer_SI_PW6B95D3_mixed_optfreq_20260915_20260915T115909Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_Rh_dimer_validated_minimum_SMD_dioxane_SP_20260915_20260916T043459Z",
+        "atoms": 12,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "Rh_dimer low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_Rh_dimer_SI_PW6B95D3_mixed_optfreq_20260915_20260915T115909Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_Rh_dimer_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 12,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "1D low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_1D_SI_PW6B95D3_mixed_optfreq_20260915_20260915T115916Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_1D_validated_minimum_SMD_dioxane_SP_20260915_20260916T043507Z",
+        "atoms": 24,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "1D low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_1D_SI_PW6B95D3_mixed_optfreq_20260915_20260915T115916Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_1D_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 24,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT1 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT1_SI_PW6B95D3_mixed_optfreq_20260915_20260915T120925Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT1_validated_minimum_SMD_dioxane_SP_20260915_20260916T043515Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT1 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT1_SI_PW6B95D3_mixed_optfreq_20260915_20260915T120925Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT1_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT2 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT2_SI_PW6B95D3_mixed_optfreq_20260915_20260915T120932Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT2_validated_minimum_SMD_dioxane_SP_20260915_20260916T043543Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT2 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT2_SI_PW6B95D3_mixed_optfreq_20260915_20260915T120932Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT2_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT3 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT3_SI_PW6B95D3_mixed_optfreq_20260915_20260915T120939Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT3_validated_minimum_SMD_dioxane_SP_20260915_20260916T043522Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT3 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT3_SI_PW6B95D3_mixed_optfreq_20260915_20260915T120939Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT3_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT4 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT4_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043309Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT4_validated_stationary_SMD_dioxane_SP_20260916_20260916T105418Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT4 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT4_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043309Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT4_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT5 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT5_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043316Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT5_validated_stationary_SMD_dioxane_SP_20260916_20260916T105427Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT5 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT5_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043316Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT5_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT11 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT11_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043323Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT11_validated_stationary_SMD_dioxane_SP_20260916_20260916T105435Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "INT11 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT11_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043323Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_INT11_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS1endo low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1endo_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043331Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1endo_validated_stationary_SMD_dioxane_SP_20260916_20260916T105443Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS1endo low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1endo_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043331Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1endo_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS1exo low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1exo_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043339Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1exo_validated_stationary_SMD_dioxane_SP_20260916_20260916T105450Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS1exo low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1exo_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043339Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS1exo_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS2 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS2_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043347Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS2_validated_stationary_SMD_dioxane_SP_20260916_20260916T105458Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS2 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS2_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043347Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS2_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS3 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS3_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043355Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS3_validated_stationary_SMD_dioxane_SP_20260916_20260916T105505Z",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS3 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS3_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043355Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS3_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 30,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS4 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS4_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043402Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS4_validated_stationary_SMD_dioxane_SP_20260916_20260916T105513Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS4 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS4_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043402Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS4_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS5 low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS5_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043410Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS5_validated_stationary_SMD_dioxane_SP_20260916_20260916T105520Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "TS5 low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS5_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043410Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_TS5_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "3D low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_3D_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043418Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_3D_validated_stationary_SMD_dioxane_SP_20260916_20260916T105526Z",
+        "atoms": 24,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "3D low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_3D_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043418Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_3D_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 24,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "4D low -> solvent",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_4D_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043426Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_4D_validated_stationary_SMD_dioxane_SP_20260916_20260916T105533Z",
+        "atoms": 24,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "3c3d73b8715d5fcd",
+        "label": "4D low -> high",
+        "parent": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_4D_SI_PW6B95D3_mixed_optfreq_20260915_20260916T043426Z",
+        "child": "docs/verification/group_2/paper_3c3d73b8715d5fcd/provenance/qzcli_hpc/author_4D_validated_geometry_wB97MV_def2QZVP_ORCA611_SP_mpi_v5_20260925",
+        "atoms": 24,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyO-anionrad-H2O_conf1",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_H2O_conf1_publisher_correct_object_optfreq_20260923_20260923T132116Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_H2O_conf1_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T030016Z",
+        "atoms": 15,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyO-anionrad-H2O_conf2",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_H2O_conf2_publisher_correct_object_optfreq_20260923_20260923T132131Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_H2O_conf2_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T031210Z",
+        "atoms": 15,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyO-anionrad-H2O_conf3",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_H2O_conf3_publisher_correct_object_optfreq_20260923_20260923T133332Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_H2O_conf3_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T030038Z",
+        "atoms": 15,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyO-anionrad",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/native_workspace_batch/outputs/execution_jobs/job_c25b7622994b4526abaca3154d0ce4d4",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_anionrad_validated_source_matched_def2TZVPP_SP_20260923_20260923T133347Z",
+        "atoms": 12,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyO-H2O_conf1",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/native_workspace_batch/outputs/execution_jobs/job_0feacd80e5334b3d8b0bad72e737d201",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_H2O_conf1_validated_source_matched_def2TZVPP_SP_20260923_20260923T133402Z",
+        "atoms": 15,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyO",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_publisher_correct_object_optfreq_20260923_20260923T133417Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyO_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T030054Z",
+        "atoms": 12,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyOH-cation-H2O_conf1",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_H2O_conf1_publisher_correct_object_optfreq_20260923_20260923T133432Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_H2O_conf1_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T031226Z",
+        "atoms": 16,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyOH-cation-H2O_conf2",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_H2O_conf2_publisher_correct_object_optfreq_20260923_20260923T133447Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_H2O_conf2_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T031241Z",
+        "atoms": 16,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyOH-cation-H2O_conf3",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_H2O_conf3_publisher_correct_object_optfreq_20260923_20260923T133502Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_H2O_conf3_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T030126Z",
+        "atoms": 16,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "PyOH-cation",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_publisher_correct_object_optfreq_20260923_20260923T133517Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_PyOH_cation_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T030142Z",
+        "atoms": 13,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad-H2O_conf1",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf1_publisher_correct_object_optfreq_20260923_20260923T133532Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf1_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T032331Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad-H2O_conf2",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf2_publisher_correct_object_optfreq_20260923_20260923T133548Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf2_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T032348Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad-H2O_conf3",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf3_publisher_correct_object_optfreq_20260923_20260923T133603Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf3_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T032403Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad-H2O_conf4",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf4_publisher_correct_object_optfreq_20260923_20260923T134642Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf4_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T032418Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad-H2O_conf5",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf5_publisher_correct_object_optfreq_20260923_20260923T134657Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf5_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T032433Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad-H2O_conf6",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf6_publisher_correct_object_optfreq_20260923_20260923T134713Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_H2O_conf6_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T034512Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S0-H2PQ-cationrad",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_publisher_correct_object_optfreq_20260923_20260923T134728Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S0_H2PQ_cationrad_publisher_correct_object_validated_minimum_def2TZVPP_SP_20260925_20260925T034527Z",
+        "atoms": 26,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ-H2O_conf1",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf1_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T035556Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf1_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T114318Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ-H2O_conf2",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf2_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T035612Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf2_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T131826Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ-H2O_conf3",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf3_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T040640Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf3_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T132904Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ-H2O_conf4",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf4_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T041708Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf4_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T133945Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ-H2O_conf6",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf6_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T041723Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf6_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T135035Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ-H2O_conf7",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf7_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T042750Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_H2O_conf7_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T140117Z",
+        "atoms": 29,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-H2PQ",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T042805Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_H2PQ_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T144239Z",
+        "atoms": 26,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-HPQ-anion-H2O_conf1",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf1_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T042820Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf1_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T144255Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-HPQ-anion-H2O_conf2",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf2_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T043847Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf2_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T145348Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-HPQ-anion-H2O_conf4",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf4_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T044914Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf4_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T145403Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-HPQ-anion-H2O_conf5",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf5_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T044930Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_H2O_conf5_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T150445Z",
+        "atoms": 28,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c49993ae88ffa0e3",
+        "label": "S1-HPQ-anion",
+        "parent": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_publisher_correct_object_optfreq_three_root_precheck_20260925_20260925T044945Z",
+        "child": "docs/verification/group_2/paper_c49993ae88ffa0e3/provenance/qzcli_hpc/author_S1_HPQ_anion_publisher_correct_object_validated_S1_def2TZVPP_SP_20260925_20260925T155238Z",
+        "atoms": 25,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "TSCC_R",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSCC_R_SI_main_method_optfreq_20260923_20260923T133200Z",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSCC_R_validated_main_TS_high_basis_xylene_mixture_SP_20260925_20260925T114258Z",
+        "atoms": 116,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "TSCC_S",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSCC_S_SI_main_method_optfreq_20260923_20260923T133216Z",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSCC_S_validated_main_TS_high_basis_xylene_mixture_SP_20260925_20260925T120436Z",
+        "atoms": 116,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "TSdep_R",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSdep_R_SI_main_method_optfreq_20260923_20260923T133232Z",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSdep_R_validated_main_TS_high_basis_xylene_mixture_SP_20260925_20260925T115346Z",
+        "atoms": 116,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "TSdep_S",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSdep_S_SI_main_method_optfreq_20260923_20260923T133247Z",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_TSdep_S_validated_main_TS_high_basis_xylene_mixture_SP_20260925_20260925T115402Z",
+        "atoms": 116,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "catalyst_4i",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_catalyst_4i_b3lyp_631gd_v5_b3lypd3bj_631gd_optfreq_hpc20_20260906T032916Z",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_catalyst_4i_balanced_reference_xylene_high_SP_20260926_20260926T093243Z",
+        "atoms": 82,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "reactant_1a",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/artifacts/gaussian_batch/author_reactant_1a_b3lyp_631gd_v5_b3lypd3bj_631gd_optfreq",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_reactant_1a_balanced_reference_xylene_high_SP_20260926_20260926T085946Z",
+        "atoms": 20,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "reactant_2a",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/artifacts/gaussian_batch/author_reactant_2a_b3lyp_631gd_v5_b3lypd3bj_631gd_optfreq",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_reactant_2a_balanced_reference_xylene_high_SP_20260926_20260926T090025Z",
+        "atoms": 26,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "c56ec62e92dbdfbc",
+        "label": "MeOH",
+        "parent": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_balancing_MeOH_gas_optfreq_20260926_20260926T090046Z",
+        "child": "docs/verification/group_2/paper_c56ec62e92dbdfbc/provenance/qzcli_hpc/author_balancing_MeOH_validated_minimum_xylene_high_SP_20260926_20260926T093318Z",
+        "atoms": 6,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1e3a1d290a02e5f0",
+        "label": "JY1 R0 -> cation SP",
+        "parent": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/local_migration_job_acfb039a9f2346f382d9dd9471e1ad41/stdout.log",
+        "child": "docs/verification/group_4/paper_1e3a1d290a02e5f0/provenance/local_stage_tests_20260914/jy1_cation_at_neutral_final_parent_sp_20260915/stdout.log",
+        "atoms": 102,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1e3a1d290a02e5f0",
+        "label": "JY1 R+ -> neutral SP",
+        "parent": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/local_migration_job_e553e801a9e644a8b019dfd693ad79c3/stdout.log",
+        "child": "docs/verification/group_4/paper_1e3a1d290a02e5f0/provenance/local_stage_tests_20260914/jy1_neutral_at_cation_final_parent_sp_20260915/stdout.log",
+        "atoms": 102,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1e3a1d290a02e5f0",
+        "label": "JY2 R0 -> cation SP",
+        "parent": "docs/verification/group_4/paper_1e3a1d290a02e5f0/artifacts/gaussian_batch/JY2_neutral_optfreq__segfault_retry1/stdout.log",
+        "child": "docs/verification/group_4/paper_1e3a1d290a02e5f0/provenance/local_stage_tests_20260914/jy2_cation_at_neutral_final_parent_sp_20260915/stdout.log",
+        "atoms": 102,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1e3a1d290a02e5f0",
+        "label": "JY2 R+ -> neutral SP",
+        "parent": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/local_migration_job_ae587ce5146747a581f6f72886f5f2a8/stdout.log",
+        "child": "docs/verification/group_4/paper_1e3a1d290a02e5f0/provenance/local_stage_tests_20260914/jy2_neutral_at_cation_final_parent_sp_20260915/stdout.log",
+        "atoms": 102,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1e3a1d290a02e5f0",
+        "label": "JY3 R0 -> cation SP",
+        "parent": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/jy3_source_345_fluoro_neutral_optfreq_20260925_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/jy3_source_345_fluoro_cation_at_neutral_sp_20260925_hpc20_p6/stdout.log",
+        "atoms": 102,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1e3a1d290a02e5f0",
+        "label": "JY3 R+ -> neutral SP",
+        "parent": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/jy3_source_345_fluoro_cation_optfreq_20260925_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1e3a1d290a02e5f0/hpc_runs/jy3_source_345_fluoro_neutral_at_cation_sp_20260925_hpc20_p6/stdout.log",
+        "atoms": 102,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1255ed42fa7e12ff",
+        "label": "O TS -> forward IRC",
+        "parent": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_O_ESIPT_TS_S1__retry_001_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_O_source_ts_lqa_forward_irc_20260915_hpc20_p6/stdout.log",
+        "atoms": 37,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1255ed42fa7e12ff",
+        "label": "O TS -> reverse IRC",
+        "parent": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_O_ESIPT_TS_S1__retry_001_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_O_source_ts_lqa_reverse_irc_20260915_hpc20_p6/stdout.log",
+        "atoms": 37,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1255ed42fa7e12ff",
+        "label": "S TS -> forward IRC",
+        "parent": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_S_computed_scan_peak_ts_optfreq_20260918_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_S_computed_scan_peak_ts_optfreq_20260918_forward_irc_hpc20_p6/stdout.log",
+        "atoms": 37,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1255ed42fa7e12ff",
+        "label": "S TS -> reverse IRC",
+        "parent": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_S_computed_scan_peak_ts_optfreq_20260918_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_S_computed_scan_peak_ts_optfreq_20260918_reverse_irc_hpc20_p6/stdout.log",
+        "atoms": 37,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1255ed42fa7e12ff",
+        "label": "Se TS -> forward IRC",
+        "parent": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_Se_computed_prefix_peak_ts_optfreq_20260919_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_Se_computed_prefix_peak_ts_optfreq_20260919_forward_irc_hpc20_p6/stdout.log",
+        "atoms": 37,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      },
+      {
+        "paper": "1255ed42fa7e12ff",
+        "label": "Se TS -> original reverse IRC",
+        "parent": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_Se_computed_prefix_peak_ts_optfreq_20260919_hpc20_p6/stdout.log",
+        "child": "docs/verification/group_4/paper_1255ed42fa7e12ff/hpc_runs/8QBDY_Se_computed_prefix_peak_ts_optfreq_20260919_reverse_irc_hpc20_p6/stdout.log",
+        "atoms": 37,
+        "max_coordinate_error_A": 0.0,
+        "max_pair_distance_error_A": 0.0
+      }
+    ],
+    "results": {
+      "589f72ac15eb7acd": {
+        "C1": -33.76457121759741,
+        "C2": -28.500042742040232,
+        "C3": -21.41500594488278
+      },
+      "3c3d73b8715d5fcd": {
+        "terms": {
+          "CO": {
+            "G_solution_Eh": -113.35466696136334,
+            "temperature_shift_kcal_mol": -0.007077112694507171,
+            "standard_state_correction_Eh": -0.001482775382371026
+          },
+          "Rh_dimer": {
+            "G_solution_Eh": -1595.0964548329712,
+            "temperature_shift_kcal_mol": -0.01956126949374415,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "1D": {
+            "G_solution_Eh": -426.33391156424534,
+            "temperature_shift_kcal_mol": -0.016356643375301516,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "INT1": {
+            "G_solution_Eh": -1223.8688311695028,
+            "temperature_shift_kcal_mol": -0.02164719649497826,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "INT2": {
+            "G_solution_Eh": -1223.8929741951463,
+            "temperature_shift_kcal_mol": -0.020327370779360976,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "INT3": {
+            "G_solution_Eh": -1110.522918585635,
+            "temperature_shift_kcal_mol": -0.018509822619328986,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "INT4": {
+            "G_solution_Eh": -1110.5251259137688,
+            "temperature_shift_kcal_mol": -0.01855471467519898,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "INT5": {
+            "G_solution_Eh": -1110.5207391902309,
+            "temperature_shift_kcal_mol": -0.01986301402586932,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "INT11": {
+            "G_solution_Eh": -1223.8845089096587,
+            "temperature_shift_kcal_mol": -0.021319155350338903,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "TS1endo": {
+            "G_solution_Eh": -1223.8482717298189,
+            "temperature_shift_kcal_mol": -0.020841302242644133,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "TS1exo": {
+            "G_solution_Eh": -1223.8362269399852,
+            "temperature_shift_kcal_mol": -0.02099205152137351,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "TS2": {
+            "G_solution_Eh": -1223.8657970226648,
+            "temperature_shift_kcal_mol": -0.020891342269788282,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "TS3": {
+            "G_solution_Eh": -1223.8663278452827,
+            "temperature_shift_kcal_mol": -0.021224669017643194,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "TS4": {
+            "G_solution_Eh": -1110.5133251015727,
+            "temperature_shift_kcal_mol": -0.018346156240747646,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "TS5": {
+            "G_solution_Eh": -1110.5109182361555,
+            "temperature_shift_kcal_mol": -0.01932193039504604,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "3D": {
+            "G_solution_Eh": -426.3784509495577,
+            "temperature_shift_kcal_mol": -0.01505360890635199,
+            "standard_state_correction_Eh": 0.003018804534102794
+          },
+          "4D": {
+            "G_solution_Eh": -426.3738558034814,
+            "temperature_shift_kcal_mol": -0.014626055093443835,
+            "standard_state_correction_Eh": 0.003018804534102794
+          }
+        },
+        "profile": {
+          "INT1": 8.35077762465096,
+          "INT2": -6.799199699209417,
+          "INT3": 2.857322806695799,
+          "INT4": 1.4722034903304397,
+          "INT5": 4.2249140704527415,
+          "INT11": -1.4871528551255777,
+          "TS1endo": 21.252020807722865,
+          "TS1exo": 28.810240541456366,
+          "TS2": 10.254733511188403,
+          "TS3": 9.921637289362119,
+          "TS4": 8.877324944986736,
+          "TS5": 10.387655797101205
+        },
+        "activation": 22.739173662848444,
+        "exo_minus_endo": 7.558219733733502
+      },
+      "1e3a1d290a02e5f0": {
+        "JY1": {
+          "HOMO_eV": -5.23873608007761,
+          "LUMO_eV": -1.819081170544298,
+          "lambda_eV": 0.21341128314182292,
+          "energies_Eh": {
+            "neutral": -2579.88225423,
+            "cation": -2579.65765485,
+            "cation_at_neutral": -2579.65383069,
+            "neutral_at_cation": -2579.87823567
+          }
+        },
+        "JY2": {
+          "HOMO_eV": -5.255879253412582,
+          "LUMO_eV": -2.1268419489864216,
+          "lambda_eV": 0.1984572658314366,
+          "energies_Eh": {
+            "neutral": -2679.28261052,
+            "cation": -2679.05709124,
+            "cation_at_neutral": -2679.05347206,
+            "neutral_at_cation": -2679.27893653
+          }
+        },
+        "JY3": {
+          "HOMO_eV": -5.292614624844666,
+          "LUMO_eV": -2.1390870727971167,
+          "lambda_eV": 0.2114890708145874,
+          "energies_Eh": {
+            "neutral": -2778.6697651,
+            "cation": -2778.44330815,
+            "cation_at_neutral": -2778.43946601,
+            "neutral_at_cation": -2778.66583516
+          }
+        }
+      },
+      "9e7293af88532cd4": {
+        "G_Eh": {
+          "reactant_1": -859.262711,
+          "product_3": -914.519259,
+          "im5": -838.143913,
+          "water": -76.381679
+        },
+        "raw": 3.9740174992224744,
+        "source_recipe": 1.5960815386781206,
+        "all_solute_1M": 2.0796890537283286,
+        "bulk_water_1M": -0.29824690681602517,
+        "MoNO_angle_deg": 178.2131190543369,
+        "NO_A": 1.1974618378040278,
+        "NO_frequency_cm1": 1698.7976
+      },
+      "1255ed42fa7e12ff": {
+        "O": {
+          "barrier_kcal_mol": 13.426192706971165,
+          "rate_s_inv": 894.9412338505923,
+          "paths": {
+            "forward": {
+              "accepted_points": 73,
+              "minimum_other_root_minus_S1_eV": 0.23340000000000005
+            },
+            "reverse": {
+              "accepted_points": 101,
+              "minimum_other_root_minus_S1_eV": 0.36739999999999995
+            }
+          }
+        },
+        "S": {
+          "barrier_kcal_mol": 7.703933813097818,
+          "rate_s_inv": 14003590.251597073,
+          "paths": {
+            "forward": {
+              "accepted_points": 68,
+              "minimum_other_root_minus_S1_eV": 0.44840000000000035
+            },
+            "reverse": {
+              "accepted_points": 121,
+              "minimum_other_root_minus_S1_eV": 0.022499999999999964
+            }
+          }
+        },
+        "Se": {
+          "barrier_kcal_mol": 6.661640576670982,
+          "rate_s_inv": 81329038.65884545,
+          "paths": {
+            "forward": {
+              "accepted_points": 96,
+              "minimum_other_root_minus_S1_eV": 0.46530000000000005
+            },
+            "reverse": {
+              "accepted_points": 178,
+              "minimum_other_root_minus_S1_eV": 0.01739999999999986
+            }
+          },
+          "Se_splice_TD_difference_Eh": 1.9999788491986692e-08
+        }
+      },
+      "3c89b494a1645491": {
+        "CPs": {
+          "5": {
+            "signature": "3,-1",
+            "rho": 0.03638523601,
+            "laplacian": 0.08587827236,
+            "G": 0.02572270239,
+            "V": -0.03000790643,
+            "H": -0.004285204032,
+            "elf": 0.1656989989,
+            "ratio": 1.1665922955927803
+          },
+          "6": {
+            "signature": "3,-1",
+            "rho": 0.03657994244,
+            "laplacian": 0.0864129484,
+            "G": 0.02590870297,
+            "V": -0.03024669504,
+            "H": -0.004337992065,
+            "elf": 0.1661669426,
+            "ratio": 1.1674337798778662
+          },
+          "7": {
+            "signature": "3,-1",
+            "rho": 0.0362731183,
+            "laplacian": 0.08561049238,
+            "G": 0.02562328052,
+            "V": -0.02987575076,
+            "H": -0.004252470238,
+            "elf": 0.1653478189,
+            "ratio": 1.1659611944177397
+          },
+          "8": {
+            "signature": "3,-1",
+            "rho": 0.03652286631,
+            "laplacian": 0.08628669784,
+            "G": 0.02585929003,
+            "V": -0.03017929699,
+            "H": -0.004320006958,
+            "elf": 0.1659748235,
+            "ratio": 1.1670582198888002
+          }
+        },
+        "DI": {
+          "020": {
+            "mapping": {
+              "4": 57,
+              "1": 92,
+              "3": 113,
+              "2": 118
+            },
+            "contacts": [
+              0.37548906,
+              0.37717135,
+              0.37501872,
+              0.37676476
+            ]
+          },
+          "010": {
+            "mapping": {
+              "4": 57,
+              "1": 91,
+              "3": 114,
+              "2": 123
+            },
+            "contacts": [
+              0.37506794,
+              0.37627436,
+              0.37365572,
+              0.37591119
+            ]
+          }
+        },
+        "mean_rho": 0.036440290764999994,
+        "literal_DI_range_pass": [
+          true,
+          false,
+          false,
+          true
+        ]
+      }
+    },
+    "errors": []
+  },
+  "thermochemistry": {
+    "c49993ae88ffa0e3": {
+      "method": "GoodVibes 4.3 full qRRHO reread, single symmetry divisor, archived geometry sigma and dedup identities",
+      "records": 29,
+      "qrrho_errors": [],
+      "recomputed_G_by_candidate": {
+        "PyO-anionrad-H2O_conf1": -399.8872483638111,
+        "PyO-anionrad-H2O_conf2": -399.88682840017236,
+        "PyO-anionrad-H2O_conf3": -399.8868045687904,
+        "PyO-anionrad": -323.4532783122784,
+        "PyO-H2O_conf1": -399.8113659735635,
+        "PyO": -323.3824873393195,
+        "PyOH-cation-H2O_conf1": -400.23937515956015,
+        "PyOH-cation-H2O_conf2": -400.23960076303786,
+        "PyOH-cation-H2O_conf3": -400.24880788112904,
+        "PyOH-cation": -323.8163984846511,
+        "S0-H2PQ-cationrad-H2O_conf1": -766.0412629961239,
+        "S0-H2PQ-cationrad-H2O_conf2": -766.0420816522089,
+        "S0-H2PQ-cationrad-H2O_conf3": -766.0396174234176,
+        "S0-H2PQ-cationrad-H2O_conf4": -766.0507524659103,
+        "S0-H2PQ-cationrad-H2O_conf5": -766.0512479442735,
+        "S0-H2PQ-cationrad-H2O_conf6": -766.0520893375906,
+        "S0-H2PQ-cationrad": -689.6201791671307,
+        "S1-H2PQ-H2O_conf1": -766.1153600112008,
+        "S1-H2PQ-H2O_conf2": -766.1155420454722,
+        "S1-H2PQ-H2O_conf3": -766.1079445584882,
+        "S1-H2PQ-H2O_conf4": -766.1111890855399,
+        "S1-H2PQ-H2O_conf6": -766.1090721830799,
+        "S1-H2PQ-H2O_conf7": -766.1105271894756,
+        "S1-H2PQ": -689.6880306489402,
+        "S1-HPQ-anion-H2O_conf1": -765.6803374616852,
+        "S1-HPQ-anion-H2O_conf2": -765.6806238642445,
+        "S1-HPQ-anion-H2O_conf4": -765.6817901730486,
+        "S1-HPQ-anion-H2O_conf5": -765.6764353936427,
+        "S1-HPQ-anion": -689.2555899813514
+      },
+      "ensemble_G": {
+        "PyO-anionrad-H2O": -399.88771600042395,
+        "PyO-anionrad": -323.4532783122784,
+        "PyO-H2O": -399.8113659735635,
+        "PyO": -323.3824873393195,
+        "PyOH-cation-H2O": -400.2488079360916,
+        "PyOH-cation": -323.8163984846511,
+        "S0-H2PQ-cationrad-H2O": -766.0525638401358,
+        "S0-H2PQ-cationrad": -689.6201791671307,
+        "S1-H2PQ-H2O": -766.116118244921,
+        "S1-H2PQ": -689.6880306489402,
+        "S1-HPQ-anion-H2O": -765.682178585057,
+        "S1-HPQ-anion": -689.2555899813514
+      },
+      "states": {
+        "pt_dry": -0.9227387150233828,
+        "et_dry": -1.8445585452387985,
+        "pt_hydrated": -2.1977281028055202,
+        "et_hydrated": -8.029374078684889
+      }
+    },
+    "c56ec62e92dbdfbc": {
+      "records": 8,
+      "qrrho_errors": [],
+      "G_by_state": {
+        "TSCC_R": -14570.62359563252,
+        "TSCC_S": -14570.620442825102,
+        "TSdep_R": -14570.630494968706,
+        "TSdep_S": -14570.627094644355,
+        "catalyst_4i": -13801.16333129373,
+        "reactant_1a": -461.1611264319872,
+        "reactant_2a": -539.7065500026725,
+        "MeOH": -115.69433543473262
+      },
+      "reference_G": -14802.03100772839,
+      "balanced_values": {
+        "TSCC_R": 11.760297125224033,
+        "TSCC_S": 13.738713649784515,
+        "TSdep_R": 7.430898304015326,
+        "TSdep_S": 9.564634049078595
+      },
+      "delta_delta_G": 1.9784165245604814
+    }
+  },
+  "package_and_rules": {
+    "autonomous_research/589f72ac15eb7acd": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_589f72ac15eb7acd",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": []
+      },
+      "schema_errors": [
+        {
+          "exception": "PointerToNowhere: '/$defs/system' does not exist within {'type': 'object', 'required': ['status', 'plan', 'method', 'systems', 'coverage', 'conclusion', 'uncertainty'], 'properties': {'status': {'type': 'string', 'enum': ['complete', 'bounded_failure']}, 'method': {'type': 'object', 'required': ['so"
+        }
+      ],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "ar_final",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "ar_r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r3a",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r3b",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r3c",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r4",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r5",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/589f72ac15eb7acd": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_589f72ac15eb7acd",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": []
+      },
+      "schema_errors": [
+        {
+          "exception": "PointerToNowhere: '/$defs/system' does not exist within {'type': 'object', 'required': ['status', 'method', 'systems', 'coverage', 'conclusion', 'uncertainty'], 'properties': {'status': {'type': 'string', 'enum': ['complete', 'bounded_failure']}, 'method': {'type': 'object', 'required': ['software',"
+        }
+      ],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "pr_final",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "pr_r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r3a",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r3b",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r3c",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r4",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r5",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/3c3d73b8715d5fcd": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_3c3d73b8715d5fcd",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:rule_activation",
+          "tolerance_requires_scientific_review:rule_endo_exo"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "conclusion_mechanism",
+          "max_score": 50
+        },
+        {
+          "id": "conclusion_limitations",
+          "max_score": 50
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "rule_process_validation",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "rule_process_assembly",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "rule_activation",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.cycloisomerization_activation_free_energy_kcal_mol"
+            }
+          ],
+          "observed": 22.739173662705763,
+          "target": 22.8,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.060826337294237476,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "rule_endo_exo",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.endo_exo_ocs_transition_state_difference_kcal_mol"
+            }
+          ],
+          "observed": 7.558219733876182,
+          "target": 7.5,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.05821973387618229,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "rule_final_conclusion",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "rule_limitations",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/3c3d73b8715d5fcd": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_3c3d73b8715d5fcd",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:rule_activation",
+          "tolerance_requires_scientific_review:rule_endo_exo"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "conclusion_mechanism",
+          "max_score": 50
+        },
+        {
+          "id": "conclusion_limitations",
+          "max_score": 50
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "rule_process_validation",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "rule_process_assembly",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "rule_activation",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.cycloisomerization_activation_free_energy_kcal_mol"
+            }
+          ],
+          "observed": 22.739173662705763,
+          "target": 22.8,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.060826337294237476,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "rule_endo_exo",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.endo_exo_ocs_transition_state_difference_kcal_mol"
+            }
+          ],
+          "observed": 7.558219733876182,
+          "target": 7.5,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.05821973387618229,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "rule_final_conclusion",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "rule_limitations",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/c49993ae88ffa0e3": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_c49993ae88ffa0e3",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": []
+      },
+      "schema_errors": [
+        {
+          "path": "$.states",
+          "message": "{'pt_dry': {'delta_g_kcal_mol': -0.9227387150233828, 'products': ['S1-HPQ-anion', 'PyOH-cation'], 'reactants': ['S1-H2PQ', 'PyO'], 'balanced_formula': {'O': 3, 'C': 19, 'H': 15, 'N': 1}, 'water_molecules_each_side': 0, 'spin': 'PT: S1 singlet catalyst anion + closed-shell singlet PyOH cation. ET: tw"
+        }
+      ],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "c_ar_final",
+          "max_score": 50
+        },
+        {
+          "id": "c_ar_limits",
+          "max_score": 50
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "r_ar_inventory",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_ar_validation",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_ar_dry",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_ar_water",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_ar_limits",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_ar_final",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_ar_limits_conclusion",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/c49993ae88ffa0e3": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_c49993ae88ffa0e3",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:r_pr_etdry",
+          "tolerance_requires_scientific_review:r_pr_eth2o",
+          "tolerance_requires_scientific_review:r_pr_ptdry"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "c_pr_thermo",
+          "max_score": 50
+        },
+        {
+          "id": "c_pr_limits",
+          "max_score": 50
+        }
+      ],
+      "standalone_rules": [
+        "r_pr_states"
+      ],
+      "rule_checks": [
+        {
+          "rule_id": "r_pr_states",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_coverage",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_ptdry",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_etdry",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_eth2o",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_ptwater",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_conclusion",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_pr_limits",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/c56ec62e92dbdfbc": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_c56ec62e92dbdfbc",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:r_delta"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "c_final_selectivity",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "r_ts",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_coverage",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_delta",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_final",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_mechanism",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/c56ec62e92dbdfbc": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_c56ec62e92dbdfbc",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:r_delta"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "c_final_selectivity",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "r_ts",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_coverage",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_delta",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_final",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r_mechanism",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/1e3a1d290a02e5f0": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_1e3a1d290a02e5f0",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:ar_r_homo",
+          "tolerance_requires_scientific_review:ar_r_lambda",
+          "tolerance_requires_scientific_review:ar_r_lumo"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "ar_final_trend",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [
+        "ar_r_identity",
+        "ar_r_method",
+        "ar_r_lumo"
+      ],
+      "rule_checks": [
+        {
+          "rule_id": "ar_r_identity",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r_method",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r_homo",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r_lumo",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r_lambda",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r_final",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/1e3a1d290a02e5f0": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_1e3a1d290a02e5f0",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:pr_r_homo1",
+          "tolerance_requires_scientific_review:pr_r_lambda1",
+          "tolerance_requires_scientific_review:pr_r_lumo1"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "pr_final_trend",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [
+        "pr_r_identity",
+        "pr_r_lambda_process",
+        "pr_r_lumo1"
+      ],
+      "rule_checks": [
+        {
+          "rule_id": "pr_r_identity",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r_lambda_process",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r_homo1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r_lumo1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r_lambda1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r_final",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/9e7293af88532cd4": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_9e7293af88532cd4",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:ar_r3"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "ar_final",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "ar_r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.delta_g_water_binding_source_recipe_kcal_mol"
+            }
+          ],
+          "observed": 1.5960815386781206,
+          "target": 1.6,
+          "tolerance": 8.0,
+          "unit": "kcal/mol",
+          "difference": 0.003918461321879452,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r4",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_c1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/9e7293af88532cd4": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_9e7293af88532cd4",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:pr_r3"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "pr_final",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "pr_r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.delta_g_water_binding_source_recipe_kcal_mol"
+            }
+          ],
+          "observed": 1.5960815386781206,
+          "target": 1.6,
+          "tolerance": 8.0,
+          "unit": "kcal/mol",
+          "difference": 0.003918461321879452,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r4",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_c1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/1255ed42fa7e12ff": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_1255ed42fa7e12ff",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:r3_O",
+          "tolerance_requires_scientific_review:r3_S",
+          "tolerance_requires_scientific_review:r3_Se",
+          "tolerance_requires_scientific_review:r4_O",
+          "tolerance_requires_scientific_review:r4_S",
+          "tolerance_requires_scientific_review:r4_Se"
+        ]
+      },
+      "schema_errors": [
+        {
+          "path": "$",
+          "message": "'hypotheses' is a required property"
+        }
+      ],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "c1",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r3_O",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r3_S",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r3_Se",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_O",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_S",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_Se",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r5",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/1255ed42fa7e12ff": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_1255ed42fa7e12ff",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:r3_O",
+          "tolerance_requires_scientific_review:r3_S",
+          "tolerance_requires_scientific_review:r3_Se",
+          "tolerance_requires_scientific_review:r4_O",
+          "tolerance_requires_scientific_review:r4_S",
+          "tolerance_requires_scientific_review:r4_Se"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "c1",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r3_O",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r3_S",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r3_Se",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_O",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_S",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_Se",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "r5",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "autonomous_research/3c89b494a1645491": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_3c89b494a1645491",
+        "task_type": "autonomous_research",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:ar_r3"
+        ]
+      },
+      "schema_errors": [
+        {
+          "path": "$",
+          "message": "'hypotheses' is a required property"
+        }
+      ],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "ar_final",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "ar_r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r3",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r4",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "ar_r5",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    "paper_reproduction/3c89b494a1645491": {
+      "package_check": {
+        "status": "passed",
+        "paper_id": "paper_3c89b494a1645491",
+        "task_type": "paper_reproduction",
+        "findings": [],
+        "diagnostics": [
+          "tolerance_requires_scientific_review:pr_r3"
+        ]
+      },
+      "schema_errors": [],
+      "policy": "dual_axis_100.v1",
+      "rubric": [
+        {
+          "id": "pr_final",
+          "max_score": 100
+        }
+      ],
+      "standalone_rules": [],
+      "rule_checks": [
+        {
+          "rule_id": "pr_r1",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r2",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r3",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r4",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        },
+        {
+          "rule_id": "pr_r5",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    }
+  },
+  "actual_runner": {
+    "autonomous_research/589f72ac15eb7acd": {
+      "historical_report": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "invalid_contract_reference",
+            "file": "submission_schema.json",
+            "message": "PointerToNowhere: '/$defs/system' does not exist within {'type': 'object', 'required': ['status', 'plan', 'method', 'systems', 'coverage', 'conclusion', 'uncertainty'], 'properties': {'status': {'type': 'string', 'enum': ['complete', 'bounded_failure']}, 'method': {'type': 'object', 'required': ['software', 'model_chemistry', 'state_preparation', 'conformer_strategy', 'electronic_energy_units', 'gap_definition', 'unit_conversion', 'justification'], 'properties': {'software': {'type': 'string'}, 'model_chemistry': {'type': 'string'}, 'state_preparation': {'type': 'string'}, 'conformer_strategy': {'type': 'string'}, 'electronic_energy_units': {'type': 'string'}, 'gap_definition': {'type': 'string'}, 'unit_conversion': {'type': 'string'}, 'justification': {'type': 'string'}}}, 'systems': {'type': 'object', 'required': ['C1', 'C2', 'C3'], 'properties': {'C1': {'$ref': '#/$defs/system'}, 'C2': {'$ref': '#/$defs/system'}, 'C3': {'$ref': '#/$defs/system'}}}, 'coverage': {'type': 'object', 'required': ['declared_search_budget', 'deduplication_criterion', 'advancement_criterion', 'coverage_exhausted', 'stopping_condition'], 'properties': {'declared_search_budget': {'type': 'string'}, 'deduplication_criterion': {'type': 'string'}, 'advancement_criterion': {'type': 'string'}, 'coverage_exhausted': {'type': 'boolean'}, 'stopping_condition': {'type': 'string'}}}, 'conclusion': {'type': 'string'}, 'uncertainty': {'type': 'string'}, 'gaps_kj_mol': {'type': 'object', 'required': ['C1', 'C2', 'C3'], 'properties': {'C1': {'type': 'number'}, 'C2': {'type': 'number'}, 'C3': {'type': 'number'}}}, 'ordering_assessment': {'type': 'string'}, 'partial_gaps_kj_mol': {'type': 'object', 'required': ['C1', 'C2', 'C3'], 'properties': {'C1': {'type': ['number', 'null']}, 'C2': {'type': ['number', 'null']}, 'C3': {'type': ['number', 'null']}}}, 'unresolved_states': {'type': 'array', 'items': {'type': 'string'}}, 'available_comparison': {'type': 'string'}, 'plan': {'type': 'string'}}, 'oneOf': [{'p"
+          }
+        ]
+      }
+    },
+    "paper_reproduction/589f72ac15eb7acd": {
+      "historical_report": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "invalid_contract_reference",
+            "file": "submission_schema.json",
+            "message": "PointerToNowhere: '/$defs/system' does not exist within {'type': 'object', 'required': ['status', 'method', 'systems', 'coverage', 'conclusion', 'uncertainty'], 'properties': {'status': {'type': 'string', 'enum': ['complete', 'bounded_failure']}, 'method': {'type': 'object', 'required': ['software', 'model_chemistry', 'state_preparation', 'conformer_strategy', 'electronic_energy_units', 'gap_definition', 'unit_conversion', 'justification'], 'properties': {'software': {'type': 'string'}, 'model_chemistry': {'type': 'string'}, 'state_preparation': {'type': 'string'}, 'conformer_strategy': {'type': 'string'}, 'electronic_energy_units': {'type': 'string'}, 'gap_definition': {'type': 'string'}, 'unit_conversion': {'type': 'string'}, 'justification': {'type': 'string'}}}, 'systems': {'type': 'object', 'required': ['C1', 'C2', 'C3'], 'properties': {'C1': {'$ref': '#/$defs/system'}, 'C2': {'$ref': '#/$defs/system'}, 'C3': {'$ref': '#/$defs/system'}}}, 'coverage': {'type': 'object', 'required': ['declared_search_budget', 'deduplication_criterion', 'advancement_criterion', 'coverage_exhausted', 'stopping_condition'], 'properties': {'declared_search_budget': {'type': 'string'}, 'deduplication_criterion': {'type': 'string'}, 'advancement_criterion': {'type': 'string'}, 'coverage_exhausted': {'type': 'boolean'}, 'stopping_condition': {'type': 'string'}}}, 'conclusion': {'type': 'string'}, 'uncertainty': {'type': 'string'}, 'gaps_kj_mol': {'type': 'object', 'required': ['C1', 'C2', 'C3'], 'properties': {'C1': {'type': 'number'}, 'C2': {'type': 'number'}, 'C3': {'type': 'number'}}}, 'ordering_assessment': {'type': 'string'}, 'partial_gaps_kj_mol': {'type': 'object', 'required': ['C1', 'C2', 'C3'], 'properties': {'C1': {'type': ['number', 'null']}, 'C2': {'type': ['number', 'null']}, 'C3': {'type': ['number', 'null']}}}, 'unresolved_states': {'type': 'array', 'items': {'type': 'string'}}, 'available_comparison': {'type': 'string'}}, 'oneOf': [{'properties': {'status': {'const': 'co"
+          }
+        ]
+      }
+    },
+    "autonomous_research/3c3d73b8715d5fcd": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "paper_reproduction/3c3d73b8715d5fcd": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "autonomous_research/c49993ae88ffa0e3": {
+      "historical_report": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "{'pt_dry': {'delta_g_kcal_mol': -0.9227387150233828, 'products': ['S1-HPQ-anion', 'PyOH-cation'], 'reactants': ['S1-H2PQ', 'PyO'], 'balanced_formula': {'O': 3, 'C': 19, 'H': 15, 'N': 1}, 'water_molecules_each_side': 0, 'spin': 'PT: S1 singlet catalyst anion + closed-shell singlet PyOH cation. ET: two independently calculated S0 doublet ions; pair coupling/exchange unresolved.', 'validation': '29source-matched low/high pairs, fullreal modes, balanced atom/charge/water cycles; explicit geometric rotational-symmetry count once and finite ensemble mixing entropy. Raw native exceptions retained, not used as default evidence.'}, 'et_dry': {'delta_g_kcal_mol': -1.8445585452387985, 'products': ['S0-H2PQ-cationrad', 'PyO-anionrad'], 'reactants': ['S1-H2PQ', 'PyO'], 'balanced_formula': {'O': 3, 'C': 19, 'H': 15, 'N': 1}, 'water_molecules_each_side': 0, 'spin': 'PT: S1 singlet catalyst anion + closed-shell singlet PyOH cation. ET: two independently calculated S0 doublet ions; pair coupling/exchange unresolved.', 'validation': '29source-matched low/high pairs, fullreal modes, balanced atom/charge/water cycles; explicit geometric rotational-symmetry count once and finite ensemble mixing entropy. Raw native exceptions retained, not used as default evidence.'}, 'pt_hydrated': {'delta_g_kcal_mol': -2.1977281028055202, 'products': ['S1-HPQ-anion-H2O', 'PyOH-cation-H2O'], 'reactants': ['S1-H2PQ-H2O', 'PyO-H2O'], 'balanced_formula': {'O': 5, 'C': 19, 'H': 19, 'N': 1}, 'water_molecules_each_side': 2, 'spin': 'PT: S1 singlet catalyst anion + closed-shell singlet PyOH cation. ET: two independently calculated S0 doublet ions; pair coupling/exchange unresolved.', 'validation': '29source-matched low/high pairs, fullreal modes, balanced atom/charge/water cycles; explicit geometric rotational-symmetry count once and finite ensemble mixing entropy. Raw native exceptions retained, not used as default evidence.'}, 'et_hydrated': {'delta_g_kcal_mol': -8.029374078684889, 'products': ['S0-H2PQ-cati",
+            "instance_path": "/states",
+            "json_path": "$.states",
+            "schema_path": "/properties/states/type",
+            "keyword": "type"
+          }
+        ]
+      },
+      "private_lossless_states_array_mapping": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "paper_reproduction/c49993ae88ffa0e3": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "autonomous_research/c56ec62e92dbdfbc": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      },
+      "successful_result_plus_empty_blockers": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "{'status': 'success', 'evaluation_match': True, 'author_route_complete': True, 'validation_mode': 'Author-informed task-scoped verification, not a blind autonomous replay.', 'method': {'electronic_structure': 'Gas B3LYP-D3BJ/6-31G(d) Opt/Freq -> wB97XD/6-311++G(d,p)/PCM Xylene-mixture SP; Gaussian16C.01.', 'thermal_correction': 'Computed GoodVibes4.3 Grimme entropy100cm^-1,298.15K,1M; unscaled harmonic enthalpy, Gaussian sigma once, negative TS mode excluded. Explicit replacement for unavailable author Perl implementation.', 'reference_definition': 'G(TS)+2G(MeOH)-G(catalyst4i)-G(1a)-G(2a); all298.15K,1M. Reported barrier fields are formal common-reference TS free energies relative to separated reagents; not intrinsic barriers from a pre-reactive minimum.', 'temperature_K': 298.15}, 'coverage': {'hypotheses_considered': [{'hypothesis_id': 'C-C', 'description': 'C-C bond formation at source R/S saddles', 'disposition': 'Finite source saddles, QRC chemistry and common-reference energies validated.', 'rationale': 'Required to distinguish selectivity-determining step'}, {'hypothesis_id': 'deprotonation', 'description': 'Downstream rearomatization at source R/S saddles', 'disposition': 'Finite source saddles, QRC chemistry and common-reference energies validated.', 'rationale': 'Same-formula comparison retained for both steps'}], 'candidates_generated': 4, 'candidates_advanced': 4, 'candidates_validated': 4, 'stopping_basis': 'All four published lowest pathway representatives in SI p75 were independently optimized/frequency-checked, paired with exact-geometry highSP, two real-frequency QRC endpoints each, and atom-mapped stereo evidence. Balanced thermochemistry is complete. Stop at this explicitly finite author reference; CREST60/30 search is source context, not claimed independently reproduced.'}, 'candidates': [{'candidate_id': 'TSCC_R', 'pathway_family': 'C-C formation', 'product_configuration': 'R (computed rearomatized product; CC_R/dep_R intermediate atom mapping ",
+            "instance_path": "",
+            "json_path": "$",
+            "schema_path": "/oneOf",
+            "keyword": "oneOf"
+          }
+        ]
+      },
+      "success_without_scientific_results": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      },
+      "honest_early_failure_no_TS": {
+        "valid": false,
+        "error_count": 7,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'ts_geometry_file' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          },
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'charge' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          },
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'multiplicity' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          },
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'imaginary_frequency_count' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          }
+        ]
+      }
+    },
+    "paper_reproduction/c56ec62e92dbdfbc": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      },
+      "successful_result_plus_empty_blockers": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "{'status': 'success', 'evaluation_match': True, 'author_route_complete': True, 'validation_mode': 'Author-informed task-scoped verification, not a blind autonomous replay.', 'method': {'electronic_structure': 'Gas B3LYP-D3BJ/6-31G(d) Opt/Freq -> wB97XD/6-311++G(d,p)/PCM Xylene-mixture SP; Gaussian16C.01.', 'thermal_correction': 'Computed GoodVibes4.3 Grimme entropy100cm^-1,298.15K,1M; unscaled harmonic enthalpy, Gaussian sigma once, negative TS mode excluded. Explicit replacement for unavailable author Perl implementation.', 'reference_definition': 'G(TS)+2G(MeOH)-G(catalyst4i)-G(1a)-G(2a); all298.15K,1M. Reported barrier fields are formal common-reference TS free energies relative to separated reagents; not intrinsic barriers from a pre-reactive minimum.', 'temperature_K': 298.15}, 'coverage': {'hypotheses_considered': [{'hypothesis_id': 'C-C', 'description': 'C-C bond formation at source R/S saddles', 'disposition': 'Finite source saddles, QRC chemistry and common-reference energies validated.', 'rationale': 'Required to distinguish selectivity-determining step'}, {'hypothesis_id': 'deprotonation', 'description': 'Downstream rearomatization at source R/S saddles', 'disposition': 'Finite source saddles, QRC chemistry and common-reference energies validated.', 'rationale': 'Same-formula comparison retained for both steps'}], 'candidates_generated': 4, 'candidates_advanced': 4, 'candidates_validated': 4, 'stopping_basis': 'All four published lowest pathway representatives in SI p75 were independently optimized/frequency-checked, paired with exact-geometry highSP, two real-frequency QRC endpoints each, and atom-mapped stereo evidence. Balanced thermochemistry is complete. Stop at this explicitly finite author reference; CREST60/30 search is source context, not claimed independently reproduced.'}, 'candidates': [{'candidate_id': 'TSCC_R', 'pathway_family': 'C-C formation', 'product_configuration': 'R (computed rearomatized product; CC_R/dep_R intermediate atom mapping ",
+            "instance_path": "",
+            "json_path": "$",
+            "schema_path": "/oneOf",
+            "keyword": "oneOf"
+          }
+        ]
+      },
+      "success_without_scientific_results": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      },
+      "honest_early_failure_no_TS": {
+        "valid": false,
+        "error_count": 7,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'ts_geometry_file' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          },
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'charge' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          },
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'multiplicity' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          },
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'imaginary_frequency_count' is a required property",
+            "instance_path": "/candidates/0/validation",
+            "json_path": "$.candidates[0].validation",
+            "schema_path": "/properties/candidates/items/properties/validation/required",
+            "keyword": "required"
+          }
+        ]
+      }
+    },
+    "autonomous_research/1e3a1d290a02e5f0": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "paper_reproduction/1e3a1d290a02e5f0": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "autonomous_research/9e7293af88532cd4": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "paper_reproduction/9e7293af88532cd4": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "autonomous_research/1255ed42fa7e12ff": {
+      "historical_report": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'hypotheses' is a required property",
+            "instance_path": "",
+            "json_path": "$",
+            "schema_path": "/required",
+            "keyword": "required"
+          }
+        ]
+      }
+    },
+    "paper_reproduction/1255ed42fa7e12ff": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    "autonomous_research/3c89b494a1645491": {
+      "historical_report": {
+        "valid": false,
+        "error_count": 1,
+        "errors": [
+          {
+            "code": "schema_validation",
+            "file": "report/results.json",
+            "message": "'hypotheses' is a required property",
+            "instance_path": "",
+            "json_path": "$",
+            "schema_path": "/required",
+            "keyword": "required"
+          }
+        ]
+      }
+    },
+    "paper_reproduction/3c89b494a1645491": {
+      "historical_report": {
+        "valid": true,
+        "error_count": 0,
+        "errors": []
+      }
+    }
+  },
+  "Au_paths": [
+    {
+      "path": 1,
+      "points": 94,
+      "BCP": 5,
+      "atom": 2,
+      "start_BCP_error_A": 4.037851919459215e-11,
+      "end_Au_distance_A": 6.857868124143151e-07
+    },
+    {
+      "path": 2,
+      "points": 94,
+      "BCP": 5,
+      "atom": 1,
+      "start_BCP_error_A": 4.037851919459215e-11,
+      "end_Au_distance_A": 5.609063149400046e-07
+    },
+    {
+      "path": 3,
+      "points": 94,
+      "BCP": 6,
+      "atom": 3,
+      "start_BCP_error_A": 3.541123353361155e-11,
+      "end_Au_distance_A": 5.633017127845242e-07
+    },
+    {
+      "path": 4,
+      "points": 94,
+      "BCP": 6,
+      "atom": 2,
+      "start_BCP_error_A": 3.541123353361155e-11,
+      "end_Au_distance_A": 6.857868124143151e-07
+    },
+    {
+      "path": 5,
+      "points": 94,
+      "BCP": 7,
+      "atom": 3,
+      "start_BCP_error_A": 3.1289931349274017e-11,
+      "end_Au_distance_A": 5.633017127845242e-07
+    },
+    {
+      "path": 6,
+      "points": 94,
+      "BCP": 7,
+      "atom": 4,
+      "start_BCP_error_A": 3.1289931349274017e-11,
+      "end_Au_distance_A": 5.395138408460635e-07
+    },
+    {
+      "path": 7,
+      "points": 94,
+      "BCP": 8,
+      "atom": 4,
+      "start_BCP_error_A": 2.448650629915547e-11,
+      "end_Au_distance_A": 5.395138408460635e-07
+    },
+    {
+      "path": 8,
+      "points": 94,
+      "BCP": 8,
+      "atom": 1,
+      "start_BCP_error_A": 2.448650629915547e-11,
+      "end_Au_distance_A": 5.609063149400046e-07
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "source": "tasks/final_verified_autonomous_research/paper_a6e8c57709329bdb",
+  "source_package_sha256": "e2d861ecb02ca06e670079552edba31d651edeec12a8b120af215873cd57502c",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/hl_ligand.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/hl_ligand.json.snapshot",
+      "sha256": "4503526d2bf20b6f22bf04aa2541381f9653a89dfea671994a902aa5e46df5ca"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "2f528af516aee0521c7cb84e79b928f3b0b4913223a894b1686045753ce268d7"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "7bbb0db5eb21b8c27cece7169b1dcc64f29d3b2e554e5cc683e89addf3af28e7"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "51f28fc122c8c4b091cee16462c3fe45628453b5d10f716ad34fde8192789819"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "e8c9f5954c5e70b05f2b308419a86e8f94c9fa4629b271fa68a2cdb5a6dbc13a"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "2ef881d67fd1c0077da488f901a9c3ef8ea85967a31935e2ed3ce87c47751383"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "150fff2097f49ed86cf0c574d52132b70998785635b0c07081fe10cf19d8f064"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "6dae7355c15e432a0df08ee13a1a92faa60f5bf97297c3f587ba998c2641a27f"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "b53adf63a44a2d881ac3c4d884349a4742aa7cd5e3e4f373657cd498c38b0a45"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "e76b4b2f073158fe2d984402a97ba9e5bbe83e9f99c6315f04c7dce2afd7218d"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "9175675a09cb3d66fc456da18cfba28586c83640f88a57263eca0a1f95a7424d"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "925681bae41d793d45922e4cdd1d556960c6c52628e7ac7efe38f5e0d7ed192f"
+    }
+  },
+  "status": "blocked",
+  "new_scientific_calculations_performed": false,
+  "implementation_date": "2026-09-27",
+  "batch": 3,
+  "source_docs": [
+    {
+      "path": "docs/evalution/update/paper_a6e8c57709329bdb.md",
+      "sha256": "77bd87d53b3c8f3a24e3e13f42873caa3fcc9fe9523c04ba8568eb9b87696d39"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+      "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+      "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+      "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+    },
+    {
+      "path": "papers/paper_a6e8c57709329bdb/documents/main.pdf",
+      "sha256": "5a566dd113353d03624849466569e890d4212bc2e0a7298ec2bcb77e7cbef2a1",
+      "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "role": "source_original_scope_not_expanded_reference"
+    },
+    {
+      "path": "papers/paper_a6e8c57709329bdb/documents/supplementary_001.pdf",
+      "sha256": "dcb7c395f4cad30dbeae17d62a11bdf820207bf7d8b83b8866def961e7322f60",
+      "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "role": "source_original_scope_not_expanded_reference"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "new_scientific_engine_starts": 0,
+  "scientific_reference_validated": false,
+  "blocker": "blocked_solution_definition: DMF and competing Co(II) are confirmed, but the accessed main/SI do not fix sensing salt counterions, pH/proton reservoir or water content. Define those from source records or an explicitly authorized model before atom-complete Fe/Co exchange references. No invented salt/pH or calibrated selectivity is supplied.",
+  "input_preparation": "Mapped graph extraction and formula/charge checks only; source optimized coordinates are not public new answers.",
+  "first_version_spec": {
+    "matrix": "HL、Fe–HL 和论文一个竞争金属的有限配位/质子化候选，保持配位水、反离子、质子及总物料守恒。",
+    "accept": "用同参考溶液交换/结合自由能与相应 TD/NTO 对照，分开结合选择性与淬灭选择性；允许多个 Fe 物种均相容。不以不同组成总能或 Fe 最小 gap 判选择性。",
+    "optional": "完整淬灭动力学、精确检测限和生物环境不加入。",
+    "pilot": "先固定盐、pH、溶剂、竞争金属名称及自旋空间；缺失条件不由 agent 自由猜成参考答案。"
+  },
+  "reference_gaps": [
+    "All new core matrix numeric references",
+    "Stationary-state/path validation",
+    "Method/conformer uncertainty calibration",
+    "Independent upgraded trial"
+  ],
+  "source_evidence_read": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+  "source_baseline_gate": "先锁定盐、pH、溶剂和配位水；无动力学不承诺唯一淬灭机制",
+  "historical_evidence_review": [
+    {
+      "path": "workspaces/codex_gpt56/paper_a6e8c57709329bdb_20260922_015100_d56aca/runs/cli_runs/batch_20260922_015101_358ca5/autonomous_research-paper_a6e8c57709329bdb-codex-20260922_015101-16f60b/results.json",
+      "sha256": "12d86005026fb090a7c97edeb8a36cbc1f53fc152f4129844782f748bd791468",
+      "json_top_keys": [
+        "schema_version",
+        "result_type",
+        "generated_at",
+        "task",
+        "run",
+        "agent",
+        "judge",
+        "score",
+        "scoring",
+        "tools",
+        "process_metrics",
+        "tokens"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    },
+    {
+      "path": "workspaces/codex_gpt56/paper_a6e8c57709329bdb_20260922_015100_d56aca/runs/cli_runs/batch_20260922_015101_358ca5/autonomous_research-paper_a6e8c57709329bdb-codex-20260922_015101-16f60b/report/results.json",
+      "sha256": "7c65a36aecdd4df320002e1bb2f8ae9f6eff68efc5da8a9309a9f5702a17768a",
+      "json_top_keys": [
+        "status",
+        "system",
+        "method",
+        "validation",
+        "observables",
+        "orbital_localization",
+        "conclusion",
+        "limitations",
+        "attempted_candidates"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    }
+  ],
+  "supervisor_contract_repairs": [
+    {
+      "at": "2026-09-27T12:39:16.188750+00:00",
+      "issue": "prelaunch_failure_requires_fake_job",
+      "previous_package_content_sha256": "d6bbf3cffd21c925fcb2d1b40e058176e1f636b0effc759de5388a84118544f4",
+      "changes": [
+        "zero-launch diagnostics allowed",
+        "complete requirements preserved",
+        "density-analysis records do not invent energy or geometry"
+      ],
+      "scientific_thresholds_changed": false,
+      "new_scientific_computations": 0
+    }
+  ],
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ]
+}

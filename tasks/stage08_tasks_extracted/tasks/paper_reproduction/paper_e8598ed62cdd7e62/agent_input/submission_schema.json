@@ -1,0 +1,15 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "method", "channels", "conclusion", "coverage"],
+    "properties": {
+      "status": {"type": "string"},
+      "method": {"type": "object", "required": ["level", "temperature", "protocol_provenance"], "properties": {"level": {"type": "string"}, "temperature": {"type": "number"}, "protocol_provenance": {"type": "string"}}},
+      "channels": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["channel", "reactant", "product", "outcome", "validation", "delta_E", "delta_H", "delta_S", "delta_G", "K", "forward_barrier", "forward_delta_H", "forward_delta_S", "forward_delta_G", "forward_K", "provenance"], "properties": {"channel": {"type": "string"}, "reactant": {"type": "string"}, "product": {"type": "string"}, "outcome": {"type": "string", "enum": ["validated", "bounded_failure"]}, "failure_reason": {"type": ["string", "null"]}, "validation": {"type": "object", "required": ["minima_imaginary_count", "ts_imaginary_count", "ts_mode_description", "connectivity_check"], "properties": {"minima_imaginary_count": {"type": "integer"}, "ts_imaginary_count": {"type": "integer"}, "ts_mode_description": {"type": "string"}, "connectivity_check": {"type": "string"}}}, "delta_E": {"type": ["number", "null"]}, "delta_H": {"type": ["number", "null"]}, "delta_S": {"type": ["number", "null"]}, "delta_G": {"type": ["number", "null"]}, "K": {"type": ["number", "null"]}, "forward_barrier": {"type": ["number", "null"]}, "forward_delta_H": {"type": ["number", "null"]}, "forward_delta_S": {"type": ["number", "null"]}, "forward_delta_G": {"type": ["number", "null"]}, "forward_K": {"type": ["number", "null"]}, "provenance": {"type": "string"}}}},
+      "conclusion": {"type": "string"},
+      "coverage": {"type": "object", "required": ["conformers_searched", "ts_alternatives_searched", "stopping_evidence"], "properties": {"conformers_searched": {"type": "string"}, "ts_alternatives_searched": {"type": "string"}, "stopping_evidence": {"type": "string"}}}
+    }
+  }
+}

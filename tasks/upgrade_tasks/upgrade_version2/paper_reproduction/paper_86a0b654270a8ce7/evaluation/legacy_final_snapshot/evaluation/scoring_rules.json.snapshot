@@ -1,0 +1,82 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "rules": [
+    {
+      "rule_id": "r_minima",
+      "reference_id": "kp_minima",
+      "type": "semantic",
+      "expected": "Both labeled systems have explicit minimum/frequency validation or a concrete bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].frequency_validation.evidence"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "r_thermo",
+      "reference_id": "kp_thermo",
+      "type": "semantic",
+      "expected": "The method record states a reproducible 339 K THF Gibbs-energy protocol and consistent units.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.standard_state",
+          "$.method.temperature_K"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "r_delta",
+      "reference_id": "kp_delta",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.derived.delta_delta_G_kJ_mol"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Reports this derived quantity with a consistent sign convention, temperature, equation, and units when both endpoints are available; if unavailable, uses the bounded_failure branch with concrete reproducible failure details and no fabricated number."
+    },
+    {
+      "rule_id": "r_ratio",
+      "reference_id": "kp_ratio",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.derived.population_ratio_2_over_1"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Reports this derived quantity with a consistent sign convention, temperature, equation, and units when both endpoints are available; if unavailable, uses the bounded_failure branch with concrete reproducible failure details and no fabricated number."
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "The comparable THF free energies at 339 K identify the preferred labeled isomer and yield the stated two-state population ratio. The evaluator performs the comparison with its private experimental mixture reference.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

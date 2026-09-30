@@ -710,12 +710,26 @@ requested_software:
     status_policy: probe
     environment: theodore
     modules: [theodore, cclib]
-    commands: [theodore]
+    commands: [theodore, theodore_compat]
     license: GPL-3.0
     public_adapter: runtime_only
     role: Excited-state density, transition, and exciton analysis.
     notes: TheoDORE 2.5.0 imports and CLI starts; optional Orbkit/OpenBabel extensions are not installed.
     official_url: https://theodore-qc.sourceforge.io/
+
+  - name: FCclasses3
+    category: Excited States, Spectroscopy, and Visualization
+    kind: executable
+    status_policy: probe
+    environment: quantum
+    modules: []
+    commands: [fcclasses3]
+    cache_paths: [docs/verification/group_1/software_install_audit/fcclasses3-3.0.4]
+    license: GPL-3.0
+    public_adapter: runtime_only
+    role: Vibronic electronic spectra and non-radiative-rate calculations from explicit state, dipole, and vibrational inputs.
+    notes: User-supplied FCclasses3 3.0.4 source tarball was built in an isolated verification directory. The native layer exposes the exact executable and leaves property, model, coordinate, temperature, broadening, and all upstream files explicit; it does not create a paper-specific rate workflow or substitute missing data.
+    official_url: http://www.iccom.cnr.it/en/fcclasses/
 
   - name: VMD
     category: Excited States, Spectroscopy, and Visualization

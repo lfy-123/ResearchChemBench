@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_minima",
+      "key_point_type": "process",
+      "statement": "The submission performs a stationary-point validation for each of the three named input species and reports the species-specific imaginary-frequency count and final structure artifact.",
+      "evidence_ids": [
+        "ev_doc_8a1aa1009e1c_000089_0d189ebf08e1",
+        "ev_doc_8a1aa1009e1c_000091_46143619f057"
+      ],
+      "expected": "All three species are independently optimized and frequency-checked; a truthful bounded-failure branch identifies any failed species and missing observables."
+    },
+    {
+      "key_point_id": "kp_pr_process_mapping",
+      "key_point_type": "process",
+      "statement": "The submission defines atom-indexed O\u00b7\u00b7\u00b7P, O\u00b7\u00b7\u00b7\u03b1H, and O\u00b7\u00b7\u00b7\u03b2H measurements using the supplied coordinate atom identities and carries those indices into the reported values.",
+      "evidence_ids": [
+        "ev_doc_8a1aa1009e1c_000268_7728dff79059",
+        "ev_doc_1e6fd476cea2_000575_f419bbd900ed"
+      ],
+      "expected": "Distances are traceable to explicit per-species atom indices and \u03b1/\u03b2 definitions, without cross-species atom-order confusion."
+    },
+    {
+      "key_point_id": "kp_pr_distances",
+      "key_point_type": "result",
+      "statement": "The optimized complexes reproduce the paper's reported contact pattern: PO has O\u00b7\u00b7\u00b7P and weaker \u03b1H/\u03b2H contacts; PA has \u03b1H/\u03b2H contacts and a weaker P contact.",
+      "evidence_ids": [
+        "ev_doc_1e6fd476cea2_000575_f419bbd900ed",
+        "ev_doc_1e6fd476cea2_000586_09162b3b4845"
+      ],
+      "expected": "Reported distances identify PO O\u00b7\u00b7\u00b7P, O\u00b7\u00b7\u00b7\u03b1H, O\u00b7\u00b7\u00b7\u03b2H and PA O\u00b7\u00b7\u00b7\u03b1H, O\u00b7\u00b7\u00b7\u03b2H, O\u00b7\u00b7\u00b7P, with values close enough to support the stated pattern."
+    },
+    {
+      "key_point_id": "kp_pr_charge",
+      "key_point_type": "result",
+      "statement": "ADCH analysis reports phosphorus and neighboring \u03b1H/\u03b2H charge redistribution across free base, PO adduct, and PA zwitterion.",
+      "evidence_ids": [
+        "ev_doc_1e6fd476cea2_000593_e48b8864ac77",
+        "ev_doc_1e6fd476cea2_000595_f3f1c106ba01"
+      ],
+      "expected": "The submission reports charge values or differences with correct signs, species labels, and ADCH provenance, including the PO-versus-free-base P comparison."
+    },
+    {
+      "key_point_id": "kp_pr_mep",
+      "key_point_type": "result",
+      "statement": "MEP analysis is used to assess complementary electrostatic regions in the phosphonium-containing species.",
+      "evidence_ids": [
+        "ev_doc_1e6fd476cea2_000604_fcd38ffd08b9"
+      ],
+      "expected": "The reported MEP observation addresses increased electron density around the PA phosphonium region and nucleophilic character of the carboxylate region, while distinguishing observation from interpretation."
+    }
+  ],
+  "paper_id": "paper_ef26687d63a37e29"
+}

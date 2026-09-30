@@ -1,0 +1,392 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_fcc3c7f2c46a0fbe_20260920_122408_dea90c/runs/cli_runs/batch_20260920_122411_4d27a7/autonomous_research-paper_fcc3c7f2c46a0fbe-codex-20260920_122411-d4f5c6/report/results.json",
+      "sha256": "a5f9afeed3c4c66edb547e61f2b03e2fd6d5e589dfa549681f74dfb190a07520",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_fcc3c7f2c46a0fbe",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_fcc3c7f2c46a0fbe",
+          "package_content_sha256": "aed0c8c3b52df342469de7d7182d70279e67f38be535614817e2ec25af492780",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_fcc3c7f2c46a0fbe/package_manifest.json",
+            "sha256": "dec4150dd8abba5cfbfe283eb9fc708dc996853a194e1bd703c8f993bc272849"
+          },
+          "payload_entries_checked": 31,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_fcc3c7f2c46a0fbe",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_fcc3c7f2c46a0fbe",
+          "package_content_sha256": "d3873d0563c8d04632fe7969e874fe6f4364332fd1104acf09ed7649d8a1a2b3",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_fcc3c7f2c46a0fbe/package_manifest.json",
+            "sha256": "d01bd6079d4e1c696ac2a0df04b6df386dc013da21b313bee87477266faacba2"
+          },
+          "payload_entries_checked": 31,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_fcc3c7f2c46a0fbe",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "4b、4c、4h乙醇中性极小点完整全H图/E构型与无虚频通过。已生成4c/4h各3个位点自由基/阴离子及全分子阳离子共14个守恒状态，4c羧酸O自由基HPC中断后从验证过的checkpoint恢复a02；4h在共享预算内以3线程本地运行。",
+        "unfinished_validation": "4i及位点正确自由基/离子端点；含显式DPPH受体的HAT、SET/PT、SPLET守恒循环，4c/4h成对路径和敏感性。",
+        "input_and_reference_gaps": [
+          "4b/4c/4h中性极小点已核验，4i及其余自由基/离子端点未完成。",
+          "4c自由基排队、4h自由基本地运行；DPPH守恒循环与显式HAT路径只完成准备。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/neutral_pilot_results.json",
+            "sha256": "483702a6ce09aa888aa0026f060ec41e8aff60bcb8570131ee842e38f4a3d145"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/neutral_pilot_preparation.json",
+            "sha256": "93959d6a8557db8637f9114d6d02305daaff2714914babeafd2d0389c1e2eb97"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/successor_state_preparation.json",
+            "sha256": "bbf7982b8190da1b71ae4bee3d3114873d817e76633ca608f7f493d062326850"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/explicit_acceptor_cycle_preparation.json",
+            "sha256": "aa4364f04a518edf561c75ac0a7496bf708ace404b08420c0a0f80bfb17d17dd"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/report/progress_report.md",
+          "sha256": "311c15fc0dd309bfc5e2fa2176d1d90e5f7c2ed3f6fcaac92a5f90b698ff75cc"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/report/progress_evaluator_mapping.json",
+          "sha256": "d236105faf8fdd13d3466cf54763cc9434baf6b0254e4698b983e093cf149df5"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4b_neutral_ethanol_optfreq.com",
+            "sha256": "e0df5f52ae3c4f40ff6882874d1df73503e5689a13ecac3d04a393ba174ceb16"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4b_neutral_ethanol_optfreq_recovery_a02.com",
+            "sha256": "b51b4e42cb6ae070cf6de624df9bc1f9f5bf85c8368f6f41086560ee41c0e93d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_neutral_ethanol_optfreq.com",
+            "sha256": "192862c61c6414ba7b987ccdc9849758889e0372f23aec26912bf58c9da0adae"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_radical_cation_ethanol_optfreq.com",
+            "sha256": "c81bb9f6a52dc69fa0c37ec3ba88570495a9d98fdd5d6ee0206a45a4ff5f2027"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site16_anion_ethanol_optfreq.com",
+            "sha256": "f0d0941223fc67de9238ef636fd6a36218a7a3915cc3128062807310488b1c3d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site16_radical_ethanol_optfreq.com",
+            "sha256": "046a10ac5b9d0036291772943fc65370002c525d1e49128498988e583fcb7a2e"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site3_anion_ethanol_optfreq.com",
+            "sha256": "36db2669458372327301c507391a7341eb673eebc74591fea91b7f9721dfcb43"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site3_radical_ethanol_optfreq.com",
+            "sha256": "e7527a966182c28149ef73e6115ce0cbf7fbffeb7104f594427044632bafebfb"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site3_radical_ethanol_optfreq_recovery_a02.com",
+            "sha256": "61714c84e28a155a5bc455ae5b626f0f1aca85402df62d72e188e8f008581661"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site4_anion_ethanol_optfreq.com",
+            "sha256": "9ce3d4a3c3887d80e0c2856ad91fb14ef0b3eb9e437f7340cae136764a2969b3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4c_site4_radical_ethanol_optfreq.com",
+            "sha256": "8c67a4c8bbad2e327df4e4d40e538d75a67e658f4731e49c7dae8732b0d63941"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_neutral_ethanol_optfreq.com",
+            "sha256": "e7dd5f886ab96cc6f0898cd740b83191b803016555b3307a1bef5599c4d4408f"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_radical_cation_ethanol_optfreq.com",
+            "sha256": "f5ad49b63b172dfc3f62bceb4c0e3e6cc22f1221592ae4ee3e728635270c3927"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site12_anion_ethanol_optfreq.com",
+            "sha256": "d76850e46f4d01354fae2587dd4a5552e751353ad13cdf8ccf4c3f850b4a1f60"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site12_radical_ethanol_optfreq.com",
+            "sha256": "ed236e94014c024cc3613113461c5bf56299c1f5064ea1b2d60d1504813085a8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site19_anion_ethanol_optfreq.com",
+            "sha256": "87c8aa2071b727d3412e7336ee78a1f56c4da3125fc158f7bad75888b0e85717"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site19_radical_ethanol_optfreq.com",
+            "sha256": "f90627247ebe6310e94f4f998c97c5df1b71988bd24d00c3c49b8900a4c2d848"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site2_anion_ethanol_optfreq.com",
+            "sha256": "83dafdffb8990389eea659cad5062d65e2cce62606d61204dbb73947c1253e28"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site2_radical_ethanol_optfreq.com",
+            "sha256": "8ed7a95ff2f68e46de9ceb4b91d0758387c157f1995a9f03fb867061d5a129b6"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site2_radical_ethanol_optfreq_local3_a01.com",
+            "sha256": "0328e410863e074a0467b572f2bdce44abd91035f6aed28c4f18b65cd2682a25"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site2_radical_ethanol_optfreq_local_a01.com",
+            "sha256": "b86ba13260969ac91be4ae2240d7059513a1cec2cc5ae8484b1c2d4c53dec65d"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4i_neutral_ethanol_optfreq.com",
+            "sha256": "662d89431dfece24ce86fdfdd03f2e1337fef0b498c7a23c7c4612f99e0905e7"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/DPPH_H_ethanol_optfreq.com",
+            "sha256": "06605e7663f62ce2951c0a7da8b5dbe77b657c5645c30c2693762bb44dbf67fe"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/DPPH_anion_ethanol_optfreq.com",
+            "sha256": "2b9202493bfe92514e62552aa41d32f7a79c3e9dd6eb900e887238395faea624"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/DPPH_radical_ethanol_optfreq.com",
+            "sha256": "70d1e36fd22b5a0d23d9fbeaff9ca46f56b711f7a14dbe5f0fca10bbfacfc30c"
+          }
+        ],
+        "active_jobs": [
+          {
+            "paper_id": "paper_fcc3c7f2c46a0fbe",
+            "case_id": "4c_site3_radical_ethanol_optfreq",
+            "attempt": "a02",
+            "job_id": "hpc-job-558cabfd-295d-411d-bd66-237bd5de20b1",
+            "job_name": "rcb-upg-g4-fcc3c7f2-4c_site3_radical_ethanol_optfr-a02-61714c84",
+            "status": "queueing",
+            "platform_status": "QUEUEING",
+            "last_polled_at": "2026-09-28T15:05:42.588652+00:00",
+            "submitted_at": "2026-09-28T09:22:13.105303+00:00",
+            "cpus": 20,
+            "memory_gib": 100,
+            "priority": 3,
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02",
+            "input_sha256": "61714c84e28a155a5bc455ae5b626f0f1aca85402df62d72e188e8f008581661",
+            "backend": "hpc",
+            "disposition": "preserve_existing_job_no_cancel_no_resubmit",
+            "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02",
+            "native_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/gaussian.log",
+            "checkpoint": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/job.chk",
+            "native_return_code_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/native-return-code.txt",
+            "handoff_files": [
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/submission.json",
+                "sha256": "090753288acb4172f7007788801e998d96f546b8e921cbdf551028eac33454df"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/input.com",
+                "sha256": "61714c84e28a155a5bc455ae5b626f0f1aca85402df62d72e188e8f008581661"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/run.sh",
+                "sha256": "63f9b04bc6ab9ad9fad832b306a7255ad0fc8f0cd24ffc8f291e7b482ccfd190"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4c_site3_radical_ethanol_optfreq/a02/latest_monitor.json",
+                "sha256": "3b6dccc251376be802c02b1935c5c26df09a170b68f4549a8325ed514b118644"
+              }
+            ],
+            "native_log_bytes_at_handoff": 0
+          },
+          {
+            "paper_id": "paper_fcc3c7f2c46a0fbe",
+            "case_id": "4h_site2_radical_ethanol_optfreq_local3_a01",
+            "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+            "pid": 503881,
+            "process_start_id": "1483800059",
+            "status": "running",
+            "started_at": "2026-09-28T08:12:55.836647+00:00",
+            "threads": 3,
+            "memory_gib": 16,
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4h_site2_radical_ethanol_optfreq_local3_a01",
+            "command": [
+              "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.envs/general-modern-openmpi5/bin/python",
+              "-u",
+              "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/run_4h_site2_radical_ethanol_optfreq_local3_a01.py"
+            ],
+            "input_artifacts": [
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site2_radical_ethanol_optfreq_local3_a01.com",
+                "sha256": "0328e410863e074a0467b572f2bdce44abd91035f6aed28c4f18b65cd2682a25"
+              }
+            ],
+            "backend": "local",
+            "disposition": "preserve_existing_process_and_single_attempt_waiting_parent",
+            "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4h_site2_radical_ethanol_optfreq_local3_a01",
+            "runner_identity": {
+              "pid": 503881,
+              "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+              "present_on_current_host": true,
+              "parent_pid": 492728,
+              "process_start_ticks": "1483800059",
+              "command": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.envs/general-modern-openmpi5/bin/python -u /inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/run_4h_site2_radical_ethanol_optfreq_local3_a01.py"
+            },
+            "engine_identity": {
+              "pid": 503925,
+              "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+              "present_on_current_host": true,
+              "parent_pid": 503881,
+              "process_start_ticks": "1483800063",
+              "command": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+            },
+            "dispatcher_identity": {
+              "pid": 492728,
+              "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+              "present_on_current_host": true,
+              "parent_pid": 3606848,
+              "process_start_ticks": "1483798328",
+              "command": ".envs/general-modern-openmpi5/bin/python docs/upgrade_tasks_verification/group_4/provenance/local_dispatch.py paper_fcc3c7f2c46a0fbe 4h_site2_radical_ethanol_optfreq_local3_a01 docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/run_4h_site2_radical_ethanol_optfreq_local3_a01.py --threads 3 --memory-gib 16 --input-artifact docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/inputs/4h_site2_radical_ethanol_optfreq_local3_a01.com"
+            },
+            "native_execution": {
+              "started_at": "2026-09-28T08:12:55.878299+00:00",
+              "engine_command": [
+                "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+              ],
+              "input_sha256": "0328e410863e074a0467b572f2bdce44abd91035f6aed28c4f18b65cd2682a25",
+              "checkpoint": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4h_site2_radical_ethanol_optfreq_local3_a01/job.chk",
+              "scientific_acceptance": false,
+              "threads": 3,
+              "allocated_memory_gib": 16,
+              "gaussian_memory": "12GB",
+              "scratch": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4h_site2_radical_ethanol_optfreq_local3_a01/scratch",
+              "engine_pid": 503925
+            },
+            "native_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4h_site2_radical_ethanol_optfreq_local3_a01/gaussian.log",
+            "checkpoint": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/outputs/4h_site2_radical_ethanol_optfreq_local3_a01/job.chk",
+            "log_observation": {
+              "at": "2026-09-28T15:08:57.584339+00:00",
+              "bytes": 1656151,
+              "sha256_snapshot": "e465829f2a1af08b0e68291728f70370c2957a5c7906df80708f7773da51347c",
+              "stable_during_read": true,
+              "mtime_UTC": "2026-09-28T15:07:46.612410+00:00",
+              "SCF_count": 26,
+              "optimization_completed_count": 0,
+              "normal_termination_count": 0,
+              "note": "Live log snapshot only; expected to change after freeze."
+            }
+          }
+        ],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/task_snapshot/frozen_binding.json",
+          "sha256": "7693056aeb13ac079af7f7792a00e24b2f2e8c976a9bf1cd1bb34031a8bf5ce1"
+        }
+      },
+      "model_and_method_scope": "E-linked 4b/4c/4h neutral ethanol minima were audited; successor radical/anion/cation and explicit-acceptor cycles were prepared.",
+      "allowed_use": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+      "not_supported": "Prepared successor states are not thermochemical-cycle results. No full four-compound solution mechanism, finite-time assay prediction or quantitative IC50 mapping is established.",
+      "scope": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/neutral_pilot_results.json",
+      "sha256": "483702a6ce09aa888aa0026f060ec41e8aff60bcb8570131ee842e38f4a3d145",
+      "frozen_sha256": "483702a6ce09aa888aa0026f060ec41e8aff60bcb8570131ee842e38f4a3d145",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "E-linked 4b/4c/4h neutral ethanol minima were audited; successor radical/anion/cation and explicit-acceptor cycles were prepared.",
+      "scope": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+      "not_supported": "Prepared successor states are not thermochemical-cycle results. No full four-compound solution mechanism, finite-time assay prediction or quantitative IC50 mapping is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/neutral_pilot_preparation.json",
+      "sha256": "93959d6a8557db8637f9114d6d02305daaff2714914babeafd2d0389c1e2eb97",
+      "frozen_sha256": "93959d6a8557db8637f9114d6d02305daaff2714914babeafd2d0389c1e2eb97",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "E-linked 4b/4c/4h neutral ethanol minima were audited; successor radical/anion/cation and explicit-acceptor cycles were prepared.",
+      "scope": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+      "not_supported": "Prepared successor states are not thermochemical-cycle results. No full four-compound solution mechanism, finite-time assay prediction or quantitative IC50 mapping is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/successor_state_preparation.json",
+      "sha256": "bbf7982b8190da1b71ae4bee3d3114873d817e76633ca608f7f493d062326850",
+      "frozen_sha256": "bbf7982b8190da1b71ae4bee3d3114873d817e76633ca608f7f493d062326850",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "E-linked 4b/4c/4h neutral ethanol minima were audited; successor radical/anion/cation and explicit-acceptor cycles were prepared.",
+      "scope": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+      "not_supported": "Prepared successor states are not thermochemical-cycle results. No full four-compound solution mechanism, finite-time assay prediction or quantitative IC50 mapping is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_fcc3c7f2c46a0fbe/provenance/explicit_acceptor_cycle_preparation.json",
+      "sha256": "aa4364f04a518edf561c75ac0a7496bf708ace404b08420c0a0f80bfb17d17dd",
+      "frozen_sha256": "aa4364f04a518edf561c75ac0a7496bf708ace404b08420c0a0f80bfb17d17dd",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "E-linked 4b/4c/4h neutral ethanol minima were audited; successor radical/anion/cation and explicit-acceptor cycles were prepared.",
+      "scope": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+      "not_supported": "Prepared successor states are not thermochemical-cycle results. No full four-compound solution mechanism, finite-time assay prediction or quantitative IC50 mapping is established.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Source structures, complete four-compound TableS5 entries and finite molecular references support both molecular and quantitative assay analysis. Historical neutral/radical computations are partial state evidence only; source descriptors expose, rather than solve, the explanatory limitations.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "E-linked 4b/4c/4h neutral ethanol minima were audited; successor radical/anion/cation and explicit-acceptor cycles were prepared.",
+    "allowed": "Reuse verified neutral graphs and raw neutral-state computations under their recorded solvent/method. They can anchor a chosen subsequent study, without fixing donor sites or transfer mechanisms.",
+    "not_supported": "Prepared successor states are not thermochemical-cycle results. No full four-compound solution mechanism, finite-time assay prediction or quantitative IC50 mapping is established."
+  },
+  "new_scientific_calculations_performed": false
+}

@@ -35,6 +35,7 @@ def _backend(
     component_options: dict[str, dict[str, tuple[str, ...]]] | None = None,
     supported_system_types: dict[str, tuple[str, ...]] | None = None,
     validation_levels: dict[str, str] | None = None,
+    electronic_state_model: str | None = None,
 ) -> BackendSpec:
     return BackendSpec(
         id=backend_id,
@@ -61,6 +62,7 @@ def _backend(
         component_backend_options=component_options or {},
         supported_system_types=supported_system_types or {},
         validation_levels=validation_levels or {},
+        electronic_state_model=electronic_state_model,
         parameter_specs=parameter_specs_for_backend(backend_id),
         fixed_parameter_specs=fixed_parameter_specs_for_backend(backend_id),
     )
@@ -401,6 +403,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "solvent": "required solvent name when solvation_model is supplied",
         },
         required_methods={"generate_conformer_ensemble": ("method",)},
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "internal_statistics", "ResearchChem deterministic statistics", "core",
@@ -665,6 +668,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 )
             }
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "pyscf", "PySCF", "quantum",
@@ -685,6 +689,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         required_settings={
             "calculate_excited_states": ("number_of_states", "spin_symmetry"),
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "gpaw", "GPAW", "gpaw",
@@ -829,6 +834,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_dipole_moment", "calculate_atomic_charges",
             )
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "openmolcas", "OpenMolcas", "openmolcas",
@@ -877,6 +883,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_atomic_charges", "calculate_orbitals",
             )
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "multiwfn", "Multiwfn", "multiwfn",
@@ -967,6 +974,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             action: ("method", "basis") for action in
             ("calculate_energy", "calculate_hessian", "calculate_dipole_moment", "calculate_atomic_charges", "calculate_orbitals")
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "tblite", "TBLite", "quantum",
@@ -1232,6 +1240,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "output_format": ("wfn", "wfx", "cube"),
             },
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "gaussian", "Gaussian 16", "gaussian",
@@ -1283,6 +1292,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "optimization_convergence": ("Loose", "Tight", "VeryTight"),
             }
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "gamess", "GAMESS", "gamess",
@@ -1571,6 +1581,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         },
         supported_system_types={"optimize_geometry": ("molecule", "cluster")},
         validation_levels={"optimize_geometry": "validated"},
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "sella", "Sella", "sella", ("optimize_geometry", "locate_transition_state"),
@@ -1620,6 +1631,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             action: "validated"
             for action in ("optimize_geometry", "locate_transition_state")
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "pysisyphus", "pysisyphus", "reaction",
@@ -1712,6 +1724,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "hessian_init": ("calc", "unit", "fischer", "lindh", "simple", "swart", "xtb", "xtb1", "xtbff"),
             },
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "cantera", "Cantera", "reaction", ("calculate_chemical_equilibrium", "integrate_reaction_network"),
@@ -1894,6 +1907,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
                 "calculate_nonadiabatic_coupling_vector",
             )
         },
+        electronic_state_model="finite_molecular",
     ),
     _backend(
         "openmm", "OpenMM", "md",
@@ -2383,7 +2397,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
     _backend(
         "siesta", "SIESTA", "periodic",
         ("calculate_periodic_energy", "calculate_periodic_forces", "relax_periodic_structure"),
-        "SIESTA calculations rendered from typed structures/settings.", executables=("siesta",),
+        "SIESTA calculations rendered from typed structures/settings; TBtrans is exposed through native input only.", executables=("siesta", "tbtrans"),
         environment=("CHEMGRAPH_SIESTA_COMMAND",), conda=("siesta",),
         data_resources=(
             "Explicit ResourceRefs from siesta_pseudo_dojo_nc_sr_05_pbe_standard_psml, one per element; workspace ArtifactRefs remain accepted",
@@ -2627,5 +2641,27 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
             "are rejected; formula isotope/ion choices remain explicit Agent settings."
         ),
         required_settings={"lookup_nist_webbook_species": ("units",)},
+    ),
+    _backend(
+        "ccdc", "CCDC/CSD crystal-structure connector", "workflows",
+        ("retrieve_crystal_structure",),
+        "Retrieve a pinned CCDC/CSD record through a licensed CCDC API or parse an explicitly supplied CIF export; record ids never trigger guessed or unpinned downloads.",
+        modules=("pymatgen",),
+        data_resources=("Licensed Cambridge Structural Database access or an Agent-staged CIF export",),
+        license_class="commercial_license",
+        install_notes=(
+            "The CSD database and CCDC Python API are proprietary and are not redistributed. "
+            "The open adapter is available with pymatgen for explicit CIF exports; a licensed "
+            "ccdc package and CCDC license must be installed by the operator for record-id retrieval."
+        ),
+        required_inputs={"retrieve_crystal_structure": ("query",)},
+        required_settings={"retrieve_crystal_structure": ("component_policy", "hydrogen_policy")},
+        allowed_settings={
+            "retrieve_crystal_structure": {
+                "component_policy": ("full_crystal", "unique_molecule"),
+                "hydrogen_policy": ("as_deposited", "add_standard", "omit"),
+            }
+        },
+        validation_levels={"retrieve_crystal_structure": "record_or_cif_parse"},
     ),
 )

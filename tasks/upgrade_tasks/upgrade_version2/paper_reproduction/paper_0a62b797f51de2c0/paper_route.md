@@ -1,0 +1,7 @@
+# V2 paper route and provenance
+
+The authors propose an edge-activation interpretation: cyano groups change charge distribution and polarization in the thiophene/phenylene backbone, which they connect to photogenerated charge behaviour. Main Fig.3a uses three-repeat fragments. SI p6 states B3LYP/6-311G** structural optimization in Gaussian09, CAM-B3LYP/6-311G** dipole calculations and Multiwfn/VMD ESP analysis. The source also reports polymer PL, EPR, SPV and XPS; those material observations cannot be equated to molecular descriptors. The V1 n1/n2/n3 mandatory length sequence, invented regioisomer control,45° torsion setting and frozen length prediction were benchmark additions and are removed. Source descriptor trends are hypotheses to assess, not required winners.
+
+The private legacy_final_snapshot preserves earlier monomer dipole calculations and protocol context; those brominated monomer objects do not validate a full source polymer-fragment response. Source Scheme1/Fig.3 and SI p6 support the specified finite representation and a plausible calculation route. V1 expanded oligomer/regio controls were never fully scientifically validated and are not reference answers for this open task.
+
+AR is not instructed to follow this private author route. This file is package metadata, not an exported agent input. The active public task and V2 rubric supersede all archived V1 requirements.

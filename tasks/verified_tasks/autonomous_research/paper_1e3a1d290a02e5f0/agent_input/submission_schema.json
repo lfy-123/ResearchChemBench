@@ -1,0 +1,297 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "results",
+      "conclusion"
+    ],
+    "properties": {
+      "results": {
+        "type": "array",
+        "minItems": 3,
+        "items": false,
+        "maxItems": 3,
+        "prefixItems": [
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/primary_result"
+              },
+              {
+                "properties": {
+                  "molecule_id": {
+                    "const": "JY1"
+                  }
+                },
+                "required": [
+                  "molecule_id"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/primary_result"
+              },
+              {
+                "properties": {
+                  "molecule_id": {
+                    "const": "JY2"
+                  }
+                },
+                "required": [
+                  "molecule_id"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/$defs/primary_result"
+              },
+              {
+                "properties": {
+                  "molecule_id": {
+                    "const": "JY3"
+                  }
+                },
+                "required": [
+                  "molecule_id"
+                ]
+              }
+            ]
+          }
+        ],
+        "description": "Exactly one primary row per identity in this order: JY1, JY2, JY3. Additional trials belong in attempts."
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+      },
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "Optional additional or unsuccessful trials, separate from primary results."
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "primary_result": {
+        "type": "object",
+        "required": [
+          "molecule_id",
+          "identity",
+          "method"
+        ],
+        "properties": {
+          "molecule_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "identity": {
+            "type": "object",
+            "required": [
+              "systematic_name",
+              "formula",
+              "charge",
+              "multiplicity"
+            ],
+            "properties": {
+              "systematic_name": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "formula": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "charge": {
+                "type": "integer",
+                "const": 0
+              },
+              "multiplicity": {
+                "type": "integer",
+                "const": 1
+              }
+            }
+          },
+          "method": {
+            "type": "object"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "validated",
+              "bounded_failure"
+            ],
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "status",
+              "geometry",
+              "validation",
+              "homo_eV",
+              "lumo_eV",
+              "lambda_h_eV"
+            ],
+            "properties": {
+              "status": {
+                "const": "validated"
+              },
+              "geometry": {
+                "type": "object",
+                "required": [
+                  "file",
+                  "atom_count",
+                  "connectivity_preserved"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "atom_count": {
+                    "type": "integer"
+                  },
+                  "connectivity_preserved": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "minimum_test",
+                  "imaginary_modes",
+                  "status"
+                ],
+                "properties": {
+                  "minimum_test": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "imaginary_modes": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              },
+              "homo_eV": {
+                "type": "number"
+              },
+              "lumo_eV": {
+                "type": "number"
+              },
+              "lambda_h_eV": {
+                "type": "number"
+              },
+              "method": {
+                "type": "object",
+                "required": [
+                  "software",
+                  "functional",
+                  "basis",
+                  "convergence_settings",
+                  "conformer_handling",
+                  "lambda_definition",
+                  "energy_states",
+                  "approach_justification"
+                ],
+                "properties": {
+                  "software": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "functional": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "basis": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "convergence_settings": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "conformer_handling": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "lambda_definition": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "energy_states": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "approach_justification": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "required": [
+              "status",
+              "failure_reason",
+              "attempted_methods"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure_reason": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "attempted_methods": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

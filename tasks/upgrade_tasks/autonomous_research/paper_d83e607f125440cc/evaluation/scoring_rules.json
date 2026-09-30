@@ -1,0 +1,179 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: The five identities and states are defined in `data/inputs/study_scope.json`; the supplied SMe parent XYZ is an authorized starting object. Preserve the benzyl-alcohol connectivity and map the benzylic CH2OH hydrogen removed in each reaction. For every substituent use the neutral singlet, radical cation (+1, doublet), and relaxed benzylic-dehydrogenated cation (+1, singlet), plus a neutral doublet H atom. Do not remove an O–H or substituent C–H hydrogen. A rearranged product is a different channel and must be recorded separately.\n\nThe primary gas-phase quantities are adiabatic electronic ionization I_e = E(parent radical cation) − E(neutral parent), and D_e = E(dehydrogenated cation) + E(H) − E(parent radical cation), both in kJ/mol. Retain the underlying energies in hartree. These definitions exclude zero-point and thermal corrections. The ionization quantity is an electron-removal descriptor, not an absolute electrode potential. Use one consistent protocol for all terms. Report Hirshfeld spin populations with explicitly mapped sulfur/oxygen/substituent, benzylic and aromatic regions; an absent sulfur is not a zero-valued sulfur measurement.\n\nThe core comparison is gas phase. Repeat the SMe/OMe comparison in one declared common continuum medium and examine relevant conformers. State the solvent, cavity model, solvation convention for every species, and the H reference; do not call an electronic continuum difference a solution free energy. Full oxygen/flavin/electrode reaction networks, reaction rates and yields are outside this task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods"
+        ],
+        "comparison": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: The five identities and states are defined in `data/inputs/study_scope.json`; the supplied SMe parent XYZ is an authorized starting object. Preserve the benzyl-alcohol connectivity and map the benzylic CH2OH hydrogen removed in each reaction. For every substituent use the neutral singlet, radical cation (+1, doublet), and relaxed benzylic-dehydrogenated cation (+1, singlet), plus a neutral doublet H atom. Do not remove an O–H or substituent C–H hydrogen. A rearranged product is a different channel and must be recorded separately.\n\nThe primary gas-phase quantities are adiabatic electronic ionization I_e = E(parent radical cation) − E(neutral parent), and D_e = E(dehydrogenated cation) + E(H) − E(parent radical cation), both in kJ/mol. Retain the underlying energies in hartree. These definitions exclude zero-point and thermal corrections. The ionization quantity is an electron-removal descriptor, not an absolute electrode potential. Use one consistent protocol for all terms. Report Hirshfeld spin populations with explicitly mapped sulfur/oxygen/substituent, benzylic and aromatic regions; an absent sulfur is not a zero-valued sulfur measurement.\n\nThe core comparison is gas phase. Repeat the SMe/OMe comparison in one declared common continuum medium and examine relevant conformers. State the solvent, cavity model, solvation convention for every species, and the H reference; do not call an electronic continuum difference a solution free energy. Full oxygen/flavin/electrode reaction networks, reaction rates and yields are outside this task."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_series",
+      "reference_id": "kp_series",
+      "type": "semantic",
+      "expected": "Verify all five correct channels, component-energy subtraction and common units; compare ionization versus hydrogen-loss ordering. Source anchors apply only to like-defined gas-phase calculations, not the expanded conclusion. For H/Cl/Me/OMe/SMe, resolve all component record IDs and recompute I_e=(E_radical-E_neutral)*hartree_to_kJmol and D_e=(E_fragment+E_H-E_radical)*hartree_to_kJmol. Record the conversion constant. Gas primary uses the same H atom protocol. Validate atom conservation after removal of exactly one mapped benzylic H. Spin populations must come from the radical cation, use one exhaustive/nonoverlapping partition with sum consistent with the chosen convention, and not confuse S2 with atomic spin. Reject any absent species or duplicated member used instead. Compare both orderings with ties/uncertainty. Recompute derived quantities from raw evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.series",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify all five correct channels, component-energy subtraction and common units; compare ionization versus hydrogen-loss ordering. Source anchors apply only to like-defined gas-phase calculations, not the expanded conclusion. For H/Cl/Me/OMe/SMe, resolve all component record IDs and recompute I_e=(E_radical-E_neutral)*hartree_to_kJmol and D_e=(E_fragment+E_H-E_radical)*hartree_to_kJmol. Record the conversion constant. Gas primary uses the same H atom protocol. Validate atom conservation after removal of exactly one mapped benzylic H. Spin populations must come from the radical cation, use one exhaustive/nonoverlapping partition with sum consistent with the chosen convention, and not confuse S2 with atomic spin. Reject any absent species or duplicated member used instead. Compare both orderings with ties/uncertainty. Recompute derived quantities from raw evidence."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_pair_controls",
+      "reference_id": "kp_pair_controls",
+      "type": "semantic",
+      "expected": "Verify each pair control changes a declared factor and uses coherent H/solvation references. Compare actual effects and uncertainty; alternative conformers that collapse are evidenced attempts, not independent minima. Both gas-conformer attempts and one common-continuum SMe/OMe comparison are required. Resolve neutral, radical and fragment energies for each descriptor; both media comparisons must use the stated H reference consistently. Review actual alternate starts, endpoint identities and spin/localization where used. A continuum keyword in methods without new jobs is not a control; a collapsed start is not a second minimum. Recompute derived quantities from raw evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.pair_controls",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify each pair control changes a declared factor and uses coherent H/solvation references. Compare actual effects and uncertainty; alternative conformers that collapse are evidenced attempts, not independent minima. Both gas-conformer attempts and one common-continuum SMe/OMe comparison are required. Resolve neutral, radical and fragment energies for each descriptor; both media comparisons must use the stated H reference consistently. Review actual alternate starts, endpoint identities and spin/localization where used. A continuum keyword in methods without new jobs is not a control; a collapsed start is not a second minimum. Recompute derived quantities from raw evidence."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_prediction_test",
+      "reference_id": "kp_prediction_test",
+      "type": "semantic",
+      "expected": "Inspect the actual prediction or explicitly retrospective cross-check, its test calculation and discrepancies. Do not infer blind forecasting from an unverified statement or reward prediction text without a calculation. Verify predicted and computed quantities refer to the same member, channel and units. Calculate discrepancy and whether it undermines the hypothesis. Prospective claims require a saved prediction before the corresponding test output; prior knowledge must not be disguised as independence. Explicit retrospective validation is accepted on its numerical/scientific merit. Recompute derived quantities from raw evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.prediction_test",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect the actual prediction or explicitly retrospective cross-check, its test calculation and discrepancies. Do not infer blind forecasting from an unverified statement or reward prediction text without a calculation. Verify predicted and computed quantities refer to the same member, channel and units. Calculate discrepancy and whether it undermines the hypothesis. Prospective claims require a saved prediction before the corresponding test output; prior knowledge must not be disguised as independence. Explicit retrospective validation is accepted on its numerical/scientific merit. Recompute derived quantities from raw evidence."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Replacing benzylic H loss by deprotonation, wrong charge/spin or a rearranged channel; mixing G/ZPE into D_e; treating gas-phase ionization as an absolute electrode potential; inferring a full catalytic mechanism from descriptors.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Replacing benzylic H loss by deprotonation, wrong charge/spin or a rearranged channel; mixing G/ZPE into D_e; treating gas-phase ionization as an absolute electrode potential; inferring a full catalytic mechanism from descriptors."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "The conclusion follows the complete same-object control matrix, evaluated hypotheses and demonstrated sensitivity. Accept support, refutation or bounded ambiguity when justified by real results; do not force the author claim. A missing expanded calculation is a missing endpoint, not computed ambiguity. Numerical publication anchors apply only to like-defined source baselines and never substitute for new reference calculations. Avoid these scientific errors: Replacing benzylic H loss by deprotonation, wrong charge/spin or a rearranged channel; mixing G/ZPE into D_e; treating gas-phase ionization as an absolute electrode potential; inferring a full catalytic mechanism from descriptors.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "The conclusion follows the complete same-object control matrix, evaluated hypotheses and demonstrated sensitivity. Accept support, refutation or bounded ambiguity when justified by real results; do not force the author claim. A missing expanded calculation is a missing endpoint, not computed ambiguity. Numerical publication anchors apply only to like-defined source baselines and never substitute for new reference calculations. Avoid these scientific errors: Replacing benzylic H loss by deprotonation, wrong charge/spin or a rearranged channel; mixing G/ZPE into D_e; treating gas-phase ionization as an absolute electrode potential; inferring a full catalytic mechanism from descriptors."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: The five identities and states are defined in `data/inputs/study_scope.json`; the supplied SMe parent XYZ is an authorized starting object. Preserve the benzyl-alcohol connectivity and map the benzylic CH2OH hydrogen removed in each reaction. For every substituent use the neutral singlet, radical cation (+1, doublet), and relaxed benzylic-dehydrogenated cation (+1, singlet), plus a neutral doublet H atom. Do not remove an O–H or substituent C–H hydrogen. A rearranged product is a different channel and must be recorded separately.\n\nThe primary gas-phase quantities are adiabatic electronic ionization I_e = E(parent radical cation) − E(neutral parent), and D_e = E(dehydrogenated cation) + E(H) − E(parent radical cation), both in kJ/mol. Retain the underlying energies in hartree. These definitions exclude zero-point and thermal corrections. The ionization quantity is an electron-removal descriptor, not an absolute electrode potential. Use one consistent protocol for all terms. Report Hirshfeld spin populations with explicitly mapped sulfur/oxygen/substituent, benzylic and aromatic regions; an absent sulfur is not a zero-valued sulfur measurement.\n\nThe core comparison is gas phase. Repeat the SMe/OMe comparison in one declared common continuum medium and examine relevant conformers. State the solvent, cavity model, solvation convention for every species, and the H reference; do not call an electronic continuum difference a solution free energy. Full oxygen/flavin/electrode reaction networks, reaction rates and yields are outside this task.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "series",
+      "max_score": 20,
+      "description": "Verify all five correct channels, component-energy subtraction and common units; compare ionization versus hydrogen-loss ordering. Source anchors apply only to like-defined gas-phase calculations, not the expanded conclusion.",
+      "rule_ids": [
+        "rule_series"
+      ]
+    },
+    {
+      "id": "pair_controls",
+      "max_score": 25,
+      "description": "Verify each pair control changes a declared factor and uses coherent H/solvation references. Compare actual effects and uncertainty; alternative conformers that collapse are evidenced attempts, not independent minima.",
+      "rule_ids": [
+        "rule_pair_controls"
+      ]
+    },
+    {
+      "id": "prediction_test",
+      "max_score": 20,
+      "description": "Inspect the actual prediction or explicitly retrospective cross-check, its test calculation and discrepancies. Do not infer blind forecasting from an unverified statement or reward prediction text without a calculation.",
+      "rule_ids": [
+        "rule_prediction_test"
+      ]
+    },
+    {
+      "id": "hypothesis_testing",
+      "max_score": 15,
+      "description": "Real discriminating controls and quantitative robustness determine which explanations survive.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "scientific_conclusion",
+      "max_score": 10,
+      "description": "Bounded, reproducible conclusion supported by the expanded results.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "scoring_notes": [
+    "This is a developmental scientific rubric, not certification of an upgraded task PASS. Do not publish benchmark scores as calibrated until reference_validation_plan.md is completed.",
+    "Award each item according to demonstrated correct coverage of the named endpoint. Missing new controls receive no credit for that endpoint; an old baseline plus a prose explanation cannot receive full credit.",
+    "Reference numerical values from the paper or archived old run are context, not calibrated targets for a new matrix. Do not invent a universal tolerance or a required winner.",
+    "Real negative outcomes may earn the relevant scientific credit. Invalid objects, unsupported basin absence, fabricated data or mismatched evidence invalidate dependent claims. Do not treat an honest bounded failure as fabrication."
+  ],
+  "phase1_reference": {
+    "binding_file": "evaluation/phase1_reference_binding.json",
+    "verification_type": "author_informed_reference_not_blind_AR",
+    "semantic_judge_calibration": "not_performed",
+    "coordinator_final_review": "pending"
+  }
+}

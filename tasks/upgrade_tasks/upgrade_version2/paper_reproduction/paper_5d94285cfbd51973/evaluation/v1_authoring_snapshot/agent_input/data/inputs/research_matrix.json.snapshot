@@ -1,0 +1,128 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "scope": "Determine whether a frozen, small electronic-descriptor model for AZ1–AZ10 adds predictive information about the same Candida albicans MIC endpoint beyond a simple physicochemical baseline, using out-of-fold predictions and label permutation controls.",
+  "species": [
+    {
+      "id": "AZ1",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][c:25]([Cl:26])[cH:27][cH:28]2)[CH2:29]1",
+      "formula": "C21H18Cl2N4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ2",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][cH:25][cH:26][cH:27]2)[CH2:28]1",
+      "formula": "C21H19ClN4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ3",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][c:25]([Br:26])[cH:27][cH:28]2)[CH2:29]1",
+      "formula": "C21H18BrClN4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ4",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][c:24]([Cl:25])[c:26]([F:27])[cH:28][cH:29]2)[CH2:30]1",
+      "formula": "C21H17Cl2FN4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ5",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][c:25]([CH3:26])[cH:27][cH:28]2)[CH2:29]1",
+      "formula": "C22H21ClN4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ6",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][c:25]([F:26])[cH:27][cH:28]2)[CH2:29]1",
+      "formula": "C21H18ClFN4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ7",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][c:24]([F:25])[c:26]([F:27])[cH:28][cH:29]2)[CH2:30]1",
+      "formula": "C21H17ClF2N4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ8",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][c:25]([O:26][CH3:27])[cH:28][cH:29]2)[CH2:30]1",
+      "formula": "C22H21ClN4O3",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ9",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[c:23]([CH3:24])[cH:25][c:26]([CH3:27])[cH:28][cH:29]2)[CH2:30]1",
+      "formula": "C23H23ClN4O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "AZ10",
+      "mapped_smiles": "[O:1]=[c:2]1[n:3]([CH2:4][c:5]2[cH:6][cH:7][cH:8][cH:9][cH:10]2)[n:11][c:12]([Cl:13])[cH:14][c:15]1[N:16]1[CH2:17][CH:18]([C:19](=[O:20])[NH:21][c:22]2[cH:23][cH:24][c:25]([CH3:26])[cH:27][n:28]2)[CH2:29]1",
+      "formula": "C21H20ClN5O2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "substituent_identity": {
+      "AZ1": "4-chlorophenyl",
+      "AZ2": "phenyl",
+      "AZ3": "4-bromophenyl",
+      "AZ4": "3-chloro-4-fluorophenyl",
+      "AZ5": "4-methylphenyl",
+      "AZ6": "4-fluorophenyl",
+      "AZ7": "3,4-difluorophenyl",
+      "AZ8": "4-methoxyphenyl",
+      "AZ9": "2,4-dimethylphenyl",
+      "AZ10": "5-methylpyridin-2-yl"
+    },
+    "frozen_features": {
+      "electronic": [
+        "HOMO_eV",
+        "dipole_D"
+      ],
+      "physicochemical_baseline": [
+        "RDKit_MolLogP",
+        "molecular_weight_g_mol"
+      ]
+    },
+    "evaluation": "LOOCV with training-fold-only standardization; linear ridge regression with fixed alpha=1 and intercept on ordinal bin (250→0,500→1,1000→2). Include training-fold-mean baseline. No feature or alpha selection on ten held-out labels. Report every fold and permutation p=(1+#null_score_at_least_as_good)/(1+N), deterministic seed and N>=1000.",
+    "censoring": "Treat printed MIC as dilution intervals, repeat evaluation as ordinal categories and as log2 concentrations with endpoint censoring sensitivity. The source does not print >1000: do not silently substitute right censoring. 250 is the lowest tested antifungal level and permits <=250 uncertainty."
+  },
+  "source_notes": [
+    "SI pp3–7 names and synthesis identify all ten substituents; p31 TableS1 is the common assay table.",
+    "Main electronic-descriptor discussion and SI p7 computational method identify the original AZ9 baseline."
+  ],
+  "molecular_boundary": "Use all ten neutral singlets and the source assay as an ordinal dilution endpoint. This n=10 study tests an association and its fragility, not biological mechanism, broad QSAR validity or binding affinity. No replicate uncertainty or target protein is supplied. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Molecular targets, docking, cross-strain generalization and drug discovery are outside scope."
+}

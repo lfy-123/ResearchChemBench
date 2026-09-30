@@ -1,0 +1,145 @@
+{
+  "date": "2026-09-27",
+  "paper_id": "paper_c7217910ecbee1d9",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "source_reread": [
+    {
+      "path": "papers/paper_c7217910ecbee1d9/documents/main.pdf",
+      "sha256": "15a46fe1f07860776ac02e85707265593a747493fde6652f6eb7c32085ac1f87",
+      "scope": "Substantive relevant methods, structures and figure/table evidence; detailed locations in reference_validation_plan.md."
+    },
+    {
+      "path": "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+      "sha256": "b27d17f45ccc1f4d6de0567f4c939fc0ce1da8a12e000964a253908abb126671",
+      "scope": "Substantive relevant methods, structures and figure/table evidence; detailed locations in reference_validation_plan.md."
+    }
+  ],
+  "history": [
+    {
+      "path": "workspaces/codex_gpt56/paper_c7217910ecbee1d9_20260924_131519_0d7d2f/runs/cli_runs/batch_20260924_131522_e81865/autonomous_research-paper_c7217910ecbee1d9-codex-20260924_131522-8ebe16/report/results.json",
+      "sha256": "6e38dc7a81d21b5386c5bf7c2ab138794e65491fd2fdd831758487186ef922fe",
+      "scope": "Existing report inspected; no new scientific result."
+    },
+    {
+      "path": "workspaces/codex_gpt56/paper_c7217910ecbee1d9_20260924_131519_0d7d2f/runs/cli_runs/batch_20260924_131522_e81865/autonomous_research-paper_c7217910ecbee1d9-codex-20260924_131522-8ebe16/outputs/endpoints/analysis.json",
+      "sha256": "1e7f82512d7cbc53cee6b533ff95bde76802aceecef55bc246ff948134c0d614",
+      "scope": "Raw historical analysis confirms broken core/ligand identity."
+    }
+  ],
+  "source_access_checks": [],
+  "history_diagnosis": {
+    "reported_status": "bounded_failure",
+    "neutral_core_retained": false,
+    "anion_core_retained": false,
+    "neutral_ligands_intact": false,
+    "anion_ligands_intact": false,
+    "raw_AEA_is_for_wrong_object": 7.731077010083421
+  },
+  "read_pages": {
+    "main": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "SI_sections": [
+      "Computational details",
+      "Figures S1-S9",
+      "Table S1"
+    ]
+  },
+  "short_historical_audit": {
+    "kind": "historical geometry/log audit, not new quantum reference",
+    "rows": [
+      {
+        "state": "neutral",
+        "geometry": "workspaces/codex_gpt56/paper_c7217910ecbee1d9_20260924_131519_0d7d2f/runs/cli_runs/batch_20260924_131522_e81865/autonomous_research-paper_c7217910ecbee1d9-codex-20260924_131522-8ebe16/outputs/endpoints/neutral_endpoint.xyz",
+        "sha256": "5b17e44e5ff8fda11d7e5104d025dbb1b7aa97f42b28cad34fffa6171dcb51d8",
+        "atom_count": 81,
+        "P_Al_distances_A": [
+          2.378961154037477,
+          6.599689059167186,
+          2.3207152411410217,
+          7.907616777995411,
+          2.334679618610448,
+          5.991727788780412,
+          4.523286670134275,
+          7.678968833274339,
+          4.450354508049408,
+          4.2961594690203535,
+          6.45805500149534,
+          7.55148625803537
+        ],
+        "count_below_3p30_A": 3,
+        "note": "Short historical geometry audit; 3.30 A is an old diagnostic, not a newly calibrated acceptance threshold."
+      },
+      {
+        "state": "anion",
+        "geometry": "workspaces/codex_gpt56/paper_c7217910ecbee1d9_20260924_131519_0d7d2f/runs/cli_runs/batch_20260924_131522_e81865/autonomous_research-paper_c7217910ecbee1d9-codex-20260924_131522-8ebe16/outputs/endpoints/anion_endpoint.xyz",
+        "sha256": "c88bd382a5ce218505b81e2f3d9015adc6dd26db70353c9b2ae11aa51f2e670f",
+        "atom_count": 81,
+        "P_Al_distances_A": [
+          4.322100684269026,
+          4.498217443333487,
+          5.477349113839016,
+          4.219367225636317,
+          2.3922331990602665,
+          2.656780291953004,
+          2.4490802504144997,
+          4.284358631101895,
+          6.128373736480302,
+          2.629884032938911,
+          3.4425499018528325,
+          2.5901188928444334
+        ],
+        "count_below_3p30_A": 5,
+        "note": "Short historical geometry audit; 3.30 A is an old diagnostic, not a newly calibrated acceptance threshold."
+      },
+      {
+        "job_id": "job_7615cd1a4b4b492c9c46afbcb6ee7398",
+        "path": "workspaces/codex_gpt56/paper_c7217910ecbee1d9_20260924_131519_0d7d2f/runs/cli_runs/batch_20260924_131522_e81865/autonomous_research-paper_c7217910ecbee1d9-codex-20260924_131522-8ebe16/outputs/execution_jobs/job_7615cd1a4b4b492c9c46afbcb6ee7398/outputs/optimize_geometry/orca/5e102309ce97/job.out",
+        "sha256": "7e2a10a1cc7bd47c91787a43bc99ca08675a212cc45c4a1b13083821cd00257f",
+        "diagnostic_lines": [
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.283569182239",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.283602768401",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.283633274233",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.283659286823",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "The optimization did not converge but reached the maximum number of"
+        ]
+      },
+      {
+        "job_id": "job_930d226a04f3461fafdda95dfaceaafc",
+        "path": "workspaces/codex_gpt56/paper_c7217910ecbee1d9_20260924_131519_0d7d2f/runs/cli_runs/batch_20260924_131522_e81865/autonomous_research-paper_c7217910ecbee1d9-codex-20260924_131522-8ebe16/outputs/execution_jobs/job_930d226a04f3461fafdda95dfaceaafc/outputs/optimize_geometry/orca/b85bd30648f0/job.out",
+        "sha256": "34bbe2497421aef63a442f1bf63e43d444dab31e943b183566b8e0080cae6742",
+        "diagnostic_lines": [
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.440014632105",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.440052175911",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.440070926774",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "FINAL SINGLE POINT ENERGY     -7654.440084182555",
+          "The optimization has not yet converged - more geometry cycles are needed",
+          "The optimization did not converge but reached the maximum number of"
+        ]
+      }
+    ]
+  },
+  "finding": "The 2026-09-27 verification inventory recovered eight historical Gaussian PBE0/def2SVP n2 local-minimum candidates with 81 atoms and 237 positive frequencies. An independent supervisor parse checks raw log/input hashes, stationarity, the P-centered icosahedral Al12 adjacency and both element-labelled ligand graphs. The selected opposite-site neutral doublet and anion singlet retain the complete object; their electronic AEA is 3.9455364457428788 eV and ZPE-corrected AEA is 3.959169350252118 eV. These are historical baseline values, never expanded acceptance targets or tolerances. Native atom order differs from the public map; use the explicit graph mapping in task_provenance/historical_n2_reaudit.json. Other local minima include long Al-B contacts and require candidate-specific attachment interpretation. No global-minimum or shell-orbital claim follows. The later AR GFN2 reconstructed aggregate and unconverged PBEh-3c runs remain invalid intact endpoints, but do not erase the earlier valid Gaussian evidence. The full expanded reference remains pending.",
+  "prior_review_finding": "Formal SI is present and establishes source method. It supplies images rather than complete Cartesian coordinates. Historical intact-core DFT minima remain absent; no new run was launched.",
+  "historical_correction": {
+    "audited_at": "2026-09-27T12:51:27.107071+00:00",
+    "audit_path": "evaluation/task_provenance/historical_n2_reaudit.json",
+    "audit_sha256": "d76f849f9a15e070197611079cf01b07218966083660255dd08b55ab5f0f699e",
+    "new_engine_launches": 0,
+    "expanded_reference_verified": false,
+    "supersedes": "The prior assertion that no intact n2 DFT pair exists."
+  }
+}

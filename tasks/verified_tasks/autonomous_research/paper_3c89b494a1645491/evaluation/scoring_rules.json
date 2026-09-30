@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_3c89b494a1645491",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_hypothesis",
+      "type": "semantic",
+      "expected": "At least one explicit hypothesis is tested quantitatively with reproducible provenance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.provenance"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "Identity/state, convergence or stationary-state justification, four contacts and BCP validation are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.validation",
+          "$.provenance"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_aim",
+      "type": "numeric",
+      "target": 0.036475,
+      "unit": "atomic units for mean rho across four contacts",
+      "tolerance": 0.001,
+      "applicability": "When completion_status is complete and the corresponding contact row has status validated; bounded_failure submissions are assessed for the explicitly documented missing rows and evidence under ar_r2/ar_r4.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contacts[0].rho",
+          "$.contacts[1].rho",
+          "$.contacts[2].rho",
+          "$.contacts[3].rho"
+        ],
+        "comparison": "absolute difference to source values per contact"
+      },
+      "expected": "The legacy authored rule mixes a mean-density target with per-contact wording. Until its scientific definition is confirmed, report both mean and correctly contact-matched SI comparisons for review; do not silently choose the easier interpretation or certify this rule from the scalar alone. The existing target and tolerance are unchanged."
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_class",
+      "type": "semantic",
+      "expected": "predominantly closed-shell metallophilic interaction classification supported by quantitative descriptors and a valid finite-cluster model.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.classification",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "independent hypothesis-tested final conclusion agrees with source-supported interpretation without relying on author-route disclosure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

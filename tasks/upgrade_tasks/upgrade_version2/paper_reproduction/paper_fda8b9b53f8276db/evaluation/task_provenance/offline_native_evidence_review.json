@@ -1,0 +1,843 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "reviewed_at_utc": "2026-09-28T17:33:08.960217+00:00",
+  "operation": "read and parse already-frozen bytes only",
+  "new_scientific_jobs": 0,
+  "scientific_acceptance": false,
+  "scope": "group_3 已有有限十行原生参考并修复 ESD；新 C 任务的 evaluator 校准和独立运行仍须另报。",
+  "limitations": [],
+  "raw_log_reviews": [
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/ccb5ec05c94094cd_stdout.log.snapshot",
+      "sha256": "ccb5ec05c94094cd61c687d35adf078e2bfb1f72299ba2197ef7dd33786e59f1",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 510009,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 3746,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(CalcFC,MaxCyc=250) Freq NoSymm SCRF=(PCM,S"
+          },
+          {
+            "line": 3725,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RB3LYP/6-311+G(2d,p) F"
+          }
+        ],
+        "electronic_energy_records": 4,
+        "last_energy_records": [
+          {
+            "line": 841,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.90974347,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2039,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.909830399,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2666,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.909830423,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4272,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.909830423,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 29,
+        "last_frequency_rows": [
+          {
+            "line": 5788,
+            "values_cm_inverse": [
+              3025.7348,
+              3068.3349,
+              3069.0253
+            ]
+          },
+          {
+            "line": 5826,
+            "values_cm_inverse": [
+              3110.2401,
+              3111.7291,
+              3150.8573
+            ]
+          },
+          {
+            "line": 5864,
+            "values_cm_inverse": [
+              3160.2535,
+              3171.2816,
+              3173.665
+            ]
+          },
+          {
+            "line": 5902,
+            "values_cm_inverse": [
+              3180.2631,
+              3194.8283,
+              3201.1597
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/de72433f211e38c1_stdout.log.snapshot",
+      "sha256": "de72433f211e38c1269198013daae1071c3c6891e84f19f10a08692e3514e9d6",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_MeCN_torsion0_B3LYP_6311p2dp_constrained_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 288881,
+        "charge_multiplicity_records": [
+          {
+            "line": 116,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(ModRedundant,CalcFC,MaxCyc=250) NoSymm SCF"
+          }
+        ],
+        "electronic_energy_records": 4,
+        "last_energy_records": [
+          {
+            "line": 845,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.907877062,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2062,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.908461935,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2717,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.908464619,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 3344,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.908464671,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/0d6e46df42cfefbe_stdout.log.snapshot",
+      "sha256": "0d6e46df42cfefbe413525ee3f465ae300b69cde02256e84e89d60be668da778",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+      "parsed": {
+        "bytes_of_text": 389935,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 2541,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(Tight,Cartesian,CalcFC,MaxCyc=150) Freq No"
+          },
+          {
+            "line": 2520,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RB3LYP/6-311+G(2d,p) F"
+          }
+        ],
+        "electronic_energy_records": 3,
+        "last_energy_records": [
+          {
+            "line": 689,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430857,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 1716,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430889,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2860,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430889,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 29,
+        "last_frequency_rows": [
+          {
+            "line": 4376,
+            "values_cm_inverse": [
+              3022.5147,
+              3062.6417,
+              3063.7068
+            ]
+          },
+          {
+            "line": 4414,
+            "values_cm_inverse": [
+              3107.0211,
+              3108.6242,
+              3143.1098
+            ]
+          },
+          {
+            "line": 4452,
+            "values_cm_inverse": [
+              3145.3053,
+              3169.3166,
+              3173.4125
+            ]
+          },
+          {
+            "line": 4490,
+            "values_cm_inverse": [
+              3176.8395,
+              3185.3289,
+              3192.5019
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/47f5fa39edee39be_stdout.log.snapshot",
+      "sha256": "47f5fa39edee39be95f5692f1e1570d3d93a3967ba448c25ee37811c95c78904",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_SuperFineGrid_sensitivity_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 65498,
+        "charge_multiplicity_records": [
+          {
+            "line": 100,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) NoSymm SCF=(VeryTight,XQC,MaxCycle=512) Int=Sup"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 627,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897428437,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/2a64c2066020bb7b_stdout.log.snapshot",
+      "sha256": "2a64c2066020bb7bd2c6f0dc7f0145f67b5a77e8d10ff984b18265d4db60002b",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/cis_gas_torsion0_B3LYP_6311p2dp_constrained_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 281216,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(ModRedundant,CalcFC,MaxCyc=250) NoSymm SCF"
+          }
+        ],
+        "electronic_energy_records": 4,
+        "last_energy_records": [
+          {
+            "line": 803,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.895231451,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 1998,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.895795403,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2628,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.895799587,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 3230,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.895799661,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/783e1693501c9abe_stdout.log.snapshot",
+      "sha256": "783e1693501c9abed477e9f6404eb47632d43c7018234364f937de688569c786",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/legacy_cis_gas_B3LYP_6311p2dp_optfreq/stdout.log",
+      "parsed": {
+        "bytes_of_text": 4264743,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 62907,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(Cartesian,CalcFC,MaxCyc=1000) Freq NoSymm"
+          },
+          {
+            "line": 62886,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RB3LYP/6-311+G(2d,p) F"
+          }
+        ],
+        "electronic_energy_records": 104,
+        "last_energy_records": [
+          {
+            "line": 60984,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430787,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 61524,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430839,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 62064,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430857,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 63226,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.897430857,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 29,
+        "last_frequency_rows": [
+          {
+            "line": 64742,
+            "values_cm_inverse": [
+              3022.3226,
+              3062.4862,
+              3063.492
+            ]
+          },
+          {
+            "line": 64780,
+            "values_cm_inverse": [
+              3106.9542,
+              3108.3319,
+              3142.3385
+            ]
+          },
+          {
+            "line": 64818,
+            "values_cm_inverse": [
+              3145.3138,
+              3169.3563,
+              3173.3367
+            ]
+          },
+          {
+            "line": 64856,
+            "values_cm_inverse": [
+              3176.8402,
+              3185.2623,
+              3192.4843
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/2a676ca291e3ab20_stdout.log.snapshot",
+      "sha256": "2a676ca291e3ab2001aa0c3306424ee7832e508f58a4beeea26df193dee595a5",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/legacy_trans_gas_B3LYP_6311p2dp_optfreq/stdout.log",
+      "parsed": {
+        "bytes_of_text": 4583404,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 67730,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(Cartesian,CalcFC,MaxCycles=1000) Freq NoSy"
+          },
+          {
+            "line": 67709,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RB3LYP/6-311+G(2d,p) F"
+          }
+        ],
+        "electronic_energy_records": 113,
+        "last_energy_records": [
+          {
+            "line": 65787,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906130408,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 66364,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906127241,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 66889,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906130476,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 68049,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906130476,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 29,
+        "last_frequency_rows": [
+          {
+            "line": 69565,
+            "values_cm_inverse": [
+              3022.2329,
+              3061.4506,
+              3063.6494
+            ]
+          },
+          {
+            "line": 69603,
+            "values_cm_inverse": [
+              3106.4562,
+              3107.936,
+              3146.0273
+            ]
+          },
+          {
+            "line": 69641,
+            "values_cm_inverse": [
+              3170.2512,
+              3171.9989,
+              3174.9001
+            ]
+          },
+          {
+            "line": 69679,
+            "values_cm_inverse": [
+              3189.7722,
+              3191.8396,
+              3211.6637
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 1,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/84140a0c00a38cfd_stdout.log.snapshot",
+      "sha256": "84140a0c00a38cfd8961d189a08274c8c87e99e47e30761713873469e35a046b",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_MeCN_B3LYP_6311p2dp_optfreq_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 789314,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 8064,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(CalcFC,MaxCyc=250) Freq NoSymm SCRF=(PCM,S"
+          },
+          {
+            "line": 8043,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RB3LYP/6-311+G(2d,p) F"
+          }
+        ],
+        "electronic_energy_records": 10,
+        "last_energy_records": [
+          {
+            "line": 5637,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.914113024,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6318,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.914113114,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 6976,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.914113105,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 8590,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.914113105,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 29,
+        "last_frequency_rows": [
+          {
+            "line": 10105,
+            "values_cm_inverse": [
+              3025.3269,
+              3067.7522,
+              3068.4721
+            ]
+          },
+          {
+            "line": 10143,
+            "values_cm_inverse": [
+              3110.0914,
+              3111.3598,
+              3152.3645
+            ]
+          },
+          {
+            "line": 10181,
+            "values_cm_inverse": [
+              3170.9725,
+              3173.0089,
+              3179.0465
+            ]
+          },
+          {
+            "line": 10219,
+            "values_cm_inverse": [
+              3191.9599,
+              3197.3034,
+              3214.1918
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/3a0a9c1703dd535e_stdout.log.snapshot",
+      "sha256": "3a0a9c1703dd535e0ed0ab50842c5b05419ced062e21de0b34e446916dfa67ed",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_B3LYP_6311p2dp_strict_optfreq_a2/stdout.log",
+      "parsed": {
+        "bytes_of_text": 489630,
+        "charge_multiplicity_records": [
+          {
+            "line": 115,
+            "charge": 0,
+            "multiplicity": 1
+          },
+          {
+            "line": 4009,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) Opt=(Tight,Cartesian,CalcFC,MaxCyc=150) Freq No"
+          },
+          {
+            "line": 3988,
+            "text": "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RB3LYP/6-311+G(2d,p) F"
+          }
+        ],
+        "electronic_energy_records": 6,
+        "last_energy_records": [
+          {
+            "line": 2233,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906131199,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 2702,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906131199,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 3183,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906131199,
+            "kind": "SCF_electronic"
+          },
+          {
+            "line": 4328,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906131199,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 29,
+        "last_frequency_rows": [
+          {
+            "line": 5844,
+            "values_cm_inverse": [
+              3022.2364,
+              3062.2077,
+              3063.4492
+            ]
+          },
+          {
+            "line": 5882,
+            "values_cm_inverse": [
+              3106.4779,
+              3108.1135,
+              3145.9383
+            ]
+          },
+          {
+            "line": 5920,
+            "values_cm_inverse": [
+              3169.7931,
+              3171.9404,
+              3174.8049
+            ]
+          },
+          {
+            "line": 5958,
+            "values_cm_inverse": [
+              3189.8597,
+              3191.8789,
+              3212.365
+            ]
+          }
+        ],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 2,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 2,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_fda8b9b53f8276db/e51c3dfc2d599380_stdout.log.snapshot",
+      "sha256": "e51c3dfc2d5993803d8820edf122640daff1dd1903966eda6191e3392a1b0269",
+      "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_fda8b9b53f8276db/outputs/trans_gas_SuperFineGrid_sensitivity_a1/stdout.log",
+      "parsed": {
+        "bytes_of_text": 64313,
+        "charge_multiplicity_records": [
+          {
+            "line": 100,
+            "charge": 0,
+            "multiplicity": 1
+          }
+        ],
+        "reported_NAtoms": [
+          31
+        ],
+        "route_lines": [
+          {
+            "line": 84,
+            "text": "#p B3LYP/6-311+G(2d,p) NoSymm SCF=(VeryTight,XQC,MaxCycle=512) Int=Sup"
+          }
+        ],
+        "electronic_energy_records": 1,
+        "last_energy_records": [
+          {
+            "line": 609,
+            "method_label": "RB3LYP",
+            "value_Eh": -743.906134761,
+            "kind": "SCF_electronic"
+          }
+        ],
+        "gaussian_excitation_records": 0,
+        "first_gaussian_excitations": [],
+        "last_gaussian_excitations": [],
+        "frequency_rows": 0,
+        "last_frequency_rows": [],
+        "negative_frequency_values_any_segment": [],
+        "gaussian_normal_termination_count": 1,
+        "orca_normal_termination": false,
+        "error_termination_count": 0,
+        "optimization_completion_markers": 0,
+        "interpretation": "Parsed markers only. Multi-step or partial logs require segment-aware state/geometry review; normal termination is not scientific validation or proof of minimum. No new values computed by a chemistry engine."
+      }
+    }
+  ],
+  "no_native_logs_in_selected_inventory": false,
+  "reference_use": "Exact identity/method/segment matching is required before scientific use. This inventory deliberately does not promote queued or failed work, re-score old PASS, or set expanded tolerances."
+}

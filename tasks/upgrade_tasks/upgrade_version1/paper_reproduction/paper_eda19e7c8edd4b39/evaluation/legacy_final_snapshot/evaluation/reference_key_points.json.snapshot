@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "items": [
+    {
+      "key_point_id": "pr_process_setup",
+      "key_point_type": "process",
+      "statement": "The submission constructs one pristine ordered B2 beta-NiAl reference and two separately identified neutral substitutional defect states, with the removed species and atom counts explicitly checked.",
+      "expected": "Pristine, Ni-removed and Al-removed periodic states are uniquely identified; charge and reservoir convention are stated.",
+      "evidence_ids": [
+        "ev_doc_a7bb7508309d_000162_eb3f96b3d721",
+        "ev_doc_a7bb7508309d_000225_22cbb9e9c4f9"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_validation",
+      "key_point_type": "process",
+      "statement": "The submission validates numerical stability or sensitivity and reports the formation-energy bookkeeping from total energies.",
+      "expected": "A convergence/sensitivity record covers supercell and dominant numerical choices, and an explicit consistent equation connects reference, defect and reservoir energies.",
+      "evidence_ids": [
+        "ev_doc_a7bb7508309d_000162_eb3f96b3d721",
+        "ev_doc_a7bb7508309d_000225_22cbb9e9c4f9"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_ni",
+      "key_point_type": "result",
+      "statement": "The neutral Ni-vacancy formation energy is approximately 0.98 eV.",
+      "expected": "Reported Ni-vacancy formation energy is 0.98 eV within the numeric rule tolerance.",
+      "evidence_ids": [
+        "ev_doc_a7bb7508309d_000162_eb3f96b3d721",
+        "ev_doc_a7bb7508309d_000172_7ad23d1080d0"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_al",
+      "key_point_type": "result",
+      "statement": "The neutral Al-vacancy formation energy is approximately 1.20 eV.",
+      "expected": "Reported Al-vacancy formation energy is 1.20 eV within the numeric rule tolerance.",
+      "evidence_ids": [
+        "ev_doc_a7bb7508309d_000162_eb3f96b3d721",
+        "ev_doc_a7bb7508309d_000172_7ad23d1080d0"
+      ]
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 # Scientific objective
 
-Determine which of the four defined CuAAC adduct connectivity classes formed from 4-(prop-2-yn-1-yloxy)benzaldehyde and 3-azido-1H-1,2,4-triazole is thermodynamically preferred and which has the smallest activation energy under a neutral, closed-shell isolated-molecule computational model. The authors propose a catalyst-organized intramolecular click-reaction route; independently test that qualitative proposal without assuming its outcome.
+Determine which of the four defined azide–alkyne adduct identities formed from 4-(prop-2-yn-1-yloxy)benzaldehyde and azido-1,2,4-triazole is thermodynamically preferred and which has the smallest activation energy under a neutral, closed-shell isolated-molecule computational model. This is a two-reactant organic cycloaddition model, not an intramolecular reaction or an explicit copper catalytic cycle. Candidate identity includes both regiochemistry and the specified original-triazole N–H position.
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/reactants_and_candidate_definitions.json`. It defines the two mapped reactants, charge 0, multiplicity 1, and immutable candidate IDs Pdt1–Pdt4. Interpret the definitions by the named atom roles: the alkyne terminal and substituted carbons, the two terminal azide nitrogens, and the azide ring atom; preserve those atom identities when constructing each product. Build all product and reaction-path structures from those identities; do not introduce Cu, solvent, counterions, or alternative protonation unless reported as a clearly separated limitation. Product identity is not scored as a discovery: the four supplied connectivity classes are the complete candidate set.
+Use `data/inputs/reactants_and_candidate_definitions.json`. It defines explicit heavy-atom maps, neutral azide tautomers, charge 0, multiplicity 1, and candidate IDs Pdt1–Pdt4. C1/C2 are the terminal/substituted alkyne carbons; N13/N14/N15 are the proximal/central/distal azide nitrogens. Preserve their identities, the original C16–N17–C18–N19–N20 ring, and each candidate's specified N–H position. Use the matching neutral azide tautomer for each cycloaddition; any proton transfer must be identified as a separate process and must not be hidden by remapping or relabelling. Do not introduce Cu, solvent, counterions, or a different total charge. Product identity is not scored as a discovery: the four supplied connectivity-plus-tautomer definitions are the complete candidate set.
 
 # Required scientific validation/investigation
 

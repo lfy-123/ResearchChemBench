@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "old_class": "A",
+  "new_class": "B",
+  "status": "blocked",
+  "implementation_status": "implemented_pending_expanded_reference",
+  "release_ready": false,
+  "packages": [
+    {
+      "mode": "autonomous_research",
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_5ea491c741fbd8d4",
+      "package_content_sha256": "6faaabf8855493ea6c4a0a41258af0f80231038762a0f3875d3824b65b81f93a",
+      "package_validation": "passed"
+    },
+    {
+      "mode": "paper_reproduction",
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_5ea491c741fbd8d4",
+      "package_content_sha256": "2d7ad730e715fc62c923f560ade77af92e37b0d78bb55e2def0810f325d3c2d1",
+      "package_validation": "passed"
+    }
+  ],
+  "reference_gaps": [
+    "Authenticated CCDC 2445596 CIF and complete fractional atom/occupancy/symmetry data are not available.",
+    "Correct symmetry-inequivalent neighbor inventory and graph mapping cannot be generated without that CIF.",
+    "No representative pair area/interaction-energy pilot or full expanded references exist."
+  ],
+  "release_conditions": [
+    "Obtain the actual deposition through a permitted CCDC/publisher access route, hash it, check DOI/deposition/formula/cell and inspect disorder/occupancy/quality alerts. A downloaded checkCIF or HTML page is not sufficient.",
+    "Rebuild full molecules and neighbors, establish a bijective label map and normalize H consistently; review symmetry/multiplicity against source packing.",
+    "Demonstrate one real pair with converged surface area and frozen-geometry CP energies through Gaussian/ORCA or an equivalent calibrated method.",
+    "Complete all primary pairs plus the specified cutoff and decisive sensitivity controls; freeze numerical intervals from actual evidence; then review release readiness and run independent AR/PR checks."
+  ],
+  "source_review": "source_review/paper_5ea491c741fbd8d4_review.json",
+  "new_scientific_calculations_performed": false,
+  "supervisor_updated_at": "2026-09-27T14:50:24.118168+00:00",
+  "latest_change": "Current package hashes after benign ./ path compatibility; scientific status unchanged."
+}

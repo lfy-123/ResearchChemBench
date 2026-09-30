@@ -6,7 +6,7 @@ The paper uses quantum chemistry to test whether the ionic liquid [C8MIm][NTf2] 
 
 ## 2. System and model boundary
 
-The molecular systems are isolated neutral Tb, neutral Pa, the neutral ion-pair representation of [C8MIm][NTf2], a 1:1 Tb·Pa complex, and a 1:1:1 C8-IL·Tb·Pa complex. The paper treats the complexes as molecular interaction models; solvent, periodicity, polymer growth and the macroscopic membrane are outside this DFT calculation.
+The molecular identities are neutral Tb, neutral Pa and [C8MIm][NTf2]. The current finite molecular calculation includes Tb·Pa, C8-IL·Tb, and C8-IL·Tb·Pa. SI Fig. 35b explicitly compares Pa binding to Cn-IL–Tb: the ternary energy reference must keep the ion pair and Tb together, not subtract all four isolated molecules. Fig. 3e and the publisher's Source Data label the control “Hex-Tb-Pa”; the retrieved methods do not resolve whether this implies an explicit/implicit hexane treatment or only labels the experimental control. Isolated gas phase is therefore a disclosed reconstruction, not a verified exact control model. Periodic COF formation, polymer growth and the separate MD simulations are outside the assessment sub-question.
 
 ## 3. Authors' implemented computational route
 
@@ -24,8 +24,10 @@ The authors optimized structures, used frequencies to identify local minima, the
 
 ## 5. Private reference results
 
-The reported binding energies are −16.5 kJ/mol for Tb·Pa and −95.2 kJ/mol for C8-IL·Tb·Pa. Thus the ternary model is more strongly bound by 78.7 kJ/mol in the authors' calculation. The paper attributes the effect to orderly Tb prearrangement in the IL ion/H-bond network, while water encapsulation and acid-mediated kinetics contribute separately to rapid polymerization.
+Fig. 3e reports −16.5 kJ/mol for the Hex-Tb-Pa control and −95.2 kJ/mol for C8-IL-Tb-Pa. Source Data sheet “Supplementary Fig. 35b” confirms the latter, while the SI caption identifies the partners as Cn-IL–Tb and Pa. These are reference observations, not raw computed energies to insert into a reproduction. Numerical targets and tolerances are unchanged, but exact model correspondence must be checked before comparison. Water encapsulation and acid-mediated kinetics belong to the paper's separate mechanistic evidence.
 
 ## 6. Limitations and interpretation boundaries
 
-The paper does not publish a unique Cartesian starting geometry or a complete conformer ensemble. Interaction energies depend on the submitted conformer, charge treatment for the ion pair, and the chosen computational model. The reported values should therefore be compared as model-specific isolated-complex observables. They do not establish a unique transition state, a quantitative crystallization barrier, or causality independent of the experimental and MD evidence.
+The retrieved main text, SI and relevant publisher Source Data sheets do not provide unique Cartesian coordinates, raw SCF energies, the exact Hex-control implementation, or an unambiguous relaxed/frozen/BSSE prescription. These limitations must not be replaced with guessed author settings or hidden target-nearest selection. Use E(C8-IL·Tb·Pa) − E(C8-IL·Tb) − E(Pa) for the defined partner grouping, explicitly state the fragment geometry convention, and retain the unresolved source boundaries. Molecular interaction energies do not establish a crystallization barrier or the complete experimental mechanism. No scientific-goal reduction is authorized by this correction.
+
+Source correction audited 2026-09-18 against main PDF pp. 3/5/8, SI p. 36 Fig. 35, and [publisher Source Data](https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-025-67569-9/MediaObjects/41467_2025_67569_MOESM5_ESM.xlsx). Hashes, archived prior task files and failed-model evidence are in `docs/verification/group_2/paper_38886c436d8785fb/provenance/source_model_review_20260918/`.

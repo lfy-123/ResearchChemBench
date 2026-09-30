@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_e0791c047a731974",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "IR780": {
+      "formula": "C36H44ClN2",
+      "charge": 1,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "IR780_identity.json"
+    },
+    "Cy1": {
+      "formula": "C34H38ClI2N2",
+      "charge": 1,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "Cy1_identity.json"
+    },
+    "Cy2": {
+      "formula": "C27H29N2O2Se2",
+      "charge": 1,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "Cy2_identity.json"
+    },
+    "rubrene": {
+      "formula": "C42H28",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "rubrene_identity.json"
+    }
+  },
+  "identity_files": [
+    "Cy1_identity.json",
+    "Cy2_identity.json",
+    "Cy2_planar_control.json",
+    "IR780_identity.json",
+    "rubrene_identity.json"
+  ],
+  "control_definitions": {
+    "states": "For each sensitizer calculate S1/S2 and T1/T2 at minimum, enlarging roots to establish state character and adjacent-state competition; report actual SOC, not atomic Z scaling.",
+    "geometry": "For Cy2, freeze the six consecutive backbone dihedrals listed in Cy2_planar_control.json to 180 degrees (an explicitly imposed all-trans planar control), relax all other coordinates, and compare the density-matched states against the relaxed molecule. Release all constraints and classify the resulting endpoint. This is a benchmark intervention, not an asserted minimum.",
+    "rubrene": "Independently optimize rubrene S0,T1,S1 with root following, and all three sensitizer T1 states; no Cy2 self-TTA substitution.",
+    "relativity": "Repeat decisive Cy2 SOC with a justified basis/relativistic treatment sensitivity. A spin-free ECP needs a supported SOC operator, not an assumed scalar-only conversion."
+  },
+  "observable_definition": "Matched vertical gaps and SOC are evaluated at each S0 geometry. For energy transfer use consistent adiabatic excitation energies: delta_TTET=E_T1(rubrene)-E_T1(sensitizer); negative is energetically downhill. Rubrene annihilation balance=2E_T1(rubrene)-E_S1(rubrene); nonnegative is an energetic prerequisite. These are not rates or quantum yields.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "sensitizer_states",
+      "description": "Three sensitizer low-state windows and actual SOC"
+    },
+    {
+      "id": "rubrene_energy_cycle",
+      "description": "Independent acceptor energies and closed transfer/annihilation comparison"
+    },
+    {
+      "id": "geometry_and_method_test",
+      "description": "Geometry versus heavy-atom coupling and method robustness"
+    }
+  ],
+  "optional_not_scored": "Cy3, absolute ISC/TTET/TTA kinetics, diffusion, solution aggregation and device/quantum-yield predictions are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from chemistry_toolbox.src.execution_states import (TERMINAL_STATES as TERMINAL_JOB_STATES, QUEUED_STATES, RUNNING_STATES, BLOCKED_STATES, validate_state, process_status)
+
 import ast
 import csv
 import hashlib
@@ -46,8 +48,9 @@ from chemistry_toolbox.src.distributed_pool import (
     validate_distributed_resource_limits,
 )
 from chemistry_toolbox.src.timeout_policy import (
+    native_software_timeout_seconds,
+    native_timeout_policy_record,
     timeout_policy_record,
-    timeout_seconds_for,
 )
 
 from .execution_models import (
@@ -55,6 +58,7 @@ from .execution_models import (
     AnalysisJobRequest,
     ArtifactDeclarationRequest,
     ExecutionResourceRequest,
+    ExecutionSubmissionLookupRequest,
     JobCancelRequest,
     JobCollectRequest,
     JobStatusRequest,
@@ -63,6 +67,10 @@ from .execution_models import (
     StagedInput,
     WorkspaceTextReadRequest,
     WorkspaceTextWriteRequest,
+)
+from .execution_store import (
+    SubmissionConflict,
+    execution_store,
 )
 from .software_catalog import native_command_guide, software_documentation_recovery
 from .supervision_policy import supervision_policy
@@ -74,7 +82,6 @@ from .workspace import (
 
 
 JOB_ROOT = Path("outputs") / "execution_jobs"
-TERMINAL_JOB_STATES = {"success", "failed", "timeout", "cancelled"}
 SUPERVISOR_PATH = Path(__file__).with_name("job_supervisor.py")
 DISTRIBUTED_DISPATCHER_MODULE = "chemistry_toolbox.mcp.distributed_job_dispatcher"
 JOB_CONTEXT_PATH = Path(__file__).with_name("researchchem_job.py")
@@ -100,6 +107,12 @@ SAFE_INHERITED_ENVIRONMENT = (
     "all_proxy",
     "no_proxy",
     "RCB_DISTRIBUTED_REMOTE_SCRATCH_ROOT",
+    # Optional per-job Gaussian scratch root.  This is deliberately an
+    # explicit inherited variable rather than a blanket TMPDIR override: it
+    # lets quota-recovery submissions move only Gaussian's transient integral
+    # files to a capacity-backed filesystem while keeping job inputs,
+    # stdout/stderr, checkpoints, and status under the paper workspace.
+    "RCB_GAUSSIAN_SCRATCH_ROOT",
 )
 MAX_INSPECTION_JSON_BYTES = 50 * 1024 * 1024
 JOB_SUPERVISION_STATE_FIELDS = (
@@ -189,13 +202,27 @@ def _validate_argument_paths(arguments: list[str]) -> None:
             )
 
 
-def _compute_resource_limits(request_limits) -> dict[str, Any]:
+def _compute_resource_limits(
+    request_limits, *, native_software_id: str | None = None
+) -> dict[str, Any]:
     resources = normalize_resource_limits(request_limits)
     if distributed_enabled():
         validate_distributed_resource_limits(resources)
     else:
         validate_resource_limits(resources)
-    resources["walltime_seconds"] = timeout_seconds_for("compute")
+    if native_software_id is None:
+        # Programmable jobs and predefined Actions retain the ordinary
+        # evaluator-controlled compute walltime.
+        from chemistry_toolbox.src.timeout_policy import timeout_seconds_for
+
+        resources["walltime_seconds"] = timeout_seconds_for("compute")
+    else:
+        # Native jobs may be evaluator-configured as unbounded for a selected
+        # software id.  ``None`` is explicit in the job spec and means the
+        # supervisor must wait for natural process completion.
+        resources["walltime_seconds"] = native_software_timeout_seconds(
+            native_software_id
+        )
     return resources
 
 
@@ -278,6 +305,25 @@ def _stage_inputs(job_directory: Path, items: list[Any]) -> list[dict[str, Any]]
             }
         )
     return records
+
+
+def _submission_input_manifest(items: list[Any]) -> list[dict[str, Any]]:
+    """Hash source inputs before accepting a recoverable submission."""
+
+    manifest: list[dict[str, Any]] = []
+    for item in items:
+        source = resolve_workspace_path(item.source_path, must_exist=True)
+        if source.is_symlink() or not source.is_file():
+            raise ValueError(f"Staged input must be a regular non-symlink file: {item.source_path}")
+        manifest.append(
+            {
+                "source_path": relative_workspace_path(source),
+                "target_path": str(item.target_path),
+                "size_bytes": source.stat().st_size,
+                "sha256": _sha256(source),
+            }
+        )
+    return manifest
 
 
 def write_workspace_text(request: WorkspaceTextWriteRequest) -> dict[str, Any]:
@@ -445,61 +491,11 @@ def _validate_orca_input_deck(request: NativeJobRequest) -> dict[str, Any]:
         )
     target = targets[0]
     text = _read_staged_text(sources, target, software_id="orca")
-    lines = [line.strip() for line in text.splitlines()]
-    first = next((line for line in lines if line), "")
-    if not first.startswith("!"):
-        raise ValueError("orca_keyword_line: first non-empty input line must start with '!'")
-    block_names = {
-        "basis", "casscf", "cpcm", "elprop", "freq", "geom", "mdci", "method",
-        "output", "pal", "plots", "rel", "scf", "tddft",
-    }
-    stack: list[tuple[str, int]] = []
-    for line_number, line in enumerate(lines, start=1):
-        match = re.match(r"^%([a-z0-9_]+)\b(.*)$", line, flags=re.IGNORECASE)
-        if match and match.group(1).casefold() in block_names:
-            if re.search(r"\bend\s*$", match.group(2), flags=re.IGNORECASE):
-                continue
-            stack.append((match.group(1).casefold(), line_number))
-        elif line.casefold() == "end" and stack:
-            stack.pop()
-    if stack:
-        name, line_number = stack[-1]
-        raise ValueError(
-            f"orca_unclosed_block: %{name} opened on line {line_number} has no matching end"
-        )
-    coordinate_headers = [index for index, line in enumerate(lines) if re.match(r"^\*\s+xyz(file)?\b", line, re.I)]
-    for index in coordinate_headers:
-        if not any(line == "*" for line in lines[index + 1 :]):
-            raise ValueError(
-                f"orca_unclosed_coordinates: coordinate section opened on line {index + 1} has no final '*'"
-            )
-    parallel = re.search(r"%pal\s+.*?nprocs\s+(\d+)", text, flags=re.I | re.S)
-    if parallel and int(parallel.group(1)) > request.resource_limits.cpu_cores:
-        raise ValueError(
-            "orca_cpu_mismatch: %pal nprocs exceeds resource_limits.cpu_cores"
-        )
-    keyword_text = first.casefold()
-    has_frequency = bool(re.search(r"\bfreq\b", keyword_text))
-    has_transition_state = bool(re.search(r"\boptts\b", keyword_text))
-    has_optimization = has_transition_state or bool(re.search(r"\bopt\b", keyword_text))
-    if has_transition_state:
-        calculation_intent = "transition_state"
-    elif has_optimization and has_frequency:
-        calculation_intent = "optimization_frequency"
-    elif has_optimization:
-        calculation_intent = "geometry_optimization"
-    elif has_frequency:
-        calculation_intent = "frequency"
-    else:
-        calculation_intent = "single_point"
-    return {
-        "lint_profile": "orca_high_frequency_v1",
-        "input_target": target,
-        "keyword_line": first,
-        "calculation_intent": calculation_intent,
-        "coordinate_section_count": len(coordinate_headers),
-        "checks": ["keyword_line", "block_closure", "coordinate_closure", "cpu_mapping"],
-    }
+    from .orca_input_lint import lint_orca_input
+    return {"input_target": target, **lint_orca_input(
+        text, staged_targets=set(sources), cpu_cores=request.resource_limits.cpu_cores,
+        memory_mb=request.resource_limits.memory_mb,
+    )}
 
 
 def _gaussian_segment_sections(segment: str, segment_number: int) -> dict[str, Any]:
@@ -516,10 +512,18 @@ def _gaussian_segment_sections(segment: str, segment_number: int) -> dict[str, A
     route_normalized = route.casefold()
     has_frequency = bool(re.search(r"(?:^|[\s,])freq(?:\b|=)", route_normalized))
     has_optimization = bool(re.search(r"(?:^|[\s,])opt(?:\b|=)", route_normalized))
+    # Gaussian IRC requests are reaction-path calculations even when they do
+    # not contain an ``Opt`` or ``Freq`` keyword.  Recognize the route-level
+    # operation generically so callers can declare ``reaction_path`` without
+    # being rejected as a single-point job.  This is independent of any
+    # particular paper, molecule, or IRC direction.
+    has_reaction_path = bool(re.search(r"(?:^|[\s,])irc(?:\b|=)", route_normalized))
     has_transition_state = has_optimization and bool(
-        re.search(r"opt\s*=\s*(?:\([^)]*\bts\b|ts\b)", route_normalized)
+        re.search(r"opt\s*(?:=\s*)?(?:\([^)]*\b(?:ts|qst2|qst3)\b|(?:ts|qst2|qst3)\b)", route_normalized)
     )
-    if has_transition_state:
+    if has_reaction_path:
+        calculation_intent = "reaction_path"
+    elif has_transition_state:
         calculation_intent = "transition_state"
     elif has_optimization and has_frequency:
         calculation_intent = "optimization_frequency"
@@ -569,13 +573,22 @@ def _validate_gaussian_input_deck(request: NativeJobRequest) -> dict[str, Any]:
         raise ValueError("gaussian_stdin: g16 requires stdin_target")
     sources = _staged_sources(request)
     text = _read_staged_text(sources, request.stdin_target, software_id="gaussian")
+    advisory = os.environ.get("RESEARCHCHEMBENCH_NATIVE_INPUT_VALIDATION_POLICY", "legacy") == "advisory"
+    observations = []
     if not text.endswith("\n"):
-        raise ValueError("gaussian_final_newline: Gaussian input must end with a newline")
+        if not advisory:
+            raise ValueError("gaussian_final_newline: Gaussian input must end with a newline")
+        observations.append("gaussian_final_newline: input does not end with a newline")
     segments = re.split(r"^[ \t]*--Link1--[ \t]*$", text, flags=re.MULTILINE)
-    parsed = [
-        _gaussian_segment_sections(segment, index)
-        for index, segment in enumerate(segments, start=1)
-    ]
+    parsed = []
+    for index, segment in enumerate(segments, start=1):
+        try:
+            parsed.append(_gaussian_segment_sections(segment, index))
+        except ValueError as exc:
+            if not advisory:
+                raise
+            observations.append(str(exc))
+            parsed.append({"calculation_intent": "unknown", "coverage": "unsupported"})
     nproc = re.findall(r"^\s*%NProcShared\s*=\s*(\d+)", text, flags=re.I | re.M)
     if any(int(value) > request.resource_limits.cpu_cores for value in nproc):
         raise ValueError(
@@ -586,7 +599,11 @@ def _validate_gaussian_input_deck(request: NativeJobRequest) -> dict[str, Any]:
     if any(float(value) * factors[unit.upper()] > request.resource_limits.memory_mb for value, unit in memory):
         raise ValueError("gaussian_memory_mismatch: %Mem exceeds resource_limits.memory_mb")
     step_intents = [item["calculation_intent"] for item in parsed]
-    if "transition_state" in step_intents:
+    if step_intents and set(step_intents) == {"unknown"}:
+        calculation_intent = "unknown"
+    elif "reaction_path" in step_intents:
+        calculation_intent = "reaction_path"
+    elif "transition_state" in step_intents:
         calculation_intent = "transition_state"
     elif "optimization_frequency" in step_intents or {
         "geometry_optimization",
@@ -600,7 +617,10 @@ def _validate_gaussian_input_deck(request: NativeJobRequest) -> dict[str, Any]:
     else:
         calculation_intent = "single_point"
     return {
-        "lint_profile": "gaussian_high_frequency_v1",
+        "lint_profile": "gaussian_advisory_v2" if advisory else "gaussian_high_frequency_v1",
+        "observations": observations,
+        "checks_performed": ["cpu_mapping", "memory_mapping", "limited_route_and_first_structure"],
+        "checks_not_performed": ["full_gaussian_grammar", "multi_structure_completeness", "scientific_suitability"],
         "input_target": request.stdin_target,
         "link1_segment_count": len(parsed),
         "segments": parsed,
@@ -890,7 +910,8 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         else None
     )
     if (
-        request.calculation_intent
+        os.environ.get("RESEARCHCHEMBENCH_NATIVE_INPUT_VALIDATION_POLICY", "legacy") != "advisory"
+        and request.calculation_intent
         and inferred_intent
         and not _intent_is_compatible(
             request.software_id, request.calculation_intent, inferred_intent
@@ -902,9 +923,12 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
             f"Use calculation_intent={inferred_intent!r}, omit calculation_intent to accept "
             "the validated inference, or correct the input deck if the inference is wrong."
         )
-    calculation_intent = inferred_intent or request.calculation_intent or "unknown"
+    advisory = os.environ.get("RESEARCHCHEMBENCH_NATIVE_INPUT_VALIDATION_POLICY", "legacy") == "advisory"
+    calculation_intent = (request.calculation_intent or inferred_intent or "unknown") if advisory else (inferred_intent or request.calculation_intent or "unknown")
     try:
-        resources = _compute_resource_limits(request.resource_limits)
+        resources = _compute_resource_limits(
+            request.resource_limits, native_software_id=request.software_id
+        )
     except ResourceBudgetExceeded as exc:
         return _resource_budget_error(exc)
     except DistributedResourceLimitExceeded as exc:
@@ -924,9 +948,12 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         "staged_targets": sorted(targets),
         "stdin_target": request.stdin_target,
         "input_deck_validation": input_deck_validation,
+        "intent_observation": {"declared": request.calculation_intent, "inferred": inferred_intent,
+            "source": "limited_input_inspection", "conflict": bool(request.calculation_intent and inferred_intent
+                and not _intent_is_compatible(request.software_id, request.calculation_intent, inferred_intent))},
         "calculation_intent": calculation_intent,
         "resource_limits": resources,
-        "execution_timeout_policy": timeout_policy_record("compute"),
+        "execution_timeout_policy": native_timeout_policy_record(request.software_id),
         "evaluation_resource_budget": resource_budget_record(),
         "resource_availability": _resource_availability(),
         "invocation_guide": guide,
@@ -935,8 +962,8 @@ def validate_native_job(request: NativeJobRequest) -> dict[str, Any]:
         ),
         "validation_boundary": (
             "Validation confirms the allowlisted executable, argv/path safety, staging map, "
-            "stdin contract, mechanical resources, and any declared version-specific input-deck "
-            "syntax. It does not judge scientific correctness or add missing scientific settings."
+            "stdin contract and mechanical resources. Input observations have limited coverage; "
+            "they do not certify native syntax or scientific correctness, or add missing settings."
         ),
     }
 
@@ -949,6 +976,7 @@ def _job_environment(
     resource_allocation: dict[str, Any],
     *,
     job_type: str,
+    software_id: str | None = None,
 ) -> dict[str, str]:
     inherited = {
         name: os.environ[name]
@@ -956,6 +984,13 @@ def _job_environment(
         if os.environ.get(name)
     }
     environment = {**inherited, **runtime_environment(runtime)}
+    for name in (
+        "RESEARCHCHEM_MCP_WORKSPACE",
+        "RESEARCHCHEMBENCH_WORKSPACE",
+        "RESEARCHCHEMBENCH_RUN_ID",
+    ):
+        if os.environ.get(name):
+            environment[name] = os.environ[name]
     allocated_cpu_ids = [
         int(item) for item in resource_allocation.get("cpu_ids") or []
     ]
@@ -1004,6 +1039,27 @@ def _job_environment(
     temporary.mkdir(parents=True, exist_ok=True)
     home.mkdir(parents=True, exist_ok=True)
     environment.setdefault("HOME", str(home))
+    # Native Gaussian jobs must not share the global validation scratch
+    # directory: independent paper workspaces otherwise contend on the same
+    # integral/RWF files and can spend most of their time in I/O.  By default
+    # keep scratch inside the execution workspace for lifecycle cleanup and
+    # provenance isolation.  A narrowly scoped, explicit root may be supplied
+    # for quota-recovery jobs; each job still receives a private subdirectory
+    # keyed by its managed job id.  Inputs, stdout/stderr, checkpoints, and
+    # status remain in the workspace in either mode.
+    if job_type == "native_software" and str(software_id or "").casefold() == "gaussian":
+        configured_scratch_root = str(
+            environment.get("RCB_GAUSSIAN_SCRATCH_ROOT") or ""
+        ).strip()
+        if configured_scratch_root:
+            configured_root = Path(configured_scratch_root).expanduser()
+            if not configured_root.is_absolute():
+                raise ValueError("RCB_GAUSSIAN_SCRATCH_ROOT must be an absolute path")
+            gaussian_scratch = configured_root / f"rcb-{job_id}" / "gaussian"
+        else:
+            gaussian_scratch = temporary / "gaussian"
+        gaussian_scratch.mkdir(parents=True, exist_ok=True)
+        environment["GAUSS_SCRDIR"] = str(gaussian_scratch)
     if runtime == "gamess":
         gamess_scratch = temporary / "gamess"
         gamess_restart = job_directory / "outputs" / "gamess-restart"
@@ -1058,46 +1114,29 @@ def _start_job(
     staged_inputs: list[Any],
     resource_limits: dict[str, Any],
     metadata: dict[str, Any],
+    submission_key: str | None = None,
+    submission_request: Any | None = None,
 ) -> dict[str, Any]:
+    from .managed_execution import recovery_enabled, submit_job
+    if recovery_enabled() or submission_key:
+        return submit_job(job_type=job_type, runtime=runtime, command=command,
+            stdin_target=stdin_target, staged_inputs=staged_inputs, resource_limits=resource_limits,
+            metadata=metadata, submission_key=submission_key, submission_request=submission_request)
     if distributed_enabled():
-        return _start_reserved_job(
-            job_type=job_type,
-            runtime=runtime,
-            command=command,
-            stdin_target=stdin_target,
-            staged_inputs=staged_inputs,
-            resource_limits=resource_limits,
-            resource_allocation={},
-            metadata={
-                **metadata,
-                "execution_mode": "distributed",
-                "resource_pool_at_submission": pool_snapshot(),
-            },
-            deferred_distributed=True,
-        )
+        return {**_start_reserved_job(job_type=job_type, runtime=runtime, command=command,
+            stdin_target=stdin_target, staged_inputs=staged_inputs, resource_limits=resource_limits,
+            resource_allocation={}, metadata={**metadata, "execution_mode": "distributed", "resource_pool_at_submission": pool_snapshot()},
+            deferred_distributed=True), "recovery_capability": False}
     try:
-        reservation = reserve_resources(
-            resource_limits,
-            kind=job_type,
-            label=str(metadata.get("label") or command[0]),
-        )
+        reservation = reserve_resources(resource_limits, kind=job_type, label=str(metadata.get("label") or command[0]))
     except ResourceBudgetExceeded as exc:
         return _resource_budget_error(exc)
     try:
-        return _start_reserved_job(
-            job_type=job_type,
-            runtime=runtime,
-            command=command,
-            stdin_target=stdin_target,
-            staged_inputs=staged_inputs,
-            resource_limits=reservation.resource_limits
-            | {"walltime_seconds": resource_limits["walltime_seconds"]},
+        return {**_start_reserved_job(job_type=job_type, runtime=runtime, command=command,
+            stdin_target=stdin_target, staged_inputs=staged_inputs,
+            resource_limits=reservation.resource_limits | {"walltime_seconds": resource_limits["walltime_seconds"]},
             resource_allocation=reservation.resource_allocation,
-            metadata={
-                **metadata,
-                "evaluation_resource_budget": resource_budget_record(),
-            },
-        )
+            metadata={**metadata, "evaluation_resource_budget": resource_budget_record()}), "recovery_capability": False}
     finally:
         reservation.release()
 
@@ -1113,8 +1152,9 @@ def _start_reserved_job(
     resource_allocation: dict[str, Any],
     metadata: dict[str, Any],
     deferred_distributed: bool = False,
+    job_id: str | None = None,
 ) -> dict[str, Any]:
-    job_id = f"job_{uuid.uuid4().hex}"
+    job_id = job_id or f"job_{uuid.uuid4().hex}"
     job_directory = _job_directory(job_id, must_exist=False)
     job_directory.mkdir(parents=True, exist_ok=False)
     if job_type == "programmable_analysis":
@@ -1172,6 +1212,16 @@ def _start_reserved_job(
         "execution_mode": "distributed" if deferred_distributed else "local",
     }
     _atomic_json(status_path, status)
+    managed_store = execution_store() if metadata.get("submission_key") else None
+    if managed_store is not None:
+        managed_store.record_job_state(
+            job_id,
+            "queued",
+            state_payload={
+                "job_directory": relative_directory,
+                "status_path": relative_workspace_path(status_path),
+            },
+        )
     execution_budget = (
         {
             "cpu_cores": pool_snapshot()["maximum_cpu_cores_per_job"],
@@ -1232,6 +1282,12 @@ def _start_reserved_job(
             return {"status": "failed", **status}
         status["dispatcher_pid"] = dispatcher.pid
         _atomic_json(status_path, status)
+        if managed_store is not None:
+            managed_store.record_job_state(
+                job_id,
+                "launching",
+                state_payload={"dispatcher_pid": dispatcher.pid},
+            )
         return {
             "status": "success",
             "job_id": job_id,
@@ -1250,6 +1306,20 @@ def _start_reserved_job(
             "supervisor_pid": None,
             "execution_mode": "distributed",
             "automatic_fallback": False,
+            "submission_key": metadata.get("submission_key"),
+            "receipt_id": metadata.get("receipt_id"),
+            "request_fingerprint": metadata.get("request_fingerprint"),
+            "receipt": (
+                {
+                    "run_id": os.environ.get("RESEARCHCHEMBENCH_RUN_ID") or "legacy",
+                    "submission_key": metadata.get("submission_key"),
+                    "job_id": job_id,
+                    "receipt_id": metadata.get("receipt_id"),
+                    "request_fingerprint": metadata.get("request_fingerprint"),
+                }
+                if metadata.get("submission_key")
+                else None
+            ),
             "resource_snapshot": pool_snapshot(),
             "next_step": (
                 "Combine this job_id with other independent native/analysis job IDs and call "
@@ -1264,6 +1334,7 @@ def _start_reserved_job(
         resource_limits,
         resource_allocation,
         job_type=job_type,
+        software_id=str(metadata.get("software_id") or "") or None,
     )
     try:
         supervisor = subprocess.Popen(
@@ -1286,7 +1357,19 @@ def _start_reserved_job(
             }
         )
         _atomic_json(status_path, status)
+        if managed_store is not None:
+            managed_store.record_job_state(
+                job_id,
+                "failed",
+                state_payload={"error": status.get("error")},
+            )
         return {"status": "failed", **status}
+    if managed_store is not None:
+        managed_store.record_job_state(
+            job_id,
+            "launching",
+            state_payload={"supervisor_pid": supervisor.pid},
+        )
     return {
         "status": "success",
         "job_id": job_id,
@@ -1303,6 +1386,20 @@ def _start_reserved_job(
         "resource_allocation": resource_allocation,
         "supervisor_pid": supervisor.pid,
         "automatic_fallback": False,
+        "submission_key": metadata.get("submission_key"),
+        "receipt_id": metadata.get("receipt_id"),
+        "request_fingerprint": metadata.get("request_fingerprint"),
+        "receipt": (
+            {
+                "run_id": os.environ.get("RESEARCHCHEMBENCH_RUN_ID") or "legacy",
+                "submission_key": metadata.get("submission_key"),
+                "job_id": job_id,
+                "receipt_id": metadata.get("receipt_id"),
+                "request_fingerprint": metadata.get("request_fingerprint"),
+            }
+            if metadata.get("submission_key")
+            else None
+        ),
         "evaluation_resource_budget": resource_budget_record(),
         "next_step": (
             "Combine this job_id with other independent native/analysis job IDs and call "
@@ -1316,6 +1413,22 @@ def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
     if validation["status"] != "success":
         return validation
     guide = validation["invocation_guide"]
+    # Group-2 author-route advancers submit through this shared API directly
+    # (rather than through submit_gaussian_job.py).  Ensure those submissions
+    # receive the same quota-safe Gaussian scratch policy.  Restrict the
+    # fallback to the explicit Group-2 workspace so unrelated benchmark jobs
+    # retain their evaluator-configured environment.
+    scratch_metadata: dict[str, Any] = {}
+    if (
+        validation["software_id"] == "gaussian"
+        and "docs/verification/group_2" in str(os.environ.get("RESEARCHCHEM_MCP_WORKSPACE") or "")
+    ):
+        scratch_root = "/tmp/researchchembench_group2_gaussian_scratch_20260901"
+        os.environ.setdefault("RCB_GAUSSIAN_SCRATCH_ROOT", scratch_root)
+        scratch_metadata = {
+            "gaussian_scratch_policy": "capacity_backed_tmp_private_per_job",
+            "gaussian_scratch_root": os.environ.get("RCB_GAUSSIAN_SCRATCH_ROOT"),
+        }
     return _start_job(
         job_type="native_software",
         runtime=validation["runtime"],
@@ -1331,8 +1444,11 @@ def submit_native_job(request: NativeJobRequest) -> dict[str, Any]:
             "calculation_intent": validation["calculation_intent"],
             "input_deck_validation": validation["input_deck_validation"],
             "invocation_synopsis": guide.get("synopsis"),
-            "execution_timeout_policy": timeout_policy_record("compute"),
+            "execution_timeout_policy": native_timeout_policy_record(request.software_id),
+            **scratch_metadata,
         },
+        submission_key=request.submission_key,
+        submission_request=request.model_dump(mode="json"),
     )
 
 
@@ -2519,12 +2635,27 @@ def submit_analysis_program(request: AnalysisJobRequest) -> dict[str, Any]:
                 "or scheduler sandbox when executing untrusted programs."
             ),
         },
+        submission_key=request.submission_key,
+        submission_request=request.model_dump(mode="json"),
     )
     submitted["job_context_compliance"] = validation["job_context_compliance"]
     return submitted
 
 
 def _read_status(job_id: str) -> tuple[Path, dict[str, Any]]:
+    store = execution_store()
+    row = store.get_job(job_id)
+    if row and row["state"] == "needs_reconciliation":
+        from .job_manager import JobManager
+        row = JobManager(store.root, run_id=store.run_id).reconcile_job(job_id)
+    if row and store.spec(job_id):
+        facts = json.loads(row["state_json"])
+        spec = store.spec(job_id)
+        directory = store.root / "outputs" / "execution_jobs" / job_id
+        return directory, {"job_id": job_id, "job_type": spec["job_type"], "resource_limits": spec.get("resource_limits", {}),
+                           "metadata": spec.get("metadata", {}), "recovery_managed": True,
+                           **facts.get("status", {}), "status": row["state"],
+                           "reconciliation_reason": facts.get("reason") if row["state"] == "needs_reconciliation" else None}
     directory = _job_directory(job_id)
     path = directory / "status.json"
     if not path.is_file():
@@ -2551,6 +2682,54 @@ def _bounded_text(path: Path, maximum_bytes: int = 8 * 1024 * 1024) -> str:
     return data.decode("utf-8", errors="replace")
 
 
+def _bounded_head_and_tail_text(
+    path: Path, maximum_bytes: int = 8 * 1024 * 1024
+) -> str:
+    """Read bounded evidence from both ends of a potentially large native log.
+
+    Quantum-chemistry normal-termination, frequency, and final convergence
+    markers occur at the end of the log. Reading only the first bounded block
+    therefore turns otherwise successful large jobs into false failures. The
+    head is retained because route/version and early setup evidence can still
+    be useful to other native-software classifiers.
+    """
+
+    if not path.is_file() or maximum_bytes <= 0:
+        return ""
+    size = path.stat().st_size
+    with path.open("rb") as handle:
+        if size <= maximum_bytes:
+            data = handle.read(maximum_bytes)
+            return data.decode("utf-8", errors="replace")
+        head_bytes = maximum_bytes // 2
+        tail_bytes = maximum_bytes - head_bytes
+        head = handle.read(head_bytes)
+        handle.seek(max(0, size - tail_bytes))
+        tail = handle.read(tail_bytes)
+    return (
+        head.decode("utf-8", errors="replace")
+        + "\n[... bounded native log middle omitted ...]\n"
+        + tail.decode("utf-8", errors="replace")
+    )
+
+
+def _file_contains_text(path: Path, marker: str, chunk_bytes: int = 1024 * 1024) -> bool:
+    """Search a large text log without loading it or skipping its middle."""
+
+    if not path.is_file() or not marker:
+        return False
+    needle = marker.encode("utf-8")
+    overlap = max(0, len(needle) - 1)
+    previous = b""
+    with path.open("rb") as handle:
+        while chunk := handle.read(chunk_bytes):
+            combined = previous + chunk
+            if needle in combined:
+                return True
+            previous = combined[-overlap:] if overlap else b""
+    return False
+
+
 def _program_failure_diagnostic(
     directory: Path, status: dict[str, Any]
 ) -> dict[str, Any] | None:
@@ -2562,24 +2741,32 @@ def _program_failure_diagnostic(
     diagnostic_path = directory / "failure_diagnostic.json"
     if diagnostic_path.is_file():
         try:
-            return json.loads(diagnostic_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
+            saved = json.loads(diagnostic_path.read_text(encoding="utf-8"))
+            if isinstance(saved, dict) and saved.get("schema_version") == 2:
+                return saved
+        except (OSError, ValueError):
             pass
-    stderr = _bounded_text(directory / "stderr.log", maximum_bytes=2 * 1024 * 1024)
+    try:
+        stderr = _bounded_text(directory / "stderr.log", maximum_bytes=2 * 1024 * 1024)
+    except OSError as exc:
+        stderr = f"Unable to read stderr.log: {exc}"
     exception_type = None
     message = None
     exception_match = None
-    for line in reversed(stderr.splitlines()):
+    lines = stderr.splitlines()
+    for number in range(len(lines) - 1, -1, -1):
+        line = lines[number]
         candidate = re.match(
-            r"^(?P<type>[A-Za-z_][A-Za-z0-9_.]*(?:Error|Exception)):\s*(?P<message>.*)$",
-            line.strip(),
+            r"^(?P<type>[A-Za-z_][A-Za-z0-9_.]*):\s*(?P<message>.*)$",
+            line,
         )
-        if candidate:
+        if candidate and candidate.group("type") not in {"ERROR", "WARNING", "INFO", "DEBUG"}:
             exception_match = candidate
             break
     if exception_match:
         exception_type = exception_match.group("type")
-        message = exception_match.group("message")
+        message = "\n".join([exception_match.group("message"), *lines[number+1:]]).strip()[:4500]
+    message = message or stderr[-4500:] or str(status.get("error") or "Process failed; inspect the saved logs.")
     frames = re.findall(r'File "([^"]+)", line (\d+)(?:, in ([^\n]+))?', stderr)
     source_file = None
     source_line = None
@@ -2599,7 +2786,10 @@ def _program_failure_diagnostic(
             break
     source_context = None
     if source_file is not None and source_line is not None:
-        lines = source_file.read_text(encoding="utf-8", errors="replace").splitlines()
+        try:
+            lines = source_file.read_text(encoding="utf-8", errors="replace").splitlines()
+        except OSError:
+            lines = []
         start = max(0, source_line - 3)
         stop = min(len(lines), source_line + 2)
         source_context = [
@@ -2649,11 +2839,15 @@ def _program_failure_diagnostic(
             "Use indexed or named access when the input record length is not guaranteed.",
         ]
     diagnostic = {
-        "schema_version": 1,
+        "schema_version": 2,
         "job_id": status.get("job_id"),
         "classification": classification,
         "exception_type": exception_type,
         "message": message,
+        "failure_stage": "program_execution",
+        "failure_location": ({"file": frames[-1][0], "line": int(frames[-1][1]), "function": frames[-1][2] or None} if frames else None),
+        "diagnostic_ref": str(diagnostic_path),
+        "log_paths": [str(directory / name) for name in ("stdout.log", "stderr.log")],
         "source_file": (
             str(source_file.resolve().relative_to(directory.resolve()))
             if source_file is not None
@@ -2669,19 +2863,16 @@ def _program_failure_diagnostic(
             "scientific interpretation or choose replacement data."
         ),
     }
-    _atomic_json(diagnostic_path, diagnostic)
+    try:
+        _atomic_json(diagnostic_path, diagnostic)
+    except OSError as exc:
+        diagnostic["diagnostic_write_error"] = str(exc)
+        diagnostic["diagnostic_ref"] = None
     return diagnostic
 
 
 def _process_axis(job_status: str) -> str:
-    return {
-        "queued": "queued",
-        "running": "running",
-        "success": "completed",
-        "failed": "failed",
-        "timeout": "timed_out",
-        "cancelled": "cancelled",
-    }.get(job_status, "unknown")
+    return process_status(job_status)
 
 
 def _native_scientific_axes(
@@ -2691,109 +2882,40 @@ def _native_scientific_axes(
     software_id = str(metadata.get("software_id") or "")
     calculation_intent = str(metadata.get("calculation_intent") or "unknown")
     process_ok = status.get("status") == "success"
-    stdout = _bounded_text(directory / "stdout.log")
+    stdout_path = directory / "stdout.log"
+    stdout = _bounded_head_and_tail_text(stdout_path)
     software = {"status": "not_checked", "evidence": []}
     convergence = {"status": "not_checked", "evidence": []}
     artifacts = {"status": "not_declared", "evidence": []}
-    if not process_ok:
-        software = {"status": "not_reached", "evidence": [status.get("status")]}
+    started = status.get("process_started", bool(process_ok or status.get("child_pid") or status.get("return_code") is not None or stdout))
+    if not started:
+        software = {"status": "not_reached" if status.get("process_started") is False else "unknown", "evidence": [status.get("status")]}
         convergence = {"status": "not_reached", "evidence": []}
         artifacts = {"status": "not_validated", "evidence": []}
         return software, convergence, artifacts
-    if software_id == "orca":
-        normal = "ORCA TERMINATED NORMALLY" in stdout
-        software = {
-            "status": "normal_termination" if normal else "failed",
-            "evidence": ["ORCA TERMINATED NORMALLY"] if normal else ["normal termination marker missing"],
-        }
-        scf_converged = "SCF CONVERGED" in stdout
-        optimization_converged = "THE OPTIMIZATION HAS CONVERGED" in stdout
-        frequency_complete = "VIBRATIONAL FREQUENCIES" in stdout
-        frequencies = [
-            float(value)
-            for value in re.findall(
-                r"^\s*\d+:\s*(-?\d+(?:\.\d+)?)\s+cm\*\*-1",
-                stdout,
-                flags=re.MULTILINE,
-            )
-        ]
-        imaginary_count = sum(value < -1.0 for value in frequencies)
-        requirements = {
-            "single_point": scf_converged,
-            "geometry_optimization": optimization_converged,
-            "frequency": scf_converged and frequency_complete,
-            "optimization_frequency": optimization_converged and frequency_complete,
-            "transition_state": (
-                optimization_converged and frequency_complete and imaginary_count == 1
-            ),
-        }
-        converged = requirements.get(calculation_intent)
-        markers = [
-            marker
-            for marker, present in (
-                ("SCF CONVERGED", scf_converged),
-                ("THE OPTIMIZATION HAS CONVERGED", optimization_converged),
-                ("VIBRATIONAL FREQUENCIES", frequency_complete),
-            )
-            if present
-        ]
-        if frequency_complete:
-            markers.append(f"imaginary_frequency_count={imaginary_count}")
-        convergence = {
-            "status": (
-                "not_checked"
-                if converged is None
-                else "converged" if converged else "failed"
-            ),
-            "evidence": markers,
-            "calculation_intent": calculation_intent,
-        }
-        artifacts = {
-            "status": "valid" if normal and (directory / "stdout.log").stat().st_size else "invalid",
-            "evidence": ["stdout.log"],
-        }
-    elif software_id == "gaussian":
-        normal = "Normal termination of Gaussian" in stdout and "Error termination" not in stdout
-        software = {
-            "status": "normal_termination" if normal else "failed",
-            "evidence": ["Normal termination of Gaussian"] if normal else ["normal termination marker missing"],
-        }
-        scf_converged = "SCF Done:" in stdout
-        optimization_converged = "Optimization completed" in stdout
-        nimag_matches = re.findall(r"NImag=\s*(\d+)", stdout)
-        imaginary_count = int(nimag_matches[-1]) if nimag_matches else None
-        frequency_complete = imaginary_count is not None or "Harmonic frequencies" in stdout
-        requirements = {
-            "single_point": scf_converged,
-            "geometry_optimization": optimization_converged,
-            "frequency": scf_converged and frequency_complete,
-            "optimization_frequency": optimization_converged and frequency_complete,
-            "transition_state": (
-                optimization_converged and frequency_complete and imaginary_count == 1
-            ),
-        }
-        converged = requirements.get(calculation_intent)
-        markers = [
-            marker
-            for marker, present in (
-                ("SCF Done:", scf_converged),
-                ("Optimization completed", optimization_converged),
-                ("frequency calculation completed", frequency_complete),
-            )
-            if present
-        ]
-        if imaginary_count is not None:
-            markers.append(f"imaginary_frequency_count={imaginary_count}")
-        convergence = {
-            "status": (
-                "not_checked"
-                if converged is None
-                else "converged" if converged else "failed"
-            ),
-            "evidence": markers,
-            "calculation_intent": calculation_intent,
-        }
-        artifacts = {"status": "valid" if normal else "invalid", "evidence": ["stdout.log"]}
+    if software_id in {"orca", "gaussian"}:
+        from chemistry_toolbox.src.native_observations import parse_native_observations
+        observation = parse_native_observations(software_id, [stdout_path, *sorted(directory.glob("*.hess"))])
+        normal = observation.get("normal_termination")
+        software = {"status": "normal_termination" if normal else "failed" if status.get("status") in TERMINAL_JOB_STATES else "running",
+                    "evidence": ["stdout.log"], "observations": observation}
+        intent_observation = ("optimization_converged" if calculation_intent in {
+            "transition_state", "geometry_optimization", "optimization_frequency"} else "scf_converged")
+        converged = observation.get(intent_observation)
+        from chemistry_toolbox.src.execution_feedback import feedback_schema_version
+        if feedback_schema_version() == 1:
+            frequency = observation.get("final_frequency_block") is not None or "reported_imaginary_frequency_count" in (observation.get("segments") or [{}])[-1]
+            if calculation_intent in {"frequency", "optimization_frequency"}:
+                converged = converged and frequency
+        convergence = {"status": "converged" if converged else "not_reported",
+                       "evidence": [intent_observation] if converged else [], "calculation_intent": calculation_intent}
+        final_index = observation.get("final_frequency_block")
+        if final_index is not None:
+            block = observation["frequency_blocks"][final_index]
+            convergence["evidence"].append(f"imaginary_frequency_count={len(block['negative_frequencies_cm_1'])}")
+        if not converged and feedback_schema_version() == 1:
+            convergence["status"] = "failed"
+        artifacts = {"status": "valid" if stdout_path.is_file() and stdout_path.stat().st_size else "missing", "evidence": ["stdout.log"]}
     elif software_id == "crest":
         normal = "CREST terminated normally" in stdout
         software = {
@@ -2874,6 +2996,19 @@ def _native_scientific_axes(
         required = ["lobsterout", "COHPCAR.lobster"]
         valid = all((directory / item).is_file() and (directory / item).stat().st_size for item in required)
         artifacts = {"status": "valid" if valid else "invalid", "evidence": required}
+    from chemistry_toolbox.src.execution_feedback import feedback_schema_version
+    if feedback_schema_version() == 2 and software["status"] != "normal_termination":
+        state = status.get("status")
+        if state not in TERMINAL_JOB_STATES:
+            software["status"] = "running"
+        elif state in {"cancelled", "timeout"}:
+            software["status"] = "interrupted"
+        elif process_ok:
+            # Absence of a footer is not itself a software failure. Preserve an
+            # explicit native error when there is one, otherwise report unknown.
+            explicit_error = any(s.get("error_line") for s in software.get("observations", {}).get("segments", []))
+            if software_id == "lobster": explicit_error = bool(re.search(r"^ERROR:", lobsterout, flags=re.M))
+            software["status"] = "failed" if explicit_error else "unknown"
     return software, convergence, artifacts
 
 
@@ -2888,7 +3023,8 @@ def _execution_status_axes(
     if status.get("job_type") == "native_software":
         software, convergence, artifacts = _native_scientific_axes(directory, status)
     else:
-        software = {"status": "not_applicable", "evidence": []}
+        from chemistry_toolbox.src.execution_feedback import feedback_schema_version
+        software = {"status": "unknown" if status.get("job_type") == "predefined_action" and feedback_schema_version() == 2 else "not_applicable", "evidence": []}
         convergence = {"status": "not_declared", "evidence": []}
         artifact_value = analysis_artifact_status
         if artifact_value is None:
@@ -2912,7 +3048,11 @@ def _execution_status_axes(
         scientific = "mechanically_valid"
     else:
         scientific = "not_checked"
+    from chemistry_toolbox.src.execution_feedback import feedback_schema_version
+    if feedback_schema_version() == 2:
+        scientific = "not_assessed"
     return {
+        "observations": software.get("observations"),
         "request_status": request_status,
         "process_status": process_status,
         "software_status": software["status"],
@@ -3047,7 +3187,7 @@ def _job_supervision_snapshot(job_ids: list[str]) -> dict[str, Any]:
         jobs[job_id] = {
             "directory": directory,
             "status_record": status,
-            "status": str(status.get("status") or "unknown"),
+            "status": validate_state(str(status.get("status") or "unknown")),
             "worker_id": str(
                 status.get("compute_worker_id")
                 or reservation.get("worker_id")
@@ -3086,6 +3226,7 @@ def _compact_running_job(job: dict[str, Any], *, now_unix: float) -> dict[str, A
         "cpu_cores": resources.get("cpu_cores"),
         "memory_mb": resources.get("memory_mb"),
         "elapsed_seconds": max(0, round(now_unix - started)) if started else None,
+        "reconciliation_reason": status.get("reconciliation_reason"),
     }
 
 
@@ -3129,10 +3270,12 @@ def _collect_terminal_job(
         "scientific_validation_status": collected.get(
             "scientific_validation_status"
         ),
-        "failure_diagnostic": _program_failure_diagnostic(job["directory"], status),
+        "failure_diagnostic": _program_failure_diagnostic(job["directory"], status) or (collected.get("execution_feedback") or {}).get("diagnostic"),
+        "execution_feedback": collected.get("execution_feedback"),
+        "action_result": collected.get("action_result"),
         "collection_manifest": collected.get("collection_manifest"),
         "artifact_manifest": collected.get("artifact_manifest"),
-        "output_count": len(collected.get("outputs") or []),
+        "output_count": (collected.get("execution_feedback") or {}).get("artifact_count", len(collected.get("outputs") or [])),
         "collection_truncated": bool(collected.get("truncated")),
         "declared_outputs": [
             {
@@ -3151,7 +3294,7 @@ def _collect_terminal_job(
             for artifact in collected.get("declared_artifacts") or []
         ],
     }
-    if job["status"] in {"failed", "timeout"}:
+    if job["status"] in TERMINAL_JOB_STATES - {"success", "partial_success"}:
         value["stdout_tail"] = _tail(
             job["directory"] / "stdout.log", failure_tail_chars
         )
@@ -3162,12 +3305,11 @@ def _collect_terminal_job(
     return value
 
 
-def _wait_execution_jobs(
+def _job_wait_steps(
     request: JobWaitRequest,
     *,
     policy: dict[str, int] | None = None,
     monotonic_fn=time.monotonic,
-    sleep_fn=time.sleep,
     unix_time_fn=time.time,
 ) -> dict[str, Any]:
     settings = dict(policy or supervision_policy())
@@ -3211,6 +3353,15 @@ def _wait_execution_jobs(
             }
         internal_checks += 1
         jobs = latest["jobs"]
+        blocked = [job for job in jobs.values() if job["status"] in BLOCKED_STATES]
+        if blocked:
+            return {
+                "status": "failed", "return_reason": "needs_reconciliation",
+                "error": {"code": "needs_reconciliation", "message": "Execution identity must be reconciled before waiting."},
+                "held_jobs": [_compact_running_job(job, now_unix=unix_time_fn()) for job in blocked],
+                "remaining_job_ids": [key for key, job in jobs.items() if job["status"] not in TERMINAL_JOB_STATES],
+                "recommended_action": "reconcile_original_jobs", "internal_check_count": internal_checks,
+            }
         resource_signature = latest["resource_signature"]
         resource_changed = (
             previous_resource_signature is not None
@@ -3318,10 +3469,10 @@ def _wait_execution_jobs(
                             "converging"
                         )
                     break
-        elif now - started >= settings["heartbeat_seconds"]:
+        elif settings.get("wait_mode", "heartbeat") != "event" and now - started >= settings["heartbeat_seconds"]:
             return_reason = "heartbeat"
             break
-        sleep_fn(settings["poll_interval_seconds"])
+        yield settings["poll_interval_seconds"]
 
     assert latest is not None
     now_unix = unix_time_fn()
@@ -3335,15 +3486,17 @@ def _wait_execution_jobs(
         for job_id in request.job_ids
         if job_id in terminal_ids
     ]
+    from .result_transport import bound_terminal_items
+    newly_terminal = bound_terminal_items(newly_terminal)
     running = [
         _compact_running_job(job, now_unix=now_unix)
         for job in jobs.values()
-        if job["status"] not in TERMINAL_JOB_STATES | {"queued"}
+        if job["status"] in RUNNING_STATES
     ]
     queued = [
         _compact_queued_job(job)
         for job in jobs.values()
-        if job["status"] == "queued"
+        if job["status"] in QUEUED_STATES
     ]
     remaining = [
         job_id
@@ -3397,6 +3550,18 @@ def _wait_execution_jobs(
     return result
 
 
+def _wait_execution_jobs(request, *, policy=None, monotonic_fn=time.monotonic,
+                         sleep_fn=time.sleep, unix_time_fn=time.time):
+    from .supervision_wait import run_wait
+    return run_wait(_job_wait_steps(request, policy=policy, monotonic_fn=monotonic_fn,
+                                   unix_time_fn=unix_time_fn), sleep_fn=sleep_fn)
+
+
+async def wait_execution_jobs_async(request: JobWaitRequest) -> dict[str, Any]:
+    from .supervision_wait import run_wait_async
+    return await run_wait_async(_job_wait_steps(request))
+
+
 def wait_execution_jobs(request: JobWaitRequest) -> dict[str, Any]:
     """Wait internally and return one stable aggregate job-state update."""
 
@@ -3409,20 +3574,55 @@ def get_execution_job(request: JobStatusRequest) -> dict[str, Any]:
     stderr_path = directory / "stderr.log"
     axes = _execution_status_axes(directory, status)
     failure_diagnostic = _program_failure_diagnostic(directory, status)
-    return {
+    from .execution_feedback import job_feedback, conditional_result
+    feedback = job_feedback(directory, status, axes=axes, program_diagnostic=failure_diagnostic)
+    return conditional_result({
         "status": "success",
         "job": status,
         "stdout_tail": _tail(stdout_path, request.tail_chars),
         "stderr_tail": _tail(stderr_path, request.tail_chars),
-        "failure_diagnostic": failure_diagnostic,
+        "failure_diagnostic": failure_diagnostic or feedback.get("diagnostic"),
+        "execution_feedback": feedback,
         "terminal": status.get("status") in TERMINAL_JOB_STATES,
         **{key: value for key, value in axes.items() if key != "details"},
         "execution_status_details": axes["details"],
         "resource_availability": _resource_availability(),
+    }, request.known_result_version)
+
+
+def lookup_execution_submission(
+    request: ExecutionSubmissionLookupRequest,
+) -> dict[str, Any]:
+    """Replay a durable receipt without starting or collecting a job."""
+
+    record = execution_store().get_submission(request.submission_key)
+    if record is None:
+        return {
+            "status": "not_found",
+            "submission_key": request.submission_key,
+            "message": "No durable submission exists for this key in the active run.",
+        }
+    return {
+        "status": "success",
+        "submission_key": request.submission_key,
+        "submission": record,
+        "job_id" if record["entity_type"] == "job" else "batch_id": record["entity_id"],
+        "receipt": {"run_id": record["run_id"], "submission_key": record["submission_key"],
+                    "entity_id": record["entity_id"], "entity_type": record["entity_type"],
+                    "job_id": record["entity_id"] if record["entity_type"] == "job" else None,
+                    "batch_id": record["entity_id"] if record["entity_type"] == "batch" else None,
+                    "receipt_id": record["receipt_id"], "request_fingerprint": record["request_fingerprint"],
+                    "accepted_at": record["accepted_at"], "replayed": True},
+        "replay_safe": True,
     }
 
 
 def cancel_execution_job(request: JobCancelRequest) -> dict[str, Any]:
+    store = execution_store()
+    if store.get_job(request.job_id):
+        from .job_manager import JobManager, ensure_manager
+        ensure_manager(store)
+        return JobManager(store.root, run_id=store.run_id).cancel_entity(request.job_id)
     directory, status = _read_status(request.job_id)
     if status.get("status") in TERMINAL_JOB_STATES:
         return {
@@ -3766,7 +3966,7 @@ def _analysis_artifact_manifest(
     return manifest
 
 
-def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
+def _collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
     directory, status = _read_status(request.job_id)
     if status.get("status") not in TERMINAL_JOB_STATES:
         axes = _execution_status_axes(directory, status)
@@ -3838,7 +4038,10 @@ def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
         "declared_artifacts": artifact_manifest["artifacts"] if artifact_manifest else [],
     }
     collection_path = directory / "collection.json"
-    _atomic_json(collection_path, manifest)
+    # Original terminal evidence is immutable. New interpretations live in the
+    # versioned ledger; reading historical results must not rewrite this file.
+    if not collection_path.exists():
+        _atomic_json(collection_path, manifest)
     return {
         "status": "success",
         "ready": True,
@@ -3855,6 +4058,78 @@ def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
             "meaningful output that should enter an Action or later job with explicit lineage."
         ),
     }
+
+
+def list_execution_jobs(request=None) -> dict[str, Any]:
+    store = execution_store()
+    jobs = store.list_jobs()
+    for row in jobs:
+        result = store.get_record("result", row["entity_id"], {})
+        row["result_state"] = result.get("result_state", "pending" if row["state"] not in TERMINAL_JOB_STATES else "unavailable")
+        row["result_receipt_id"] = result.get("result_receipt_id")
+    return {"status": "success", "run_id": store.run_id, "jobs": jobs,
+            "summary": {"computation_jobs": sum(j["entity_type"] == "job" for j in jobs),
+                        "batches": sum(j["entity_type"] == "batch" for j in jobs),
+                        "failed_computation_jobs": sum(j["entity_type"] == "job" and j["state"] in TERMINAL_JOB_STATES - {"success", "partial_success", "cancelled"} for j in jobs)}}
+
+
+def collect_execution_job(request: JobCollectRequest) -> dict[str, Any]:
+    store = execution_store()
+    row = store.get_job(request.job_id)
+    if not row or not store.spec(request.job_id):
+        value = _collect_execution_job(request.model_copy(update={"max_files": 1000000, "file_offset": 0}))
+        directory, status = _read_status(request.job_id)
+        from .execution_feedback import job_feedback
+        value["execution_feedback"] = job_feedback(directory, status, axes=value, program_diagnostic=_program_failure_diagnostic(directory, status),
+                                                  record={"result_state": "ready" if value.get("ready") else "pending", "artifact_manifest": value.get("outputs", [])})
+        from .execution_feedback import page_collection
+        return page_collection(value, request)
+    from chemistry_toolbox.src.recovery_io import file_lock
+    from .job_manager import JobManager, TERMINAL_STATES
+    if row["state"] not in TERMINAL_STATES:
+        return {"status": "success", "job_id": request.job_id, "ready": False, "job_status": row["state"]}
+    with file_lock(store.directory / "collections" / (request.job_id + ".lock")):
+        # One terminal revision is parsed once, irrespective of page size.
+        result = JobManager(store.root, run_id=store.run_id)._index_result(request.job_id)
+        cached = store.get_record("collection", request.job_id)
+        if cached is None or cached.get("result_receipt_id") != result["result_receipt_id"]:
+            if store.spec(request.job_id)["job_type"] == "predefined_action" or not (store.root / "outputs" / "execution_jobs" / request.job_id / "request.json").is_file():
+                cached = {"status": "success", "ready": result.get("result_state") in {"ready", "indexed"}, **result, "job_status": row["state"]}
+            else:
+                cached = {**_collect_execution_job(request.model_copy(update={"max_files": 1000000, "include_inputs": True})),
+                          "terminal_revision": result["terminal_revision"], "result_receipt_id": result["result_receipt_id"], "result_artifact_manifest": result["artifact_manifest"]}
+            directory, status = _read_status(request.job_id)
+            from .execution_feedback import job_feedback
+            cached["execution_feedback"] = job_feedback(directory, status, record=result, axes=_execution_status_axes(directory, status),
+                                                        program_diagnostic=_program_failure_diagnostic(directory, status))
+            store.put_record("collection_revision", cached["result_receipt_id"], cached, immutable=True)
+            store.put_record("collection", request.job_id, cached)
+        store.put_record("delivery", request.job_id, {"state": "delivery_intent", "result_receipt_id": cached["result_receipt_id"]}, immutable=True)
+        # Returning a value is not evidence that the Agent observed it.
+        output = dict(cached)
+        from chemistry_toolbox.src.execution_feedback import feedback_schema_version
+        if feedback_schema_version() == 2:
+            from chemistry_toolbox.src.native_observations import PARSER_VERSION
+            from .execution_feedback import job_feedback
+            directory, status = _read_status(request.job_id)
+            axes = _execution_status_axes(directory, status)
+            output.update(axes)
+            output["parser_version"] = PARSER_VERSION
+            output["execution_feedback"] = job_feedback(directory, status, record=result, axes=axes,
+                                                        program_diagnostic=_program_failure_diagnostic(directory, status))
+            # Interpretations are versioned separately; the old receipt and
+            # original terminal record remain unchanged.
+            interpretation_key = result["result_receipt_id"] + ":" + PARSER_VERSION + ":feedback2"
+            if not store.get_record("interpretation", interpretation_key):
+                store.put_record("interpretation", interpretation_key, {"axes": axes, "execution_feedback": output["execution_feedback"]}, immutable=True)
+        if cached.get("action_result"):
+            from .result_transport import compact_action_result
+            output["action_result"] = compact_action_result(cached["action_result"], full_result_ref=result.get("full_result_ref"))
+        inputs = {i["target_path"] for i in store.spec(request.job_id).get("frozen_inputs", [])}
+        files = [f for f in cached.get("outputs", []) if request.include_inputs or f.get("job_relative_path") not in inputs]
+        output["outputs"] = files
+        from .execution_feedback import page_collection
+        return page_collection(output, request)
 
 
 def declare_scientific_artifact(request: ArtifactDeclarationRequest) -> dict[str, Any]:
@@ -3891,6 +4166,8 @@ __all__ = [
     "read_workspace_text",
     "submit_analysis_program",
     "get_execution_resources",
+    "lookup_execution_submission",
+    "list_execution_jobs",
     "inspect_analysis_inputs",
     "submit_native_job",
     "validate_analysis_program",

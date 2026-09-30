@@ -1,0 +1,53 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_35a6749f3bae345b/documents/main.pdf",
+      "sha256": "8d9c00625c2bce148224c2bd64afdd9e50ce58c62013879e5a1bd37bc63e2345",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "sections_figures_tables": "PDF p3 optical/theoretical methods; p4 Scheme1 and discussion of closely similar spectra; p5 Table1/Fig.3 measured absorption/emission; p6 electronic interpretation."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_35a6749f3bae345b/documents/supplementary_001.pdf",
+      "sha256": "c689ac62aab028b9263116896d5791a0222388c2afc0289dba4cf2d30ad4094f",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        11
+      ],
+      "sections_figures_tables": "PDF p11 TableS5 explicitly compares TD results at S0 and S1 optimized geometries, with TableS6 orbital contributions; geometry label is not an excited-state-absorption label."
+    }
+  ],
+  "source_scope": "Three source DBC derivatives with solution absorption/fluorescence. The open question includes the possibility of little distinguishable spectral change and does not invent a transfer-prediction experiment.",
+  "objective_source_mapping": {
+    "main": "PDF p3 optical/theoretical methods; p4 Scheme1 and discussion of closely similar spectra; p5 Table1/Fig.3 measured absorption/emission; p6 electronic interpretation.",
+    "si": "PDF p11 TableS5 explicitly compares TD results at S0 and S1 optimized geometries, with TableS6 orbital contributions; geometry label is not an excited-state-absorption label."
+  },
+  "facts_and_constraints": [
+    "The supplied Table1 absorption peak positions are identical for these three members at the printed resolution, while their reported emission peaks are very close. This is an observation to explain, not proof of identical electronic structure.",
+    "Cbz measurements are available together with the other two at task start; they are not a blind holdout."
+  ],
+  "identity_provenance": "Source Scheme1 and synthetic identities establish the complete DBC-Ph,DBC-Nap,DBC-Cbz graphs; source S0/S1 optimized coordinates and orbital assignments remain private.",
+  "decisions_open": [
+    "Choose the models and observables needed to explain the measured spectral similarities or differences.",
+    "Decide how to establish the character and correspondence of relevant optical processes.",
+    "Choose tests that can support or limit a substituent-based interpretation, and determine whether differences are resolvable."
+  ],
+  "removed_v1_requirements": [
+    "Remove required S0/S1 four-point cycle, common45° core intervention and Cbz holdout.",
+    "Do not assume a terminal substituent effect exists; frame the question around observed similarities and possible distinguishable changes.",
+    "Remove inherited ESA language unsupported by the source TD reference-state definition."
+  ],
+  "out_of_scope": "Study the three complete supplied neutral singlet DBC derivatives and their dilute-solution observations in toluene at298K. The source Table1/Fig.3 concentration is1.0×10−5M. The task concerns molecular absorption and emission; film properties, thermal decomposition, the other source derivatives and device performance are outside the required scope. Distinguish the electronic state used as a reference from the geometry on which a quantity is calculated.",
+  "feasibility": "The source and older Gaussian records demonstrate a molecular DFT/TD route. Existing raw outputs can first be checked for their exact electronic reference, geometry and solvent; additional claim-specific validation is a separate scientific activity. Registered Gaussian/ORCA and Python spectroscopy analysis are potential tools, not a fixed workflow.",
+  "limitations": "No new comparative excited-state reference has been calculated. Raw experimental traces/errors are not supplied and the source’s S1-geometry labels cannot resolve every process assignment. Alternative-route scientific/semantic calibration and environment isolation remain pending.",
+  "source_scope_verified": true,
+  "review_type": "Local relevant primary-text/figure review with explicit page mapping; no new scientific calculation."
+}

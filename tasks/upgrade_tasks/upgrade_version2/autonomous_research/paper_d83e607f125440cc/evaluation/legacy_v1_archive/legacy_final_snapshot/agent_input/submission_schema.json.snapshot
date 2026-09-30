@@ -1,0 +1,269 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "properties": {
+      "minimum_validation": {
+        "type": "object",
+        "properties": {
+          "validation_statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "imaginary_frequencies": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "validation_method": {
+            "type": "string",
+            "enum": ["frequency", "equivalent"]
+          },
+          "equivalent_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "spin_density": {
+        "type": "object",
+        "properties": {
+          "sulfur_hirshfeld": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "bde_2g": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fragment_definition": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "bde_2a_comparator": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fragment_definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "structure_source": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "system": {
+        "type": "object",
+        "properties": {
+          "formula": {
+            "const": "C8H10OS"
+          },
+          "charge": {
+            "const": 1
+          },
+          "multiplicity": {
+            "const": 2
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "investigation",
+          "system",
+          "minimum_validation",
+          "spin_density",
+          "bde_2g",
+          "bde_2a_comparator",
+          "comparison",
+          "conclusion",
+          "method"
+        ],
+        "properties": {
+          "status": {
+            "const": "success"
+          },
+          "investigation": {
+            "type": "object",
+            "required": [
+              "plan",
+              "models_or_conformers",
+              "coverage"
+            ],
+            "properties": {
+              "plan": {
+                "type": "string",
+                "minLength": 1
+              },
+              "models_or_conformers": {
+                "type": [
+                  "array",
+                  "string"
+                ],
+                "minItems": 1,
+                "minLength": 1
+              },
+              "coverage": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "formula",
+              "charge",
+              "multiplicity",
+              "sulfur_atom",
+              "benzylic_bond"
+            ]
+          },
+          "minimum_validation": {
+            "type": "object",
+            "required": [
+              "validation_statement"
+            ],
+            "oneOf": [
+              {
+                "required": ["imaginary_frequencies"],
+                "properties": {
+                  "validation_method": {"const": "frequency"}
+                }
+              },
+              {
+                "required": ["validation_method", "equivalent_evidence"],
+                "properties": {
+                  "validation_method": {"const": "equivalent"}
+                }
+              }
+            ]
+          },
+          "spin_density": {
+            "type": "object",
+            "required": [
+              "sulfur_hirshfeld",
+              "unit",
+              "evidence"
+            ]
+          },
+          "bde_2g": {
+            "type": "object",
+            "required": [
+              "value",
+              "unit",
+              "fragment_definition"
+            ]
+          },
+          "bde_2a_comparator": {
+            "type": "object",
+            "required": [
+              "value",
+              "unit",
+              "fragment_definition",
+              "structure_source"
+            ]
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "direction",
+              "difference",
+              "unit"
+            ]
+          },
+          "conclusion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model",
+              "solvent_boundary",
+              "population_method",
+              "bde_convention"
+            ]
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_stage",
+          "diagnostics",
+          "partial_results",
+          "investigation_scope",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_stage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "diagnostics": {
+            "type": "string",
+            "minLength": 1
+          },
+          "partial_results": {
+            "type": "object"
+          },
+          "investigation_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conclusion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object"
+  }
+}

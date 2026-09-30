@@ -6,7 +6,7 @@ The paper tests whether tensile-force activation of isotactic PVC can generate H
 
 ## 2. System and model boundary
 
-The computational model is an isotactic PVC oligomer (38 atoms, neutral doublet) with tensile force applied to terminal methyl groups. The force-induced reactant is the SI structure Iso-PVC-R-F1000. Energies/free energies are evaluated at 298.15 K and 1 atm; the published calculations use unrestricted DFT and force-aware free energies for the constrained reactant.
+The computational model is an isotactic PVC oligomer (38 atoms, neutral broken-symmetry open-shell singlet) with a 1000 pN tensile force applied to terminal methyl groups C1 and C30 (1-based XYZ indices). The force-induced reactant is the SI structure Iso-PVC-R-F1000. Energies/free energies are evaluated at 298.15 K and 1 atm; the published calculations use unrestricted DFT and force-aware free energies for the constrained reactant.
 
 ## 3. Authors' implemented computational route
 

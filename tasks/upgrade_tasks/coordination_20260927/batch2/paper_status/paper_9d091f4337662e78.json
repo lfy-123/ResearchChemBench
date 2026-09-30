@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "title": "Independent stereochemical assignment by conformer-ensemble ECD",
+  "status": "implemented_pending_expanded_reference",
+  "packages": [
+    {
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_9d091f4337662e78",
+      "task_type": "autonomous_research",
+      "package_content_sha256": "a110d50ae152a1b0f579c8fd2e8c264ef2d1a0977688c77c93a348be5dc6f5dd"
+    },
+    {
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_9d091f4337662e78",
+      "task_type": "paper_reproduction",
+      "package_content_sha256": "eaf124c529fd7c837fc024c0c00f7b79413524063658e05649f9c57efd0b7fb5"
+    }
+  ],
+  "new_reference_gaps": "New independent enantiomer searches, complete refined spectra, holdout residuals and calibrated sampling/method uncertainty are not calculated.",
+  "blockers": [],
+  "source_review": {
+    "paper_main": "Experimental Figure2 visually checked and only black compound1 trace digitized; methods/experimental ECD text inspected.",
+    "paper_si": "TableS1 establishes that the three former conformers cover only52.06%, so expanded search cannot be replaced by their old normalization."
+  },
+  "source_corrections": [
+    "AR absolute stereo removed and both candidates explicitly generated.",
+    "Experimental trace is digitized with stated plot precision; no raw instrument dataset or theory tolerance is invented."
+  ],
+  "check_summary": "Package-specific checks pending final batch regression; no scientific validation claimed."
+}

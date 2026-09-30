@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "kp1",
+      "type": "semantic",
+      "expected": "For each named molecule, the submission preserves DBC-Ph/DBC-Nap identity and documents charge/multiplicity plus converged singlet S0 and S1 checks, or a truthful bounded-failure report.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].id",
+          "$.molecules[*].state_checks"
+        ],
+        "comparison": "expert comparison by molecule identity"
+      }
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "kp2",
+      "type": "semantic",
+      "expected": "For each named molecule, explicitly indexed dihedrals and molecule-specific transitions and orbital evidence support or qualify the moderate-twist interpretation; bounded failures identify the failed observable. Private evaluation/author_results coordinates are source geometric references, not permitted agent inputs. Compare mapped torsions/plane definitions and state identities; no new coordinate-frame/RMSD threshold. Do not select a state by proximity to the reference. For each molecule compare the singlet roots 1–5 at both optimized geometries: state=S0/S1 denotes geometry, not S1-to-Sn absorption. Check unique (state, root) identities and their calculation evidence; higher computed roots do not replace missing lower roots. Evaluate state-dependent twist/orbital exceptions on their evidence rather than forcing both geometries into one category.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].dihedrals",
+          "$.molecules[*].transitions",
+          "$.molecules[*].orbital_evidence"
+        ],
+        "comparison": "expert comparison by molecule identity"
+      }
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "c1",
+      "type": "semantic",
+      "expected": "The final conclusion compares Ph and Nap, states whether the qualitative proposal is supported, and explains the calculated comparison without claiming uncomputed experimental validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.conclusion"
+        ],
+        "comparison": "expert comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}

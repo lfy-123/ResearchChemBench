@@ -1,0 +1,126 @@
+{
+  "parent_file": "parent_identity.json",
+  "required_seeds": [
+    {
+      "candidate_id": "acid_O",
+      "mapped_smiles": "[C:1]1([c:16]2[c:15]([H:20])[c:14]([H:19])[c:13](/[N:34]=[N:35]/[c:47]3[c:48]([H:51])[c:50]([H:55])[c:54]([O+:57]([H:60])[H:1057])[c:52]([H:56])[c:49]3[H:53])[c:18]([H:22])[c:17]2[H:21])=[C:4]2[C:3](=[C:5]([c:23]3[c:24]([H:29])[c:25]([H:30])[c:26](/[N:33]=[N:36]/[c:37]4[c:38]([H:41])[c:40]([H:45])[c:44]([O+:58]([H:59])[H:1058])[c:42]([H:46])[c:39]4[H:43])[c:27]([H:31])[c:28]3[H:32])[C:6](=[O:9])[N:11]2[H:8])[N:12]([H:7])[C:2]1=[O:10]",
+      "formula": "C30H22N6O4+2",
+      "charge": 2,
+      "multiplicity": 1,
+      "proton_change": 2,
+      "edits": [
+        {
+          "add_H_id": 1057,
+          "to_atom_id": 57,
+          "formal_charge_change": 1
+        },
+        {
+          "add_H_id": 1058,
+          "to_atom_id": 58,
+          "formal_charge_change": 1
+        }
+      ],
+      "role": "Required competitor seed; no stability or assignment asserted"
+    },
+    {
+      "candidate_id": "acid_azoN",
+      "mapped_smiles": "[C:1]1([c:16]2[c:15]([H:20])[c:14]([H:19])[c:13](/[N+:34](=[N:35]/[c:47]3[c:48]([H:51])[c:50]([H:55])[c:54]([O:57][H:60])[c:52]([H:56])[c:49]3[H:53])[H:1034])[c:18]([H:22])[c:17]2[H:21])=[C:4]2[C:3](=[C:5]([c:23]3[c:24]([H:29])[c:25]([H:30])[c:26](/[N+:33](=[N:36]/[c:37]4[c:38]([H:41])[c:40]([H:45])[c:44]([O:58][H:59])[c:42]([H:46])[c:39]4[H:43])[H:1033])[c:27]([H:31])[c:28]3[H:32])[C:6](=[O:9])[N:11]2[H:8])[N:12]([H:7])[C:2]1=[O:10]",
+      "formula": "C30H22N6O4+2",
+      "charge": 2,
+      "multiplicity": 1,
+      "proton_change": 2,
+      "edits": [
+        {
+          "add_H_id": 1033,
+          "to_atom_id": 33,
+          "formal_charge_change": 1
+        },
+        {
+          "add_H_id": 1034,
+          "to_atom_id": 34,
+          "formal_charge_change": 1
+        }
+      ],
+      "role": "Required competitor seed; no stability or assignment asserted"
+    },
+    {
+      "candidate_id": "base_O",
+      "mapped_smiles": "[C:1]1([c:16]2[c:15]([H:20])[c:14]([H:19])[c:13](/[N:34]=[N:35]/[c:47]3[c:48]([H:51])[c:50]([H:55])[c:54]([O-:57])[c:52]([H:56])[c:49]3[H:53])[c:18]([H:22])[c:17]2[H:21])=[C:4]2[C:3](=[C:5]([c:23]3[c:24]([H:29])[c:25]([H:30])[c:26](/[N:33]=[N:36]/[c:37]4[c:38]([H:41])[c:40]([H:45])[c:44]([O-:58])[c:42]([H:46])[c:39]4[H:43])[c:27]([H:31])[c:28]3[H:32])[C:6](=[O:9])[N:11]2[H:8])[N:12]([H:7])[C:2]1=[O:10]",
+      "formula": "C30H18N6O4-2",
+      "charge": -2,
+      "multiplicity": 1,
+      "proton_change": -2,
+      "edits": [
+        {
+          "remove_H_id": 60,
+          "from_atom_id": 57,
+          "formal_charge_change": -1
+        },
+        {
+          "remove_H_id": 59,
+          "from_atom_id": 58,
+          "formal_charge_change": -1
+        }
+      ],
+      "role": "Required competitor seed; no stability or assignment asserted"
+    },
+    {
+      "candidate_id": "base_lactamN",
+      "mapped_smiles": "[C:1]1([c:16]2[c:15]([H:20])[c:14]([H:19])[c:13](/[N:34]=[N:35]/[c:47]3[c:48]([H:51])[c:50]([H:55])[c:54]([O:57][H:60])[c:52]([H:56])[c:49]3[H:53])[c:18]([H:22])[c:17]2[H:21])=[C:4]2[C:3](=[C:5]([c:23]3[c:24]([H:29])[c:25]([H:30])[c:26](/[N:33]=[N:36]/[c:37]4[c:38]([H:41])[c:40]([H:45])[c:44]([O:58][H:59])[c:42]([H:46])[c:39]4[H:43])[c:27]([H:31])[c:28]3[H:32])[C:6](=[O:9])[N-:11]2)[N-:12][C:2]1=[O:10]",
+      "formula": "C30H18N6O4-2",
+      "charge": -2,
+      "multiplicity": 1,
+      "proton_change": -2,
+      "edits": [
+        {
+          "remove_H_id": 8,
+          "from_atom_id": 11,
+          "formal_charge_change": -1
+        },
+        {
+          "remove_H_id": 7,
+          "from_atom_id": 12,
+          "formal_charge_change": -1
+        }
+      ],
+      "role": "Required competitor seed; no stability or assignment asserted"
+    },
+    {
+      "candidate_id": "neutral_lactim",
+      "mapped_smiles": "[C:1]1([c:16]2[c:15]([H:20])[c:14]([H:19])[c:13](/[N:34]=[N:35]/[c:47]3[c:48]([H:51])[c:50]([H:55])[c:54]([O:57][H:60])[c:52]([H:56])[c:49]3[H:53])[c:18]([H:22])[c:17]2[H:21])=[C:4]2[C:3](=[C:5]([c:23]3[c:24]([H:29])[c:25]([H:30])[c:26](/[N:33]=[N:36]/[c:37]4[c:38]([H:41])[c:40]([H:45])[c:44]([O:58][H:59])[c:42]([H:46])[c:39]4[H:43])[c:27]([H:31])[c:28]3[H:32])[C:6]([O:9][H:8])=[N:11]2)[N:12]([H:7])[C:2]1=[O:10]",
+      "formula": "C30H20N6O4",
+      "charge": 0,
+      "multiplicity": 1,
+      "proton_change": 0,
+      "tautomer_class": "lactim",
+      "edits": [
+        {
+          "move_H_id": 8,
+          "from_atom_id": 11,
+          "to_atom_id": 9
+        },
+        {
+          "bond": [
+            11,
+            6
+          ],
+          "from": "SINGLE",
+          "to": "DOUBLE"
+        },
+        {
+          "bond": [
+            6,
+            9
+          ],
+          "from": "DOUBLE",
+          "to": "SINGLE"
+        }
+      ],
+      "role": "Required neutral tautomer seed, not a predicted minimum or winning assignment"
+    }
+  ],
+  "neutral": "Include unchanged parent (candidate_id neutral_parent) and one explicit neutral_lactim seed. Acid_O/acid_azoN and base_O/base_lactamN test distinct proton sites. Other single-proton/hydrazone alternatives are optional unless needed to resolve observations.",
+  "proton_mapping": "Existing atom IDs retained; added H uses 1000+attached atom ID; remove the listed original H only.",
+  "conformer_starts": "At least two independent phenyl-azo torsion arrangements per seed. Optimize without preserving an assumed endpoint assignment.",
+  "proton_reference": "Use a declared isodesmic acid/base pair with all species computed in the same solvent; tabulate coefficients, charges and H counts. Absolute H+ solvation conventions must be explicit if used."
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_a3968806251093cd",
+  "task_type": "paper_reproduction",
+  "title": "Independent DFT geometry validation of compound 7a",
+  "category": "molecular geometry and method comparison",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The fixed molecule and selector set require two independent geometry optimizations, stationarity/identity validation, and extraction of 47 mapped observables with circular torsion handling."
+  ],
+  "paper": {
+    "title": "Synthesis, structural analysis, and computational investigations of 4-(((5-(p-chlorophenoxy)-3-methyl-1-phenyl-1H-pyrazol-4-yl) methylene)amino)-5-methyl-4H-1,2,4-triazole-3-thione",
+    "doi": "10.1016/j.molstruc.2025.144272",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-02-05"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Correct mapped neutral singlet E-imine 7a thione identity, 47 experimental comparison observations, source-label selectors, and explicit global-inversion/circular-error protocol; no computed geometry or ranking."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated model calculations and raw artifacts, mapped observations, inversion-normalized per-kind errors, structured primary-pair comparison and evidence-supported conclusion."
+    }
+  ]
+}

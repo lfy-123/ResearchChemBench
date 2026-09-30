@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_d91572979a89303a",
+  "rules": [
+    {
+      "rule_id": "r-pr-1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-pr-1",
+      "expected": "frequency and connectivity validation is recorded per candidate"
+    },
+    {
+      "rule_id": "r-pr-2",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.profiles"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-pr-2",
+      "expected": "separate TXT-containing and uncatalysed pathways are reported"
+    },
+    {"rule_id":"r-pr-3a","type":"numeric","target":30.4,"unit":"kcal/mol","tolerance":2.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.profiles[*].barriers[*].value"],"comparison":"absolute difference where comparison_label is initial_attack"},"reference_id":"kp-pr-3"},
+    {"rule_id":"r-pr-3b","type":"numeric","target":43.2,"unit":"kcal/mol","tolerance":2.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.profiles[*].barriers[*].value"],"comparison":"absolute difference where comparison_label is uncatalyzed_aromatization"},"reference_id":"kp-pr-3"},
+    {"rule_id":"r-pr-3c","type":"numeric","target":19.8,"unit":"kcal/mol","tolerance":2.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.profiles[*].barriers[*].value"],"comparison":"absolute difference where comparison_label is TXT-assisted_aromatization"},"reference_id":"kp-pr-3"},
+    {"rule_id":"r-pr-3d","type":"numeric","target":32.7,"unit":"kcal/mol","tolerance":2.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.profiles[*].barriers[*].value"],"comparison":"absolute difference where comparison_label is deamination"},"reference_id":"kp-pr-3"},
+    {
+      "rule_id": "r-pr-4",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c-pr-1",
+      "expected": "TS4A-TXT/deamination is the largest catalysed-cycle barrier and rate-determining step"
+    },
+    {
+      "rule_id": "r-pr-5",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c-pr-2",
+      "expected": "limitations and scope are disclosed"
+    },
+    {
+      "rule_id": "r-pr-final",
+      "type": "semantic",
+      "expected": "largest barrier and rate-limiting interpretation is explicitly reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp-pr-4"
+    }
+  ]
+}

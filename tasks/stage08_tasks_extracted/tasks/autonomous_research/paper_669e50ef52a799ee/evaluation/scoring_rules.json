@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_669e50ef52a799ee",
+  "rules": [
+    {
+      "rule_id": "r_ar_kp_min",
+      "type": "condition",
+      "expected": "The submitted structures include convergence and minimum-validation evidence, with exclusions and coverage stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures",
+          "$.candidate_coverage"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_process_minimum"
+    },
+    {
+      "rule_id": "r_ar_kp_disc",
+      "type": "semantic",
+      "expected": "Transition-character hypotheses are discriminated using explicit orbital, spatial or fragment evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation.transition_evidence",
+          "$.interpretation.assignment_confidence"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_process_discrimination"
+    },
+    {
+      "rule_id": "r_ar_kp_bands",
+      "type": "numeric",
+      "target": 319,
+      "unit": "nm",
+      "tolerance": 5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bands[*].wavelength_nm"
+        ],
+        "comparison": "set-wise nearest absolute difference"
+      },
+      "reference_id": "kp_ar_bands"
+    },
+    {
+      "rule_id": "r_ar_kp_bands_288",
+      "type": "numeric",
+      "target": 288,
+      "unit": "nm",
+      "tolerance": 5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bands[*].wavelength_nm"
+        ],
+        "comparison": "set-wise nearest absolute difference"
+      },
+      "reference_id": "kp_ar_bands",
+      "expected": "A reported prominent band is near 288 nm (method and geometry dependence allowed)."
+    },
+    {
+      "rule_id": "r_ar_kp_char",
+      "type": "semantic",
+      "expected": "The report independently assesses ligand-to-Ag involvement near 310 nm and states evidence and uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_character"
+    },
+    {
+      "rule_id": "r_ar_c",
+      "type": "semantic",
+      "expected": "A final conclusion provides validated bands, discriminated transition character, and explicit limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_ar_final"
+    }
+  ]
+}

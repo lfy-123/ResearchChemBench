@@ -1,0 +1,132 @@
+{
+  "date": "2026-09-27",
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "status": "blocked",
+  "new_scientific_calculations_performed": false,
+  "source_reread": [
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/supplementary_001.pdf",
+      "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+      "scope": "Substantive relevant methods, structures and figure/table evidence; detailed locations in reference_validation_plan.md."
+    },
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+      "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+      "scope": "Substantive relevant methods, structures and figure/table evidence; detailed locations in reference_validation_plan.md."
+    }
+  ],
+  "history": [
+    {
+      "path": "workspaces/codex_gpt56/paper_5ea491c741fbd8d4_20260921_180425_78c4ac/runs/cli_runs/batch_20260921_180426_ccc9ac/autonomous_research-paper_5ea491c741fbd8d4-codex-20260921_180426-754861/report/results.json",
+      "sha256": "4efc982a05e7d428425fb2a06f8dc9e6124b14712906c08f5d00f9f5eb300965",
+      "scope": "Existing report inspected; no new scientific result."
+    }
+  ],
+  "source_access_checks": [
+    {
+      "id": "ccdc_cif",
+      "url": "https://www.ccdc.cam.ac.uk/structures/StructureSummary/report/2445596",
+      "status": 200,
+      "final_url": "https://www.ccdc.cam.ac.uk/structures/StructureSummary/report/2445596",
+      "content_type": "text/html",
+      "bytes": 7094,
+      "sha256": "a3316deae893f696e79237d91247927654c50465d989fd1fe11d4b1fa1b5ffb1",
+      "preview": "\r\n<!DOCTYPE html>\r\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"w"
+    },
+    {
+      "id": "ccdc_download",
+      "url": "https://www.ccdc.cam.ac.uk/structures/StructureSummary/form?pid=2445596",
+      "status": 200,
+      "final_url": "https://www.ccdc.cam.ac.uk/structures/StructureSummary/form?pid=2445596",
+      "content_type": "text/html",
+      "bytes": 7094,
+      "sha256": "b2adfad6ed29f291e9368ca12991ecfb536e248aabe49f9a8beae20062ed6d94",
+      "preview": "\r\n<!DOCTYPE html>\r\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"w"
+    },
+    {
+      "id": "ccdc_access",
+      "url": "https://www.ccdc.cam.ac.uk/structures/StructureSummary?pid=2445596",
+      "status": 200,
+      "final_url": "https://www.ccdc.cam.ac.uk/structures/StructureSummary?pid=2445596",
+      "content_type": "text/html",
+      "bytes": 7094,
+      "sha256": "a3316deae893f696e79237d91247927654c50465d989fd1fe11d4b1fa1b5ffb1",
+      "preview": "\r\n<!DOCTYPE html>\r\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"w"
+    }
+  ],
+  "history_diagnosis": {
+    "only": "Isolated molecule orbital/conformer study; no source packing or neighbor interaction evidence."
+  },
+  "local_cif_search": {
+    "roots": [
+      "papers",
+      "tasks",
+      "runs",
+      "workspaces",
+      "data_pipeline"
+    ],
+    "candidate_count": 103,
+    "matches": [
+      "tasks/final_verified_autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "tasks/autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "tasks/final_verified_paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "tasks/paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif"
+    ],
+    "terms": [
+      "2445596",
+      "12.8218"
+    ],
+    "method": "rg file listing then CIF text inspection; not hidden software caches",
+    "false_positive_review": [
+      {
+        "path": "tasks/final_verified_autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+        "matching_lines": [
+          "8   2 -16 85.1024 12.8218"
+        ],
+        "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+      },
+      {
+        "path": "tasks/autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+        "matching_lines": [
+          "8   2 -16 85.1024 12.8218"
+        ],
+        "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+      },
+      {
+        "path": "tasks/final_verified_paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+        "matching_lines": [
+          "8   2 -16 85.1024 12.8218"
+        ],
+        "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+      },
+      {
+        "path": "tasks/paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+        "matching_lines": [
+          "8   2 -16 85.1024 12.8218"
+        ],
+        "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+      }
+    ],
+    "verified_target_cifs": [],
+    "exhaustive_no_ignore": {
+      "candidate_count": 146,
+      "identifier_matches": [],
+      "command": "rg --files --hidden --no-ignore -g *.cif papers tasks runs workspaces data_pipeline"
+    }
+  },
+  "finding": "CCDC returns a validation/CAPTCHA page. No source CIF recovered. Local numeric-substring matches belonged to another deposition (2512981), not 2445596; rejected.",
+  "read_pages": {
+    "main": [
+      2,
+      3,
+      4,
+      6
+    ],
+    "SI": [
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+}

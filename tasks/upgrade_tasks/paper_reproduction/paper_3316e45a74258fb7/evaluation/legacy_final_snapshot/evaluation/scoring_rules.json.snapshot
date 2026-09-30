@@ -1,0 +1,86 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_pr_opt",
+      "type": "condition",
+      "expected": "validated stationary/converged TD-2T S0 geometry with provenance",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structure.object_id",
+          "$.structure.geometry_source",
+          "$.structure.conformer_coverage",
+          "$.optimization.validation_evidence"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_pr_process_opt"
+    },
+    {
+      "rule_id": "r_pr_states",
+      "type": "condition",
+      "expected": "S1/T1 assignment and units are evidenced Match S1 and T1 to their spin labels and the same S0 geometry under the declared vertical-energy definition.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excited_states.state_assignment_evidence"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_pr_process_states"
+    },
+    {
+      "rule_id": "r_pr_gap",
+      "type": "numeric",
+      "target": 0.34,
+      "unit": "eV",
+      "tolerance": 0.1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.gap.delta_est_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_pr_result_gap"
+    },
+    {
+      "rule_id": "r_pr_char",
+      "type": "semantic",
+      "expected": "diagnostic evidence supports a bounded CT/HLCT interpretation Bind each spatial claim to the same physical state and parent geometry. Existing S1 evidence cannot be relabeled as T1 HLCT evidence; the energy gap alone is not a RISC rate or efficiency.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.state_character"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_result_character"
+    },
+    {
+      "rule_id": "r_pr_con",
+      "type": "semantic",
+      "expected": "The calculated TD-2T S1 and T1 energies, their difference in eV and the corresponding state-character evidence establish the required electronic-state comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_final"
+    }
+  ],
+  "paper_id": "paper_3316e45a74258fb7",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

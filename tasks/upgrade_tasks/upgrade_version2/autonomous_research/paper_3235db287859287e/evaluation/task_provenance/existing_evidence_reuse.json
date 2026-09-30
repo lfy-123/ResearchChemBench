@@ -1,0 +1,229 @@
+{
+  "paper_id": "paper_3235db287859287e",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_3235db287859287e_20260921_184040_f24e8a/runs/cli_runs/batch_20260921_184043_26d647/autonomous_research-paper_3235db287859287e-codex-20260921_184043-572267/report/results.json",
+      "sha256": "8ff257330eb0a7d83b583d2922397b21e28d4be8e612ed2aad8ce239ef30faec",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_3235db287859287e",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_3235db287859287e",
+          "package_content_sha256": "6786d3db7fb2f461ed3c9dee0d109ae9c743653d934b4312860e57c2cdbd607b",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_3235db287859287e/package_manifest.json",
+            "sha256": "81cd94b018a8177f944bbf2524a3e777c93fe9977f0e023ddcf6832c6fb5ff93"
+          },
+          "payload_entries_checked": 28,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_3235db287859287e",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_3235db287859287e",
+          "package_content_sha256": "011729bbe57a4c73ddae29fd7b906a5efa03887ea36d60db9d3049dd210cd016",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_3235db287859287e/package_manifest.json",
+            "sha256": "d0a49f583787dae28380ae0f0441fde38d3f5dd2e3189af1c52459c21fcab8e6"
+          },
+          "payload_entries_checked": 28,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_3235db287859287e",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "SI 10个39原子坐标已转录并核查；起始图精确等于1a+硫自由基+独立碘自由基，三重态与偶电子相容。II/II′同构、Z/E均含HI。可视方法页给基组/SMD而缺泛函，官方来源访问403/404已保留但不是不存在证明。源打印E差单列为电子能，不替代自由能垒或原生频率/IRC。已备5个源混合基组的独立泛函/自旋稳定性校准单点，212全电子/184显式电子账本已纠正并留旧版；尚未执行新DFT。",
+        "unfinished_validation": "独立方法/自旋校准和缺失泛函追溯；完整同储库局部氧转移、保护/同位素守恒路径。",
+        "input_and_reference_gaps": [
+          "原SI未定位泛函；源基组、溶剂及39原子结构/自旋已提取。5个独立方法校准输入未计算。",
+          "源打印电子能不等于自由能垒；完整氧转移、同位素及保护基扰动路径尚未计算。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/legacy/inventory.json",
+            "sha256": "94655e291daa97a09daf46a4e0176eddbd4a4334f36c5354c698d780f24720b8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/provenance/source_coordinate_extraction.json",
+            "sha256": "9c731ecdccb2fcf9fec5bc0f56aa2b85bc2063e72de2778e480005256fbb7093"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/provenance/source_graph_spin_audit.json",
+            "sha256": "1dfdde5f7f5e064081dbdcc31aace7212c00c3d49402f18c41bc485a9aebc4d8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/outputs/source_method_lookup/official_recheck_20260928/fetch_manifest.json",
+            "sha256": "45551680973e84c4e97d8332aff9fdb46802bcbe7727a724377c65871307ad07"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/data/basis/aug-cc-pvdz-pp.provenance.json",
+            "sha256": "3809652aa699769cb619ebcee79c4a984dd3ce64b2b5631ce4c7d914c2f830fe"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/provenance/method_calibration_preparation.json",
+            "sha256": "a5788c6ff1be54ec78427cb5aeece33611b0f689538e03664686c0d8193f2b32"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/report/progress_report.md",
+          "sha256": "06a878139187d1f6233e2990dccfb61fceceec6a370f977735c6b25697a0ad77"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/report/progress_evaluator_mapping.json",
+          "sha256": "0875393cc596b71d09a638b1dedee229b63b58c9cd5b9f3e61b1659af1cd36fa"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/inputs/source_int_II_RB3LYP_restricted_singlet_calibration_SP.com",
+            "sha256": "fed5d83cf17535fe5f6620bf26aa6ac9f4b85a1cb1204d302a0814d135db9ae3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/inputs/source_product_Z_HI_RB3LYP_restricted_singlet_calibration_SP.com",
+            "sha256": "3b33bc84dc1ec9294c648794620c9dd46b1e32a55c5feecc87b14ac20e0594c3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/inputs/source_product_Z_HI_wB97XD_restricted_singlet_calibration_SP.com",
+            "sha256": "488053d0c66c76a8f768345d1820a321a82f4a3b805577f4bbee5568334209f3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/inputs/source_starting_UB3LYP_broken_singlet_calibration_SP.com",
+            "sha256": "cf059f19de7ebfeeaafccccae6d6bc3018f6eefad08a5e56065d21e883da78e4"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/inputs/source_starting_UB3LYP_triplet_calibration_SP.com",
+            "sha256": "13c7e0bf2eea2cb218c90e1a1a66a5fa06d8bc5893e9807c1591d83412b31bcb"
+          }
+        ],
+        "active_jobs": [],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/task_snapshot/frozen_binding.json",
+          "sha256": "0d4186e52a2adbd6de2472654e38792194a5d7fde3576622e316140727af640e"
+        }
+      },
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "allowed_use": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/legacy/inventory.json",
+      "sha256": "94655e291daa97a09daf46a4e0176eddbd4a4334f36c5354c698d780f24720b8",
+      "frozen_sha256": "94655e291daa97a09daf46a4e0176eddbd4a4334f36c5354c698d780f24720b8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/provenance/source_coordinate_extraction.json",
+      "sha256": "9c731ecdccb2fcf9fec5bc0f56aa2b85bc2063e72de2778e480005256fbb7093",
+      "frozen_sha256": "9c731ecdccb2fcf9fec5bc0f56aa2b85bc2063e72de2778e480005256fbb7093",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/provenance/source_graph_spin_audit.json",
+      "sha256": "1dfdde5f7f5e064081dbdcc31aace7212c00c3d49402f18c41bc485a9aebc4d8",
+      "frozen_sha256": "1dfdde5f7f5e064081dbdcc31aace7212c00c3d49402f18c41bc485a9aebc4d8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/outputs/source_method_lookup/official_recheck_20260928/fetch_manifest.json",
+      "sha256": "45551680973e84c4e97d8332aff9fdb46802bcbe7727a724377c65871307ad07",
+      "frozen_sha256": "45551680973e84c4e97d8332aff9fdb46802bcbe7727a724377c65871307ad07",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/data/basis/aug-cc-pvdz-pp.provenance.json",
+      "sha256": "3809652aa699769cb619ebcee79c4a984dd3ce64b2b5631ce4c7d914c2f830fe",
+      "frozen_sha256": "3809652aa699769cb619ebcee79c4a984dd3ce64b2b5631ce4c7d914c2f830fe",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_3235db287859287e/provenance/method_calibration_preparation.json",
+      "sha256": "a5788c6ff1be54ec78427cb5aeece33611b0f689538e03664686c0d8193f2b32",
+      "frozen_sha256": "a5788c6ff1be54ec78427cb5aeece33611b0f689538e03664686c0d8193f2b32",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+      "scope": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+      "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Existing source39-atom coordinates and the earlier37-atom product calculations demonstrate manageable local models and expose reference/state caveats. They support a feasible molecular investigation, not a finished new mechanism reference. Source functional omission prevents exact numerical reproduction of that protocol; PR can document and test justified substitutions instead of inventing it.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Source 39-atom inventory contains 1a, thiol-derived radical and iodine radical; source triplet and HI-containing later states require explicit graph/electron accounting. Source Gaussian09 mixed basis/SMD MeCN, 298 K, 1 atm omits the functional.",
+    "allowed": "Reuse coordinate transcription and graph/spin accounting as private identity diagnostics. Printed source energies remain literature values; five prepared method/spin inputs are not executed calculations.",
+    "not_supported": "No validated new oxygen-transfer mechanism or complete barrier reference. Source E/Z energy alone is not mechanistic evidence. A substituted functional must be labelled, not attributed to the source."
+  },
+  "new_scientific_calculations_performed": false
+}

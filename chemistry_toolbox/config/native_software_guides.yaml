@@ -178,6 +178,21 @@ software:
         notes:
           - Select input and output formats explicitly; do not rely on filename inference in benchmark calls.
 
+  fcclasses3:
+    runtime: quantum
+    purpose: Run an explicitly authored FCclasses3 vibronic-spectrum or non-radiative-rate calculation from complete state, dipole, and vibrational inputs.
+    commands:
+      fcclasses3:
+        configured_path: docs/verification/group_1/software_install_audit/fcclasses3-3.0.4/install/bin/fcclasses3
+        synopsis: "fcclasses3 input.fcc"
+        input_mode: arguments
+        required_files: [input.fcc and every state, dipole, Hessian, or normal-mode file referenced by the deck]
+        output_behavior: Writes requested spectra, rates, diagnostics, and intermediate files to the job directory according to the supplied FCclasses3 input.
+        example_arguments: [input.fcc]
+        notes:
+          - Property, model (FC/HT), TI/TD formulation, Cartesian/internal coordinates, temperature, broadening, state energies, and all referenced upstream files remain Agent-authored.
+          - The configured binary is user-supplied FCclasses3 3.0.4 built from the archived source tarball; this native interface does not infer or replace missing scientific inputs.
+
   crest:
     purpose: Perform CREST conformer searches and related xTB-driven sampling from an Agent-authored structure and options.
     commands:
@@ -638,7 +653,7 @@ software:
           - RUN_TYPE, FORCE_EVAL method, basis/potential data, charge, spin, cell, k-points, cutoffs, SCF, motion, and print sections are Agent choices.
 
   siesta:
-    purpose: Execute a complete SIESTA input deck.
+    purpose: Execute SIESTA including integrated TranSIESTA, or TBtrans postprocessing from explicit native input.
     commands:
       siesta:
         synopsis: "siesta < input.fdf"
@@ -646,6 +661,18 @@ software:
         required_files: [input.fdf, pseudopotentials and structure files referenced by it]
         output_behavior: Writes primary output to stdout and SIESTA result/restart files in the job directory.
         example_arguments: []
+        notes:
+          - TranSIESTA is integrated into the installed SIESTA 5.4.2 executable; select SolutionMethod transiesta in a complete FDF input.
+          - Finite-bias transport requires converged electrode and scattering-region calculations with explicit atom, cell, bias and Hamiltonian provenance.
+      tbtrans:
+        synopsis: "tbtrans < input.fdf"
+        input_mode: stdin_file
+        required_files: [input.fdf, device and electrode Hamiltonian files referenced by the FDF input]
+        output_behavior: Writes native transmission, density-of-states and current-analysis outputs selected by the FDF input, including NetCDF when requested.
+        example_arguments: []
+        notes:
+          - Consumes explicit device and electrode HSX, TSHS or supported NetCDF files from a consistent validated upstream calculation.
+          - Preserve electrode chemical potentials, bias sign, energy zero, temperature, k mesh and energy integration settings; version success does not establish scientific convergence.
 
   dftbplus:
     purpose: Execute a complete DFTB+ calculation from native fixed-name input.
@@ -905,6 +932,12 @@ software:
     runtime: theodore
     purpose: Run TheoDORE excited-state and transition-density analyses from explicit subcommands and quantum-chemistry files.
     commands:
+      theodore_compat:
+        synopsis: "theodore_compat <analyze_tden|analyze_sden> [-f FILE]"
+        input_mode: arguments
+        required_files: [explicit TheoDORE options and saved quantum-chemistry outputs]
+        output_behavior: Uses the explicit theodore-reader-1 adapter for known ORCA tables. Preserves native scientific analysis and missing-data errors; does not rerun calculations.
+        example_arguments: ["analyze_tden", "-f", "dens_ana.in"]
       theodore:
         synopsis: "theodore <subcommand> [subcommand options]"
         input_mode: arguments

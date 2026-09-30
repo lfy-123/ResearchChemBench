@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+RCB_THEODORE_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
+export PYTHONPATH="$RCB_THEODORE_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+exec "$RCB_THEODORE_ROOT/.envs/general-modern-openmpi5/bin/python" -m chemistry_toolbox.src.theodore_compat "$@"

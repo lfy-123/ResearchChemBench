@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use both complete La starting structures and replace only the metal for Tb/Lu. Preserve all 81 original atom IDs and ligand deprotonation (complex charge +1). For the one-water models append O82,H83,H84. Source 4f-core removes 46,54,60 electrons for La,Tb,Lu respectively, leaving 11 explicit neutral-atom electrons; all complex calculations use formal pseudo-singlet in this model. Do not describe Tb as physically spinless. Numerical La ECP46MWB, Tb ECP54MWB and Lu ECP60MWB plus their (7s6p5d)/[5s4p3d] Gaussian-format basis blocks are supplied in data/inputs with hashes and official provenance in ecp_basis_manifest.json. Their availability does not validate a molecular minimum or thermochemistry. For each metal and identical hydration n, delta_G=G(anti,n)-G(syn,n) at 298 K, 1 M complexes in aqueous SMD. G=E_solv+(G_gas-E_gas) with consistent source low-frequency treatment, no double-counted ZPE. Water-addition delta_G=G(LnL.H2O)-G(LnL)-G(H2O) with 55.5 M water standard state. Frozen metal replacements compare electronic within-metal conformer gaps, not equilibrium G. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use both complete La starting structures and replace only the metal for Tb/Lu. Preserve all 81 original atom IDs and ligand deprotonation (complex charge +1). For the one-water models append O82,H83,H84. Source 4f-core removes 46,54,60 electrons for La,Tb,Lu respectively, leaving 11 explicit neutral-atom electrons; all complex calculations use formal pseudo-singlet in this model. Do not describe Tb as physically spinless. Numerical La ECP46MWB, Tb ECP54MWB and Lu ECP60MWB plus their (7s6p5d)/[5s4p3d] Gaussian-format basis blocks are supplied in data/inputs with hashes and official provenance in ecp_basis_manifest.json. Their availability does not validate a molecular minimum or thermochemistry. For each metal and identical hydration n, delta_G=G(anti,n)-G(syn,n) at 298 K, 1 M complexes in aqueous SMD. G=E_solv+(G_gas-E_gas) with consistent source low-frequency treatment, no double-counted ZPE. Water-addition delta_G=G(LnL.H2O)-G(LnL)-G(H2O) with 55.5 M water standard state. Frozen metal replacements compare electronic within-metal conformer gaps, not equilibrium G. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conformer_hydration_matrix",
+      "reference_id": "kp_conformer_hydration_matrix",
+      "type": "semantic",
+      "expected": "Verify exact ECP coefficients/core counts/explicit electron counts and original ligand charge. Inspect frequencies, qRRHO and standard states. A lost-water endpoint is an evidenced collapse/separated limit, not a falsely bound minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.conformer_hydration_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify exact ECP coefficients/core counts/explicit electron counts and original ligand charge. Inspect frequencies, qRRHO and standard states. A lost-water endpoint is an evidenced collapse/separated limit, not a falsely bound minimum."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_replacement_and_cycles",
+      "reference_id": "kp_replacement_and_cycles",
+      "type": "semantic",
+      "expected": "Recompute every balanced difference and cycle. Cross-metal raw total energies or unbalanced water counts cannot support selectivity. Frozen states use E only.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.replacement_and_cycles",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute every balanced difference and cycle. Cross-metal raw total energies or unbalanced water counts cannot support selectivity. Frozen states use E only."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_ecp_and_sensitivity",
+      "reference_id": "kp_ecp_and_sensitivity",
+      "type": "semantic",
+      "expected": "Audit source numerical ECP/basis and pseudo-spin before interpreting comparison. Install reports are not coefficient or pilot evidence. Check low-frequency sensitivity against small conformer gaps; do not transfer old La tolerance to Tb/Lu/hydration.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ecp_and_sensitivity",
+          "$.calculation_records"
+        ],
+        "comparison": "Audit source numerical ECP/basis and pseudo-spin before interpreting comparison. Install reports are not coefficient or pilot evidence. Check low-frequency sensitivity against small conformer gaps; do not transfer old La tolerance to Tb/Lu/hydration."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Test whether La/Tb/Lu conformer preferences are explained by metal replacement, structural relaxation or explicit coordination water within a controlled 4f-core molecular model. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Test whether La/Tb/Lu conformer preferences are explained by metal replacement, structural relaxation or explicit coordination water within a controlled 4f-core molecular model. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "conformer_hydration_matrix",
+      "max_score": 25,
+      "description": "Same-hydration three-metal conformer free energies",
+      "rule_ids": [
+        "rule_conformer_hydration_matrix"
+      ]
+    },
+    {
+      "id": "replacement_and_cycles",
+      "max_score": 25,
+      "description": "Frozen metal replacement and closed hydration squares",
+      "rule_ids": [
+        "rule_replacement_and_cycles"
+      ]
+    },
+    {
+      "id": "ecp_and_sensitivity",
+      "max_score": 15,
+      "description": "Molecular ECP identity and low-frequency robustness",
+      "rule_ids": [
+        "rule_ecp_and_sensitivity"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Same-hydration three-metal conformer free energies",
+      "Frozen metal replacement and closed hydration squares",
+      "Molecular ECP identity and low-frequency robustness",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

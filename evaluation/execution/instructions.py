@@ -83,7 +83,8 @@ For a declared directory output, set `kind="directory"`, create it with
 - For one independent Action stage, construct the complete unique item list before submission and use one `submit_action_batch_async` call. Do not split the same stage into overlapping batches to manufacture concurrency: the toolbox queues excess items globally. Reuse pilot results and exclude their inputs from the final batch. Check item IDs and inputs for duplicates before submitting.
 - Supervise Action batches with `wait_execution_events`. It waits internally through the evaluator-controlled stable window while running items continue and queued items automatically fill released resources. Process `newly_terminal_items`, then wait again only for `remaining_batch_ids` using the returned `next_sequences`. Do not shorten the wait with `timeout_seconds` or read Action batch `status.json` files.
 - Submit currently known independent native and programmable jobs before waiting. Supervise them with one `wait_execution_jobs` call containing all job IDs. The toolbox waits internally, keeps running jobs alive, lets distributed queues fill automatically, collects terminal outputs, and returns terminal/running/queued groups plus `remaining_job_ids`.
-- After a partial return, process terminal results and call `wait_execution_jobs` again with `remaining_job_ids` plus any newly submitted independent job IDs. On a heartbeat with no terminal event, wait again. Use `get_execution_job` only for a reported failure that needs deeper diagnosis or a suspected stalled job, and use `collect_execution_job` only when the compact automatic collection is insufficient.
+- Confirm submission from the returned job_id/batch_id and receipt, not from an issued tool request or your plan. Accepted and queued mean recorded for scheduling; only execution state establishes that work is running or terminal. Retain each submission_key and receipt. If a response is lost or scheduling is deferred, query lookup_execution_submission with the original key; a communication retry must reuse the same key and unchanged inputs. Never submit a new scientific attempt solely to recover a missing response.
+- After a partial return, process terminal results and call `wait_execution_jobs` again with `remaining_job_ids` plus any newly submitted independent job IDs. In host event wait mode the dedicated chemistry_wait tools hold the call until an event; no periodic continue request is needed. Legacy heartbeat mode may return a heartbeat, in which case wait again. Use `get_execution_job` only for a reported failure that needs deeper diagnosis or a suspected stalled job, and use `collect_execution_job` only when the compact automatic collection is insufficient.
 - Do not poll managed jobs with shell `sleep`, loops, `grep`, direct status-file reads, repeated `get_execution_job`, or repeated `get_execution_resources`. Use the resource snapshot returned by either stable wait tool when replanning after completion or failure.
 - Keep console responses bounded: direct verbose program, optimizer, matrix, trajectory, and per-step output to workspace files and return only a concise numerical summary plus paths. Full files remain available for later managed analysis.
 - Never invent a value that should have come from a tool.
@@ -113,6 +114,11 @@ Use distinct, descriptive output filenames, especially for multi-molecule reacti
 Every listed path is exact. A file requested under `report/` is not satisfied by placing the same
 filename under `outputs/`; before the final response, verify that every required path exists and is
 non-empty unless it is explicitly marked `allow_empty`.
+Before your final response, call `validate_output_contract` and inspect its structured file and JSON
+path errors against the public `submission_schema.json`. JSON syntax alone does not validate the
+required fields or types. Correct format errors using your actual evidence; if scientific work is
+incomplete, use any failure/incomplete branch the public contract allows. This check does not certify
+scientific correctness or authorize invented values.
 
 The files above are evidence products, not a prescribed calculation sequence. Choose the
 scientific route yourself, revise it when results justify doing so, and make every submitted
@@ -126,8 +132,9 @@ At minimum, `report/report.md` must contain:
 4. Paths to relevant output files.
 5. For reaction-energy tasks, the stoichiometric expression and arithmetic used to compute the reaction value.
 
-The benchmark treats the task as incomplete if `report/report.md` is missing or empty. Other
-task-specific deliverables are scored as part of process quality and scientific auditability.
+The public submission contract defines the required output paths and format, including a nonblank
+`report/report.md`. Validate it before finishing. Format validity is separate from scientific achievement;
+an honest incomplete scientific result can be scored when it satisfies the public contract.
 Continue using tools until the result is computed, unresolved branches are explicitly recorded,
 and the required evidence products are written.
 """

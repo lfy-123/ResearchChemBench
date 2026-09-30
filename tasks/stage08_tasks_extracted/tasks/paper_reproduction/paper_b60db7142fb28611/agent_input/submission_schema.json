@@ -1,0 +1,15 @@
+{
+  "required_files":["report/results.json"],"primary_result_file":"report/results.json",
+  "result_schema":{
+    "type":"object","required":["status","method","conclusion","coverage"],
+    "properties":{
+      "status":{"type":"string","enum":["complete","bounded_failure"]},
+      "method":{"type":"object","required":["software","model","thermochemistry","justification"],"properties":{"software":{"type":"string"},"model":{"type":"string"},"thermochemistry":{"type":"string"},"justification":{"type":"string"}}},
+      "candidates":{"type":"array","minItems":4,"items":{"type":"object","required":["id","identity_assignment","product_validation","ts_validation","product_energy_kcal_mol","activation_energy_kcal_mol"],"properties":{"id":{"type":"string","enum":["Pdt1","Pdt2","Pdt3","Pdt4"]},"identity_assignment":{"type":"string"},"product_validation":{"type":"object","required":["imaginary_frequency_count","connectivity_preserved","evidence"],"properties":{"imaginary_frequency_count":{"type":"integer"},"connectivity_preserved":{"type":"boolean"},"evidence":{"type":"string"}}},"ts_validation":{"type":"object","required":["imaginary_frequency_count","reaction_coordinate","evidence"],"properties":{"imaginary_frequency_count":{"type":"integer"},"reaction_coordinate":{"type":"string"},"evidence":{"type":"string"}}},"product_energy_kcal_mol":{"type":"number"},"activation_energy_kcal_mol":{"type":"number"}}}},
+      "thermodynamic_ordering":{"type":"array","minItems":4,"items":{"type":"string","enum":["Pdt1","Pdt2","Pdt3","Pdt4"]}},"kinetic_ordering":{"type":"array","minItems":4,"items":{"type":"string","enum":["Pdt1","Pdt2","Pdt3","Pdt4"]}},"conclusion":{"type":"string"},
+      "coverage":{"type":"object","required":["conformer_strategy","deduplication_criterion","attempted_candidates","stopping_assessment","limitations"],"properties":{"conformer_strategy":{"type":"string"},"deduplication_criterion":{"type":"string"},"attempted_candidates":{"type":"array","items":{"type":"string","enum":["Pdt1","Pdt2","Pdt3","Pdt4"]}},"stopping_assessment":{"type":"string"},"limitations":{"type":"string"}}},
+      "failures":{"type":"array","minItems":1,"items":{"type":"object","required":["candidate_id","failed_stage","attempts","evidence","reason"],"properties":{"candidate_id":{"type":"string","enum":["Pdt1","Pdt2","Pdt3","Pdt4"]},"failed_stage":{"type":"string"},"attempts":{"type":"string"},"evidence":{"type":"string"},"reason":{"type":"string"}}}}
+    },
+    "oneOf":[{"properties":{"status":{"const":"complete"}},"required":["candidates","thermodynamic_ordering","kinetic_ordering"]},{"properties":{"status":{"const":"bounded_failure"}},"required":["failures"]}]
+  }
+}

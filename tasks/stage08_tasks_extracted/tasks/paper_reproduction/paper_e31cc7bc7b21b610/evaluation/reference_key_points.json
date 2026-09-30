@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_alpha",
+      "key_point_type": "process",
+      "statement": "The named cis-alpha input is optimized as the supplied neutral singlet complex and the final stationary point is explicitly checked by frequencies or justified equivalent.",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+        "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+        "ev_doc_84440e2ee670_000203_0a6088017185"
+      ],
+      "expected": "A per-object record identifies cis-alpha, its input file, method/state, final energy and imaginary-frequency result; a minimum assignment requires no imaginary mode."
+    },
+    {
+      "key_point_id": "kp_pr_process_beta",
+      "key_point_type": "process",
+      "statement": "The named cis-beta input is independently optimized and its stationary-point character is checked.",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+        "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "expected": "A per-object record identifies cis-beta and reports an explicit frequency/validation outcome; a minimum assignment requires no imaginary mode."
+    },
+    {
+      "key_point_id": "kp_pr_result_energy",
+      "key_point_type": "result",
+      "statement": "The electronic-energy difference is defined as E(cis-beta) minus E(cis-alpha) and is positive for the paper reference calculation.",
+      "evidence_ids": [
+        "ev_doc_84440e2ee670_000203_0a6088017185",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "expected": "The submitted relative_energy.value is positive and approximately 1.44 kcal/mol within the scoring tolerance, with the stated definition and units."
+    }
+  ]
+}

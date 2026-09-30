@@ -1,0 +1,591 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "status",
+    "candidates",
+    "coverage"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "bounded_failure"
+      ]
+    },
+    "method": {
+      "type": "object",
+      "required": [
+        "software",
+        "level",
+        "zpe_included"
+      ],
+      "properties": {
+        "software": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        },
+        "zpe_included": {
+          "type": "boolean"
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "state",
+          "charge",
+          "multiplicity",
+          "site_or_orientation",
+          "convergence",
+          "frequency_validation"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "neutral",
+              "anion"
+            ]
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "site_or_orientation": {
+            "type": "string"
+          },
+          "energy": {
+            "type": "number"
+          },
+          "convergence": {
+            "type": "string"
+          },
+          "frequency_validation": {
+            "type": "object",
+            "required": [
+              "status",
+              "imaginary_modes"
+            ],
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "imaginary_modes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "endpoints": {
+      "type": "object",
+      "required": [
+        "neutral",
+        "anion"
+      ],
+      "properties": {
+        "neutral": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "energy",
+            "structure",
+            "atom_mapping"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "energy": {
+              "type": "number"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "atom_mapping": {
+              "type": "string"
+            }
+          }
+        },
+        "anion": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "energy",
+            "structure",
+            "atom_mapping"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "energy": {
+              "type": "number"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "atom_mapping": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "aea": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "formula",
+        "zpe_convention"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "zpe_convention": {
+          "type": "string"
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "enumerated_classes",
+        "tested_multiplicities",
+        "deduplication"
+      ],
+      "properties": {
+        "enumerated_classes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tested_multiplicities": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "deduplication": {
+          "type": "string"
+        },
+        "stopping_rule": {
+          "type": "string",
+          "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+        },
+        "limitations": {
+          "type": "string",
+          "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+        }
+      }
+    },
+    "framework_assessment": {
+      "type": "object",
+      "required": [
+        "criterion",
+        "finding",
+        "evidence"
+      ],
+      "properties": {
+        "criterion": {
+          "type": "string"
+        },
+        "finding": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "string",
+      "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "candidates": {
+          "items": {
+            "required": [
+              "energy"
+            ]
+          }
+        }
+      },
+      "required": [
+        "status",
+        "method",
+        "candidates",
+        "endpoints",
+        "aea",
+        "coverage",
+        "framework_assessment",
+        "conclusion"
+      ]
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "bounded_failure"
+        }
+      },
+      "required": [
+        "status",
+        "candidates",
+        "coverage"
+      ]
+    }
+  ],
+  "additionalProperties": false,
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "candidates",
+          "coverage"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "bounded_failure"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "level",
+              "zpe_included"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string"
+              },
+              "zpe_included": {
+                "type": "boolean"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "state",
+                "charge",
+                "multiplicity",
+                "site_or_orientation",
+                "convergence",
+                "frequency_validation"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "neutral",
+                    "anion"
+                  ]
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "site_or_orientation": {
+                  "type": "string"
+                },
+                "energy": {
+                  "type": "number"
+                },
+                "convergence": {
+                  "type": "string"
+                },
+                "frequency_validation": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "imaginary_modes"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "imaginary_modes": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "type": "object",
+            "required": [
+              "neutral",
+              "anion"
+            ],
+            "properties": {
+              "neutral": {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "energy",
+                  "structure",
+                  "atom_mapping"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "energy": {
+                    "type": "number"
+                  },
+                  "structure": {
+                    "type": "string"
+                  },
+                  "atom_mapping": {
+                    "type": "string"
+                  }
+                }
+              },
+              "anion": {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "energy",
+                  "structure",
+                  "atom_mapping"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "energy": {
+                    "type": "number"
+                  },
+                  "structure": {
+                    "type": "string"
+                  },
+                  "atom_mapping": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "aea": {
+            "type": "object",
+            "required": [
+              "value",
+              "unit",
+              "formula",
+              "zpe_convention"
+            ],
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "formula": {
+                "type": "string"
+              },
+              "zpe_convention": {
+                "type": "string"
+              }
+            }
+          },
+          "coverage": {
+            "type": "object",
+            "required": [
+              "enumerated_classes",
+              "tested_multiplicities",
+              "deduplication"
+            ],
+            "properties": {
+              "enumerated_classes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "tested_multiplicities": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "deduplication": {
+                "type": "string"
+              },
+              "stopping_rule": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              }
+            }
+          },
+          "framework_assessment": {
+            "type": "object",
+            "required": [
+              "criterion",
+              "finding",
+              "evidence"
+            ],
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "finding": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Optional earlier/additional attempts, separate from selected endpoints."
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "status": {
+                "const": "completed"
+              }
+            },
+            "required": [
+              "status",
+              "method",
+              "candidates",
+              "endpoints",
+              "aea",
+              "coverage",
+              "framework_assessment",
+              "conclusion"
+            ]
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              }
+            },
+            "required": [
+              "status",
+              "candidates",
+              "coverage"
+            ]
+          }
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

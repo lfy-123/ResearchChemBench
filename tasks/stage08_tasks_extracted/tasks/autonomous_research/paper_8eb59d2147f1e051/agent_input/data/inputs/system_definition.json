@@ -1,0 +1,9 @@
+{
+  "hosts": [
+    {"id": "Fe3Se4", "formula": "Fe3Se4", "database": "ICSD", "record_id": "96-153-7571", "role": "reference host"},
+    {"id": "Fe2NiSe4", "formula": "Fe2NiSe4", "database": "ICSD", "record_id": "97-004-2505", "role": "Ni-containing host"}
+  ],
+  "adsorbate": {"id": "Li2S", "formula": "Li2S", "charge": 0, "multiplicity": "agent-must-report", "role": "surface decomposition endpoint species"},
+  "reaction_endpoint_contract": {"initial_state": "an adsorbed, intact Li2S state on the named host", "final_state": "the agent's explicitly defined adsorbed decomposition product state with the same atoms and charge", "barrier": "maximum energy along the validated minimum-energy path minus the submitted initial-state energy", "energies": "report electronic barrier in eV; if thermal corrections are used, report them separately", "surface_search": "use low-index cleavage-stable surfaces derivable from the ICSD records; document all tested terminations and retain one uniquely identified model per host for the primary comparison"},
+  "known_physical_boundary": {"periodic_surface": true, "vacuum_direction": "surface normal", "neutrality": "preserve total charge unless a justified alternative is reported", "rGO_and_solvent": "outside scope"}
+}

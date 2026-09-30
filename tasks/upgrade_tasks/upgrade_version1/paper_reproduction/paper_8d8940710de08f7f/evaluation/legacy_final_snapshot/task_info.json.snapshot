@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "task_type": "paper_reproduction",
+  "title": "Neutral conformer thermochemistry of SNaft and SAntr",
+  "category": "computational chemistry / conformer thermochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Each of six fixed torsion-region objects requires independent conformer generation, duplicate discrimination, optimization and frequency validation from multiple starts.",
+    "The agent must compare thermochemistry and interpret interaction evidence using actual geometries and consistently defined free energies."
+  ],
+  "paper": {
+    "title": "Spectroscopic, structural, and biological insights into novel naphthalene- and anthracene-based sulfonamides",
+    "doi": "10.1016/j.molstruc.2026.145415",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-04-25"
+  },
+  "data": [
+    {
+      "path": "data",
+      "description": "Self-contained JSON defining the two neutral singlet sulfonamides and the three C-S-N-C torsion regions per molecule."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated conformer thermochemistry, structures, provenance, and conclusion."
+    }
+  ]
+}

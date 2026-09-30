@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_alpha",
+      "key_point_type": "process",
+      "statement": "The cis-alpha public structure is treated as a defined neutral singlet object, optimized and validated as a stationary point.",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+        "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+        "ev_doc_84440e2ee670_000203_0a6088017185"
+      ],
+      "expected": "The cis-alpha record includes input identity, method/state, energy and explicit validation; minimum assignment requires no imaginary mode. Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+    },
+    {
+      "key_point_id": "kp_ar_process_beta",
+      "key_point_type": "process",
+      "statement": "The cis-beta public structure is treated as a defined neutral singlet object, optimized and validated as a stationary point.",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+        "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "expected": "The cis-beta record includes input identity, method/state, energy and explicit validation; minimum assignment requires no imaginary mode. Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+    },
+    {
+      "key_point_id": "kp_ar_result_energy",
+      "key_point_type": "result",
+      "statement": "The consistent electronic-energy difference E(cis-beta) minus E(cis-alpha) is positive for the reference calculations.",
+      "evidence_ids": [
+        "ev_doc_84440e2ee670_000203_0a6088017185",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "expected": "The submitted relative_energy.value is positive and approximately 1.44 kcal/mol within the scoring tolerance. Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+    }
+  ]
+}

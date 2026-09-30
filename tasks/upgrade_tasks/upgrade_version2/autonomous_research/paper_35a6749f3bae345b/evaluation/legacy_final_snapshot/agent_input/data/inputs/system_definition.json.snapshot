@@ -1,0 +1,41 @@
+{
+  "molecules": [
+    {
+      "id": "DBC-Ph",
+      "file": "dbc_ph_s0.xyz",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_order": "exactly as listed in XYZ",
+      "formula": "C32H21N",
+      "identity_file": "dbc_ph_s0_identity.json",
+      "geometry_role": "Independent unoptimized starter; filename s0 denotes starting-state label, not a converged S0 structure."
+    },
+    {
+      "id": "DBC-Nap",
+      "file": "dbc_nap_s0.xyz",
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_order": "exactly as listed in XYZ",
+      "formula": "C36H23N",
+      "identity_file": "dbc_nap_s0_identity.json",
+      "geometry_role": "Independent unoptimized starter; filename s0 denotes starting-state label, not a converged S0 structure."
+    }
+  ],
+  "coordinates_unit": "angstrom",
+  "solvent": {
+    "name": "toluene",
+    "model": "implicit solvent permitted; report model"
+  },
+  "state_scope": [
+    "S0",
+    "first singlet excited state S1"
+  ],
+  "dihedral_definitions": {
+    "dbc_nphenyl": "Use the four atoms defining the bond between the DBC core and N-phenyl unit; identify atom indices and convention in report.",
+    "nphenyl_paraaryl": "Use the four atoms defining the bond between N-phenyl and its para-aryl substituent; identify atom indices and convention in report."
+  },
+  "atom_count": {
+    "DBC-Ph": 54,
+    "DBC-Nap": 60
+  }
+}

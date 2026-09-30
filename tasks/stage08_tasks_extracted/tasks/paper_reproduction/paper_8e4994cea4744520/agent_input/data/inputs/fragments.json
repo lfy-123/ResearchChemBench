@@ -1,0 +1,12 @@
+{
+  "system": "Five isolated neutral closed-shell diphenylamine-related fragments",
+  "units": {"coordinates": "angstrom", "dipole": "Debye"},
+  "fragments": [
+    {"id":"frag_4_fluoroaniline","name":"4-fluoroaniline","smiles":"Nc1ccc(F)cc1","charge":0,"multiplicity":1},
+    {"id":"frag_4_butylaniline","name":"4-butylaniline","smiles":"Nc1ccc(CCCC)cc1","charge":0,"multiplicity":1},
+    {"id":"frag_bis_4_fluorophenylamine","name":"bis(4-fluorophenyl)amine","smiles":"Fc1ccc(Nc2ccc(F)cc2)cc1","charge":0,"multiplicity":1},
+    {"id":"frag_mixed_butyl_fluorophenylamine","name":"(4-butylphenyl)-N-(4-fluorophenyl)amine","smiles":"CCCCc1ccc(Nc2ccc(F)cc2)cc1","charge":0,"multiplicity":1},
+    {"id":"frag_bis_4_butylphenylamine","name":"bis(4-butylphenyl)amine","smiles":"CCCCc1ccc(Nc2ccc(CCCC)cc2)cc1","charge":0,"multiplicity":1}
+  ],
+  "boundary": "Use isolated gas-phase fragments. Generate starting 3D coordinates from the supplied connectivity; do not substitute full GA-2F-E or GA-2F molecules."
+}

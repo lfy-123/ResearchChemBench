@@ -1,0 +1,181 @@
+{
+  "generator": "ETKDGv3 with optional generic rotamer rotations; first geometrically valid member of each coarse identity class",
+  "rdkit_version": "2023.09.6",
+  "quantum_calculation": false,
+  "force_field_minimization": false,
+  "energy_ranking": false,
+  "source_coordinate_template": false,
+  "structures": {
+    "conformer_1-1.xyz": {
+      "seed": 914002,
+      "validation": {
+        "atom_count": 54,
+        "formula": "C24H24N2O4",
+        "chiral_centers_zero_based": [
+          [
+            16,
+            "S"
+          ]
+        ],
+        "minimum_nonbonded_covalent_radius_ratio": 1.4660124825211553,
+        "bond_covalent_radius_ratio_range": [
+          0.8769820047574342,
+          1.072745588138145
+        ]
+      },
+      "identity_torsions": [
+        {
+          "atom_ids": [
+            25,
+            23,
+            21,
+            17
+          ],
+          "angle_deg": -84.49792904585537
+        },
+        {
+          "atom_ids": [
+            29,
+            39,
+            41,
+            43
+          ],
+          "angle_deg": -179.37941393429185
+        },
+        {
+          "atom_ids": [
+            23,
+            21,
+            17,
+            9
+          ],
+          "angle_deg": -59.99999999999993
+        },
+        {
+          "atom_ids": [
+            45,
+            43,
+            41,
+            39
+          ],
+          "angle_deg": 59.99999999999999
+        }
+      ]
+    },
+    "conformer_1-2.xyz": {
+      "seed": 914002,
+      "validation": {
+        "atom_count": 54,
+        "formula": "C24H24N2O4",
+        "chiral_centers_zero_based": [
+          [
+            16,
+            "S"
+          ]
+        ],
+        "minimum_nonbonded_covalent_radius_ratio": 1.4660124825211553,
+        "bond_covalent_radius_ratio_range": [
+          0.876982004757434,
+          1.0727455881381447
+        ]
+      },
+      "identity_torsions": [
+        {
+          "atom_ids": [
+            25,
+            23,
+            21,
+            17
+          ],
+          "angle_deg": -84.49792904585541
+        },
+        {
+          "atom_ids": [
+            29,
+            39,
+            41,
+            43
+          ],
+          "angle_deg": -179.37941393429185
+        },
+        {
+          "atom_ids": [
+            23,
+            21,
+            17,
+            9
+          ],
+          "angle_deg": -59.99999999999992
+        },
+        {
+          "atom_ids": [
+            45,
+            43,
+            41,
+            39
+          ],
+          "angle_deg": -59.999999999999986
+        }
+      ]
+    },
+    "conformer_1-3.xyz": {
+      "seed": 914002,
+      "validation": {
+        "atom_count": 54,
+        "formula": "C24H24N2O4",
+        "chiral_centers_zero_based": [
+          [
+            16,
+            "S"
+          ]
+        ],
+        "minimum_nonbonded_covalent_radius_ratio": 1.4660124825211551,
+        "bond_covalent_radius_ratio_range": [
+          0.8769820047574342,
+          1.072745588138145
+        ]
+      },
+      "identity_torsions": [
+        {
+          "atom_ids": [
+            25,
+            23,
+            21,
+            17
+          ],
+          "angle_deg": -84.49792904585537
+        },
+        {
+          "atom_ids": [
+            29,
+            39,
+            41,
+            43
+          ],
+          "angle_deg": -179.37941393429185
+        },
+        {
+          "atom_ids": [
+            23,
+            21,
+            17,
+            9
+          ],
+          "angle_deg": 60.00000000000002
+        },
+        {
+          "atom_ids": [
+            45,
+            43,
+            41,
+            39
+          ],
+          "angle_deg": 59.99999999999999
+        }
+      ]
+    }
+  },
+  "identity_recovery": "Only element/bond graph, stereochemistry, original atom-row identities and qualitative rotamer classes were recovered from the archived task structures. The generation program reads mapped SMILES and coarse identity windows, not source coordinates. Named classes are not guaranteed to converge to the historical minima without a new calculation.",
+  "original_source": "papers/paper_9d091f4337662e78/documents/supplementary_001.pdf, Tables S2-S4; original coordinate files retained in git commit 331aed8d",
+  "generator_path": "scripts/generate_independent_audit_starters.py"
+}

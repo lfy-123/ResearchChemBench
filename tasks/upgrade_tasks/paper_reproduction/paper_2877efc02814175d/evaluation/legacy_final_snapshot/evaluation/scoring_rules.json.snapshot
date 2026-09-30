@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "rules": [
+    {
+      "rule_id": "r_state",
+      "reference_id": "p_state",
+      "type": "semantic",
+      "expected": "identity and source-supported object-specific state checks",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.state_checks",
+          "$.complexes"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_conv",
+      "reference_id": "p_converge",
+      "type": "semantic",
+      "expected": "Assess actual per-object convergence evidence; a documented failure does not count as successful convergence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_gap",
+      "reference_id": "p_gap",
+      "type": "semantic",
+      "expected": "per-object gaps",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].observables"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_desc",
+      "reference_id": "p_desc",
+      "type": "semantic",
+      "expected": "hardness and electrophilicity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.descriptor_definitions",
+          "$.complexes[*].observables"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_trend",
+      "reference_id": "c_trend",
+      "type": "semantic",
+      "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Real like-defined results support gap and hardness Cd > Co > Ni, electrophilicity Ni > Co > Cd. These are electronic descriptors, not measured binding free energies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.complexes",
+          "$.method"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

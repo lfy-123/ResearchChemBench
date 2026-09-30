@@ -1,1 +1,41 @@
-{"paper_id":"paper_d7967e22bb965daa","items":[{"key_point_id":"kp_process_ts_validation","key_point_type":"process","statement":"Each named migratory-insertion candidate is subjected to vibrational analysis and a transition-state assignment requires one imaginary mode corresponding to the expected bond-making/bond-breaking motion.","expected":"The submission reports per-label imaginary-frequency counts, eigenvector/chemical assignment evidence, and a validated or explicitly failed status for TS3A-quartet, TS3B-quartet, TS3C-quartet, and TS3D-quartet.","evidence_ids":["ev_doc_0208cf1c0355_001373_6e6e66864f04"]},{"key_point_id":"kp_process_reference","key_point_type":"process","statement":"Relative barriers are assembled against the INT1A-sextet + 2a reference with thermal and solvation terms kept internally consistent.","expected":"The submission states its reference state and energy expression and applies it consistently across all four labels, or gives a scientifically explicit bounded-failure explanation.","evidence_ids":["ev_doc_0208cf1c0355_001376_7fd2402cf060"]},{"key_point_id":"kp_result_fourway","key_point_type":"result","statement":"The four quartet migratory-insertion pathways have a concrete relative free-energy barrier comparison.","expected":"A complete comparison reports barriers for all four named labels in kcal/mol, with provenance and a stated computational convention.","evidence_ids":["ev_doc_52d328a199b0_000107_9cb49f2d10e4"]},{"key_point_id":"kp_result_order","key_point_type":"result","statement":"The reported quartet barrier trend is TS3A-quartet lower than TS3D-quartet, TS3B-quartet, and TS3C-quartet.","expected":"The submitted ordering is TS3A-quartet < TS3D-quartet < TS3B-quartet < TS3C-quartet when all four candidates are validated.","evidence_ids":["ev_doc_52d328a199b0_000107_9cb49f2d10e4"]}]}
+{
+  "paper_id": "paper_d7967e22bb965daa",
+  "items": [
+    {
+      "key_point_id": "kp_process_ts_validation",
+      "key_point_type": "process",
+      "statement": "Each named migratory-insertion candidate is subjected to vibrational analysis and a transition-state assignment requires one imaginary mode corresponding to the expected bond-making/bond-breaking motion.",
+      "expected": "The submission reports per-label imaginary-frequency counts, eigenvector/chemical assignment evidence, and a validated or explicitly failed status for TS3A-quartet, TS3B-quartet, TS3C-quartet, and TS3D-quartet.",
+      "evidence_ids": [
+        "ev_doc_0208cf1c0355_001373_6e6e66864f04"
+      ]
+    },
+    {
+      "key_point_id": "kp_process_reference",
+      "key_point_type": "process",
+      "statement": "Local insertion barriers use INT2A-quartet for TS3A/B and INT2B-quartet for TS3C/D, with consistent thermal and solvation terms; separated-reference profile heights are distinct.",
+      "expected": "The submission states G(TS3A/B)−G(INT2A-quartet) and G(TS3C/D)−G(INT2B-quartet), or explicitly transforms an alternative reference using calculated coordination free energies; otherwise reports bounded failure.",
+      "evidence_ids": [
+        "ev_doc_0208cf1c0355_001376_7fd2402cf060"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_fourway",
+      "key_point_type": "result",
+      "statement": "The four quartet migratory-insertion pathways have a concrete relative free-energy barrier comparison.",
+      "expected": "A complete comparison reports barriers for all four named labels in kcal/mol, with provenance and a stated computational convention.",
+      "evidence_ids": [
+        "ev_doc_52d328a199b0_000107_9cb49f2d10e4"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_order",
+      "key_point_type": "result",
+      "statement": "The reported quartet barrier trend is TS3A-quartet lower than TS3D-quartet, TS3B-quartet, and TS3C-quartet.",
+      "expected": "The submitted ordering is TS3A-quartet < TS3D-quartet < TS3B-quartet < TS3C-quartet when all four candidates are validated.",
+      "evidence_ids": [
+        "ev_doc_52d328a199b0_000107_9cb49f2d10e4"
+      ]
+    }
+  ]
+}

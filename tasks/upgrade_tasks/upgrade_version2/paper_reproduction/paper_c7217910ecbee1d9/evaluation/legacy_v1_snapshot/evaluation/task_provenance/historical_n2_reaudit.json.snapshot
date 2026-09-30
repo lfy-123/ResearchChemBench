@@ -1,0 +1,1227 @@
+{
+  "audited_at": "2026-09-27T12:51:27.107071+00:00",
+  "paper_id": "paper_c7217910ecbee1d9",
+  "audit_kind": "independent_raw_log_parse_and_coordinate_graph_check",
+  "new_engine_launches": 0,
+  "valid_local_minimum_candidates": 8,
+  "AEA_electronic_eV": 3.9455364457428788,
+  "AEA_ZPE_eV": 3.959169350252118,
+  "hartree_to_eV": 27.211386245988,
+  "method_boundary": "PBE0/def2SVP historical n2 only; no tolerance, diffuse-anion robustness, n0/n1, vertical, fixed-core or added-electron-density validation.",
+  "graph_check_boundary": "Element-labelled connectivity by stated distance cutoffs and graph isomorphism; bond-order/electronic-shell claims are not inferred from geometry.",
+  "distance_cutoffs_A": {
+    "CC": 1.85,
+    "BC": 1.95,
+    "CF": 1.75
+  },
+  "candidates": [
+    {
+      "attempt_id": "hpc-job-868bf068-0c8e-4901-8b50-fe78c5c7da9e",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_anion_m1_nonclashing_optfreq_20260916_20260917T033059Z/stdout.log",
+      "raw_log_sha256": "b5d9ea72f00b362c45198c246928cf7989a757d7197e59ecc090e7bbf030f973",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_anion_m1_nonclashing_optfreq_20260916_20260917T033059Z/input.com",
+      "input_sha256": "6087c1e4dcc51c0e2d9071c66380b1cb107bbf0bbc1f0e1106ad4d6c9a93604b",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        -1,
+        1
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.25838343,
+      "zpe_Eh": 0.330849,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 4.623,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.542769600992784,
+        2.874646350146919
+      ],
+      "Al_edge_gap_A": [
+        2.89470410480346,
+        4.323646882573321
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.609052544388778,
+              1.6170515686721312
+            ],
+            "C-C": [
+              1.388336409656536,
+              1.4042175615494918
+            ],
+            "C-F": [
+              1.3237214462737241,
+              1.3390384610973654
+            ]
+          },
+          "nearest_B_Al_A": 2.320905834489198
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.6091042688219432,
+              1.6170755589476948
+            ],
+            "C-C": [
+              1.38833351758178,
+              1.4041630749884428
+            ],
+            "C-F": [
+              1.3237058234709858,
+              1.3390295528490028
+            ]
+          },
+          "nearest_B_Al_A": 2.321301291291805
+        }
+      ],
+      "selected_for_pair": false,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof."
+    },
+    {
+      "attempt_id": "hpc-job-30ace2b8-7a11-44b6-8238-a9d297e5f3c5",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_anion_m3_nonclashing_optfreq_20260916_20260917T045136Z/stdout.log",
+      "raw_log_sha256": "2a9a6fa33381987d6caa0daf1b9a55f3fa14231fb216c635a04ba6283ba5796a",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_anion_m3_nonclashing_optfreq_20260916_20260917T045136Z/input.com",
+      "input_sha256": "3a2cba3160a7c5d6eb15e0da8081ab0328a9336b1f240787801a6a4c89967e1f",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        -1,
+        3
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.2618107,
+      "zpe_Eh": 0.331279,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 4.0409,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.5836534975638665,
+        2.833545112699637
+      ],
+      "Al_edge_gap_A": [
+        2.8480372950005415,
+        4.3229775788359115
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.6098670341500256,
+              1.611177738470216
+            ],
+            "C-C": [
+              1.387840611627286,
+              1.4028759566283826
+            ],
+            "C-F": [
+              1.320684072005868,
+              1.33965345702872
+            ]
+          },
+          "nearest_B_Al_A": 2.393791262580345
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.6098741961973304,
+              1.6113001856382936
+            ],
+            "C-C": [
+              1.3878198772927992,
+              1.4028421302213592
+            ],
+            "C-F": [
+              1.3206561492731557,
+              1.339813667606806
+            ]
+          },
+          "nearest_B_Al_A": 2.3935646299765962
+        }
+      ],
+      "selected_for_pair": false,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof."
+    },
+    {
+      "attempt_id": "hpc-job-d77b5933-7324-4731-bd23-245020888e5e",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_neutral_m2_nonclashing_optfreq_20260916_20260917T024030Z/stdout.log",
+      "raw_log_sha256": "41dcef28d5b164029e0b38dd2fc360a1d2f1b9e01f42e800dec6e959fb5b61a2",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_neutral_m2_nonclashing_optfreq_20260916_20260917T024030Z/input.com",
+      "input_sha256": "840b3f38ff934ecc6b3e863137e7664d39197acaf2e929e64abaf5fd3e174964",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        0,
+        2
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.1337345,
+      "zpe_Eh": 0.332371,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 4.5282,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.5940869596759857,
+        2.891721164244402
+      ],
+      "Al_edge_gap_A": [
+        2.838681651847033,
+        4.342345374208966
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.5688146135503072,
+              1.573540758944299
+            ],
+            "C-C": [
+              1.3881557245140042,
+              1.4031519559481072
+            ],
+            "C-F": [
+              1.312850838228776,
+              1.3400066444783028
+            ]
+          },
+          "nearest_B_Al_A": 4.156968441855314
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.603839642393528,
+              1.6058709572717853
+            ],
+            "C-C": [
+              1.3876859040870888,
+              1.4031587159252514
+            ],
+            "C-F": [
+              1.319486996204965,
+              1.3388663622072217
+            ]
+          },
+          "nearest_B_Al_A": 2.4189775423852122
+        }
+      ],
+      "selected_for_pair": false,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof."
+    },
+    {
+      "attempt_id": "hpc-job-e09c5613-b944-4264-bd07-80d4caf84dae",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_neutral_m4_nonclashing_optfreq_20260916_20260917T040114Z/stdout.log",
+      "raw_log_sha256": "fec29624e5d783c3ab7fb1af7eba6466eb41964925ebae0b0e786d086dbe6c7c",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_obtuse_neutral_m4_nonclashing_optfreq_20260916_20260917T040114Z/input.com",
+      "input_sha256": "bc841042980e3fcb027b990d34e5b86271c96f1d99de46538907f3402698bb48",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        0,
+        4
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.10268235,
+      "zpe_Eh": 0.331267,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 8.109,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.4915694566425395,
+        2.8469268897832625
+      ],
+      "Al_edge_gap_A": [
+        2.9733023690378344,
+        4.274570721673698
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.604599379136113,
+              1.6166091900994501
+            ],
+            "C-C": [
+              1.3848512006558682,
+              1.40415103035108
+            ],
+            "C-F": [
+              1.3170105954748432,
+              1.391962293305749
+            ]
+          },
+          "nearest_B_Al_A": 2.3616428207180276
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.6018253740149084,
+              1.6054630127963085
+            ],
+            "C-C": [
+              1.3866733826193531,
+              1.4053198533291273
+            ],
+            "C-F": [
+              1.3166946570807527,
+              1.3510273493105165
+            ]
+          },
+          "nearest_B_Al_A": 2.3969625918123962
+        }
+      ],
+      "selected_for_pair": false,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof."
+    },
+    {
+      "attempt_id": "hpc-job-c9287f69-a992-47a7-bbe0-d7f59258b502",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+      "raw_log_sha256": "2e6a023a1ea77881664309e08d1ba227180db0ad6a2d34fcd7313e63dc68b02a",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/input.com",
+      "input_sha256": "3c0971209c03e0af9f4c367d5454ba99be158e955c7125dc4031aef7d96f34b7",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        -1,
+        1
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.27967667,
+      "zpe_Eh": 0.331401,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 2.165,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.601152765644302,
+        2.7969527478634673
+      ],
+      "Al_edge_gap_A": [
+        2.8376338238689294,
+        4.385338898353581
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.621512042048717,
+              1.622788581850698
+            ],
+            "C-C": [
+              1.3882217270976565,
+              1.4012484522913844
+            ],
+            "C-F": [
+              1.3250004525723755,
+              1.3408433857699418
+            ]
+          },
+          "nearest_B_Al_A": 2.2832919293979907
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.621843580084405,
+              1.6230844896914638
+            ],
+            "C-C": [
+              1.3883607126049775,
+              1.4016135698051726
+            ],
+            "C-F": [
+              1.3250055487163073,
+              1.339906414764852
+            ]
+          },
+          "nearest_B_Al_A": 2.2835405918682503
+        }
+      ],
+      "selected_for_pair": true,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof.",
+      "extracted_geometry": {
+        "path": "docs/upgrade_tasks_verification/supervisor/cluster_n2_readback/anion_native_order.xyz",
+        "sha256": "4da43098c7abb180cebdd6510c8892a92200b3873efdd8f5ace9e6825f11a17b"
+      }
+    },
+    {
+      "attempt_id": "hpc-job-c231bb67-9031-4c08-a75a-bce793eb600a",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m3_nonclashing_optfreq_20260916_20260917T033053Z/stdout.log",
+      "raw_log_sha256": "168dd754cc91bc244c9410d883996c69eb71b956c812f409019985efc119de52",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m3_nonclashing_optfreq_20260916_20260917T033053Z/input.com",
+      "input_sha256": "87703b1ae8a4e1904829bbe05265345e97f9d6f8d5675e4494d4233bbeb1a168",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        -1,
+        3
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.23827108,
+      "zpe_Eh": 0.329715,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 3.029,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.589963143124821,
+        2.8541505645587444
+      ],
+      "Al_edge_gap_A": [
+        2.923472206289979,
+        4.300443086291574
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.5943901517850014,
+              1.5960826528375653
+            ],
+            "C-C": [
+              1.3886640700835462,
+              1.4048923469999401
+            ],
+            "C-F": [
+              1.3236697577598424,
+              1.3359463255640176
+            ]
+          },
+          "nearest_B_Al_A": 2.5758596280744803
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.5941578065430038,
+              1.5959689800462917
+            ],
+            "C-C": [
+              1.388640275585438,
+              1.40500119013793
+            ],
+            "C-F": [
+              1.3236887756349671,
+              1.335800577419399
+            ]
+          },
+          "nearest_B_Al_A": 2.575592530134571
+        }
+      ],
+      "selected_for_pair": false,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof."
+    },
+    {
+      "attempt_id": "hpc-job-9471e7ee-f3ea-4e93-9f36-230204c82ea5",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log",
+      "raw_log_sha256": "fed8f6c4c9db933546a3347985b5e6a66191560ab638631ba2c208e37a54d5b0",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/input.com",
+      "input_sha256": "1aecd5cc036ed22f12c636d0876d176cf85de2bfdb93156c0fa935d26438ebe0",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        0,
+        2
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.13468088,
+      "zpe_Eh": 0.331902,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 2.5219,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.613692345127291,
+        2.723236173577496
+      ],
+      "Al_edge_gap_A": [
+        2.812237179496779,
+        4.413639706523404
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.5995397933474491,
+              1.6005530816695834
+            ],
+            "C-C": [
+              1.3873543721219899,
+              1.4034752674233346
+            ],
+            "C-F": [
+              1.3175319064527429,
+              1.3377716427679276
+            ]
+          },
+          "nearest_B_Al_A": 2.5112164024944166
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.599744397347901,
+              1.6008548114210732
+            ],
+            "C-C": [
+              1.3873717380150858,
+              1.4036182886358382
+            ],
+            "C-F": [
+              1.3175473699833335,
+              1.3371964967457104
+            ]
+          },
+          "nearest_B_Al_A": 2.513336910829108
+        }
+      ],
+      "selected_for_pair": true,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof.",
+      "extracted_geometry": {
+        "path": "docs/upgrade_tasks_verification/supervisor/cluster_n2_readback/neutral_native_order.xyz",
+        "sha256": "4cf7043d8ae4c2423c1a45e58074aa93d34f52e69d2941db0c417b33bd872883"
+      }
+    },
+    {
+      "attempt_id": "hpc-job-eae4a7b5-7a48-4677-ba7e-a234cf22173f",
+      "raw_log": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m4_nonclashing_optfreq_20260916_20260917T021003Z/stdout.log",
+      "raw_log_sha256": "98254d798f18fa3374acfd96d991f68edbb8fbeef4820d58b35d31b7395a95b2",
+      "input_path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m4_nonclashing_optfreq_20260916_20260917T021003Z/input.com",
+      "input_sha256": "d2cb6f7562cf26bd7c98113c9444fa95eb44229cdd13fa2157d3eb0eed84a7af",
+      "route": [
+        "#p PBE1PBE/def2SVP Opt=(RecalcFC=20,MaxCyc=400,MaxStep=5) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine"
+      ],
+      "state": [
+        0,
+        4
+      ],
+      "atom_count": 81,
+      "formula": {
+        "P": 1,
+        "Al": 12,
+        "B": 2,
+        "C": 36,
+        "F": 30
+      },
+      "energy_Eh": -7657.08097444,
+      "zpe_Eh": 0.330574,
+      "frequency_count": 237,
+      "minimum_frequency_cm1": 2.0674,
+      "normal_terminations": 2,
+      "core_icosahedral_graph": true,
+      "P_Al_distance_A": [
+        2.5789658582747856,
+        2.8928938368469383
+      ],
+      "Al_edge_gap_A": [
+        3.202318882136974,
+        4.337693383412088
+      ],
+      "ligands": [
+        {
+          "ligand": "ligand_A",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "14": 14,
+            "27": 15,
+            "32": 16,
+            "47": 17,
+            "31": 18,
+            "46": 19,
+            "30": 20,
+            "45": 21,
+            "29": 22,
+            "44": 23,
+            "28": 24,
+            "43": 25,
+            "21": 26,
+            "26": 27,
+            "42": 28,
+            "25": 29,
+            "41": 30,
+            "24": 31,
+            "40": 32,
+            "23": 33,
+            "39": 34,
+            "22": 35,
+            "38": 36,
+            "15": 37,
+            "16": 38,
+            "33": 39,
+            "17": 40,
+            "34": 41,
+            "18": 42,
+            "35": 43,
+            "19": 44,
+            "36": 45,
+            "20": 46,
+            "37": 47
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.6002778113883855,
+              1.6021360778495064
+            ],
+            "C-C": [
+              1.3869121564035696,
+              1.403370302282687
+            ],
+            "C-F": [
+              1.3174508598505672,
+              1.3404621320552101
+            ]
+          },
+          "nearest_B_Al_A": 2.4597209115515524
+        },
+        {
+          "ligand": "ligand_B",
+          "graph_isomorphic": true,
+          "expected_map_to_native_index": {
+            "48": 48,
+            "49": 49,
+            "50": 50,
+            "67": 51,
+            "51": 52,
+            "68": 53,
+            "52": 54,
+            "69": 55,
+            "53": 56,
+            "70": 57,
+            "54": 58,
+            "71": 59,
+            "61": 60,
+            "66": 61,
+            "81": 62,
+            "65": 63,
+            "80": 64,
+            "64": 65,
+            "79": 66,
+            "63": 67,
+            "78": 68,
+            "62": 69,
+            "77": 70,
+            "55": 71,
+            "56": 72,
+            "72": 73,
+            "57": 74,
+            "73": 75,
+            "58": 76,
+            "74": 77,
+            "59": 78,
+            "75": 79,
+            "60": 80,
+            "76": 81
+          },
+          "bond_lengths_A": {
+            "B-C": [
+              1.6003814533544807,
+              1.600974121719024
+            ],
+            "C-C": [
+              1.3869424351835946,
+              1.403618281658514
+            ],
+            "C-F": [
+              1.3169682444174575,
+              1.3390105406672497
+            ]
+          },
+          "nearest_B_Al_A": 2.4830139115558736
+        }
+      ],
+      "selected_for_pair": false,
+      "interpretation": "Local minimum candidate; ligand attachment and state/site selection remain explicit. Long B-Al contact may exclude bound-ligand interpretation; no global minimum or shell-orbital proof."
+    }
+  ]
+}

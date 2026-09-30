@@ -21,7 +21,7 @@
       "rule_id": "r_excitation_process",
       "reference_id": "kp_process_excitation",
       "type": "condition",
-      "expected": "An excitation output path, selection rule and orbital assignment are reported.",
+      "expected": "A complete excitation list, energy-based lowest-singlet selection and orbital assignment are reported, with a separate largest-oscillator-strength comparison; no target-driven state selection.",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -62,7 +62,7 @@
           "report/results.json"
         ],
         "fields": [
-          "$.excitation.dominant_wavelength_nm"
+          "$.excitation.lowest_singlet_wavelength_nm"
         ],
         "comparison": "absolute difference"
       }

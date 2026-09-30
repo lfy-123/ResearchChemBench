@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_65b915907e13618d",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_process_identity",
+      "type": "semantic",
+      "expected": "Identity, charge, donor labels and counterion boundary are correctly preserved and documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.label_provenance"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_minimum",
+      "reference_id": "kp_process_minimum",
+      "type": "condition",
+      "expected": "A validated minimum is reported with no imaginary frequencies or a justified equivalent test.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.minimum_status",
+          "$.validation.evidence"
+        ],
+        "comparison": "condition satisfaction"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "conclusion_final",
+      "type": "semantic",
+      "expected": "The bounded geometry conclusion addresses partial N-donor relaxation and retained distortion without attributing an undisclosed author route.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_geometry",
+      "reference_id": "kp_result_geometry",
+      "type": "semantic",
+      "expected": "All ten requested labeled observables are reported with units, labels and provenance, or the bounded failure explicitly identifies which measurements were unavailable without fabrication.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables",
+          "$.status"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

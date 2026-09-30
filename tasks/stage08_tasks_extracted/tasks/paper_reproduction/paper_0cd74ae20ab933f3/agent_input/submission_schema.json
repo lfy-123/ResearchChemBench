@@ -1,0 +1,19 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {"type": "object", "required": ["status", "systems", "validation", "conclusion"], "properties": {
+        "status": {"const": "success"},
+        "systems": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["id", "status", "geometry_provenance", "J_cm_minus_1", "triplet_population_300K_percent", "units", "method", "validation"], "properties": {
+          "id": {"type": "string"}, "status": {"const": "complete"}, "geometry_provenance": {"type": "string"},
+          "J_cm_minus_1": {"type": "number"}, "triplet_population_300K_percent": {"type": "number"},
+          "units": {"type": "object", "required": ["J", "population", "temperature"], "properties": {"J": {"const": "cm^-1"}, "population": {"const": "percent"}, "temperature": {"const": "K"}}},
+          "method": {"type": "string"}, "validation": {"type": "object", "required": ["convergence", "state_identity", "sign_convention", "population_expression", "sensitivity", "stability_or_frequency"], "properties": {"convergence": {"type": "string"}, "state_identity": {"type": "string"}, "sign_convention": {"type": "string"}, "population_expression": {"type": "string"}, "sensitivity": {"type": "string"}, "stability_or_frequency": {"type": "string"}}}
+        }}}, "validation": {"type": "string"}, "conclusion": {"type": "string"}
+      }},
+      {"type": "object", "required": ["status", "systems_attempted", "diagnostics", "conclusion"], "properties": {"status": {"const": "bounded_failure"}, "systems_attempted": {"type": "array", "items": {"type": "object", "required": ["id", "status", "attempted_scope", "diagnostics"], "properties": {"id": {"type": "string"}, "status": {"type": "string"}, "attempted_scope": {"type": "string"}, "diagnostics": {"type": "string"}}}}, "diagnostics": {"type": "string"}, "conclusion": {"type": "string"}}
+      }
+    ]
+  }
+}

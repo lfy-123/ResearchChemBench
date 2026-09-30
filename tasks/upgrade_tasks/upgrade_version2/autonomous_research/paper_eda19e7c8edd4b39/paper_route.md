@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+Main pp.7–9 uses VASP to interpret lower Ni than Al vacancy formation energy (source0.98 versus1.20 eV), and an Al adatom replacing a surface Ni antisite on Al-terminated NiAl(100) (−0.31 eV change,0.55 eV NEB barrier). Source bulk diffusion pathways do not simply imply universally faster Ni motion; local vacancies/antisites matter. The main methods describe VASP, NEB and ELF/VESTA; the detailed PBE/GW-PAW/core-hole/Lightshow settings, including larger-than9 Å cells and43 Bohr k-mesh resolution, on p.9 specifically concern NEXAFS and must not be falsely claimed as a complete disclosed defect-energy protocol. The provided genuine SI contains experimental Figs.S1–S6, not a full slab input archive. The source author endpoint files are not supplied here; reproduce the disclosed baseline with transparently generated models or explain a justified substitute. V1 slab counts, forced reservoir window and phase-control matrix are later benchmark additions.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

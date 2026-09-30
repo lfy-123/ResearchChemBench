@@ -707,7 +707,7 @@ def execute(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(f"Unsupported GoodVibes Action: {action_id}")
     inputs, method, settings = request_parts(request)
     directory = output_directory(action_id, "goodvibes")
-    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 1800))
+    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 86400))
     cpu_cores = request.get("resource_limits", {}).get("cpu_cores")
     jobs_arguments = ["--jobs", str(int(cpu_cores))] if cpu_cores is not None else ["--jobs", "1"]
     commands: list[list[str]] = []

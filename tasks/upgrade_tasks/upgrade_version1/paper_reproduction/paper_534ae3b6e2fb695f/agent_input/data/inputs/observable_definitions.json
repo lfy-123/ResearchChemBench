@@ -1,0 +1,38 @@
+{
+  "global_nucleophilicity": {
+    "field": "global_nucleophilicity_eV",
+    "formula": "N_global = E_HOMO(neutral diamine) - E_HOMO(TCE reference)",
+    "unit": "eV",
+    "reference_homo_eV": -9.1212,
+    "reference_convention": "Fixed TCE (tetracyanoethylene) HOMO reference associated with the B3LYP/6-31G* CDFT scale, declared to four decimal places. This calibration constant is not a target diamine result. Use this fixed scale, not a freshly recomputed arbitrary TCE reference.",
+    "primary_comparison_conditions": "Gas-phase neutral singlet; B3LYP/def2-TZVP HOMO on a B3LYP-D3BJ/def2-SVP stationary geometry. Report code/functional variant, grids and convergence. Other methods are separate sensitivity results, not numerically interchangeable primary values.",
+    "not_equivalent": "Not a local atomic index, ALIE, ESP, Fukui value, ionization energy, or N+/-1 total-energy difference."
+  },
+  "local_descriptors": {
+    "requirement": "At least one mathematically defined local electronic descriptor evaluated at BOTH mapped amine N sites of each diamine, using the same definition across molecules. State units, atom mapping, extraction/population convention, site asymmetry and interpretation.",
+    "allowed_example": {
+      "name": "Hirshfeld condensed local nucleophilicity",
+      "formula": "f_minus(A) = q_A(N-1) - q_A(N), using atomic charges in e; N_local(A) = N_global * f_minus(A).",
+      "unit": "e*eV with this charge convention",
+      "probes": "Use neutral geometry for vertical neutral and N-1 electron (charge +1) states; document spin and convergence. N+1 electron (charge -1) probes are allowed for f_plus and related checks, not required for the global index."
+    },
+    "alternatives": "ALIE, ESP or another justified local measure may be used with an explicit sampling/surface/partition definition and units. These are not compared numerically to the global eV targets."
+  },
+  "ring_plane_angle": {
+    "field": "ring_plane_angle_deg",
+    "atom_sets": "monomers.json ring_atom_map_ids, two six-carbon aromatic rings",
+    "algorithm": "Center each six-point coordinate set, take the unit normal of its least-squares plane (smallest singular vector), then acos(abs(dot(n1,n2))) in degrees.",
+    "range_deg": [
+      0,
+      90
+    ],
+    "interpretation": "Angle between aromatic planes; report plane-fit residuals/nonplanarity and the mapped final geometry. Not a four-atom torsion."
+  },
+  "linker_torsions": {
+    "field": "linker_torsions",
+    "selectors": "monomers.json linker_torsion_atom_map_ids are consecutive bonded paths. Ether molecules have two C-C-O-C/C-O-C-C paths; PFMB has one C-C-C-C path about its central biphenyl bond.",
+    "sign_convention": "For points a,b,c,d let u=(c-b)/|c-b|, v=(a-b)-dot(a-b,u)*u, w=(d-c)-dot(d-c,u)*u. angle=atan2(dot(cross(u,v),w),dot(v,w)) in degrees, [-180,180].",
+    "boundary": "Report separately from the ring-plane angle. Never choose an alternative selector because its value resembles an expected angle."
+  },
+  "completion": "The expanded task requires actual TMC acylation paths, descriptors and distortion controls; see research_matrix.json."
+}

@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "mapping_policy": "Atom maps are local to each named object; remap explicitly when combining objects. New chemically valid objects may be constructed for the stated question. No list of mechanisms or stable intermediates is implied.",
+  "species": [
+    {
+      "id": "short_radical",
+      "smiles": "CCOC(=O)C(F)(F)C[CH]CN(Cc1ccccc1)S(=O)(=O)c1ccc(C)cc1",
+      "mapped_smiles": "[C:1]([C:2]([O:3][C:4](=[O:5])[C:6]([F:7])([F:8])[C:9]([C:10]([C:11]([N:12]([C:13]([c:14]1[c:15]([H:42])[c:16]([H:43])[c:17]([H:44])[c:18]([H:45])[c:19]1[H:46])([H:40])[H:41])[S:20](=[O:21])(=[O:22])[c:23]1[c:24]([H:47])[c:25]([H:48])[c:26]([C:27]([H:49])([H:50])[H:51])[c:28]([H:52])[c:29]1[H:53])([H:38])[H:39])[H:37])([H:35])[H:36])([H:33])[H:34])([H:30])([H:31])[H:32]",
+      "formula": "C21H24F2NO4S",
+      "charge": 0,
+      "multiplicity": 2,
+      "map_namespace": "short_radical",
+      "identity_origin": "Molecular constitution only; no source-optimized coordinates or preferred conformation supplied."
+    },
+    {
+      "id": "long_radical",
+      "smiles": "CCOC(=O)C(F)(F)C[CH]CN(CCc1ccccc1)S(=O)(=O)c1ccc(C)cc1",
+      "mapped_smiles": "[C:1]([C:2]([O:3][C:4](=[O:5])[C:6]([F:7])([F:8])[C:9]([C:10]([C:11]([N:12]([C:13]([C:14]([c:15]1[c:16]([H:45])[c:17]([H:46])[c:18]([H:47])[c:19]([H:48])[c:20]1[H:49])([H:43])[H:44])([H:41])[H:42])[S:21](=[O:22])(=[O:23])[c:24]1[c:25]([H:50])[c:26]([H:51])[c:27]([C:28]([H:52])([H:53])[H:54])[c:29]([H:55])[c:30]1[H:56])([H:39])[H:40])[H:38])([H:36])[H:37])([H:34])[H:35])([H:31])([H:32])[H:33]",
+      "formula": "C22H26F2NO4S",
+      "charge": 0,
+      "multiplicity": 2,
+      "map_namespace": "long_radical",
+      "identity_origin": "Molecular constitution only; no source-optimized coordinates or preferred conformation supplied."
+    },
+    {
+      "id": "DMSO",
+      "smiles": "CS(C)=O",
+      "mapped_smiles": "[C:1]([S:2]([C:3]([H:8])([H:9])[H:10])=[O:4])([H:5])([H:6])[H:7]",
+      "formula": "C2H6OS",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "DMSO",
+      "identity_origin": "Molecular constitution only; no source-optimized coordinates or preferred conformation supplied."
+    },
+    {
+      "id": "DCE",
+      "smiles": "ClCCCl",
+      "mapped_smiles": "[Cl:1][C:2]([C:3]([Cl:4])([H:7])[H:8])([H:5])[H:6]",
+      "formula": "C2H4Cl2",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "DCE",
+      "identity_origin": "Molecular constitution only; no source-optimized coordinates or preferred conformation supplied."
+    }
+  ]
+}

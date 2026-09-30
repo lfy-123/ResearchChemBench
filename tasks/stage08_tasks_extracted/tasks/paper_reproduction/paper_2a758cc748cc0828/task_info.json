@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_2a758cc748cc0828",
+  "task_type": "paper_reproduction",
+  "title": "Independent DFT test of radical carbonylation and amine selectivity",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires locating and validating multiple minima and transition structures across a radical sequence and four amine channels.",
+    "The author route is qualitative only, so the Agent must independently choose conformers and computational details while testing it."
+  ],
+  "paper": {
+    "title": "Metal-free visible-light carbonylation of alkyl iodides to amides via consecutive photoinduced electron transfer",
+    "doi": "10.1039/d5sc09778a",
+    "journal": "Chemical Science",
+    "publication_date": "2026-01-08"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit SMILES, charge, multiplicity, roles, and model boundary for every molecular participant."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computational results, energies, candidate identities, and conclusion."
+    }
+  ]
+}

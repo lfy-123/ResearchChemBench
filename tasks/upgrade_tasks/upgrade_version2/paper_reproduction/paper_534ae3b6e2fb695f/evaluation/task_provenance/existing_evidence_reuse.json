@@ -1,0 +1,399 @@
+{
+  "paper_id": "paper_534ae3b6e2fb695f",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_534ae3b6e2fb695f_20260921_055245_5ad2d2/runs/cli_runs/batch_20260921_055249_66bff8/autonomous_research-paper_534ae3b6e2fb695f-codex-20260921_055249-4fb4a0/report/results.json",
+      "sha256": "34ef08f9722b11457fc84925fcc6fa5200016c783505e84028ec5ac45b6bc456",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "9fe38c84cd3a92d41b81a3721471e0f2be8521c2037019739dc99f347279ca15",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_534ae3b6e2fb695f",
+        "title": "Polyamide nanofilms with Janus microporous framework for sustainable solvent filtration",
+        "packages_frozen": true,
+        "AR_PR_current_package_hashes": {
+          "AR": "dedf2bf475de2272349561847ef0f840509d33737f4522b8eaec34e14e9b8270",
+          "PR": "b32a5368aee9913fc151867726b42122d43332d29e5dc20644000dbb2173d181"
+        },
+        "packages": {
+          "AR": {
+            "path": "tasks/upgrade_tasks/autonomous_research/paper_534ae3b6e2fb695f",
+            "manifest_path": "tasks/upgrade_tasks/autonomous_research/paper_534ae3b6e2fb695f/package_manifest.json",
+            "manifest_file_sha256": "0da192a989ff8221416db262a4857f3a4b17d52cb5ce5359e9195759967be0cd",
+            "declared_package_content_sha256": "dedf2bf475de2272349561847ef0f840509d33737f4522b8eaec34e14e9b8270",
+            "actual_package_content_sha256": "dedf2bf475de2272349561847ef0f840509d33737f4522b8eaec34e14e9b8270",
+            "entries_rehashed": 31,
+            "manifest_entries_and_digest_match": true,
+            "structural_validation": "passed",
+            "findings": [],
+            "diagnostics": [],
+            "package_files_written_by_freeze": false,
+            "declared_reference_stage": "implemented_pending_expanded_reference",
+            "historical_declared_reference_gaps": {
+              "new_reference_gaps": [
+                "first_acylation",
+                "descriptors_vs_barriers",
+                "distortion_interaction"
+              ]
+            },
+            "declared_input_missing_findings": []
+          },
+          "PR": {
+            "path": "tasks/upgrade_tasks/paper_reproduction/paper_534ae3b6e2fb695f",
+            "manifest_path": "tasks/upgrade_tasks/paper_reproduction/paper_534ae3b6e2fb695f/package_manifest.json",
+            "manifest_file_sha256": "5dbfdc8c5df1ff980ec5369e6176145b66f7e7ae72212d03bbcb28a7dfff5ad0",
+            "declared_package_content_sha256": "b32a5368aee9913fc151867726b42122d43332d29e5dc20644000dbb2173d181",
+            "actual_package_content_sha256": "b32a5368aee9913fc151867726b42122d43332d29e5dc20644000dbb2173d181",
+            "entries_rehashed": 31,
+            "manifest_entries_and_digest_match": true,
+            "structural_validation": "passed",
+            "findings": [],
+            "diagnostics": [],
+            "package_files_written_by_freeze": false,
+            "declared_reference_stage": "implemented_pending_expanded_reference",
+            "historical_declared_reference_gaps": {
+              "new_reference_gaps": [
+                "first_acylation",
+                "descriptors_vs_barriers",
+                "distortion_interaction"
+              ]
+            },
+            "declared_input_missing_findings": []
+          }
+        },
+        "scientific_status": "needs_work",
+        "reference_bound_to_current_packages": false,
+        "reference_binding": null,
+        "coordinator_review": null,
+        "unfinished_scientific_validation": [
+          "ODA TS has one chemically projected imaginary mode and a source-level TZVP refinement; both IRC directions are still pending independent terminal optimization and mapped endpoint validation.",
+          "ODA unconnected-saddle TZVP electronic height3.230715kcal/mol and composite298.15K/1M height19.473353kcal/mol are explicitly provisional, relative to two separated neutral reactants.",
+          "Remaining amine paths, endpoint refinements, representative conformers, NC2.8/2.4/2.0/1.6 electronic distortion/interaction controls and descriptor-versus-barrier tests remain incomplete.",
+          "The source descriptor and six full endpoint audits are available; neither finite descriptors nor platform completion replace a connected kinetic comparison."
+        ],
+        "semantic_judge_calibration": "not_performed",
+        "blind_AR_trial": "not_performed",
+        "input_gaps": {
+          "missing_declared_package_files": {
+            "AR": [],
+            "PR": []
+          },
+          "scope": "Read-only structural presence check; full scientific-reference gaps are listed separately. No new semantic revalidation of all public inputs during freeze."
+        },
+        "evidence": [
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/report/acylation_refinement_audit/audit.json",
+            "sha256": "f75b2932a262fca0c1b0f49fd06b7165f0eb32858984e2579ddd1c84d08afd08"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/report/ODA_NEB_image_audit/audit.json",
+            "sha256": "ba81af86353c049ac210b951d2a2b73b59c059ae1c1ee60746a6e4b268064623"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/report/ODA_TS_analysis/audit.json",
+            "sha256": "6e4dad7ffe29a2dee42e490c84ce33650150dbaa8bb13a7a350c669dbf3ceb39"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/legacy/descriptor_reuse_audit.json",
+            "sha256": "ee783529d74bc921af7437d32a393e9f80fd6f3e58c17810c074e6bdb43d1526"
+          }
+        ],
+        "evidence_root": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f",
+        "active_jobs": [
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "6FODA_monoamide_HCl_TZVP_refinement",
+            "exact_hpc_job_id": "hpc-job-0c03354d-60f2-4c5f-b883-791bca1c6e5f",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/6FODA_monoamide_HCl_TZVP_refinement_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "3c876ad9349d81d03b4ce463be56df31ba007c39e449b8d1e7d2f600eddb69bc",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/6FODA_monoamide_HCl_TZVP_refinement",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/6FODA_monoamide_HCl_TZVP_refinement",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "6FODA_reactant_complex_TZVP_refinement",
+            "exact_hpc_job_id": "hpc-job-a784644c-28b4-432a-b65b-a34515d24416",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/6FODA_reactant_complex_TZVP_refinement_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "185de3f27315f276bb0d41ca978beabca50b0dd12681753bb4e54aeb97de2fc1",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/6FODA_reactant_complex_TZVP_refinement",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/6FODA_reactant_complex_TZVP_refinement",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "ODA_NC240_matched_opt",
+            "exact_hpc_job_id": "hpc-job-48f5ba7f-d281-4688-9dad-6000d984e433",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/ODA_NC240_matched_opt_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "cfb036fc4bb3fe52d6a15c4ef3ff45c6e1b11fcff7febfcaaf74fa906fbcb21d",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/ODA_NC240_matched_opt",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_NC240_matched_opt",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "ODA_attack_rot180_optfreq",
+            "exact_hpc_job_id": "hpc-job-3a68c0cd-847e-4c04-b358-e1a61eb9e853",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/ODA_attack_rot180_optfreq_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "2bbe144d17197b65e3f48c895b7d25a03e93a2abece681d57bd896fa36f51407",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/ODA_attack_rot180_optfreq",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_attack_rot180_optfreq",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "ODA_first_acylation_IRC_backward",
+            "exact_hpc_job_id": "hpc-job-ccf09fb2-72af-4503-aeb7-83cf00f06c9b",
+            "platform_status": "RUNNING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/ODA_first_acylation_IRC_backward_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_backward/execution.json",
+            "native_status": "running",
+            "native_started_at": "2026-09-28T14:42:04.816162+00:00",
+            "native_finished_at": null,
+            "node": "hpc-job-2245962-cluster-slurmd-0",
+            "worker_pid": 655,
+            "worker_start_ticks": "1617643960",
+            "threads": 20,
+            "source_input_sha256": "c9b2b55ecfcf299a9e9c90ddbaae2039e98160c4cabbc3a9587ac13d9c8b2e81",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/ODA_first_acylation_IRC_backward",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_backward",
+            "native_log_paths": [
+              "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_backward/orca.log",
+              "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_backward/stderr.log"
+            ],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "ODA_first_acylation_IRC_forward",
+            "exact_hpc_job_id": "hpc-job-e4160ce7-f7b7-4d74-92d0-f40176f1c33d",
+            "platform_status": "RUNNING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/ODA_first_acylation_IRC_forward_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_forward/execution.json",
+            "native_status": "running",
+            "native_started_at": "2026-09-28T14:42:03.445533+00:00",
+            "native_finished_at": null,
+            "node": "hpc-job-2245941-cluster-slurmd-0",
+            "worker_pid": 732,
+            "worker_start_ticks": "1486135582",
+            "threads": 20,
+            "source_input_sha256": "a34ab5b9196e2dacd8927389bf98c614871065e9876223c5eb0fd7d8977b757c",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/ODA_first_acylation_IRC_forward",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_forward",
+            "native_log_paths": [
+              "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_forward/orca.log",
+              "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_first_acylation_IRC_forward/stderr.log"
+            ],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "ODA_reactant_complex_TZVP_refinement",
+            "exact_hpc_job_id": "hpc-job-b6be9fdc-8526-4ab6-94c8-585d7d25ed3e",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/ODA_reactant_complex_TZVP_refinement_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "850849a664be571ea8a30faa904c740ddf9f6a54d1fa1eb6af998d598e53e492",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/ODA_reactant_complex_TZVP_refinement",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/ODA_reactant_complex_TZVP_refinement",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "PFMB_monoamide_HCl_TZVP_refinement",
+            "exact_hpc_job_id": "hpc-job-5fce8eb5-51d8-460a-af7e-d81c9b7ac6fa",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/PFMB_monoamide_HCl_TZVP_refinement_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "b055b337bd71acd6da6e00218392caf4dd26d3b0ec6bc47679d3ce8991a52123",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/PFMB_monoamide_HCl_TZVP_refinement",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/PFMB_monoamide_HCl_TZVP_refinement",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          },
+          {
+            "paper_id": "paper_534ae3b6e2fb695f",
+            "case_id": "PFMB_reactant_complex_TZVP_refinement",
+            "exact_hpc_job_id": "hpc-job-a4e6c061-951b-459a-935c-0f237696cfd5",
+            "platform_status": "QUEUEING",
+            "platform_observed_at": "2026-09-28T15:05:09.931222+00:00",
+            "submission_record": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/provenance/PFMB_reactant_complex_TZVP_refinement_hpc_submission.json",
+            "submission_state": "submitted",
+            "execution_record": null,
+            "native_status": "not_started_or_record_unavailable",
+            "native_started_at": null,
+            "native_finished_at": null,
+            "node": null,
+            "worker_pid": null,
+            "worker_start_ticks": null,
+            "threads": null,
+            "source_input_sha256": "c1e1828ce49964d204c90e220cc6e67350526aa9dd61463b283ad63bdab4b3c0",
+            "input_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/inputs/PFMB_reactant_complex_TZVP_refinement",
+            "output_path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/outputs/PFMB_reactant_complex_TZVP_refinement",
+            "native_log_paths": [],
+            "disposition": "preserve_existing; no_cancel_delete_restart_or_duplicate",
+            "active_identity_basis": "exact_platform_job_snapshot"
+          }
+        ],
+        "prepared_but_unsubmitted": [],
+        "native_status_counts": {
+          "normal_termination": 9,
+          "running": 2,
+          "failed": 2
+        }
+      },
+      "model_and_method_scope": "ODA/6FODA/PFMB descriptor audits and gas-phase first-acylation endpoint/refinement audits; B3LYP-D3BJ/TZVP//SVP, 298.15 K and documented 1 M association correction in historical work.",
+      "allowed_use": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+      "not_supported": "An unconnected ODA saddle cannot supply a validated kinetic ranking. Historical gas-phase acylation is a benchmark model, not the source interface; molecular evidence cannot certify film transport.",
+      "scope": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/report/acylation_refinement_audit/audit.json",
+      "sha256": "f75b2932a262fca0c1b0f49fd06b7165f0eb32858984e2579ddd1c84d08afd08",
+      "frozen_sha256": "f75b2932a262fca0c1b0f49fd06b7165f0eb32858984e2579ddd1c84d08afd08",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "ODA/6FODA/PFMB descriptor audits and gas-phase first-acylation endpoint/refinement audits; B3LYP-D3BJ/TZVP//SVP, 298.15 K and documented 1 M association correction in historical work.",
+      "scope": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+      "not_supported": "An unconnected ODA saddle cannot supply a validated kinetic ranking. Historical gas-phase acylation is a benchmark model, not the source interface; molecular evidence cannot certify film transport.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/report/ODA_NEB_image_audit/audit.json",
+      "sha256": "ba81af86353c049ac210b951d2a2b73b59c059ae1c1ee60746a6e4b268064623",
+      "frozen_sha256": "ba81af86353c049ac210b951d2a2b73b59c059ae1c1ee60746a6e4b268064623",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "ODA/6FODA/PFMB descriptor audits and gas-phase first-acylation endpoint/refinement audits; B3LYP-D3BJ/TZVP//SVP, 298.15 K and documented 1 M association correction in historical work.",
+      "scope": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+      "not_supported": "An unconnected ODA saddle cannot supply a validated kinetic ranking. Historical gas-phase acylation is a benchmark model, not the source interface; molecular evidence cannot certify film transport.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/report/ODA_TS_analysis/audit.json",
+      "sha256": "6e4dad7ffe29a2dee42e490c84ce33650150dbaa8bb13a7a350c669dbf3ceb39",
+      "frozen_sha256": "6e4dad7ffe29a2dee42e490c84ce33650150dbaa8bb13a7a350c669dbf3ceb39",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "ODA/6FODA/PFMB descriptor audits and gas-phase first-acylation endpoint/refinement audits; B3LYP-D3BJ/TZVP//SVP, 298.15 K and documented 1 M association correction in historical work.",
+      "scope": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+      "not_supported": "An unconnected ODA saddle cannot supply a validated kinetic ranking. Historical gas-phase acylation is a benchmark model, not the source interface; molecular evidence cannot certify film transport.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_534ae3b6e2fb695f/legacy/descriptor_reuse_audit.json",
+      "sha256": "ee783529d74bc921af7437d32a393e9f80fd6f3e58c17810c074e6bdb43d1526",
+      "frozen_sha256": "ee783529d74bc921af7437d32a393e9f80fd6f3e58c17810c074e6bdb43d1526",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "ODA/6FODA/PFMB descriptor audits and gas-phase first-acylation endpoint/refinement audits; B3LYP-D3BJ/TZVP//SVP, 298.15 K and documented 1 M association correction in historical work.",
+      "scope": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+      "not_supported": "An unconnected ODA saddle cannot supply a validated kinetic ranking. Historical gas-phase acylation is a benchmark model, not the source interface; molecular evidence cannot certify film transport.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Source monomer graphs and formal molecular descriptor methods permit a bounded molecular investigation. Existing descriptor/conformer outputs, if reused privately after state/method checks, support only those quantities; previous attempted first-acylation calculations do not establish a validated reaction path. No scientific execution was performed for this upgrade.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "ODA/6FODA/PFMB descriptor audits and gas-phase first-acylation endpoint/refinement audits; B3LYP-D3BJ/TZVP//SVP, 298.15 K and documented 1 M association correction in historical work.",
+    "allowed": "Reuse descriptor values and validated individual endpoint/mode evidence only for the exact chosen molecular model. ODA transition-state mode evidence is provisional pending endpoint connection.",
+    "not_supported": "An unconnected ODA saddle cannot supply a validated kinetic ranking. Historical gas-phase acylation is a benchmark model, not the source interface; molecular evidence cannot certify film transport."
+  },
+  "new_scientific_calculations_performed": false
+}

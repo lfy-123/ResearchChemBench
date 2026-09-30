@@ -1,0 +1,194 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "method",
+          "structure_validation",
+          "stationary_point",
+          "ir_results",
+          "uv_results",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "geometry_method",
+              "frequency_method",
+              "excited_state_method"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "geometry_method": {
+                "type": "string"
+              },
+              "frequency_method": {
+                "type": "string"
+              },
+              "excited_state_method": {
+                "type": "string"
+              }
+            }
+          },
+          "structure_validation": {
+            "type": "object",
+            "required": [
+              "formula",
+              "charge",
+              "multiplicity",
+              "atom_count",
+              "stereochemistry_verified"
+            ],
+            "properties": {
+              "formula": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "number"
+              },
+              "multiplicity": {
+                "type": "number"
+              },
+              "atom_count": {
+                "type": "number"
+              },
+              "stereochemistry_verified": {
+                "type": "boolean"
+              }
+            }
+          },
+          "stationary_point": {
+            "type": "object",
+            "required": [
+              "optimized",
+              "imaginary_frequency_count",
+              "evidence"
+            ],
+            "properties": {
+              "optimized": {
+                "type": "boolean"
+              },
+              "imaginary_frequency_count": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "ir_results": {
+            "type": "array",
+            "minItems": 4,
+            "items": {
+              "type": "object",
+              "required": [
+                "assignment",
+                "computed_wavenumber_cm1",
+                "experimental_comparison",
+                "validation_evidence"
+              ],
+              "properties": {
+                "assignment": {
+                  "type": "string"
+                },
+                "computed_wavenumber_cm1": {
+                  "type": "number"
+                },
+                "experimental_comparison": {
+                  "type": "string"
+                },
+                "validation_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "uv_results": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "band_id",
+                "wavelength_nm",
+                "oscillator_strength",
+                "transition_character",
+                "comparison"
+              ],
+              "properties": {
+                "band_id": {
+                  "type": "string"
+                },
+                "wavelength_nm": {
+                  "type": "number"
+                },
+                "oscillator_strength": {
+                  "type": "number"
+                },
+                "transition_character": {
+                  "type": "string"
+                },
+                "comparison": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "missing_observables",
+              "reason",
+              "attempted_validation"
+            ],
+            "properties": {
+              "missing_observables": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "reason": {
+                "type": "string"
+              },
+              "attempted_validation": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

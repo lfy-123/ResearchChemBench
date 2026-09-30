@@ -1,0 +1,60 @@
+{
+  "source_links": [
+    "../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=2",
+    "../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=3",
+    "../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=4",
+    "../../../papers/paper_8fefc96b015c4577/documents/supplementary_001.pdf#page=34",
+    "../../../papers/paper_8fefc96b015c4577/documents/supplementary_001.pdf",
+    "../../../papers/paper_8fefc96b015c4577/documents/main.pdf"
+  ],
+  "source_evidence_section": "## 2. 正文与 SI 揭示的升级关键\n\n论文的主要设计是利用烯丙胺系链长度选择性获得 hydroisoquinoline 或 benzosultam；短链倾向苄基芳环闭合，长一个 CH₂ 的体系转向磺酰芳环。实验条件同时发生变化，短链用 DMSO，长链采用 1,2-DCE，并涉及添加剂差别，因此不能把两套实验的差异全部归给链长。[正文 PDF p2](../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=2) [正文 PDF p3](../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=3) [正文 PDF p4](../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=4)\n\n| 正文 Scheme 3c，PDF p4 | 图中同一零点能量 / kcal/mol | 必须正确相减 |\n| --- | --- | --- |\n| 短链 B、TS2、TS2′ | −13.13、−0.05、+6.12 | 从 B 出发为 13.08 与 19.25，差 6.17 |\n| 长链 E、TS4、TS4′ | −9.89、+7.55、+8.07 | 从 E 出发为 17.44 与 17.96，差只有 **0.52** |\n\n长链 TS4′ 对应七元成环分支，TS4 对应所讨论的有利磺酰芳环分支；实施中必须依据原子映射和产物连接重新确认，不能只按编号排序。图中 8.07/7.55 相对分离物的数值不是局部环化能垒。[正文 PDF p4](../../../papers/paper_8fefc96b015c4577/documents/main.pdf#page=4)\n\nSI PDF p34 给出 B3LYP-D3/def2-TZVPP 与 SMD，短链 DMSO、长链 DCE。当前两溶剂下并非已有完整交叉参考；这正是扩题要补的控制。[SI PDF p34](../../../papers/paper_8fefc96b015c4577/documents/supplementary_001.pdf#page=34)\n\n**最重要的正确性限制：** 长链源差只有 0.52 kcal/mol，必须考虑构象和方法不确定性。不能预先把所有合理计算都必须给出同一反转方向写成硬评分。\n\n",
+  "head": "# paper_8fefc96b015c4577：科学目标分类与升级方案\n\n## 2026-09-27：首版实施规格与批次\n\n**当前分类：C；首版方向：加强C。** **安排：第 4 批：局部竞争路径与动力学。**\n**实施状态：有条件：先补本篇前提。** 本节是对早期较宽方案的首版收束；以下对象与判据属于待实现的新设计，本轮新增科学计算为 0。\n\n**最低计算范围。** 两链长×DMSO/DCE 两溶剂，每个条件比较两类迁移路径；各路径多构象并以同体系的共同前体和分离反应物分别列账。\n\n**实际验收证据与判断。** 真实模式/连通性验证后比较 ΔΔG‡ 及形变/电子贡献；源长链约 0.52 kcal/mol 差可小于模型不确定性，不强制显著反转。实验链长伴随添加剂变化，须说明溶剂交叉模型未涵盖添加剂。\n\n**先导与启动条件。** 先试一个新增链长/溶剂角点及两通道；8 个比较组合不等于 8 次引擎启动。\n\n**软件范围。** Gaussian/ORCA＋CREST/xTB＋TS/IRC。源路线用于开发可核验参考；其他方法必须支持同一物理量并完成等价性校准。软件安装、旧题 PASS 均不能代替本节新增参考。\n\n**可选扩展及停止边界。** 全自由基网络、全部添加剂和精准产物比例不加入。\n\n**给实施 agent 的完成顺序。** 先冻结对象/原子映射、介质/温度、观测公式及主方法；完成上面的最关键控制试算后，实际跑全最低矩阵，校准误差与容差，再同步 AR/PR 的科学要求和 evaluator。缺少必需计算属于未完成；完成对照后得到有证据的否定或不可区分属于可接受科学结论。下文旧扩展不能自动加入首版硬评分。\n\n**交接入口：** [共用实施规范](upgrade_implementation_guide_20260927.md) · [全部批次与复核结论](upgrade_guidance_review_20260927.md)。各篇正文/SI及原始证据链接保留在后文；正式发布前仍需新增参考和独立试运行。\n",
+  "source_task": {
+    "autonomous_research": {
+      "task": "# Scientific objective\n\nDetermine the competing intramolecular aryl-cyclization pathways of the supplied radical and their Gibbs barriers relative to its uncyclized minimum. Construct the transition-state candidates and establish the energetic ordering from real calculations.\n\n# Public inputs and scientific boundaries\n\n`data/inputs/system.json` defines the complete C21H24F2NO4S radical by SMILES, explicit connectivity and atom mapping; `data/inputs/radical_starter.xyz` is an independently graph-generated 53-atom initial conformation in Å, not an optimized minimum or TS. Use charge 0, multiplicity 2. Locate and validate the reference minimum and cyclization saddles yourself. The primary model is an isolated molecule with implicit DMSO, using consistent harmonic Gibbs energies at 298.15 K and 1 atm. State software, method, basis, dispersion and thermochemical settings. Other conditions may be controls. Photocatalyst, zinc acetate, explicit solvent and subsequent oxidation/aromatization are outside this cyclization comparison. No paper, SI, evaluator, historical verification archive or general-web lookup is an agent input.\n\n# Required scientific validation/investigation\n\nOptimize the radical reference and locate the two distinct aryl-cyclization saddles. Validate zero imaginary modes for the reference and one relevant mode for each saddle. Retain final geometries, `atom_mapping` (one public-input atom index per output-geometry row) and the forming C–C atom pair (1-based rows of that output geometry); inspect the negative mode to verify the assigned ring closure. IRC/endpoint following may strengthen the assignment but is not mandatory. Compute ΔG‡ = G(saddle) − G(reference) consistently in kcal/mol. Independent conformer and TS searches are allowed; do not infer a transition structure from an input filename.\n\n# Deliverables\n\nSubmit `report/results.json` and the geometry/calculation evidence it cites. Use `state_reference`, `state_candidate_1`, `state_candidate_2`; the candidate numbering is arbitrary, not ranked. Record each forming C–C pair and channel identity so evaluation can map the results chemically. `barrier_candidate_1`/`barrier_candidate_2` follow your labels; `barrier_difference` means candidate_2 minus candidate_1. `complete` requires all three validated states and numerical barriers. Otherwise use `bounded_failure` with available evidence and a specific reason; unavailable numerical results may be omitted. Extra attempts may be recorded separately.\n",
+      "files": [
+        "task_info.json",
+        "paper_route.md",
+        "package_manifest.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/verified_computation_reference.md",
+        "evaluation/reference_key_points.json",
+        "evaluation/critical_failures.json",
+        "evaluation/evidence_map.json",
+        "evaluation/reference_conclusions.json",
+        "agent_input/submission_schema.json",
+        "agent_input/task.md",
+        "agent_input/data/inputs/system.json",
+        "agent_input/data/inputs/radical_starter.xyz",
+        "evaluation/task_provenance/maintenance_audit.md",
+        "evaluation/task_provenance/independent_starter_preparation.json",
+        "evaluation/author_results/state_reference.xyz",
+        "evaluation/author_results/state_candidate_2.xyz",
+        "evaluation/author_results/state_candidate_1.xyz"
+      ]
+    },
+    "paper_reproduction": {
+      "task": "# Scientific objective\n\nDetermine the competing intramolecular aryl-cyclization pathways of the supplied radical and their Gibbs barriers relative to its uncyclized minimum. Construct the transition-state candidates and establish the energetic ordering from real calculations.\n\n# Author-provided scientific guidance\n\nThe author route compares closure onto the benzyl-tethered aryl ring (label `ts2`) with closure onto the arenesulfonyl aryl ring (`ts2_prime`), using the uncyclized radical minimum (`intermediate_B`) as their common energy reference. This guidance specifies the channels, not their geometry or energetic preference.\n\n# Public inputs and scientific boundaries\n\n`data/inputs/system.json` defines the complete C21H24F2NO4S radical by SMILES, explicit connectivity and atom mapping; `data/inputs/radical_starter.xyz` is an independently graph-generated 53-atom initial conformation in Å, not an optimized minimum or TS. Use charge 0, multiplicity 2. Locate and validate the reference minimum and cyclization saddles yourself. The primary model is an isolated molecule with implicit DMSO, using consistent harmonic Gibbs energies at 298.15 K and 1 atm. State software, method, basis, dispersion and thermochemical settings. Other conditions may be controls. Photocatalyst, zinc acetate, explicit solvent and subsequent oxidation/aromatization are outside this cyclization comparison. No paper, SI, evaluator, historical verification archive or general-web lookup is an agent input.\n\n# Required scientific validation/investigation\n\nOptimize the radical reference and locate the two distinct aryl-cyclization saddles. Validate zero imaginary modes for the reference and one relevant mode for each saddle. Retain final geometries, `atom_mapping` (one public-input atom index per output-geometry row) and the forming C–C atom pair (1-based rows of that output geometry); inspect the negative mode to verify the assigned ring closure. IRC/endpoint following may strengthen the assignment but is not mandatory. Compute ΔG‡ = G(saddle) − G(reference) consistently in kcal/mol. Independent conformer and TS searches are allowed; do not infer a transition structure from an input filename.\n\n# Deliverables\n\nSubmit `report/results.json` and the geometry/calculation evidence it cites. Use state keys `intermediate_B`, `ts2`, `ts2_prime` and barrier fields `barrier_ts2`, `barrier_ts2_prime`; `barrier_difference` means ts2_prime minus ts2. `complete` requires all three validated states and numerical barriers. Otherwise use `bounded_failure` with available evidence and a specific reason; unavailable numerical results may be omitted. Extra attempts may be recorded separately.\n",
+      "files": [
+        "task_info.json",
+        "paper_route.md",
+        "package_manifest.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/verified_computation_reference.md",
+        "evaluation/reference_key_points.json",
+        "evaluation/critical_failures.json",
+        "evaluation/evidence_map.json",
+        "evaluation/reference_conclusions.json",
+        "agent_input/submission_schema.json",
+        "agent_input/task.md",
+        "agent_input/data/inputs/system.json",
+        "agent_input/data/inputs/radical_starter.xyz",
+        "evaluation/task_provenance/maintenance_audit.md",
+        "evaluation/task_provenance/independent_starter_preparation.json",
+        "evaluation/author_results/ts2.xyz",
+        "evaluation/author_results/intermediate_B.xyz",
+        "evaluation/author_results/ts2_prime.xyz"
+      ]
+    }
+  }
+}

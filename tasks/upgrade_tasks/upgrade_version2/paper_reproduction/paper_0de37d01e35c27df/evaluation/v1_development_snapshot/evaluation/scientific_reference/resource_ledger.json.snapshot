@@ -1,0 +1,731 @@
+{
+  "new_quantum": {
+    "engine_starts": 13,
+    "failed_starts": 0,
+    "restart_starts": 1,
+    "allocated_cores": 4,
+    "summed_job_hours": 1.3752595400582586,
+    "calendar_hours": 15.871771975277777,
+    "core_hours": 5.038210016944445,
+    "measurement_basis": "New Gaussian process starts only, each 4-thread/12GiB local reservation. core_hours is measured process CPU, not allocation*time. One fresh strict refinement of a prior endpoint is counted as restart/refinement; two replacement fixed-geometry jobs are additional sensitivity controls. Link1 sections are not launches. Prior nor OptFreq and postprocessing reported separately in resource ledger."
+  },
+  "allocated_core_hours": 5.501038160233034,
+  "new_quantum_jobs": [
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T15:11:00.036035+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "4cd86094ea508ec37857d7d45ce1f28727d07421394837f7346ec6ef5517150e",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 3370057,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 3370082,
+      "finished_at": "2026-09-27T15:22:08.313633+00:00",
+      "exit_code": 0,
+      "wall_seconds": 668.2775781862438,
+      "process_cpu_seconds": 2448.7375519999996,
+      "normal_termination": true,
+      "output_sha256": "935a7b2634ed156ceb6b1dabd03f21f19b2c576597b0dc7add7cc59efecc2dd8",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "e511e5d9c47f484e6500410902d398907fa7e365faff79deac39f25c9e9d6929",
+          "bytes": 50331648
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_neutral_author_BP86_TZVP_optfreq_a1",
+      "started_at": "2026-09-27T13:21:47.087636+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_neutral_author_BP86_TZVP_optfreq_a1/input.com",
+      "input_sha256": "2f5c73886428cc5febaaf99307c392e4b5541e45d2cfaa16ba28f272004418ca",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 619479,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 619507,
+      "finished_at": "2026-09-27T13:28:25.021948+00:00",
+      "exit_code": 0,
+      "wall_seconds": 397.9343527518213,
+      "process_cpu_seconds": 1480.326278,
+      "normal_termination": true,
+      "output_sha256": "bff3085a150dec07f9d90ae959e7cb946243e124480d619371606a1f041f8aa8",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_author_BP86_TZVP_optfreq_a1/calculation.chk",
+          "sha256": "a33214a43f47f715dc6e2aded012a9b73a051a704ad06d801a30b225ceab71b9",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_cation_author_BP86_TZVP_optfreq_a1",
+      "started_at": "2026-09-27T13:41:04.116354+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_cation_author_BP86_TZVP_optfreq_a1/input.com",
+      "input_sha256": "d8212c57c32fc8ad91f6d4160e0c136314aac735dce2ea86a3f83a81b5a63919",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 1112714,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 1112715,
+      "finished_at": "2026-09-27T13:47:02.674267+00:00",
+      "exit_code": 0,
+      "wall_seconds": 358.5579243786633,
+      "process_cpu_seconds": 1394.303918,
+      "normal_termination": true,
+      "output_sha256": "6545d7848c0be3c9f4aa008e11bcdfbf980426a0d00f49f283d5baf98784a8ce",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_author_BP86_TZVP_optfreq_a1/calculation.chk",
+          "sha256": "c02c62af3138a37bf87241c562371560748638553a1f72cfc10abb8925dabb52",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T14:22:04.217591+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "e62a18d18449270b0f9adfbd1d795034ac8582bd583ed70b38714c1fdbbb55ed",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 2022010,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 2022045,
+      "finished_at": "2026-09-27T14:25:15.559941+00:00",
+      "exit_code": 0,
+      "wall_seconds": 191.3423633929342,
+      "process_cpu_seconds": 714.573028,
+      "normal_termination": true,
+      "output_sha256": "0b37e899b06e87a059f95ba77d28110837e73840b37c17a6661313c6db976314",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "aa79cbbeeecc00b38fab97cf9660a155bbbd095f5ea378dc7777edeb3f12d6cc",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T14:54:42.450884+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "6a6c7302ad0f97e03ee5cf2436bedd6c0a5192a4b5b999430ab1347c7cf4c931",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 2922559,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 2922613,
+      "finished_at": "2026-09-27T14:58:46.341830+00:00",
+      "exit_code": 0,
+      "wall_seconds": 243.89095058478415,
+      "process_cpu_seconds": 919.410391,
+      "normal_termination": true,
+      "output_sha256": "c7226c577507e48b32f6905fcfaa2cbf0194129a60e26e5211a720128b73f52f",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "90a13acaecaa4618b634e2133c4d4081f2f471f043bf104e96997b635920866f",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+      "started_at": "2026-09-28T05:10:02.307711+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2/input.com",
+      "input_sha256": "8ec9ef07baa2e6fe2c7d2a04bdc6bd537936386f71280cadbe5c8c79e9832d1b",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+      "wrapper_pid": 3041843,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 3041885,
+      "finished_at": "2026-09-28T05:14:05.466747+00:00",
+      "exit_code": 0,
+      "wall_seconds": 243.1590180043131,
+      "process_cpu_seconds": 883.6258869999999,
+      "normal_termination": true,
+      "output_sha256": "6c94c75e5a4d6302176c5044759a416e8f471ecd3f8523de67a0c24ddca1b9b6",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.chk",
+          "sha256": "f51089066042b0efdd29716387a5e09880eb8b48e0e6db37e7cdb9f376950aa8",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T15:32:00.290301+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "c5e9ada02d7ee965f775a785f9627b7907ffe35bc3dc766155d1dfc165d5f822",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 3942911,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 3942944,
+      "finished_at": "2026-09-27T15:40:50.292494+00:00",
+      "exit_code": 0,
+      "wall_seconds": 530.0022008884698,
+      "process_cpu_seconds": 1821.201235,
+      "normal_termination": true,
+      "output_sha256": "aa1ee614195417c516ee56587ef72348db025739163420b8f3b2d08fb0843666",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "fe378457a6e3d5658694eaf2daa0e541530ea33606164eb4f6f9c55a3dbebabe",
+          "bytes": 50331648
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T15:41:06.844376+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "89f24e587768375d71f703f4d398ebe19b288b70fc9631cb1bf6966052791ec9",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 4157773,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 4157805,
+      "finished_at": "2026-09-27T15:47:05.022877+00:00",
+      "exit_code": 0,
+      "wall_seconds": 358.17850920185447,
+      "process_cpu_seconds": 1299.8864079999998,
+      "normal_termination": true,
+      "output_sha256": "fa25a3898b0c33b1c544fdfcce144532502a18868cef3659e8234d692b514a3d",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "9ca97974c5345b836e8fd468de87b410e6f5068b010d533dc7ca5449a84b3dd2",
+          "bytes": 50331648
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+      "started_at": "2026-09-28T05:03:40.305560+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2/input.com",
+      "input_sha256": "66c3c936ddeefb0211190dbdbb804698be986745397914bbf844e887b0b7835a",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+      "wrapper_pid": 2895022,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 2895078,
+      "finished_at": "2026-09-28T05:08:37.324533+00:00",
+      "exit_code": 0,
+      "wall_seconds": 297.0189729165286,
+      "process_cpu_seconds": 1032.608033,
+      "normal_termination": true,
+      "output_sha256": "b97ce3c8192316afc6449e7eb1ba1143cc6f0c61ef72335d2162ae916ed36fa7",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.chk",
+          "sha256": "7b7f2b94b52f3cf54a997928d31bfb2fe6eec4c7b2a14ada71d564168419ab33",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T14:26:28.392824+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "79faceaef59cdb58b736919d68b76e8bc4337ed309a91df0fc0672d1b711cb7f",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 2127441,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 2127488,
+      "finished_at": "2026-09-27T14:30:57.402243+00:00",
+      "exit_code": 0,
+      "wall_seconds": 269.0094232223928,
+      "process_cpu_seconds": 995.371238,
+      "normal_termination": true,
+      "output_sha256": "0a7b33f1d4b0f3df1d527b469eb47f6e1719376bbb9b91c896570f097cdf51b8",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "191294da15fe63b69b5290e64d7fc74deab441c6661850385ccbc52825213485",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_neutral_BP86_TZVP_strict_optfreq_a2",
+      "started_at": "2026-09-28T04:39:15.157672+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_neutral_BP86_TZVP_strict_optfreq_a2/input.com",
+      "input_sha256": "d1c205b93656c41a8ec4b05de7146b5c2595795c3419a5fae603a673240a881c",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-2--e22a2c2b24a2-gneavrxahx",
+      "wrapper_pid": 2307683,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 2307721,
+      "finished_at": "2026-09-28T04:51:04.562613+00:00",
+      "exit_code": 0,
+      "wall_seconds": 709.4049408100545,
+      "process_cpu_seconds": 2700.450868,
+      "normal_termination": true,
+      "output_sha256": "2d0a3ae85bf96ce699c9875a86fa3efd23ceeb79b67adef28c9033ece70e4fb7",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_BP86_TZVP_strict_optfreq_a2/calculation.chk",
+          "sha256": "f155cfc7208ad8eb8c92aef04e8c23ff4765d98f5245610ff9dd7d31eb05cd12",
+          "bytes": 33554432
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T15:24:26.220796+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "43e50439166c0c08170625fe1600ffdff70389a7e7cdc1134bf314c2147a3711",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 3747238,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 3747275,
+      "finished_at": "2026-09-27T15:31:28.269263+00:00",
+      "exit_code": 0,
+      "wall_seconds": 422.0484022963792,
+      "process_cpu_seconds": 1479.918919,
+      "normal_termination": true,
+      "output_sha256": "4ba9df937d559293fcd366e5562ef666985e551b31c6845e505e35c66f03f500",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "5b5a5901185e1a1df0301dcd688f7d41d865ad5ec6ffb9f12022ea6b88eafee7",
+          "bytes": 50331648
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "started_at": "2026-09-27T14:33:35.440113+00:00",
+      "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/inputs/DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1/input.com",
+      "input_sha256": "c510d95bd1eee5f457a74617cb8dcdbd43615251aaa93e785c78a2b74647d497",
+      "threads": 4,
+      "memory_gib": 12,
+      "phase": "completed_requires_scientific_review",
+      "host": "lfy-54-cpu-1--bd39998ea947-xn3f3u2k3t",
+      "wrapper_pid": 2328890,
+      "allocation_environment": {},
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/gaussian/g16/install/g16/g16"
+      ],
+      "scientific_pass": false,
+      "pid": 2328926,
+      "finished_at": "2026-09-27T14:37:57.549750+00:00",
+      "exit_code": 0,
+      "wall_seconds": 262.1097075752914,
+      "process_cpu_seconds": 967.142306,
+      "normal_termination": true,
+      "output_sha256": "578f70310e9b6506de1f2a301cd7bf6b2897a7c17e75a725ff54eb38b0a660fe",
+      "checkpoints": [
+        {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.chk",
+          "sha256": "d65859c93c9b360b3bcd51a7b9b206d0d562111e613770d76f6316b437699f53",
+          "bytes": 33554432
+        }
+      ]
+    }
+  ],
+  "legacy_reused_minima": [
+    {
+      "id": "nor_neutral",
+      "source_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_2/paper_0de37d01e35c27df/artifacts/gaussian_batch/norDTCO_neutral_bp86_tzvp_optfreq/stdout.log",
+      "source_sha256": "1d7e740146cb4474ae66a826c734ba1771a865e1cd0a9aa4a04dbc87e519a073",
+      "formula": {
+        "C": 10,
+        "H": 14,
+        "S": 2
+      },
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_mapping": {
+        "element_order_equal": true,
+        "adjacency_equal": true,
+        "atom_map": {
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 4,
+          "5": 5,
+          "6": 6,
+          "7": 7,
+          "8": 8,
+          "9": 9,
+          "10": 10,
+          "11": 11,
+          "12": 12,
+          "13": 13,
+          "14": 14,
+          "15": 15,
+          "16": 16,
+          "17": 17,
+          "18": 18,
+          "19": 19,
+          "20": 20,
+          "21": 21,
+          "22": 22,
+          "23": 23,
+          "24": 24,
+          "25": 25,
+          "26": 26
+        },
+        "atom_count": 26,
+        "elements": {
+          "C": 10,
+          "H": 14,
+          "S": 2
+        }
+      },
+      "S_indices": [
+        16,
+        17
+      ],
+      "SS_distance_A": 4.056140073290493,
+      "electronic_Eh": -1186.04134572,
+      "G_Eh": -1185.863571,
+      "frequency_count": 72,
+      "minimum_frequency_cm1": 60.6081,
+      "negative_frequencies_cm1": [],
+      "spin_diagnostic": null,
+      "route": [
+        "#p BP86/TZVP Opt Freq NoSymm SCF=(Tight,XQC,MaxCycle=512)",
+        "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk RBP86/TZVP Freq"
+      ],
+      "engine_wall_seconds": 611.1,
+      "engine_cpu_seconds": 2341.7000000000003,
+      "reuse_decision": "exact_reuse",
+      "scope": "mapped geometry, energy, harmonic minimum only; bonding analysis pending"
+    },
+    {
+      "id": "nor_cation",
+      "source_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_2/paper_0de37d01e35c27df/artifacts/gaussian_batch/norDTCO_radical_cation_bp86_tzvp_optfreq/stdout.log",
+      "source_sha256": "ce1e282e4368fbcac1f12bbf19686f2851cdd3129b1796a61baa7679e5aaa42f",
+      "formula": {
+        "C": 10,
+        "H": 14,
+        "S": 2
+      },
+      "charge": 1,
+      "multiplicity": 2,
+      "atom_mapping": {
+        "element_order_equal": true,
+        "adjacency_equal": true,
+        "atom_map": {
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 4,
+          "5": 5,
+          "6": 6,
+          "7": 7,
+          "8": 8,
+          "9": 9,
+          "10": 10,
+          "11": 11,
+          "12": 12,
+          "13": 13,
+          "14": 14,
+          "15": 15,
+          "16": 16,
+          "17": 17,
+          "18": 18,
+          "19": 19,
+          "20": 20,
+          "21": 21,
+          "22": 22,
+          "23": 23,
+          "24": 24,
+          "25": 25,
+          "26": 26
+        },
+        "atom_count": 26,
+        "elements": {
+          "C": 10,
+          "H": 14,
+          "S": 2
+        }
+      },
+      "S_indices": [
+        16,
+        17
+      ],
+      "SS_distance_A": 3.9832393155985497,
+      "electronic_Eh": -1185.76607958,
+      "G_Eh": -1185.590082,
+      "frequency_count": 72,
+      "minimum_frequency_cm1": 47.8821,
+      "negative_frequencies_cm1": [],
+      "spin_diagnostic": " S**2 before annihilation     0.7515,   after     0.7500",
+      "route": [
+        "#p UBP86/TZVP Opt Freq NoSymm SCF=(Tight,XQC,MaxCycle=512)",
+        "#P Geom=AllCheck Guess=TCheck SCRF=Check GenChk UBP86/TZVP Freq"
+      ],
+      "engine_wall_seconds": 2135.8,
+      "engine_cpu_seconds": 7383.2,
+      "reuse_decision": "exact_reuse",
+      "scope": "mapped geometry, energy, harmonic minimum only; bonding analysis pending"
+    }
+  ],
+  "saved_repeat_wall_seconds": 2746.9,
+  "saved_repeat_cpu_seconds": 9724.9,
+  "postprocessing_runs": [
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1_mayer_a1",
+      "threads": 1,
+      "memory_gib": 4,
+      "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1_mayer_a1",
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+      ],
+      "stdin": "9\n1\ny\n0\nq\n",
+      "dependencies": {
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "9850310ccb62435e1b9e92e9120fadedf3ec20dbca3feed47158e234de517153",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1_mayer_a1/settings.ini": "1299b5485e5197fa86497b8fc0632583e5fee0a2d0cb1f95c9aef5b8092a4d25"
+      },
+      "timeout_seconds": 120,
+      "state": "failed",
+      "location": "local",
+      "pid": 2019273,
+      "process_start_ticks": "1482452109",
+      "started_at": "2026-09-28T04:28:57.593698+00:00",
+      "role": "postprocessing",
+      "return_code": 24,
+      "finished_at": "2026-09-28T04:28:57.743058+00:00",
+      "wall_seconds": 0.1397672314196825,
+      "process_cpu_seconds": 0.015835,
+      "scientific_acceptance": false,
+      "last_checked_at": "2026-09-28T06:34:26.808698+00:00"
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1_mayer_a2",
+      "threads": 1,
+      "memory_gib": 4,
+      "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1_mayer_a2",
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.software_cache/installations/multiwfn/2026.7.15/Multiwfn_2026.7.15_bin_Linux_noGUI/Multiwfn_noGUI",
+        "source.fch"
+      ],
+      "stdin": "9\n1\ny\n0\nq\n",
+      "dependencies": {
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "9850310ccb62435e1b9e92e9120fadedf3ec20dbca3feed47158e234de517153",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1_mayer_a2/settings.ini": "3ef60ee0dfecebe01a1d8e604459c50b34a26308cab95b484d2582b4edd20145"
+      },
+      "timeout_seconds": 120,
+      "environment": {
+        "OMP_STACKSIZE": "200M"
+      },
+      "retry_reason": "a1 path exceeds legacy Fortran input capacity; relative symlink and leading-space-aware nthreads=1 setting",
+      "state": "completed",
+      "location": "local",
+      "pid": 2064718,
+      "process_start_ticks": "1482462145",
+      "started_at": "2026-09-28T04:30:14.234760+00:00",
+      "role": "postprocessing",
+      "return_code": 0,
+      "finished_at": "2026-09-28T04:30:15.149844+00:00",
+      "wall_seconds": 0.8713659066706896,
+      "process_cpu_seconds": 0.092885,
+      "scientific_acceptance": false,
+      "last_checked_at": "2026-09-28T06:34:26.808698+00:00"
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "density_projection_a1",
+      "threads": 1,
+      "memory_gib": 4,
+      "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/density_projection_a1",
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.envs/researchchembench/bin/python3.10",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_density.py"
+      ],
+      "dependencies": {
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_density.py": "36ced9ba8ab24bb81463c33b0560cfbdfa7e5927666cd130c9bb6e3aa4dd17f2",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "2e9e3f4bdc5093069ac577d119ede4a4884b8913bdb83931aa91171ae99d9a79",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "e9de5cd63825299b0b3d93249dbeb400f3ad0af80a05087406fa3f2b7579316d",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "f5a0b8fe36bb196884474a16f8a195f49886f5766f08935c37c05162b4daf1e0",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "e289140207c89ad630ae1f8cef7676ca5ff0e4e71012dd577e5fcf9f6a5f8654",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "5202412344b5debc4af88290d67946886b54553457988766d1d1c800b626397a",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "9850310ccb62435e1b9e92e9120fadedf3ec20dbca3feed47158e234de517153",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "13c06340bd0ee702d9f7f0db09e11093be535406880874fc6a566c2c4b97dceb",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "adacd8b7cffce46aef46dccf7292ae406c194bea9935d503919e768dc140faa1"
+      },
+      "timeout_seconds": 120,
+      "state": "completed",
+      "location": "local",
+      "pid": 2099290,
+      "process_start_ticks": "1482470115",
+      "started_at": "2026-09-28T04:31:51.748383+00:00",
+      "role": "postprocessing",
+      "return_code": 0,
+      "finished_at": "2026-09-28T04:31:55.963033+00:00",
+      "wall_seconds": 4.083575369790196,
+      "process_cpu_seconds": 3.256365,
+      "scientific_acceptance": false,
+      "last_checked_at": "2026-09-28T06:34:26.808698+00:00"
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "multiwfn_batch_a1",
+      "threads": 1,
+      "memory_gib": 4,
+      "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/multiwfn_batch_a1",
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.envs/researchchembench/bin/python3.10",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_multiwfn.py"
+      ],
+      "dependencies": {
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_multiwfn.py": "58b2c5d952b0fe31c9d1cfaeaf88bf709cb6f49340dc27e14d255789b7b90dd8",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "2e9e3f4bdc5093069ac577d119ede4a4884b8913bdb83931aa91171ae99d9a79",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "e9de5cd63825299b0b3d93249dbeb400f3ad0af80a05087406fa3f2b7579316d",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "f5a0b8fe36bb196884474a16f8a195f49886f5766f08935c37c05162b4daf1e0",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "e289140207c89ad630ae1f8cef7676ca5ff0e4e71012dd577e5fcf9f6a5f8654",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "5202412344b5debc4af88290d67946886b54553457988766d1d1c800b626397a",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "9850310ccb62435e1b9e92e9120fadedf3ec20dbca3feed47158e234de517153",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk": "13c06340bd0ee702d9f7f0db09e11093be535406880874fc6a566c2c4b97dceb",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk": "adacd8b7cffce46aef46dccf7292ae406c194bea9935d503919e768dc140faa1"
+      },
+      "timeout_seconds": 300,
+      "environment": {
+        "OMP_STACKSIZE": "200M"
+      },
+      "state": "completed",
+      "location": "local",
+      "pid": 2157557,
+      "process_start_ticks": "1482483827",
+      "started_at": "2026-09-28T04:33:33.963625+00:00",
+      "role": "postprocessing",
+      "return_code": 0,
+      "finished_at": "2026-09-28T04:33:48.206969+00:00",
+      "wall_seconds": 14.237122083082795,
+      "process_cpu_seconds": 1.981514,
+      "scientific_acceptance": false,
+      "last_checked_at": "2026-09-28T06:34:26.808698+00:00"
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "case_id": "refined_density_independent_a1",
+      "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/analysis/refined_density_independent_a1",
+      "threads": 1,
+      "memory_gib": 4,
+      "command": [
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/.envs/researchchembench/bin/python",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_refined_analysis.py"
+      ],
+      "dependencies": {
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_refined_analysis.py": "3a48bccf6d8039b910609007786455aef6f4f072d8df324f578d5682d2de25c9",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/sulfur_density.py": "ca4cb0941853b99277eec7a24258cd9a3ac8a1ab10aac1932e2f2037218fb4a4",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.fchk": "534fe9f5e2daa732f910834aebced20688dc2bf6f660c3eaa0e33b68d3f2a66c",
+        "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.fchk": "6741b9d13773942b0c319998f7885996a3518ae21652611f533d61138ebcdd40"
+      },
+      "timeout_seconds": 1200,
+      "state": "completed",
+      "location": "local",
+      "pid": 3863894,
+      "process_start_ticks": "1482890256",
+      "started_at": "2026-09-28T05:42:08.073708+00:00",
+      "role": "postprocessing",
+      "return_code": 0,
+      "finished_at": "2026-09-28T05:42:12.522249+00:00",
+      "wall_seconds": 4.439175568521023,
+      "process_cpu_seconds": 0.9105919999999998,
+      "scientific_acceptance": false,
+      "last_checked_at": "2026-09-28T06:34:26.808698+00:00"
+    }
+  ],
+  "postprocessing_wall_seconds": 23.771006159484386,
+  "postprocessing_cpu_seconds": 6.257191000000001,
+  "postprocessing_failures": 1,
+  "postprocessing_failure_note": "One Multiwfn pathname-length failure (rc24), recovered using short source.fch symlink; not a Gaussian failure. Batch subprocesses are listed by their own records."
+}

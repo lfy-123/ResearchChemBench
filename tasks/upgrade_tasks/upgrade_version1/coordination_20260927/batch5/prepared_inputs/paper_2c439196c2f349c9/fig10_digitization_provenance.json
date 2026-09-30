@@ -1,0 +1,34 @@
+{
+  "source": "Target article main PDF p10, Figure 10, discrete square/circle/triangle measurement markers",
+  "source_pdf_sha256": "1470f926af7414723c25e43c91ebe0fc964aa269e3943752deb4d469907ae3e7",
+  "source_native_plot_sha256": "d1bf685a3b4d3ab271663863e4631714cfbe835682a81992c2f25a44f79bf76a",
+  "native_plot_size_pixels": [
+    1000,
+    845
+  ],
+  "axis_calibration": {
+    "x_pixels": [
+      107,
+      897
+    ],
+    "time_ms": [
+      0,
+      200
+    ],
+    "y_pixels": [
+      728,
+      14
+    ],
+    "ring_count": [
+      0,
+      20
+    ]
+  },
+  "observation_count": 27,
+  "table": "fig10_measured_markers.csv",
+  "digitization_method": "Manual visual center picks from the native embedded plot. Axis interpolation is linear; no fitted line, interpolated pseudo-measurement or fitted time constant is included. The overlapping origin marker is omitted.",
+  "digitization_uncertainty": "A conservative +/-4 pixel reading envelope per coordinate; this is a digitization bound, not an experimentally calibrated noise standard deviation. Display fractional ring count values without silently snapping to integers.",
+  "measurement_uncertainty_status": "Not supplied by the source plot; requires declared measurement/counting and timing uncertainty before weighted model discrimination.",
+  "input_gate": "Partial authentic observations only. Power/Z-scan independent rows, calibrated SSPM waist, instrument response and defensible thermal bounds are still missing. This table does not resolve the blocked gate.",
+  "scientific_fitting_performed": false
+}

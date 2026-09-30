@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "rules": [
+    {
+      "rule_id": "r_ar_identity",
+      "reference_id": "kp_ar_process_identity",
+      "type": "semantic",
+      "expected": "All three labels have 138 atoms, C80H42Cl4N4O8, charge 0 and multiplicity 1.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_validation",
+      "reference_id": "kp_ar_process_validation",
+      "type": "semantic",
+      "expected": "All three supplied fixed geometries have individually identified, converged wB97M-V/def2-TZVP/SMD(DCM) single-point electronic energies. Separate relaxed/alternative-method results. Stationary-point character is not required for the primary fixed-geometry comparison and must not be fabricated. Trace each energy to the supplied fixed input through the retained input/output and atom mapping or existing job record. No new artifact hash is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_difference",
+      "reference_id": "kp_ar_result_difference",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "In a complete outcome, report the signed RRRR-minus-SSSS electronic-energy difference in kJ/mol and identify the two labels; in bounded failure, explain why it is unavailable. Recompute the signed RRRR-minus-SSSS difference from their identified electronic energies; correct ordering alone is not evidence for the magnitude."
+    },
+    {
+      "rule_id": "r_ar_final_ordering",
+      "reference_id": "con_ar_final_ordering",
+      "type": "semantic",
+      "expected": "For the primary fixed-geometry wB97M-V/def2-TZVP/SMD(DCM) comparison, (RRRR)-MM is lower in electronic energy than (SSSS)-MM, consistent with SI Fig.S10 (source difference -6.56 kJ/mol). Judge labels, signed difference and convergence together. Other methods are sensitivity evidence, not replacements for the primary ordering. Bounded failure does not establish the ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

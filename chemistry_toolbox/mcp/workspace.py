@@ -17,6 +17,7 @@ RESERVED_FILES = {
     "_score.json",
     "_toolbox_catalog.json",
     "_tool_trace.jsonl",
+    "_tool_call_events.jsonl",
     "_tool_sequence",
     "INSTRUCTIONS.md",
     ".mcp.json",

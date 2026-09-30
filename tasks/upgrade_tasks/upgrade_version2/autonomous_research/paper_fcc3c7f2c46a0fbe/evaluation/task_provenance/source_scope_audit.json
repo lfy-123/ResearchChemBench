@@ -1,0 +1,92 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "source_documents": [
+    {
+      "path": "papers/paper_fcc3c7f2c46a0fbe/documents/main.pdf",
+      "sha256": "dbc96d35a3beaafb5d41415bf651ceab2898a633c1041488383fdbc449178e16",
+      "page_count": 12,
+      "pdf_pages_1_based": [
+        3,
+        4,
+        5,
+        8,
+        9
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_fcc3c7f2c46a0fbe/documents/supplementary_001.pdf",
+      "sha256": "f5438a3984038ec249597117f09d3d008f96683c95ac8fc4a239c4ae8932f92c",
+      "page_count": 34,
+      "pdf_pages_1_based": [
+        30,
+        31,
+        32,
+        34
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "Which molecular explanation, if any, is supported for the different DPPH-scavenging responses of4b,4c,4h and4i, and what can these data and reproducible molecular evidence actually establish?",
+    "scope": "Investigate these four source thiazole–rhodanine compounds in the ethanol DPPH assay. Choose molecular states, sites, calculations or quantitative analyses relevant to their differences. Exact IC50 prediction, biological antioxidant efficacy and a full12-compound survey are outside scope.",
+    "facts": "All four E-linked structures are provided.4c/4i contain a carboxylic-acid group;4h/4i contain a4-methoxyphenyl substituent. The source mixes1.5mL102µM DPPH inEtOH with1.5mL sample solution, incubates30min in the dark at room temperature and measures517nm absorbance. TableS5 reports triplicate mean±SD percent inhibition at nominal sample concentrations2,5,10,25,50µg/mL and fitted IC50. The concentration convention should be stated relative to the1:1 mixing protocol. Raw replicate absorbances are not supplied; the tabulated SD is not an IC50 confidence interval.",
+    "claim_source_map": [
+      {
+        "claim": "Four structures and E linkage",
+        "source": "main PDFpp3–5; SI PDFpp30–32"
+      },
+      {
+        "claim": "Assay conditions and concentration convention",
+        "source": "main PDFpp4–5 section2.6"
+      },
+      {
+        "claim": "Dose-response means/SD and IC50",
+        "source": "SI PDFp34 TableS5; main PDFpp8–9"
+      },
+      {
+        "claim": "Author mechanism/descriptor interpretation",
+        "source": "main PDFpp5,8–9",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "4e insolubility is missing measurement, not zero activity",
+        "source": "main PDF p8",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Four structures and E linkage",
+      "source": "main PDFpp3–5; SI PDFpp30–32"
+    },
+    {
+      "claim": "Assay conditions and concentration convention",
+      "source": "main PDFpp4–5 section2.6"
+    },
+    {
+      "claim": "Dose-response means/SD and IC50",
+      "source": "SI PDFp34 TableS5; main PDFpp8–9"
+    },
+    {
+      "claim": "Author mechanism/descriptor interpretation",
+      "source": "main PDFpp5,8–9",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "4e insolubility is missing measurement, not zero activity",
+      "source": "main PDF p8",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "No complete solution kinetic/speciation reference for the open assay explanation.",
+    "Raw absorbance replicates and fittedIC50 errors are absent; source prose/table discrepancies remain explicit.",
+    "Semantic judge and runtime isolation calibration pending."
+  ]
+}

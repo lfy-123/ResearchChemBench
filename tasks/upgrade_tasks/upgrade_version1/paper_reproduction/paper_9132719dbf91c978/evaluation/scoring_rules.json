@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use the full neutral singlet INT-G C39H34OP2Pd reactant. In its fixed map, Pd75 binds hydrides H76/H77 and P1/P41 of XantPhos. Build the H–H saddle, eta2-H2 adduct, separated H2+Pd(XantPhos), and one DMAc-coordinated Pd regeneration endpoint. Keep the XantPhos graph intact. Use DMAc and 298.15 K. Primary ledger: solutes 1 M and H2 at 1 atm; separately report all-species 1 M and H2 pressure sensitivity. Source 1 atm and all-solute 1 M values cannot be combined.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use the full neutral singlet INT-G C39H34OP2Pd reactant. In its fixed map, Pd75 binds hydrides H76/H77 and P1/P41 of XantPhos. Build the H–H saddle, eta2-H2 adduct, separated H2+Pd(XantPhos), and one DMAc-coordinated Pd regeneration endpoint. Keep the XantPhos graph intact. Use DMAc and 298.15 K. Primary ledger: solutes 1 M and H2 at 1 atm; separately report all-species 1 M and H2 pressure sensitivity. Source 1 atm and all-solute 1 M values cannot be combined."
+      }
+    },
+    {
+      "rule_id": "rule_HH_formation",
+      "reference_id": "kp_HH_formation",
+      "type": "condition",
+      "expected": "Connected H–H formation saddle and bound-H2 endpoint. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.HH_formation",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Connected H–H formation saddle and bound-H2 endpoint. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_release_and_recoordination",
+      "reference_id": "kp_release_and_recoordination",
+      "type": "condition",
+      "expected": "Real separated and re-ligated states, not relabelled eta2-H2. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.release_and_recoordination",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Real separated and re-ligated states, not relabelled eta2-H2. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_standard_state_control",
+      "reference_id": "kp_standard_state_control",
+      "type": "condition",
+      "expected": "Explicit H2 pressure and gas/solute standard-state conversions. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.standard_state_control",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Explicit H2 pressure and gas/solute standard-state conversions. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "condition",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_local_investigation",
+      "type": "semantic",
+      "expected": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use the full neutral singlet INT-G C39H34OP2Pd reactant. In its fixed map, Pd75 binds hydrides H76/H77 and P1/P41 of XantPhos. Build the H–H saddle, eta2-H2 adduct, separated H2+Pd(XantPhos), and one DMAc-coordinated Pd regeneration endpoint. Keep the XantPhos graph intact. Use DMAc and 298.15 K. Primary ledger: solutes 1 M and H2 at 1 atm; separately report all-species 1 M and H2 pressure sensitivity. Source 1 atm and all-solute 1 M values cannot be combined.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "HH_formation",
+      "max_score": 30,
+      "description": "Connected H–H formation saddle and bound-H2 endpoint. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_HH_formation"
+      ]
+    },
+    {
+      "id": "release_and_recoordination",
+      "max_score": 25,
+      "description": "Real separated and re-ligated states, not relabelled eta2-H2. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_release_and_recoordination"
+      ]
+    },
+    {
+      "id": "standard_state_control",
+      "max_score": 15,
+      "description": "Explicit H2 pressure and gas/solute standard-state conversions. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_standard_state_control"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 10,
+      "description": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover.",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Schema/transport validation does not establish scientific correctness or calibrated scoring.",
+    "No new target tolerance is frozen; calibrate using complete paths, conformer/method sensitivity and source measurement uncertainty.",
+    "Supporting, contradictory and fully evidenced indistinguishable results receive equal endpoint credit.",
+    "Uncomputed core controls receive no endpoint credit; bounded failure cannot acquire a completion PASS."
+  ]
+}

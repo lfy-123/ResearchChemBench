@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "task_type": "autonomous_research",
+  "title": "Independent computation of protonation-state absorption profiles for dye 2a",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The endpoint structures and observables are fixed, while the agent must independently formulate an electronic interpretation and validate the comparison without an author-route hint."
+  ],
+  "paper": {
+    "title": "Symmetric azobenzene-substituted diketopyrrolopyrroles dyes as acid-base switchable molecular-probe for colorimetric paper-based sensors",
+    "doi": "10.1016/j.dyepig.2025.113288",
+    "journal": "Dyes and Pigments",
+    "publication_date": "2026-02-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Complete XYZ geometries for named 2a-acid (+2, singlet) and 2a-base (-2, singlet) S0 structures."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated per-state excitation results, brightest-state identities, comparison, interpretation and limitations."
+    }
+  ]
+}

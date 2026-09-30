@@ -1,0 +1,168 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Preserve source polycycle stereocentres outside the epimerizing region; verify 50/enol connectivity, proton/silicon/acid inventory and CSA chirality from actual structures. Do not treat an arbitrary constrained enol conformer as a confirmed minimum. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Preserve source polycycle stereocentres outside the epimerizing region; verify 50/enol connectivity, proton/silicon/acid inventory and CSA chirality from actual structures. Do not treat an arbitrary constrained enol conformer as a confirmed minimum. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_question",
+      "reference_id": "kp_question",
+      "type": "condition",
+      "expected": "Reproducible quantities must materially assess why this sequence can yield the observed cis/trans distribution. Endpoint thermodynamics alone does not establish protonolysis selectivity. A valid limited conclusion exposing that insufficiency can earn credit if supported by substantive analysis, not a copied2.32 scalar. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.scientific_response",
+          "$.records"
+        ],
+        "comparison": "Reproducible quantities must materially assess why this sequence can yield the observed cis/trans distribution. Endpoint thermodynamics alone does not establish protonolysis selectivity. A valid limited conclusion exposing that insufficiency can earn credit if supported by substantive analysis, not a copied2.32 scalar. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "condition",
+      "expected": "Evaluate whether chosen evidence discriminates the submitted stereochemical account. Distinguish reversible-tautomerization observations, single-pass protonolysis and repeated isolated yield. Accept alternative molecular or kinetic reasoning with valid evidence; no face/acid matrix or single-solvent-cluster protocol is compulsory. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.validity_checks",
+          "$.decision_log",
+          "$.results"
+        ],
+        "comparison": "Evaluate whether chosen evidence discriminates the submitted stereochemical account. Distinguish reversible-tautomerization observations, single-pass protonolysis and repeated isolated yield. Accept alternative molecular or kinetic reasoning with valid evidence; no face/acid matrix or single-solvent-cluster protocol is compulsory. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Show how decisive conformational, acid/racemate, thermal or medium assumptions affect the claimed inference when applicable. Treat the1:1 versus10:1 solvent discrepancy explicitly and do not invent experimental uncertainty. The degree of robustness required follows the claim, not a fixed pair of functionals. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.uncertainty",
+          "$.methods",
+          "$.validity_checks"
+        ],
+        "comparison": "Show how decisive conformational, acid/racemate, thermal or medium assumptions affect the claimed inference when applicable. Treat the1:1 versus10:1 solvent discrepancy explicitly and do not invent experimental uncertainty. The degree of robustness required follows the claim, not a fixed pair of functionals. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Accept supported, contradicted or well-demonstrated unresolved local explanations. Do not infer a rate ratio from arbitrary endpoint G, equate70% recycling yield with single-pass selectivity, or claim an optimized acid protocol outside the source sequence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.results",
+          "$.scientific_response",
+          "$.limitations"
+        ],
+        "comparison": "Accept supported, contradicted or well-demonstrated unresolved local explanations. Do not infer a rate ratio from arbitrary endpoint G, equate70% recycling yield with single-pass selectivity, or claim an optimized acid protocol outside the source sequence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Correct stereochemical and chemical identities Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "question",
+      "max_score": 30,
+      "description": "Evidence explains the epimerization outcome Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_question"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 25,
+      "description": "Claims tested against the actual experimental contrast Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Solvent and representation uncertainty addressed Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 15,
+      "description": "Stereochemical conclusion proportional to evidence Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+      "required": [
+        "status",
+        "conformers",
+        "method",
+        "normalization",
+        "most_populated_conformer",
+        "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "partial"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "description",
+          "temperature_K",
+          "phase"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "phase": {
+            "type": "string"
+          }
+        }
+      },
+      "most_populated_conformer": {
+        "type": ["string", "null"]
+      },
+      "conformers": {
+        "type": "array",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": ["id", "status", "minimum_validation"],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "success",
+                "failed"
+              ]
+            },
+            "minimum_validation": {
+              "type": "object",
+              "required": [
+                "passed",
+                "evidence"
+              ],
+              "properties": {
+                "passed": {
+                  "type": "boolean"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            "relative_gibbs_kcal_mol": {
+              "oneOf": [{"type": "number"}, {"type": "null"}]
+            },
+            "population_percent": {
+              "oneOf": [{"type": "number"}, {"type": "null"}]
+            },
+            "failure_reason": {
+              "type": "string"
+            }
+          },
+          "oneOf": [
+            {"properties": {"status": {"const": "success"}, "relative_gibbs_kcal_mol": {"type": "number"}, "population_percent": {"type": "number"}}, "required": ["relative_gibbs_kcal_mol", "population_percent"]},
+            {"properties": {"status": {"const": "failed"}, "relative_gibbs_kcal_mol": {"type": "null"}, "population_percent": {"type": "null"}}, "required": ["relative_gibbs_kcal_mol", "population_percent", "failure_reason"]}
+          ]
+        }
+      },
+      "normalization": {
+        "type": "object",
+        "required": [
+          "population_sum_percent",
+          "scope",
+          "formula"
+        ],
+        "properties": {
+          "population_sum_percent": {
+            "type": "number"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

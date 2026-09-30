@@ -4,7 +4,7 @@ Study the neutral, closed-shell singlet cis-α-(egan)IrCl and cis-β-(egan)IrCl 
 
 ## Public inputs and scientific boundaries
 
-`data/inputs/cis_alpha_egan_IrCl.xyz` is the 58-atom cis-α complex and `cis_beta_egan_IrCl.xyz` is the 46-atom cis-β complex. XYZ element labels and coordinates are the complete molecular identity; each is neutral and singlet. The computational ligand is the hydrogen-substituted egan model represented by these files. The boundary is gas phase and electronic energy; solvent, crystal packing, free energy, kinetics and reaction barriers are outside scope.
+`data/inputs/cis_alpha_egan_IrCl.xyz` is the 58-atom cis-α complex and `cis_beta_egan_IrCl.xyz` is the 58-atom cis-β complex. The cis-β file contains the 12 hydrogen rows recovered from the complete SI Cartesian table; `data/inputs/structure_provenance.json` records the repair and preserves the original 46-atom task file hash. XYZ element labels and coordinates are the complete molecular identity; each is neutral and singlet. The computational ligand is the hydrogen-substituted egan model represented by these files. The boundary is gas phase and electronic energy; solvent, crystal packing, free energy, kinetics and reaction barriers are outside scope.
 
 ## Required scientific validation/investigation
 

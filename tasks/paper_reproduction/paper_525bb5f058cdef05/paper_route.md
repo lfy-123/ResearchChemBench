@@ -6,7 +6,7 @@ The paper asks how reduced field strength changes proton-transfer kinetics from 
 
 ## 2. System and model boundary
 
-The modeled system is gas-phase benzene with H3O+, H3O+(H2O), and H3O+(H2O)2, including protonated benzene and water-containing adducts. The paper treats one literature-supported protonation site and one selected conformer per reaction complex. The kinetic boundary includes association, dissociation, hydration/dehydration, proton transfer, pressure dependence, and numerical population propagation; it excludes tunnelling corrections.
+The modeled system is gas-phase benzene with H3O+ and H3O+(H2O), including protonated benzene and water-containing adducts. H3O+(H2O)2 is present as a hydration/dehydration reservoir; main PDF p8 explicitly excludes its direct reaction with the analytes from the modeled network, consistent with SI PDF p8, Fig. S3. The public task additionally asks for an n=2 candidate/status; a source-route reproduction must disclose this scope gap and must not relabel the 19-atom n=1 complex as n=2. The paper treats one literature-supported protonation site and one selected conformer per reaction complex. The kinetic boundary includes association, dissociation, hydration/dehydration, proton transfer, pressure dependence, and numerical population propagation; it excludes tunnelling corrections.
 
 ## 3. Authors' implemented computational route
 

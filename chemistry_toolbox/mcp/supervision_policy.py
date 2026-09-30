@@ -42,6 +42,10 @@ def supervision_policy() -> dict[str, int]:
             f"{ENVIRONMENT_NAMES['heartbeat_seconds']} must be >= "
             f"{ENVIRONMENT_NAMES['max_batch_seconds']}"
         )
+    mode = os.environ.get("RESEARCHCHEMBENCH_JOB_WAIT_MODE", "heartbeat")
+    if mode not in {"heartbeat", "event"}:
+        raise ValueError("unsupported job wait mode")
+    policy["wait_mode"] = mode
     return policy
 
 

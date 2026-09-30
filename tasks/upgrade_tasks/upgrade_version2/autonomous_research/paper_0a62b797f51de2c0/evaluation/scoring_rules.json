@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify alternating para-phenylene/2,5-thiophene connectivity, cyano attachment positions, fragment composition/caps and charge/spin. Derived models must preserve the source polymer identity and disclose end-group/length assumptions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Verify alternating para-phenylene/2,5-thiophene connectivity, cyano attachment positions, fragment composition/caps and charge/spin. Derived models must preserve the source polymer identity and disclose end-group/length assumptions. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Assess quantitative evidence for charge distribution and photoexcited behaviour, with stated definitions, states, units and executable analyses. A dipole or ESP image alone is not evidence for a photocarrier separation rate. Comparable quantities must use consistent domain/frame/normalization definitions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Assess quantitative evidence for charge distribution and photoexcited behaviour, with stated definitions, states, units and executable analyses. A dipole or ESP image alone is not evidence for a photocarrier separation rate. Comparable quantities must use consistent domain/frame/normalization definitions. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Judge whether the explanation is supported by discriminating molecular evidence across the source substitution patterns and whether relevant representation limitations were investigated. Credit a supported weak, absent or nonidentifiable effect without requiring a source trend or a preset length/control matrix.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Judge whether the explanation is supported by discriminating molecular evidence across the source substitution patterns and whether relevant representation limitations were investigated. Credit a supported weak, absent or nonidentifiable effect without requiring a source trend or a preset length/control matrix. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Assess claim-relevant electronic-model and finite-fragment uncertainty, including cap/representation effects when they materially affect the claimed generalization. Do not treat public material lifetimes as precise molecular targets or claim a prospective n3 prediction from retrospective analysis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Assess claim-relevant electronic-model and finite-fragment uncertainty, including cap/representation effects when they materially affect the claimed generalization. Do not treat public material lifetimes as precise molecular targets or claim a prospective n3 prediction from retrospective analysis. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "Explain what cyano substitution changes, or cannot be shown to change, in the defined molecular scope. Clearly delimit any connection to the material observations; molecular descriptors cannot establish photocatalytic yield, transport coefficients or unique bulk mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Explain what cyano substitution changes, or cannot be shown to change, in the defined molecular scope. Clearly delimit any connection to the material observations; molecular descriptors cannot establish photocatalytic yield, transport coefficients or unique bulk mechanism. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Verify alternating para-phenylene/2,5-thiophene connectivity, cyano attachment positions, fragment composition/caps and charge/spin. Derived models must preserve the source polymer identity and disclose end-group/length assumptions.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Assess quantitative evidence for charge distribution and photoexcited behaviour, with stated definitions, states, units and executable analyses. A dipole or ESP image alone is not evidence for a photocarrier separation rate. Comparable quantities must use consistent domain/frame/normalization definitions.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Judge whether the explanation is supported by discriminating molecular evidence across the source substitution patterns and whether relevant representation limitations were investigated. Credit a supported weak, absent or nonidentifiable effect without requiring a source trend or a preset length/control matrix.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Assess claim-relevant electronic-model and finite-fragment uncertainty, including cap/representation effects when they materially affect the claimed generalization. Do not treat public material lifetimes as precise molecular targets or claim a prospective n3 prediction from retrospective analysis.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Explain what cyano substitution changes, or cannot be shown to change, in the defined molecular scope. Clearly delimit any connection to the material observations; molecular descriptors cannot establish photocatalytic yield, transport coefficients or unique bulk mechanism.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

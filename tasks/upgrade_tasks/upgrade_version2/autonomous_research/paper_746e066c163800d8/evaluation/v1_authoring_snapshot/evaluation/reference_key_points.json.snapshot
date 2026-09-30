@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_static_series",
+      "key_point_type": "result",
+      "statement": "For each compound validate geometry, compute the complete static tensor, beta_HRS and DR, and retain raw derivative/response output. Verify unit conversion, permutation symmetry, rigid-frame invariance and orientation quadrature/analytical formula. Compare the 1→3 and5→7 pairs at equal frequency and units.",
+      "expected": "For each compound validate geometry, compute the complete static tensor, beta_HRS and DR, and retain raw derivative/response output. Verify unit conversion, permutation symmetry, rigid-frame invariance and orientation quadrature/analytical formula. Compare the 1→3 and5→7 pairs at equal frequency and units.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_twist_control",
+      "key_point_type": "result",
+      "statement": "Validate and publish the common-core mapping, then compare relaxed5/7 with the identical signed five-torsion control. Give beta_HRS and a state/CT diagnostic on each geometry, separating extension and geometry effects. Do not claim a constrained geometry is a minimum.",
+      "expected": "Validate and publish the common-core mapping, then compare relaxed5/7 with the identical signed five-torsion control. Give beta_HRS and a state/CT diagnostic on each geometry, separating extension and geometry effects. Do not claim a constrained geometry is a minimum.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_response_calibration",
+      "key_point_type": "result",
+      "statement": "Calibrate compound5 static response using field-step or analytic/finite-field comparison and rotation-average convergence. Show how numerical uncertainty affects the paired attribution; a tensor or unit error cannot be hidden in broad tolerance.",
+      "expected": "Calibrate compound5 static response using field-step or analytic/finite-field comparison and rotation-average convergence. Show how numerical uncertainty affects the paired attribution; a tensor or unit error cannot be hidden in broad tolerance.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

@@ -69,7 +69,7 @@ The paths under `workspace_inputs/` are illustrative workspace-relative sources.
 - For `fixed_files`, stage every required filename exactly and normally leave `arguments` empty.
 
 ## Resource mapping
-All required shared libraries resolve. Xvfb supports bounded headless launch; an interactive session still needs a display/OpenGL stack. VESTA is a visualization tool, not a numerical solver.
+The non-GUI command path is verified. Interactive rendering additionally requires a host display plus GTK3, Wayland/X11, GBM, EGL, and OpenGL libraries. VESTA is a visualization tool, not a numerical solver.
 `resource_limits.memory_mb` is total memory for the entire process group, not memory per MPI rank. `cpu_cores` is the allocation ceiling. Software thread or rank controls must not exceed it. Walltime is enforced by the Supervisor; a timeout is distinct from software non-convergence.
 
 ## Collection checklist

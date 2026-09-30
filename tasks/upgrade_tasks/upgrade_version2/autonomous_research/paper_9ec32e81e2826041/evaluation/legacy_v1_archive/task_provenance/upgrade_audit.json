@@ -1,0 +1,102 @@
+{
+  "date": "2026-09-27",
+  "paper_id": "paper_9ec32e81e2826041",
+  "source_path": "tasks/final_verified_autonomous_research/paper_9ec32e81e2826041",
+  "source_package_manifest_sha256": "121c0d2adb0a34ecd5b70c9504a05e5422898219a3e5fc477317e6ec74823861",
+  "source_payload_snapshots": {
+    "task_info.json": {
+      "sha256": "bdb6e832c20ab2229e9ceff68ed4d0ad290131134cef2c0cfb14611160c0fd2b",
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot"
+    },
+    "paper_route.md": {
+      "sha256": "235e1c156177af264625037914d784c9c543b676b96e77cbaa3365b0d29436a1",
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot"
+    },
+    "package_manifest.json": {
+      "sha256": "121c0d2adb0a34ecd5b70c9504a05e5422898219a3e5fc477317e6ec74823861",
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot"
+    },
+    "evaluation/scoring_rules.json": {
+      "sha256": "7c91c67e23cac8f4c041daf7fccc1f64156ce5fa1f9840c5efb05bdf7b7a8d7a",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "sha256": "6bcf3df6dd5efac8c31a87b7edc9a3f34cb94b25c01744372bde5ed165d8ceeb",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot"
+    },
+    "evaluation/reference_key_points.json": {
+      "sha256": "4e07e199eb71af84eabd4fcf1f3e6e3550e5f6cc205e1760acf383a8cc34b957",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot"
+    },
+    "evaluation/critical_failures.json": {
+      "sha256": "061729b95738196911c601972e188b4a9492a38ed62678bfe2330453b69b525e",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot"
+    },
+    "evaluation/evidence_map.json": {
+      "sha256": "0aa0db8beae8e219c3e8da6c0769bf47b7ffe51f58534e5c9831709402338a93",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot"
+    },
+    "evaluation/reference_conclusions.json": {
+      "sha256": "2a1b6bcaf565de95e0a03ca06670407c81aec547a9b8349a3c4920c86304aafb",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "sha256": "0f1b8f883ffa418024021d5a451d916c94abb2df60f362944e70156d396acab6",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot"
+    },
+    "agent_input/submission_schema.json": {
+      "sha256": "be59adf8ae1ff2ffe375773eaf3b68a752fee2c40941fb9318bbdee2c044d0e9",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot"
+    },
+    "agent_input/task.md": {
+      "sha256": "9051b5a567998862b270129b61138154ac20bc39066a05b59885d865fb8336ec",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot"
+    },
+    "agent_input/data/inputs/perpendicular.xyz": {
+      "sha256": "60f033c21debfdf44fa1ae4ce97e0dd01c1376397792b8beddbfc3df3bfc0be9",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/perpendicular.xyz.snapshot"
+    },
+    "agent_input/data/inputs/coplanar.xyz": {
+      "sha256": "59df86e6cda55163e57b02200ef2882b7af55f76d1f7adfd1d33172b641d8814",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/coplanar.xyz.snapshot"
+    }
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "shared_public_data_source": "tasks/final_verified_autonomous_research/paper_9ec32e81e2826041/agent_input/data/inputs",
+  "ar_pr_common": "Identical public object data, submission schema and scientific evaluator; PR adds author rationale/route.",
+  "source_documents": [
+    {
+      "path": "papers/paper_9ec32e81e2826041/documents/main.pdf",
+      "sha256": "c494b9ed5388f0c6d968d8e80ce851426473aa9779a3c3930927445340195dec",
+      "pages": 9
+    },
+    {
+      "path": "papers/paper_9ec32e81e2826041/documents/supplementary_001.pdf",
+      "sha256": "dbb8ec5153da3d86acde2fd320f01cc1bae86bf16cebf2fd2cf835280933d7cb",
+      "pages": 23
+    }
+  ],
+  "supervisor_contract_repairs": [
+    {
+      "at": "2026-09-27T12:39:07.876490+00:00",
+      "issue": "prelaunch_failure_requires_fake_job",
+      "previous_package_content_sha256": "f38af327dd7f53bdd0cc5540691bf066aa59e4bf2ab318be9057d2ae30ae3a92",
+      "changes": [
+        "zero-launch diagnostics allowed",
+        "complete requirements preserved"
+      ],
+      "scientific_thresholds_changed": false,
+      "new_scientific_computations": 0
+    }
+  ],
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ]
+}

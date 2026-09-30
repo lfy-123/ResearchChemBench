@@ -4,7 +4,7 @@ Determine whether the deposited HIAM-234b two-net framework or its one-net count
 
 # Public inputs and scientific boundaries
 
-Use CCDC record 2478962 as the uniquely identified HIAM-234b starting structure, a Co6-bub-bpy tfz framework. Construct the comparison model by retaining exactly one of the two chemically identical, translationally interwoven complete nets, preserving the deposited cell and recording atom mapping. Use solvent-free periodic models, fixed cell, and energy per net in kcal mol−1. The paper, SI and general web are unavailable during evaluation.
+Use the supplied immutable HIAM-234b crystal input `data/inputs/ccdc_2478962.cif` directly; CCDC 2478962 is provenance only and CCDC database retrieval is not required or scored. Verify its archive ID, composition, occupancy/disorder, symmetry and cell as the deposited Co6-bub-bpy tfz framework. Construct the comparison model by retaining exactly one of the two chemically identical, translationally interwoven complete nets, preserving the deposited cell and recording atom mapping. Use solvent-free periodic models, fixed cell, and energy per net in kcal mol−1. The paper, SI and general web are unavailable during evaluation.
 
 # Required scientific validation/investigation
 

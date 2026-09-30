@@ -1,0 +1,79 @@
+{
+  "generator": "ETKDGv3, first geometrically valid member of each coarse identity class",
+  "rdkit_version": "2023.09.6",
+  "quantum_calculation": false,
+  "force_field_minimization": false,
+  "energy_ranking": false,
+  "source_coordinate_template": false,
+  "structures": {
+    "cis.xyz": {
+      "seed": 914001,
+      "validation": {
+        "atom_count": 25,
+        "formula": "C12F10Se3",
+        "chiral_centers_zero_based": [],
+        "minimum_nonbonded_covalent_radius_ratio": 1.4544429089250361,
+        "bond_covalent_radius_ratio_range": [
+          0.9053829918433671,
+          1.0280774419231034
+        ]
+      },
+      "identity_torsions": [
+        {
+          "atom_ids": [
+            4,
+            1,
+            2,
+            3
+          ],
+          "angle_deg": -114.27680161174636
+        },
+        {
+          "atom_ids": [
+            1,
+            2,
+            3,
+            10
+          ],
+          "angle_deg": 40.077795286272476
+        }
+      ]
+    },
+    "trans.xyz": {
+      "seed": 914004,
+      "validation": {
+        "atom_count": 25,
+        "formula": "C12F10Se3",
+        "chiral_centers_zero_based": [],
+        "minimum_nonbonded_covalent_radius_ratio": 1.444747858359846,
+        "bond_covalent_radius_ratio_range": [
+          0.8972548434049882,
+          1.032120610922068
+        ]
+      },
+      "identity_torsions": [
+        {
+          "atom_ids": [
+            4,
+            1,
+            2,
+            3
+          ],
+          "angle_deg": -70.86696188253464
+        },
+        {
+          "atom_ids": [
+            1,
+            2,
+            3,
+            10
+          ],
+          "angle_deg": -61.33015323295483
+        }
+      ]
+    }
+  },
+  "identity_recovery": "Only element/bond graph, stereochemistry, original atom-row identities and qualitative rotamer classes were recovered from the archived task structures. The generation program reads mapped SMILES and coarse identity windows, not source coordinates. Named classes are not guaranteed to converge to the historical minima without a new calculation.",
+  "original_source": "papers/paper_430b9cbe83c2c203/documents/supplementary_001.pdf, pp. S151-S152, Tables S6-S7; original coordinate files retained in git commit 331aed8d",
+  "generator_path": "scripts/generate_independent_audit_starters.py"
+}

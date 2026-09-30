@@ -1,0 +1,12 @@
+from pathlib import Path
+import re,json,hashlib
+B=Path(__file__).resolve().parent;S=B/'source_review';D=B/'prepared_inputs/paper_d8e5490cd9942f4f';rows=[]
+for el,core in [('La',46),('Tb',54),('Lu',60)]:
+ ecp=(S/f'cologne_{el}_ECP{core}MWB.txt').read_text();basis=(S/f'cologne_{el}_basis.gbs').read_text();assert f'ECP{core}MWB 4 {core}' in ecp
+ shells=re.findall(r'^([SPD])\s+(\d+)\s+[\d.]+',basis,re.M)
+ count={c:sum(1 for s,n in shells if s==c) for c in 'SPD'};primitive={c:sum(int(n) for s,n in shells if s==c) for c in 'SPD'};assert count=={'S':5,'P':4,'D':3} and primitive=={'S':7,'P':6,'D':5}
+ for name,text in [(f'{el}_ECP{core}MWB.ecp',ecp),(f'{el}_7s6p5d_5s4p3d.gbs',basis)]: (D/name).write_text(text)
+ rows.append({'element':el,'core_electrons':core,'explicit_electrons_neutral_atom':11,'ecp_file':f'{el}_ECP{core}MWB.ecp','basis_file':f'{el}_7s6p5d_5s4p3d.gbs','primitive_shells':primitive,'contracted_shells':count,'ecp_sha256':hashlib.sha256(ecp.encode()).hexdigest(),'basis_sha256':hashlib.sha256(basis.encode()).hexdigest(),'ecp_source_url':f'https://www.tc.uni-koeln.de/cgi-bin/pp.pl?language=en,format=gaussian,element={el},job=getecp,ecp=ECP{core}MWB','basis_source_url':f'https://www.tc.uni-koeln.de/cgi-bin/pp.pl?language=en,format=gaussian,element={el},ecp=ECP{core}MWB,job=getbset,bset=ECP{core}MWB','verification':'Numerical coefficient identity and contraction checked; no electronic-structure job or minimum validated.'})
+(D/'ecp_basis_manifest.json').write_text(json.dumps({'source':'University of Cologne pseudopotential library, fetched 2026-09-27','format':'Gaussian generic basis and ECP blocks; preserve source coefficient precision; adapt syntax explicitly for another engine','elements':rows},indent=2)+'\n')
+p=D/'metal_and_hydration_definition.json';d=json.loads(p.read_text());d['source_basis']='Verified public numerical MWB ECP and matching Dolg (7s6p5d)/[5s4p3d] basis from the originating Cologne library. See ecp_basis_manifest.json.';d.pop('blocked_release');d['pending_reference']='Check engine parsing and one molecule minimum/thermochemistry with these exact files. Public coefficient availability does not certify any new molecular reference.';p.write_text(json.dumps(d,indent=2)+'\n')
+(B/'ecp_identity_validation.json').write_text(json.dumps({'passed':True,'calculations_run':0,'elements':rows},indent=2)+'\n');print('ECP/core/contraction checks passed for La Tb Lu')

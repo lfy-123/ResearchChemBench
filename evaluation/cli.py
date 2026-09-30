@@ -6,6 +6,7 @@ import argparse
 import json
 import signal
 import statistics
+from collections import Counter
 import sys
 import threading
 import uuid
@@ -20,9 +21,10 @@ from chemistry_toolbox.src.catalog import resolve_tool_discovery_mode
 
 from .execution.progress import progress_timestamp
 from .execution.runner import TaskRunner
+from .execution.provider_errors import normalize_error
+from .execution.resume_policy import add_resume_arguments, execution_exit_code
 from .provenance.results import write_batch_results
-from .schemas.eval_config import EvalConfigError, RunSpec, load_yaml, resolve_specs
-from .scoring.service import score_workspace
+from .schemas.eval_config import EvalConfigError, RunSpec, load_yaml, resolve_specs, resolve_task_repository
 from .settings import (
     AGENT_PRESETS,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
@@ -107,8 +109,14 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
     summary = {
         "runs": len(rows),
         "completed": sum(row.get("status") == "completed" for row in rows),
-        "failed": sum(row.get("status") != "completed" for row in rows),
+        "failed": sum(row.get("status") == "failed" for row in rows),
+        **{state: sum(row.get("status") == state for row in rows) for state in (
+            "suspended_infrastructure", "recovery_blocked", "cancelled", "budget_exhausted")},
         "scored": len(scores),
+        "score_coverage": {"scored": len(scores), "total": len(rows)},
+        "evaluation_states": dict(Counter(row.get("evaluation_status", "not_started") for row in rows)),
+        "unscored_reasons": dict(Counter(row.get("score_error") or row.get("evaluation_status", "not_started")
+                                         for row in rows if row.get("score") is None)),
         "mean_score": statistics.mean(scores) if scores and len(score_maxima) == 1 else None,
         "score_max": next(iter(score_maxima)) if len(score_maxima) == 1 else None,
         "mean_normalized_score": (
@@ -131,7 +139,8 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
         f"- Runs: {summary['runs']}",
         f"- Completed: {summary['completed']}",
         f"- Failed: {summary['failed']}",
-        f"- Scored: {summary['scored']}",
+        f"- Scored: {summary['scored']}/{summary['runs']}",
+        f"- Unscored reasons: {json.dumps(summary['unscored_reasons'], ensure_ascii=False)}",
         f"- Mean score: {summary['mean_score'] if summary['mean_score'] is not None else 'N/A'}",
         f"- Score maximum: {summary['score_max'] if summary['score_max'] is not None else 'mixed/N/A'}",
         f"- Mean normalized score: {summary['mean_normalized_score'] if normalized_scores else 'N/A'}",
@@ -155,10 +164,27 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
     return markdown_path
 
 
-def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False) -> int:
+def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False, resume: bool | None = None,
+             agent_key: str | None = None) -> int:
     config = _load_yaml(config_path)
+    if agent_key is not None:
+        config["agents"] = [agent_key]
+    if resume is not None:
+        config["resume"] = resume
+    config.setdefault("judge", {}).setdefault("enabled", True)
+    if no_score:
+        config["judge"]["enabled"] = False
+    from .scoring.service import apply_judge_configuration
+    apply_judge_configuration(config)
     discovery_mode = resolve_tool_discovery_mode(config.get("tool_discovery_mode"))
-    specs = resolve_specs(config)
+    from .agent_plugins.registry import AgentConfigError, resolve_agent_definitions
+    from .repository import TaskRepositoryError
+    try:
+        registry = resolve_agent_definitions(config, config_dir=config_path.resolve().parent)
+        task_repository = resolve_task_repository(config, config_dir=config_path.resolve().parent)
+        specs = resolve_specs(config, agent_registry=registry, task_repository=task_repository)
+    except (AgentConfigError, TaskRepositoryError) as exc:
+        raise EvalConfigError(str(exc)) from exc
     workers = int(config.get("max_concurrent_runs", 1))
     if workers < 1:
         raise EvalConfigError("max_concurrent_runs must be >= 1")
@@ -268,47 +294,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             "mcp_tool_timeout_seconds must exceed job_wait_heartbeat_seconds"
         )
     if dry_run:
-        _log(f"Config: {config_path}")
-        _log(f"Planned runs: {len(specs)}")
-        _log(f"Max concurrent runs: {workers}")
-        _log(f"Tool discovery mode: {discovery_mode}")
-        _log(f"Execution mode: {execution_mode}")
-        _log(f"Live progress: {live_progress}")
-        _log(f"Progress console: {progress_console}")
-        _log(f"Progress max chars: {progress_max_chars}")
-        _log(
-            "Timeouts: "
-            f"fast_action={fast_action_timeout_seconds}s "
-            f"compute_action={compute_action_timeout_seconds}s "
-            f"mcp_tool={mcp_tool_timeout_seconds}s "
-            f"agent={agent_timeout_seconds}s"
-        )
-        _log(
-            "Job supervision: "
-            f"settle={job_event_settle_seconds}s "
-            f"batch_cap={job_event_max_batch_seconds}s "
-            f"heartbeat={job_wait_heartbeat_seconds}s "
-            f"poll={job_internal_poll_interval_seconds}s "
-            f"failure_tail={job_failure_tail_chars}chars"
-        )
-        _log(
-            (
-                "Distributed compute resources are loaded from the worker inventory; "
-                "available_cpu_cores/available_memory_mb apply only to local mode."
-                if execution_mode == "distributed"
-                else "Per-task resource budget: "
-                f"cpu={available_cpu_cores} "
-                f"memory={available_memory_mb}MiB "
-                f"gpu={available_gpu_count}"
-            )
-        )
-        for spec in specs:
-            _log(
-                f"run={spec.task_type}/{spec.paper_id} "
-                f"agent={spec.agent_key} repeat={spec.repeat}"
-            )
-        return 0
-
+        _log("Local preflight only; API availability and balance are unverified.")
     batch_id = (
         "batch_"
         + datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
@@ -327,33 +313,85 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
 
     previous_sigint = signal.signal(signal.SIGINT, stop_active)
 
+    def failure_row(spec, exc, runner=None):
+        from .execution.recovery import load_run_manifest
+        started = runner is not None and runner.process is not None
+        manifest = {}
+        if runner and runner.workspace.exists():
+            try:
+                manifest = load_run_manifest(runner.workspace)
+            except (ValueError, OSError, RuntimeError):
+                pass
+        completed = manifest.get("run_state") == "completed"
+        status = "completed" if completed else "failed" if started else "preflight_failed"
+        phase = "judge" if completed else "execution" if started else "preflight"
+        error = normalize_error(exc, source=phase)
+        if runner and runner.workspace.exists() and not completed:
+            # A partially materialized workspace must not remain deceptively ready.
+            try:
+                runner._persist_run_manifest(run_state=status, error=error, phase=phase)
+                runner._write_meta(status, {"error": error, "phase": phase})
+            except (ValueError, OSError):
+                pass  # The batch record below still preserves the original failure.
+        return {"paper_id": spec.paper_id, "task_type": spec.task_type, "agent_key": spec.agent_key,
+                "repeat": spec.repeat, "run_id": runner.run_id if runner else None,
+                "workspace": str(runner.workspace) if runner and runner.meta_path.exists() else None,
+                "status": status, "phase": phase, "evaluation_status": "needs_review" if completed else "not_started",
+                "score": None, "error": error, "score_error": error["message"] if completed else "", "api_verified": False,
+                "provider_diagnostics": getattr(exc, "diagnostics", getattr(runner, "_provider_diagnostics", None))}
+
+    from chemistry_toolbox.src.recovery_io import atomic_json
+    atomic_json(batch_dir / "planned_runs.json", {"created_at": datetime.now(timezone.utc).isoformat(), "config_source": str(config_path), "phase": "preflight", "api_verified": False, "runs": [vars(spec) for spec in specs]})
     def run_one(spec: RunSpec) -> dict[str, Any]:
-        runner = TaskRunner(
-            spec.paper_id,
-            task_type=spec.task_type,
-            agent_key=spec.agent_key,
-            workspace_root=batch_dir,
-            timeout_seconds=agent_timeout_seconds,
-            compute_action_timeout_seconds=compute_action_timeout_seconds,
-            fast_action_timeout_seconds=fast_action_timeout_seconds,
-            mcp_tool_timeout_ms=mcp_tool_timeout_seconds * 1000,
-            available_cpu_cores=available_cpu_cores,
-            available_memory_mb=available_memory_mb,
-            available_gpu_count=available_gpu_count,
-            job_event_settle_seconds=job_event_settle_seconds,
-            job_event_max_batch_seconds=job_event_max_batch_seconds,
-            job_wait_heartbeat_seconds=job_wait_heartbeat_seconds,
-            job_internal_poll_interval_seconds=job_internal_poll_interval_seconds,
-            job_failure_tail_chars=job_failure_tail_chars,
-            max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
-            tool_discovery_mode=discovery_mode,
-            live_progress=live_progress,
-            progress_console=progress_console,
-            progress_max_chars=progress_max_chars,
-            execution_mode=execution_mode,
-        )
-        active.append(runner)
+        runner = None
         try:
+            runner = TaskRunner(
+                spec.paper_id,
+                task_type=spec.task_type,
+                agent_key=spec.agent_key,
+                **({"agent_definition": registry[spec.agent_key]} if registry[spec.agent_key].get("kind") == "external" else {}),
+                **({"task_repository": task_repository} if task_repository is not None else {}),
+                workspace_root=batch_dir,
+                timeout_seconds=agent_timeout_seconds,
+                compute_action_timeout_seconds=compute_action_timeout_seconds,
+                fast_action_timeout_seconds=fast_action_timeout_seconds,
+                mcp_tool_timeout_ms=mcp_tool_timeout_seconds * 1000,
+                available_cpu_cores=available_cpu_cores,
+                available_memory_mb=available_memory_mb,
+                available_gpu_count=available_gpu_count,
+                job_event_settle_seconds=job_event_settle_seconds,
+                job_event_max_batch_seconds=job_event_max_batch_seconds,
+                job_wait_heartbeat_seconds=job_wait_heartbeat_seconds,
+                job_internal_poll_interval_seconds=job_internal_poll_interval_seconds,
+                job_failure_tail_chars=job_failure_tail_chars,
+                max_turns=int(config.get("max_turns", DEFAULT_MAX_TURNS)),
+                tool_discovery_mode=discovery_mode,
+                live_progress=live_progress,
+                progress_console=progress_console,
+                progress_max_chars=progress_max_chars,
+                execution_mode=execution_mode,
+                recovery_enabled=_normalize_bool(config["recovery_enabled"], name="recovery_enabled") if "recovery_enabled" in config else None,
+                resume=_normalize_bool(config.get("resume", False), name="resume"),
+                resume_policy=config.get("resume_policy"),
+                codex_model=config.get("codex_model"),
+                codex_base_url=config.get("codex_base_url"),
+                codex_reasoning_effort=config.get("codex_reasoning_effort"),
+                max_tokens=config.get("max_tokens"),
+                model_wait_strategy=config.get("model_wait_strategy", "provider_default"),
+                feedback_schema_version=int(config.get("feedback_schema_version", 2)),
+                native_input_validation_policy=config.get("native_input_validation_policy", "advisory"),
+                archive_policy=config.get("archive_policy", "indexed"),
+                progress_interval=int(config.get("progress_interval", 5)),
+            )
+            active.append(runner)
+            if dry_run:
+                return {"paper_id": spec.paper_id, "task_type": spec.task_type, "agent_key": spec.agent_key,
+                        "repeat": spec.repeat, "run_id": None, "workspace": None, "status": "preflight_ready",
+                        "api_verified": False, "provider_diagnostics": runner._provider_diagnostics}
+            if runner.recovery_enabled:
+                runner.setup_workspace()
+                from .execution.recovery import runner_store
+                runner_store(runner).put_record("batch", "origin", {"directory": str(batch_dir), "config": config}, immutable=True)
             meta = runner.run()
             score = None
             score_max = None
@@ -362,8 +400,11 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             objective_issue_flags = []
             judge_consistency_warnings = []
             score_error = ""
+            evaluation_status = "not_started"
             if meta.get("status") == "completed" and not no_score and config.get("judge", {}).get("enabled", True):
-                score_result = score_workspace(runner.workspace)
+                from .execution.control import resume_scoring
+                score_result = resume_scoring(runner.workspace, config)
+                evaluation_status = score_result.get("evaluation_status", "unknown")
                 if score_result.get("error"):
                     score_error = str(score_result["error"])
                 else:
@@ -385,6 +426,7 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 "run_id": runner.run_id,
                 "status": meta.get("status", "failed"),
                 "score": score,
+                "evaluation_status": evaluation_status,
                 "score_max": score_max,
                 "normalized_score": normalized_score,
                 "criteria": criteria,
@@ -392,26 +434,11 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 "judge_consistency_warnings": judge_consistency_warnings,
                 "score_error": score_error,
                 "duration_seconds": meta.get("duration_seconds"),
+                "error": meta.get("error"),
                 "workspace": str(runner.workspace),
             }
         except Exception as exc:
-            return {
-                "paper_id": spec.paper_id,
-                "task_type": spec.task_type,
-                "agent_key": spec.agent_key,
-                "repeat": spec.repeat,
-                "run_id": runner.run_id,
-                "status": "failed",
-                "score": None,
-                "score_max": None,
-                "normalized_score": None,
-                "criteria": [],
-                "objective_issue_flags": [],
-                "judge_consistency_warnings": [],
-                "score_error": f"{type(exc).__name__}: {exc}",
-                "duration_seconds": None,
-                "workspace": str(runner.workspace),
-            }
+            return failure_row(spec, exc, runner)
         finally:
             if runner in active:
                 active.remove(runner)
@@ -435,9 +462,13 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 submit_next()
             while futures:
                 future = next(as_completed(tuple(futures)))
-                futures.pop(future)
-                row = future.result()
+                spec = futures.pop(future)
+                try:
+                    row = future.result()
+                except Exception as exc:
+                    row = failure_row(spec, exc)
                 rows.append(row)
+                _write_batch_report(batch_dir, rows, config)
                 _log(
                     f"[{len(rows)}/{len(specs)}] {row['task_type']}/{row['paper_id']} "
                     f"{row['agent_key']} "
@@ -491,23 +522,46 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
     _log(f"Batch directory: {batch_dir}")
     _log(f"Evaluation report: {report}")
     _log(f"Results summary: {batch_dir / 'results.json'}")
-    return 0 if all(row["status"] == "completed" for row in rows) else 1
+    if dry_run:
+        return 0 if all(row["status"] == "preflight_ready" for row in rows) else 2
+    codes = [execution_exit_code(row["status"], row.get("evaluation_status")) for row in rows]
+    return next((code for code in (2, 1, 3, 4) if code in codes), 0)
 
 
 def main(argv: list[str] | None = None) -> int:
+    values = list(argv if argv is not None else sys.argv[1:])
+    if values and values[0] in {"status", "reconcile", "resume", "pause", "cancel"}:
+        from .execution.control import main as manage
+        return manage(values)
+    if values and values[0] == "create":
+        argv = values[1:]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("config", type=Path, nargs="?")
     parser.add_argument("--paper-id")
     parser.add_argument("--task-type")
-    parser.add_argument("--agent", choices=sorted(AGENT_PRESETS))
+    parser.add_argument("--agent", help="Built-in agent or an agent_definitions key in CONFIG")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-score", action="store_true")
+    add_resume_arguments(parser)
+    parser.add_argument('--run-root', type=Path)
+    parser.add_argument('--run-id')
     args = parser.parse_args(argv)
+    if args.run_root is not None or args.run_id is not None:
+        if not (args.run_root and args.run_id) or args.resume_enabled is not True:
+            parser.error('Existing run requires --resume, --run-root and --run-id')
+        if args.config or args.paper_id or args.task_type or args.agent or args.dry_run:
+            parser.error('Existing run cannot be combined with new-run configuration')
+        from .execution.control import main as manage
+        return manage(['resume', '--resume', '--run-root', str(args.run_root), '--run-id', args.run_id]
+                      + (['--no-score'] if args.no_score else []))
 
     temporary: Path | None = None
     if args.config:
         config_path = args.config.resolve()
     elif args.paper_id and args.task_type and args.agent:
+        if args.agent not in AGENT_PRESETS:
+            parser.error("custom agents require a CONFIG containing agent_definitions")
+        WORKSPACES_DIR.mkdir(parents=True, exist_ok=True)
         temporary = WORKSPACES_DIR / f".single_run_config_{uuid.uuid4().hex[:8]}.yaml"
         temporary.write_text(
             yaml.safe_dump(
@@ -531,7 +585,8 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     try:
-        return run_eval(config_path, dry_run=args.dry_run, no_score=args.no_score)
+        return run_eval(config_path, dry_run=args.dry_run, no_score=args.no_score, resume=args.resume_enabled,
+                        **({"agent_key": args.agent} if args.config and args.agent else {}))
     except EvalConfigError as exc:
         _log(f"Configuration error: {exc}", stream=sys.stderr)
         return 2

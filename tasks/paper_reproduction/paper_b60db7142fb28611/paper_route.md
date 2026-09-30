@@ -27,4 +27,12 @@ The reported thermodynamic ordering is Pdt2 > Pdt1 > Pdt3 > Pdt4, with Pdt1 1.36
 
 ## 6. Limitations and interpretation boundaries
 
-These are gas-phase, single-level DFT/QST3 results and do not establish solution-phase free energies or a full copper-mediated catalytic mechanism. The paper does not provide machine-readable Cartesian coordinates or exhaustive conformer/TS searches. Comparisons therefore concern the four defined connectivity classes and the submitted investigation's stated conformer coverage.
+These are gas-phase, single-level DFT/QST3 results and do not establish solution-phase free energies or a full copper-mediated catalytic mechanism. The available main paper and SI do not provide machine-readable Cartesian coordinates or exhaustive conformer/TS searches. Comparisons concern the four connectivity-plus-tautomer identities and stated conformer coverage, not four independently rearranged azide nitrogen connectivities.
+
+## 7. Source-identity correction and unresolved source conflict (2026-09-16)
+
+Direct review of main Figure 4 gives, under the invariant atom maps now supplied in the input: Pdt1 = 4-substituted/N19–H, Pdt2 = 5-substituted/N20–H, Pdt3 = 4-substituted/N17–H, and Pdt4 = 5-substituted/N17–H. The original triazole cycle is C16–N17–C18–N19–N20–C16; the forming ring retains the consecutive azide N13–N14–N15 sequence. The older unsanitizable azide SMILES, ambiguous reversed-connectivity definitions, and intramolecular/catalyst-organized claim were task transcription/model errors and have been corrected without changing the scientific objective or reference numbers/tolerances.
+
+Figure 5 TS1/TS2 depict N19–H, whereas TS3/TS4 depict N17–H. Thus Figure 4 Pdt2 and Figure 5 TS2 have different original-ring proton locations. Preserve this conflict explicitly: a TS2 path retaining N19–H cannot silently be assigned to the N20–H Pdt2. Separate diagnostic minima/pathways may investigate the discrepancy; neither label substitution nor an unreported proton-transfer step qualifies as reproduction. The existing four-path evaluator is not yet certified correct.
+
+Table 4 relative corrected energies use electronic energy plus ZPVE; do not substitute Gibbs free energies for those values. The precise activation-energy bookkeeping and Figure 6's unavailable Table S1 require separate confirmation. Current recovery uses Gaussian16 where the source names Gaussian09, with that implementation difference disclosed. Full stationary-point, reaction-mode/connection and evaluator checks remain required.

@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.302552+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_9f4c259696ad2f87/documents/main.pdf",
+      "sha256": "592534cc448b295773af43b0783196ac34170f0e847fb7412d873e8a6e98c2ba",
+      "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p9 Fig6 为 CH2Cl2 滴定/吸收发射；SI p167 明确 compound 2 有两个 ketone，单一实验当量点不能确定占据一个还是两个位点，作者另算第二步结合。",
+      "actual_read_pages_and_sections": "Main pp6,8–10 Table1/Figs6–7; SI pp5–6 and167–169 complete methods/adduct interpretation; coordinate identities144–149."
+    },
+    {
+      "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+      "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+      "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p9 Fig6 为 CH2Cl2 滴定/吸收发射；SI p167 明确 compound 2 有两个 ketone，单一实验当量点不能确定占据一个还是两个位点，作者另算第二步结合。",
+      "actual_read_pages_and_sections": "Main pp6,8–10 Table1/Figs6–7; SI pp5–6 and167–169 complete methods/adduct interpretation; coordinate identities144–149."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "A physically admissible agent-generated association/speciation account explains measured PXX1/PXX2 absorption with explicitly defined acid inventory and medium; no fixed six-adduct series is required.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual species/spectral evidence demonstrates that the disclosed PXX2 titration cannot uniquely determine acid occupancy; a unique stoichiometry is withheld.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "A single experimental equivalence point is asserted to prove one acid on PXX2, or a frontier gap is passed off as the absorption maximum.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "Reliable parent-molecule spectra are reported while larger adduct calculations fail; the failure does not prove absence of adducts.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account explains the observed solution absorption of PXX1 and PXX2 with and without added B(C6F5)3, and what can the available evidence establish about the species present? Investigate the adequacy and identifiability of that account without presupposing an association structure or a unique stoichiometry.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Validate full PXX1/PXX2 and acid graph identities, model composition and sites; PXX1 has one carbonyl, not two equivalent independent ketones. All added acid units must be explicitly counted and mapped. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Define the optical observable, medium, electronic states and spectral comparison used. Any species-population or association claim must use balanced composition and justified thermodynamic/solution assumptions. Test the ambiguity relevant to the proposed explanation; unresolved experimental features alone do not establish coexistence or one unique species. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Explain solution absorption within this chemical system and report what species can or cannot be distinguished. Do not infer a unique occupancy from an unresolved titration, compare unbalanced energies across acid counts, or claim emission efficiency, FRET or solid-state aggregate behavior from finite absorption calculations. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

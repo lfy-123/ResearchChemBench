@@ -1,0 +1,895 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "methods",
+      "molecules",
+      "ordering",
+      "validation",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "required": [
+          "software_or_code",
+          "level_or_model",
+          "charge_multiplicity",
+          "conformer_strategy",
+          "descriptor_definitions"
+        ],
+        "properties": {
+          "software_or_code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "level_or_model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "charge_multiplicity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conformer_strategy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "descriptor_definitions": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "molecules": {
+        "type": "array",
+        "minItems": 4,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "status",
+            "charge",
+            "multiplicity"
+          ],
+          "properties": {
+            "id": {
+              "enum": [
+                "ODA",
+                "6FODA",
+                "PFMB",
+                "TMC"
+              ]
+            },
+            "status": {
+              "enum": [
+                "complete",
+                "bounded_failure",
+                "context_only"
+              ]
+            },
+            "charge": {
+              "const": 0
+            },
+            "multiplicity": {
+              "const": 1
+            },
+            "homo_eV": {
+              "type": "number"
+            },
+            "global_nucleophilicity_eV": {
+              "type": "number"
+            },
+            "global_reference_homo_eV": {
+              "const": -9.1212
+            },
+            "global_index_convention": {
+              "const": "fixed_TCE_B3LYP_reference"
+            },
+            "primary_model": {
+              "const": "gas_B3LYP_TZVP_on_B3LYP_D3BJ_SVP"
+            },
+            "local_descriptors": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "definition",
+                  "unit",
+                  "site_values",
+                  "evidence"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "definition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "site_values": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "atom_map_id",
+                        "value"
+                      ],
+                      "properties": {
+                        "atom_map_id": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "value": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "maxItems": 2
+                  },
+                  "evidence": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "ring_plane_angle_deg": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 90
+            },
+            "plane_fit_residuals_A": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "maxItems": 2
+            },
+            "linker_torsions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "atom_map_ids",
+                  "angle_deg"
+                ],
+                "properties": {
+                  "atom_map_ids": {
+                    "type": "array",
+                    "minItems": 4,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "maxItems": 4
+                  },
+                  "angle_deg": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  }
+                }
+              }
+            },
+            "geometry_artifact": {
+              "type": "string",
+              "minLength": 1
+            },
+            "atom_mapping": {
+              "type": "string",
+              "minLength": 1
+            },
+            "validation_evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "attempted_evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scientific_consequence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "context": {
+              "type": "string",
+              "minLength": 1
+            },
+            "diagnostics": {
+              "type": [
+                "object",
+                "string"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "const": "TMC"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "status": {
+                    "const": "context_only"
+                  }
+                },
+                "required": [
+                  "context"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "ODA",
+                      "6FODA",
+                      "PFMB"
+                    ]
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "complete",
+                      "bounded_failure"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "complete"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "homo_eV",
+                  "global_nucleophilicity_eV",
+                  "global_reference_homo_eV",
+                  "global_index_convention",
+                  "primary_model",
+                  "local_descriptors",
+                  "ring_plane_angle_deg",
+                  "plane_fit_residuals_A",
+                  "linker_torsions",
+                  "geometry_artifact",
+                  "atom_mapping",
+                  "validation_evidence"
+                ]
+              }
+            },
+            {
+              "if": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "bounded_failure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason",
+                  "attempted_evidence",
+                  "scientific_consequence"
+                ]
+              }
+            },
+            {
+              "if": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "const": "ODA"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "local_descriptors": {
+                    "items": {
+                      "properties": {
+                        "site_values": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "atom_map_id",
+                              "value"
+                            ],
+                            "properties": {
+                              "atom_map_id": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "value": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "maxItems": 2,
+                          "allOf": [
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "atom_map_id"
+                                ],
+                                "properties": {
+                                  "atom_map_id": {
+                                    "const": 1
+                                  }
+                                }
+                              },
+                              "minContains": 1,
+                              "maxContains": 1
+                            },
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "atom_map_id"
+                                ],
+                                "properties": {
+                                  "atom_map_id": {
+                                    "const": 11
+                                  }
+                                }
+                              },
+                              "minContains": 1,
+                              "maxContains": 1
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "linker_torsions": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "atom_map_ids",
+                        "angle_deg"
+                      ],
+                      "properties": {
+                        "atom_map_ids": {
+                          "type": "array",
+                          "minItems": 4,
+                          "items": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "maxItems": 4
+                        },
+                        "angle_deg": {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        }
+                      }
+                    },
+                    "maxItems": 2,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "atom_map_ids"
+                          ],
+                          "properties": {
+                            "atom_map_ids": {
+                              "const": [
+                                4,
+                                5,
+                                6,
+                                7
+                              ]
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "atom_map_ids"
+                          ],
+                          "properties": {
+                            "atom_map_ids": {
+                              "const": [
+                                5,
+                                6,
+                                7,
+                                8
+                              ]
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "const": "6FODA"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "local_descriptors": {
+                    "items": {
+                      "properties": {
+                        "site_values": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "atom_map_id",
+                              "value"
+                            ],
+                            "properties": {
+                              "atom_map_id": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "value": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "maxItems": 2,
+                          "allOf": [
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "atom_map_id"
+                                ],
+                                "properties": {
+                                  "atom_map_id": {
+                                    "const": 7
+                                  }
+                                }
+                              },
+                              "minContains": 1,
+                              "maxContains": 1
+                            },
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "atom_map_id"
+                                ],
+                                "properties": {
+                                  "atom_map_id": {
+                                    "const": 19
+                                  }
+                                }
+                              },
+                              "minContains": 1,
+                              "maxContains": 1
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "linker_torsions": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "atom_map_ids",
+                        "angle_deg"
+                      ],
+                      "properties": {
+                        "atom_map_ids": {
+                          "type": "array",
+                          "minItems": 4,
+                          "items": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "maxItems": 4
+                        },
+                        "angle_deg": {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        }
+                      }
+                    },
+                    "maxItems": 2,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "atom_map_ids"
+                          ],
+                          "properties": {
+                            "atom_map_ids": {
+                              "const": [
+                                2,
+                                3,
+                                12,
+                                13
+                              ]
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      },
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "atom_map_ids"
+                          ],
+                          "properties": {
+                            "atom_map_ids": {
+                              "const": [
+                                3,
+                                12,
+                                13,
+                                14
+                              ]
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "const": "PFMB"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "local_descriptors": {
+                    "items": {
+                      "properties": {
+                        "site_values": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "atom_map_id",
+                              "value"
+                            ],
+                            "properties": {
+                              "atom_map_id": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "value": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "maxItems": 2,
+                          "allOf": [
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "atom_map_id"
+                                ],
+                                "properties": {
+                                  "atom_map_id": {
+                                    "const": 7
+                                  }
+                                }
+                              },
+                              "minContains": 1,
+                              "maxContains": 1
+                            },
+                            {
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "atom_map_id"
+                                ],
+                                "properties": {
+                                  "atom_map_id": {
+                                    "const": 18
+                                  }
+                                }
+                              },
+                              "minContains": 1,
+                              "maxContains": 1
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "linker_torsions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "atom_map_ids",
+                        "angle_deg"
+                      ],
+                      "properties": {
+                        "atom_map_ids": {
+                          "type": "array",
+                          "minItems": 4,
+                          "items": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "maxItems": 4
+                        },
+                        "angle_deg": {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        }
+                      }
+                    },
+                    "maxItems": 1,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "atom_map_ids"
+                          ],
+                          "properties": {
+                            "atom_map_ids": {
+                              "const": [
+                                2,
+                                3,
+                                12,
+                                13
+                              ]
+                            }
+                          }
+                        },
+                        "minContains": 1,
+                        "maxContains": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "maxItems": 4,
+        "allOf": [
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "ODA"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "6FODA"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "PFMB"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "TMC"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        ]
+      },
+      "ordering": {
+        "type": "string",
+        "minLength": 1
+      },
+      "validation": {
+        "type": "string",
+        "minLength": 1
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "failure_reason": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "molecules": {
+              "items": {
+                "if": {
+                  "properties": {
+                    "id": {
+                      "enum": [
+                        "ODA",
+                        "6FODA",
+                        "PFMB"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "status": {
+                      "const": "complete"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_reason"
+          ]
+        }
+      }
+    ]
+  }
+}

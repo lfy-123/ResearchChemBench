@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Freeze allenoate 6b (ethyl 4-phenyl-2-propylbuta-2,3-dienoate), PhSO2Cl and an acac-supported copper local model. Compare C–Cl formation from the CuIII allyl(acac)Cl singlet against chlorine-atom transfer to the matching allyl radical from PhSO2Cl. Include CuII(acac)Cl doublet and CuI(acac) singlet reservoirs as required by the ledger; do not compare isolated Cu-bound and metal-free total energies. Main pp6–8 and SI pp56–65 define the source system. Use MeCN, 313.15 K (experimental 40°C), 1 M; reproduce the former 298.15 K endpoint only as a separately labelled baseline. Full photoredox catalyst and regeneration network are outside this local exit comparison.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_exit_paths",
+      "statement": "Cu-organized and free-radical chlorine exits with real endpoint validation.",
+      "expected": "Cu-organized and free-radical chlorine exits with real endpoint validation. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_reservoir_ledger",
+      "statement": "Charge/spin/chemical-potential ledger connecting different molecularities.",
+      "expected": "Charge/spin/chemical-potential ledger connecting different molecularities. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_stereochemical_control",
+      "statement": "Competing stereochemical exits, conformation and spin sensitivity.",
+      "expected": "Competing stereochemical exits, conformation and spin sensitivity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "items": [
+    {
+      "failure_id": "cf_identity_state_reference",
+      "condition": "Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_missing_expanded_matrix",
+      "condition": "Only old scalar endpoints, missing a named mandatory comparison, or unsupported uncertainty used as completed discrimination.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_fabrication",
+      "condition": "Failed or absent jobs, fabricated values, copied author answers or incompatible raw artifacts presented as scientific completion. Honest reported failure is not fabrication, but does not pass.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_overclaim",
+      "condition": "Local molecular descriptors or static thermodynamics used as proof of experimental yield, device performance, kinetics or bulk mechanisms outside the validated scope.",
+      "severity": "scientifically serious"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Scientific objective
 
-For neutral singlet compound 2d, independently plan and execute a gas-phase quantum-chemical conformational characterization. Test the authors' qualitative proposal that the ortho-hydroxy substituent can stabilize an endo/type-II bridge arrangement through an intramolecular interaction, but do not assume that proposal is correct. Report an optimized minimum, the two explicitly defined bridge dihedrals φ1−2−3−4 and φ2−3−4−5 (use the paper's bridge numbering: 1 = imine carbon, 2 = imine nitrogen, 3 = Cα, 4 = adjacent arene ipso carbon, and 5 = the adjacent arene atom on the fused-ring side of atom 4, as identified in your atom mapping), electronic energy, and dipole if available.
+For neutral singlet compound 2d, independently plan and execute a gas-phase quantum-chemical conformational characterization. Test the authors' qualitative proposal that the ortho-hydroxy substituent can stabilize an endo/type-II bridge arrangement through an intramolecular interaction, but do not assume that proposal is correct. Report an optimized minimum, the two explicitly defined bridge dihedrals φ1−2−3−4 and φ2−3−4−5 (use the paper's bridge numbering: 1 = the aryl ipso carbon attached to the imine carbon, 2 = imine carbon, 3 = imine nitrogen, 4 = Cα, and 5 = the naphthyl ipso carbon attached to Cα, as shown in the Fig. 1 inset and identified in your atom mapping), electronic energy, and dipole if available.
 
 # Public inputs and scientific boundaries
 

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES as TERMINAL_STATUSES, aggregate_outcomes
+
 import ctypes
 import json
 import os
@@ -25,16 +27,6 @@ from .result_transport import compact_action_result
 from .tracing import execute_traced
 
 
-TERMINAL_STATUSES = {
-    "success",
-    "partial_success",
-    "invalid_request",
-    "unsupported",
-    "unavailable",
-    "failed",
-    "timeout",
-    "cancelled",
-}
 
 
 def _now() -> str:
@@ -150,7 +142,6 @@ def run_batch(request_path: Path) -> int:
     status["supervisor_pid"] = os.getpid()
     status["started_at"] = _now()
     sequence = int(status.get("last_sequence") or 0)
-
     def event(event_type: str, **payload: Any) -> None:
         nonlocal sequence
         sequence += 1
@@ -248,21 +239,19 @@ def run_batch(request_path: Path) -> int:
                     ),
                 )
     successful = sum(
-        item["status"] in {"success", "partial_success"}
+        item["status"] == "success"
         for item in status["items"]
     )
-    status["status"] = (
-        "success"
-        if successful == len(status["items"])
-        else "partial_success" if successful else "failed"
-    )
+    status["status"] = aggregate_outcomes(item["status"] for item in status["items"])
     status["finished_at"] = _now()
     status["successful_item_count"] = successful
-    status["failed_item_count"] = len(status["items"]) - successful
+    status["partial_item_count"] = sum(item["status"] == "partial_success" for item in status["items"])
+    status["failed_item_count"] = len(status["items"]) - successful - status["partial_item_count"]
     event(
         "batch_finished",
         status=status["status"],
         successful_item_count=successful,
+        partial_item_count=status["partial_item_count"],
         failed_item_count=status["failed_item_count"],
         resource_snapshot=pool_snapshot() if distributed_enabled() else None,
     )
@@ -276,13 +265,16 @@ def main() -> int:
     request_path = Path(sys.argv[1]).resolve()
     request = json.loads(request_path.read_text(encoding="utf-8"))
     expected_parent_pid = int(request.get("supervisor_parent_pid") or 0)
+    if request.get("submission_key"):
+        print("managed batches must be dispatched by JobManager", file=sys.stderr)
+        return 64
     if expected_parent_pid <= 0:
         print("missing supervisor_parent_pid", file=sys.stderr)
         return 64
     try:
         parent_is_alive = _request_parent_death_signal(expected_parent_pid)
     except OSError as exc:
-        print(f"failed to configure parent-death signal: {exc}", file=sys.stderr)
+        print(f"parent-death supervision unavailable: {exc}", file=sys.stderr)
         return 70
     if not parent_is_alive:
         print("owning MCP process exited before supervisor startup", file=sys.stderr)

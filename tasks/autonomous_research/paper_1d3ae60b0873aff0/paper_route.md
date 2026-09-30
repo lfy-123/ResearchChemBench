@@ -2,17 +2,17 @@
 
 ## 1. Scientific objective and author claim
 
-The paper tests whether correlated ab initio EPR parameters can predict ligand-nucleus paramagnetic NMR shifts well enough to identify the Fe coordination state and local geometry in Fe@PCN-224. The implemented benchmark system is a neutral, sextet Fe(III)Cl@TCPP cluster. The author claim is that the chloride axial model agrees closely with the observed Fe@PCN-224 shifts and local Fe--N/Fe--Cl distances, whereas hydroxide and Fe(II) alternatives do not.
+The paper tests whether correlated ab initio EPR parameters can predict ligand-nucleus paramagnetic NMR shifts well enough to identify the Fe coordination state and local geometry in Fe@PCN-224. The implemented benchmark system is a charge -4, sextet Fe(III)Cl@TCPP cluster. The author claim is that the chloride axial model agrees closely with the observed Fe@PCN-224 shifts and local Fe--N/Fe--Cl distances, whereas hydroxide and Fe(II) alternatives do not.
 
 ## 2. System and model boundary
 
-The model is the TCPP linker with one Fe and one axial Cl, using the 86-atom Cartesian structure in SI Table S14. Charge is 0 and multiplicity is 6. Observables are site-averaged isotropic 1H and 13C shifts for the three aromatic proton sites and eight carbon environments, plus EPR/NMR tensors and optimized Fe--N/Fe--Cl distances. Experimental comparison uses the Fe@PCN-224 solid-state MAS NMR data at 320 K.
+The model is the TCPP linker with one Fe and one axial Cl, using the 86-atom Cartesian structure in SI Table S14. Charge is -4 and multiplicity is 6. Observables are site-averaged isotropic 1H and 13C shifts for the three aromatic proton sites and eight carbon environments, plus EPR/NMR tensors and optimized Fe--N/Fe--Cl distances. Experimental comparison uses the Fe@PCN-224 solid-state MAS NMR data at 320 K.
 
 ## 3. Authors' implemented computational route
 
 | Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
 |---|---|---|---|---|---|---|
-| 1 | Optimize model geometry and verify a minimum | SI Table S14 Fe(III)Cl@TCPP coordinates | ORCA 5.0.1, PBE0-D4/def2-TZVP | neutral sextet; TightSCF; TightOpt; numerical Hessian | optimized geometry, frequencies, Fe--N/Fe--Cl distances | ev_doc_e13525bf6fae_000096_647e7f72e349; ev_doc_e13525bf6fae_000462_de625fe42df5 |
+| 1 | Optimize model geometry and verify a minimum | SI Table S14 Fe(III)Cl@TCPP coordinates | ORCA 5.0.1, PBE0-D4/def2-TZVP | charge -4 sextet; TightSCF; TightOpt; numerical Hessian | optimized geometry, frequencies, Fe--N/Fe--Cl distances | ev_doc_e13525bf6fae_000096_647e7f72e349; ev_doc_e13525bf6fae_000462_de625fe42df5 |
 | 2 | Compute ligand hyperfine tensors | step-1 geometry | all-electron DLPNO-CCSD | cc-pwCVTZ(Fe,Cl)/EPR-II(O,N,C,H); NoFrozenCore; unrelaxed CCSD density; NormalPNO; T1 diagnostics <=0.016 | A tensors and A_iso | ev_doc_e13525bf6fae_000122_33bf1b34a755; ev_doc_e13525bf6fae_000421_eadfb5acbb53 |
 | 3 | Compute orbital shielding | step-1 geometry | GIAO PBE0 | pcSseg-1; RIJCOSX; TightSCF | sigma_orb tensors | ev_doc_e13525bf6fae_000106_ab35e5fab708; ev_doc_e13525bf6fae_000426_df78b2fc1dac |
 | 4 | Compute electronic-spin parameters | step-1 geometry | DKH2 state-averaged CASSCF/NEVPT2 | Fe(III) CAS(5,5); 1 sextet, 20 quartet, 30 doublet roots; cc-pwCVTZ-DK(Fe)/cc-pVDZ-DK(other atoms); SOC | g and D tensors | ev_doc_e13525bf6fae_000130_f3f7dcac403c |
@@ -30,3 +30,7 @@ The paper reports calculated Fe(III)Cl@TCPP shifts, experimental site shifts, R2
 ## 6. Limitations and interpretation boundaries
 
 This is a cluster-model benchmark, not a periodic MOF calculation. Site averaging, finite-temperature treatment, conformational disorder, and model chemistry sensitivity limit direct transfer to every material environment. A failed or incomplete high-level calculation must be reported as such rather than replaced with paper values.
+
+## Source correction (2026-09-23)
+
+SI Fig. S4 (p. S8) explicitly identifies the non-metallated linker as [C48H26N4O8]4-. SI Table S14 contains C48H24N4O8FeCl, with no carboxylic acid protons. Removing the two inner NH protons and adding Fe(III) and Cl- gives cluster charge -4, not 0: -4 - 2 + 3 - 1 = -4. This is formal charge bookkeeping from the disclosed model, not a verbatim Fe-cluster input charge line. The neutral/quintet input examples in SI S8 (pp. S19-S22) are explicitly for the different Fe(II)(py-NMe-PiPr2)Cl2 molecule and must not be transferred to this TCPP model. Atom coordinates, the sextet spin, requested NMR observables, reference results and tolerances are unchanged.

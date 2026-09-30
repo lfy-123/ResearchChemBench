@@ -330,3 +330,21 @@ AGENTS.local/
 /data_pipeline/third_party/grobid-quantities/
 /data_pipeline/third_party/delft/
 /data_pipeline/third_party/grobid-home
+
+# Local recovery state and scientific working files (code-only versioning)
+.rcb_recovery/
+/docs/
+/*.chk
+/*.fchk
+/*.rwf
+/*.log
+/*.out
+/*.dat
+/*.gbw
+/*.wfn
+/*.wfx
+/*.cube
+
+# Exclude local agents and evaluation workspaces from publication.
+/custom_agents/
+/workspaces/

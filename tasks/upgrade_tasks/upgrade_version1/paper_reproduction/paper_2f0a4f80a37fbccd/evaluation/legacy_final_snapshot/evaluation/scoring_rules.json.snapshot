@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "semantic",
+      "reference_id": "pr_process_structure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].structure_identity",
+          "$.method.charge",
+          "$.method.multiplicity"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Correct labeled neutral singlet bidentate-nitrate object is retained."
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "semantic",
+      "reference_id": "pr_process_stationary",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].optimization"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Stationary-point and imaginary-frequency validation is explicitly evidenced."
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "semantic",
+      "reference_id": "pr_result_geometry",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].observables",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Geometry supports bidentate nitrate and identifies the scored atom pairs."
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "semantic",
+      "reference_id": "pr_result_ir",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].nitrate_modes",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Nitrate modes are assigned from their displacement character and compared using the declared frequency scaling."
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "reference_id": "pr_final_assignment",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "The validated two Ir-O distances, nitrato bite angle and assigned nitrate vibrational pattern jointly support the bidentate nitrato structural assignment, with explicit frequency-scaling and experimental-comparison definitions."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

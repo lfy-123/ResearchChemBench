@@ -1,0 +1,233 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "method",
+      "validation",
+      "investigation",
+      "result"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "name",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "ground_state_method",
+          "basis",
+          "solvent_model",
+          "excited_state_method"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "ground_state_method": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          },
+          "solvent_model": {
+            "type": "string"
+          },
+          "excited_state_method": {
+            "type": "string"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "geometry_converged",
+          "stationary_point_test",
+          "imaginary_frequency_count",
+          "excited_state_converged",
+          "state_selection_evidence"
+        ],
+        "properties": {
+          "geometry_converged": {
+            "type": "boolean"
+          },
+          "stationary_point_test": {
+            "type": "string"
+          },
+          "imaginary_frequency_count": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "excited_state_converged": {
+            "type": "boolean"
+          },
+          "state_selection_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "investigation": {
+        "type": "object",
+        "required": [
+          "states_examined",
+          "selection_rule",
+          "attempted_calculations"
+        ],
+        "properties": {
+          "states_examined": {
+            "type": "integer"
+          },
+          "selection_rule": {
+            "type": "string"
+          },
+          "attempted_calculations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "wavelength_nm",
+          "oscillator_strength",
+          "state_identity",
+          "dominant_transition",
+          "transition_character",
+          "conclusion"
+        ],
+        "properties": {
+          "wavelength_nm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "oscillator_strength": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "state_identity": {
+            "type": "string"
+          },
+          "dominant_transition": {
+            "type": "string"
+          },
+          "transition_character": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ]
+    },
+    "else": {
+      "properties": {
+        "validation": {
+          "properties": {
+            "imaginary_frequency_count": {
+              "type": "integer"
+            }
+          }
+        },
+        "result": {
+          "properties": {
+            "wavelength_nm": {
+              "type": "number"
+            },
+            "oscillator_strength": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

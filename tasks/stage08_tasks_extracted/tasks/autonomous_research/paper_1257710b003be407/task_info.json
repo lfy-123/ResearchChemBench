@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_1257710b003be407",
+  "task_type": "autonomous_research",
+  "title": "Autonomous discovery of Cu-mediated propargyl-bromide activation",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate, generate, discriminate and validate a substantially open set of activation hypotheses and transition-state candidates while documenting search coverage and stopping."
+  ],
+  "paper": {
+    "title": "Expanding Ullmann Homocoupling to Cross-Coupling: Electrochemical Copper-Catalyzed Cross-Electrophile Coupling of Alkyl and Aryl Halides",
+    "doi": "10.1021/jacs.5c20694",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-02-10"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ catalyst precursor and explicit problem definition for Cu/L1/bromide plus propargyl bromide."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Autonomous candidate search and validated result, or bounded-failure report, following submission_schema.json."
+    }
+  ]
+}

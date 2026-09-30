@@ -585,7 +585,7 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_XTB_COMMAND",
         arguments=arguments,
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -603,12 +603,9 @@ def _xtb(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         optimized = directory / "xtbopt.xyz"
         if not optimized.is_file():
             raise RuntimeError("xTB optimization completed without xtbopt.xyz")
-        optimized_structure = structure_dict(relative_workspace_path(optimized))
-        optimized_structure["charge"] = charge
-        optimized_structure["multiplicity"] = (
-            unpaired + 1
-            if "unpaired_electrons" in method
-            else int(structure.get("multiplicity", unpaired + 1))
+        from ..electronic_state import inherit_state
+        optimized_structure = inherit_state(
+            structure_dict(relative_workspace_path(optimized)), structure, method
         )
         result = {
             "structure": optimized_structure,
@@ -1161,7 +1158,7 @@ def _openmolcas(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             input_path.name,
         ],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         environment_overrides={"MOLCAS_WORKDIR": str(scratch_path)},
     )
     (directory / "driver.stdout.log").write_text(completed["stdout"], encoding="utf-8")
@@ -1335,7 +1332,7 @@ def _multiwfn_wavefunction_analysis(action_id: str, request: dict[str, Any]) -> 
         arguments=[staged.name],
         directory=directory,
         stdin_text=stdin_text,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -1507,7 +1504,7 @@ def _multiwfn_isodensity_surface(request: dict[str, Any]) -> dict[str, Any]:
     shutil.copy2(source, staged)
     cores = int(request.get("resource_limits", {}).get("cpu_cores") or 1)
     timeout_seconds = int(
-        request.get("resource_limits", {}).get("walltime_seconds", 1800)
+        request.get("resource_limits", {}).get("walltime_seconds", 86400)
     )
     rows: list[dict[str, Any]] = []
     failures: list[dict[str, Any]] = []
@@ -1946,7 +1943,7 @@ def _critic2(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         arguments=[],
         directory=directory,
         stdin_text=script_text,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     stdout_path = directory / "stdout.log"
     stderr_path = directory / "stderr.log"
@@ -2220,7 +2217,7 @@ def _critic2_basins(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         arguments=[],
         directory=directory,
         stdin_text=script_text,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -2914,7 +2911,7 @@ def _orca_correlated_electron_density(request: dict[str, Any]) -> dict[str, Any]
         arguments=[f"./{input_path.name}"],
         directory=directory,
         timeout_seconds=int(
-            request.get("resource_limits", {}).get("walltime_seconds", 1800)
+            request.get("resource_limits", {}).get("walltime_seconds", 86400)
         ),
     )
     output_path = directory / "job.out"
@@ -3135,7 +3132,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(strict_electron_validation, bool):
             raise ValueError("strict_electron_count_validation must be a boolean")
         walltime_seconds = int(
-            request.get("resource_limits", {}).get("walltime_seconds", 1800)
+            request.get("resource_limits", {}).get("walltime_seconds", 86400)
         )
         if grid_points >= 300 and walltime_seconds < 1800:
             raise ValueError(
@@ -3207,7 +3204,7 @@ def _orca_export_electron_density(request: dict[str, Any]) -> dict[str, Any]:
             arguments=["density"],
             directory=directory,
             timeout_seconds=int(
-                request.get("resource_limits", {}).get("walltime_seconds", 1800)
+                request.get("resource_limits", {}).get("walltime_seconds", 86400)
             ),
         )
         commands.append(completed["command"])
@@ -3338,7 +3335,7 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         # the output directory and give ORCA a short explicit relative path.
         # (A bare ``job.inp`` is rejected by some ORCA builds.)
         arguments=[f"./{input_path.name}"], directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     output_path = directory / "job.out"
     output_path.write_text(completed["stdout"], encoding="utf-8")
@@ -3394,7 +3391,8 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "forces": (-gradient * conversion).tolist(),
             "unit": "eV/angstrom",
             "atom_count": atom_count,
-            "energy_hartree": energy,
+            "energy_hartree": numeric_lines[1],
+            "energy_source": "orca_engrad_same_evaluation",
             "raw_gradient_path": relative_workspace_path(engrad_files[-1]),
         }
     elif action_id == "calculate_atomic_charges":
@@ -3535,8 +3533,9 @@ def _orca(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             final_xyz = candidates[-1] if candidates else final_xyz
         if not final_xyz.is_file():
             raise RuntimeError("ORCA optimization produced no XYZ structure")
+        from ..electronic_state import inherit_state
         result = {
-            "structure": structure_dict(relative_workspace_path(final_xyz)),
+            "structure": inherit_state(structure_dict(relative_workspace_path(final_xyz)), structure_dict(inputs["structure"]), method),
             "converged": "THE OPTIMIZATION HAS CONVERGED" in completed["stdout"],
             "energy": energy,
             "energy_unit": "hartree",
@@ -4057,7 +4056,7 @@ def _bagel(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         completed = run_external(
             executable="BAGEL", environment_variable="CHEMGRAPH_BAGEL_COMMAND",
             arguments=[input_path.name], directory=directory,
-            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
             environment_overrides=environment,
         )
     else:
@@ -4067,7 +4066,7 @@ def _bagel(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         completed = run_external(
             executable="bagel-mpirun", environment_variable="CHEMGRAPH_BAGEL_MPIRUN_COMMAND",
             arguments=["-n", str(ranks), raw, input_path.name], directory=directory,
-            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
             environment_overrides=environment,
         )
     output_path = directory / "job.out"

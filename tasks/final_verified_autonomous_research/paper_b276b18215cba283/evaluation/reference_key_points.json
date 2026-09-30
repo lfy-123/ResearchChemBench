@@ -1,0 +1,34 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "items": [
+    {
+      "key_point_id": "ar_process_identity",
+      "key_point_type": "process",
+      "statement": "The submission identifies both named inputs as 57-atom neutral singlet single-arm conformers and supplies auditable validation.",
+      "expected": "Both structures, charge 0, multiplicity 1, atom count and calculation status are explicit.",
+      "evidence_ids": [
+        "ev_doc_e2fff3ecb4d3_000211_146d8dba3786",
+        "ev_doc_e2fff3ecb4d3_000212_bf6cfc4b1dee"
+      ]
+    },
+    {
+      "key_point_id": "ar_process_state",
+      "key_point_type": "process",
+      "statement": "The calculation establishes the lowest singlet transition and assigns its dominant orbital character.",
+      "expected": "S1 is explicitly identified and predominantly HOMO→LUMO character is reported for the single-arm model.",
+      "evidence_ids": [
+        "ev_doc_e2fff3ecb4d3_000102_1334addd5cc9"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_shift",
+      "key_point_type": "result",
+      "statement": "The cisoid S0→S1 excitation is lower than the transoid excitation by the source-reported relative amount.",
+      "expected": "Signed cisoid-minus-transoid shift is approximately -0.08 eV.",
+      "evidence_ids": [
+        "ev_doc_13b05be938fe_000120_b96ab8a91be3",
+        "ev_doc_e2fff3ecb4d3_000102_1334addd5cc9"
+      ]
+    }
+  ]
+}

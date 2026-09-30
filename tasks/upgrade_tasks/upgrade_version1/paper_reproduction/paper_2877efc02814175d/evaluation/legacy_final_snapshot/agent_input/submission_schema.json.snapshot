@@ -1,0 +1,286 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "mode",
+      "method",
+      "state_checks",
+      "complexes",
+      "comparison"
+    ],
+    "properties": {
+      "mode": {
+        "type": "string",
+        "minLength": 1
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure_method",
+          "solvent_model",
+          "optimization_choice",
+          "descriptor_definitions"
+        ],
+        "properties": {
+          "software": {
+            "type": "string",
+            "minLength": 1
+          },
+          "electronic_structure_method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "solvent_model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "optimization_choice": {
+            "type": "string",
+            "minLength": 1
+          },
+          "descriptor_definitions": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "state_checks": {
+        "type": "object",
+        "required": [
+          "all_objects_checked",
+          "details"
+        ],
+        "properties": {
+          "all_objects_checked": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "complexes": {
+        "type": "array",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": [
+            "object_id",
+            "metal",
+            "status",
+            "validation",
+            "observables"
+          ],
+          "properties": {
+            "object_id": {
+              "enum": [
+                "Cd",
+                "Co",
+                "Ni"
+              ]
+            },
+            "metal": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "completed",
+                "bounded_failure"
+              ]
+            },
+            "validation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observables": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "homo_lumo_gap_eV",
+                    "hardness_eV",
+                    "electrophilicity_eV"
+                  ],
+                  "properties": {
+                    "homo_lumo_gap_eV": {
+                      "type": "number"
+                    },
+                    "hardness_eV": {
+                      "type": "number"
+                    },
+                    "electrophilicity_eV": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "failure_reason"
+                  ],
+                  "properties": {
+                    "failure_reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "completed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observables": {
+                    "required": [
+                      "homo_lumo_gap_eV",
+                      "hardness_eV",
+                      "electrophilicity_eV"
+                    ]
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "observables": {
+                    "required": [
+                      "failure_reason"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "required": [
+                  "object_id"
+                ],
+                "properties": {
+                  "object_id": {
+                    "const": "Cd"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "metal": {
+                    "const": "Cd"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "required": [
+                  "object_id"
+                ],
+                "properties": {
+                  "object_id": {
+                    "const": "Co"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "metal": {
+                    "const": "Co"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "required": [
+                  "object_id"
+                ],
+                "properties": {
+                  "object_id": {
+                    "const": "Ni"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "metal": {
+                    "const": "Ni"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "maxItems": 3,
+        "allOf": [
+          {
+            "contains": {
+              "required": [
+                "object_id"
+              ],
+              "properties": {
+                "object_id": {
+                  "const": "Cd"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "required": [
+                "object_id"
+              ],
+              "properties": {
+                "object_id": {
+                  "const": "Co"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "required": [
+                "object_id"
+              ],
+              "properties": {
+                "object_id": {
+                  "const": "Ni"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        ]
+      },
+      "comparison": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "string"
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

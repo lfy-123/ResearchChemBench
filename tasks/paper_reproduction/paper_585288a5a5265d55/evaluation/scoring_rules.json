@@ -1,1 +1,89 @@
-{"paper_id":"paper_585288a5a5265d55","rules":[{"rule_id":"pr_rule_p1","type":"semantic","reference_id":"pr_p1","expected":"Traceable method provenance appropriate to the declared branch.","binding":{"artifact_paths":["report/results.json"],"fields":["$.method","$.status"],"comparison":"branch-aware expert verification"}},{"rule_id":"pr_rule_p2","type":"condition","reference_id":"pr_p2","expected":"Complete branch selected candidate has attached passed minimum validation.","binding":{"artifact_paths":["report/results.json"],"fields":["$.candidates.minimum_validation","$.selected_structure.candidate_id"],"comparison":"complete branch; match selected candidate_id to candidate-specific validation"}},{"rule_id":"pr_rule_r1","type":"numeric","reference_id":"pr_r1","target":0.009,"unit":"Angstrom MUE","tolerance":0.006,"binding":{"artifact_paths":["report/results.json"],"fields":["$.non_hydrogen_pair_distances.distance_angstrom"],"comparison":"complete branch; verify 276 unique pairs against coordinates and compute MUE to hidden GED distances"}},{"rule_id":"pr_rule_r2","type":"semantic","reference_id":"pr_r2","expected":"Complete branch descriptors follow public definitions and interpretation is gas-phase bounded.","binding":{"artifact_paths":["report/results.json"],"fields":["$.descriptors.phenyl_core_twist_deg","$.descriptors.core_planarity_rms_angstrom","$.sensitivity_or_uncertainty","$.limitations"],"comparison":"complete-branch recalculation and semantic verification"}},{"rule_id":"pr_rule_c1","type":"semantic","reference_id":"pr_c1","expected":"Conclusion is supported by the declared branch evidence.","binding":{"artifact_paths":["report/results.json"],"fields":["$.status","$.conclusion","$.limitations"],"comparison":"branch-aware semantic verification"}}]}
+{
+  "paper_id": "paper_585288a5a5265d55",
+  "rules": [
+    {
+      "rule_id": "pr_rule_p1",
+      "type": "semantic",
+      "reference_id": "pr_p1",
+      "expected": "Traceable method provenance appropriate to the declared branch.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.status"
+        ],
+        "comparison": "branch-aware expert verification"
+      }
+    },
+    {
+      "rule_id": "pr_rule_p2",
+      "type": "condition",
+      "reference_id": "pr_p2",
+      "expected": "Complete branch selected candidate has attached passed minimum validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].minimum_validation",
+          "$.selected_structure.candidate_id"
+        ],
+        "comparison": "complete branch; match selected candidate_id to candidate-specific validation"
+      }
+    },
+    {
+      "rule_id": "pr_rule_r1",
+      "type": "numeric",
+      "reference_id": "pr_r1",
+      "target": 0.009,
+      "unit": "Angstrom MUE",
+      "tolerance": 0.006,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.non_hydrogen_pair_distances[*].distance_angstrom"
+        ],
+        "comparison": "complete branch; verify 190 unique pairs for the 20 non-hydrogen atoms against coordinates and compute MUE to hidden GED distances"
+      }
+    },
+    {
+      "rule_id": "pr_rule_r2",
+      "type": "semantic",
+      "reference_id": "pr_r2",
+      "expected": "Complete branch descriptors follow public definitions and interpretation is gas-phase bounded.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.descriptors.phenyl_core_twist_deg",
+          "$.descriptors.core_planarity_rms_angstrom",
+          "$.sensitivity_or_uncertainty",
+          "$.limitations"
+        ],
+        "comparison": "complete-branch recalculation and semantic verification"
+      }
+    },
+    {
+      "rule_id": "pr_rule_c1",
+      "type": "semantic",
+      "reference_id": "pr_c1",
+      "expected": "Conclusion is supported by the declared branch evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "branch-aware semantic verification"
+      }
+    }
+  ]
+}

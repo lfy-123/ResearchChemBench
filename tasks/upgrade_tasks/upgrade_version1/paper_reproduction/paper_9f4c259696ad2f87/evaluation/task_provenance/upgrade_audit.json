@@ -1,0 +1,169 @@
+{
+  "source": "tasks/final_verified_paper_reproduction/paper_9f4c259696ad2f87",
+  "source_package_sha256": "e740304ebfa0eeb68deef1a1794944ad5c8af865950650acaf57509ba24fc5d5",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/compound_1_start.xyz": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/compound_1_start.xyz.snapshot",
+      "sha256": "3bb3f780d1f81587d9364c23c3d066e6ea0b66b570089f6657bf079b11e5f0ca"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "4fe7d5dc673e9673a95e4c92ba9d87dafdc671e3a3bb577a169dfdc529d58e47"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "382670c67583df27afcb39a9d0c1105b367a361dcac51873f98c8b186ce72116"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "cf5928fb3ff2fd6726032b69bee05eccc4297c25a9d738fed76f0fc8df21c44a"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "1910126d833b17ec160e40cae453efc1da262ff8dd910910f357f54f60c59d59"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "409a583314825da5d441b56776c95e9fa8d195ff0bad6467a3559f4141436bd9"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "f6302d272b6b7738e89e36866ac3a03c87e7c50b71ce5fc29d0c2360592ede0b"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "90c5e7481d922fb158a977c28b1c55584298d17a6b673879e287413acc59e5a6"
+    },
+    "evaluation/task_provenance/quality_repair_provenance.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/quality_repair_provenance.json.snapshot",
+      "sha256": "a70e79f4e2cd60a1042b55c017431ee35dd767ce99cdb7faab78a8ef8d1a6b7e"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "206adf1360ebee00ccbb4306fdfe146fb53a8dcc9217b462379f6830c7b1de81"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "13ed6a8aa74169a62b71cb2b4df51212ffca6e105fb142cf907166fd8d81bc9d"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "055e7d919347222e05bc7b258190cc080ce8d72ab41144b7afc3e4cde8336997"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "0ccd0ed3b99189aa2b80597d3f18eb550ed73a931434b482c2409577f79236fc"
+    }
+  },
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "implementation_date": "2026-09-27",
+  "batch": 3,
+  "source_docs": [
+    {
+      "path": "docs/evalution/update/paper_9f4c259696ad2f87.md",
+      "sha256": "fce13cddff64f6df88e51f9a16924772a284525c0d657aba1939c06eaab8e718"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+      "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+      "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+      "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+    },
+    {
+      "path": "papers/paper_9f4c259696ad2f87/documents/main.pdf",
+      "sha256": "592534cc448b295773af43b0783196ac34170f0e847fb7412d873e8a6e98c2ba",
+      "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+      "role": "source_original_scope_not_expanded_reference"
+    },
+    {
+      "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+      "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+      "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+      "role": "source_original_scope_not_expanded_reference"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "new_scientific_engine_starts": 0,
+  "scientific_reference_validated": false,
+  "blocker": null,
+  "input_preparation": "Mapped graph extraction and formula/charge checks only; source optimized coordinates are not public new answers.",
+  "first_version_spec": {
+    "matrix": "PXX1/PXX2 各有游离、B(C₆F₅)₃ 的 1:1/1:2 模型；同几何取出酸与完全松弛配对，以计量守恒循环比较。",
+    "accept": "交付结合/解离账本、同态 TD/NTO、f 和可比较滴定趋势；区分 π 扩展、几何和配位效应。不同酸数不能裸总能排序，不能从相似光谱硬判唯一计量。",
+    "optional": "FRET、完整浓度动力学及发光效率不加入。",
+    "pilot": "先试最大酸复合物及同态映射，固定实验浓度/环境；若过大，缩减题面中的计量空间再建立参考。"
+  },
+  "reference_gaps": [
+    "All new core matrix numeric references",
+    "Stationary-state/path validation",
+    "Method/conformer uncertainty calibration",
+    "Independent upgraded trial"
+  ],
+  "source_evidence_read": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+  "source_baseline_gate": "计量/浓度/谱定义一致；光谱不可区分时允许混合，FRET 非最低目标",
+  "historical_evidence_review": [
+    {
+      "path": "workspaces/codex_gpt56/paper_9f4c259696ad2f87_20260921_182340_da612f/runs/cli_runs/batch_20260921_182342_5704ac/autonomous_research-paper_9f4c259696ad2f87-codex-20260921_182342-45e738/results.json",
+      "sha256": "304fc71e1a28018dc508d6b533162a616908e496b7ffe0977be8f2624499d66b",
+      "json_top_keys": [
+        "schema_version",
+        "result_type",
+        "generated_at",
+        "task",
+        "run",
+        "agent",
+        "judge",
+        "score",
+        "scoring",
+        "tools",
+        "process_metrics",
+        "tokens"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    },
+    {
+      "path": "workspaces/codex_gpt56/paper_9f4c259696ad2f87_20260921_182340_da612f/runs/cli_runs/batch_20260921_182342_5704ac/autonomous_research-paper_9f4c259696ad2f87-codex-20260921_182342-45e738/report/results.json",
+      "sha256": "d9e9ac2039d44cc0cbae0df2493300ef64e1bbe9ebcaa18e654756ea161b1574",
+      "json_top_keys": [
+        "status",
+        "input_validation",
+        "protocol",
+        "results",
+        "conclusion",
+        "validation_evidence",
+        "calculation_details",
+        "artifacts"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    }
+  ],
+  "supervisor_contract_repairs": [
+    {
+      "at": "2026-09-27T12:39:12.353815+00:00",
+      "issue": "prelaunch_failure_requires_fake_job",
+      "previous_package_content_sha256": "38e8ce1391f01df19a8bef6a84b5c555fb05d93c76e57f6a00eb4c26ccb6226b",
+      "changes": [
+        "zero-launch diagnostics allowed",
+        "complete requirements preserved",
+        "density-analysis records do not invent energy or geometry"
+      ],
+      "scientific_thresholds_changed": false,
+      "new_scientific_computations": 0
+    }
+  ],
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ]
+}

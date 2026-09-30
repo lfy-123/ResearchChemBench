@@ -56,6 +56,7 @@ PROGRESSIVE_DISCOVERY_TOOL_NAMES = (
     "search_resources",
     "inspect_resource",
     "execute_action",
+    "validate_action",
     "submit_action_batch",
 )
 
@@ -95,11 +96,16 @@ TOOL_DESCRIPTIONS = {
     "execute_action": (
         "Execute one exact predefined Scientific/Data Action selected by action_id. Start from the "
         "compact template returned by inspect_action for this exact backend and replace every "
-        "placeholder. If validation returns repair_guidance, correct that same request and retry "
-        "once before considering another backend. The dispatcher performs no scientific defaults, "
+        "placeholder. Inspect returned diagnostics and effective inputs before deciding on a new calculation. "
+        "The dispatcher performs no scientific method selection, "
         "automatic retry, or fallback. Dense "
         "results are returned as concise scalars plus a typed primary ArtifactRef; the immutable "
         "artifact contains the complete coordinates, matrices, modes, or trajectories."
+    ),
+    "validate_action": (
+        "Check an explicit Action request, electronic state and resource constraints using the execution validator, "
+        "without submitting or computing. Returns effective input values, their sources and field-level errors. "
+        "This does not establish backend availability or scientific validity."
     ),
     "submit_action_batch": (
         "Run up to 32 independent requests concurrently when they share one Action and backend. "
@@ -108,6 +114,10 @@ TOOL_DESCRIPTIONS = {
         "GPU capacity, excess items queue automatically, and every child keeps an independent trace."
     ),
 }
+
+
+from chemistry_toolbox.src.execution_contract import action_execution_description
+TOOL_DESCRIPTIONS["execute_action"] += " " + action_execution_description()
 
 
 def _invoke_discovery(
@@ -216,6 +226,14 @@ def execute_action(request: ProgressiveActionRequest) -> dict[str, Any]:
     )
 
 
+def validate_action(request: ProgressiveActionRequest) -> dict[str, Any]:
+    value = request.model_dump(mode="json")
+    action_id = value.pop("action_id")
+    def validate():
+        return {**_execute_action(action_id, value, _validate_only=True), "validation_only": True, "execution_mode": "preflight"}
+    return execute_traced("validate_action", {"request": request.model_dump(mode="json")}, validate)
+
+
 def _select_distributed_batch_launches(
     pending: list[tuple[int, Any, dict[str, int]]], *, limit: int
 ) -> list[tuple[int, Any, dict[str, int]]]:
@@ -253,6 +271,10 @@ def _select_distributed_batch_launches(
 
 
 def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
+    from .managed_execution import recovery_enabled
+    if recovery_enabled() or request.submission_key:
+        from .async_action_tools import submit_action_batch_async
+        return submit_action_batch_async(request)
     specification = action_specs().get(request.action_id)
     if specification is None:
         return {
@@ -480,16 +502,11 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
                 results[index] = future.result()
 
     completed_results = [item for item in results if item is not None]
-    successful = sum(
-        item["result"].get("status") in {"success", "partial_success"}
-        for item in completed_results
-    )
+    from chemistry_toolbox.src.execution_states import aggregate_outcomes
+    successful = sum(item["result"]["status"] == "success" for item in completed_results)
+    partial = sum(item["result"]["status"] == "partial_success" for item in completed_results)
     return {
-        "status": (
-            "success"
-            if successful == len(results)
-            else "partial_success" if successful else "failed"
-        ),
+        "status": aggregate_outcomes(item["result"]["status"] for item in completed_results),
         "action_id": request.action_id,
         "backend_id": request.backend_id,
         "batch_safe": True,
@@ -501,7 +518,8 @@ def submit_action_batch(request: ActionBatchRequest) -> dict[str, Any]:
         "resource_capacity": capacity,
         "item_count": len(completed_results),
         "successful_item_count": successful,
-        "failed_item_count": len(completed_results) - successful,
+        "partial_item_count": partial,
+        "failed_item_count": len(completed_results) - successful - partial,
         "items": completed_results,
         "automatic_fallback": False,
     }

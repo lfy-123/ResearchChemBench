@@ -1,0 +1,95 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "source": {
+    "title": "Dealkylation as a Strategy to Synthesize Unconventional Lithium Salts from ortho-Phenyl-phosphonate-boranes",
+    "doi": "10.1021/acs.inorgchem.5c05101",
+    "pmcid": "PMC12848966",
+    "fulltext_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12848966/fullTextXML",
+    "retrieved_utc": "2026-09-01",
+    "retrieval_note": "Main-text/SI structural values were recovered during verification. The Europe PMC full-text XML response is archived as paper_3a22_pmc_fulltext.xml; the ACS SI PDF remains publisher-hosted."
+  },
+  "units": {
+    "distance": "angstrom"
+  },
+  "observations": [
+    {
+      "object": "neutral_2a",
+      "crystal_component": "2a",
+      "distances": {
+        "P-O1": {
+          "value": 1.5132,
+          "esd": 0.0012
+        },
+        "P-O2": {
+          "value": 1.5606,
+          "esd": 0.0013
+        },
+        "P-O3": {
+          "value": 1.5609,
+          "esd": 0.0012
+        },
+        "O1-B": {
+          "value": 1.666,
+          "esd": 0.002
+        }
+      }
+    },
+    {
+      "object": "anion_Li_MeCN2_3",
+      "crystal_component": "[Li(MeCN)2][3]",
+      "distances": {
+        "P-O1": {
+          "value": 1.5001,
+          "esd": 0.0012
+        },
+        "P-O2": {
+          "value": 1.5249,
+          "esd": 0.0011
+        },
+        "P-O3": {
+          "value": 1.5958,
+          "esd": 0.0012
+        },
+        "O2-B": {
+          "value": 1.6236,
+          "esd": 0.0018
+        }
+      }
+    }
+  ],
+  "calculation_model_labels": {
+    "neutral_2a": {
+      "P": 11,
+      "O1": 12,
+      "O2": 13,
+      "O3": 14,
+      "B": 21
+    },
+    "anion_Li_MeCN2_3": {
+      "P": 11,
+      "O1": 12,
+      "O2": 13,
+      "O3": 14,
+      "B": 18
+    }
+  },
+  "crystal_atom_connectivity_observations": {
+    "source_pages": [
+      "Main PDF p2 Figure1",
+      "SI S64 TableS4",
+      "SI S73 TableS8"
+    ],
+    "neutral_2a": {
+      "O1": {"reported_neighbors_or_contacts": ["P1", "B1"], "organic_carbon_neighbor": null},
+      "O2": {"reported_neighbors_or_contacts": ["P1", "C9"], "organic_carbon_neighbor": "C9 (ethyl group)"},
+      "O3": {"reported_neighbors_or_contacts": ["P1", "C7"], "organic_carbon_neighbor": "C7 (ethyl group)"}
+    },
+    "anion_Li_MeCN2_3": {
+      "O1": {"reported_neighbors_or_contacts": ["P1", "Li1", "Li1#1"], "organic_carbon_neighbor": null},
+      "O2": {"reported_neighbors_or_contacts": ["P1", "B1"], "organic_carbon_neighbor": null},
+      "O3": {"reported_neighbors_or_contacts": ["P1", "C19/C19A"], "organic_carbon_neighbor": "C19/C19A (disordered ethyl group)"}
+    },
+    "interpretation_boundary": "These are experimental crystal-label observations, including coordination contacts; they are not the atom indices or a computed bond-order assignment of the isolated models. Infer and report model-to-observation correspondence from chemical connectivity. Do not assume equal oxygen label numbers imply the same chemical role across the two crystals."
+  },
+  "boundary_policy": "Observed crystal distances only.  The isolated-model atom labels above are input labels; the calculation must state any structural mapping and must not treat the observations as a computed target."
+}

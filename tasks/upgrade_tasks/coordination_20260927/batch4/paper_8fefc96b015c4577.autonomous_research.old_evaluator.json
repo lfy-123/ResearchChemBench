@@ -1,0 +1,226 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_8fefc96b015c4577",
+    "items": [
+      {
+        "key_point_id": "kp_proc_freq",
+        "key_point_type": "process",
+        "statement": "The submitted workflow validates the reference state as a minimum and both candidates as first-order saddles using harmonic frequencies.",
+        "expected": "Frequency evidence establishes zero imaginary modes for the reference and one relevant imaginary mode for each saddle. Credit only states actually validated; reporting failure does not validate a missing state.",
+        "evidence_ids": [
+          "ev_doc_422576b7b3b3_000577_4746997818db"
+        ]
+      },
+      {
+        "key_point_id": "kp_proc_trace",
+        "key_point_type": "process",
+        "statement": "The comparison retains the three state identities and uses a common reference with consistent Gibbs-energy provenance.",
+        "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Common-reference energies and all optimized identities are traceable.",
+        "evidence_ids": [
+          "ev_doc_422576b7b3b3_000577_4746997818db",
+          "ev_doc_422576b7b3b3_000579_3e8cba83b532"
+        ]
+      },
+      {
+        "key_point_id": "kp_res_barriers",
+        "key_point_type": "result",
+        "statement": "The independently calculated barriers for the two candidates show a substantial separation relative to the reference state.",
+        "expected": "Both chemically identified saddle barriers are calculated from consistent Gibbs energies relative to the reference, with units and traceable calculation evidence. Credit only barriers actually computed and validated.",
+        "evidence_ids": [
+          "ev_doc_246beabe1bcd_000065_684791812c3a",
+          "ev_doc_246beabe1bcd_000067_1ad6eebbdf00"
+        ]
+      },
+      {
+        "key_point_id": "kp_res_order",
+        "key_point_type": "result",
+        "statement": "One candidate is lower than the other in the source comparison, but the autonomous task must establish the ordering from the submitted calculation.",
+        "expected": "Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+        "evidence_ids": [
+          "ev_doc_246beabe1bcd_000067_1ad6eebbdf00"
+        ]
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_8fefc96b015c4577",
+    "items": [
+      {
+        "conclusion_id": "c_final",
+        "claim_role": "final",
+        "statement": "Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+        "expected": "Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+        "supporting_key_point_ids": [
+          "kp_proc_freq",
+          "kp_proc_trace",
+          "kp_res_barriers",
+          "kp_res_order"
+        ],
+        "evidence_ids": [
+          "ev_doc_246beabe1bcd_000067_1ad6eebbdf00"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_8fefc96b015c4577",
+    "rules": [
+      {
+        "rule_id": "r_freq",
+        "reference_id": "kp_proc_freq",
+        "type": "semantic",
+        "expected": "Frequency counts and mode evidence validate the reference minimum and both candidate saddles. Credit actual successful state validation; a failure explanation is not a replacement for the missing validation.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.states.state_reference.validation_status",
+            "$.states.state_candidate_1.validation_status",
+            "$.states.state_candidate_2.validation_status",
+            "$.states.state_reference.imaginary_frequency_count",
+            "$.states.state_candidate_1.imaginary_frequency_count",
+            "$.states.state_candidate_2.imaginary_frequency_count"
+          ],
+          "comparison": "expert process comparison"
+        }
+      },
+      {
+        "rule_id": "r_trace",
+        "reference_id": "kp_proc_trace",
+        "type": "semantic",
+        "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Check optimized geometries, common-reference Gibbs subtraction and traceable calculation evidence.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.states",
+            "$.method",
+            "$.comparison"
+          ],
+          "comparison": "expert process comparison"
+        }
+      },
+      {
+        "rule_id": "r_b1",
+        "reference_id": "kp_res_barriers",
+        "type": "numeric",
+        "target": 13.08,
+        "unit": "kcal/mol",
+        "tolerance": 1.5,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.states",
+            "$.comparison"
+          ],
+          "comparison": "chemical identity mapping followed by absolute difference; semantic review required"
+        },
+        "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Compare the benzyl-tethered aryl barrier with this rule target only after chemical identity is established."
+      },
+      {
+        "rule_id": "r_b2",
+        "reference_id": "kp_res_barriers",
+        "type": "numeric",
+        "target": 19.25,
+        "unit": "kcal/mol",
+        "tolerance": 1.5,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.states",
+            "$.comparison"
+          ],
+          "comparison": "chemical identity mapping followed by absolute difference; semantic review required"
+        },
+        "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Compare the arenesulfonyl aryl barrier with this rule target only after chemical identity is established."
+      },
+      {
+        "rule_id": "r_order",
+        "reference_id": "kp_res_order",
+        "type": "semantic",
+        "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.states",
+            "$.comparison",
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "r_conc",
+        "reference_id": "c_final",
+        "type": "semantic",
+        "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.states",
+            "$.comparison",
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_8fefc96b015c4577",
+    "items": [
+      {
+        "failure_id": "cf_identity",
+        "condition": "A successful comparison mixes chemical identities, omits a required channel, or lacks a recoverable mapping between the public molecular graph and optimized structures. Reordering atoms with an explicit valid map is allowed.",
+        "severity": "critical"
+      },
+      {
+        "failure_id": "cf_validation",
+        "condition": "The submission assigns minimum or saddle character without frequency evidence or silently hides a failed optimization.",
+        "severity": "critical"
+      },
+      {
+        "failure_id": "cf_reference",
+        "condition": "The submission does not use state_reference as the common reference or omits units/provenance.",
+        "severity": "critical"
+      },
+      {
+        "failure_id": "cf_overclaim",
+        "condition": "The submission claims an experimental mechanism or undisclosed route from an unresolved or model-limited calculation.",
+        "severity": "critical"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_8fefc96b015c4577",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_422576b7b3b3_000577_4746997818db",
+        "source": "Supporting Information, Computational Details, SI S34: optimization, frequency classification, model chemistry and Gaussian 16."
+      },
+      {
+        "evidence_id": "ev_doc_422576b7b3b3_000579_3e8cba83b532",
+        "source": "Supporting Information, coordinate appendix, SI S36-S40: explicit reference and competing-state geometries and energies."
+      },
+      {
+        "evidence_id": "ev_doc_246beabe1bcd_000065_684791812c3a",
+        "source": "Main paper mechanistic discussion: numerical relative barriers for the competing cyclizations."
+      },
+      {
+        "evidence_id": "ev_doc_246beabe1bcd_000067_1ad6eebbdf00",
+        "source": "Main paper mechanistic paragraph: barrier ordering and quantitative values."
+      }
+    ]
+  }
+}

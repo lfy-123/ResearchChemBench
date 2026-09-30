@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_edc58bb67ac9d92e",
+  "items": [
+    {
+      "key_point_id": "kp_process_freq",
+      "key_point_type": "process",
+      "evidence_ids": [
+        "ev_doc_79a5a57845fc_000558_20ba990e5306",
+        "ev_doc_79a5a57845fc_000560_0cd17c6fd8f6"
+      ],
+      "statement": "The submitted stationary-point validation distinguishes minima from transition states by vibrational frequencies.",
+      "expected": "Minima have zero imaginary frequencies and each claimed TS has exactly one."
+    },
+    {
+      "key_point_id": "kp_process_irc",
+      "key_point_type": "process",
+      "evidence_ids": [
+        "ev_doc_79a5a57845fc_000560_0cd17c6fd8f6",
+        "ev_doc_79a5a57845fc_000564_703253fcedb4"
+      ],
+      "statement": "The two proposed reaction transition states are connectivity-validated.",
+      "expected": "IRC/path following connects TS A-B to A and B, and TS B-C to B and C, or the submission transparently reports a bounded failure."
+    },
+    {
+      "key_point_id": "kp_result_profile",
+      "key_point_type": "result",
+      "evidence_ids": [
+        "ev_doc_333ef975639c_000123_7327214cd7d2",
+        "ev_doc_79a5a57845fc_000561_1a11171e547b"
+      ],
+      "statement": "A consistent 298 K DCE Gibbs free-energy profile is assembled from the separated reference state.",
+      "expected": "The profile contains A, B, C and D with explicit relative-energy arithmetic and no unvalidated state used as a scored endpoint."
+    },
+    {
+      "key_point_id": "kp_result_tsb",
+      "key_point_type": "result",
+      "evidence_ids": [
+        "ev_doc_333ef975639c_000123_7327214cd7d2"
+      ],
+      "statement": "The activation free energy for the C-H borylation/electrophilic-substitution transition state is reported.",
+      "expected": "A numeric value in kcal/mol with provenance and the identity TS B-C."
+    },
+    {
+      "key_point_id": "kp_result_overall",
+      "key_point_type": "result",
+      "evidence_ids": [
+        "ev_doc_333ef975639c_000123_7327214cd7d2",
+        "ev_doc_333ef975639c_000183_4ad97f53c6f3"
+      ],
+      "statement": "The overall free-energy barrier and rate-determining step are reported.",
+      "expected": "A numeric overall barrier from the separated reference and a rate-determining-step claim supported by the profile."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct scientific objects and valid computational evidence.",
+      "expected": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: Use `perpendicular.xyz` and `coplanar.xyz`, two starting families of the same complete neutral singlet C35H43NZn molecule. The names label families, not fixed optimized angles. Keep the full Dipp-containing ligand; do not truncate the interaction under study.\n\nThe primary isolated-molecule comparison uses PBE0/6-311+G(d,p), with and without D3(BJ). At each relaxed local minimum compute harmonic Gibbs energies at 300 K and 1 atm. Report DeltaG = G_coplanar − G_perpendicular separately for each dispersion setting, alongside component electronic/ZPE/thermal quantities. The cross-geometry energy matrix E_method(geometry_other) contains electronic energies only: do not add a diagonal frequency correction to a nonstationary cross point.\n\nUse a consistent TD protocol for absorption at the validated structures; keep the source-comparable PBE0/6-311+G(d,p) vertical calculation as the primary baseline and document a justified sensitivity method separately. Post-SCF D3(BJ) changes energy and relaxed geometry, but does not itself alter a fixed-geometry density in this protocol. Compute at least the lowest five singlet roots and expand the root window if necessary to compare the same physical states. Distinguish low-energy and bright transitions using oscillator strengths and NTO/fragment evidence. Do not convert a gas-phase free-energy ordering into a quantitative solution population or luminescence lifetime.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_conformers",
+      "statement": "Two starting families × dispersion on/off, validated basins and 300 K harmonic G.",
+      "expected": "Verify complete identity, starting-to-final family map, stationary points and method-specific signed DeltaG. Evidence-backed collapse is allowed; failed optimizations alone do not establish absence. Cover coplanar/perpendicular starts at both D3(BJ) settings with PBE0/6-311+G(d,p), 300 K, 1 atm harmonic G. G=E+thermal_G_correction where the correction includes ZPE; do not add ZPE twice. Distinct endpoints require stationary-point evidence. Recompute DeltaG=G_cop-G_perp in kJ/mol separately for each setting. If a family collapses, retain start/end/log evidence and report no two-minimum gap rather than assigning zero from a failed job. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_energy_decomposition",
+      "statement": "Diagonal and reciprocal cross-geometry electronic-energy matrix.",
+      "expected": "Recompute dispersion and relaxation components with matched composition and energy zero. No off-diagonal G constructed from unrelated frequencies; no fixed-geometry electronic-density effect falsely attributed to post-SCF D3. For each starting family follow its on/off relaxed endpoint and compute both electronic methods at each geometry. State a decomposition, e.g. direct=E_on(R_off)-E_off(R_off), relaxation=E_on(R_on)-E_on(R_off), total=E_on(R_on)-E_off(R_off); verify direct+relaxation=total after unit conversion. Endpoints may be shared after evidenced collapse. Cross energies are not G; post-SCF D3 does not change the fixed-geometry density. Link contact/torsion changes to the measured components. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_transitions",
+      "statement": "Root windows and matched NTO/fragment states at representative geometries.",
+      "expected": "Inspect real TD outputs, energies, f values and state matching. Compare wavelength and brightness separately; root ordinal or orbital percentage alone does not establish the optical mechanism. Every distinct primary relaxed geometry has actual TD S1-S5 energy/f results and enough additional roots if physical states move out of window. Characterize low/bright states with NTO/transition-density and Zn/ligand partitions. Resolve every state-comparison endpoint and recompute right-minus-left energy/f changes and wavelength=hc/E with units. Quantitative low-frequency thermochemistry sensitivity AND a decisive TD-method check are required; ordinal root matching, a redshift alone, or metal weight alone cannot establish the chain. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Evidence-supported hypothesis discrimination and sensitivity.",
+      "expected": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Dropping the Dipp ligand, mixing energy/free-energy definitions, transferring thermal corrections to cross points, claiming post-SCF D3 changes fixed-geometry density, or equating red shift with larger oscillator strength.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

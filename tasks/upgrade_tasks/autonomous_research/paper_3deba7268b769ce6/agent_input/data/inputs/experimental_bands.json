@@ -1,0 +1,20 @@
+{
+  "source": "SI PDF p5 Table S2, lower-energy absorption band; higher band in Table S1 is a different observable",
+  "unit": "kcal/mol photon energy",
+  "calibration_solvents": {
+    "toluene": {
+      "dye3": 57.76,
+      "dye4": 61.75
+    },
+    "ethyl_acetate": {
+      "dye3": 52.94,
+      "dye4": 59.44
+    }
+  },
+  "holdout_methanol": {
+    "dye3": 63.39,
+    "dye4": 69.23
+  },
+  "conversion": "1 eV = 23.06055 kcal/mol; wavelength_nm = 28591.43 / energy_kcal_mol",
+  "source_discrepancy": "Main DCM lower-band value differs from SI; DCM is outside the required three-solvent matrix, so no inconsistent target is fitted."
+}

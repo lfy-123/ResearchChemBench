@@ -1,0 +1,11 @@
+{
+  "systems": {
+    "aldehyde": {"name": "1,3,5-triformylbenzene", "smiles": "O=Cc1cc(C=O)cc(C=O)c1", "charge": 0, "multiplicity": 1},
+    "diamine": {"name": "p-phenylenediamine (benzene-1,4-diamine)", "smiles": "Nc1ccc(N)cc1", "charge": 0, "multiplicity": 1},
+    "ionic_liquid_cation": {"name": "1-octyl-3-methylimidazolium cation", "smiles": "CCCCCCCCn1cc[n+](C)c1", "charge": 1, "multiplicity": 1},
+    "ionic_liquid_anion": {"name": "bis(trifluoromethylsulfonyl)imide anion", "smiles": "C(F)(F)(F)S(=O)(=O)[N-]S(=O)(=O)C(F)(F)F", "charge": -1, "multiplicity": 1}
+  },
+  "complexes": {"binary": {"components": ["aldehyde", "diamine"], "stoichiometry": "1:1", "total_charge": 0, "multiplicity": 1}, "ternary": {"components": ["ionic_liquid_cation", "ionic_liquid_anion", "aldehyde", "diamine"], "stoichiometry": "1:1:1:1", "total_charge": 0, "multiplicity": 1}},
+  "energy_definition": "Report E(complex) − sum(E of separated components), with the geometry and correction convention explicitly stated.",
+  "units": "kJ/mol, plus native raw energies"
+}

@@ -1,0 +1,669 @@
+{
+  "definitions": {
+    "bond_order": "sum_AB[(P S)_mu,nu(P S)_nu,mu + (Pspin S)_mu,nu(Pspin S)_nu,mu], unrestricted Mayer; dimensionless",
+    "spin_S_total": "sum over two sulfur atoms of NPA N_alpha-N_beta; electrons",
+    "antibonding_occupation": "c^T S P S c on the common-geometry cation singly occupied natural orbital, normalized c^T S c=1; electron count",
+    "caveat": "AO, Lowdin and NAO bond indices differ; none is a directly measured bond order. No experimental redox potential or rate inferred."
+  },
+  "baselines": [
+    {
+      "id": "nor_neutral",
+      "calculation_id": "legacy_nor_neutral_BP86_TZVP_optfreq",
+      "SS_distance_A": 4.056140073290493,
+      "electronic_Eh": -1186.04134572,
+      "G_Eh": -1185.863571,
+      "frequency_count": 72,
+      "minimum_frequency_cm1": 60.6081,
+      "raw_file": "outputs/legacy_nor_neutral_BP86_TZVP_optfreq/stdout.log",
+      "source_sha256": "1d7e740146cb4474ae66a826c734ba1771a865e1cd0a9aa4a04dbc87e519a073"
+    },
+    {
+      "id": "nor_cation",
+      "calculation_id": "legacy_nor_cation_BP86_TZVP_optfreq",
+      "SS_distance_A": 3.9832393155985497,
+      "electronic_Eh": -1185.76607958,
+      "G_Eh": -1185.590082,
+      "frequency_count": 72,
+      "minimum_frequency_cm1": 47.8821,
+      "raw_file": "outputs/legacy_nor_cation_BP86_TZVP_optfreq/stdout.log",
+      "source_sha256": "ce1e282e4368fbcac1f12bbf19686f2851cdd3129b1796a61baa7679e5aaa42f"
+    },
+    {
+      "id": "DTCO_neutral",
+      "calculation_id": "DTCO_neutral_BP86_TZVP_strict_optfreq_a2",
+      "SS_distance_A": 3.6889388047419547,
+      "electronic_Eh": -1032.40443101,
+      "G_Eh": -1032.271872,
+      "frequency_count": 54,
+      "minimum_frequency_cm1": 104.3185,
+      "raw_file": "outputs/DTCO_neutral_BP86_TZVP_strict_optfreq_a2/stdout.log",
+      "source_sha256": "2d0a3ae85bf96ce699c9875a86fa3efd23ceeb79b67adef28c9033ece70e4fb7"
+    },
+    {
+      "id": "DTCO_cation",
+      "calculation_id": "DTCO_cation_author_BP86_TZVP_optfreq_a1",
+      "SS_distance_A": 3.5298454461313176,
+      "electronic_Eh": -1032.12508557,
+      "G_Eh": -1031.993375,
+      "frequency_count": 54,
+      "minimum_frequency_cm1": 108.8787,
+      "raw_file": "outputs/DTCO_cation_author_BP86_TZVP_optfreq_a1/stdout.log",
+      "source_sha256": "6545d7848c0be3c9f4aa008e11bcdfbf980426a0d00f49f283d5baf98784a8ce"
+    }
+  ],
+  "states": {
+    "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "2e9e3f4bdc5093069ac577d119ede4a4884b8913bdb83931aa91171ae99d9a79",
+      "stdout_sha256": "935a7b2634ed156ceb6b1dabd03f21f19b2c576597b0dc7add7cc59efecc2dd8",
+      "charge": 0,
+      "multiplicity": 1,
+      "SS_distance_A": 4.0561400731258175,
+      "electronic_Eh": -1186.041345722024,
+      "Mayer_unrestricted_total": 0.0019298724165925957,
+      "Lowdin_Wiberg_total_density": 0.00585015044046424,
+      "Lowdin_spin_S_total": 0.0,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 6.504451566605786e-05,
+        "beta_orthonormal_max_error": 2.8032021148760577e-12,
+        "electron_trace": 105.99999999813144,
+        "density_reconstruction_max_error": 5.128019786582172e-09
+      },
+      "NAO_Wiberg_total_density": 0.0049,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.0,
+      "NPA_sections": 1,
+      "antibonding_occupation": 1.9951715293602192,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "S2_before_annihilation": 0.0
+    },
+    "nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "e289140207c89ad630ae1f8cef7676ca5ff0e4e71012dd577e5fcf9f6a5f8654",
+      "stdout_sha256": "aa1ee614195417c516ee56587ef72348db025739163420b8f3b2d08fb0843666",
+      "charge": 1,
+      "multiplicity": 2,
+      "SS_distance_A": 4.0561400731258175,
+      "electronic_Eh": -1185.764531001774,
+      "Mayer_unrestricted_total": 0.2993535755585505,
+      "Lowdin_Wiberg_total_density": 0.13528051684144426,
+      "Lowdin_spin_S_total": 0.8196572203462591,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 6.504451567191138e-05,
+        "beta_orthonormal_max_error": 1.1860458858894869e-07,
+        "electron_trace": 105.00000001304474,
+        "density_reconstruction_max_error": 6.019556408887183e-09
+      },
+      "NAO_Wiberg_total_density": 0.1626,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.87033,
+      "NPA_sections": 3,
+      "UNO": {
+        "occupation": 1.0000000011165204,
+        "sulfur_Lowdin_fraction": 0.7765075132980077,
+        "S_pair_Mulliken_overlap_per_electron": -0.003119476255064613,
+        "total_spin_trace": 1.0000000005610965,
+        "largest_deviations_from_integer_occupation": [
+          0.0002800303041955153,
+          0.00028002801168791613,
+          0.00014894318587055366,
+          0.00014894271415590363,
+          0.00014211773934325045
+        ]
+      },
+      "antibonding_occupation": 1.0000000011165213,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "charge_pair_diagnostic": {
+        "removed_electron_trace": 0.9999999856997872,
+        "principal_depletion_eigenvalue": 1.0048067174260766,
+        "principal_depletion_UNO_overlap_squared": 0.9904521700234888,
+        "neutral_minus_cation_projected_occupation": 0.9951715282436979,
+        "same_geometry_overlap_matrix_max_error": 7.859993311765123e-08
+      },
+      "S2_before_annihilation": 0.7515
+    },
+    "nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "5202412344b5debc4af88290d67946886b54553457988766d1d1c800b626397a",
+      "stdout_sha256": "fa25a3898b0c33b1c544fdfcce144532502a18868cef3659e8234d692b514a3d",
+      "charge": 0,
+      "multiplicity": 1,
+      "SS_distance_A": 3.983239315463662,
+      "electronic_Eh": -1186.039524429338,
+      "Mayer_unrestricted_total": 0.0007245580837882931,
+      "Lowdin_Wiberg_total_density": 0.00601151879555523,
+      "Lowdin_spin_S_total": 0.0,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 6.56981318945312e-05,
+        "beta_orthonormal_max_error": 1.6133760993852775e-12,
+        "electron_trace": 105.9999999960209,
+        "density_reconstruction_max_error": 4.533871278411539e-09
+      },
+      "NAO_Wiberg_total_density": 0.0046,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.0,
+      "NPA_sections": 1,
+      "antibonding_occupation": 1.9952711543744943,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "S2_before_annihilation": 0.0
+    },
+    "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "13c06340bd0ee702d9f7f0db09e11093be535406880874fc6a566c2c4b97dceb",
+      "stdout_sha256": "4ba9df937d559293fcd366e5562ef666985e551b31c6845e505e35c66f03f500",
+      "charge": 1,
+      "multiplicity": 2,
+      "SS_distance_A": 3.983239315463662,
+      "electronic_Eh": -1185.766079575775,
+      "Mayer_unrestricted_total": 0.289272111553902,
+      "Lowdin_Wiberg_total_density": 0.12881264747614896,
+      "Lowdin_spin_S_total": 0.8083956428493786,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 6.569813190717406e-05,
+        "beta_orthonormal_max_error": 7.461703696124861e-08,
+        "electron_trace": 104.99999998587589,
+        "density_reconstruction_max_error": 4.7006138981231516e-09
+      },
+      "NAO_Wiberg_total_density": 0.1569,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.8594799999999996,
+      "NPA_sections": 3,
+      "UNO": {
+        "occupation": 0.9999999991936896,
+        "sulfur_Lowdin_fraction": 0.7662776016835205,
+        "S_pair_Mulliken_overlap_per_electron": -0.005833288057188714,
+        "total_spin_trace": 0.999999999390126,
+        "largest_deviations_from_integer_occupation": [
+          0.0002717305365795841,
+          0.00027173015962525505,
+          0.0001500469154313909,
+          0.00015004298524678994,
+          0.00013789711492395718
+        ]
+      },
+      "antibonding_occupation": 0.9999999991936871,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "charge_pair_diagnostic": {
+        "removed_electron_trace": 1.0000000130354336,
+        "principal_depletion_eigenvalue": 1.0047081406481786,
+        "principal_depletion_UNO_overlap_squared": 0.9906463295431372,
+        "neutral_minus_cation_projected_occupation": 0.9952711551808072,
+        "same_geometry_overlap_matrix_max_error": 5.008264253834882e-08
+      },
+      "S2_before_annihilation": 0.7515
+    },
+    "DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "e9de5cd63825299b0b3d93249dbeb400f3ad0af80a05087406fa3f2b7579316d",
+      "stdout_sha256": "0b37e899b06e87a059f95ba77d28110837e73840b37c17a6661313c6db976314",
+      "charge": 0,
+      "multiplicity": 1,
+      "SS_distance_A": 3.6891563810872396,
+      "electronic_Eh": -1032.404430894211,
+      "Mayer_unrestricted_total": -0.008091753557997558,
+      "Lowdin_Wiberg_total_density": 0.010449522735618477,
+      "Lowdin_spin_S_total": 0.0,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 0.00018861754381289858,
+        "beta_orthonormal_max_error": 4.694676971849007e-13,
+        "electron_trace": 79.99999999938692,
+        "density_reconstruction_max_error": 3.478110466303974e-09
+      },
+      "NAO_Wiberg_total_density": 0.0026,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.0,
+      "NPA_sections": 1,
+      "antibonding_occupation": 1.9954331216088022,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "S2_before_annihilation": 0.0
+    },
+    "DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "adacd8b7cffce46aef46dccf7292ae406c194bea9935d503919e768dc140faa1",
+      "stdout_sha256": "578f70310e9b6506de1f2a301cd7bf6b2897a7c17e75a725ff54eb38b0a660fe",
+      "charge": 1,
+      "multiplicity": 2,
+      "SS_distance_A": 3.6891563810872396,
+      "electronic_Eh": -1032.123404825901,
+      "Mayer_unrestricted_total": 0.2984178996154155,
+      "Lowdin_Wiberg_total_density": 0.12685687238597892,
+      "Lowdin_spin_S_total": 0.8637561935173016,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 0.0001886175438532813,
+        "beta_orthonormal_max_error": 7.84798662251078e-08,
+        "electron_trace": 79.00000000919846,
+        "density_reconstruction_max_error": 3.528373593297829e-09
+      },
+      "NAO_Wiberg_total_density": 0.1586,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.89804,
+      "NPA_sections": 3,
+      "UNO": {
+        "occupation": 1.0000000000929579,
+        "sulfur_Lowdin_fraction": 0.8178591171195027,
+        "S_pair_Mulliken_overlap_per_electron": -0.035311690011536064,
+        "total_spin_trace": 1.0000000003064429,
+        "largest_deviations_from_integer_occupation": [
+          0.00028515618240229607,
+          0.000285154744458449,
+          0.00015932229734705317,
+          0.0001593198950437966,
+          0.00015265346175230825
+        ]
+      },
+      "antibonding_occupation": 1.0000000000929572,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "charge_pair_diagnostic": {
+        "removed_electron_trace": 1.0000000013371375,
+        "principal_depletion_eigenvalue": 1.0045477298425836,
+        "principal_depletion_UNO_overlap_squared": 0.9909627051754898,
+        "neutral_minus_cation_projected_occupation": 0.995433121515845,
+        "same_geometry_overlap_matrix_max_error": 4.891449667879244e-08
+      },
+      "S2_before_annihilation": 0.7516
+    },
+    "DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "f5a0b8fe36bb196884474a16f8a195f49886f5766f08935c37c05162b4daf1e0",
+      "stdout_sha256": "c7226c577507e48b32f6905fcfaa2cbf0194129a60e26e5211a720128b73f52f",
+      "charge": 0,
+      "multiplicity": 1,
+      "SS_distance_A": 3.529845444955797,
+      "electronic_Eh": -1032.402323771612,
+      "Mayer_unrestricted_total": -0.01126827936985243,
+      "Lowdin_Wiberg_total_density": 0.015173289937765838,
+      "Lowdin_spin_S_total": 0.0,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 0.00019595754667753827,
+        "beta_orthonormal_max_error": 3.317778426222634e-13,
+        "electron_trace": 80.0000000031887,
+        "density_reconstruction_max_error": 5.261645785736846e-09
+      },
+      "NAO_Wiberg_total_density": 0.0034,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.0,
+      "NPA_sections": 1,
+      "antibonding_occupation": 1.9952724619658546,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "S2_before_annihilation": 0.0
+    },
+    "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1": {
+      "case_id": "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk",
+      "fchk_sha256": "9850310ccb62435e1b9e92e9120fadedf3ec20dbca3feed47158e234de517153",
+      "stdout_sha256": "0a7b33f1d4b0f3df1d527b469eb47f6e1719376bbb9b91c896570f097cdf51b8",
+      "charge": 1,
+      "multiplicity": 2,
+      "SS_distance_A": 3.529845444955797,
+      "electronic_Eh": -1032.125085571949,
+      "Mayer_unrestricted_total": 0.28847395982104584,
+      "Lowdin_Wiberg_total_density": 0.12478078018937327,
+      "Lowdin_spin_S_total": 0.8559593297500774,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 0.0001959575468271314,
+        "beta_orthonormal_max_error": 4.6995237010034804e-08,
+        "electron_trace": 78.99999997112604,
+        "density_reconstruction_max_error": 6.025599130765613e-09
+      },
+      "NAO_Wiberg_total_density": 0.1549,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.8898400000000013,
+      "NPA_sections": 3,
+      "UNO": {
+        "occupation": 0.9999999993188335,
+        "sulfur_Lowdin_fraction": 0.8115027587623193,
+        "S_pair_Mulliken_overlap_per_electron": -0.05019287989620115,
+        "total_spin_trace": 0.9999999998635141,
+        "largest_deviations_from_integer_occupation": [
+          0.0002881188154764125,
+          0.0002881185475451055,
+          0.00016042930381739967,
+          0.00016042921119385767,
+          0.00014948833795469518
+        ]
+      },
+      "antibonding_occupation": 0.9999999993188308,
+      "occupation_definition": "Projection of total density on same-geometry cation singly occupied natural orbital; antibonding label is accepted only when negative S-S overlap and sulfur-dominant composition are demonstrated.",
+      "charge_pair_diagnostic": {
+        "removed_electron_trace": 1.000000027673118,
+        "principal_depletion_eigenvalue": 1.004707458619486,
+        "principal_depletion_UNO_overlap_squared": 0.9906465026353795,
+        "neutral_minus_cation_projected_occupation": 0.9952724626470238,
+        "same_geometry_overlap_matrix_max_error": 1.8104784598599322e-08
+      },
+      "S2_before_annihilation": 0.7516
+    },
+    "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2": {
+      "case_id": "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.fchk",
+      "fchk_sha256": "6741b9d13773942b0c319998f7885996a3518ae21652611f533d61138ebcdd40",
+      "stdout_sha256": "b97ce3c8192316afc6449e7eb1ba1143cc6f0c61ef72335d2162ae916ed36fa7",
+      "charge": 0,
+      "multiplicity": 1,
+      "SS_distance_A": 3.688938803622793,
+      "electronic_Eh": -1032.404431006217,
+      "Mayer_unrestricted_total": -0.008096715181000493,
+      "Lowdin_Wiberg_total_density": 0.01045499336661626,
+      "Lowdin_spin_S_total": 0.0,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 0.00018862013424614322,
+        "beta_orthonormal_max_error": 6.930012119710227e-13,
+        "electron_trace": 79.99999998556517,
+        "density_reconstruction_max_error": 4.334642200731764e-09
+      },
+      "NAO_Wiberg_total_density": 0.0026,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.0,
+      "NPA_sections": 1,
+      "antibonding_occupation": 1.9954326807044234,
+      "occupation_definition": "Projection of total density on the same-geometry cation UNO, as for original eight states.",
+      "S2_before_annihilation": 0.0
+    },
+    "DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2": {
+      "case_id": "DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+      "raw_fchk": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_0de37d01e35c27df/outputs/DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.fchk",
+      "fchk_sha256": "534fe9f5e2daa732f910834aebced20688dc2bf6f660c3eaa0e33b68d3f2a66c",
+      "stdout_sha256": "6c94c75e5a4d6302176c5044759a416e8f471ecd3f8523de67a0c24ddca1b9b6",
+      "charge": 1,
+      "multiplicity": 2,
+      "SS_distance_A": 3.688938803622793,
+      "electronic_Eh": -1032.123405342691,
+      "Mayer_unrestricted_total": 0.29841498128307875,
+      "Lowdin_Wiberg_total_density": 0.12685747413806836,
+      "Lowdin_spin_S_total": 0.8637679366304807,
+      "matrix_checks": {
+        "overlap_min_eigenvalue": 0.00018862013434267985,
+        "beta_orthonormal_max_error": 5.84354636799551e-08,
+        "electron_trace": 78.99999998590242,
+        "density_reconstruction_max_error": 5.776068512375332e-09
+      },
+      "NAO_Wiberg_total_density": 0.1586,
+      "NPA_sulfur_spin_alpha_minus_beta": 0.8980599999999992,
+      "NPA_sections": 3,
+      "UNO": {
+        "occupation": 1.0000000013193697,
+        "sulfur_Lowdin_fraction": 0.8178709328058502,
+        "S_pair_Mulliken_overlap_per_electron": -0.03533154575470709,
+        "total_spin_trace": 1.0000000010534202,
+        "largest_deviations_from_integer_occupation": [
+          0.00028515745988921815,
+          0.000285156841451092,
+          0.00015932838736260586,
+          0.0001593269650737028,
+          0.00015266057218221718
+        ]
+      },
+      "antibonding_occupation": 1.000000001319374,
+      "occupation_definition": "Projection of total density on the same-geometry cation UNO, as for original eight states.",
+      "S2_before_annihilation": 0.7516
+    }
+  },
+  "contrasts": {
+    "nor": {
+      "contraction_A": 0.07290075766215542,
+      "relaxed_Mayer_change": 0.2873422391373094,
+      "vertical_Mayer_change_at_neutral": 0.29742370314195793,
+      "vertical_NAO_change_at_neutral": 0.1577,
+      "vertical_Lowdin_change_at_neutral": 0.12943036640098002,
+      "occupation_change_at_neutral": -0.9951715282436979
+    },
+    "DTCO": {
+      "contraction_A": 0.15909335866699603,
+      "relaxed_Mayer_change": 0.2965706750020463,
+      "vertical_Mayer_change_at_neutral": 0.3065116964640792,
+      "vertical_NAO_change_at_neutral": 0.156,
+      "vertical_Lowdin_change_at_neutral": 0.1164024807714521,
+      "occupation_change_at_neutral": -0.9954326793850494
+    }
+  },
+  "interpretation_metrics": {
+    "rigidity_contrast": {
+      "contraction_difference_A": 0.08619260100484061,
+      "bond_order_change": 0.009228435864736928,
+      "occupation_change": -0.0002611511413515011
+    },
+    "analysis_sensitivity": {
+      "contraction_difference_A": -0.00021757746444661663,
+      "bond_order_change": 2.043290666164932e-06,
+      "occupation_change": 4.4213079553045986e-07
+    }
+  },
+  "independent_checks": {
+    "count": 20,
+    "max_absolute_difference": 5.861931634543183e-09
+  },
+  "matrix": {
+    "oxidation_pairs": {
+      "nor_neutral": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "legacy_nor_neutral_BP86_TZVP_optfreq",
+          "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1"
+        ],
+        "atom_map_file": "structures/nor_neutral_map.json",
+        "raw_files": [
+          "outputs/legacy_nor_neutral_BP86_TZVP_optfreq/stdout.log",
+          "outputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/stdout.log",
+          "outputs/nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 4.0561400731258175,
+          "electronic_Eh": -1186.041345722024,
+          "spin_S_total": 0.0,
+          "bond_order": 0.0019298724165925957
+        },
+        "interpretation": "Bond order is total-electron unrestricted Mayer (including spin-density term); spin is summed sulfur alpha-beta NPA population. Matched relaxed geometry checked by native frequencies. See table for NAO/Lowdin alternatives and occupations."
+      },
+      "nor_cation": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "legacy_nor_cation_BP86_TZVP_optfreq",
+          "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1"
+        ],
+        "atom_map_file": "structures/nor_cation_map.json",
+        "raw_files": [
+          "outputs/legacy_nor_cation_BP86_TZVP_optfreq/stdout.log",
+          "outputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/stdout.log",
+          "outputs/nor_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 3.983239315463662,
+          "electronic_Eh": -1185.766079575775,
+          "spin_S_total": 0.8594799999999996,
+          "bond_order": 0.289272111553902
+        },
+        "interpretation": "Bond order is total-electron unrestricted Mayer (including spin-density term); spin is summed sulfur alpha-beta NPA population. Matched relaxed geometry checked by native frequencies. See table for NAO/Lowdin alternatives and occupations."
+      },
+      "DTCO_neutral": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "DTCO_neutral_BP86_TZVP_strict_optfreq_a2",
+          "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2"
+        ],
+        "atom_map_file": "structures/DTCO_neutral_map.json",
+        "raw_files": [
+          "outputs/DTCO_neutral_BP86_TZVP_strict_optfreq_a2/stdout.log",
+          "outputs/DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2/stdout.log",
+          "outputs/DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 3.688938803622793,
+          "electronic_Eh": -1032.404431006217,
+          "spin_S_total": 0.0,
+          "bond_order": -0.008096715181000493
+        },
+        "interpretation": "Bond order is total-electron unrestricted Mayer (including spin-density term); spin is summed sulfur alpha-beta NPA population. Matched relaxed geometry checked by native frequencies. See table for NAO/Lowdin alternatives and occupations."
+      },
+      "DTCO_cation": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "DTCO_cation_author_BP86_TZVP_optfreq_a1",
+          "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1"
+        ],
+        "atom_map_file": "structures/DTCO_cation_map.json",
+        "raw_files": [
+          "outputs/DTCO_cation_author_BP86_TZVP_optfreq_a1/stdout.log",
+          "outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/stdout.log",
+          "outputs/DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 3.529845444955797,
+          "electronic_Eh": -1032.125085571949,
+          "spin_S_total": 0.8898400000000013,
+          "bond_order": 0.28847395982104584
+        },
+        "interpretation": "Bond order is total-electron unrestricted Mayer (including spin-density term); spin is summed sulfur alpha-beta NPA population. Matched relaxed geometry checked by native frequencies. See table for NAO/Lowdin alternatives and occupations."
+      }
+    },
+    "vertical_geometry": {
+      "nor_neutral_on_cation": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+          "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1"
+        ],
+        "atom_map_file": "structures/nor_neutral_map.json",
+        "raw_files": [
+          "outputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/stdout.log",
+          "outputs/nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 3.983239315463662,
+          "electronic_Eh": -1186.039524429338,
+          "bond_order": 0.0007245580837882931,
+          "antibonding_occupation": 1.9952711543744943
+        },
+        "interpretation": "Same nuclei in both charge calculations. Occupation projects each total density onto the same-geometry cation singly occupied natural orbital; sulfur character and negative S-S overlap support the antibonding label. No thermal correction assigned."
+      },
+      "nor_cation_on_neutral": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1"
+        ],
+        "atom_map_file": "structures/nor_cation_map.json",
+        "raw_files": [
+          "outputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/stdout.log",
+          "outputs/nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 4.0561400731258175,
+          "electronic_Eh": -1185.764531001774,
+          "bond_order": 0.2993535755585505,
+          "antibonding_occupation": 1.0000000011165213
+        },
+        "interpretation": "Same nuclei in both charge calculations. Occupation projects each total density onto the same-geometry cation singly occupied natural orbital; sulfur character and negative S-S overlap support the antibonding label. No thermal correction assigned."
+      },
+      "DTCO_neutral_on_cation": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1"
+        ],
+        "atom_map_file": "structures/DTCO_neutral_map.json",
+        "raw_files": [
+          "outputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/stdout.log",
+          "outputs/DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 3.529845444955797,
+          "electronic_Eh": -1032.402323771612,
+          "bond_order": -0.01126827936985243,
+          "antibonding_occupation": 1.9952724619658546
+        },
+        "interpretation": "Same nuclei in both charge calculations. Occupation projects each total density onto the same-geometry cation singly occupied natural orbital; sulfur character and negative S-S overlap support the antibonding label. No thermal correction assigned."
+      },
+      "DTCO_cation_on_neutral": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+          "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2"
+        ],
+        "atom_map_file": "structures/DTCO_cation_map.json",
+        "raw_files": [
+          "outputs/DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2/stdout.log",
+          "outputs/DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2/calculation.fchk"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "SS_distance_A": 3.688938803622793,
+          "electronic_Eh": -1032.123405342691,
+          "bond_order": 0.29841498128307875,
+          "antibonding_occupation": 1.000000001319374
+        },
+        "interpretation": "Same nuclei in both charge calculations. Occupation projects each total density onto the same-geometry cation singly occupied natural orbital; sulfur character and negative S-S overlap support the antibonding label. No thermal correction assigned."
+      }
+    },
+    "bonding_interpretation": {
+      "rigidity_contrast": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "legacy_nor_neutral_BP86_TZVP_optfreq",
+          "legacy_nor_cation_BP86_TZVP_optfreq",
+          "DTCO_neutral_BP86_TZVP_strict_optfreq_a2",
+          "DTCO_cation_author_BP86_TZVP_optfreq_a1",
+          "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+          "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+          "DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+          "DTCO_neutral_author_BP86_TZVP_optfreq_a1"
+        ],
+        "atom_map_file": "structures/all_maps.json",
+        "raw_files": [
+          "analysis/all_independent_matrix_validation.json",
+          "analysis/verified_sulfur_tables.json"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "contraction_difference_A": 0.08619260100484061,
+          "bond_order_change": 0.009228435864736928,
+          "occupation_change": -0.0002611511413515011
+        },
+        "interpretation": "Signed DTCO-minus-nor contrasts: contraction=r(neutral)-r(cation), bond_order_change compares relaxed cation-minus-neutral Mayer changes, occupation_change compares fixed neutral-geometry oxidation changes."
+      },
+      "analysis_sensitivity": {
+        "outcome": "computed",
+        "calculation_ids": [
+          "legacy_nor_neutral_BP86_TZVP_optfreq",
+          "legacy_nor_cation_BP86_TZVP_optfreq",
+          "DTCO_neutral_BP86_TZVP_strict_optfreq_a2",
+          "DTCO_cation_author_BP86_TZVP_optfreq_a1",
+          "nor_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "nor_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "nor_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+          "nor_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_neutral_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "DTCO_cation_on_neutral_BP86_TZVP_stable_NBO_a1",
+          "DTCO_neutral_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_cation_on_cation_BP86_TZVP_stable_NBO_a1",
+          "DTCO_neutral_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+          "DTCO_cation_on_refined_neutral_BP86_TZVP_stable_NBO_a2",
+          "DTCO_neutral_author_BP86_TZVP_optfreq_a1"
+        ],
+        "atom_map_file": "structures/all_maps.json",
+        "raw_files": [
+          "analysis/all_independent_matrix_validation.json",
+          "analysis/verified_sulfur_tables.json"
+        ],
+        "data_table_file": "analysis/verified_sulfur_tables.json",
+        "metrics": {
+          "contraction_difference_A": -0.00021757746444661663,
+          "bond_order_change": 2.043290666164932e-06,
+          "occupation_change": 4.4213079553045986e-07
+        },
+        "interpretation": "Signed strict-minus-original DTCO neutral-geometry sensitivity: distance (same relaxed cation cancels), vertical cation-minus-neutral Mayer, and same-orbital occupation changes. Initial a1 is sensitivity only. Independent Multiwfn matrices validate integrals; NAO and Lowdin definitions are separate physical robustness controls, not interchangeable numeric targets."
+      }
+    }
+  }
+}

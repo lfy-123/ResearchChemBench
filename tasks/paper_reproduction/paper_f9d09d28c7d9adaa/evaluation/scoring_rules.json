@@ -1,1 +1,129 @@
-{"paper_id": "paper_f9d09d28c7d9adaa", "rules": [{"rule_id": "r_pr_process", "type": "condition", "expected": "Four per-compound convergence and provenance records are present and scientifically credible.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.compounds[].id", "$.compounds[].status", "$.compounds[].convergence", "$.compounds[].method"], "comparison": "expert validation per explicitly identified compound"}, "reference_id": "kp_pr_process_convergence"}, {"rule_id": "r_pr_alpha3", "type": "semantic", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.compounds[].dihedrals.alpha3"], "comparison": "absolute difference after matching the explicit compound id"}, "reference_id": "kp_pr_angle_alpha3", "expected": "Reported dihedral values are documented with explicit atom definitions and compared against the source where applicable."}, {"rule_id": "r_pr_beta1", "type": "semantic", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.compounds[].dihedrals.beta1"], "comparison": "absolute difference for the explicitly identified MeACFy and TfACFy records"}, "reference_id": "kp_pr_angle_beta1", "expected": "Reported dihedral values are documented with explicit atom definitions and compared against the source where applicable."}, {"rule_id": "r_pr_orbital", "type": "semantic", "expected": "HOMO mainly acridine; LUMO mainly phenanthrimidazole/bridge, with CF3-associated short-axis shift.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.compounds[].id", "$.compounds[].orbital_localization"], "comparison": "expert semantic comparison"}, "reference_id": "kp_pr_orbitals"}, {"rule_id": "r_pr_final", "type": "semantic", "expected": "The final conclusion supports highly twisted HLCT-compatible design within the stated boundary.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.conclusion"], "comparison": "expert semantic comparison"}, "reference_id": "c_paper_reproduction_final"}, {"rule_id": "r_pr_limit", "type": "semantic", "expected": "Limitations do not overclaim mechanism from ground-state calculations.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.limitations"], "comparison": "expert semantic comparison"}, "reference_id": "c_paper_reproduction_limit"}, {"rule_id": "c_paper_reproduction_final_rule", "reference_id": "c_paper_reproduction_final", "type": "semantic", "expected": "The final conclusion supports a bounded twisted-design interpretation.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.conclusion"], "comparison": "expert semantic comparison"}}, {"rule_id": "c_paper_reproduction_limit_rule", "reference_id": "c_paper_reproduction_limit", "type": "semantic", "expected": "The report states limitations and avoids overclaiming excited-state mechanism.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.limitations"], "comparison": "expert semantic comparison"}}]}
+{
+  "paper_id": "paper_f9d09d28c7d9adaa",
+  "rules": [
+    {
+      "rule_id": "r_pr_process",
+      "type": "condition",
+      "expected": "Four per-compound convergence and provenance records are present and scientifically credible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[].id",
+          "$.compounds[].status",
+          "$.compounds[].convergence",
+          "$.compounds[].method"
+        ],
+        "comparison": "expert validation per explicitly identified compound"
+      },
+      "reference_id": "kp_pr_process_convergence"
+    },
+    {
+      "rule_id": "r_pr_alpha3",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[].dihedrals.alpha3"
+        ],
+        "comparison": "absolute difference after matching the explicit compound id"
+      },
+      "reference_id": "kp_pr_angle_alpha3",
+      "expected": "Reported dihedral values are documented with explicit atom definitions and compared against the source where applicable."
+    },
+    {
+      "rule_id": "r_pr_beta1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[].dihedrals.beta1"
+        ],
+        "comparison": "absolute difference for the explicitly identified MeACFy and TfACFy records"
+      },
+      "reference_id": "kp_pr_angle_beta1",
+      "expected": "Reported dihedral values are documented with explicit atom definitions and compared against the source where applicable."
+    },
+    {
+      "rule_id": "r_pr_orbital",
+      "type": "semantic",
+      "expected": "HOMO is mainly acridine-donor-like for all four compounds. MeAC/MeACFy LUMOs are mainly on core/π-bridge; TfAC/TfACFy may instead be dominated by their short-axis aryl/substituent, as explicitly discussed in main pp.2–3/Fig.2. Require traceable named-fragment evidence and truthful limitations; neither a fabricated Cartesian-axis projection nor methyl-like core dominance for CF3 is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[].id",
+          "$.compounds[].orbital_localization"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_orbitals"
+    },
+    {
+      "rule_id": "r_pr_final",
+      "type": "semantic",
+      "expected": "The final conclusion supports highly twisted HLCT-compatible design within the stated boundary.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_paper_reproduction_final"
+    },
+    {
+      "rule_id": "r_pr_limit",
+      "type": "semantic",
+      "expected": "Limitations do not overclaim mechanism from ground-state calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_paper_reproduction_limit"
+    },
+    {
+      "rule_id": "c_paper_reproduction_final_rule",
+      "reference_id": "c_paper_reproduction_final",
+      "type": "semantic",
+      "expected": "The final conclusion supports a bounded twisted-design interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "c_paper_reproduction_limit_rule",
+      "reference_id": "c_paper_reproduction_limit",
+      "type": "semantic",
+      "expected": "The report states limitations and avoids overclaiming excited-state mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

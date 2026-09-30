@@ -1,1 +1,25 @@
-{"paper_id": "paper_9e7293af88532cd4", "items": [{"failure_id": "pr_cf1", "condition": "Missing either named endpoint or wrong charge/multiplicity", "severity": "critical"}, {"failure_id": "pr_cf2", "condition": "Reports a free-energy result without reproducible method or validation evidence", "severity": "critical"}, {"failure_id": "pr_cf3", "condition": "Claims the endpoint calculation proves the complete reaction mechanism", "severity": "critical"}]}
+{
+  "paper_id": "paper_9e7293af88532cd4",
+  "items": [
+    {
+      "failure_id": "pr_cf1",
+      "condition": "Missing any of reactant_1, product_3, im5 or water, wrong charge/multiplicity, changed identity, or unsupported minimum classification",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "pr_cf2",
+      "condition": "Reports a free-energy result without reproducible method or validation evidence",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "pr_cf3",
+      "condition": "Claims the endpoint calculation proves the complete reaction mechanism",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "pr_cf4",
+      "condition": "Uses the unbalanced bare1-to-3 energy subtraction as a reaction energy, or silently conflates source-recipe arithmetic with a consistently corrected1M standard state",
+      "severity": "critical"
+    }
+  ]
+}

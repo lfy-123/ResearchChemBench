@@ -24,7 +24,10 @@ from chemistry_toolbox.src.runtime import (
 from chemistry_toolbox.src.resource_budget import resource_budget_record
 from chemistry_toolbox.src.search_index import BM25Index, normalize_scores, weighted_text
 from chemistry_toolbox.src.semantic_embeddings import MODEL_ID, embedding_cache_path, semantic_scores
-from chemistry_toolbox.src.timeout_policy import timeout_policy_record
+from chemistry_toolbox.src.timeout_policy import (
+    native_timeout_policy_record,
+    timeout_policy_record,
+)
 from chemistry_toolbox.src.environment_layout import (
     environment_path,
     resolve_configured_path,
@@ -743,7 +746,7 @@ def inspect_software(request: SoftwareInspectRequest) -> dict[str, Any]:
                     or {"memory_mb": 4096, "cpu_cores": 1, "gpu_count": 0},
                     "declared_outputs": example.get("outputs") or [],
                     "evaluation_resource_budget": resource_budget_record(),
-                    "execution_timeout_policy": timeout_policy_record("compute"),
+                    "execution_timeout_policy": native_timeout_policy_record(software_id),
                 },
             }
         )

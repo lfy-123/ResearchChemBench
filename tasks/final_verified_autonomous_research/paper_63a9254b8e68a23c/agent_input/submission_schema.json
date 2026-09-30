@@ -1,0 +1,188 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "radius_nm",
+          "regime",
+          "outer_radii_A",
+          "outer_angle_rad",
+          "candidate_models",
+          "validation",
+          "search_coverage",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "completed",
+              "success"
+            ]
+          },
+          "radius_nm": {
+            "type": "number"
+          },
+          "regime": {
+            "type": "string"
+          },
+          "outer_radii_A": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "outer_angle_rad": {
+            "type": "number"
+          },
+          "candidate_models": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "prediction",
+                "evidence"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "prediction": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "converged",
+              "stationarity_residual",
+              "independent_check_agreement_nm",
+              "local_minimum_evidence"
+            ],
+            "properties": {
+              "converged": {
+                "type": "boolean"
+              },
+              "stationarity_residual": {
+                "type": "number"
+              },
+              "independent_check_agreement_nm": {
+                "type": "number"
+              },
+              "local_minimum_evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "search_coverage": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "candidate_models",
+          "validation",
+          "search_coverage",
+          "conclusion",
+          "failure_reason",
+          "explored_domain_nm"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "bounded_failure",
+              "failed"
+            ]
+          },
+          "candidate_models": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "prediction",
+                "evidence"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "prediction": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "converged",
+              "stationarity_residual",
+              "independent_check_agreement_nm",
+              "local_minimum_evidence"
+            ],
+            "properties": {
+              "converged": {
+                "type": "boolean"
+              },
+              "stationarity_residual": {
+                "type": "number"
+              },
+              "independent_check_agreement_nm": {
+                "type": "number"
+              },
+              "local_minimum_evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "search_coverage": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          },
+          "failure_reason": {
+            "type": "string"
+          },
+          "explored_domain_nm": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

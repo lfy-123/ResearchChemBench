@@ -1,0 +1,1674 @@
+
+===== PDF PAGE 1 =====
+Spectroscopic, structural, and biological insights into novel naphthalene- 
+and anthracene-based sulfonamides
+Magdalena Stasiuk a
+, Jakub Brzeski a,b
+, Natalia Maciejewska c
+, Sandra Brzeska a
+,  
+Krzesimir Ciura a,d
+, Katarzyna Kazimierczuk c
+, Dorota Zarzecza´nska a
+,  
+Katarzyna Ewa Greber d
+, Dawid Dębowski a
+, Mariusz Makowski a,*
+a Faculty of Chemistry, University of Gda´nsk, Wita Stwosza 63, 80-308 Gda´nsk, Poland
+b QSAR Laboratory Ltd., Trzy Lipy 3, 80-172, Poland
+c Faculty of Chemistry, Gdansk University of Technology, Gabriela Narutowicza 11/12, 80-233 Gdansk
+d Faculty of Pharmacy, Medical University of Gdansk, Aleja Generała J´ozefa Hallera 107, 80-416 Gdansk
+A R T I C L E I N F O
+Keywords:
+Sulfonamides
+Spectroscopic characterization
+Crystal structure analysis
+DFT calculations
+Structure-bioactivity relationship
+A B S T R A C T
+Two novel sulfonamide derivatives, 4-amino-N-(naphthalen-2-yl)benzenesulfonamide (SNaft) and 4-amino-N- 
+(anthracen-2-yl)benzenesulfonamide (SAntr), were synthesized and comprehensively characterized using spec­
+troscopic, crystallographic, chromatographic, and computational methods. Spectrophotometric titration 
+confirmed two acid–base equilibria associated with amino and amide proton dissociation. Chromatographic 
+analysis indicated moderate lipophilicity and strong affinity toward phospholipids and human serum albumin. 
+Single-crystal X-ray diffraction revealed that SNaft crystallizes in the orthorhombic Pbca space group, while 
+SAntr adopts a monoclinic P2₁/c symmetry. Both compounds exhibit typical sulfonamide geometries, charac­
+terized by partial sp² hybridization at the sulfonamide nitrogen, which forms supramolecular frameworks sta­
+bilized by N–H⋯O/N hydrogen bonds, π–π stacking, and C–H⋯π interactions. DFT calculations supported the 
+experimental findings, revealing V- and Z-shaped conformational minima stabilized by intramolecular hydrogen 
+bonding. Biological assays demonstrated that SNaft exhibits more selective anticancer and antifungal activity, 
+whereas SAntr remained inactive. The integrated structural, spectroscopic, and bioanalytical approach provides 
+valuable insights into structure–property–bioactivity relationships within aromatic sulfonamide frameworks.
+1. Introduction
+The widespread use of antibiotics (and other therapeutic agents) for 
+treating common diseases has led to a significant increase in drug 
+resistance. This involves the ability of pathogenic microorganisms to 
+develop various mechanisms that enable them to survive in the presence 
+of the drug's active ingredient. A similar phenomenon is also observed in 
+cancers [1,2]. This increasingly severe emergence of drug resistance 
+results in enormous health care expenditure, difficulties in selecting 
+appropriate therapies, and, consequently, prolonged recovery times. 
+How can this progressive problem of multidrug resistance be tackled 
+effectively? There are two main approaches: identifying compounds 
+with promising application potential that can be further optimized, and 
+discovering new molecular targets for known compounds (i.e., redi­
+recting them toward a previously unexplored interaction with a 
+biomolecule). The design of analogues of widely used pharmacological 
+agents focuses on increasing their biological efficacy or broadening their 
+spectrum of action. In some cases, the modification or introduction of a 
+single substituent can completely change the pharmacological profile of 
+a compound. A representative example is fabimycin, where introducing 
+an amino group has improved efficacy against more than 200 strains of 
+microorganisms resistant to commercially used drugs [3]. Combating 
+drug resistance can also occur at the molecular level, such as developing 
+peptide-based antimicrobial agents, isolating peptides, or searching for 
+entirely new preparations. Peptides and their mimetics have recently 
+garnered attention as promising candidates to address the issue of 
+antibiotic resistance. They exhibit broad-spectrum activity, high speci­
+ficity, and a lower propensity for resistance development compared to 
+conventional antibiotics. However, these compounds also possess 
+inherent limitations, including poor stability under physiological 
+* Corresponding author.
+E-mail address: mariusz.makowski@ug.edu.pl (M. Makowski). 
+Contents lists available at ScienceDirect
+Journal of Molecular Structure
+journal homepage: www.elsevier.com/locate/molstr
+https://doi.org/10.1016/j.molstruc.2026.145415
+Received 15 November 2025; Received in revised form 17 December 2025; Accepted 18 January 2026  
+Journal of Molecular Structure 1358 (2026) 145415 
+Available online 19 January 2026 
+0022-2860/© 2026 Elsevier B.V. All rights are reserved, including those for text and data mining, AI training, and similar technologies. 
+
+
+===== PDF PAGE 2 =====
+conditions, susceptibility to enzymatic degradation, a short half-life, 
+limited oral bioavailability, and difficulties in large-scale synthesis and 
+formulation [4,5]. Depending on the specific molecular structure and 
+functional groups, the resulting derivative's biological activity can 
+manifest in different ways – by inhibiting biochemical pathways, 
+interacting with nuclear or mitochondrial DNA, binding to enzymes, 
+receptors, or disrupting biological membranes. In addition to experi­
+mental methods of analyzing binding with biomolecules, it is advisable 
+to expand the research to include computational methods [6–12].
+During the 20th century, benzenesulfonic acid amides (sulfon­
+amides) were widely used therapeutics in human and veterinary medi­
+cine. Owing to their structural similarity to p-aminobenzoic acid 
+(PABA), sulfonamides act as competitive inhibitors of the bacterial 
+enzyme dihydropteroate synthetase, an enzyme involved in folic acid 
+biosynthesis essential for bacterial growth and nucleic acid synthesis. 
+Sulfonamides inhibit the activity of this enzyme, which catalyzes the 
+condensation of PABA and 7,8-dihydro-6-hydroxy-methylpterine pyro­
+phosphate to form the intermediate dihydropteroate, a crucial step in 
+folic acid biosynthesis, ultimately leading to the formation of dihy­
+drofolic acid [13]. In addition, sulfonamides inhibit zinc-containing 
+carbonic anhydrases, enzymes crucial for acid–base homeostasis and 
+carbon dioxide transport. Because most physiologically important car­
+bonic anhydrase isozymes are located intracellularly, their inhibitors 
+must demonstrate the ability to cross biological barriers to reach the 
+active sites of target enzymes. Thus, the lipophilicity of sulfonamide 
+derivatives must be considered one of the critical parameters [14–17]. 
+Moreover, suitably modified sulfonamides can inhibit topoisomerases, 
+the enzymes that play a key role in DNA replication and repair. They are 
+responsible for cleaving and rejoining the DNA helix. Topoisomerase I 
+cleaves a single strand of nucleic acid, while topoisomerase II cleaves 
+both strands. Both enzymes are of considerable interest for research as 
+possible targets in cancer therapy [18–21].
+Beyond their role as enzyme inhibitors, it is also essential to consider 
+the interactions of sulfonamides with other vital biomolecules and their 
+potential effects on the human body. In previous work, we have shown 
+using computational methods that sulfonamides with alkyl fragments 
+and sulfathiazole can bind to the minor groove of DNA [1,7]. Further­
+more, we demonstrated that complexing sulfonamides with metal ions 
+increases their biological activity compared to ligands alone [22]. It is 
+also crucial to consider the demonstrated allergenic effects of some 
+sulfonamides on the human body, which underscores the need for 
+designing novel compounds with low allergenic potential [23,24]. 
+Human serum albumin (HSA) is the most abundant protein in human 
+plasma and plays a central role in the transport of endogenous and 
+exogenous compounds. Due to its well-defined structure and multiple 
+ligand-binding sites, HSA is widely used as a model protein in studies of 
+drug–protein interactions and may also represent an important molec­
+ular target influencing the distribution and biological activity of bioac­
+tive compounds. Evaluation of compound binding to HSA is possible 
+using, 
+among 
+other 
+methods, 
+chromatographic 
+techniques. 
+Immobilized-HSA chromatographic assay has been proposed as a rapid, 
+experimentally grounded screening approach to estimate HSA affinity in 
+early ADME profiling. The high affinity for plasma proteins can raise 
+several safety concerns, such as reduced clearance, limited brain pene­
+tration, and diminished pharmacological efficacy, since only unbound 
+molecules can interact with their intended targets [25–28].
+This study aims to elucidate how structural modifications in aro­
+matic sulfonamides affect their spectroscopic, physicochemical, and 
+biological properties through an integrated experimental and compu­
+tational approach. The primary objective of this study was to synthesize 
+and comprehensively characterize two novel sulfonamide derivatives, 4- 
+amino-N-(naphthalen-2-yl)benzenesulfonamide (SNaft) and 4-amino-N- 
+(anthracen-2-yl)benzenesulfonamide (SAntr), to explore how structural 
+modifications within aromatic systems influence their physicochemical 
+and biological properties. By integrating spectroscopic, crystallo­
+graphic, and computational analyses with preliminary bioassays, this 
+work aims to elucidate the relationship between molecular structure, 
+supramolecular organization, and selective bioactivity, providing a 
+foundation for the rational design of low-toxicity sulfonamide-based 
+agents [29–32].
+2. Experimental section
+2.1. Materials
+All chemicals and solvents used in the synthesis were purchased from 
+commercial suppliers and used in the experiments without prior puri­
+fication. N-acetylsulfanilyl chloride (CAS:121-60-8), anhydrous pyri­
+dine 
+(CAS:110-86-1), 
+methanesulfonic 
+acid 
+(CAS: 
+75-75-2), 
+tetrabutylammonium hydroxide (CAS: 2025-49-5), acetophenone (CAS: 
+95-86-2), indomethacin (CAS: 53-86-1), paracetamol (CAS: 103-90-2), 
+trimethoprim (CAS: 738-70-5), propranolol (CAS: 318-98-9) micona­
+zole (CAS: 22916-47-8), fluconazole (CAS: 86386-73-4), and ketocona­
+zole (CAS: 65277-42-1) were purchased from Sigma-Aldrich; 2- 
+aminoanthracene (CAS:613-13-8) from Thermo Scientific; 2-naphthyl­
+amine (CAS:91-59-8) from Biosynth; and methanol (CAS:67-56-1), 
+chloroform (CAS:67-66-3), ethanol (CAS:64-17-5), acetone (CAS:67-64- 
+1), and n-octanol (CAS:111-87-5) from POCH; HPLC-grade acetonitrile 
+(CAS: 75-05-8) from Chempur; ammonia solution (CAS: 7664-41-7) 
+from Avantor Performance; ammonium acetate (CAS: 631-61-8), 
+HPLC-grade isopropanol (CAS: 67-63-0) from VWR International; acet­
+anilide (CAS: 103-84-4), butyrophenone (CAS: 495-40-9), diclofenac 
+(CAS: 15307-86-5), warfarin (CAS: 81-81-2), and octanophenone (CAS: 
+1674-37-9) from Alfa Aesar; nicardipine (CAS: 54527-84-3) and nizati­
+dine (CAS: 76963-41-2) from Cayman Chemical; carbamazepine (CAS: 
+298-46-4), heptanophenone (CAS: 1671-75-6), hexanophenone (CAS: 
+942-92-7), propiophenone (CAS: 93-55-0) and valerophenone (CAS: 
+1009-14-9) from Acros Organic and dimethyl sulfoxide (CAS: 67-68-5) 
+Avantor Performance Materials Poland S.A.
+2.2. Methods
+1H NMR and 13C NMR spectra were recorded on a Bruker AVANCE III 
+(500 MHz) spectrometer. Mass spectra (MS) were recorded on a Bruker 
+(HCT Ultra) instrument. The FT-IR spectra were recorded on a Spectrum 
+Two spectrophotometer in the 4000−500 cm-1 spectral range. Analyt­
+ical thin-layer chromatography was performed on aluminum sheets of 
+silica gel (UV-254, Sigma Aldrich) and visualized with a UV lamp at 254 
+and 336 nm. UV–Vis spectra were recorded using an Evolution 300 
+(Thermo Scientific, USA) spectrophotometer.
+2.3. Synthesis of sulfonamide derivatives
+The procedure for the synthesis of the two sulfonamide derivatives 
+with aryl fragments is outlined in Fig. 1 [33]. For the synthesis of the 
+naphthalene-substituted derivative, 0.032 mol of the 4-acetamidobenze­
+nesulfonyl chloride was suspended in 52 mL of anhydrous pyridine, and 
+then 21 mmol of the amine was added. To synthesize the 
+anthracene-substituted derivative, 6.6 mmol of the 4-acetamidobenze­
+nesulfonyl chloride was suspended in 12 mL of anhydrous pyridine, 
+and then 4.3 mmol of the amine was added. The reaction was carried out 
+at 60 ◦C for 8 hours. The progress of the reaction was monitored by 
+thin-layer chromatography (TLC) using silica gel (Sigma Aldrich) in the 
+chloroform-methanol-ammonia 
+(v/v 
+=
+5:1:0.1) 
+(1a) 
+and 
+the 
+chloroform-methanol (v/v = 5:0.3) (2a) solvent systems. In the next 
+step, the reaction mixture was poured into cold water and adjusted to a 
+pH of 3 with 1 M HCl. After standing at room temperature overnight, a 
+precipitate formed and was separated from the solution by filtration. 
+The intermediate product was air-dried at room temperature. A beige 
+(Ac-SNaft) and green-olive (Ac-SAntr) precipitate was obtained succes­
+sively, yielding yields of 89 % and 87 %, respectively.
+In the second step of the reaction, the acetyl group was removed 
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+2 
+
+
+===== PDF PAGE 3 =====
+using a mixture of an aqueous ethanol solution and concentrated hy­
+drochloric acid. The intermediate products (1a – 18.8 mmol; 2a – 3.78 
+mmol) were dissolved in ethanol (37.6 mL and 17 mL, respectively), and 
+hydrochloric acid (18.8 mL and 6.5 mL) was added. The mixture was 
+then kept at 70 ◦C for 24 hours. The progress of the reaction was 
+monitored by thin-layer chromatography (TLC) using silica gel (Sigma- 
+Aldrich) in a chloroform-methanol (v/v = 5:0.3) solvent system. Once 
+the reaction was complete, the mixture was transferred to cold water 
+and adjusted to a pH of 8 with NaHCO3. After overnight, a precipitate 
+was separated from the solution by filtration. The intermediate product 
+was air-dried at room temperature. The resulting precipitates were pu­
+rified by column chromatography (Silica Gel, Sigma Aldrich) in the 
+solvent system: chloroform-methanol (v/v = 50:1; 40:1; 30:1; 20:1; 
+10:1; 5:1; 2:1) (1b, 2b), followed by recrystallization from methanol and 
+ethanol (1b) and from ethanol-acetone (v/v = 1:1) (2b). A beige SNaft 
+precipitate and a green SAntr precipitate were obtained in successive 
+yields 66 % and 22.7 %. Their structures (Fig. 2) were checked and 
+confirmed by mass spectrometry (MS) (Figs. S1-S2) and spectroscopy 
+(FT-IR- Figs. S3-S4, 1H NMR – Figs. S5-S7, 13C NMR- Figs. S6-S8).
+2.4. Crystal structure determination
+Single-crystal X-ray diffraction data for SNaft were collected at 120.0 
+(2) K on an IPDS 2T dual-beam diffractometer equipped with a GeniX 3D 
+Mo HighFlux microfocus X-ray source (Mo Kα radiation, λ = 0.71069 Å, 
+50 kV, 1.0 mA). The crystal was maintained at 120 K under a nitrogen 
+stream using a CryoStream-800 device throughout the experiment. Data 
+collection and reduction were performed with the X-Area 1.75 program 
+suite [34].
+Single-crystal X-ray diffraction data for SAntr were collected at 120.0 
+(1) K on a Rigaku Oxford Diffraction SuperNova dual-source diffrac­
+tometer equipped with a Cu Kα micro-focus X-ray source (λ = 1.54184 
+Å) and a HyPix detector [35]. Data collection, cell refinement, and 
+reduction were done using CrysAlisPro 1.171.44.111a (Rigaku Oxford 
+Diffraction, 2025). An empirical absorption correction based on spher­
+ical harmonics, implemented in the SCALE3 ABSPACK algorithm, was 
+applied [36].
+The structures were solved by intrinsic phasing using SHELXT [37] 
+and refined with Olex2 [38] and SHELXL-2015 [39]. Figures were pre­
+pared with Diamond [40]. All non-hydrogen atoms were refined 
+anisotropically. Hydrogen atoms were placed in idealized positions and 
+refined using the riding model with appropriate constraints. Crystallo­
+graphic data for the reported structures have been deposited with the 
+Cambridge Crystallographic Data Centre under deposition numbers 
+CCDC 2483756 and 2489876. These data can be obtained free of charge 
+from the CCDC via www.ccdc.cam.ac.uk/structures.
+Fig. 1. Sulfonamide derivative synthesis pathway [33]- SNaft (1b) and SAntr (2b).
+Fig. 2. Structures obtained from computational study of A. 4-amino-N-(naphtalen-2-yl)benzenesulfonamide (SNaft) and B. 4-amino-N-(anthracene-2-yl)benzenesul­
+fonamide (SAntr) prepared in Chemcraft software. The colour scheme is as follows: grey for carbon, blue for nitrogen, yellow for sulfur, red for oxygen, and white for 
+hydrogen atoms, respectively.
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+3 
+
+
+===== PDF PAGE 4 =====
+2.5. Spectrophotometric acid-base titrations and determination of pKa 
+values
+The acid dissociation constants pKa values for the analyzed sulfon­
+amide derivatives were determined using the technique of simultaneous 
+pH-spectrophotometric titration. UV-Vis spectra were measured in the 
+range of 200-400 nm, and the stability of the ionized forms was 
+confirmed by re-measurement after 20 minutes. The prepared meth­
+anolic solutions of the analytes 4.41 ⋅ 10-5 M (SNaft) and 8.82 ⋅ 10-5 M 
+(SAntr) in 1.00 ⋅ 10-3 M methanesulfonic acid were titrated with 2.00 ⋅ 
+10-2 M tetrabutylammonium hydroxide. After adding a portion of each 
+titrant (v = 0.008309 mL, 1 mL Hamilton syringe), the UV-Vis spectrum 
+in the wavelength range 200-400 nm was measured. The pH values were 
+recalculated based on the calibration parameters of the glass electrode, 
+determined in MeOH, and the measured potential difference in mV 
+values obtained from potentiometric titrations conducted at 298 K using 
+the Cerko-Lab automatic microtitration system. pKa values were deter­
+mined using the Henderson-Hasselbach Eq. (1) implemented in the 
+Origin Lab software: 
+A = A1 + A2 ⋅10(pH−pKa1)
+10(pH−pKa1) + 1
++ A2 + A3⋅10(pH−pKa2)
+10(pH−pKa2) + 1
+(1) 
+Where A1-A3 are the absorbances of the different protonation forms 
+(Fig. 3) of compounds in solution, respectively. Determination of pKa 
+values was based on differences in absorption intensity as a function of 
+change in solution pH [41,42].
+2.6. Spectrophotometric determination of octanol−water partition 
+coefficient (logP)
+The partition coefficient was determined by the shake-flask method, 
+as reported elsewhere [43]. To prepare the calibration curve, a series of 
+octanol solutions of SNaft with concentrations of 3.00 • 10-5, 2.50 • 10-5, 
+2.00 • 10-5, 1.50 • 10-5, 1.00 • 10-5 M and octanol solutions of SAntr 3.00 
+• 10-5, 2.50 • 10-5, 2.00 • 10-5, 1.50 • 10-5, 1.00 • 10-5, 0.50 • 10-5 M 
+were prepared. Initially, UV spectra were recorded in the 200-400 nm 
+range. Then, two (or one) wavelengths corresponding to absorption 
+maxima were selected to measure absorbance values, which were 
+applied to prepare a calibration curve to determine the molar absorption 
+coefficient (Figs. S9-S12, Table S7). In the next stage of the experiment, 
+5 mL of double-deionized water and 5 mL of an octanol solution of SNaft 
+at a concentration of 3.00 • 10-5 M and an octanol solution of SAntr at a 
+concentration of 2.00 • 10-5 M were added to the ring separator placed 
+on a ring stand. The whole mixture was shaken vigorously for 30 mi­
+nutes with intermittent venting. The mixture was left overnight on a ring 
+stand to allow the aqueous and octanol phases to separate. Then, the UV 
+spectra of both fractions were recorded. The concentration of com­
+pounds was calculated based on Lambert-Beer's law [43]. The n-octa­
+nol-water partition coefficient was calculated based on Eq. (2): 
+logPn−oct/wat = log Cn−oct
+Cwat
+(2) 
+where Cn-oct and Cwat are concentrations of the analyte in n-octanol 
+and water phases, respectively.
+2.7. Lipophilicity, drug-plasma proteins binding, and phospholipid affinity 
+assays
+All chromatographic experiments were performed according to the 
+procedures developed by Valko and co-workers [44,45] and imple­
+mented in our laboratory [46–48]. Biomimetic chromatography offers 
+the experimental determination of lipophilicity and affinity to phos­
+pholipids, expressed as Chromatographic Hydrophobicity Index (CHI) 
+values. It also enables the assessment of plasma proteins through a 
+gradient elution experiment and comparison with model substances.
+The Prominence-1 LC-2030C 3D HPLC system, managed by LabSo­
+lution software, was employed for all chromatographic analyses. 
+Throughout the study, three different types of chromatographic columns 
+were utilized: 
+• IAM.PC.DD2 (10 × 4.6 mm; 10.0 µm with a guard column; Regis 
+Technologies; USA);
+• Gemini NX- C18 (50 × 3.0 mm; 5.0 µm, Phenomenex, USA);
+• Chiralpak® HSA (50 × 4 mm; 5 µm with safety guard column; Daicel 
+Chiral Technologies, USA).
+Artificial Membrane Chromatography (IAM) and human serum al­
+bumin (HSA) affinity measurements were carried out using mobile 
+phase A, which consisted of a 50 mM ammonium acetate solution 
+adjusted to physiological pH 7.4 with concentrated ammonia solution. 
+CHI logD values were determined in three pH conditions: 50 mM 
+ammonium acetate adjusted to pH 7.4 and 10.5, and acetic acid adjusted 
+to 2.6. The mobile phase was prepared using ultrapure water obtained 
+from a Milli-Q water purification system, which had a resistivity of 18.2 
+MΩ.
+Phospholipid binding measurements employed mobile phase B, 
+consisting of HPLC-grade acetonitrile using a linear gradient from 0 to 
+85 % B over 5.25 min, followed by a 0.5 min hold at 85 % ACN. The 
+mobile phase was pumped at a flow rate of 1.5 mL/min, and the IAM.PC. 
+DD2 column was maintained at 30 ◦C.
+The same solvents as those used in IAM chromatography were 
+applied for lipophilicity measurements. The flow rate was set to 0.9 mL/ 
+min, and the column temperature was maintained at 25 ◦C. A linear 
+gradient from 0 to 100 % ACN was applied over 0–3.5 min, with the 
+maximum phase B concentration maintained for 1 min, followed by a 2 
+min equilibration before the subsequent analysis.
+Determination of %HSA binding was performed using HPLC-grade 
+isopropanol as mobile phase B. A linear gradient from 0 % to 30 % 
+isopropanol was applied over 5 minutes, followed by an isocratic hold at 
+30 % for 4 minutes. During the final 5 min of the analysis, the mobile 
+phase mixture was replaced with pure ammonium acetate solution. The 
+column temperature was kept at 30 ◦C, and the flow rate was set to 0.9 
+mL/min.
+The reference substances used to calibrate the HSA and IAM columns 
+were purchased as follows: acetanilide, butyrophenone, diclofenac, 
+Fig. 3. The scheme of dissociation equilibria of SNaft (upper part) and SAntr (lower part) with the corresponding pKa is indicated.
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+4 
+
+
+===== PDF PAGE 5 =====
+warfarin, ctanophenone, acetophenone, indometacin, paracetamol, 
+trimethoprim, propranolol, nicardipine, nizatidine, carbamazepine, 
+heptanophenone, hexanophenone, propiophenone, and valerophenone. 
+The Valko calibration mix was purchased from Bio-Mimetic Chroma­
+tography Ltd. (Stevenage, United Kingdom) for the determination of 
+lipophilicity. Three well-known antifungal drugs have also been ana­
+lysed: miconazole, fluconazole, and ketoconazole.
+Dimethyl sulfoxide was used to dissolve the target solutes, resulting 
+in a solution with a concentration of 200 µg/mL. Detection was per­
+formed in the UV region, with a wavelength range of 190–300 nm. The 
+injected volume was 5 μL, and each compound was analyzed in dupli­
+cate. The variation in retention times was less than 2 %. The supple­
+mentary material, specifically Tables S1 and S2, summarizes the 
+retention times for the molecules under study and the reference 
+standards.
+Experimentally determined CHI values have been converted to CHI 
+logD using the following equation [49] (3) : 
+CHI logD = 0.0525 × CHI −1.467
+(3) 
+where CHI is Chromatographic Hydrophobicity Index and logD is dis­
+tribution coefficient.
+For HSA, the results obtained can be transformed into a more 
+informative percentage of binding (%HSA) by applying the following 
+equations [44] (4). 
+% HSA = 101x10logkHSA
+1 + 10logkHSA
+(4) 
+where logkHSA is the logarithm of the retention coefficient.
+2.8. Computational study
+The relaxed scans along C–S–N–C torsional angle [33,50,51] were 
+performed for SNaft and SAntr using the Regularized variant of the 
+Strongly Constrained and Appropriately Normed semilocal density 
+functional – R2SCAN [52,53]. The triple-ζ valence plus polarization 
+basis set from the Ahlrichs def2 family (def2-TZVP) [54] and a matching 
+Coulomb-fitting auxiliary basis set (def2/J) [55] were used. The 
+two-electron Coulomb integrals were calculated using the split-RI-J 
+approximation [56]. The presence of the solvent (methanol, water, 
+n-octanol) was simulated using the Conductor-like Polarizable Contin­
+uum Model (C-PCM) solvation [57]. Structures corresponding to the 
+minima were then optimized at the same level of theory. Vibrational 
+analyses were performed following all optimizations to ensure that the 
+found stationary points are true minima on the potential energy surface. 
+The wavefunction files used for further electron density topology ana­
+lyses were obtained using ωB97M-V range-separated functional [58] and 
+methanol as a solvent. All of the remaining settings were identical to 
+those used above. The ωB97M-V functional is one of the most accurate 
+DFT methods available for various properties [59–61]. The dipole mo­
+ments presented in this paper are based on the ωB97M-V wavefunction. 
+All DFT calculations were carried out using ORCA (version 6.0.1) [62]. 
+The Cartesian coordinates of all studied systems are listed in Table S5.
+The logP values were calculated for neutral species as: 
+logPn−oct/wat = −Gn−oct −Gwat
+2.303RT
+(5) 
+where Gn−oct and Gwat are Gibbs free energies of a given system in n- 
+octanol and water respectively. Whereas the logD values at given pH 
+were calculated as follows: 
+logD(pH) = logPn−oct/wat + log[fneut(pH)]
+(6) 
+where fneut(pH) is a neutral fraction at a given pKa is derived from 
+Henderson–Hasselbalch equation as follows: 
+pH = pKa1 + log
+([base]
+[acid]
+)
+(7) 
+pH = pKa1 + log
+( [BH]
+[BH2
++]
+)
+⇒[BH2
++]
+[BH] = 10pKa1−pH
+(8) 
+pH = pKa2 + log
+([B−]
+[BH]
+)
+⇒[B−]
+[BH] = 10pH−pKa2
+(9) 
+fneut(pH) =
+[BH]
+[BH2
++] + [BH] + [B−] =
+1
+1 + 10(pKa1−pH) + 10(pH−pKa2)
+(10) 
+where [BH], [BH2+] and [B−] are equilibrium concentrations of the 
+neutral, protonated and deprotonated form of the system respectively. In 
+this study the experimentally established pKa and DFT derived logP 
+values were used throughout the above mentioned calculations.
+Quantum Theory of Atoms in Molecules (QTAIM) [63] analysis was 
+carried out to characterize intramolecular hydrogen bonds in neutral 
+systems based on ωB97M-V electron densities. The energies of these 
+interactions were assessed following Espinosa’s method, i.e., as one-half 
+of the absolute value of the potential-energy density corresponding to a 
+Bond Critical Point (BCP) of interest [64]. Polar Surface Area for neutral 
+species is defined as an area characterized by an Electrostatic Potential 
+(ESP) value higher than 10 kcal/mol. The QTAIM analysis was per­
+formed using the Multiwfn computational package [version 3.8 (dev)] 
+[65,66].
+2.9. Biological tests (antifungal, antimicrobial, and anticancer activity)
+Human cancer cell lines, including A-549 (non-small cell lung car­
+cinoma, CCL-185), MCF-7 (breast adenocarcinoma, HB-8065), Nalm-6 
+(lymphoblastic leukemia, CVCL-0092), HCT-116 (colorectal carcinoma, 
+CVCL-427), and the non-cancerous HEK293 cell line (human embryonic 
+kidney), were maintained under standard conditions. A-549, MCF-7, 
+and Nalm-6 cells were cultured in RPMI-1640 medium, while HCT- 
+116 cells were grown in McCoy’s 5A medium and HEK293 cells in 
+Dulbecco’s Modified Eagle Medium (DMEM). All culture media were 
+supplemented with 10 % fetal bovine serum (FBS), 2 mM L-glutamine, 
+and antibiotics: 62.6 μg/mL penicillin and 40 μg/mL streptomycin. Cells 
+were incubated at 37 ◦C in a humidified atmosphere with 5 % CO₂. 
+Regular testing for Mycoplasma contamination was performed.
+Cell viability was assessed using the MTT assay (3-(4,5-dimethylth­
+iazol-2-yl)-2,5-diphenyl tetrazolium bromide). Cells were seeded into 
+96-well plates and treated with the tested compounds at concentrations 
+ranging from 0 to 100 μM for 72 hours. Cisplatin was included as a 
+positive control. Following incubation, MTT solution (0.4 mg/mL in 
+PBS) was added to each well, and the plates were incubated for an 
+additional 4 hours at 37 ◦C to allow for the formation of formazan 
+crystals. The medium was removed, and the resulting formazan was 
+dissolved in 100 μL of DMSO. Absorbance was measured at 540 nm using 
+a microplate reader (ASYS UVM340, Biochrom Ltd.). IC₅₀ values were 
+calculated from dose–response curves using nonlinear regression (four- 
+parameter logistic model) in GraphPad Prism.
+The antimicrobial activity of the synthesized compounds was eval­
+uated against a panel of reference bacterial and fungal strains using the 
+broth microdilution method, as outlined in the Clinical and Laboratory 
+Standards Institute (CLSI) documents M07-A10 and M27-A3 [67,68]. 
+The bacterial strains used in the study included Bacillus subtilis (ATCC 
+6633), Staphylococcus aureus (ATCC 29213), Salmonella enterica (PCH 
+2266), and Escherichia coli (ATCC 25922). For antifungal assessment, the 
+following Candida strains were tested: Candida albicans (ATCC 10231 
+and SC5314), Candida glabrata (DSM 11226), and Candida krusei (DSM 
+6128). All compounds were dissolved in DMSO and subjected to 
+two-fold serial dilutions in 96-well microtiter plates. Mueller–Hinton 
+broth (Sigma-Aldrich) was used for bacterial strains, while RPMI 1640 
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+5 
+
+
+===== PDF PAGE 6 =====
+medium (Corning) was used for fungal strains. Each well contained an 
+equal mixture (1:1) of diluted compound and microbial inoculum (final 
+concentration: 1 × 10⁵ CFU/mL), prepared from 24-hour cultures grown 
+at 37 ◦C. The plates were incubated for 24 hours at 37 ◦C under constant 
+shaking (180 rpm). Microbial growth was quantified after incubation, 
+and dose–response curves were generated. Compared to untreated 
+controls, the MIC₅₀ values were calculated as the concentration of the 
+tested compound required to inhibit 50 % of microbial growth. Levo­
+floxacin and fluconazole were used as reference antimicrobial agents for 
+bacterial and fungal strains, respectively.
+3. Results and discussion
+Single-crystal X-ray diffraction revealed that compound SNaft 
+(Fig. 4) crystallizes in the orthorhombic space group Pbca, with eight 
+molecules in the unit cell. The aromatic core is essentially planar, and 
+the benzene ring's C–C bond lengths [1.37–1.42 Å] are characteristic of 
+a delocalized π system [33]. The sulfonamide fragment displays typical 
+geometry: S––O bond lengths of 1.4395(14) and 1.4398(13) Å, S–N =
+1.6288(15) Å, and S–C = 1.7569(18) Å, all within the ranges observed 
+for aryl sulfonamides [33,69,70]. Angles around the sulfur atom 
+[∠O–S–O = 118.5◦, ∠N–S–C = 107.6◦] confirm a distorted tetra­
+hedral environment. The geometry at the sulfonamide nitrogen is 
+particularly noteworthy, with ∠C–N–S = 125.1◦, indicative of partial 
+sp² hybridization and consistent with conjugation of the nitrogen lone 
+pair with the antibonding orbitals of the S––O group [33,69,70]. 
+Torsional angles about the S–N bond adopt characteristic anti/gauche 
+conformations [τ(C1–N1–S1–O1) = 171.6◦(anti), τ(C1–N1–S1–O2) =
+–61.1◦(gauche)], a motif commonly observed in sulfonamides [33,70].
+In the crystal lattice, directional N–H⋯O hydrogen bonds (Table 1) 
+dominate, forming catemeric chains propagating along the b axis [71]. 
+Graph-set analysis confirms the C(n) motifs typical of sulfonamides [33,
+71,72]. Proton N2–H2A engages in bifurcated interactions with two 
+symmetry-related O1 acceptors: N2–H2A⋯O1(1–x, –½ +
+y ); 
+N2–H2A⋯O1(3/2–x, –½+y, z), while N2–H2B forms a more directional 
+contact to O2(½–x, –½ + y, z). An additional N1–H1⋯N2(3/2–x, ½ + y, 
+z) hydrogen bond cross-links neighboring chains. Two intramolecular 
+C–H⋯O interactions C2–H2⋯O2 and C16–H16⋯O2 preorganize the 
+sulfonamide fragment and may direct the hydrogen-bonding pattern 
+[33,71]. π–π stacking further stabilizes the packing. The shortest 
+centroid–centroid distance is 3.617 Å with negligible twist (α ≈0.0◦), 
+moderate offsets (β = γ ≈30.6◦), and a slippage of ~1.96 Å, consistent 
+with efficient parallel π–π overlap [33,73,74]. Additional C–H⋯π 
+contacts are present [H⋯Cg = 2.70–2.98 Å, ∠X–H⋯Cg = 114–135◦] 
+[73,74]. Collectively, the directional N–H⋯O/N hydrogen bonds, 
+reinforced by π–π stacking and C–H⋯π interactions, generate a compact 
+three-dimensional supramolecular network devoid of solvent-accessible 
+voids.
+Compound SAntr crystallizes in the monoclinic space group P2₁/c 
+with four molecules per unit cell. The aromatic fragments are planar, 
+with mean C–C bond lengths of ~1.40 Å, consistent with π-electron 
+delocalization [33]. The geometry of the sulfonamide fragment closely 
+parallels that observed in SAntr, with S––O bond lengths of 1.430(1) and 
+1.437(1) Å, S–N = 1.622(1) Å, and S–C = 1.758(1) Å. The O–S–N, 
+O–S–C, and N–S–C bond angles (103.6◦, 109.6◦, and 107.8◦) confirm 
+a distorted tetrahedral arrangement, while the widened C–N–S angle 
+(125◦) again indicates partial sp² character of the sulfonamide nitrogen 
+[33,69,70].
+As in SNaft, N–H⋯O hydrogen bonds dominate the crystal packing, 
+generating catemeric chains. However, in SAntr, these chains propagate 
+along the c-axis rather than the b-axis. They are further cross-linked by an 
+N–H⋯N contact, reinforcing the supramolecular framework. Intra­
+molecular C–H⋯O interactions, analogous to those in SNaft, stabilize 
+the sulfonamide fragment and direct the hydrogen-bonding pattern [33,
+70–72]. Thus, the hydrogen-bonding motifs in compound SAntr strongly 
+resemble those observed in SNaft, differing mainly in crystallographic 
+symmetry and the propagation direction of the chains. π–π stacking in­
+teractions also contribute to lattice stabilization in SAntr. As in SNaft, 
+they stabilize the aromatic framework, but with slightly different 
+geometrical features. The shortest centroid–centroid distance is 3.75 Å, 
+longer than the 3.617 Å observed in SNaft, and accompanied by modest 
+Fig. 4. Molecular structure of SNaft obtained in X-ray measurement with the 
+labeling scheme. Displacement ellipsoids are drawn at the 50 % probabil­
+ity level.
+Table 1 
+Crystallographic data and structure refinement details for SNaft and SAntr.
+Compound reference
+SNaft
+SAntr
+Empirical formula
+C16H14N2O2S
+C20H16N2O2S
+Mr g/mol-1
+298.35
+348.41
+Temperature /K
+120(2)
+120(2)
+Wavelength /Å
+0.71073 (Mo Kα)
+1.54184
+Crystal system
+orthorhombic
+monoclinic
+Space group
+Pbca
+P21/c
+a /Å 
+b /Å 
+c /Å
+6.0916(6) 
+15.7195(14) 
+28.518(2)
+16.5635(10) 
+6.1644(4) 
+15.7817(10)
+α /◦
+β /◦
+γ /◦
+90 
+90 
+90
+90 
+96.164(6) 
+90
+V /Å 3
+2730.8(4)
+1602.06(18)
+Z
+8
+4
+Calculated density /Mg m- 
+3
+1.451
+1.445
+μ /mm-1
+0.243
+1.931
+F(000)
+1248
+728
+θ range /◦
+2.591 to 29.202
+2.683 to 67.05
+Limiting indices
+−8 ≤h ≤8 
+−21 ≤k ≤20 
+−39 ≤l ≤32
+−19 ≤h ≤18 
+−7 ≤k ≤7 
+−12 ≤l ≤18
+Reflections collected / 
+unique
+17185 / 3678 
+[R(int) = 0.0856]
+8137 / 2843 
+[R(int) = 0.0323]
+Completeness to θ max /%
+99.9
+99.4
+Refinement method
+Full-matrix least-squares 
+on F2
+Full-matrix least-squares 
+on F2
+Data/restraints/ 
+parameters
+3678/ 0 / 191
+2843/3/235
+Goodness-of-fit on F2
+1.027
+1.159
+Final R indices [I > 2sigma 
+(I)]
+R1 = 0.0508 
+wR2 = 0.1320
+R1 = 0.0532 
+wR2 = 0.1169
+R indices (all data)
+R1 = 0.0595 
+wR2 = 0.1423
+R1 = 0.0634 
+wR2 = 0.1213
+Largest diff. peak and hole 
+/eÅ-3
+0.561; −0.588
+0.443; −0.369
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+6 
+
+
+===== PDF PAGE 7 =====
+slippage (~1.6 Å) and small angular distortions (25–27◦). These con­
+tacts propagate primarily along the b axis, aligning adjacent aromatic 
+rings into parallel stacks. Several additional C–H⋯π interactions 
+(H⋯Cg = 2.70–2.91 Å, ∠X–H⋯Cg = 118–130◦) reinforce the packing 
+[73,74]. Together, these interactions yield a compact three-dimensional 
+supramolecular network closely analogous to that in SNaft, though 
+subtly modified by the lower symmetry of the monoclinic lattice.
+Compounds SNaft and SAntr display nearly identical local geome­
+tries of the sulfonamide group and rely on the same set of supramolec­
+ular 
+interactions—directional 
+N–H⋯O/N 
+hydrogen 
+bonds, 
+intramolecular C–H⋯O contacts, π–π stacking, and C–H⋯π inter­
+actions—for lattice stabilization. The primary differences are associated 
+with their crystal symmetries (Pbca vs. P2₁/c) and with the direction and 
+geometry of intermolecular contacts, particularly the propagation of 
+hydrogen-bonded chains (b axis in SNaft vs. c axis in SAntr) and the 
+geometry of π–π stacking. The observed structural features are consistent 
+with earlier studies on sulfonamides with diverse substituents, high­
+lighting the importance of conformational states and noncovalent in­
+teractions in crystal packing [33,70]. In both structures, strong N–H⋯O 
+hydrogen bonds are reinforced by weaker C–H⋯O and C–H⋯π in­
+teractions, underscoring the cooperative role of weak forces in supra­
+molecular assembly [71–74]. Such interactions are also known to 
+influence the coordination behavior of sulfonamides toward transition 
+metals and to modulate their potential biological activity [75].
+The biological activity of chemical compounds is closely related to 
+their specific proteolytic, complex, solvation or conformational form 
+[76,77]. Both the route of drug absorption as well as its interaction with 
+the relevant receptor or other structural element of the body are criti­
+cally important [76,78]. All these factors are closely interrelated, mak­
+ing them essential to define and understand them in detail.
+By studying the acid-base characteristics of sulfonamide derivatives, 
+the predominant form of the molecule at a given pH can be determined, 
+which facilitates the assessment of their potential as therapeutic sub­
+stances [76]. For sulfonamides, the protolytic form is the primary 
+determinant of their action, as their antimicrobial activity depends on 
+their ability to exist in a non-dissociated form that allows them to 
+penetrate bacterial cell membranes [76]. The penetration of these 
+compounds into tissues requires lipid solubility, so the non-dissociated 
+form is crucial during the transport phase. In contrast, in interacting 
+with the receptor inside the bacterial cell, the anionic form is the active 
+form [77]. Given these relationships, it is important to determine the 
+dissociation constants of the two functional groups capable of ionization 
+in the sulfonamide molecule. The derivatives tested showed poor solu­
+bility in water, so solutions in methanol were used to determine the pKa 
+values. Spectrophotometric titration was used as the measurement 
+method. In a first step, UV-Vis spectra of the compounds were recorded 
+in acidic (methanesulfonic acid) and basic (tetrabutylammonium hy­
+droxide) solution. Spectral effects were observed in all measurements: 
+for SNaft in acidic solution, there was a hypochromic effect, while in 
+basic solution, there was also a hypochromic effect combined with a 
+bathochromic shift. A hypochromic effect was evident for SAntr in both 
+acidic and basic media. The observed spectral changes confirmed that 
+the chosen method allows reliable determination of the values of the 
+dissociation constants. The stability of the ionized forms was confirmed 
+by the absence of changes in the recorded spectra over time. Titrations 
+were carried out under conditions allowing the observation of absor­
+bance changes at appropriate pH values, which made it possible to 
+accurately determine the acid-base characteristics of the compounds 
+studied. Fig. 3. shows the assumed dissociation model for the derivatives 
+under study, where two equilibria related to proton dissociation can be 
+Fig. 5. A. Spectrophotometric acid-base titration curves of SNaft (c = 4.41·10-5 M). B. Absorbance of SNaft as a function of the pH at λ = 246 nm. C. A-diagram 
+absorbance change at 246 nm as a function of the absorbance change at 269 nm.
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+7 
+
+
+===== PDF PAGE 8 =====
+observed.
+Analysis of the pH-spectroscopic titrations of the two compounds 
+showed that two acid-base equilibria exist in the pH range studied. This 
+is evidenced by the spectral changes observed in the titration curves and 
+the absence of isosbestic points typical of a single equilibrium (Figs. 5A-
+6A). Analysis of the pH dependence of absorbance curves (Figs. 5B-6B) 
+and A-diagrams (Figs. 5C-6C) confirms this. The former shows two 
+titration pikes, while the A-diagrams show two rectilinear ranges. On 
+this basis, a model involving two acid-base equilibria was proposed 
+(Fig. 3). The results clearly indicate that each of the molecules studied 
+has at least two functional groups capable of ionization. The determined 
+pKa values in the tested pH range and the errors are shown in Table 2. 
+The pKa1 values for the amino group in the para position of the two 
+tested derivatives are about 4, and the pKa2 for the amide proton in both 
+cases is about 13. The differences in pKa1 values between SNaft and 
+SAntr are 0.43 units, while for pKa2, they are 0.73. At low pH values, the 
+sulfonamides studied were found in protonated form. In contrast, the 
+degree of deprotonated form increased with increasing pH, which may 
+indicate that these compounds are weak bases. Analyzing the deter­
+mined acid-base constants, it can be concluded that the change of the 
+aryl substituent (naphthalene and anthracene) slightly affected the 
+values of the constants [79]. SNaft has a higher pKa than SAntr, because 
+its anion is less strongly stabilized by resonance — the negative charge is 
+delocalized over two rings, whereas in anthracene it is delocalized over 
+three rings, which increases the stability and acidity of anthracene [80].
+Conducting ADME screening alongside biological activity studies is 
+crucial in the initial stages of drug development, as inadequate phar­
+macokinetic characteristics frequently lead to failures in the more 
+expensive later stages. At GlaxoSmithKline, Valko and his team created a 
+biomimetic chromatography system, serving as a high-throughput 
+platform that facilitates the practical experimental assessment of 
+physicochemical properties including acid-base properties, lipophilicity, 
+and the ability to bind to phospholipids and plasma proteins [44,45]. 
+Experimentally determined properties of the investigated sulfonamides 
+and three reference antifungal drugs are collected in Table 3. Due to its 
+demonstrated antifungal activity, SNaft pre-ADME was evaluated 
+against antifungal drugs.
+The two sulfonamides studied exhibit moderate lipophilicity, and 
+their slight reduction under basic conditions indicates a weakly acidic 
+Fig. 6. A. Spectrophotometric acid-base titration curves of SAntr (c = 8.82·10-5 M). B. Absorbance of SAntr as a function of the pH at λ = 291 nm. C. A-diagram 
+absorbance change at 291 nm as a function of the absorbance change at 255 nm.
+Table 2 
+Acid dissociation constant (expressed as pKa) values (with standard deviation) 
+determined by the pH-spectrophotometric titration method in methanol.
+Compound
+pKa1
+pKa2
+SNaft
+4.72 ± 0.16
+13.71 ± 0.02
+SAntr
+4.29 ± 0.09
+12.98 ± 0.06
+Table 3 
+Chromatographically determined physicochemical properties of the tested 
+molecules, SNaft and SAntr, compared to those of reference antifungal micon­
+azole, fluconazole, and ketoconazole. The table summarizes the chromato­
+graphic 
+hydrophobicity 
+index 
+(CHIIAM), 
+chromatographic 
+distribution 
+coefficient (CHI logD) values measured at pH 2.6, 7.4, and 10.5, as well as the 
+percentage of human serum albumin binding (%HSA).
+Compound
+CHIIAM
+CHI logD 
+at pH 2.6
+CHI logD 
+at pH 7.4
+CHI logD 
+at pH 10.5
+%HSA
+miconazole
+48.2
+2.72
+4.95
+4.99
+97.4
+fluconazole
+12.4
+0.55
+0.57
+0.75
+9.5
+Ketoconazole
+33.8
+1.70
+3.26
+3.39
+92.1
+SNaft
+38.3
+2.71
+2.70
+2.49
+95.2
+SAntr
+46.9
+3.43
+3.40
+3.19
+97.7
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+8 
+
+
+===== PDF PAGE 9 =====
+nature. Based on the calculated CHI logD, these compounds are posi­
+tioned between the hydrophilic fluorine-substituted, bis-triazole anti­
+fungal agent fluconazole (logP of 0.5) and the lipophilic miconazole 
+(logP of 6.1).
+In the context of phospholipid binding (CHIIAM), the scenario is 
+somewhat distinct, as both sulfonamides exhibit a higher affinity for 
+phospholipids than reference antifungal drugs, except miconazole. 
+Notably, the structures under examination did not exceed the 50 CHIIAM 
+threshold, which indicates non-specific binding to phospholipids and 
+suggests a potential risk of phospholipidosis [81].
+The final endpoint assessed through chromatography was the bind­
+ing to HSA, constituting the predominant plasma protein, representing 
+approximately 70 % of the total plasma protein fraction. The high af­
+finity for plasma proteins can raise safety concerns, such as reduced 
+clearance, limited brain penetration, and diminished pharmacological 
+efficacy, since only unbound molecules can interact with their intended 
+targets [47]. Conversely, weak protein binding minimizes a drug's effect 
+duration and accelerates its elimination [81]. As is typical for this class 
+of chemicals, the newly synthesised sulphonamide derivatives exhibited 
+a strong affinity for HSA. However, their binding levels must remain at 
+an acceptable level, which is lower than that of the reference set of 
+marketed drugs like diclofenac.
+Notably, the results obtained by chromatography and the shake-flask 
+method remain consistent, +2.09 for SNaft and +1.93 for SAntr, they 
+indicate the hydrophilic-hydrophobic nature of the compounds, which 
+also translates into the other experiments performed (the data con­
+cerning the experiment are contained in Table S7 and in Fig. S9-S12). 
+These properties of the compound may promote its bioavailability and 
+penetration through phospholipid cell membranes, which is a key factor 
+determining its pharmacological activity. The ability to effectively cross 
+cell membranes increases the likelihood of achieving adequate concen­
+trations within the cell and effectively interacting with target molecular 
+structures.
+Regarding the equilibrium structures of the studied compounds, the 
+CSNC dihedral angle (as defined in Fig. 7) scans suggest the existence of 
+three minima (Fig. 8) for both SNaft and SAntr regardless of ionization 
+state. Geometrically, two of these minima adopt a V-like conformation 
+with CSNC dihedral angle value close to ±50 degrees [33,70]. The 
+remaining minimum is Z-Shaped with a value of the corresponding 
+dihedral angle at about 180 degrees. Analysis of the chart reveals that 
+the V-like structures are nearly equivalent in energy, whereas the Z 
+conformer is energetically less favorable. The neutral systems' differ­
+ences are most pronounced, amounting to 3.05 and 3.03 kcal/mol for 
+SNaft and SAntr, respectively. These differences mainly originate from 
+intramolecular hydrogen bonds in the V-shaped conformers, which are 
+discussed in detail in the following sections of this manuscript.
+The first thing that stands out from the analyses of the graphs shown 
+in Fig. 9 is that the plots calculated for protonated systems differ 
+significantly from those obtained for neutral and deprotonated systems. 
+Namely, for BH2
++, the barriers between V(+)⇌V(-) and V⇌Z transitions 
+are almost alike and close to 2 kcal/mol. Additionally, the Z conformers 
+are only circa 0.5 kcal/mol higher in energy than their V-shaped 
+counterparts. Together, these two observations indicate that in a 
+strongly acidic environment, SNaft and SAntr readily adopt all three 
+conformations and can freely isomerize.
+On the other hand, the plots obtained for deprotonated and neutral 
+forms of SNaft and SAntr are alike. Specifically, the V(+)⇌V(-) transi­
+tion proceeds over a 6-7 kcal/mol barrier. In contrast, the V(+)⇌Z and V 
+(-)⇌Z transition energy barriers are equal to about 4.20 kcal/mol. 
+Additionally, when going from SNaft to SAntr, the V(+)⇌V(-) trans­
+formation barrier for the B- decreases by circa 0.9 kcal/mol, placing it 
+below the barrier calculated for BH. A similar trend is observed for 
+lower-barrier transitions associated with V(+)⇌Z and V(-)⇌Z. These 
+observations, together with the relative energies of conformers, imply 
+that for SNaft and SAntr in both BH and B-forms, the V-like conformers 
+are favorable. At the same time, the V⇌Z interconversions are more 
+feasible than the V(+)⇌V(-) ones.
+Polarity is of utmost importance when describing potential drugs, as 
+it allows one to assess the dissolution processes in gastrointestinal fluids 
+and passing through cell membranes. Thus, in this paper, polarity was 
+examined from multiple perspectives by assessing: dipole moment, polar 
+surface area, logP, and logD values (vide Table 4). All parameters used to 
+evaluate the tested systems' polarity level indicate a significant value of 
+this quantity. Initially, it seems quite unexpected that sulfonamides 
+substituted with non-polar systems such as naphthalene or anthracene 
+are significantly polar, especially regarding V-shaped systems. As shown 
+in Fig. S13 using SNaft-V(+)as an example, the dipole moment vector is 
+located in a way that makes the sulfonamide group the negative end of 
+the vector (vertex of the V), whereas the aromatic rings of both PAH and 
+sulfonanilide part constitute a positive end of the dipole moment vector 
+(arms of the V). Analogous sulfanilamide derivatives based on thiazolo 
+[4,5-d]pyrimidine moiety investigated as potential Carbonic Anhy­
+drase II (CA II) and Dickkopf-1 (DKK1) inhibitors were found to have a 
+dipole moment higher than 13D in most cases, regardless of the basis set 
+used during the calculations [82].
+Similar to the dipole moment, polar surface values also reflect sig­
+nificant polarity of studied systems, as for all studied compounds, it was 
+calculated to account for 67-69 % of the total surface area. This trans­
+lates to a polar surface area above 210 Å2 for both studied systems in 
+each conformation. As such, they fail to obey Veber’s rule, which states 
+that only compounds with a polar surface area equal to or less than 140 
+Å2 are likely to have significant oral bioavailability [83]. In like manner, 
+log P values calculated for each studied conformer are negative, indi­
+cating hydrophilicity. With the value of -0.632, SAntr-Z is the least hy­
+drophilic outlier here. The values of logP calculated for the remaining 
+conformers fall into the -1.200 to -1.500 range. The lipophilicity order 
+may thus look as follows: SAntr-V(+) ≈SNaft-V(–) ≈SNaft-Z < SNaft-V 
+(+) < SAntr-V(–) < SAntr-Z. Two reasons exist for the differences be­
+tween logP values determined experimentally and by computational 
+methods. First, naphthalene and anthracene moieties may favor π–π 
+stacking while in solution, creating corresponding dimers or even olig­
+omers. This can significantly increase partitioning, making the experi­
+mental values more lipophilic than the monomer-based calculations. 
+Second, the calculations are based on a single structure within a solvent 
+approximated by a continuum, thus missing possible conformers and 
+protomer populations present during experimental measurements.
+The graph presenting the logD(pH) profile for all conformers is 
+shown in Fig. 9. The first thing that comes to mind while analyzing the 
+presented plots is that logD values are always negative, regardless of the 
+pH value or compound/conformer considered. The steep rise in logD 
+values from 0 to 5 corresponds to crossing the pKa1 value of 4.3-4.7. 
+Chemically, protonation (BH2+ to neutral (BH)) occurs in this range. 
+These results suggest that at gastric pH (1-2), all conformers are over 99 
+% protonated. A flat plateau between pH of circa 5.5 and 11 corresponds 
+to the range within which 98-100 % are neutral, corresponding to blood, 
+cytosol, and intestinal fluid environments. The ordering of the plateau 
+reflects the logP order mentioned in the previous paragraph. The 
+downturn occurs at pH values close to 12. It corresponds to the 
+Fig. 7. Definition of C-S-N-C torsion angle for SNaft and SAntr for obtaining 
+results shown in Fig. 8.
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+9 
+
+
+===== PDF PAGE 10 =====
+deprotonation of sulfonamide and formation of its conjugated base (B-), 
+which confirms the ampholyte behavior of the studied systems.
+One way to decrease their polarity, and thus increase hydrophobic­
+ity, is to introduce the polar substituent into the PAH ring, preferably at 
+the end opposite to the sulfonamide group. Preliminary calculations 
+show that the mono-chloro-substituted (in the 6th position) derivatives 
+of the studied compounds have a dipole moment lower by circa two 
+units.
+The parameters characterizing hydrogen bonds within V-shaped 
+conformers of SNaft and SAntr are collected in Table S7. The values of 
+H/ρ and |V|/G were calculated to 0.17 and 0.79, respectively, for each of 
+the (PAH)-C-H•••O hydrogen bonds investigated. This type of non- 
+covalent interaction is known to have similar properties to regular 
+hydrogen bonds, although their energies are typically in the 0.5–2.5 
+kcal/mol range [84]. H/ρ and |V|/G values indicate that the interaction 
+is dominated by electrostatic or dispersion contributions rather than 
+electron sharing. Additionally, the studied non-covalent interactions 
+exhibit closed-shell character and are relatively weak. These findings are 
+further confirmed by hydrogen bond energies calculated with Espinosa’s 
+method, as the values calculated for all studied systems are within the 
+2.40-2.55 kcal/mol range. The presence of those non-covalent in­
+teractions, and their absence in the protonated counterparts, indicates 
+that rotation of PAH along the C-N axis may be slightly hindered in the 
+case of the former. Also, by hiding the otherwise highly electronegative 
+oxygen inside the molecule, the discussed H-bond effectively lowers the 
+resulting polarity, thereby increasing passive membrane permeability. 
+This effect is mirrored in the polarity assessments.
+The in vitro biological activity of the synthesized compounds SNaft 
+and SAntr was evaluated across a panel of human cancer cell lines, 
+bacterial, and fungal strains. A summary of the IC₅₀ and MIC₅₀ values is 
+presented in Table 5. Cytotoxicity assays revealed that SNaft exhibited 
+moderate antiproliferative activity, particularly against the A-549 non- 
+small cell lung cancer line (IC₅₀ = 30.17 ± 4.77 µM). Comparable, yet 
+weaker effects were observed in NALM-6 (42.78 ± 2.92 µM) and MCF-7 
+(50.06 ± 6.17 µM) cells, while HCT-116 cells displayed lower sensitivity 
+(78.81 ± 8.74 µM). In contrast, SAntr did not demonstrate cytotoxic 
+effects in any of the tested cancer lines at concentrations up to 100 µM. 
+Both compounds were inactive against the non-tumorigenic HEK-293 
+cell line, indicating a favorable selectivity profile. Cisplatin, used as a 
+reference agent, exhibited expected potent cytotoxicity in all cancer 
+models, with the lowest IC₅₀ recorded for NALM-6 (0.83 ± 0.15 µM), but 
+also affected nonmalignant cells (IC₅₀ = 30.59 ± 20.7 µM) [84–87] .
+Antibacterial 
+screening 
+against 
+representative 
+Gram-positive 
+(Staphylococcus aureus, Bacillus subtilis) and Gram-negative (Escherichia 
+Fig. 8. The R2SCAN/def2-TZVP/def2/J relaxed energy scans of the C-S-N-C torsion angle (as defined in Fig. 7) for protonated (BH2
++), neutral (BH), and deprotonated 
+(B-) forms (as in Eq. (10)) of SNaft (left), and SAntr (right).
+Fig. 9. The DFT calculated distribution coefficient (logD) of two studied 
+compounds in each conformation over the pH range of 0.0 to 14.0.
+Table 4 
+Structural and polarity-related parameters of SNaft and SAntr calculated (DFT) 
+for the three conformational minima (V(+), V(–), and Z). The table presents the 
+CSNC (Fig. 7) dihedral angle (in degrees), dipole moment (in Debye), polar 
+surface area (Å², with the percentage of the molecular surface area also indicated 
+in parentheses), and the logarithm of the partition coefficient logP values.
+System
+CSNC dihedral 
+angle [deg]
+Dipole moment 
+[Debye]
+Polar surface 
+area [Å2]
+logP
+SNaft-V 
+(+)
+52.3
+10.565
+211.74 (67.35 
+%)
+−1.282
+SNaft -V 
+(-)
+−52.4
+10.482
+212.17 (67.48 
+%)
+−1.434
+SNaft -Z
+−171.7
+11.034
+220.59 (69.24 
+%)
+−1.439
+SAntr-V 
+(+)
+52.6
+10.471
+243.84 (67.43 
+%)
+−1.461
+SAntr-V 
+(-)
+−53.5
+9.888
+243.61 (67.36 
+%)
+−1.208
+SAntr-Z
+174.5
+11.347
+251.81 (68.86 
+%)
+−0.632
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+10 
+
+
+===== PDF PAGE 11 =====
+coli, Salmonella enterica) strains revealed no detectable activity for either 
+SNaft or SAntr up to 250 µM (MIC₅₀ > 250 µM). In contrast, levofloxacin 
+demonstrated potent activity across all tested strains, with MIC₅₀ values 
+ranging from 0.46 ± 0.06 to 2.99 ± 0.13 µM, which is consistent with 
+previously reported data for susceptible clinical isolates of both Gram- 
+positive and Gram-negative bacteria [88].
+Antifungal evaluation showed that SNaft exhibited selective activity 
+against Candida albicans SC5314, with a MIC₅₀ of 34.05 ± 5.21 µM. At 
+the same time, all other Candida strains, including C. glabrata, C. krusei, 
+and C. albicans ATCC 10231, were unaffected (MIC₅₀ > 500 µM). SAntr 
+was inactive across the entire panel (MIC₅₀ > 500 µM). The reference 
+antifungal agent, fluconazole, showed the expected strain-dependent 
+activity, with MIC₅₀ values ranging from 3.72 ± 0.59 to 119.18 ±
+11.65 µM [89].
+The biological evaluation highlights SNaft as the more promising of 
+the two synthesized compounds, displaying moderate and selective 
+anticancer activity and limited antifungal potency against Candida 
+albicans SC5314. In contrast, SAntr remained inactive across all tested 
+models. Neither compound demonstrated antibacterial activity, under­
+scoring their narrow biological spectrum compared with clinically used 
+reference drugs. Although the potency of SNaft was considerably lower 
+than that of cisplatin, levofloxacin, or fluconazole, its selective activity 
+against cancer cells and lack of cytotoxicity toward nonmalignant HEK- 
+293 cells suggest potential for further structural optimization and 
+development.
+4. Conclusions
+Comprehensive spectroscopic, crystallographic, and computational 
+analyses of the novel sulfonamides SNaft and SAntr revealed comparable 
+local geometries but distinct supramolecular organizations governed by 
+crystal symmetry. Both derivatives exhibit amphoteric acid–base 
+behavior, low polarity, and moderate lipophilicity, as confirmed by 
+spectrophotometric and chromatographic studies. DFT calculations 
+revealed the predominance of V-shaped conformers stabilized by 
+intramolecular hydrogen bonding, which is consistent with their 
+experimental characteristics.
+Biological evaluation demonstrated that SNaft exhibits selective 
+anticancer and antifungal activity, whereas SAntr remains inactive, 
+underscoring the influence of subtle structural and conformational dif­
+ferences on bioactivity. The observed variations in biological response 
+likely arise from differences in supramolecular packing and molecular 
+polarity, which affect solubility and biomolecular interactions.
+Although both compounds show strong binding to serum albumin, 
+suggesting limited bioavailability, their structural features make them 
+attractive candidates for further modification or metal coordination. The 
+present findings provide valuable insight into the structur­
+e–property–bioactivity relationships of aromatic sulfonamides and 
+establish a foundation for the design of new bioactive and coordination- 
+capable derivatives.
+The conducted research significantly advances knowledge of 
+structure-property-activity relationships in the sulfonamide group of 
+compounds, offering new insights into the possibilities for their rational 
+design. The proposed research approach is distinguished by its 
+comprehensiveness and may provide a valuable foundation for further 
+work on safer and more selective bioactive compounds.
+CRediT authorship contribution statement
+Magdalena Stasiuk: Writing – review & editing, Writing – original 
+draft, Visualization, Investigation, Formal analysis, Data curation, 
+Conceptualization. Jakub Brzeski: Writing – original draft, Investiga­
+tion, Formal analysis. Natalia Maciejewska: Writing – review & edit­
+ing, Methodology, Investigation, Data curation. Sandra Brzeska: 
+Writing – review & editing, Investigation, Formal analysis. Krzesimir 
+Ciura: Writing – review & editing, Investigation, Data curation. 
+Katarzyna Kazimierczuk: Writing – review & editing, Investigation, 
+Formal analysis. Dorota Zarzecza´nska: Writing – review & editing, 
+Investigation. Katarzyna Ewa Greber: Writing – review & editing, 
+Investigation. Dawid Dębowski: Writing – review & editing, Investi­
+gation, Data curation. Mariusz Makowski: Writing – review & editing, 
+Writing – original draft, Supervision, Project administration, Formal 
+analysis, Conceptualization.
+Declaration of competing interest
+The authors declare that they have no known competing financial 
+interests or personal relationships that could have appeared to influence 
+the work reported in this paper.
+Acknowledgements
+The University of Gda´nsk supported M. Stasiuk under the BMN Small 
+Grants Program 2025 (grant no. 539-T120-B193-25). Computations 
+were carried out on the Centre of Informatics Tricity Academic Super­
+computer & Network (PT01212). Bio-mimetic chromatographic analysis 
+(by K. Ciura and K. E. Greber) was funded by the National Center for 
+Research and Development (Project No. LIDER//0066/L-15/2024).
+Supplementary materials
+Supplementary material associated with this article can be found, in 
+Table 5 
+Biological activities of SNaft and SAntr compared with reference drugs. The 
+table summarizes cytotoxic activity against four human cancer cell lines (A-549 
+(lung adenocarcinoma), MCF-7 (breast adenocarcinoma), NALM-6 (acute 
+lymphoblastic leukemia), and HCT-116 (colorectal carcinoma)) and a non- 
+cancerous line (HEK-293), expressed as IC₅₀ values [µM], with cisplatin used 
+as a positive control. Antibacterial effects were evaluated by MIC₅₀ [µM] against 
+representative Gram-negative (Escherichia coli ATCC 25922, Salmonella enterica 
+PCH 2266) and Gram-positive (Bacillus subtilis ATCC 6633, Staphylococcus aureus 
+ATCC 29213) strains, with levofloxacin as a reference. Antifungal activity was 
+assessed by MIC₅₀ [µM] against Candida glabrata (DSM 11226), Candida krusei 
+(DSM 6128), and two Candida albicans strains (SC5314, ATCC 10231), with 
+fluconazole as the control drug.
+Anticancer activity; IC50 [µM]
+Cell line
+SNaft
+SAntr
+Cisplatin
+A-549
+30.17 ±
+4.77
+>100
+2.97 ± 0.09
+MCF-7
+50.06 ±
+6.17
+>100
+63.48 ± 5.03
+NALM-6
+42.78 ±
+2.92
+>100
+0.83 ± 0.15
+HCT-116
+78.81 ±
+8.74
+>100
+4.16 ± 0.58
+HEK-293
+>100
+>100
+30.59 ± 2.07
+Antibacterial activity; MIC50 [µM]
+Strain
+SNaft
+SAntr
+Levofloxacin
+Gram 
+(-)
+Escherichia coli (ATCC 
+25922)
+>250
+>250
+2.99 ± 0.13
+Salmonella enterica (PCH 
+2266)
+>250
+>250
+0.46 ± 0.06
+Gram 
+(+)
+Bacillus subtilis (ATCC 6633)
+>250
+>250
+1.35 ± 0.11
+Staphylococcus aureus (ATCC 
+29213)
+>250
+>250
+1.55 ± 0.15
+Antifungal activity; MIC50 [µM]
+Strain
+SNaft
+SAntr
+Fluconazol
+Candida glabrata (DSM 11226)
+>500
+>500
+34.31 ± 3.37
+Candida krusei (DSM 6128)
+>500
+>500
+119.18 ±
+11.65
+Candida albicans (SC5314)
+34.05 ±
+5.21
+>500
+3.72 ± 0.59
+Candida albicans (ATCC 10231)
+>500
+>500
+7.46 ± 1.69
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+11 
+
+
+===== PDF PAGE 12 =====
+the online version, at doi:10.1016/j.molstruc.2026.145415.
+Supplementary Information file (entire file in PDF format) contains 
+Table S1: Chromatographic data of investigated molecules; Table S2: 
+Retention time of calibration.; Table S3: The geometry of non-covalent 
+interactions in the crystal structures of SNaft and SAntr obtained from 
+X-ray analysis; Table S4: Bond lenghts [Ǻ] and angles [◦] for SNaft 
+obtained from X-ray analysis; Table S5: Bond lenghts [Ǻ] and angles [◦] 
+for SAntr obtained from X-ray analysis; Table S6: Torsion angles [◦] for 
+SNaft and SAntr obtained from X-ray analysis; Table S7: Parameters 
+determined together with their standard deviations based on linear 
+fitting for SNaft and SAntr; Table S8: Cartesian coordinates (in Å) of the 
+studied systems, together with their equilibrium structures and Gibbs 
+and electronic energies (in Ha). Data calculated using DFT in vacuo; 
+Table S9: The QTAIM analysis results on Bond Critical Points (BCPs) 
+present in neutral forms of studied compounds. H – energy density, ρ 
+-electron density, V – potential energy density, G - Lagrangian kinetic 
+energy, and EHB – hydrogen bond energy. H/ρ is expressed in a.u, |V|/G 
+is a dimensionless quantity, whereas EHB is reported in kcal/mol. 
+Figs. S1-S2: ESI/IT spectrograms; Figs. S3-S4: The experimental FT-IR 
+spectra; Figs. S5-S8: 1H, 13C, 1H, 13C, NMR spectra of SNaft and 
+SAntr; Fig. S9: Calibration spectra obtained for SNaft octanol solutions; 
+Fig. S10: Linear relationships between absorbance and SNaft concen­
+tration in octanol – A- 233 nm, B- 266 nm; Fig. S11: Calibration spectra 
+obtained for SAntr octanol solutions; Figs. S12: Linear relationships 
+between absorbance and SAntr concentration in octanol – 257 nm; 
+Figs. S13: SNaft-V(+) equilibrium structure with corresponding dipole 
+moment vector. Data calculated using DFT in vacuo.
+Data availability
+Data will be made available on request.
+References
+[1] A. Ciesielska, J. Brzeski, D. Zarzecza´nska, M. Stasiuk, M. Makowski, S. Brzeska, 
+Exploring the interaction of biologically active compounds with DNA through the 
+application of the SwitchSense technique, UV–Vis spectroscopy, and computational 
+methods, Spectrochim. Acta A: Mol. Biomol. Spectrosc. 316 (2024) 124313, 
+https://doi.org/10.1016/j.saa.2024.124313.
+[2] I.V. Chavarría-Bencomo, G.V. Nev´arez-Moorill´on, G.P. Espino-Solís, J.R. Adame- 
+Gallegos, Antibiotic resistance in tick-borne bacteria: A One Health approach 
+perspective, J. Infect. Public Health 16 (2023) 153–162, https://doi.org/10.1016/ 
+j.jiph.2023.10.027.
+[3] E.N. Parker, B.N. Cain, B. Hajian, R.J. Ulrich, E.J. Geddes, S. Barkho, H.Y. Lee, J. 
+D. Williams, M. Raynor, D. Caridha, A. Zaino, M. Shekhar, K.A. Mu˜noz, K.M. Rzasa, 
+E.R. Temple, D. Hunt, X. Jin, C. Vuong, K. Pannone, A.M. Kelly, M.P. Mulligan, K. 
+K. Lee, G.W. Lau, D.T. Hung, P.J. Hergenrother, An iterative approach guides 
+discovery of the fabi inhibitor fabimycin, a late-stage antibiotic candidate with in 
+vivo efficacy against drug-resistant gram-negative infections, ACS Cent. Sci. 8 
+(2022) 1145–1158, https://doi.org/10.1021/acscentsci.2c00598.
+[4] K.H. Min, K.H. Kim, M.-R. Ki, S.P. Pack, Antimicrobial peptides and their 
+biomedical applications: a review, Antibiotics 13 (2024) 794, https://doi.org/ 
+10.3390/antibiotics13090794.
+[5] T. Sarkar, M. Chetia, S. Chatterjee, Antimicrobial peptides and proteins: from 
+nature’s reservoir to the laboratory and beyond, Front. Chem. 9 (2021), https:// 
+doi.org/10.3389/fchem.2021.691532.
+[6] C.R. Woods, N. Faucher, B. Eschgfaller, K.W. Bair, D.L. Boger, Synthesis and DNA 
+binding properties of saturated distamycin analogues, Bioorg. Med. Chem. Lett. 12 
+(2002) 2647–2650, https://doi.org/10.1016/S0960-894X(02)00467-5.
+[7] S. Ramotowska, P. Spisz, J. Brzeski, A. Ciesielska, M. Makowski, Application of the 
+SwitchSense technique for the study of small molecules’ (Ethidium Bromide and 
+Selected Sulfonamide Derivatives) affinity to DNA in real time, J. Phys. Chem. B 
+126 (2022) 7238–7251, https://doi.org/10.1021/acs.jpcb.2c03138.
+[8] K.Tavakoli Hafshajani, N. Sohrabi, M.Eslami Moghadam, M. Oftadeh, Spectroscopy 
+and molecular dynamic study of the interaction of calf thymus DNA by anticancer 
+Pt complex with butyl glycine ligand, Spectrochim. Acta A: Mol. Biomol. Spectrosc. 
+299 (2023) 122826, https://doi.org/10.1016/j.saa.2023.122826.
+[9] S. Ponkarpagam, K.N. Vennila, K.P. Elango, Molecular spectroscopic and molecular 
+simulation studies on the interaction of oral contraceptive drug Ormeloxifene with 
+CT–DNA, Spectrochim. Acta A: Mol. Biomol. Spectrosc. 278 (2022) 121351, 
+https://doi.org/10.1016/j.saa.2022.121351.
+[10] N. Gresh, M. Perr´ee-fauvet, Major versus minor groove DNA binding of a 
+bisarginylporphyrin hybrid molecule: a molecular mechanics investigation, 
+J. Comput. Aided. Mol. Des. 13 (1999) 123–137, https://doi.org/10.1023/A: 
+1008033219724.
+[11] N. Gresh, A. Ongaro, L. Demange, G. Zagotto, G. Ribaudo, Sequence-selective 
+recognition of the d(GGCGCC)2 DNA palindrome by oligopeptide derivatives of 
+mitoxantrone. enabling for simultaneous targeting of the two guanine bases 
+upstream from the central intercalation site in both grooves and along both 
+strands, ACS Omega 9 (2024) 42309–42328, https://doi.org/10.1021/ 
+acsomega.4c05099.
+[12] M.F. Brana, M. Cacho, A. Gradillas, B. de Pascual-Teresa, A. Ramos, Intercalators as 
+anticancer drugs, Curr. Pharm. Des. 7 (n.d.) 1745–1780. https://doi.org/10.21 
+74/1381612013397113.
+[13] O. Sk¨old, Resistance to trimethoprim and sulfonamides, Vet. Res. 32 (2001) 
+261–273, https://doi.org/10.1051/vetres:2001123.
+[14] C. Chazalette, M. Rivi`ere-Baudet, C.T. Supuran, A. Scozzafava, Carbonic anhydrase 
+inhibitors: allylsulfonamide, styrene sulfonamide, N -allyl sulfonamides and some 
+of their Si, Ge, and B derivatives, J. Enzyme Inhib. 16 (2001) 475–489, https://doi. 
+org/10.1080/14756360127572.
+[15] A. Scozzafava, C.T. Supuran, Carbonic anhydrase inhibitors: novel compounds 
+containing S-NH moieties: sulfenamido-sulfonamides, sulfenimido-sulfonamides 
+and their interaction with isozymes I, II and IV, J. Enzyme Inhib. 13 (1998) 
+419–442, https://doi.org/10.3109/14756369809020547.
+[16] A. Angeli, N. Paoletti, C.T. Supuran, Five-membered heterocyclic sulfonamides as 
+carbonic anhydrase inhibitors, Molecules 28 (2023) 3220, https://doi.org/ 
+10.3390/molecules28073220.
+[17] D. Ekinci, M. al-Rashida, G. Abbas, M. S¸ entürk, C.T. Supuran, Chromone containing 
+sulfonamides as potent carbonic anhydrase inhibitors, J. Enzyme Inhib. Med. 
+Chem. 27 (2012) 744–747, https://doi.org/10.3109/14756366.2011.614607.
+[18] R.N. Shelke, D.N. Pansare, A.P. Sarkate, I.K. Narula, D.K. Lokwani, S.V. Tiwari, 
+R. Azad, S.R. Thopate, Synthesis and evaluation of novel sulfonamide analogues of 
+6/7-aminoflavones as anticancer agents via topoisomerase II inhibition, Bioorg. 
+Med. Chem. Lett. 30 (2020) 127246, https://doi.org/10.1016/j. 
+bmcl.2020.127246.
+[19] M. Badr, E.I. Elmongy, D. Elkhateeb, Y.S. Moemen, A. Khalil, H. Ali, 
+R. Binsuwaidan, F. Awadallah, I.E.T. El Sayed, In silico and in vitro investigation of 
+cytotoxicity and apoptosis of acridine/sulfonamide hybrids targeting 
+topoisomerases I and II, Pharmaceuticals 17 (2024) 1487, https://doi.org/ 
+10.3390/ph17111487.
+[20] S. Rani, Ajeet, A. Kumar, Designing of sulfanilamide/sulfacetamide derivatives as 
+human topoisomerase II inhibitor: a docking approach, Am. J. Pharmacol. Sci. 2 
+(2014) 42–46, https://doi.org/10.12691/ajps-2-2-3.
+[21] H.K. Swedan, A.E. Kassab, E.M. Gedawy, S.E. Elmeligie, Topoisomerase II 
+inhibitors design: Early studies and new perspectives, Bioorg. Chem. 136 (2023) 
+106548, https://doi.org/10.1016/j.bioorg.2023.106548.
+[22] P. Spisz, A. Chylewska, A. Kr´olicka, S. Ramotowska, A. Dąbrowska, M. Makowski, 
+Stimulation of sulfonamides antibacterial drugs activity as a result of complexation 
+with Ru(III): physicochemical and biological study, Int. J. Mol. Sci. 22 (2021) 
+13482, https://doi.org/10.3390/ijms222413482.
+[23] A. Giles, J. Foushee, E. Lantz, G. Gumina, Sulfonamide Allergies, Pharmacy 7 
+(2019) 132, https://doi.org/10.3390/pharmacy7030132.
+[24] P.A. Asyraf, I.F. Kusnadi, J. Stefanus, M.A. Khairinisa, R. Abdulah, Clinical 
+manifestations and genetic influences in sulfonamide-induced hypersensitivity, 
+DHPS 14 (2022) 113–124, https://doi.org/10.2147/DHPS.S347522.
+[25] Y. Elsagh, S. Farhadian, B. Shareghi, M. Sadri-Ghahfarokhi, R. Ahmadi, 
+N. Chaharlangi, Structural and thermal impacts of phosalone binding to human 
+serum albumin: perspectives from molecular modeling and spectroscopic methods, 
+J. Biomol. Struct. Dyn. (2025) 1–18, https://doi.org/10.1080/ 
+07391102.2025.2592599.
+[26] M. Sadri-Ghahfarokhi, S. Farhadian, B. Shareghi, Evaluation of structural changes 
+in human serum albumin protein induced by linuron binding: Spectroscopic, 
+molecular modeling, and thermodynamic characterization, J. Mol. Struct. 1349 
+(2026) 143626, https://doi.org/10.1016/j.molstruc.2025.143626.
+[27] Y. Elsagh, S. Farhadian, B. Shareghi, Molecular interactions between human serum 
+albumin (HSA) and Triadimenol a: Spectroscopic and molecular dynamic 
+simulation studies, J. Mol. Liq. 435 (2025) 128120, https://doi.org/10.1016/j. 
+molliq.2025.128120.
+[28] N. Farajzadeh-Dehkordi, S. Farhadian, Z. Zahraei, S. Asgharzadeh, B. Shareghi, 
+B. Shakerian, Insights into the binding interaction of Reactive Yellow 145 with 
+human serum albumin from a biophysics point of view, J. Mol. Liq. 369 (2023) 
+120800, https://doi.org/10.1016/j.molliq.2022.120800.
+[29] G. Prakash, M. Boopathy, R. Selvam, S.J. Kumar, K. Subramanian, The effect of 
+anthracene-based chalcone derivatives in the resazurin dye reduction assay 
+mechanisms for the investigation of Gram-positive and Gram-negative bacterial 
+and fungal infection, New J. Chem. 42 (2018) 1037–1045, https://doi.org/ 
+10.1039/C7NJ04125J.
+[30] R. Palabindela, P. Myadaravenia, D. Banothu, R. Korra, H. Mekala, M. Kasula, 
+Anthracene and 1,8-napthalimide aminothiazole hybrids: synthesis, antimicrobial 
+activity and molecular docking studies, Orient. J. Chem. 38 (2022) 137–143.
+[31] D. Osmaniye, B.N. Sa˘glık, N. Khalilova, S. Levent, G. Bayazıt, Ü.D. Gül, Y. ¨Ozkay, Z. 
+A. Kaplancıklı, Design, synthesis, and biological evaluation studies of novel 
+naphthalene-chalcone hybrids as antimicrobial, anticandidal, anticancer, and 
+VEGFR-2 inhibitors, ACS Omega 8 (2023) 6669–6678, https://doi.org/10.1021/ 
+acsomega.2c07256.
+[32] G.L. Beretta, G. Ribaudo, I. Menegazzo, R. Supino, G. Capranico, F. Zunino, 
+G. Zagotto, Synthesis and evaluation of new naphthalene and naphthoquinone 
+derivatives as anticancer agents, Arch. Pharm. 350 (2017) e1600286, https://doi. 
+org/10.1002/ardp.201600286.
+[33] M. Kowalik, J. Brzeski, M. Gawro´nska, K. Kazimierczuk, M. Makowski, 
+Experimental and theoretical investigation of conformational states and 
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+12 
+
+
+===== PDF PAGE 13 =====
+noncovalent interactions in crystalline sulfonamides with a methoxyphenyl 
+moiety, CrystEngComm. 23 (2021) 6137–6162, https://doi.org/10.1039/ 
+D1CE00869B.
+[34] X-AREA, STOE & Cie GmbH (n.d.). https://www.stoe.com/products/xarea/
+(accessed December 16, 2025).
+[35] A. Ohbuchi, Applications of the two-dimensional detector HyPix-3000 in X-ray 
+diffractometry, Rigaku J. (2015) 4–9.
+[36] CrysAlisPro, (n.d.). https://rigaku.com/products/crystallography/x-ray-diffra 
+ction/crysalispro (accessed December 16, 2025).
+[37] G.M. Sheldrick, SHELXT – Integrated space-group and crystal-structure 
+determination, Acta Cryst. A 71 (2015) 3–8, https://doi.org/10.1107/ 
+S2053273314026370.
+[38] O.V. Dolomanov, L.J. Bourhis, R.J. Gildea, J.A.K. Howard, H. Puschmann, OLEX2: 
+a complete structure solution, refinement and analysis program, J. Appl. Cryst. 42 
+(2009) 339–341, https://doi.org/10.1107/S0021889808042726.
+[39] G.M. Sheldrick, Crystal structure refinement with SHELXL, Acta Cryst. C 71 (2015) 
+3–8, https://doi.org/10.1107/S2053229614024218.
+[40] Diamond - Crystal and Molecular Structure Visualization, (n.d.). https://www. 
+crystalimpact.de/diamond/ (accessed December 16, 2025).
+[41] D. Zarzecza´nska, S. Ramotowska, A. Wcisło, I. Dąbkowska, P. Niedziałkowski, 
+T. Ossowski, In pursuit of the ideal chromoionophores (part I): pH- 
+spectrophotometric characteristics of aza-12-crown-4 ethers substituted with an 
+anthraquinone moiety, Dyes Pigments 130 (2016) 273–281, https://doi.org/ 
+10.1016/j.dyepig.2016.03.014.
+[42] W. Schilf, B. Kamie´nski, A. Szady-Chełmieniecka, B. Kołodziej, E. Grech, 
+D. Zarzecza´nska, A. Wcisło, T. Ossowski, Structure investigation of intramolecular 
+hydrogen bond in some substituted salicylaldehydes and 4-aminoantipyrine 
+derivatives in solution and in the solid state, Spectrochim. Acta A: Mol. Biomol. 
+Spectrosc. 109 (2013) 47–54, https://doi.org/10.1016/j.saa.2013.01.094.
+[43] A. Chylewska, M. Biedulska, A. Głębocka, E.D. Raczy´nska, M. Makowski, Drug-like 
+properties and complete physicochemical profile of pyrazine‑2‑amidoxime: A 
+combined multi-experimental and computational studies, J. Mol. Liq. 276 (2019) 
+453–470, https://doi.org/10.1016/j.molliq.2018.11.147.
+[44] K.L. Valko, T. Zhang, Biomimetic properties and estimated in vivo distribution of 
+chloroquine and hydroxy-chloroquine enantiomers, ADMET DMPK 9 (2021) 
+151–165, https://doi.org/10.5599/admet.929.
+[45] K.L. Valk´o, Lipophilicity and biomimetic properties measured by HPLC to support 
+drug discovery, J. Pharm. Biomed. Anal. 130 (2016) 35–54, https://doi.org/ 
+10.1016/j.jpba.2016.04.009.
+[46] D. Szulczyk, M. Wozi´nski, M. Koli´nski, S. Kmiecik, A. Głogowska, 
+E. Augustynowicz-Kope´c, M.A. Dobrowolski, P. Roszkowski, M. Struga, K. Ciura, 
+Menthol- and thymol-based ciprofloxacin derivatives against Mycobacterium 
+tuberculosis: in vitro activity, lipophilicity, and computational studies, Sci. Rep. 13 
+(2023) 16328, https://doi.org/10.1038/s41598-023-43708-4.
+[47] S. Ulenberg, K. Ciura, P. Georgiev, M. Pastewska, G. ´Slifirski, M. Kr´ol, F. Herold, 
+T. Bączek, Use of biomimetic chromatography and in vitro assay to develop 
+predictive GA-MLR model for use in drug-property prediction among anti- 
+depressant drug candidates, Microchem. J. 175 (2022) 107183, https://doi.org/ 
+10.1016/j.microc.2022.107183.
+[48] K. Ciura, S. Kovaˇcevi´c, M. Pastewska, H. Kapica, M. Kornela, W. Sawicki, 
+Prediction of the chromatographic hydrophobicity index with immobilized 
+artificial membrane chromatography using simple molecular descriptors and 
+artificial neural networks, J. Chromatogr. A 1660 (2021) 462666, https://doi.org/ 
+10.1016/j.chroma.2021.462666.
+[49] C. Stergiopoulos, F. Tsopelas, K. Valko, Prediction of hERG inhibition of drug 
+discovery compounds using biomimetic HPLC measurements, ADMET DMPK 9 
+(2021) 191–207, https://doi.org/10.5599/admet.995.
+[50] K.A. Brameld, B. Kuhn, D.C. Reuter, M. Stahl, Small molecule conformational 
+preferences derived from crystal structure data. a medicinal chemistry focused 
+analysis, J. Chem. Inf. Model. 48 (2008) 1–24, https://doi.org/10.1021/ 
+ci7002494.
+[51] K.N. Vijayadas, A.S. Kotmale, S.H. Thorat, R.G. Gonnade, R.V. Nair, P. 
+R. Rajamohanan, G.J. Sanjayan, Reversal of H-bonding direction by N-sulfonation 
+in a synthetic reverse-turn peptide motif, Org. Biomol. Chem. 13 (2015) 
+3064–3069, https://doi.org/10.1039/C4OB02438A.
+[52] J. Sun, A. Ruzsinszky, J.P. Perdew, Strongly constrained and appropriately normed 
+semilocal density functional, Phys. Rev. Lett. 115 (2015) 036402, https://doi.org/ 
+10.1103/PhysRevLett.115.036402.
+[53] J.W. Furness, A.D. Kaplan, J. Ning, J.P. Perdew, J. Sun, Accurate and numerically 
+efficient r2SCAN meta-generalized gradient approximation, J. Phys. Chem. Lett. 11 
+(2020) 8208–8215, https://doi.org/10.1021/acs.jpclett.0c02405.
+[54] F. Weigend, R. Ahlrichs, Balanced basis sets of split valence, triple zeta valence and 
+quadruple zeta valence quality for H to Rn: Design and assessment of accuracy, 
+Phys. Chem. Chem. Phys. 7 (2005) 3297–3305, https://doi.org/10.1039/ 
+B508541A.
+[55] F. Weigend, Accurate Coulomb-fitting basis sets for H to Rn, Phys. Chem. Chem. 
+Phys. 8 (2006) 1057–1065, https://doi.org/10.1039/B515623H.
+[56] F. Neese, An improvement of the resolution of the identity approximation for the 
+formation of the Coulomb matrix, J. Comput. Chem. 24 (2003) 1740–1747, 
+https://doi.org/10.1002/jcc.10318.
+[57] V. Barone, M. Cossi, Quantum calculation of molecular energies and energy 
+gradients in solution by a conductor solvent model, J. Phys. Chem. A 102 (1998) 
+1995–2001, https://doi.org/10.1021/jp9716997.
+[58] N. Mardirossian, M. Head-Gordon, ωB97M-V: A combinatorially optimized, range- 
+separated hybrid, meta-GGA density functional with VV10 nonlocal correlation, 
+J. Chem. Phys. 144 (2016) 214110, https://doi.org/10.1063/1.4952647.
+[59] N. Mardirossian, M. Head-Gordon, Note: The performance of new density 
+functionals for a recent blind test of non-covalent interactions, J. Chem. Phys. 145 
+(2016) 186101, https://doi.org/10.1063/1.4967424.
+[60] N. Mardirossian, M. Head-Gordon, Thirty years of density functional theory in 
+computational chemistry: an overview and extensive assessment of 200 density 
+functionals, Mol. Phys. 115 (2017) 2315–2372, https://doi.org/10.1080/ 
+00268976.2017.1333644.
+[61] J. Liang, X. Feng, X. Liu, M. Head-Gordon, Analytical harmonic vibrational 
+frequencies with VV10-containing density functionals: Theory, efficient 
+implementation, and benchmark assessments, J. Chem. Phys. 158 (2023) 204109, 
+https://doi.org/10.1063/5.0152838.
+[62] F. Neese, Software update: The ORCA program system—version 6.0, WIREs 
+Comput. Mol. Sci. 15 (2025) e70019, https://doi.org/10.1002/wcms.70019.
+[63] R.F.W. Bader, Atoms in molecules, Acc. Chem. Res. 18 (1985) 9–15, https://doi. 
+org/10.1021/ar00109a003.
+[64] E. Espinosa, E. Molins, C. Lecomte, Hydrogen bond strengths revealed by 
+topological analyses of experimentally observed electron densities, Chem. Phys. 
+Lett. 285 (1998) 170–173, https://doi.org/10.1016/S0009-2614(98)00036-0.
+[65] T. Lu, F. Chen, Multiwfn: A multifunctional wavefunction analyzer, J. Comput. 
+Chem. 33 (2012) 580–592, https://doi.org/10.1002/jcc.22885.
+[66] T. Lu, A comprehensive electron wavefunction analysis toolbox for chemists, 
+Multiwfn. J. Chem. Phys. 161 (2024) 082503, https://doi.org/10.1063/ 
+5.0216272.
+[67] M07 | Methods for Dilution Antimicrobial Susceptibility Tests for Bacteria That 
+Grow Aerobically, (n.d.). https://clsi.org/shop/standards/m07/ (accessed 
+December 16, 2025).
+[68] M27 | Ref. Method Broth Dilution Antifung. Susceptibility Test. Yeasts, (n.d.). 
+https://clsi.org/shop/standards/m27/ (accessed December 16, 2025).
+[69] D.C. Braddock, Sulfonamides in organic chemistry, Chem. Rev. (1995) 1587–1632.
+[70] M. Gawro´nska, M. Kowalik, J. Duch, K. Kazimierczuk, M. Makowski, Sulfonamides 
+with hydroxyphenyl moiety: synthesis, structure, physicochemical properties, and 
+ability to form complexes with Rh(III) ion, Polyhedron 221 (2022) 115865, 
+https://doi.org/10.1016/j.poly.2022.115865.
+[71] J. Bernstein, R.E. Davis, L. Shimoni, N.-L. Chang, Patterns in hydrogen bonding: 
+functionality and graph set analysis in crystals, Angew. Chem. Int. Ed. Engl. 34 
+(1995) 1555–1573, https://doi.org/10.1002/anie.199515551.
+[72] M.C. Etter, Encoding and decoding hydrogen-bond patterns of organic compounds, 
+Acc. Chem. Res. 23 (1990) 120–126, https://doi.org/10.1021/ar00172a005.
+[73] C. Janiak, A critical account on π–π stacking in metal complexes with aromatic 
+nitrogen-containing ligands, J. Chem. Soc. Dalton Trans. (2000) 3885–3896, 
+https://doi.org/10.1039/B003010O.
+[74] S.L. Price, Understanding crystal packing through intermolecular interactions: 
+beyond hydrogen bonding, Acc. Chem. Res. (2009) 117–126.
+[75] M. Kowalik, J. Masternak, M. Olszewski, N. Maciejewska, K. Kazimierczuk, 
+J. Sitkowski, A.M. Dąbrowska, A. Chylewska, M. Makowski, Anticancer study on 
+IrIII and RhIII half-sandwich complexes with the bipyridylsulfonamide ligand, 
+Inorg. Chem. 63 (2024) 1296–1316, https://doi.org/10.1021/acs. 
+inorgchem.3c03801.
+[76] T.L. Lemke, D.A. Williams, V.F. Roche, S.W. Zito, Foye’s Principles of Medicinal 
+Chemistry, SEVENTH EDITION, (n.d.).
+[77] G.L. Patrick, An introduction to medicinal chemistry, 5th ed, Oxford University 
+Press, Oxford, 2013.
+[78] Goodman & Gilman’s: The Pharmacological Basis of Therapeutics /, 13th ed, 
+McGraw-Hill Education LLC., New York, N.Y., n.d.
+[79] R. Williams, pKa Data Compiled by R. Williams, (2022).
+[80] I.A. Fedorov, Y.N. Zhuravlev, V.P. Berveno, Electronic structure and chemical bond 
+in naphthalene and anthracene, Phys. Chem. Chem. Phys. 13 (2011) 5679–5686, 
+https://doi.org/10.1039/C0CP02200D.
+[81] Z. Jiang, J. Reilly, Chromatography approaches for early screening of the 
+phospholipidosis-inducing potential of pharmaceuticals, J. Pharm. Biomed. Anal. 
+61 (2012) 184–190, https://doi.org/10.1016/j.jpba.2011.11.033.
+[82] M.S. Bilal, S.A. Ejaz, S. Naseem, P.A. Channar, A. Saeed, S. Zargar, R. Ujan, 
+R. Sahito, Q. Abbas, T.A. Wani, Synthesis, in vitro evaluation and computational 
+modelling of benzene sulfonamide derivatives as Dickkopf 1 inhibitors for 
+anticancer drug development, Sci. Rep. 15 (2025) 21049, https://doi.org/ 
+10.1038/s41598-025-06890-1.
+[83] D.F. Veber, S.R. Johnson, H.-Y. Cheng, B.R. Smith, K.W. Ward, K.D. Kopple, 
+Molecular properties that influence the oral bioavailability of drug candidates, 
+J. Med. Chem. 45 (2002) 2615–2623, https://doi.org/10.1021/jm020017n.
+[84] Z.S. Derewenda, I. Hawro, U. Derewenda, C–H⋅⋅⋅O hydrogen bonds in kinase- 
+inhibitor interfaces, IUBMB Life 72 (2020) 1233–1242, https://doi.org/10.1002/ 
+iub.2282.
+[85] P. Larsson, H. Engqvist, J. Biermann, E. Werner R¨onnerman, E. Forssell-Aronsson, 
+A. Kov´acs, P. Karlsson, K. Helou, T.Z. Parris, Optimization of cell viability assays to 
+improve replicability and reproducibility of cancer drug sensitivity screens, Sci. 
+Rep. 10 (2020) 5798, https://doi.org/10.1038/s41598-020-62848-5.
+[86] J. Koch, D. M¨onch, A. Maaß, C. Gromoll, T. Hehr, T. Leibold, H.J. Schlitt, M.- 
+H. Dahlke, P. Renner, Three dimensional cultivation increases chemo- and 
+radioresistance of colorectal cancer cell lines, PLoS. One 16 (2021) e0244513, 
+https://doi.org/10.1371/journal.pone.0244513.
+[87] M.P. Barr, S.G. Gray, A.C. Hoffmann, R.A. Hilger, J. Thomale, J.D. O’Flaherty, D. 
+A. Fennell, D. Richard, J.J. O’Leary, K.J. O’Byrne, Generation and characterisation 
+of cisplatin-resistant non-small cell lung cancer cell lines displaying a stem-like 
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+13 
+
+
+===== PDF PAGE 14 =====
+signature, PLoS One 8 (2013) e54193, https://doi.org/10.1371/journal. 
+pone.0054193.
+[88] N. Yamane, R.N. Jones, R. Frei, D.J. Hoban, A.C. Pignatarp, F. Marco, Levofloxacin 
+in vitro activity: results from an international comparative study with ofloxacin 
+and ciprofloxacin, J. Chemother. 6 (1994) 83–91, https://doi.org/10.1080/ 
+1120009X.1994.11741134.
+[89] K.C. Hazen, E.J. Baron, A.L. Colombo, C. Girmenia, A. Sanchez-Sousa, A. del 
+Palacio, C. de Bedout, D.L. Gibbs, Comparison of the susceptibilities of candida spp. 
+to fluconazole and voriconazole in a 4-year global evaluation using disk diffusion, 
+J. Clin. Microbiol. 41 (2003) 5623–5632, https://doi.org/10.1128/ 
+jcm.41.12.5623-5632.2003.
+M. Stasiuk et al.                                                                                                                                                                                                                                 
+Journal of Molecular Structure 1358 (2026) 145415 
+14 

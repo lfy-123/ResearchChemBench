@@ -1,0 +1,7 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "task_type": "paper_reproduction",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {"type":"object","required":["status","system","states","conclusion"],"properties":{"status":{"type":"string","enum":["completed","bounded_failure"]},"system":{"type":"object","required":["identity","charge","multiplicity_definitions"],"properties":{"identity":{"type":"string"},"charge":{"type":"integer"},"multiplicity_definitions":{"type":"object","required":["singlet","triplet"],"properties":{"singlet":{"const":1},"triplet":{"const":3}}}}},"states":{"type":"object","required":["singlet_state","triplet_state"],"properties":{"singlet_state":{"$ref":"#/$defs/state"},"triplet_state":{"$ref":"#/$defs/state"}}},"gap_kcal_mol":{"type":"number"},"lower_state":{"type":"string"},"conclusion":{"type":"object","required":["claim","validation_summary","limitations"],"properties":{"claim":{"type":"string"},"validation_summary":{"type":"string"},"limitations":{"type":"string"}}}},"$defs":{"state":{"type":"object","required":["multiplicity","optimized","convergence","stationarity","method"],"properties":{"multiplicity":{"type":"integer"},"energy_hartree":{"type":"number"},"optimized":{"type":"boolean"},"convergence":{"type":"string"},"stationarity":{"type":"string"},"method":{"type":"string"}}}}}
+}

@@ -1,0 +1,52 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "task_type": "paper_reproduction",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:50:35.362357+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_9d091f4337662e78.json",
+  "plan_sha256": "d67b0ac9140887ad64862fdfe5f8260ced81a5ff622d8f2934b7b862205acf46",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_9d091f4337662e78",
+  "v1_package_content_sha256": "eaf124c529fd7c837fc024c0c00f7b79413524063658e05649f9c57efd0b7fb5",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "883fa00769e177eb941299484cfafdcef59ad0681019db11eee2ce3841fdfbf7",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_9d091f4337662e78/documents/main.pdf",
+      "sha256": "77662fc70c44424324935577c2f687f8dd7e380d928c34d07550ffaa7f64e2db",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        3,
+        4,
+        6,
+        7
+      ],
+      "sections_figures_tables": "PDF pp3–4 structure elucidation and Figure2 compound1 experimental black ECD trace; p6 experimental compound1 data; p7 full ECD computational method."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_9d091f4337662e78/documents/supplementary_001.pdf",
+      "sha256": "48e92302a3a0bbc6b0ed8d6db613911ea165365d2a2b5f87ac35fbd4954f0cfc",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        5
+      ],
+      "sections_figures_tables": "PDF p5 TableS1 lists16 computed conformers and source populations; it is private evidence for ensemble complexity, not public starting structures."
+    }
+  ],
+  "historical_class": "C",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_spectrum_and_partial_legacy_conformers_only_expanded_reference_pending",
+  "scope_changes": [
+    "Remove R/S candidate enumeration and mandatory independently searched pair from the public input.",
+    "Remove fixed qRRHO cutoffs, broadening widths, no-shift algorithm and spectral held-out partition.",
+    "Retain the unassigned centre and E alkene as necessary identity facts; no author S label appears in AR."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:01.884436+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

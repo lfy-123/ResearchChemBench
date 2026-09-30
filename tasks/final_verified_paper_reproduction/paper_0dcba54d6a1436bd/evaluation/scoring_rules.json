@@ -1,0 +1,96 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "rules": [
+    {
+      "type": "semantic",
+      "expected": "Per-system minimum diagnostic and charge/multiplicity record.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_process_minima",
+      "rule_id": "kp_process_minima_rule"
+    },
+    {
+      "type": "semantic",
+      "expected": "S1-S5 state-resolved records for each molecule or bounded diagnostic branch. Each spin/root/energy/f/configuration record must refer to the same molecule and parent geometry. Inspect all S1-S5 records, not only one matching transition.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_process_states",
+      "rule_id": "kp_process_states_rule"
+    },
+    {
+      "type": "semantic",
+      "expected": "2.9521, 3.2985, 3.3637, 3.6504, 3.7792 eV with corresponding oscillator strengths and wavelengths.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_result_npc",
+      "rule_id": "kp_result_npc_rule"
+    },
+    {
+      "type": "semantic",
+      "expected": "2.5853, 3.0280, 3.1077, 3.2424, 3.3895 eV with corresponding oscillator strengths and wavelengths.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_result_aqc",
+      "rule_id": "kp_result_aqc_rule"
+    },
+    {
+      "type": "semantic",
+      "expected": "The calculation reports the required five singlet states, excitation observables and configurations for both named molecules, with traceable geometry and state validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "c_final_spectra",
+      "rule_id": "c_final_spectra_rule"
+    },
+    {
+      "type": "semantic",
+      "expected": "The S1 orbital, NTO, transition-density or equivalent spatial evidence supports the submitted ICT versus LE assignment for each molecule. Assess S1-specific spatial evidence with declared fragment partition and NTO/transition-density normalization. Orbital numbers or excitation energy alone are insufficient. No new quantitative CT cutoff is imposed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "c_final_ict",
+      "rule_id": "c_final_ict_rule"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

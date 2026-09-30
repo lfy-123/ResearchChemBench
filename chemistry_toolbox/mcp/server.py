@@ -7,7 +7,7 @@ import logging
 import os
 import sys
 
-from mcp.server.fastmcp import FastMCP
+from .feedback_server import FeedbackFastMCP as FastMCP
 
 from chemistry_toolbox.src.catalog import resolve_tool_discovery_mode, toolbox_overview
 
@@ -19,10 +19,18 @@ from .workspace import workspace_root
 def create_server(
     profile: str | None = None,
     discovery_mode: str | None = None,
+    wait_only: bool = False,
 ) -> FastMCP:
     """Create one server over the complete catalog using the selected surface."""
 
     del profile
+    if wait_only:
+        from .open_tools import wait_execution_jobs, TOOL_DESCRIPTIONS
+        from .async_action_tools import wait_execution_events
+        server = FastMCP(name="ResearchChem managed waits", instructions="These calls hold until a meaningful computation event. No periodic model polling is needed.")
+        server.tool(name="wait_execution_jobs", description=TOOL_DESCRIPTIONS["wait_execution_jobs"])(wait_execution_jobs)
+        server.tool(name="wait_execution_events")(wait_execution_events)
+        return server
     config = load_tool_config()
     mode = resolve_tool_discovery_mode(discovery_mode)
     server = FastMCP(
@@ -45,6 +53,7 @@ mcp = create_server()
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--wait-only", action="store_true")
     parser.add_argument(
         "--transport",
         choices=["stdio", "streamable_http"],
@@ -72,7 +81,7 @@ def main() -> int:
     root = workspace_root()
     os.environ.setdefault("RESEARCHCHEM_TOOL_LOG_DIR", str(root / "tool_logs"))
     os.chdir(root)
-    server = create_server(discovery_mode=args.discovery_mode)
+    server = create_server(discovery_mode=args.discovery_mode, wait_only=args.wait_only)
     if args.transport == "streamable_http":
         import uvicorn
 

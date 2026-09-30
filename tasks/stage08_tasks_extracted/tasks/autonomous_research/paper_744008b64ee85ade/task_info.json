@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_744008b64ee85ade",
+  "task_type": "autonomous_research",
+  "title": "Autonomous reaction-pathway discovery for acetyl-peroxy + HO2",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must generate and discriminate a substantially open set of spin-resolved complexes, stationary points and atom-balanced channels while documenting coverage and stopping."
+  ],
+  "paper": {
+    "title": "Aldehyde cool-flame chemistry explains a missing source of organic acids",
+    "doi": "10.1038/s41467-025-67986-w",
+    "journal": "Nature Communications",
+    "publication_date": "2026-02-02"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained mapped reactant structures, states, conditions and reaction boundary without author-route disclosure."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Autonomous candidates, validation, kinetics, discriminating hypotheses, conclusion and limitations."
+    }
+  ]
+}

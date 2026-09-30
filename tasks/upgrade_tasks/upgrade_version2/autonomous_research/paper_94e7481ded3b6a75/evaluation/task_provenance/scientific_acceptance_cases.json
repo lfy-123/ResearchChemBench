@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.448829+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+      "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c",
+      "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p5 Fig3 比较 PBNA 与 B-取代衍生物的电子结构；SI p16 FigS14/S15 是 THF/H2O AIE 观测，p19 是方法和 PBNA 坐标。",
+      "actual_read_pages_and_sections": "Main pp5–7 §3.2/3.3 and Table1/Figs3–4; SI pp16–19 solution/aggregation distinction and computational material."
+    },
+    {
+      "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+      "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6",
+      "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p5 Fig3 比较 PBNA 与 B-取代衍生物的电子结构；SI p16 FigS14/S15 是 THF/H2O AIE 观测，p19 是方法和 PBNA 坐标。",
+      "actual_read_pages_and_sections": "Main pp5–7 §3.2/3.3 and Table1/Figs3–4; SI pp16–19 solution/aggregation distinction and computational material."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "A correct PBNA molecular investigation explains the disclosed optical response using independently selected structures/states and distinguishes absorption bands, onset and emission.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual state/model analysis leaves a proposed assignment unresolved at the source resolution while preserving established computed observables.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "The 404 nm onset is required to equal one vertical root, or an orbital gap is called an emission energy and used to establish AIE.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "Reliable absorption data are submitted with emission behavior explicitly unresolved rather than inferred from ground-state frontier orbitals.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account of PBNA optical response is supported by its supplied dilute-solution absorption and emission observations? Determine what can be established about the relevant molecular electronic states and the limitations of that account.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify PBNA C24H22B2N2 connectivity/charge and distinguish it from the larger TPA/TPE derivatives; derived conformations/states must remain tied to the parent graph. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Define the relationship between computed transitions, absorption bands/onset and emission. Provide physical evidence for state character and any geometry-dependent or relaxation claim; quantify relevant limitations rather than assume that one calculated root explains every optical feature. Chosen validations must address the account actually asserted. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "A finite PBNA molecular model does not establish AIE, aggregate/crystal packing, two-photon cross section or the behavior of TPA/TPE substituted relatives. Do not infer a radiative or nonradiative rate from a gap or a single oscillator strength alone. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

@@ -1,0 +1,220 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "research_route",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "method": {
+        "type": "object"
+      },
+      "research_route": {
+        "type": "object",
+        "required": [
+          "candidate_path_representations",
+          "comparison_rationale"
+        ],
+        "properties": {
+          "candidate_path_representations": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string"
+            }
+          },
+          "comparison_rationale": {
+            "type": "string"
+          }
+        }
+      },
+      "states": {
+        "type": "object",
+        "required": [
+          "neutral_energy",
+          "cation_energy",
+          "aie"
+        ],
+        "properties": {
+          "neutral_energy": {
+            "type": "number"
+          },
+          "cation_energy": {
+            "type": "number"
+          },
+          "aie": {
+            "type": "number"
+          }
+        }
+      },
+      "channels": {
+        "type": "object",
+        "required": [
+          "chlorine_loss",
+          "fluorine_loss"
+        ],
+        "properties": {
+          "chlorine_loss": {
+            "type": "object",
+            "required": [
+              "appearance_energy",
+              "dissociation_energy",
+              "endpoint",
+              "path_type",
+              "validation"
+            ],
+            "properties": {
+              "appearance_energy": {
+                "type": "number"
+              },
+              "dissociation_energy": {
+                "type": "number"
+              },
+              "endpoint": {
+                "type": "string"
+              },
+              "path_type": {
+                "type": "string"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "charge_spin_valid",
+                  "endpoint_separated",
+                  "path_continuous"
+                ]
+              }
+            }
+          },
+          "fluorine_loss": {
+            "type": "object",
+            "required": [
+              "appearance_energy",
+              "dissociation_energy",
+              "endpoint",
+              "path_type",
+              "validation"
+            ],
+            "properties": {
+              "appearance_energy": {
+                "type": "number"
+              },
+              "dissociation_energy": {
+                "type": "number"
+              },
+              "endpoint": {
+                "type": "string"
+              },
+              "path_type": {
+                "type": "string"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "charge_spin_valid",
+                  "endpoint_separated",
+                  "path_continuous"
+                ]
+              }
+            }
+          }
+        },
+        "sensitivity": {
+          "type": "string"
+        },
+        "conclusion": {
+          "type": "string"
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "failed_channel": {
+        "type": "string",
+        "enum": [
+          "chlorine_loss",
+          "fluorine_loss"
+        ]
+      },
+      "attempts": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "method",
+            "coverage",
+            "outcome",
+            "evidence_paths"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "coverage": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "evidence_paths": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "limitation": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "available_results": {
+        "type": "object",
+        "description": "Validated results obtained before stopping; omit unavailable quantities instead of using placeholders."
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "states",
+          "channels",
+          "sensitivity"
+        ],
+        "properties": {
+          "status": {
+            "const": "success"
+          }
+        }
+      },
+      {
+        "required": [
+          "failed_channel",
+          "attempts",
+          "available_results"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ]
+  }
+}

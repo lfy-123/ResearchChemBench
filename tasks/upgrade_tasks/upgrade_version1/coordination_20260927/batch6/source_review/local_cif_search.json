@@ -1,0 +1,57 @@
+{
+  "roots": [
+    "papers",
+    "tasks",
+    "runs",
+    "workspaces",
+    "data_pipeline"
+  ],
+  "candidate_count": 103,
+  "matches": [
+    "tasks/final_verified_autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+    "tasks/autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+    "tasks/final_verified_paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+    "tasks/paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif"
+  ],
+  "terms": [
+    "2445596",
+    "12.8218"
+  ],
+  "method": "rg file listing then CIF text inspection; not hidden software caches",
+  "false_positive_review": [
+    {
+      "path": "tasks/final_verified_autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "matching_lines": [
+        "8   2 -16 85.1024 12.8218"
+      ],
+      "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+    },
+    {
+      "path": "tasks/autonomous_research/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "matching_lines": [
+        "8   2 -16 85.1024 12.8218"
+      ],
+      "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+    },
+    {
+      "path": "tasks/final_verified_paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "matching_lines": [
+        "8   2 -16 85.1024 12.8218"
+      ],
+      "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+    },
+    {
+      "path": "tasks/paper_reproduction/paper_46f6118697c6397c/agent_input/data/inputs/ccdc_2512981.cif",
+      "matching_lines": [
+        "8   2 -16 85.1024 12.8218"
+      ],
+      "reason": "Different deposit 2512981; numeric substring hit is not source CCDC 2445596."
+    }
+  ],
+  "verified_target_cifs": [],
+  "exhaustive_no_ignore": {
+    "candidate_count": 146,
+    "identifier_matches": [],
+    "command": "rg --files --hidden --no-ignore -g *.cif papers tasks runs workspaces data_pipeline"
+  }
+}

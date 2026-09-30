@@ -1,0 +1,119 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_pr_minima",
+      "type": "condition",
+      "expected": "Each species has a frequency validation and structure artifact, or an exact bounded-failure record.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].imaginary_frequency_count",
+          "$.species[*].structure_file",
+          "$.species[*].status"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_pr_process_minima"
+    },
+    {
+      "rule_id": "r_pr_mapping",
+      "type": "semantic",
+      "expected": "Atom-indexed distances use explicit per-species identities and \u03b1H/\u03b2H definitions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].distances[*].atom_indices",
+          "$.method.mapping_notes"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_process_mapping"
+    },
+    {
+      "rule_id": "r_pr_distances",
+      "type": "numeric",
+      "target": 2.44,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].distances[*].value_angstrom"
+        ],
+        "comparison": "absolute difference for reported contacts; assess all named contacts"
+      },
+      "reference_id": "kp_pr_distances"
+    },
+    {
+      "rule_id": "r_pr_charge",
+      "type": "numeric",
+      "target": 0.074,
+      "unit": "e",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].charges[*].value_e"
+        ],
+        "comparison": "absolute difference for reported P charge comparison and semantic consistency of other charges"
+      },
+      "reference_id": "kp_pr_charge"
+    },
+    {
+      "rule_id": "r_pr_mep",
+      "type": "semantic",
+      "expected": "MEP observations address phosphonium electron density and carboxylate nucleophilic character with explicit scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].mep_observation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_mep"
+    },
+    {
+      "rule_id": "r_pr_final",
+      "type": "semantic",
+      "expected": "Validated calculations support the qualitative phosphonium interaction hypothesis but are not complete catalytic proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.mechanistic_claim",
+          "$.conclusion.supporting_observations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_final"
+    },
+    {
+      "rule_id": "r_pr_limits",
+      "type": "semantic",
+      "expected": "Limitations restrict inference to isolated ground-state calculations and avoid unsupported full-catalysis claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.alternative_or_scope",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_limits"
+    }
+  ],
+  "paper_id": "paper_ef26687d63a37e29"
+}

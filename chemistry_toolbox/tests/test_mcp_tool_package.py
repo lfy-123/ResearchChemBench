@@ -46,6 +46,9 @@ def test_progressive_server_registers_compact_surface_and_catalog_resources():
     }
     for tool in tools:
         assert set(tool.inputSchema["properties"]) == {"request"}
+        if tool.name == "validate_output_contract":
+            assert tool.annotations.readOnlyHint is True
+            assert tool.annotations.destructiveHint is False
         if tool.name == "execute_action":
             request_schema = next(
                 value
@@ -66,6 +69,7 @@ def test_full_compatibility_server_registers_every_action():
         set(action_specs())
         | set(OPEN_EXECUTION_TOOL_NAMES)
         | set(ASYNC_ACTION_TOOL_NAMES)
+        | {"validate_action"}
     )
     assert {tool.name for tool in tools} == expected
 

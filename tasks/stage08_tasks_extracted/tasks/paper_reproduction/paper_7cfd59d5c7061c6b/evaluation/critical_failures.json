@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "items": [
+    {
+      "failure_id": "cf_wrong_system",
+      "condition": "The submission changes the supplied connectivity, charge, multiplicity, protonation, or atom mapping without declaring and justifying it.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_unvalidated_ts",
+      "condition": "A reported transition state has no frequency evidence or has more than one imaginary mode, and no bounded-failure status is reported.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_no_connectivity",
+      "condition": "A claimed mechanism lacks IRC or equivalently explicit endpoint connectivity evidence.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_fabricated_result",
+      "condition": "The submission reports a barrier or route conclusion without a calculation record or reports success while omitting failed/duplicate candidate coverage.",
+      "severity": "scientifically serious"
+    }
+  ]
+}

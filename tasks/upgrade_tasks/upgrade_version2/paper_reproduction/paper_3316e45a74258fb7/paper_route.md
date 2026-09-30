@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+Main pp.2–4 describes Gaussian09 B3LYP/6-31G(d,p) S0 optimization and TD-DFT S1/T1 energies, with Multiwfn3.8 NTO analysis. The SI Experimental section instead writes B3LYP/6-31(d); this basis-description discrepancy must be recorded rather than silently erased. The authors attribute donor-dependent optical behavior to donor–acceptor geometry, charge-transfer character and low singlet–triplet separations. Main p.4 reports calculated TD-2T gap 0.34 eV and discusses CT/LE/HLCT characters; spectroscopic gaps at 77 K are a separate experiment, not identical to vertical TDDFT. The source also discusses device performance, which exceeds what a molecular calculation alone can reproduce. Reproduce a clearly stated interpretation of the disclosed molecular baseline and explain deviations. The old fixed-45-degree and paired-conformer benchmark design was added later and is not an author requirement.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

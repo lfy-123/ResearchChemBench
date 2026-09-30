@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use both complete La starting structures and replace only the metal for Tb/Lu. Preserve all 81 original atom IDs and ligand deprotonation (complex charge +1). For the one-water models append O82,H83,H84. Source 4f-core removes 46,54,60 electrons for La,Tb,Lu respectively, leaving 11 explicit neutral-atom electrons; all complex calculations use formal pseudo-singlet in this model. Do not describe Tb as physically spinless. Numerical La ECP46MWB, Tb ECP54MWB and Lu ECP60MWB plus their (7s6p5d)/[5s4p3d] Gaussian-format basis blocks are supplied in data/inputs with hashes and official provenance in ecp_basis_manifest.json. Their availability does not validate a molecular minimum or thermochemistry. For each metal and identical hydration n, delta_G=G(anti,n)-G(syn,n) at 298 K, 1 M complexes in aqueous SMD. G=E_solv+(G_gas-E_gas) with consistent source low-frequency treatment, no double-counted ZPE. Water-addition delta_G=G(LnL.H2O)-G(LnL)-G(H2O) with 55.5 M water standard state. Frozen metal replacements compare electronic within-metal conformer gaps, not equilibrium G. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_conformer_hydration_matrix",
+      "statement": "Same-hydration three-metal conformer free energies",
+      "expected": "Verify exact ECP coefficients/core counts/explicit electron counts and original ligand charge. Inspect frequencies, qRRHO and standard states. A lost-water endpoint is an evidenced collapse/separated limit, not a falsely bound minimum.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_replacement_and_cycles",
+      "statement": "Frozen metal replacement and closed hydration squares",
+      "expected": "Recompute every balanced difference and cycle. Cross-metal raw total energies or unbalanced water counts cannot support selectivity. Frozen states use E only.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_ecp_and_sensitivity",
+      "statement": "Molecular ECP identity and low-frequency robustness",
+      "expected": "Audit source numerical ECP/basis and pseudo-spin before interpreting comparison. Install reports are not coefficient or pilot evidence. Check low-frequency sensitivity against small conformer gaps; do not transfer old La tolerance to Tb/Lu/hydration.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject small-core/all-electron calculations called equivalent without calibration, real Tb singlet claims from pseudo-spin, wrong ligand charge, cross-metal total-energy selectivity, unbalanced hydration or duplicated thermal corrections.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

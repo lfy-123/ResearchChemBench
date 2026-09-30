@@ -13,32 +13,32 @@
     {
       "key_point_id": "kp_pr_process_mapping",
       "key_point_type": "process",
-      "statement": "The submission defines atom-indexed O\u00b7\u00b7\u00b7P, O\u00b7\u00b7\u00b7\u03b1H, and O\u00b7\u00b7\u00b7\u03b2H measurements using the supplied coordinate atom identities and carries those indices into the reported values.",
+      "statement": "The submission defines atom-indexed O···P, O···αH, and O···βH measurements using the supplied coordinate atom identities and carries those indices into the reported values.",
       "evidence_ids": [
         "ev_doc_8a1aa1009e1c_000268_7728dff79059",
         "ev_doc_1e6fd476cea2_000575_f419bbd900ed"
       ],
-      "expected": "Distances are traceable to explicit per-species atom indices and \u03b1/\u03b2 definitions, without cross-species atom-order confusion."
+      "expected": "Distances are traceable to explicit per-species atom indices and α/β definitions, without cross-species atom-order confusion."
     },
     {
       "key_point_id": "kp_pr_distances",
       "key_point_type": "result",
-      "statement": "The optimized complexes reproduce the paper's reported contact pattern: PO has O\u00b7\u00b7\u00b7P and weaker \u03b1H/\u03b2H contacts; PA has \u03b1H/\u03b2H contacts and a weaker P contact.",
+      "statement": "The optimized complexes reproduce the paper's reported contact pattern: PO has O···P and weaker αH/βH contacts; PA has αH/βH contacts and a weaker P contact.",
       "evidence_ids": [
         "ev_doc_1e6fd476cea2_000575_f419bbd900ed",
         "ev_doc_1e6fd476cea2_000586_09162b3b4845"
       ],
-      "expected": "Reported distances identify PO O\u00b7\u00b7\u00b7P, O\u00b7\u00b7\u00b7\u03b1H, O\u00b7\u00b7\u00b7\u03b2H and PA O\u00b7\u00b7\u00b7\u03b1H, O\u00b7\u00b7\u00b7\u03b2H, O\u00b7\u00b7\u00b7P, with values close enough to support the stated pattern."
+      "expected": "Reported distances identify PO O···P, O···αH, O···βH and PA O···αH, O···βH, O···P, with values close enough to support the stated pattern."
     },
     {
       "key_point_id": "kp_pr_charge",
       "key_point_type": "result",
-      "statement": "ADCH analysis reports phosphorus and neighboring \u03b1H/\u03b2H charge redistribution across free base, PO adduct, and PA zwitterion.",
+      "statement": "ADCH analysis reports phosphorus and neighboring αH/βH charge redistribution across free base, PO adduct, and PA zwitterion.",
       "evidence_ids": [
         "ev_doc_1e6fd476cea2_000593_e48b8864ac77",
         "ev_doc_1e6fd476cea2_000595_f3f1c106ba01"
       ],
-      "expected": "The submission reports charge values or differences with correct signs, species labels, and ADCH provenance, including the PO-versus-free-base P comparison."
+      "expected": "Figure 6 absolute P ADCH charges free=-0.018, PO=+0.447, PA=+0.455 e; all mapped N-ethyl H charges and selected H redistribution are reported. +0.074 e is a free-base alphaH label, not phosphorus."
     },
     {
       "key_point_id": "kp_pr_mep",
@@ -47,7 +47,7 @@
       "evidence_ids": [
         "ev_doc_1e6fd476cea2_000604_fcd38ffd08b9"
       ],
-      "expected": "The reported MEP observation addresses increased electron density around the PA phosphonium region and nucleophilic character of the carboxylate region, while distinguishing observation from interpretation."
+      "expected": "Signed MEP surface reproduces positive phosphorus-containing region and negative carboxylate region. Main-text blue-region electron-density wording is a limitation: ESP is not electron density. Explicit artifact and sign convention are required."
     }
   ],
   "paper_id": "paper_ef26687d63a37e29"

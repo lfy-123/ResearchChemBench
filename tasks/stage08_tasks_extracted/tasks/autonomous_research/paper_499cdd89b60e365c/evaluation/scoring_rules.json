@@ -1,0 +1,111 @@
+{
+  "paper_id": "paper_499cdd89b60e365c",
+  "rules": [
+    {
+      "rule_id": "ar_rule_1",
+      "type": "semantic",
+      "expected": "the report states multiple plausible hypotheses and how calculations discriminate them",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_1"
+    },
+    {
+      "rule_id": "ar_rule_2",
+      "type": "semantic",
+      "expected": "candidate identity, deduplication, atom-count and convergence evidence are retained",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_2"
+    },
+    {
+      "rule_id": "ar_rule_3",
+      "type": "semantic",
+      "expected": "reference systems, chemical-potential balance and solid entropy treatment are explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.thermodynamic_definition"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_3"
+    },
+    {
+      "rule_id": "ar_rule_4",
+      "type": "condition",
+      "expected": "reaction point is evaluated at 503.15 K and ratio 0.003 with nonzero surface relevance or a justified bounded interval",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.reaction_point"
+        ],
+        "comparison": "expert condition comparison"
+      },
+      "reference_id": "ar_result_1"
+    },
+    {
+      "rule_id": "ar_rule_5",
+      "type": "semantic",
+      "expected": "bulk alloying is contrasted as less favorable at the reaction point and more relevant at high temperature/reducing conditions",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bulk_comparison.statement"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_2"
+    },
+    {
+      "rule_id": "ar_rule_6",
+      "type": "semantic",
+      "expected": "final claim is an independently supported surface-versus-bulk thermodynamic conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_1"
+    },
+    {
+      "rule_id": "ar_rule_7",
+      "type": "semantic",
+      "expected": "limitations describe coverage, reference, entropy, finite-model and kinetic boundaries",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_limit_1"
+    }
+  ]
+}

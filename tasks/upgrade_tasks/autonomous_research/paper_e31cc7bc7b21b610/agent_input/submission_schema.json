@@ -1,0 +1,1844 @@
+{
+  "contract_version": "batch5-expanded-20260927",
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_e31cc7bc7b21b610"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "reference_definition": {
+        "const": "For neutral doublet fragments A=(ligand)Ir and B=(ligand)Ir: E_int=E_AB-E_A(frozen)-E_B(frozen); E_def=sum[E_fragment(frozen)-E_fragment(relaxed)]; E_assoc=E_int+E_def, kcal/mol. Keep fragment charge/spin, basis/BSSE and relativistic definitions identical. This operational decomposition is not a unique partition of metal–metal versus ligand pi bonding."
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "object",
+            "properties": {
+              "software_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "electronic_or_physical_model": {
+                "type": "string",
+                "minLength": 1
+              },
+              "basis_ecp_or_parameters": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relativity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "environment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "numerical_settings": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "software_version",
+              "electronic_or_physical_model",
+              "basis_ecp_or_parameters",
+              "relativity",
+              "environment",
+              "numerical_settings"
+            ],
+            "additionalProperties": false
+          },
+          "sensitivity_protocol": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "sensitivity_protocol"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_id": {
+              "enum": [
+                "Egan2Ir2",
+                "egan2Ir2",
+                "EganIr",
+                "eganIr"
+              ]
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "state": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "geometry_regime": {
+              "enum": [
+                "relaxed",
+                "frozen_control",
+                "displaced",
+                "single_point",
+                "reference",
+                "data_fit"
+              ]
+            },
+            "outcome": {
+              "enum": [
+                "converged",
+                "collapsed",
+                "failed"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "raw_output_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_identity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "stationarity_or_model_validity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "minItems": 0
+                }
+              },
+              "required": [
+                "convergence",
+                "state_identity",
+                "stationarity_or_model_validity",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_energy": {
+              "type": "number"
+            },
+            "energy_unit": {
+              "enum": [
+                "hartree",
+                "eV"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "s2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "collapse_destination": {
+              "type": "string",
+              "minLength": 1
+            },
+            "attempt_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "record_id",
+            "object_id",
+            "formula",
+            "charge",
+            "multiplicity",
+            "state",
+            "method_id",
+            "geometry_regime",
+            "outcome",
+            "input_file",
+            "raw_output_files",
+            "validation"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "Egan2Ir2"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3
+                    ]
+                  },
+                  "formula": {
+                    "const": "C88H104Ir2N4O12"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "egan2Ir2"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      1,
+                      3
+                    ]
+                  },
+                  "formula": {
+                    "const": "C56H40Ir2N4O12"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "EganIr"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      2
+                    ]
+                  },
+                  "formula": {
+                    "const": "C44H52IrN2O6"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "object_id": {
+                    "const": "eganIr"
+                  }
+                },
+                "required": [
+                  "object_id"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "enum": [
+                      0
+                    ]
+                  },
+                  "multiplicity": {
+                    "enum": [
+                      2
+                    ]
+                  },
+                  "formula": {
+                    "const": "C28H20IrN2O6"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "outcome": {
+                    "const": "collapsed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "collapse_destination",
+                  "geometry_file"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 1
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "dimer_states": {
+            "type": "object",
+            "properties": {
+              "Egan2Ir2": {
+                "type": "object",
+                "properties": {
+                  "singlet_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "triplet_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "BS_attempt_records": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "Ir_Ir_angstrom": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "singlet_triplet_gap_eV": {
+                    "type": "number"
+                  },
+                  "natural_occupations": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2
+                  },
+                  "Ir_spin_populations": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bond_index": {
+                    "type": "number"
+                  },
+                  "bond_index_definition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "metal_ligand_orbital_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "stability_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "singlet_record",
+                  "triplet_record",
+                  "BS_attempt_records",
+                  "Ir_Ir_angstrom",
+                  "singlet_triplet_gap_eV",
+                  "natural_occupations",
+                  "Ir_spin_populations",
+                  "bond_index",
+                  "bond_index_definition",
+                  "metal_ligand_orbital_file",
+                  "stability_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "egan2Ir2": {
+                "type": "object",
+                "properties": {
+                  "singlet_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "triplet_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "BS_attempt_records": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "Ir_Ir_angstrom": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "singlet_triplet_gap_eV": {
+                    "type": "number"
+                  },
+                  "natural_occupations": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2
+                  },
+                  "Ir_spin_populations": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bond_index": {
+                    "type": "number"
+                  },
+                  "bond_index_definition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "metal_ligand_orbital_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "stability_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "singlet_record",
+                  "triplet_record",
+                  "BS_attempt_records",
+                  "Ir_Ir_angstrom",
+                  "singlet_triplet_gap_eV",
+                  "natural_occupations",
+                  "Ir_spin_populations",
+                  "bond_index",
+                  "bond_index_definition",
+                  "metal_ligand_orbital_file",
+                  "stability_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "Egan2Ir2",
+              "egan2Ir2"
+            ],
+            "additionalProperties": false
+          },
+          "fragment_interventions": {
+            "type": "object",
+            "properties": {
+              "Egan2Ir2": {
+                "type": "object",
+                "properties": {
+                  "equilibrium": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "distance_plus_0p2": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "distance_plus_0p5": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "twist_30": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "equilibrium",
+                  "distance_plus_0p2",
+                  "distance_plus_0p5",
+                  "twist_30"
+                ],
+                "additionalProperties": false
+              },
+              "egan2Ir2": {
+                "type": "object",
+                "properties": {
+                  "equilibrium": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "distance_plus_0p2": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "distance_plus_0p5": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "twist_30": {
+                    "type": "object",
+                    "properties": {
+                      "dimer_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_B_record": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fragment_A_charge": {
+                        "const": 0
+                      },
+                      "fragment_B_charge": {
+                        "const": 0
+                      },
+                      "fragment_A_multiplicity": {
+                        "const": 2
+                      },
+                      "fragment_B_multiplicity": {
+                        "const": 2
+                      },
+                      "E_dimer_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_frozen_Eh": {
+                        "type": "number"
+                      },
+                      "E_A_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "E_B_relaxed_Eh": {
+                        "type": "number"
+                      },
+                      "interaction_kcal_mol": {
+                        "type": "number"
+                      },
+                      "deformation_kcal_mol": {
+                        "type": "number"
+                      },
+                      "association_kcal_mol": {
+                        "type": "number"
+                      },
+                      "density_difference_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "dimer_record",
+                      "fragment_A_record",
+                      "fragment_B_record",
+                      "fragment_A_charge",
+                      "fragment_B_charge",
+                      "fragment_A_multiplicity",
+                      "fragment_B_multiplicity",
+                      "E_dimer_Eh",
+                      "E_A_frozen_Eh",
+                      "E_B_frozen_Eh",
+                      "E_A_relaxed_Eh",
+                      "E_B_relaxed_Eh",
+                      "interaction_kcal_mol",
+                      "deformation_kcal_mol",
+                      "association_kcal_mol",
+                      "density_difference_file",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "equilibrium",
+                  "distance_plus_0p2",
+                  "distance_plus_0p5",
+                  "twist_30"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "Egan2Ir2",
+              "egan2Ir2"
+            ],
+            "additionalProperties": false
+          },
+          "bonding_evidence": {
+            "type": "object",
+            "properties": {
+              "retained_atom_mapping_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "orbital_population_grid_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "bond_order_grid_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "density_rearrangement_grid_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "truncation_effect": {
+                "type": "object",
+                "properties": {
+                  "left_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "right_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_value": {
+                    "type": "number"
+                  },
+                  "right_value": {
+                    "type": "number"
+                  },
+                  "difference_right_minus_left": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uncertainty": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "uncertainty_basis": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "left_record",
+                  "right_record",
+                  "left_value",
+                  "right_value",
+                  "difference_right_minus_left",
+                  "unit",
+                  "uncertainty",
+                  "uncertainty_basis",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "twist_effect": {
+                "type": "object",
+                "properties": {
+                  "left_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "right_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_value": {
+                    "type": "number"
+                  },
+                  "right_value": {
+                    "type": "number"
+                  },
+                  "difference_right_minus_left": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uncertainty": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "uncertainty_basis": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "left_record",
+                  "right_record",
+                  "left_value",
+                  "right_value",
+                  "difference_right_minus_left",
+                  "unit",
+                  "uncertainty",
+                  "uncertainty_basis",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "method_or_fragment_sensitivity": {
+                "type": "object",
+                "properties": {
+                  "left_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "right_record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "left_value": {
+                    "type": "number"
+                  },
+                  "right_value": {
+                    "type": "number"
+                  },
+                  "difference_right_minus_left": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uncertainty": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "uncertainty_basis": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "left_record",
+                  "right_record",
+                  "left_value",
+                  "right_value",
+                  "difference_right_minus_left",
+                  "unit",
+                  "uncertainty",
+                  "uncertainty_basis",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "evidence_files": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "retained_atom_mapping_file",
+              "orbital_population_grid_file",
+              "bond_order_grid_file",
+              "density_rearrangement_grid_file",
+              "truncation_effect",
+              "twist_effect",
+              "method_or_fragment_sensitivity",
+              "evidence_files"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "dimer_states",
+          "fragment_interventions",
+          "bonding_evidence"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "falsifying_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "actual_test_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "quantitative_basis": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "proposition",
+            "falsifying_observation",
+            "actual_test_records",
+            "assessment",
+            "quantitative_basis"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "alternative_records": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "change": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "changed_factor",
+            "baseline_records",
+            "alternative_records",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "change",
+            "unit",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "assessment": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supported_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_records": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "assessment",
+          "statement",
+          "supported_scope",
+          "limitations",
+          "evidence_records"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+        },
+        "minItems": 0
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "scientific_engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "successful_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restarts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_job_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "parallel_elapsed_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "scientific_engine_starts",
+          "successful_starts",
+          "failed_starts",
+          "restarts",
+          "allocated_cores",
+          "wall_job_hours",
+          "cpu_core_hours",
+          "parallel_elapsed_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "evidence_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "control_equivalence": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "reference_comparison_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternative_control_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "held_factors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "changed_factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "coverage_justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)?(outputs|data|code)/[A-Za-z0-9_./+@=,: -]+$"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "reference_comparison_id",
+            "alternative_control_definition",
+            "held_factors",
+            "changed_factor",
+            "coverage_justification",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "reference_definition",
+      "conclusion",
+      "evidence_files",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "methods",
+            "calculation_records",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "outcome": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "outcome"
+                ]
+              },
+              "minContains": 1
+            },
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                },
+                "evidence_records": {
+                  "minItems": 1
+                }
+              }
+            },
+            "evidence_files": {
+              "minItems": 1
+            }
+          }
+        },
+        "else": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "validation_boundary": "Format only. Raw outputs, controls, arithmetic and state identity must pass the scientific evaluator. A bounded failure is accepted for reporting, never as scientific completion."
+}

@@ -1,0 +1,202 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "method",
+          "temperature",
+          "solvent"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "method": {
+            "type": "string"
+          },
+          "temperature": {
+            "type": "number"
+          },
+          "solvent": {
+            "type": "string"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "identity",
+            "origin",
+            "free_energy",
+            "unit",
+            "validation"
+          ],
+          "properties": {
+            "identity": {
+              "type": "string"
+            },
+            "origin": {
+              "type": "string"
+            },
+            "free_energy": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "definition",
+          "open_minus_close",
+          "unit",
+          "reference_convention"
+        ],
+        "properties": {
+          "definition": {
+            "type": "string"
+          },
+          "open_minus_close": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "reference_convention": {
+            "type": "string"
+          }
+        }
+      },
+      "search_coverage": {
+        "type": "object",
+        "required": [
+          "generation",
+          "deduplication",
+          "advancement"
+        ],
+        "properties": {
+          "generation": {
+            "type": "string"
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "advancement": {
+            "type": "string"
+          },
+          "stopping": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "close",
+          "open"
+        ],
+        "properties": {
+          "close": {
+            "type": "string"
+          },
+          "open": {
+            "type": "string"
+          }
+        }
+      },
+      "sensitivity": {
+        "type": "object",
+        "required": [
+          "test",
+          "finding"
+        ],
+        "properties": {
+          "test": {
+            "type": "string"
+          },
+          "finding": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "bounded_failure": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "endpoint",
+            "attempted_computation",
+            "observed_failure"
+          ],
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "attempted_computation": {
+              "type": "string"
+            },
+            "observed_failure": {
+              "type": "string"
+            },
+            "next_limitation": {
+              "type": "string",
+              "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+            }
+          }
+        }
+      }
+    },
+    "required": [
+      "status",
+      "system",
+      "candidates",
+      "comparison",
+      "search_coverage",
+      "validation",
+      "sensitivity",
+      "conclusion"
+    ],
+    "oneOf": [
+      {
+        "required": [
+          "system",
+          "candidates",
+          "comparison"
+        ]
+      },
+      {
+        "required": [
+          "bounded_failure"
+        ]
+      }
+    ]
+  }
+}

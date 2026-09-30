@@ -1,0 +1,310 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "source_documents": [
+    {
+      "path": "papers/paper_3a22e838133b906d/documents/main.pdf",
+      "sha256": "0b3a6429a4f8d324616b78c736daedf397971e63fdeff848f1b28058a39a1238",
+      "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p2 Scheme1为Cy/OEt真实物种及LiI去烷基化，描述MeCN和二聚晶体；SI p78明确原DFT用了model neutral/anion。",
+      "actual_read_pages_and_sections": "Main pp2–3 Scheme1/Fig1 and Scheme2; SI pp62,69 crystallographic tables (previous source review) and p78 complete computational method re-read."
+    },
+    {
+      "path": "papers/paper_3a22e838133b906d/documents/supplementary_001.pdf",
+      "sha256": "0179f85740483c73a9996ca3c5ef36fd4f0044eca862b18eadc90e03463a7235",
+      "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p2 Scheme1为Cy/OEt真实物种及LiI去烷基化，描述MeCN和二聚晶体；SI p78明确原DFT用了model neutral/anion。",
+      "actual_read_pages_and_sections": "Main pp2–3 Scheme1/Fig1 and Scheme2; SI pp62,69 crystallographic tables (previous source review) and p78 complete computational method re-read."
+    }
+  ],
+  "source_question": "The source prepares the full Cy/OEt phosphonate–borane2a and its dealkylated lithium salt and compares local B–O/P–O structure with small neutral/anion models. The selected task concerns what accounts for the local structural change.",
+  "task_question": "What molecular account of the local B/O/P structural differences between phosphonate–borane2a and its dealkylated lithium salt is supported by the crystallographic observations and a defensible model investigation? Determine what can be attributed within the studied models and where experimental environment or model representation limits the conclusion.",
+  "scope_mappings": [
+    {
+      "element": "full identities, dealkylation and crystal association",
+      "source": "main p2 Scheme1/Fig1",
+      "classification": "experimental chemistry and crystal facts"
+    },
+    {
+      "element": "local distances",
+      "source": "main p2 diffraction discussion, SI crystal tables pp62,69",
+      "classification": "public observations, rounded values with reported ESD"
+    },
+    {
+      "element": "truncated model and limitation",
+      "source": "main pp2–3 Scheme2; SI p78 section8",
+      "classification": "PR author computational route and scope limitation"
+    }
+  ],
+  "public_facts_and_constraints": "The full source identities are neutral2a C22H36BO3P and its deethylated anion C20H31BO3P−, with Li+ and MeCN as salt components. Supplied starting species are closed-shell singlets. In the reported crystal [Li(MeCN)2][3] forms an inversion-related dimer with two bridging Li ions, each also associated with two MeCN molecules; this is an experimental crystal observation, not a mandatory computational model or a unique solution structure. Public local bond distances describe the actual crystals. You choose the molecular representation and evidence needed for the bounded local-structure question; no full dealkylation mechanism or complete association ladder is prescribed.",
+  "agent_decisions": [
+    "Choose how to represent the local structure and experimental salt environment while retaining a defensible mapping to the full source molecules.",
+    "Select informative comparisons and observables to assess proposed structural explanations and their uncertainty.",
+    "Decide how much evidence is needed for transfer from a model to the crystal observations and where that transfer cannot be established."
+  ],
+  "source_exceptions": [],
+  "builder_model_disclosures": [],
+  "old_scope_corrections": [
+    "Retain complete Cy/OEt component graphs and experimental local distances; omit the old mandatory small-model and preassembled Li/MeCN/dimer ladder from AR.",
+    "Remove prescribed deethylation/dimerization cycles and truncation matrix; compositional conservation is still required for any energetic claim actually made.",
+    "Expose crystal association only as an observed physical boundary; do not fabricate a missing CIF or claim an author dimer minimum. Source methyl models are described in PR, not imposed on AR."
+  ],
+  "feasibility_evidence": {
+    "source_freeze": {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_6/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "733d1efabb39deac239f2318d48fc7385a9faa720b2a206bfeede892b4a158fa"
+    },
+    "frozen_V1_packages": {
+      "autonomous_research": "74f7ef9cdb7b365573fb6a2404d137d3bb78e0e9ffe9c7ac56715ed8f49418e2",
+      "paper_reproduction": "f826a535f7f687ce94d1da91faac7f8c131139f274b299691401d9f9ae0b3ffc"
+    },
+    "reported_scientific_status": "needs_work",
+    "scope": "group_6完整anion及Li/MeCN基础输出、neutral在途结果保留；完整关联/二聚与守恒热力学还未完成。",
+    "unfinished": "完整 Li/MeCN/二聚矩阵及守恒热力学；等待先导质量门",
+    "artifacts": [
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_3a22e838133b906d/88e1921816cea958_gaussian.log.snapshot",
+        "sha256": "88e1921816cea958c36e7a1c1e8312c014ce6d90352597493cfa8f79ca0a1326",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01/gaussian.log",
+        "previous_recorded_sha256": "88e1921816cea958c36e7a1c1e8312c014ce6d90352597493cfa8f79ca0a1326",
+        "bytes": 19118,
+        "observed_at_utc": "2026-09-28T17:04:49.741346+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_3a22e838133b906d/19dad0f8ccb05efc_gaussian.log.snapshot",
+        "sha256": "19dad0f8ccb05efc89af7ab8ba1b9571cc7825ea59bed5c78418764667d03e4a",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01/gaussian.log",
+        "previous_recorded_sha256": "19dad0f8ccb05efc89af7ab8ba1b9571cc7825ea59bed5c78418764667d03e4a",
+        "bytes": 202247,
+        "observed_at_utc": "2026-09-28T17:04:49.741346+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_3a22e838133b906d/4414375a96aa958b_gaussian.log.snapshot",
+        "sha256": "4414375a96aa958bd90337fce88bd47c7efd0da6a3d96013a656d1f71b0f43ec",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01/gaussian.log",
+        "previous_recorded_sha256": "4414375a96aa958bd90337fce88bd47c7efd0da6a3d96013a656d1f71b0f43ec",
+        "bytes": 2310903,
+        "observed_at_utc": "2026-09-28T17:04:49.741346+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_3a22e838133b906d/86fffead8c5e4004_gaussian.log.snapshot",
+        "sha256": "86fffead8c5e40046f33cde2eb99a706adb7d5aab2ade39d5ca5399654eb944e",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq/attempt_01/gaussian.log",
+        "previous_recorded_sha256": "86fffead8c5e40046f33cde2eb99a706adb7d5aab2ade39d5ca5399654eb944e",
+        "bytes": 2375746,
+        "observed_at_utc": "2026-09-28T17:04:49.741346+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_3a22e838133b906d/36ae07809a2414f6_gaussian.log.snapshot",
+        "sha256": "36ae07809a2414f6fc4d43eedce1fa98e47f5931995187b52b42da6e2c3cfed2",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq_platform_resume1/attempt_01/gaussian.log",
+        "previous_recorded_sha256": "36ae07809a2414f6fc4d43eedce1fa98e47f5931995187b52b42da6e2c3cfed2",
+        "bytes": 76069,
+        "observed_at_utc": "2026-09-28T17:04:49.741346+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      }
+    ],
+    "existing_attempts": [
+      {
+        "scientific_case_id": "full_neutral_source_optfreq",
+        "job_id": "hpc-job-d764f37c-76ec-4bf9-acd7-e77226735d35",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "status": "STOPPED",
+        "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+        "submitted_at": "2026-09-28T04:13:51.245015+00:00",
+        "threads": 20,
+        "memory_gib": 100,
+        "input_sha256": "068eb516b123906ce2d5636f0068ac3acac31ca9823438a0492f9410da0812d3",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq/attempt_01",
+        "timeline": {
+          "created_at": "1790568831000",
+          "released_at": "1790599723000",
+          "resources_prepared_at": "1790568950000",
+          "started_at": "1790570033000",
+          "stopped_at": "1790599323000"
+        },
+        "native_return_code": null,
+        "native_finished_at": null,
+        "native_logs": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq/attempt_01/gaussian.log"
+        ],
+        "checkpoint_paths": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq/attempt_01/state.chk"
+        ],
+        "active_or_unresolved_at_handoff": false,
+        "disposition": "Preserve terminal artifacts; no rerun."
+      },
+      {
+        "scientific_case_id": "full_anion_source_optfreq",
+        "job_id": "hpc-job-4a23b865-462d-4f4f-b328-c6d18878a24c",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "status": "SUCCEEDED",
+        "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+        "submitted_at": "2026-09-28T04:43:17.912705+00:00",
+        "threads": 20,
+        "memory_gib": 100,
+        "input_sha256": "617ca1cc3ac094d5ac72885f58b27aa43921aaee58acf7c2093ff99a1bb503b0",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01",
+        "timeline": {
+          "created_at": "1790570597000",
+          "finished_at": "1790592515000",
+          "released_at": "1790592656000",
+          "resources_prepared_at": "1790570714000",
+          "started_at": "1790572275000"
+        },
+        "native_return_code": 0,
+        "native_finished_at": "2026-09-28T10:45:43Z",
+        "native_logs": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01/gaussian.log",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01/native_audit.json",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01/status.json"
+        ],
+        "checkpoint_paths": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01/state.chk",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_anion_source_optfreq/attempt_01/state.fchk"
+        ],
+        "active_or_unresolved_at_handoff": false,
+        "disposition": "Preserve terminal artifacts; no rerun."
+      },
+      {
+        "scientific_case_id": "Li_source_reference",
+        "job_id": "hpc-job-7afb7bf7-0e2f-4607-9c68-d4d3e609f86c",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "status": "SUCCEEDED",
+        "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+        "submitted_at": "2026-09-28T08:11:51.483961+00:00",
+        "threads": 4,
+        "memory_gib": 16,
+        "input_sha256": "e08966111cc4f127db74d7774d50e1ee29c101619a7bc15802e7d485c5e6902a",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01",
+        "timeline": {
+          "created_at": "1790583111000",
+          "finished_at": "1790583341000",
+          "released_at": "1790583360000",
+          "resources_prepared_at": "1790583224000",
+          "started_at": "1790583269000"
+        },
+        "native_return_code": 0,
+        "native_finished_at": "2026-09-28T08:15:11Z",
+        "native_logs": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01/gaussian.log",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01/native_audit.json",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01/status.json"
+        ],
+        "checkpoint_paths": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01/state.chk",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/Li_source_reference/attempt_01/state.fchk"
+        ],
+        "active_or_unresolved_at_handoff": false,
+        "disposition": "Preserve terminal artifacts; no rerun."
+      },
+      {
+        "scientific_case_id": "MeCN_source_reference",
+        "job_id": "hpc-job-eb2dc129-93a5-47ed-91d0-b91a6a990888",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "status": "SUCCEEDED",
+        "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+        "submitted_at": "2026-09-28T08:11:52.242728+00:00",
+        "threads": 4,
+        "memory_gib": 16,
+        "input_sha256": "73cb04d37985ad5672fe7ce6c5ebdd2030a4dcf4f88dd1f95416db7701e74a3f",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01",
+        "timeline": {
+          "created_at": "1790583112000",
+          "finished_at": "1790583400000",
+          "released_at": "1790583419000",
+          "resources_prepared_at": "1790583225000",
+          "started_at": "1790583270000"
+        },
+        "native_return_code": 0,
+        "native_finished_at": "2026-09-28T08:15:53Z",
+        "native_logs": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01/gaussian.log",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01/native_audit.json",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01/status.json"
+        ],
+        "checkpoint_paths": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01/state.chk",
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/MeCN_source_reference/attempt_01/state.fchk"
+        ],
+        "active_or_unresolved_at_handoff": false,
+        "disposition": "Preserve terminal artifacts; no rerun."
+      },
+      {
+        "scientific_case_id": "full_neutral_source_optfreq_platform_resume1",
+        "job_id": "hpc-job-044a3b55-6924-4961-9aae-5acb58639b38",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "status": "RUNNING",
+        "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+        "submitted_at": "2026-09-28T13:19:50.331240+00:00",
+        "threads": 20,
+        "memory_gib": 100,
+        "input_sha256": "59a69427f42c2d6b87e29672b414207db43e805c4581d9b8a0c6840380cb5fd4",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq_platform_resume1/attempt_01",
+        "timeline": {
+          "created_at": "1790601590000",
+          "resources_prepared_at": "1790602168000",
+          "started_at": "1790602886000"
+        },
+        "native_return_code": null,
+        "native_finished_at": null,
+        "native_logs": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq_platform_resume1/attempt_01/gaussian.log"
+        ],
+        "checkpoint_paths": [
+          "docs/upgrade_tasks_verification/group_6/papers/paper_3a22e838133b906d/outputs/full_neutral_source_optfreq_platform_resume1/attempt_01/state.chk"
+        ],
+        "active_or_unresolved_at_handoff": true,
+        "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+      }
+    ],
+    "new_scientific_jobs_started": 0,
+    "new_scientific_reference_verified": false,
+    "immutable_observation": {
+      "observed_at_utc": "2026-09-28T17:04:49.741346+00:00",
+      "snapshot_root": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_3a22e838133b906d",
+      "source_files_read_only": true,
+      "original_attempt_status_fields": "Historical handoff observations at their own recorded times; current copied native status bytes may be later and do not update scientific acceptance.",
+      "current_files_not_assumed_immutable": true,
+      "new_scientific_jobs": 0
+    }
+  },
+  "limitations": [
+    "Expanded reference coverage and actual semantic-judge calibration remain pending; existing evidence has only its documented scope.",
+    "Physical public export is checked; isolated execution and evaluator-controlled chronology remain pending."
+  ],
+  "source_scope_verified": true,
+  "new_scientific_calculations_performed": false
+}

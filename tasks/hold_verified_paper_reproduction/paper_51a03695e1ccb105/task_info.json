@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_51a03695e1ccb105",
+  "task_type": "paper_reproduction",
+  "title": "Validate a base-assisted aminotriazole–nitrosotriazole coupling",
+  "category": "computational reaction mechanism",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "No optimized transition-state or product coordinates are supplied; the Agent must independently generate and validate a coupling transition state and define a defensible free-energy convention."
+  ],
+  "paper": {
+    "title": "Photocatalytic synthesis of 3,3′-azo-1,2,4-triazole compounds",
+    "doi": "10.1016/j.molstruc.2025.144415",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-02-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs/iminotriazole_anion.xyz",
+      "description": "Public XYZ reactant structure with explicit charge and multiplicity metadata."
+    },
+    {
+      "path": "data/inputs/nitrosotriazole.xyz",
+      "description": "Public XYZ reactant structure with explicit charge and multiplicity metadata."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated stationary-point, energy, and mechanistic report."
+    }
+  ]
+}

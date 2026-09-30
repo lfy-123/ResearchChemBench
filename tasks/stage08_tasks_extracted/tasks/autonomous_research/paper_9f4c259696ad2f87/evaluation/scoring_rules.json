@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "rules": [
+    {
+      "rule_id": "r_ar_input",
+      "reference_id": "kp_ar_input",
+      "type": "semantic",
+      "expected": "Input identity and charge/multiplicity are correctly validated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.input_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_state",
+      "reference_id": "kp_ar_state",
+      "type": "semantic",
+      "expected": "Independent protocol and convergence or bounded-failure evidence supports identification of S1.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol",
+          "$.validation_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_energy",
+      "reference_id": "kp_ar_energy",
+      "type": "numeric",
+      "target": 2.204,
+      "unit": "eV",
+      "tolerance": 0.1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results.s1_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "Only when submission status is complete; bounded_failure is evaluated through protocol, validation_evidence, failure_reason, and conclusion."
+    },
+    {
+      "rule_id": "r_ar_character",
+      "reference_id": "kp_ar_character",
+      "type": "semantic",
+      "expected": "Dominant S1 transition is HOMO-to-LUMO and contribution is close to the source value.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results.dominant_transition",
+          "$.results.dominant_contribution_percent"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": "Only when submission status is complete; bounded_failure is evaluated through protocol, validation_evidence, failure_reason, and conclusion."
+    },
+    {
+      "rule_id": "r_ar_conclusion",
+      "reference_id": "c_ar_final",
+      "type": "semantic",
+      "expected": "Independent energy and orbital-character result is stated with limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

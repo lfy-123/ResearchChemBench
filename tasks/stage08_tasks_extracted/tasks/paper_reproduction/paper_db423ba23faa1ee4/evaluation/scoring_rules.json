@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_db423ba23faa1ee4",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "kp_process_ts",
+      "type": "condition",
+      "expected": "A retained candidate documents one imaginary addition mode and endpoint connectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].validation"
+        ],
+        "comparison": "expert check"
+      }
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "kp_process_minima",
+      "type": "condition",
+      "expected": "Endpoint frequency validation reports minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].validation"
+        ],
+        "comparison": "expert check"
+      }
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "kp_result_barrier",
+      "type": "numeric",
+      "target": 11.3,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_candidate.activation_free_energy_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r4",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "The validated calculation supports the qualitative Cu-alkoxide-nucleophile hypothesis within the modeled complex, without claiming universal mechanistic proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

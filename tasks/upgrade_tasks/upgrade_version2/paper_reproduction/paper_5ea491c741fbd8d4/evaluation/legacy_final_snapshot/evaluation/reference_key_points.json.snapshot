@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "items": [
+    {
+      "key_point_id": "pr_process_optimization",
+      "key_point_type": "process",
+      "statement": "The submission independently optimizes the explicitly defined neutral singlet E-isomer and provides candidate-level convergence and stationary-point evidence.",
+      "expected": "A reproducible optimized-geometry workflow with candidate identities and minimum validation is documented. Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success.",
+      "evidence_ids": [
+        "ev_doc_1eac271b4ab5_000084_5e3cf62d1dce",
+        "ev_doc_1eac271b4ab5_000136_234f4666bf59"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_orbitals",
+      "key_point_type": "process",
+      "statement": "HOMO and LUMO are evaluated on the same validated selected geometry and the gap is checked as LUMO minus HOMO.",
+      "expected": "The report binds orbital values to the selected candidate and includes an arithmetic consistency check. Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success.",
+      "evidence_ids": [
+        "ev_doc_1eac271b4ab5_000084_5e3cf62d1dce",
+        "ev_doc_1eac271b4ab5_000138_ca43398f2872"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_gap",
+      "key_point_type": "result",
+      "statement": "The gas-phase HOMO-LUMO gap is approximately 3.6191 eV.",
+      "expected": "A successful result reports a gap close to 3.6191 eV. Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success.",
+      "evidence_ids": [
+        "ev_doc_1eac271b4ab5_000138_ca43398f2872"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_orbitals",
+      "key_point_type": "result",
+      "statement": "The reported gas-phase frontier orbital energies are EHOMO -6.3362 eV and ELUMO -2.7171 eV.",
+      "expected": "Successful values are close to -6.3362 eV and -2.7171 eV, respectively. Uncomputed candidate frequencies may be null with diagnostics, but the selected successful minimum must resolve to real stationary-point evidence. Unknown is not zero; candidate or selected-ID inconsistency is not success.",
+      "evidence_ids": [
+        "ev_doc_1eac271b4ab5_000138_ca43398f2872"
+      ]
+    }
+  ]
+}

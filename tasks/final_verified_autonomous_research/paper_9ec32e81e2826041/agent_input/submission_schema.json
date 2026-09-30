@@ -1,0 +1,280 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "structures",
+      "comparison",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ],
+        "minLength": 1
+      },
+      "structures": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "input_file",
+            "input_validation",
+            "method",
+            "stationary_point",
+            "free_energy"
+          ],
+          "properties": {
+            "label": {
+              "enum": [
+                "perpendicular",
+                "coplanar"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "minLength": 1
+            },
+            "input_validation": {
+              "type": "object",
+              "required": [
+                "elements_and_count",
+                "charge",
+                "multiplicity"
+              ],
+              "properties": {
+                "elements_and_count": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                }
+              }
+            },
+            "method": {
+              "type": "object",
+              "required": [
+                "description",
+                "temperature_K"
+              ],
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "temperature_K": {
+                  "const": 300
+                }
+              }
+            },
+            "stationary_point": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "frequency_evidence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "imaginary_frequency_count": {
+                  "type": "number"
+                }
+              }
+            },
+            "free_energy": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value_kJ_mol": {
+                  "type": "number"
+                },
+                "source_or_diagnostic": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "maxItems": 2,
+        "allOf": [
+          {
+            "contains": {
+              "required": [
+                "label"
+              ],
+              "properties": {
+                "label": {
+                  "const": "perpendicular"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "required": [
+                "label"
+              ],
+              "properties": {
+                "label": {
+                  "const": "coplanar"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        ]
+      },
+      "comparison": {
+        "type": "object",
+        "properties": {
+          "definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delta_g_kJ_mol": {
+            "type": "number"
+          },
+          "uncertainty_kJ_mol": {
+            "type": "number"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "definition",
+              "status",
+              "delta_g_kJ_mol"
+            ],
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "delta_g_kJ_mol": {
+                "type": "number"
+              },
+              "uncertainty_kJ_mol": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "required": [
+              "definition",
+              "status",
+              "failure_reason"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure_reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "structures": {
+            "items": {
+              "properties": {
+                "stationary_point": {
+                  "required": [
+                    "frequency_evidence",
+                    "imaginary_frequency_count"
+                  ],
+                  "properties": {
+                    "imaginary_frequency_count": {
+                      "const": 0
+                    },
+                    "frequency_evidence": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "free_energy": {
+                  "required": [
+                    "value_kJ_mol",
+                    "source_or_diagnostic"
+                  ]
+                }
+              }
+            }
+          },
+          "comparison": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            }
+          }
+        }
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "comparison": {
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

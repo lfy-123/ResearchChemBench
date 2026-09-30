@@ -1,0 +1,23 @@
+{
+  "paper_id": "paper_1e3a1d290a02e5f0",
+  "items": [
+    {
+      "failure_id": "pr_cf_identity",
+      "condition": "A result silently changes a molecule's connectivity, charge, multiplicity or identity.",
+      "severity": "critical",
+      "expected_action": "Fail the affected molecule and do not treat its properties as valid."
+    },
+    {
+      "failure_id": "pr_cf_unvalidated",
+      "condition": "Reported properties come from a structure with an imaginary mode or without a documented minimum test.",
+      "severity": "critical",
+      "expected_action": "Fail the affected result unless a bounded failure is explicitly reported."
+    },
+    {
+      "failure_id": "pr_cf_scope",
+      "condition": "The conclusion claims crystal mobility, perovskite adsorption or device PCE from these isolated-molecule results.",
+      "severity": "critical",
+      "expected_action": "Reject the conclusion as scientifically out of scope."
+    }
+  ]
+}

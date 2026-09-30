@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+The source used ORCA PBE/def2-TZVP with a Dolg Y ECP for structures and Hessians, and PBE-ZORA with ZORA-adjusted def2-TZVP for g and hyperfine tensors. It differentiated tensor components numerically along 23 low-frequency modes, fitting a quadratic response (SI Figure S16 on p.20 and Table S3a–d on pp.21–24). Main pp.8–10 associates low-frequency metal motion with relaxation and uses thermal weighting; it reports lower lateral frequencies for Ih than D5h and a qualitative faster Ih relaxation. The source explicitly omits expensive mixed derivatives and electronic excitations and does not claim exact T1 prediction. Reproduce this disclosed baseline where feasible, or explain justified substitutions. The old benchmark three-class ±h/±h/2 and fixed-temperature matrix was a later validation design, not a source requirement.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

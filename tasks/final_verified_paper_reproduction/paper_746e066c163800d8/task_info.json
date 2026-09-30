@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "task_type": "paper_reproduction",
+  "title": "Independent structural calibration of compound 5",
+  "category": "computational molecular geometry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecular object and observable are fixed, but the Agent must independently choose and validate a computational route and extract the five specified torsions."
+  ],
+  "paper": {
+    "title": "Lateral π -extension in hexa- peri -hexabenzo[7]helicene: Enhanced linear and second-order nonlinear optical properties",
+    "doi": "10.1016/j.dyepig.2025.113306",
+    "journal": "Dyes and Pigments",
+    "publication_date": "2026-03-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Public compound-5 XYZ structure, 72 atoms, Å, neutral singlet."
+    },
+    {
+      "path": "data/inputs/compound5_identity.json",
+      "description": "Mapped molecular graph and five inner-rim selectors; independent unoptimized XYZ starter, no target angle."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated geometry, torsions, mean and interpretation."
+    }
+  ]
+}

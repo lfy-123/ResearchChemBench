@@ -1,0 +1,99 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_0a62b797f51de2c0",
+  "task_type": "paper_reproduction",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_paper_reproduction/paper_0a62b797f51de2c0",
+  "source_manifest_sha256": "5e52f8b713d5e9113cec9711f67eb02172fe8eb6e14e5c86f9dfad712e9bbbb9",
+  "source_package_content_sha256": "dcdcfb724d69f653113e23cc5d9692b8c616ae9bfd226e94f757dfbdace2a99a",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/monomer_series.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/monomer_series.json.snapshot",
+      "sha256": "6e272ab81a021b70c47853fb6ec8012f74d55b9fdb3b4cd12595ad3e69e495e1"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "4e481fed411b79ef869fdb64c1aa637fff0f0160291dcffaa1d2693c7916cc70"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "76831bcdb8fc760d06ce2de41e4f28c69836a4dd859b6665c9d5faf4f2c95005"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "f5195df85fbdbfa2539b1f0bf9fe473bdda1053ba553d282ed83d05b1c381abd"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "ec04627c8d2ff2001b965abb7d178f5df72a57f5c8f6914415b011c285074c6b"
+    },
+    "evaluation/identity_correction.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/identity_correction.json.snapshot",
+      "sha256": "80d7e18f969ea758c2c955bfa3d7a5dcff6d5aef00512d4d83f1019ab2b89361"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "1e1c89bbecb1a7d5c0c6a3f97b3fa37c7f055efc04c5fdab9892886b29f51eb0"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "6c1380e13936e903b391f3f233cf1ad3cc4e2451e9d4611c0ff8c8b19d85a481"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "e5ffa47517ce930a55fb3e898c72db296de79d05626fa07abe76595dcf84e1cd"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "1dda697c4435043baec5dfb80997b10f8e59abc73a462fcc4028a2bf74a85bcd"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "5e52f8b713d5e9113cec9711f67eb02172fe8eb6e14e5c86f9dfad712e9bbbb9"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "c3034a45bb0570df5942e8114dcd711362fe595e352ef78ac92c9d7768cc969c"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "295acd7228c5035d695e79662d2bb3b5a8c692d03183774897341acf38a4322d"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_0a62b797f51de2c0/documents/supplementary_001.pdf",
+      "sha256": "cec193840ebff26c59e3ce19abee827e02a953fafc2b62ce34761586a0039b8d",
+      "pages": 27
+    },
+    {
+      "path": "papers/paper_0a62b797f51de2c0/documents/main.pdf",
+      "sha256": "8faf62fe4d34371ac12d6c414dec1a19ecd0a08656bd4a9d692b3d0dd08f3b4a",
+      "pages": 8
+    },
+    {
+      "path": "docs/evalution/update/paper_0a62b797f51de2c0.md",
+      "sha256": "7eeec263b51816f59a16d4293917f749cc5a480326240fb10bc9a2fcbc6f8465"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "B",
+  "new_class": "加强B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "New capped oligomers follow actual alternating phenylene/thiophene chain, not brominated synthetic monomers."
+  ],
+  "new_reference_gaps": "The ten new explicit oligomer/regio graphs require independently calculated geometry/state references and a frozen length prediction.",
+  "blockers": [],
+  "optional_not_required": "Bulk carrier separation and hydrogen-production rates are outside the finite-oligomer task."
+}

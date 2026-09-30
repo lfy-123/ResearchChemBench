@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "task_type": "autonomous_research",
+  "title": "Independent electronic absorption analysis of boron complexes 1a–d",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Four fixed molecules require independent ground-state optimization, minimum validation, excited-state assignment, and interpretation across competing low-lying singlet transitions.",
+    "The 1c case has a weak lowest transition and stronger higher transitions, so feature selection cannot be reduced to a single HOMO-LUMO lookup."
+  ],
+  "paper": {
+    "title": "Development of unsymmetrical boron complexes bearing (iso)quinolylphenol ligands and their halogenated derivatives; crystal polymorphism for white-light-emitting properties",
+    "doi": "10.1039/d5cp04402b",
+    "journal": "Physical Chemistry Chemical Physics",
+    "publication_date": "2026-01-23"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Four labeled XYZ starting geometries for neutral singlet complexes 1a–d."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-molecule absorption results, comparison, and conclusion."
+    }
+  ]
+}

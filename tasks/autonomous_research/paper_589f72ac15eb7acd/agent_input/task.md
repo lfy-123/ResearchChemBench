@@ -4,7 +4,7 @@ Independently determine how the two specified cis pseudohalide co-ligands affect
 
 # Public inputs and scientific boundaries
 
-The complete identity specification is `data/inputs/system_spec.json`: LPh-TDA connectivity, neutral Fe(II), octahedral cis coordination, four LPh-TDA donor atoms, and two N-bound NCS−, NCSe−, or NCBH3− ligands. You may construct 3-D conformers and computational models from these inputs. Do not use the paper, SI, their coordinate files, or general web searches. Choose and justify your own method/software, state preparation, conformer strategy, and energy treatment. The three complexes and the two spin states are fixed; no author route or expected ordering is supplied. The scientific question is whether your independently obtained within-method results support a coherent ligand-substitution trend.
+The complete identity specification is `data/inputs/system_spec.json`: LPh-TDA connectivity (source-supported formula C21H19N5S), neutral Fe(II), octahedral cis coordination, four LPh-TDA donor atoms, and two N-bound NCS−, NCSe−, or NCBH3− ligands. You may construct 3-D conformers and computational models from these inputs. Do not use the paper, SI, their coordinate files, or general web searches. Choose and justify your own method/software, state preparation, conformer strategy, and energy treatment. The three complexes and the two spin states are fixed; no author route or expected ordering is supplied. The scientific question is whether your independently obtained within-method results support a coherent ligand-substitution trend.
 
 # Required scientific validation/investigation
 

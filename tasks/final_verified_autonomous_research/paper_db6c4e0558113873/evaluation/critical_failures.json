@@ -1,0 +1,20 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "The submission changes atom identity/order, charge, multiplicity, or compares an object other than the two supplied named structures.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_unvalidated",
+      "condition": "A claimed final energy or angle is reported without a final geometry and minimum validation record for that named state.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_unbound",
+      "condition": "The reported free-energy or angle comparison uses mismatched physical definitions or is used as a substitute for an uncomputed catalytic observable.",
+      "severity": "scientifically serious"
+    }
+  ]
+}

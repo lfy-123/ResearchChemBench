@@ -1,0 +1,374 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "source_documents": [
+    {
+      "path": "papers/paper_9aa6d5655edfeb52/documents/main.pdf",
+      "sha256": "e318b656b7b6cc8b1814ad47956ce676db9c80f09b1c0516211a9e1fc601a0af",
+      "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p3 描述1a经金属卤素交换到2a及2a–2f的光谱；SI p4 证实1a含Br，p19为2a的THF/TD-DFT。1a不是与2a只差一个融合键的等组成对。",
+      "actual_read_pages_and_sections": "Main pp3–4 optical interpretation/Table1/Figs1–3; SI p4 precursor identity and pp19,22 computational protocol/2a transitions."
+    },
+    {
+      "path": "papers/paper_9aa6d5655edfeb52/documents/supplementary_001.pdf",
+      "sha256": "a9ac1730b24a478de5e980909e145583d9ef54c525e9ef7f20f5174003d733bc",
+      "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p3 描述1a经金属卤素交换到2a及2a–2f的光谱；SI p4 证实1a含Br，p19为2a的THF/TD-DFT。1a不是与2a只差一个融合键的等组成对。",
+      "actual_read_pages_and_sections": "Main pp3–4 optical interpretation/Table1/Figs1–3; SI p4 precursor identity and pp19,22 computational protocol/2a transitions."
+    }
+  ],
+  "source_question": "The source studies fused o-carboranes and their solution/solid optics. The bounded executable subproblem concerns the molecular solution optical behavior of source2a, retaining the source finite electronic study while excluding unsupported unique aggregate/fusion causation.",
+  "task_question": "What molecular explanation can be supported for the absorption and emission of arene-fused o-carborane2a in THF solution? Investigate the relevant electronic/structural description and establish which assignments are robust or remain unresolved.",
+  "scope_mappings": [
+    {
+      "element": "compound2a identity",
+      "source": "main Scheme2 and SI p19 coordinates; precursor distinction SI p4",
+      "classification": "public topology; no precursor control mandated"
+    },
+    {
+      "element": "THF optical data",
+      "source": "main p3 Table1 and Fig1a; SI p22",
+      "classification": "public experiment, calculated transitions private"
+    },
+    {
+      "element": "scope boundary",
+      "source": "main pp3–4 separate molecular and aggregation discussions",
+      "classification": "finite solution subproblem"
+    }
+  ],
+  "public_facts_and_constraints": "The source compound2a is C18H20B10, a neutral singlet with a12-vertex closo cage and the supplied arene-fusion connectivity. Cage adjacency encodes a multicenter cluster topology, not an assertion that every cage edge is an ordinary localized two-center bond. Use the same molecule under THF solution conditions; the source measured absorption and emission quantities are public facts. Molecular conformations and excited states are to be investigated, not supplied as answers.",
+  "agent_decisions": [
+    "Choose a molecular/excited-state description capable of accounting for the source solution spectra.",
+    "Develop explanations and informative calculations/comparisons within the same chemical system.",
+    "Determine which state or structural assignments are identifiable and qualify model-dependent results."
+  ],
+  "source_exceptions": [],
+  "builder_model_disclosures": [],
+  "old_scope_corrections": [
+    "Keep fused2a complete topology and source THF observations; remove optimized geometry and target orbital/state assignment.",
+    "Remove the mandatory Br-containing precursor1a comparison, which was a builder extension with a compositional confound rather than the source photophysical comparator.",
+    "Remove cage-C-C restrained/released grid and preassigned cage-motion/CT causal explanation from public and private requirements."
+  ],
+  "feasibility_evidence": {
+    "source_freeze": {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "9fe38c84cd3a92d41b81a3721471e0f2be8521c2037019739dc99f347279ca15"
+    },
+    "frozen_V1_packages": {
+      "autonomous_research": "1568b9adfe9a9aca9f26434ac0d0c63b9b48ac13ca7ffcf6091ec3c26fca9d73",
+      "paper_reproduction": "aa8efd9378585db6caa287e0730075ac5139226aba880280f32f6a127b932905"
+    },
+    "reported_scientific_status": "scientifically_validated_bounded_V1",
+    "scope": "group_1 有限垂直激发/笼位移证据和协调审查保留；不继承语义校准或盲AR通过。",
+    "unfinished": [],
+    "artifacts": [
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/44aef8e9cb64ba5d_results.json.snapshot",
+        "sha256": "44aef8e9cb64ba5d20267aff1bd192c287858b1055ab38a06a67b9bbe7f25ebe",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/results.json",
+        "previous_recorded_sha256": "44aef8e9cb64ba5d20267aff1bd192c287858b1055ab38a06a67b9bbe7f25ebe",
+        "bytes": 45322,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/a0df29ab1e33ecbb_verification_report.md.snapshot",
+        "sha256": "a0df29ab1e33ecbba55de034b548effc236f9f47c25c403a6e547331b29ddf4c",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/verification_report.md",
+        "previous_recorded_sha256": "a0df29ab1e33ecbba55de034b548effc236f9f47c25c403a6e547331b29ddf4c",
+        "bytes": 3986,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/a0df29ab1e33ecbb_report.md.snapshot",
+        "sha256": "a0df29ab1e33ecbba55de034b548effc236f9f47c25c403a6e547331b29ddf4c",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/report.md",
+        "previous_recorded_sha256": "a0df29ab1e33ecbba55de034b548effc236f9f47c25c403a6e547331b29ddf4c",
+        "bytes": 3986,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/7bc91276c805f427_scientific_acceptance.json.snapshot",
+        "sha256": "7bc91276c805f4276cc0425b1f66730ebed0347a6c4cb857e9a5611366192436",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/report/scientific_acceptance.json",
+        "previous_recorded_sha256": "7bc91276c805f4276cc0425b1f66730ebed0347a6c4cb857e9a5611366192436",
+        "bytes": 2486,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/d94b6acde041e373_status.json.snapshot",
+        "sha256": "d94b6acde041e37332f94e8288019efe46dc31ea8ff95f394c1eb8d20a65d8b8",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/status.json",
+        "previous_recorded_sha256": "d94b6acde041e37332f94e8288019efe46dc31ea8ff95f394c1eb8d20a65d8b8",
+        "bytes": 87287,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/b204a3464b28024e_gaussian.log.snapshot",
+        "sha256": "b204a3464b28024eba757e66d61982738de94569e4286b4a739095c1fce9c08c",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CAM_sensitivity_TD10/gaussian.log",
+        "previous_recorded_sha256": "b204a3464b28024eba757e66d61982738de94569e4286b4a739095c1fce9c08c",
+        "bytes": 4547708,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/2f0636c783e36374_gaussian.log.snapshot",
+        "sha256": "2f0636c783e363741900ad0142691c5798c815168054e5db6b7ea82ed02787c9",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_minus005_fixed_TD10/gaussian.log",
+        "previous_recorded_sha256": "2f0636c783e363741900ad0142691c5798c815168054e5db6b7ea82ed02787c9",
+        "bytes": 2984169,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/aefa52a10fcb7810_gaussian.log.snapshot",
+        "sha256": "aefa52a10fcb7810ae20f01c8a00268ca25fc9f9b17ce1ebf7f342d8608d6194",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_minus005_fixed_noneq_TD10/gaussian.log",
+        "previous_recorded_sha256": "aefa52a10fcb7810ae20f01c8a00268ca25fc9f9b17ce1ebf7f342d8608d6194",
+        "bytes": 2836561,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/5e022914f6826adc_gaussian.log.snapshot",
+        "sha256": "5e022914f6826adc48dfe998a9f997f2dde2ece7a238b94de72a6f2b9f7b2466",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_minus005_orthogonal_opt/gaussian.log",
+        "previous_recorded_sha256": "5e022914f6826adc48dfe998a9f997f2dde2ece7a238b94de72a6f2b9f7b2466",
+        "bytes": 1348109,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/5e76198b607f3c68_gaussian.log.snapshot",
+        "sha256": "5e76198b607f3c6853607d9a94519eaf3226423d8c27949bc4e807053aa63ca6",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_minus005_relaxed_TD10/gaussian.log",
+        "previous_recorded_sha256": "5e76198b607f3c6853607d9a94519eaf3226423d8c27949bc4e807053aa63ca6",
+        "bytes": 2799385,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/89ae4b7546f51ba3_gaussian.log.snapshot",
+        "sha256": "89ae4b7546f51ba3d7dfceae4caad7b1bc9e476c68e8bed5c0ed5a989241d585",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_plus005_fixed_TD10/gaussian.log",
+        "previous_recorded_sha256": "89ae4b7546f51ba3d7dfceae4caad7b1bc9e476c68e8bed5c0ed5a989241d585",
+        "bytes": 3125993,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/546f924f63ad1078_gaussian.log.snapshot",
+        "sha256": "546f924f63ad1078a0c93aa00fb171b11c9260b69da4edb21d40004df62dcc0c",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_plus005_fixed_noneq_TD10/gaussian.log",
+        "previous_recorded_sha256": "546f924f63ad1078a0c93aa00fb171b11c9260b69da4edb21d40004df62dcc0c",
+        "bytes": 3045234,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/da804444b8802071_gaussian.log.snapshot",
+        "sha256": "da804444b8802071f3d9566f21dd209ff4c693918229406eac454930dcef5518",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_plus005_orthogonal_opt/gaussian.log",
+        "previous_recorded_sha256": "da804444b8802071f3d9566f21dd209ff4c693918229406eac454930dcef5518",
+        "bytes": 1534066,
+        "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/17d3863c9d8f39a9_fused2a_source_minimum_native.log.snapshot",
+        "sha256": "17d3863c9d8f39a95e7c4b69b77577ecf7b16b116a69e1b877314e491d8c416f",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/evidence/fused2a_source_minimum_native.log",
+        "bytes": 1174376,
+        "observed_at_utc": "2026-09-28T17:32:54.760533+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/b4dddebf184052a6_gaussian.log.snapshot",
+        "sha256": "b4dddebf184052a6646feef7c753f329c8584b730533d60c3ca44dd6c9631d4f",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_CC_plus005_relaxed_TD10/gaussian.log",
+        "bytes": 3061230,
+        "observed_at_utc": "2026-09-28T17:32:54.871160+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/b6ddc29d883dea75_gaussian.log.snapshot",
+        "sha256": "b6ddc29d883dea75121646f922d80c043b7248dc667c27e102340c9456797423",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/fused2a_reference_TD10/gaussian.log",
+        "bytes": 2892226,
+        "observed_at_utc": "2026-09-28T17:32:54.918882+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/0b72a9b8a763bd3c_gaussian.log.snapshot",
+        "sha256": "0b72a9b8a763bd3cdb60789d106666d72d893fdc8ebbac0f9cd050b34f8cafbf",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CAM_sensitivity_TD10/gaussian.log",
+        "bytes": 5191567,
+        "observed_at_utc": "2026-09-28T17:32:54.958456+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/bf7d016d11627086_gaussian.log.snapshot",
+        "sha256": "bf7d016d11627086b008fa330ca4dc16c80f8f3e6aa9c59b81c8b1a9ede87dec",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CC_minus005_fixed_TD10/gaussian.log",
+        "bytes": 3223716,
+        "observed_at_utc": "2026-09-28T17:32:54.996962+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/c893c0a6308de874_gaussian.log.snapshot",
+        "sha256": "c893c0a6308de874ed53cf2cf13517cd80177a679ba32da980853bc77ef42149",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CC_minus005_orthogonal_opt/gaussian.log",
+        "bytes": 2225504,
+        "observed_at_utc": "2026-09-28T17:32:55.047901+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/c725b17c2b765a17_gaussian.log.snapshot",
+        "sha256": "c725b17c2b765a172ebc24b3d75cbbaacfc538d4c1e97cb1779bd9181a33e14c",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CC_minus005_relaxed_TD10/gaussian.log",
+        "bytes": 3386148,
+        "observed_at_utc": "2026-09-28T17:32:55.107120+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/9b6b9d26e6c32191_gaussian.log.snapshot",
+        "sha256": "9b6b9d26e6c3219151f65dc73e76b16d3001a65b3f6945ff06c5cef0a7c2393a",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CC_plus005_fixed_TD10/gaussian.log",
+        "bytes": 3492045,
+        "observed_at_utc": "2026-09-28T17:32:55.169116+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/932f0f365fb6dad1_gaussian.log.snapshot",
+        "sha256": "932f0f365fb6dad1971b97d9858a0764ddc8ece7dde4333ea6e21604e31d24ac",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CC_plus005_orthogonal_opt/gaussian.log",
+        "bytes": 2036477,
+        "observed_at_utc": "2026-09-28T17:32:55.195889+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/191429d5339fee9f_gaussian.log.snapshot",
+        "sha256": "191429d5339fee9feb87dbb5dfe8d1b6880ca89026b9aa99e77cb064b47d83fa",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_CC_plus005_relaxed_TD10/gaussian.log",
+        "bytes": 3439376,
+        "observed_at_utc": "2026-09-28T17:32:55.234140+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/ced31e6a82f8e4c8_gaussian.log.snapshot",
+        "sha256": "ced31e6a82f8e4c85e5e98ea16c63f1494601243c76229cc81c45762664426d5",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_reference_TD10/gaussian.log",
+        "bytes": 3297430,
+        "observed_at_utc": "2026-09-28T17:32:55.281819+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/9266970a8234069b_gaussian.log.snapshot",
+        "sha256": "9266970a8234069b2e4aff97c7c630b40bdd34cfcb3f2a3a7e0cada6f65f57eb",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_source_optfreq/gaussian.log",
+        "bytes": 2625050,
+        "observed_at_utc": "2026-09-28T17:32:55.312148+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52/21edad45b8607914_gaussian.log.snapshot",
+        "sha256": "21edad45b860791463d151fb34f0b31d211c2c017cf160e84d3a832e4250352c",
+        "original_path": "docs/upgrade_tasks_verification/group_1/papers/paper_9aa6d5655edfeb52/outputs/nonfused1a_source_optfreq_recovery1/gaussian.log",
+        "bytes": 1217538,
+        "observed_at_utc": "2026-09-28T17:32:55.346520+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      }
+    ],
+    "existing_attempts": [],
+    "new_scientific_jobs_started": 0,
+    "new_scientific_reference_verified": false,
+    "immutable_observation": {
+      "observed_at_utc": "2026-09-28T16:49:56.002001+00:00",
+      "snapshot_root": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_9aa6d5655edfeb52",
+      "source_files_read_only": true,
+      "original_attempt_status_fields": "Historical handoff observations at their own recorded times; current copied native status bytes may be later and do not update scientific acceptance.",
+      "current_files_not_assumed_immutable": true,
+      "new_scientific_jobs": 0
+    },
+    "offline_native_inventory_note": "Additional already-existing native output bytes read once and frozen. Historical attempt states retain their original times. No collection controller or chemistry engine started. Old missing mandatory matrices are historical V1 gaps, not V2 route requirements."
+  },
+  "limitations": [
+    "Expanded reference coverage and actual semantic-judge calibration remain pending; existing evidence has only its documented scope.",
+    "Physical public export is checked; isolated execution and evaluator-controlled chronology remain pending."
+  ],
+  "source_scope_verified": true,
+  "new_scientific_calculations_performed": false
+}

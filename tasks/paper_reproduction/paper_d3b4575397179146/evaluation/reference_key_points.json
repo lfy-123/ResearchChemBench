@@ -1,1 +1,33 @@
-{"paper_id": "paper_d3b4575397179146", "items": [{"key_point_id": "kp_pr_1", "key_point_type": "process", "evidence_ids": ["ev_doc_2b68f45a212f_000247_eb97a539c3c1", "ev_doc_2b68f45a212f_000257_81d2bdb3a80f"], "statement": "Each of the four named molecules is treated as neutral singlet and the optimized structure is checked for a true minimum with zero imaginary frequencies.", "expected": "A per-system record reports charge 0, multiplicity 1, optimization/convergence and frequency validation or a truthful bounded failure."}, {"key_point_id": "kp_pr_2", "key_point_type": "process", "evidence_ids": ["ev_doc_2b68f45a212f_000267_cab8f82ada13", "ev_doc_2b68f45a212f_000290_96e45a60da36", "ev_doc_2b68f45a212f_000313_5a27d891c6b7"], "statement": "The investigation reports state-resolved excitation energy, wavelength, oscillator strength and dominant orbital contributions for each system's first visible/near-visible states.", "expected": "Every system has at least one object-identified transition with all requested observables and provenance."}, {"key_point_id": "kp_pr_3", "key_point_type": "result", "evidence_ids": ["ev_doc_b5d19aa5ec32_000047_466756b3a378", "ev_doc_2b68f45a212f_000267_cab8f82ada13"], "statement": "The reported weak visible transition assignment is HOMO\u2192LUMO for dFHeptZ, dClHeptZ and dMeHeptZ, while dOMeHeptZ is HOMO\u22123\u2192LUMO.", "expected": "The conclusion identifies these assignments, allowing stated method/conformer caveats."}, {"key_point_id": "kp_pr_4", "key_point_type": "result", "evidence_ids": ["ev_doc_b5d19aa5ec32_000047_466756b3a378", "ev_doc_2b68f45a212f_000287_b6ac20791ec1"], "statement": "Frontier orbital density is primarily core-nitrogen localized for dFHeptZ and analogous dClHeptZ/dMeHeptZ, while dOMeHeptZ HOMO density is mainly on dimethoxyphenyl substituents.", "expected": "The submitted localization analysis distinguishes dOMeHeptZ from the other three and states its criterion."}]}
+{
+  "paper_id": "paper_d3b4575397179146",
+  "items": [
+    {
+      "key_point_id": "kp_pr_1",
+      "key_point_type": "process",
+      "evidence_ids": ["ev_doc_2b68f45a212f_000247_eb97a539c3c1", "ev_doc_2b68f45a212f_000257_81d2bdb3a80f"],
+      "statement": "Each of the four named molecules is treated as neutral singlet and the optimized structure is checked for a true minimum with zero imaginary frequencies.",
+      "expected": "A per-system record reports charge 0, multiplicity 1, optimization/convergence and frequency validation or a truthful bounded failure."
+    },
+    {
+      "key_point_id": "kp_pr_2",
+      "key_point_type": "process",
+      "evidence_ids": ["ev_doc_2b68f45a212f_000267_cab8f82ada13", "ev_doc_2b68f45a212f_000290_96e45a60da36", "ev_doc_2b68f45a212f_000313_5a27d891c6b7", "ev_si_table_s3d_dme_20260918"],
+      "statement": "The investigation reports state-resolved excitation energy, wavelength, oscillator strength and dominant orbital contributions for each system's first visible/near-visible states.",
+      "expected": "Every system has at least one object-identified transition with all requested observables and provenance."
+    },
+    {
+      "key_point_id": "kp_pr_3",
+      "key_point_type": "result",
+      "evidence_ids": ["ev_doc_b5d19aa5ec32_000047_466756b3a378", "ev_doc_2b68f45a212f_000267_cab8f82ada13", "ev_si_table_s3d_dme_20260918"],
+      "statement": "The reported weak visible transition assignment is HOMO\u2192LUMO for dFHeptZ, dClHeptZ and dMeHeptZ, while dOMeHeptZ is HOMO\u22123\u2192LUMO.",
+      "expected": "The conclusion identifies these assignments, allowing stated method/conformer caveats."
+    },
+    {
+      "key_point_id": "kp_pr_4",
+      "key_point_type": "result",
+      "evidence_ids": ["ev_doc_b5d19aa5ec32_000047_466756b3a378", "ev_doc_2b68f45a212f_000287_b6ac20791ec1"],
+      "statement": "For dFHeptZ and analogous dClHeptZ/dMeHeptZ, HOMO density is primarily localized on the heptazine-core nitrogen atoms, whereas LUMO density extends over the core and aryl periphery. In contrast, dOMeHeptZ HOMO density is mainly on dimethoxyphenyl substituents. Do not interpret the source as requiring both HOMO and LUMO to be nitrogen-localized.",
+      "expected": "The submitted localization analysis distinguishes dOMeHeptZ from the other three, reports HOMO and LUMO separately, and states its reproducible criterion."
+    }
+  ]
+}

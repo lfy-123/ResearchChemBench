@@ -1,0 +1,167 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Preserve E-linked compound identities, CO2H versusOMe chemistry and DPPH state. Respect measured mean/SD, mixing protocol and source IC50 discrepancy. Invented phenolic hydrogens, missing sulfur or false4e zero invalidates dependent reasoning. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists. Unmeasured insoluble 4e is not a zero-activity datapoint; lack of a phenolic OH in 4h/4i forbids inventing that donor to conform to the authors mechanism wording.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Preserve E-linked compound identities, CO2H versusOMe chemistry and DPPH state. Respect measured mean/SD, mixing protocol and source IC50 discrepancy. Invented phenolic hydrogens, missing sulfur or false4e zero invalidates dependent reasoning. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists. Unmeasured insoluble 4e is not a zero-activity datapoint; lack of a phenolic OH in 4h/4i forbids inventing that donor to conform to the authors mechanism wording."
+      }
+    },
+    {
+      "rule_id": "rule_evidence",
+      "reference_id": "kp_evidence",
+      "type": "condition",
+      "expected": "Produce reproducible evidence materially explaining or limiting the four-compound contrast. An orbital-gap table or repeated IC50 ranking alone is insufficient. Chosen molecular or data analyses need explicit observables, raw artifacts and an appropriate bridge to the assay. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.methods",
+          "$.scientific_response",
+          "$.records"
+        ],
+        "comparison": "Produce reproducible evidence materially explaining or limiting the four-compound contrast. An orbital-gap table or repeated IC50 ranking alone is insufficient. Chosen molecular or data analyses need explicit observables, raw artifacts and an appropriate bridge to the assay. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_test",
+      "reference_id": "kp_test",
+      "type": "condition",
+      "expected": "Assess the information value of selected tests and whether they challenge the proposed causal account. NoHAT/SET-PT/SPLET enumeration or fixed donor pair is required. If a hydrogen/electron/proton transfer is claimed, require valid state and reservoir evidence; descriptors alone cannot prove its exclusive mechanism. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.validity_checks",
+          "$.decision_log"
+        ],
+        "comparison": "Assess the information value of selected tests and whether they challenge the proposed causal account. NoHAT/SET-PT/SPLET enumeration or fixed donor pair is required. If a hydrogen/electron/proton transfer is claimed, require valid state and reservoir evidence; descriptors alone cannot prove its exclusive mechanism. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Address decisive molecular-state, solvent and finite-time/concentration limitations; use actual sensitivity evidence or defensible bounds. Distinguish gas-phase descriptors from ethanol free energies and reported SD from IC50 uncertainty. No arbitrary old±tolerance. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.uncertainty",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Address decisive molecular-state, solvent and finite-time/concentration limitations; use actual sensitivity evidence or defensible bounds. Distinguish gas-phase descriptors from ethanol free energies and reported SD from IC50 uncertainty. No arbitrary old±tolerance. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Support, revise, refute or leave unresolved the proposed molecular explanation based on actual investigation. Do not extrapolate to biological activity or precise IC50 from isolated molecular energies. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.scientific_response",
+          "$.limitations"
+        ],
+        "comparison": "Support, revise, refute or leave unresolved the proposed molecular explanation based on actual investigation. Do not extrapolate to biological activity or precise IC50 from isolated molecular energies. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Correct chemistry and assay interpretation Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "evidence",
+      "max_score": 30,
+      "description": "New quantitative evidence addresses activity differences Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_evidence"
+      ]
+    },
+    {
+      "id": "test",
+      "max_score": 20,
+      "description": "Discriminating explanation with claim-appropriate controls Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_test"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Solvent, speciation and assay uncertainty Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 15,
+      "description": "Evidence-proportional scavenging interpretation Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

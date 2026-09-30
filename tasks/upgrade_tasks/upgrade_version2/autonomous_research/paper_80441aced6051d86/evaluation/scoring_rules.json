@@ -1,0 +1,172 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "semantic",
+      "expected": "Preserve full host connectivity and the correct number/charge of guests. Document counterion/solvent approximations and compare observables at defined geometry/state/conditions. Any aggregate classification or optical causal claim must follow from supporting evidence, not a geometric label alone. Distinguish a true single guest from a two-guest observable. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Preserve full host connectivity and the correct number/charge of guests. Document counterion/solvent approximations and compare observables at defined geometry/state/conditions. Any aggregate classification or optical causal claim must follow from supporting evidence, not a geometric label alone. Distinguish a true single guest from a two-guest observable."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_measure",
+      "reference_id": "kp_measure",
+      "type": "semantic",
+      "expected": "Produce quantitative molecular-association evidence for the specified host/guest compositions with auditable structures, charge and method. Link the chosen structural/optical quantities to the actual question and measurement conditions. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Produce quantitative molecular-association evidence for the specified host/guest compositions with auditable structures, charge and method. Link the chosen structural/optical quantities to the actual question and measurement conditions."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_explain",
+      "reference_id": "kp_explain",
+      "type": "semantic",
+      "expected": "Use a defensible investigation to show what aspects of association explain the observations and distinguish plausible alternatives. No deletion protocol, orientation list, exciton formula or minimum number of searches is mandatory. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Use a defensible investigation to show what aspects of association explain the observations and distinguish plausible alternatives. No deletion protocol, orientation list, exciton formula or minimum number of searches is mandatory."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_robust",
+      "reference_id": "kp_robust",
+      "type": "semantic",
+      "expected": "Assess reliability of inferred association and optical interpretation, including environmental/model limitations relevant to the claims. A demonstrated ambiguity in packing or mechanism can earn credit when supported quantitatively. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.limitations",
+          "$.quantities",
+          "$.artifacts"
+        ],
+        "comparison": "Assess reliability of inferred association and optical interpretation, including environmental/model limitations relevant to the claims. A demonstrated ambiguity in packing or mechanism can earn credit when supported quantitatively."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_answer",
+      "reference_id": "con_answer",
+      "type": "semantic",
+      "expected": "Identify supported association structures and what they can explain about optical differences, or delimit unresolved alternatives. Do not reward merely copying source aggregate names or matching one source distance. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "Identify supported association structures and what they can explain about optical differences, or delimit unresolved alternatives. Do not reward merely copying source aggregate names or matching one source distance."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Identity and scope: Preserve full host connectivity and the correct number/charge of guests. Document counterion/solvent approximations and compare observables at defined geometry/state/conditions. Any aggregate classification or optical causal claim must follow from supporting evidence, not a geometric label alone. Distinguish a true single guest from a two-guest observable.",
+      "rule_ids": [
+        "rule_scope"
+      ]
+    },
+    {
+      "id": "measure",
+      "max_score": 30,
+      "description": "Quantitative scientific results: Produce quantitative molecular-association evidence for the specified host/guest compositions with auditable structures, charge and method. Link the chosen structural/optical quantities to the actual question and measurement conditions.",
+      "rule_ids": [
+        "rule_measure"
+      ]
+    },
+    {
+      "id": "explain",
+      "max_score": 25,
+      "description": "Evidence that distinguishes the claimed explanation: Use a defensible investigation to show what aspects of association explain the observations and distinguish plausible alternatives. No deletion protocol, orientation list, exciton formula or minimum number of searches is mandatory.",
+      "rule_ids": [
+        "rule_explain"
+      ]
+    },
+    {
+      "id": "robust",
+      "max_score": 20,
+      "description": "Uncertainty and limits: Assess reliability of inferred association and optical interpretation, including environmental/model limitations relevant to the claims. A demonstrated ambiguity in packing or mechanism can earn credit when supported quantitatively.",
+      "rule_ids": [
+        "rule_robust"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Bounded answer to the question: Identify supported association structures and what they can explain about optical differences, or delimit unresolved alternatives. Do not reward merely copying source aggregate names or matching one source distance.",
+      "rule_ids": [
+        "rule_answer"
+      ]
+    }
+  ],
+  "reference_stage": "content_implemented_reference_and_judge_pending",
+  "scoring_notes": [
+    "AR and PR share result validity; actual open_research runtime supplies mode-specific process rubrics.",
+    "Source author outcomes are conditional reference evidence, not mandatory winners. No inherited numerical tolerance.",
+    "No penalty simply for a different justified model, hypothesis count, metric or valid analysis route. Scientific adequacy is claim-dependent.",
+    "Completion requires a substantiated answer to the stated question. Honest partial credit is distinct from passing all scientific criteria."
+  ]
+}

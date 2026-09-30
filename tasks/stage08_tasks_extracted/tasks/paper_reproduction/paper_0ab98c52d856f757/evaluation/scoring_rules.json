@@ -1,0 +1,108 @@
+{
+  "paper_id": "paper_0ab98c52d856f757",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_minimum",
+      "type": "semantic",
+      "expected": "Each advanced candidate has explicit optimization/convergence and frequency evidence, with rejected candidates diagnosed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].validation.optimization",
+          "$.candidates[*].validation.state_diagnostics",
+          "$.candidates[*].validation.frequency_evidence",
+          "$.candidates[*].outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_minimum"
+    },
+    {
+      "rule_id": "r_kp_process_crossing",
+      "type": "semantic",
+      "expected": "The selected result identifies S0 and T1, reports crossing diagnostics, and gives the free-energy reference construction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].validation.crossing_diagnostics",
+          "$.candidates[*].validation.energy_reference",
+          "$.selected_candidate_id",
+          "$.selected_geometry_xyz",
+          "$.route"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_crossing"
+    },
+    {
+      "rule_id": "r_kp_result_barrier",
+      "type": "numeric",
+      "target": 5.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_barrier"
+    },
+    {
+      "rule_id": "r_kp_result_interpretation",
+      "type": "semantic",
+        "expected": "The conclusion addresses kinetic accessibility of the computed first-event crossing and explicitly limits the claim to the computed model; it does not require a complete Path-A ranking or an experimental rate prediction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_interpretation"
+    },
+    {
+      "rule_id": "r_c_final_barrier",
+      "type": "semantic",
+      "expected": "Validated first-event S0/T1 crossing and approximately 5.2 kcal/mol barrier are concluded.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_candidate_id",
+          "$.selected_barrier_kcal_mol",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_barrier"
+    },
+    {
+      "rule_id": "r_c_scope",
+      "type": "semantic",
+      "expected": "Model, solvent, conformer, reference, and experimental-rate limitations are stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations",
+          "$.route"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_scope"
+    }
+  ]
+}

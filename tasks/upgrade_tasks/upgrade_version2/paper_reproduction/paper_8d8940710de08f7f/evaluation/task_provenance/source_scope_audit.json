@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_8d8940710de08f7f/documents/main.pdf",
+      "sha256": "a69619c718ff7d48e4dd23ce129bb8ea5a7cb58e4fcb0114ab68587d688fe9bc",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        5,
+        7,
+        8,
+        9,
+        10
+      ],
+      "sections_figures_tables": "PDF p5 computational protocol; pp7–8 distinguish molecular/protolytic and material observations; pp9–10 conformational discussion, Fig.7–8 torsion results and Table4."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_8d8940710de08f7f/documents/supplementary_001.pdf",
+      "sha256": "d903b517aab2dfd6c2a223020cb7d93ae6d66dc85eb489ab86c4aa854561bd13",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        8,
+        9,
+        10
+      ],
+      "sections_figures_tables": "PDF pp8–10 TableS8 is explicitly in-vacuo electronic/Gibbs energy and coordinate evidence; it is not a methanol free-energy table."
+    }
+  ],
+  "source_scope": "The neutral-molecule conformational subproblem of the source sulfonamide study, bounded to two identities and in-vacuo/methanol representation. Biological, protonation and octanol/water partition endpoints are not requested.",
+  "objective_source_mapping": {
+    "main": "PDF p5 computational protocol; pp7–8 distinguish molecular/protolytic and material observations; pp9–10 conformational discussion, Fig.7–8 torsion results and Table4.",
+    "si": "PDF pp8–10 TableS8 is explicitly in-vacuo electronic/Gibbs energy and coordinate evidence; it is not a methanol free-energy table."
+  },
+  "facts_and_constraints": [
+    "The objects share a sulfonamide connection to different polycyclic aromatic fragments. Their complete connections are specified in the mapped graphs.",
+    "Source molecular studies considered environmental effects; in-vacuo and solution calculations have different physical references. No experimental conformer populations are provided."
+  ],
+  "identity_provenance": "Source SNaft/SAntr structures and SI molecular-coordinate records establish the full sulfonamide graphs. Public entries contain no V/Z basin labels, optimized conformers or assigned intramolecular contact.",
+  "decisions_open": [
+    "Choose how to identify the conformational structures relevant to the neutral molecules.",
+    "Choose evidence capable of testing a proposed source of relative stability or flexibility.",
+    "Decide whether sampling, thermochemical and environmental limitations permit a definite ordering or only a bounded conclusion."
+  ],
+  "removed_v1_requirements": [
+    "Remove named V+/V−/Z starting ranges and mandatory basin count.",
+    "Remove required D3 on/off switch, fixed/relaxed contact-control pair and specified qRRHO comparisons.",
+    "Retain physical energy/ensemble definitions and fair handling of collapsed or nearly degenerate structures."
+  ],
+  "out_of_scope": "Study the two complete supplied neutral singlet sulfonamide identities. In-vacuo and methanol settings define the molecular scope; any environmental treatment must be stated. No conformer family, preferred torsion or conformational ordering is supplied as a fact. Compare relative energies or populations only within a consistent composition, environment and thermodynamic convention. Ionization equilibria, crystal packing, membrane permeability and antifungal activity are outside the required question.",
+  "feasibility": "The source ORCA relaxed scans/optimization/frequency and existing neutral-molecule evidence demonstrate a feasible molecular route. ORCA/native and Python thermochemistry tools may support a chosen investigation after checking availability. First future review should reparse matching neutral raw outputs and verify source medium/functional labels before proposing new reference science.",
+  "limitations": "No new full conformational reference or calibrated free-energy uncertainty has been obtained. Source labels and coordinates do not prove global sampling, and no experimental conformer fractions are supplied. Alternative-route scientific/semantic calibration and environment isolation remain pending.",
+  "source_scope_verified": true,
+  "review_type": "Local relevant primary-text/figure review with explicit page mapping; no new scientific calculation."
+}

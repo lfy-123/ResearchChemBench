@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "A",
+  "new_class": "B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_e31cc7bc7b21b610",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_e31cc7bc7b21b610"
+  },
+  "new_reference_gaps": [
+    "No full/truncated Egan dimer minimum, fragment decomposition or multi-reference calibration has been computed.",
+    "Source Hap reference is a different truncation and cannot certify this new paired model."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "17c1b1a3111f22d8d2b348de881f346a5fe05bfc7a8633cc40c531e3e43c8db1",
+    "paper_reproduction": "829a1a30c2be0e91e1dbca0d9e55a64f1a6bf4ecfc939e6ccda865db11b913ef"
+  },
+  "source_review": "paper_reviews/paper_e31cc7bc7b21b610.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_e31cc7bc7b21b610",
+      "package_content_sha256": "5451ab9c9aec6d89e217b3a3301bd09526fd2aa01fc91f51e892d411b5b331d6"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_e31cc7bc7b21b610",
+      "package_content_sha256": "94ed3bd920d86ef455a461b3a4b5c2fa63c60b6fd404fd685e2899409319f273"
+    }
+  },
+  "result_panels": [
+    "dimer_states",
+    "fragment_interventions",
+    "bonding_evidence"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_e31cc7bc7b21b610/documents/main.pdf",
+      "sha256": "d10f786f46a66110c6c194aac86b204d3e34dc8be7d608d5c2557be4dd91f5d0",
+      "pages": [
+        8,
+        9,
+        10
+      ],
+      "total_pages": 12
+    },
+    {
+      "path": "papers/paper_e31cc7bc7b21b610/documents/supplementary_001.pdf",
+      "sha256": "8160f45b57e772b48642e1e20d0ddddb8e64c97146b96bb942b33584b6cae2ec",
+      "pages": [
+        20,
+        22
+      ],
+      "total_pages": 30
+    },
+    {
+      "path": "docs/evalution/update/paper_e31cc7bc7b21b610.md",
+      "sha256": "27e0be58ea3714f81d3d99ba0bd1311f32f97c70d4923ad756f34ee2c4f2add9",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_e31cc7bc7b21b610/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_e31cc7bc7b21b610/evaluation/reference_validation_plan.md"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_relaxation_cycles",
+      "reference_id": "kp_relaxation_cycles",
+      "type": "semantic",
+      "expected": "Optimize and validate S0 and trackedS1, retaining root/state history and NTO evidence. Recompute four-point absorption, emission and reorganization terms. Define the solvation convention at each point; a darkS1/brightS2 distinction must remain explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxation_cycles",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Optimize and validate S0 and trackedS1, retaining root/state history and NTO evidence. Recompute four-point absorption, emission and reorganization terms. Define the solvation convention at each point; a darkS1/brightS2 distinction must remain explicit. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_twist_control",
+      "reference_id": "kp_twist_control",
+      "type": "semantic",
+      "expected": "Compare matched45° and relaxed Ph/Nap in S0 and trackedS1. Use consistent localization metrics and atom mappings, distinguishing geometric and state-switch effects. Do not infer ESA from ordinary ground-reference roots at R1.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.twist_control",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Compare matched45° and relaxed Ph/Nap in S0 and trackedS1. Use consistent localization metrics and atom mappings, distinguishing geometric and state-switch effects. Do not infer ESA from ordinary ground-reference roots at R1. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_Cbz_prediction",
+      "reference_id": "kp_Cbz_prediction",
+      "type": "semantic",
+      "expected": "Freeze the explanatory rule from Ph/Nap beforeCbz interpretation. Submit predicted and computedCbz properties plus a consistent experimental-band comparison and error bound. A failure of transfer is an acceptable scientific outcome after completing the panel.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.Cbz_prediction",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Freeze the explanatory rule from Ph/Nap beforeCbz interpretation. Submit predicted and computedCbz properties plus a consistent experimental-band comparison and error bound. A failure of transfer is an acceptable scientific outcome after completing the panel. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Assess whether a twisting/relaxation explanation predictsCbz and survives equal-geometry controls. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Assess whether a twisting/relaxation explanation predictsCbz and survives equal-geometry controls. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "relaxation_cycles",
+      "max_score": 25,
+      "description": "Optimize and validate S0 and trackedS1, retaining root/state history and NTO evidence. Recompute four-point absorption, emission and reorganization terms. Define the solvation convention at each point; a darkS1/brightS2 distinction must remain explicit.",
+      "rule_ids": [
+        "r_relaxation_cycles"
+      ]
+    },
+    {
+      "id": "twist_control",
+      "max_score": 20,
+      "description": "Compare matched45° and relaxed Ph/Nap in S0 and trackedS1. Use consistent localization metrics and atom mappings, distinguishing geometric and state-switch effects. Do not infer ESA from ordinary ground-reference roots at R1.",
+      "rule_ids": [
+        "r_twist_control"
+      ]
+    },
+    {
+      "id": "Cbz_prediction",
+      "max_score": 20,
+      "description": "Freeze the explanatory rule from Ph/Nap beforeCbz interpretation. Submit predicted and computedCbz properties plus a consistent experimental-band comparison and error bound. A failure of transfer is an acceptable scientific outcome after completing the panel.",
+      "rule_ids": [
+        "r_Cbz_prediction"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Assess whether a twisting/relaxation explanation predictsCbz and survives equal-geometry controls. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

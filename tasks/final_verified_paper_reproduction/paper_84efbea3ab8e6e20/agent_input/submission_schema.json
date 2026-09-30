@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "status",
+    "method",
+    "molecules",
+    "conclusion"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "bounded_failure"
+      ]
+    },
+    "method": {
+      "type": "object",
+      "required": [
+        "software",
+        "geometry_provenance",
+        "state_selection_rule",
+        "description"
+      ],
+      "properties": {
+        "software": {
+          "type": "string"
+        },
+        "geometry_provenance": {
+          "type": "string"
+        },
+        "state_selection_rule": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "molecules": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "geometry_validation",
+          "outcome"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "geometry_validation": {
+            "type": "object",
+            "required": [
+              "converged",
+              "evidence"
+            ],
+            "properties": {
+              "converged": {
+                "type": "boolean"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "success",
+              "failure"
+            ]
+          },
+          "s1_energy_eV": {
+            "type": "number"
+          },
+          "triplet_states": {
+            "type": "array"
+          },
+          "soc_pairs": {
+            "type": "array"
+          },
+          "state_character": {
+            "type": "string"
+          },
+          "failure_context": {
+            "type": "string"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "s1_energy_eV",
+              "triplet_states",
+              "soc_pairs",
+              "state_character"
+            ],
+            "properties": {
+              "outcome": {
+                "const": "success"
+              }
+            }
+          },
+          {
+            "required": [
+              "failure_context"
+            ],
+            "properties": {
+              "outcome": {
+                "const": "failure"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "conclusion": {
+      "type": "object",
+      "required": [
+        "computed_comparison",
+        "interpretation"
+      ],
+      "properties": {
+        "lifetime_comparison": {
+          "type": "string",
+          "description": "Optional legacy field; do not guess hidden experimental lifetimes. Not required for a successful submission."
+        },
+        "interpretation": {
+          "type": "string"
+        },
+        "limitations": {
+          "type": "string",
+          "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+        },
+        "computed_comparison": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Compare computed molecular descriptors across CZ1B, CZ2B and CZ4B. No experimental lifetimes or observed ordering are supplied or required."
+        }
+      }
+    }
+  },
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json"
+}

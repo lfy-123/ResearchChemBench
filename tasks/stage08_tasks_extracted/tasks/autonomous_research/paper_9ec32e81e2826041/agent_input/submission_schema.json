@@ -1,0 +1,207 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "structures",
+      "comparison",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "structures": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "input_file",
+            "input_validation",
+            "method",
+            "stationary_point",
+            "free_energy"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "input_file": {
+              "type": "string"
+            },
+            "input_validation": {
+              "type": "object",
+              "required": [
+                "elements_and_count",
+                "charge",
+                "multiplicity"
+              ],
+              "properties": {
+                "elements_and_count": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                }
+              }
+            },
+            "method": {
+              "type": "object",
+              "required": [
+                "description",
+                "temperature_K"
+              ],
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "temperature_K": {
+                  "type": "number"
+                }
+              }
+            },
+            "stationary_point": {
+              "type": "object",
+              "required": [
+                "status",
+                "frequency_evidence"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "frequency_evidence": {
+                  "type": "string"
+                },
+                "imaginary_frequency_count": {
+                  "type": "number"
+                }
+              }
+            },
+            "free_energy": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "value_kJ_mol": {
+                  "type": "number"
+                },
+                "source_or_diagnostic": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "properties": {
+          "definition": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "delta_g_kJ_mol": {
+            "type": "number"
+          },
+          "uncertainty_kJ_mol": {
+            "type": "number"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "definition",
+              "status",
+              "delta_g_kJ_mol"
+            ],
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "delta_g_kJ_mol": {
+                "type": "number"
+              },
+              "uncertainty_kJ_mol": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "required": [
+              "definition",
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure_reason": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "structures",
+          "comparison",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "structures",
+          "comparison",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ]
+  }
+}

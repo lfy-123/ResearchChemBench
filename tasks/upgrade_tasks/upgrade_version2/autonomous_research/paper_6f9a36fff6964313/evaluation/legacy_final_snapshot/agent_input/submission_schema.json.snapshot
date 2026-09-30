@@ -1,0 +1,226 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "coverage",
+      "systems",
+      "conclusion"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          }
+        },
+        "required": [
+          "comparison",
+          "tfap_carbonyl_charge",
+          "tmtfaba_carbonyl_charge",
+          "ptma_nitrogen_charge",
+          "tmtfaba_nitrogen_charge"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure"
+        ]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "geometry_protocol",
+          "population_protocol",
+          "solvent",
+          "validation_protocol"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "geometry_protocol": {
+            "type": "string"
+          },
+          "population_protocol": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "validation_protocol": {
+            "type": "string"
+          }
+        }
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "candidate_count",
+          "deduplication",
+          "sensitivity_assessment"
+        ],
+        "properties": {
+          "candidate_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "stopping_rule": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          },
+          "sensitivity_assessment": {
+            "type": "string"
+          }
+        }
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": [
+            "system_id"
+          ],
+          "oneOf": [
+            {
+              "required": [
+                "candidate_records",
+                "selected_structure",
+                "atom_identity",
+                "charge_provenance",
+                "charges"
+              ]
+            },
+            {
+              "required": [
+                "failure_evidence"
+              ]
+            }
+          ],
+          "properties": {
+            "system_id": {
+              "type": "string"
+            },
+            "candidate_records": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "validation",
+                  "selection_context"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "validation": {
+                    "type": "string"
+                  },
+                  "selection_context": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "selected_structure": {
+              "type": "string"
+            },
+            "atom_identity": {
+              "type": "string"
+            },
+            "charge_provenance": {
+              "type": "string"
+            },
+            "failure_evidence": {
+              "type": "string"
+            },
+            "charges": {
+              "type": "object",
+              "properties": {
+                "carbonyl_carbon": {
+                  "type": "number"
+                },
+                "quaternary_nitrogen": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "carbonyl_difference_tmtfaba_minus_tfap",
+          "nitrogen_difference_tmtfaba_minus_ptma"
+        ],
+        "properties": {
+          "carbonyl_difference_tmtfaba_minus_tfap": {
+            "type": "number"
+          },
+          "nitrogen_difference_tmtfaba_minus_ptma": {
+            "type": "number"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure": {
+        "type": "object",
+        "properties": {
+          "systems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "tfap_carbonyl_charge": {
+        "type": "number"
+      },
+      "tmtfaba_carbonyl_charge": {
+        "type": "number"
+      },
+      "ptma_nitrogen_charge": {
+        "type": "number"
+      },
+      "tmtfaba_nitrogen_charge": {
+        "type": "number"
+      }
+    }
+  }
+}

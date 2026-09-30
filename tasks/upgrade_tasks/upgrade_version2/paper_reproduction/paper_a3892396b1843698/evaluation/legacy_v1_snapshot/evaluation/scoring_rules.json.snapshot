@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only."
+      }
+    },
+    {
+      "rule_id": "rule_rearrangement_paths",
+      "reference_id": "kp_rearrangement_paths",
+      "type": "condition",
+      "expected": "Both original and matched geometric-control paths, allowing evidenced collapse of the control. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.rearrangement_paths",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Both original and matched geometric-control paths, allowing evidenced collapse of the control. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_preorganization",
+      "reference_id": "kp_preorganization",
+      "type": "condition",
+      "expected": "Quantify geometric preparation, distinguish constraints from free stationary points. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.preorganization",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Quantify geometric preparation, distinguish constraints from free stationary points. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_channel_response",
+      "reference_id": "kp_channel_response",
+      "type": "condition",
+      "expected": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.channel_response",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity."
+      },
+      "evidence_policy": "Resolve every record/path, inspect content not filenames, and audit dimensions/units, mapping and arithmetic."
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "condition",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_local_investigation",
+      "type": "semantic",
+      "expected": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "rearrangement_paths",
+      "max_score": 30,
+      "description": "Both original and matched geometric-control paths, allowing evidenced collapse of the control. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_rearrangement_paths"
+      ]
+    },
+    {
+      "id": "preorganization",
+      "max_score": 25,
+      "description": "Quantify geometric preparation, distinguish constraints from free stationary points. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_preorganization"
+      ]
+    },
+    {
+      "id": "channel_response",
+      "max_score": 15,
+      "description": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "rule_ids": [
+        "rule_channel_response"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 10,
+      "description": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights.",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or evidence-complete non-distinguishability on equal terms. No required author winner. Missing comparison, wrong electronic state/reference, fabricated or absent raw evidence invalidates dependent conclusions; bounded_failure is not scientific pass. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Schema/transport validation does not establish scientific correctness or calibrated scoring.",
+    "No new target tolerance is frozen; calibrate using complete paths, conformer/method sensitivity and source measurement uncertainty.",
+    "Supporting, contradictory and fully evidenced indistinguishable results receive equal endpoint credit.",
+    "Uncomputed core controls receive no endpoint credit; bounded failure cannot acquire a completion PASS."
+  ]
+}

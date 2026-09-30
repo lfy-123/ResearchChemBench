@@ -1,0 +1,52 @@
+H. Computational Experiments
+
+All calculations were conducted using DFT implemented in the Gaussian 09 suite of ab initio
+quantum chemistry programs with Becke’s three-parameter exchange functional B3LYP
+including Grimme’s D3 dispersion correction. Geometry optimizations were conducted using
+Pople’s 6-31G(d,p) basis set for the main group elements. The energies of the optimized
+structures were reevaluated by additional single point calculations on each optimized geometry
+using the same functional and Pople’s 6-311++G(d,p) basis set. Solvation effects were adopted
+at the self-consistent reaction field polarizable continuum model (IEF-PCM) with the dielectric
+constant of 32.63 for methanol.
+
+
+
+
+
+            E(SCF) /DZ   E(SCF) /TZ      Thermal corr  G(sol)         ∆G(sol)
+               (Hartree)       (Hartree)          (Hartree)      (eV)           (kcal/mol)
+ 50          -1005.532571  -1006.20265151  0.416764     -27368.83819   -
+ S20        -1005.526871  -1006.19945383  0.417259     -27368.73770  2.3171919
+
+
+Table S35. Cartesian coordinates of optimized geometries of 50 in standard XYZ format with
+units in Å.
+
+C    1.010196000   1.777176000   2.171150000
+
+H    -0.018323000   1.414452000   2.127635000
+
+H    1.628620000   1.034775000   2.681020000
+
+H    1.000893000   2.673106000   2.798314000
+
+C    1.585438000   2.116653000   0.780592000
+
+C    0.672589000   3.162719000   0.012549000
+
+H    1.333223000   3.737901000   -0.641297000
+
+C    -0.314979000   2.346469000   -0.858797000
+
+H    -1.349043000   2.537432000   -0.564757000
+
+H    -0.191605000   2.633185000   -1.903734000
+
+C    0.042916000   0.865748000   -0.643706000
+
+H    -0.495127000   0.541148000   0.254910000
+
+C    1.533441000   0.846594000   -0.198835000
+
+
+                                   S71

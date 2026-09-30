@@ -6,7 +6,7 @@ The paper studies the electrochemical bromination of diazo compounds with CBr4. 
 
 ## 2. System and model boundary
 
-The computational model is the neutral, closed-shell singlet diazo phosphonate 1a, diethyl (diazo(phenyl)methyl)phosphonate, in dichloromethane represented with SMD. The authors' reported calculations include the reactant, transition structures, radical-cation intermediate A, and other intermediates along the proposed mechanism. The benchmark focuses on the activation Gibbs energies for the two competing first oxidation events, not on electrochemical electrode potentials or product-yield prediction.
+The SI coordinate model labelled 1a is neutral dimethyl (diazo(phenyl)methyl)phosphonate, C9H11N2O3P, in SMD dichloromethane. The former public diethyl identity has been corrected to this 26-atom source composition. This does not establish the charges, multiplicities or reference energies of the oxidation transition states: the alternative SI block includes Br, whereas the public scored boundary excludes Br. The benchmark's two-event comparison is retained, but its numerical reference is not qualified until this boundary and the electron reference are reconciled.
 
 ## 3. Authors' implemented computational route
 
@@ -29,4 +29,4 @@ The reported activation Gibbs energy for the prompt N2-extrusion route is 28.3 k
 
 ## 6. Limitations and interpretation boundaries
 
-These are single-level, implicit-solvent DFT results for a selected model system. They do not establish absolute electrochemical kinetics, electrode interfacial structure, all conformers, or a complete reaction network. Barrier comparison is meaningful only when the submitted states are the same chemical events and have documented stationary-point validation.
+These are source-reported single-level implicit-solvent DFT results. The route table describes the claimed intended steps, not a fully recovered executable protocol. SI S17 specifies B3LYP/6-311+G(d,p), SMD(DCM), with D3 and a BJ-damping reference. The SI printed G(TS-1a) minus G(1a) equals 32.463575 kcal/mol, not the main-text 28.3. The alternative block's neutral electron count is 153, incompatible with a singlet; its intended charge/multiplicity and electrochemical zero remain unresolved. Do not guess a charge, remove Br, or relabel the old diethyl computations as author reproduction. The 28.3/34.3 values and tolerances remain unchanged pending source reconciliation; this task is blocked, not validated (2026-09-25).

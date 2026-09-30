@@ -1,0 +1,34 @@
+{
+  "paper_id": "paper_4e9774f4128551d3",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "The submitted calculation keeps the supplied structure_50 and structure_S20 identities distinct and verifies both are 53-atom structures.",
+      "expected": "Both named files are used without identity conflation and each has atom_count 53.",
+      "evidence_ids": [
+        "ev_doc_e93721ef1f70_001500_48366ce0b361",
+        "ev_doc_e93721ef1f70_001503_5a633e22e0fa"
+      ]
+    },
+    {
+      "key_point_id": "kp_stationary",
+      "key_point_type": "process",
+      "statement": "The free-energy comparison is supported by stationary-point/frequency validation for both structures.",
+      "expected": "The report gives frequency validation for each structure and identifies any imaginary frequencies; the SI reference structures have no negative frequencies.",
+      "evidence_ids": [
+        "ev_doc_e93721ef1f70_001501_4d3c3de9c148",
+        "ev_doc_e93721ef1f70_001502_6c1cfd5b3b3f"
+      ]
+    },
+    {
+      "key_point_id": "kp_delta",
+      "key_point_type": "result",
+      "statement": "The signed pairwise solution Gibbs-energy difference is computed with the convention G(S20) minus G(50).",
+      "expected": "A numeric signed ΔG(sol) is reported with kcal/mol units and arithmetic traceability.",
+      "evidence_ids": [
+        "ev_doc_e93721ef1f70_001500_48366ce0b361"
+      ]
+    }
+  ]
+}

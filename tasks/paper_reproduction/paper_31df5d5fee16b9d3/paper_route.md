@@ -6,7 +6,7 @@ The paper studies hydrated vanadium pentoxide, especially whether the bilayer V�
 
 ## 2. System and model boundary
 
-The principal system is bilayer V₂O₅·H₂O. The SI P1 unit cell contains 8 V, 24 framework O, 1 water O (O*), and 8 H, with all water confined between V₂O₅ bilayers. The calculations concern Γ-point vibrations and Raman activity; low-frequency modes and finite-temperature disorder are interpretation limits.
+The principal system is bilayer V₂O₅·H₂O. The SI P1 unit cell contains 8 V, 20 framework O, 4 water O [O(21)–O(24)], and 8 H, with all water confined between V₂O₅ bilayers. The calculations concern Γ-point vibrations and Raman activity; low-frequency modes and finite-temperature disorder are interpretation limits.
 
 ## 3. Authors' implemented computational route
 

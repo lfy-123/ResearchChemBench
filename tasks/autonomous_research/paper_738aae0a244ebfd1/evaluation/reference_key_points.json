@@ -13,8 +13,8 @@
     {
       "key_point_id": "kp_process_excitation",
       "key_point_type": "process",
-      "statement": "The submission identifies the dominant vertical excitation from a documented excitation list and retains its orbital contribution.",
-      "expected": "A selection rule and excitation evidence identify one dominant transition.",
+      "statement": "The submission selects the lowest-energy vertical singlet by excitation energy and separately identifies the largest-oscillator-strength state in the same documented list.",
+      "expected": "The excitation list, energy-based selection rule and orbital contribution identify the lowest state; the intensity comparison must not relabel it as the strongest transition.",
       "evidence_ids": [
         "ev_doc_06793b118174_000331_ed7b7b652ec8",
         "ev_doc_06793b118174_000332_a441ea1d9b8e"
@@ -32,8 +32,8 @@
     {
       "key_point_id": "kp_result_uv",
       "key_point_type": "result",
-      "statement": "The dominant listed UV transition is reproduced and assigned.",
-      "expected": "The dominant transition is approximately 271.84 nm and is HOMO-to-LUMO / pi-to-pi-star.",
+      "statement": "The first (lowest-energy) listed singlet UV transition is reproduced and assigned; it is not defined by maximum oscillator strength.",
+      "expected": "The first listed source transition is approximately 271.84 nm and HOMO-to-LUMO / pi-to-pi-star; Table 4 gives f=0.0008, smaller than the second listed transition f=0.0013.",
       "evidence_ids": [
         "ev_doc_06793b118174_000020_98b34c09f89b",
         "ev_doc_06793b118174_000332_a441ea1d9b8e"

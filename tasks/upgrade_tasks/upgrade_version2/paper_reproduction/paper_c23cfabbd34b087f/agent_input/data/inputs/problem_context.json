@@ -1,0 +1,18 @@
+{
+  "problem": "How do fused-ring topology and substituent identity affect the low-energy electronic character of the four supplied hydrocarbon models, and what evidence explains the differences or their absence?",
+  "facts": [
+    "The four complete graphs define two fused-ring topologies and two substituent representations.",
+    "Electronic states and their ordering are research outputs. The graph bond representation encodes connectivity, not a certified electronic wavefunction or spin assignment."
+  ],
+  "scope": "Study neutral 1M_OMe (C56H42O2), 1M_TIPS (C58H42Si2), 2M_OMe (C58H44O2) and 2M_TIPS (C60H44Si2) under declared molecular conditions. These are explicitly truncated source models: OMe replaces the long alkoxy chain and the historical TIPS model name denotes an ethynyl-SiH3 group, not full triisopropylsilyl. Do not silently change these chemical identities.",
+  "data_files": [
+    "1M_OMe_identity.json",
+    "1M_TIPS_identity.json",
+    "2M_OMe_identity.json",
+    "2M_TIPS_identity.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "The public systems are the source molecular truncations; full substituted experimental molecules and oxidized products are not interchangeable data. No new high-level reference for all four models has been validated."
+  ]
+}

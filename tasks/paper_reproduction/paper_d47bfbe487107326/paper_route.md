@@ -27,3 +27,7 @@ The paper reports monomer ΔE_ST values of 0.2482 eV (AQ) and 0.2632 eV (EQ); di
 ## 6. Limitations and interpretation boundaries
 
 The dimer is a simplified aggregate proxy, not a periodic nanoparticle or explicit DPPC environment. Functional/basis choices, conformer selection, and treatment of excited-state geometries can shift absolute values. Conclusions should therefore be stated for the submitted isolated-molecule models and compared quantitatively with appropriate methodological caveats.
+
+## Source-convention qualification
+
+Source-convention review 2026-09-15: main Figure3 B/C places S1 above T1 and labels the downward positive separation; the reported positive Delta E_ST is E(S1)-E(T1). The old task reversed that signed subtraction. Keep all reference magnitudes and numeric tolerances unchanged. SI S5 explicitly says B3LYP/6-31G*, equivalent to 6-31G(d); main text instead prints redundant 6-31G*(d,p). Existing 6-31G(d,p) calculations are a documented alternative-basis branch, not proof of identical SI parameters. SI describes ground/excited-state geometries; the old vertical-only TD branch does not establish that geometry convention. No dimers or biological endpoints are required by the scoped monomer question.

@@ -1,0 +1,115 @@
+{
+  "paper_id": "paper_d993832fe2c8fcec",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "condition",
+      "expected": "frequency validation and auditable four-atom selectors are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.atom_mapping"
+        ],
+        "comparison": "expert condition"
+      },
+      "reference_id": "pr_process_minimum"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "condition",
+      "expected": "at least two candidate records with convergence, connectivity and stopping evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert condition"
+      },
+      "reference_id": "pr_process_coverage"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "numeric",
+      "target": 177.9,
+      "unit": "degree",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.candidates[*].phi_1_2_3_4_deg"],
+        "comparison": "absolute difference for selected candidate"
+      },
+      "reference_id": "pr_result_torsions"
+    },
+    {"rule_id":"pr_r3b","type":"numeric","target":59.7,"unit":"degree","tolerance":3.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.candidates[*].phi_2_3_4_5_deg"],"comparison":"absolute difference for selected candidate"},"reference_id":"pr_result_torsions"},
+    {
+      "rule_id": "pr_r4",
+      "type": "numeric",
+      "target": -916.122625,
+      "unit": "hartree",
+      "tolerance": 0.01,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].electronic_energy_hartree"
+        ],
+        "comparison": "absolute difference for selected candidate when matching method is claimed"
+      },
+      "reference_id": "pr_result_energy"
+    },
+    {
+      "rule_id": "pr_r5",
+      "type": "semantic",
+      "expected": "type-II conformer and geometry-based ortho-hydroxy/iminyl interpretation with phase limitation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_class"
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "validated type-II-like minimum with torsions near published values",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final"
+    },
+    {
+      "rule_id": "pr_c2",
+      "type": "semantic",
+      "expected": "gas-phase result is not a crystal or biological prediction",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_limit"
+    }
+  ]
+}

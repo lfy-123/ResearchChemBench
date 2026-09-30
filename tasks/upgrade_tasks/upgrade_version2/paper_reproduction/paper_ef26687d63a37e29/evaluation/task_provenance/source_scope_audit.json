@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_ef26687d63a37e29",
+  "source_documents": [
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/main.pdf",
+      "sha256": "bf0ec692ef2eec7d4342ed722884bcabb2137396dcb3fc6c6a867eed7f62b0b8",
+      "page_count": 12,
+      "pdf_pages_1_based": [
+        9,
+        10
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_ef26687d63a37e29/documents/supplementary_001.pdf",
+      "sha256": "bc6f2dea0dc2ca97f7ae56c8bdda09c32be5fd0656a670db51c46cf023cebf96",
+      "page_count": 42,
+      "pdf_pages_1_based": [
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "How does adding phthalic anhydride change the local molecular interactions in the (Et2N)3P/Et3B system, and what can those changes establish about epoxide activation and chain-end stabilization during CO2/propylene-oxide copolymerization?",
+    "scope": "Address the source local molecular interaction question using (Et2N)3P, phthalic anhydride (PA), Et3B, propylene oxide (PO) and CO2. Source probe identities and interaction measurements are available; their use is a research decision. Define any adduct, association or chain-end model explicitly and justify its representativeness. Bulk polymer molecular weight, productivity, a complete polymerization network and extrapolation to other catalyst families are outside scope.",
+    "facts": "The source compares PO/CO2 copolymerization with phosphine/Et3B and with PA added. A representative source feed is [PO]/[PA]/[(Et2N)3P]/[Et3B]=2000/1/1/2, neat,80 °C,initial CO2 pressure2.0 MPa. Separate stoichiometric interaction experiments use TFPO as an epoxide probe and sodium ethoxide as a chain-end probe in stated NMR solvents. These probes and short molecular models are not actual long growing polymer chains. Neither a unique reactive adduct nor a propagation/backbiting barrier is given as a public fact.",
+    "claim_source_map": [
+      {
+        "claim": "Source phosphine/PA/Et3B system and polymerization feed context",
+        "source": "main PDF pp9–10"
+      },
+      {
+        "claim": "Probe identities, measured shifts and solvents",
+        "source": "main PDF p10; SI PDF pp4,11–12"
+      },
+      {
+        "claim": "Author adduct/interaction interpretation and DFT method",
+        "source": "main PDF pp9–10; SI PDF pp4–5,7–12",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Source phosphine/PA/Et3B system and polymerization feed context",
+      "source": "main PDF pp9–10"
+    },
+    {
+      "claim": "Probe identities, measured shifts and solvents",
+      "source": "main PDF p10; SI PDF pp4,11–12"
+    },
+    {
+      "claim": "Author adduct/interaction interpretation and DFT method",
+      "source": "main PDF pp9–10; SI PDF pp4–5,7–12",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "New association/reactivity free-energy and model-representativeness calibration remains pending.",
+    "The source local DFT solvent specification is incomplete and is not silently replaced byV1 THF353.15K.",
+    "Actual semantic judge and runtime isolation remain pending."
+  ]
+}

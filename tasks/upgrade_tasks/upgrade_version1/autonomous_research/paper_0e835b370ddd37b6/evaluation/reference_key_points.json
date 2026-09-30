@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Compare complete source silylenes 1, V-prime and carbonyl analogue 4 with H2. All isolated reactants and the closed-shell activation surface are neutral singlets. Main Scheme2 p2 defines 4 as the six-membered lactam analogue of 1: replace the C(Me)2 adjacent to N with C=O while retaining N-phenyl and both SiMe3 groups. Species_registry.json gives the graph; no TS is supplied. Use benzene, 298 K, 1 atm for source-comparable G, and separated silylene+H2 as the common zero for each system. Do not subtract unlike full-system total energies across different formulas.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_activation_paths",
+      "statement": "Three actual H2 activation pathways with shared separated-reactant conventions.",
+      "expected": "Three actual H2 activation pathways with shared separated-reactant conventions. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_matched_coordinate_decomposition",
+      "statement": "Matched H–H coordinate strain and interaction terms with closure residuals.",
+      "expected": "Matched H–H coordinate strain and interaction terms with closure residuals. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_causal_comparison",
+      "statement": "Compare signed barriers and decomposition trends; isolated Si descriptors cannot establish causation.",
+      "expected": "Compare signed barriers and decomposition trends; isolated Si descriptors cannot establish causation. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Missing 4; different H–H progress compared as an electronic effect; charged or spin-inconsistent fragments; adding frequency corrections to frozen fragments; absent decomposition closure.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

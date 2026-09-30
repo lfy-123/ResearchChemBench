@@ -4,7 +4,7 @@ Independently plan and execute calculations testing the authors' qualitative hyp
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system_spec.json`. The object is neutral C10H10Ni, multiplicity 3, with two eta5-Cp rings; the surface is a 4x4 Au(111) slab with a=b=14.98 Å, gamma=60°, >10 Å vacuum, bottom two Au layers fixed, and nine Br atoms in quasi-(sqrt(3)x(sqrt(3))R30°) packing. Conf3 means the molecule is initialized over the bridge between two adjacent Br atoms; record the selected pair, height, azimuth, tilt and all atom mapping. You may choose software/model chemistry, but state it completely. Do not use paper/SI or general web information during the investigation and do not put target values in the input or report them as assumptions.
+Use `data/inputs/system_spec.json`. The object is neutral C10H10Ni, multiplicity 3, with two eta5-Cp rings; the surface is an Au(111) slab with a=b=14.98 Å, gamma=60°, >10 Å vacuum, bottom two Au layers fixed, and nine Br atoms in quasi-(sqrt(3)x(sqrt(3))R30°) packing. Conf3 means the molecule is initialized over the bridge between two adjacent Br atoms; record the selected pair, height, azimuth, tilt and all atom mapping. You may choose software/model chemistry, but state it completely. Do not use paper/SI or general web information during the investigation and do not put target values in the input or report them as assumptions.
 
 # Required scientific validation/investigation
 

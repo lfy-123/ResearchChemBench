@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_7574d99707125e60",
+  "items": [
+    {
+      "key_point_type": "process",
+      "statement": "The submission identifies the supplied G1GS structure as the isolated G1 cation and reports charge, multiplicity, software/model and geometry provenance.",
+      "expected": "A reproducible isolated-G1 setup with explicit charge +1 and singlet state, or a chemically justified tested alternative, is documented.",
+      "evidence_ids": [
+        "ev_doc_8e64b208457d_000005_6858e05fb5f0"
+      ],
+      "key_point_id": "pr_process_01"
+    },
+    {
+      "key_point_type": "process",
+      "statement": "The workflow validates the optimized ground and excited-state endpoints and tracks the intended S1 state before evaluating emission.",
+      "expected": "Convergence, state identity and Hessian/frequency or equivalent stationary-point evidence are supplied for the reported endpoint.",
+      "evidence_ids": [
+        "ev_doc_a8b5b11efff9_000047_590dbc4513b2",
+        "ev_doc_a8b5b11efff9_000049_584d0d2cc039",
+        "ev_doc_a8b5b11efff9_000055_ff65ef305f6f"
+      ],
+      "key_point_id": "pr_process_02"
+    },
+    {
+      "key_point_type": "result",
+      "statement": "The calculated isolated-G1 S1 emission is close to the paper's reported isolated-guest photoluminescence value.",
+      "expected": "The reported emission wavelength is approximately 540.3 nm, with method/uncertainty context and no conflation with the separate CB[8]G1 host--guest value.",
+      "evidence_ids": [
+        "ev_doc_a8b5b11efff9_000085_8e508327a83e"
+      ],
+      "key_point_id": "pr_result_01"
+    },
+    {
+      "key_point_type": "result",
+      "statement": "The transition analysis supports predominantly intramolecular charge-transfer character for G1 rather than a host--guest donor--acceptor transition.",
+      "expected": "NTO/transition-density evidence locates hole and electron on different regions of the G1 guest and explicitly distinguishes this from host-mediated transfer.",
+      "evidence_ids": [
+        "ev_doc_a8b5b11efff9_000087_aacaad8da076",
+        "ev_doc_a8b5b11efff9_000100_67eb07225f9d",
+        "ev_doc_a8b5b11efff9_000082_7189b728f491"
+      ],
+      "key_point_id": "pr_result_02"
+    }
+  ]
+}

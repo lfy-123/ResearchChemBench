@@ -13,6 +13,8 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from chemistry_toolbox.src.execution_feedback import bounded, execution_feedback, preserve_result
+
 
 MAX_INLINE_LIST_ITEMS = 160
 MAX_INLINE_MAPPING_CHARS = 16_000
@@ -192,17 +194,26 @@ def _compact_error(error: Any) -> Any:
     }
 
 
-def compact_action_result(result: dict[str, Any]) -> dict[str, Any]:
+def compact_action_result(result: dict[str, Any], *, full_result_ref: dict | None = None) -> dict[str, Any]:
     """Return the bounded Agent view of one canonical ``ActionResult`` envelope."""
 
     if not isinstance(result, dict) or "status" not in result:
         return result
+    if "action" not in result and "output_artifacts" not in result:
+        return result  # An asynchronous acceptance receipt is not an ActionResult.
+    storage_error = None
+    if full_result_ref is None:
+        from chemistry_toolbox.src.artifacts import workspace_root
+        try:
+            full_result_ref = preserve_result(result, workspace_root())
+        except (OSError, ValueError, RuntimeError) as exc:
+            storage_error = str(exc)
     output_artifacts = [
         _compact_artifact(item)
         for item in (result.get("output_artifacts") or [])
         if isinstance(item, dict)
     ]
-    primary = output_artifacts[0] if output_artifacts else None
+    primary = next((a for a in output_artifacts if a.get("semantic_type") not in {"BackendDiagnostic", "BackendFile"}), None)
     exposed_outputs = [
         item
         for index, item in enumerate(output_artifacts)
@@ -219,10 +230,9 @@ def compact_action_result(result: dict[str, Any]) -> dict[str, Any]:
     )
     value["input_artifacts"] = input_artifacts
     value["output_artifacts"] = exposed_outputs
-    value["error"] = _compact_error(result.get("error"))
-    value["warnings"] = [
-        _bounded_text(item, 1_500) for item in (result.get("warnings") or [])
-    ]
+    value["error"] = bounded(_compact_error(result.get("error")), budget=7000)
+    value["warnings"] = bounded(result.get("warnings") or [], budget=2500)
+    value["provenance"] = bounded(result.get("provenance") or {}, budget=4000)
     value["artifact_handoff"] = {
         "primary_output": primary,
         "matching_input_artifacts": input_artifacts,
@@ -248,8 +258,66 @@ def compact_action_result(result: dict[str, Any]) -> dict[str, Any]:
         "complete_primary_result": primary,
         "supplementary_artifact_count": max(0, len(output_artifacts) - len(exposed_outputs)),
         "supplementary_artifact_manifest": "_tool_artifacts/index.jsonl",
+        "full_result_ref": full_result_ref,
+        "full_result_storage_error": storage_error,
     }
+    value["execution_feedback"] = execution_feedback(status={"status": result["status"]}, action_result=result,
+        record={"full_result_ref": full_result_ref, "result_state": "ready"})
+    # Unanticipated nested payloads, strings or many artifacts must also be bounded.
+    for key, limit in (("result", 16000), ("input_artifacts", 5000), ("output_artifacts", 6000), ("artifact_handoff", 6000)):
+        value[key] = bounded(value[key], budget=limit)
     return value
 
 
 __all__ = ["compact_action_result"]
+
+
+def bound_terminal_items(items: list[dict], *, total_budget: int = 128000) -> list[dict]:
+    """Limit a multi-job response while keeping each outcome and read handles."""
+    if len(json.dumps(items, ensure_ascii=False, default=str).encode()) <= total_budget:
+        return items
+    allowance = max(800, total_budget // max(1, len(items)))
+    outputs = []
+    def cause(value, limit):
+        if not isinstance(value, dict):
+            return bounded(value, budget=limit)
+        result = {"code": str(value.get("code") or "unknown")[:96],
+                "category": str(value.get("category") or "unknown")[:48],
+                "message": bounded(str(value.get("message") or "Read the full result diagnostic."), budget=max(60, limit - 220))}
+        evidence = value.get("evidence")
+        if isinstance(evidence, list):
+            result["evidence"] = [{k: e[k] for k in ("path", "line_start", "line_end") if k in e}
+                                  for e in evidence[:2] if isinstance(e, dict)]
+        elif isinstance(evidence, dict):
+            result["evidence"] = {k: evidence[k] for k in ("path", "log_paths", "line_start", "line_end") if k in evidence}
+        return result
+    for item in items:
+        result = item.get("action_result") or item.get("result") or {}
+        feedback = item.get("execution_feedback") or result.get("execution_feedback") or {}
+        # Allocate most space to the cause and public retrieval information.
+        view = {k: feedback.get(k) for k in ("schema_version", "job_id", "job_status", "action_status", "result_state", "result_revision",
+                    "result_receipt_id", "full_result_ref", "next_tool_calls", "artifact_count", "scientific_validation_status")}
+        view = {k: v for k, v in view.items() if v is not None}
+        for key in ("diagnostic", "result_diagnostic", "warnings", "primary_artifacts"):
+            limit = max(120, allowance // 7)
+            view[key] = cause(feedback.get(key), limit) if key in {"diagnostic", "result_diagnostic"} else bounded(feedback.get(key), budget=limit)
+        small = {k: item[k] for k in ("job_id", "batch_id", "item_id", "status", "previous_status", "collection_manifest", "output_count") if k in item}
+        small.update(execution_feedback=view, response_truncated=True,
+                     truncation_reason="multi-job response budget; read the original job/full_result_ref for complete details")
+        # Keep compatible result identity/error fields, without duplicating arrays.
+        result_key = "action_result" if "action_result" in item else "result"
+        small[result_key] = {k: result.get(k) for k in ("status", "action", "backend") if k in result}
+        small[result_key]["error"] = cause(result.get("error"), max(100, allowance // 7))
+        outputs.append(small)
+    if len(json.dumps(outputs, ensure_ascii=False, default=str).encode()) > total_budget:
+        for item in outputs:
+            view = item["execution_feedback"]
+            item["execution_feedback"] = {k: view[k] for k in ("schema_version", "job_id", "job_status", "result_state", "result_receipt_id", "full_result_ref") if k in view}
+            item["execution_feedback"]["diagnostic"] = cause(view.get("diagnostic"), 350)
+            if view.get("job_id"):
+                item["execution_feedback"]["next_tool_calls"] = [{"tool": "collect_execution_job", "arguments": {"job_id": view["job_id"]}}]
+            else:
+                item["execution_feedback"]["full_result_ref"] = view.get("full_result_ref")
+            item.pop("result", None)
+            item.pop("action_result", None)
+    return outputs

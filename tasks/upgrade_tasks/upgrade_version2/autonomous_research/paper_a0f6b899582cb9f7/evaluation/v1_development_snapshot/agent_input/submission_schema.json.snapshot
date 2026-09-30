@@ -1,0 +1,1717 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "schema_version": "batch3-upgrade.v1",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_a0f6b899582cb9f7"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "protocol": {
+        "type": "object",
+        "properties": {
+          "software_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "basis_ecp": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "temperature_K": {
+            "type": "number",
+            "minimum": 0
+          },
+          "standard_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "energy_reference": {
+            "const": "matched_object_state_geometry_protocol"
+          },
+          "thermal_and_low_frequency": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state_tracking": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_convergence": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "software_version",
+          "method",
+          "basis_ecp",
+          "environment",
+          "temperature_K",
+          "standard_state",
+          "energy_reference",
+          "thermal_and_low_frequency",
+          "state_tracking",
+          "numerical_convergence"
+        ],
+        "additionalProperties": false
+      },
+      "object_records": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "M3"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "PM6_BDD_T2_Me"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "BTP_eC9_core_Me"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "object_id": {
+                  "const": "BTP_eC9_full_pi_Me"
+                },
+                "charge": {
+                  "const": 0
+                },
+                "multiplicity": {
+                  "const": 1
+                },
+                "graph_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                },
+                "validation_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                }
+              },
+              "required": [
+                "object_id",
+                "charge",
+                "multiplicity",
+                "graph_file",
+                "geometry_file",
+                "atom_map_file",
+                "validation_file"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "object_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "M3"
+                  ]
+                }
+              ]
+            },
+            "kind": {
+              "enum": [
+                "successful",
+                "failed"
+              ]
+            },
+            "role": {
+              "enum": [
+                "optimization_frequency",
+                "single_point",
+                "TD",
+                "excited_optimization",
+                "path",
+                "density_analysis"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "output_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "electronic_Eh": {
+              "type": "number"
+            },
+            "ZPE_Eh": {
+              "type": "number"
+            },
+            "thermal_Eh": {
+              "type": "number"
+            },
+            "state_label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "convergence_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "failure_diagnostics": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "object_id",
+            "kind",
+            "role",
+            "input_file",
+            "output_file",
+            "state_label"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "successful"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "convergence_file"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "successful"
+                  },
+                  "role": {
+                    "not": {
+                      "const": "density_analysis"
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "electronic_Eh"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_diagnostics"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "contact_models": {
+            "type": "object",
+            "properties": {
+              "PM6_face": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PM6_face: Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "PM6_edge": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PM6_edge: Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "BTP_core_face": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "BTP_core_face: Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "BTP_core_edge": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "distortion_kJ_mol": {
+                        "type": "number",
+                        "description": "distortion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "interaction_kJ_mol",
+                      "distortion_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "BTP_core_edge: Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              }
+            },
+            "required": [
+              "PM6_face",
+              "PM6_edge",
+              "BTP_core_face",
+              "BTP_core_edge"
+            ],
+            "additionalProperties": false
+          },
+          "decomposition": {
+            "type": "object",
+            "properties": {
+              "PM6_pair": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "electrostatic_kJ_mol": {
+                        "type": "number",
+                        "description": "electrostatic_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "dispersion_kJ_mol": {
+                        "type": "number",
+                        "description": "dispersion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "exchange_kJ_mol": {
+                        "type": "number",
+                        "description": "exchange_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "induction_kJ_mol": {
+                        "type": "number",
+                        "description": "induction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "electrostatic_kJ_mol",
+                      "dispersion_kJ_mol",
+                      "exchange_kJ_mol",
+                      "induction_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "PM6_pair: Use a single justified decomposition and identical fragmentation; terms are model-dependent, not unique causal observables. Recompute total and residual terms. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "BTP_pair": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "electrostatic_kJ_mol": {
+                        "type": "number",
+                        "description": "electrostatic_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "dispersion_kJ_mol": {
+                        "type": "number",
+                        "description": "dispersion_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "exchange_kJ_mol": {
+                        "type": "number",
+                        "description": "exchange_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "induction_kJ_mol": {
+                        "type": "number",
+                        "description": "induction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "electrostatic_kJ_mol",
+                      "dispersion_kJ_mol",
+                      "exchange_kJ_mol",
+                      "induction_kJ_mol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "BTP_pair: Use a single justified decomposition and identical fragmentation; terms are model-dependent, not unique causal observables. Recompute total and residual terms. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              }
+            },
+            "required": [
+              "PM6_pair",
+              "BTP_pair"
+            ],
+            "additionalProperties": false
+          },
+          "truncation_and_tensor": {
+            "type": "object",
+            "properties": {
+              "larger_fragment": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "primary_interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "primary_interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "control_interaction_kJ_mol": {
+                        "type": "number",
+                        "description": "control_interaction_kJ_mol; unit kJ/mol. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "quadrupole_zz_eA2": {
+                        "type": "number",
+                        "description": "quadrupole_zz_eA2; unit e angstrom^2. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      }
+                    },
+                    "required": [
+                      "primary_interaction_kJ_mol",
+                      "control_interaction_kJ_mol",
+                      "quadrupole_zz_eA2"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "larger_fragment: At least one actual larger-fragment pair is core. Report all six independent tensor components with origin/axes; Qzz alone cannot prove dual binding or PCE. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job."
+              },
+              "M3_tensor": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "const": "computed"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  },
+                  "atom_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "raw_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 1
+                  },
+                  "data_table_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "properties": {
+                      "primary_interaction_kJ_mol": {
+                        "const": null,
+                        "description": "For the isolated M3_tensor row, primary_interaction_kJ_mol and control_interaction_kJ_mol are null with metric_applicability_reason because no partner is present. The full quadrupole tensor, declared origin/axes and numeric quadrupole_zz_eA2 remain mandatory. The larger_fragment row still requires both real interaction energies, a mapped larger-fragment pair and the shared M3 tensor; null cannot waive that truncation comparison. The reviewed finite fragment identities remain mandatory; the truncation-pair calculation cannot be waived."
+                      },
+                      "control_interaction_kJ_mol": {
+                        "const": null,
+                        "description": "For the isolated M3_tensor row, primary_interaction_kJ_mol and control_interaction_kJ_mol are null with metric_applicability_reason because no partner is present. The full quadrupole tensor, declared origin/axes and numeric quadrupole_zz_eA2 remain mandatory. The larger_fragment row still requires both real interaction energies, a mapped larger-fragment pair and the shared M3 tensor; null cannot waive that truncation comparison. The reviewed finite fragment identities remain mandatory; the truncation-pair calculation cannot be waived."
+                      },
+                      "quadrupole_zz_eA2": {
+                        "type": "number",
+                        "description": "quadrupole_zz_eA2; unit e angstrom^2. Derive from cited actual raw calculations, with state/geometry/protocol stated. This field is not a supplied reference target."
+                      },
+                      "metric_applicability_reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "For the isolated M3_tensor row, primary_interaction_kJ_mol and control_interaction_kJ_mol are null with metric_applicability_reason because no partner is present. The full quadrupole tensor, declared origin/axes and numeric quadrupole_zz_eA2 remain mandatory. The larger_fragment row still requires both real interaction energies, a mapped larger-fragment pair and the shared M3 tensor; null cannot waive that truncation comparison. The reviewed finite fragment identities remain mandatory; the truncation-pair calculation cannot be waived."
+                      }
+                    },
+                    "required": [
+                      "primary_interaction_kJ_mol",
+                      "control_interaction_kJ_mol",
+                      "quadrupole_zz_eA2",
+                      "metric_applicability_reason"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "collapse_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+                    },
+                    "minItems": 2
+                  },
+                  "mapped_retained_endpoint": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "interpretation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "calculation_ids",
+                  "atom_map_file",
+                  "raw_files",
+                  "data_table_file",
+                  "interpretation"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "computed"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "metrics"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_evidence",
+                        "mapped_retained_endpoint"
+                      ]
+                    }
+                  }
+                ],
+                "description": "M3_tensor: At least one actual larger-fragment pair is core. Report all six independent tensor components with origin/axes; Qzz alone cannot prove dual binding or PCE. Collapses require actual mapped before/after structures and endpoint evidence, not a failed job. For the isolated M3_tensor row, primary_interaction_kJ_mol and control_interaction_kJ_mol are null with metric_applicability_reason because no partner is present. The full quadrupole tensor, declared origin/axes and numeric quadrupole_zz_eA2 remain mandatory. The larger_fragment row still requires both real interaction energies, a mapped larger-fragment pair and the shared M3 tensor; null cannot waive that truncation comparison. The reviewed finite fragment identities remain mandatory; the truncation-pair calculation cannot be waived."
+              }
+            },
+            "required": [
+              "larger_fragment",
+              "M3_tensor"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "contact_models",
+          "decomposition",
+          "truncation_and_tensor"
+        ],
+        "additionalProperties": false
+      },
+      "hypothesis_tests": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "rival": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discriminating_comparison": {
+              "type": "string",
+              "minLength": 1
+            },
+            "calculation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "predicted_discriminator": {
+              "type": "string",
+              "minLength": 1
+            },
+            "observed_contrast": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved"
+              ]
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim",
+            "rival",
+            "discriminating_comparison",
+            "calculation_ids",
+            "predicted_discriminator",
+            "observed_contrast",
+            "unit",
+            "outcome",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "object",
+        "properties": {
+          "factor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "primary_value": {
+            "type": "number"
+          },
+          "control_value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "difference": {
+            "type": "number"
+          },
+          "uncertainty": {
+            "type": "number",
+            "minimum": 0
+          },
+          "uncertainty_basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "calculation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 2
+          },
+          "raw_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "minItems": 2
+          }
+        },
+        "required": [
+          "factor",
+          "primary_value",
+          "control_value",
+          "unit",
+          "difference",
+          "uncertainty",
+          "uncertainty_basis",
+          "calculation_ids",
+          "raw_files"
+        ],
+        "additionalProperties": false
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supporting_rows": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "core_matrix_complete": {
+            "const": true
+          }
+        },
+        "required": [
+          "outcome",
+          "statement",
+          "supporting_rows",
+          "limitations",
+          "core_matrix_complete"
+        ],
+        "additionalProperties": false
+      },
+      "raw_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+        },
+        "minItems": 1
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restart_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "summed_job_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "calendar_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_starts",
+          "failed_starts",
+          "restart_starts",
+          "allocated_cores",
+          "summed_job_hours",
+          "calendar_hours",
+          "core_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "next_required_evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|structures|analysis|logs)/(?!(?:.*\\/)?\\.\\.(?:/|$))[^\\\\\\x00]+$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "observed_failure",
+          "attempted_scope",
+          "missing_endpoints",
+          "next_required_evidence",
+          "raw_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "protocol",
+      "object_records",
+      "calculation_records",
+      "raw_files",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypothesis_tests",
+            "sensitivity",
+            "conclusion"
+          ],
+          "properties": {
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "const": "successful"
+                  },
+                  "role": {
+                    "not": {
+                      "const": "density_analysis"
+                    }
+                  }
+                },
+                "required": [
+                  "kind",
+                  "role"
+                ]
+              },
+              "minContains": 1,
+              "minItems": 1
+            },
+            "resources": {
+              "properties": {
+                "allocated_cores": {
+                  "minimum": 1
+                }
+              }
+            },
+            "object_records": {
+              "allOf": [
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "M3"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "PM6_BDD_T2_Me"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "BTP_eC9_core_Me"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "object_id": {
+                        "const": "BTP_eC9_full_pi_Me"
+                      }
+                    },
+                    "required": [
+                      "object_id"
+                    ]
+                  }
+                }
+              ],
+              "minItems": 4
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ]
+        }
+      }
+    ]
+  },
+  "scientific_boundary": "Contract acceptance is not scientific acceptance. Linked files require evaluator verification, including correct graph, state, raw output, coverage and recomputable quantities. Missing controls cannot be labeled indistinguishable.",
+  "development_status": "finite_inputs_reviewed_scientific_calibration_pending"
+}

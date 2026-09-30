@@ -1,0 +1,136 @@
+# paper_2877efc02814175d：科学目标分类与升级方案
+
+## 2026-09-27：首版实施规格与批次
+
+**当前分类：A；首版方向：B。** **安排：第 3 批：先修基线、有限模型与规模试算。**
+**实施状态：有条件：先补本篇前提。** 本节是对早期较宽方案的首版收束；以下对象与判据属于待实现的新设计，本轮新增科学计算为 0。
+
+**最低计算范围。** 游离配体与 Cd/Co/Ni 三个源络合物，分别做松弛和冻结配体骨架；Cd/Co/Ni 原模型电荷 +2，自旋多重度 1/2/1，游离配体独立核准。
+
+**实际验收证据与判断。** 各络合物的 TD/NTO、金属/配体成分与几何控制解释差异；Co 的开壳层态不能硬套闭壳层单重态 TD。gap、硬度、电亲性代数相关，不算独立机制证据。
+
+**先导与启动条件。** 先核准游离配体质子数/电荷及 Co 开壳层响应；正文用已有可读备份，不依赖损坏 main.pdf。
+
+**软件范围。** Gaussian/ORCA＋Multiwfn＋构象工具。源路线用于开发可核验参考；其他方法必须支持同一物理量并完成等价性校准。软件安装、旧题 PASS 均不能代替本节新增参考。
+
+**可选扩展及停止边界。** DNA 结合、淬灭速率、抗菌机制不加入。
+
+**给实施 agent 的完成顺序。** 先冻结对象/原子映射、介质/温度、观测公式及主方法；完成上面的最关键控制试算后，实际跑全最低矩阵，校准误差与容差，再同步 AR/PR 的科学要求和 evaluator。缺少必需计算属于未完成；完成对照后得到有证据的否定或不可区分属于可接受科学结论。下文旧扩展不能自动加入首版硬评分。
+
+**交接入口：** [共用实施规范](upgrade_implementation_guide_20260927.md) · [全部批次与复核结论](upgrade_guidance_review_20260927.md)。各篇正文/SI及原始证据链接保留在后文；正式发布前仍需新增参考和独立试运行。
+
+---
+
+**论文：** Unveiling multi-responsive colorimetric and fluorescent sensing behavior and DFT insights of a novel coumarin and 8-hydroxyquinoline conjugate for Cd2+, Co2+, and Ni2+ ions detection  
+**DOI：** 10.1016/j.molstruc.2025.143691  
+**审查日期：** 2026-09-27  
+**审查范围：** 迁移前为 `tasks/verified_tasks`，2026-09-27 已归入现行 final；AR＋PR。  
+**当前分类：** A（计算执行）；**建议最低目标：B（有界解释／假设检验）**。  
+**工具与实施判断：** 有条件可行；指可开展/有条件开展参考开发，不代表升级版已通过验证。
+
+
+
+**改造重点：从三个金属络合物的轨道描述符，升级为配位与构象对光学响应的检验。** 区分金属配位的电子效应与配体形变，判断二者能否解释限定模型中的吸收变化。
+
+本篇对应任务此前不在两个 `final_verified_*` 目录的 81 篇审查范围内，故补建独立方案。以下按当前任务与 evaluator 的必需内容分类，结合论文/SI、作者知情验证结果和原始输出判断；不以“目录名 verified”、程序正常结束或自报成功替代科学证据。未运行新增科学计算，也未修改评估任务。
+
+## 1. 分类及论文定位
+
+**当前 A，建议升 B。** 任务给定三个络合物，分别得到 HOMO/LUMO、间隙、硬度和亲电性，再比较排序。Co 是开壳层使计算更复杂，但不改变其指定对象描述符计算的本质。
+
+论文的核心是香豆素–8-羟基喹啉共轭探针 DQCS 对 Cd²⁺、Co²⁺、Ni²⁺ 的显色/荧光响应；计算描述符是支持性部分。实验在 DMSO/水 9:1 等条件下进行，论文还讨论配位计量、表观结合常数和 TD-DFT。当前三个固定络合物模型的 KS 间隙不能单独覆盖这些发现。[正文 PDF p6](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=6) [正文 PDF p7](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=7) [正文 PDF p8](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=8) [正文 PDF p9](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=9)
+
+**来源修正。** 论文库原 `main.pdf` 有损坏流；本次采用 group_2 中用户补充的恢复正文，文件哈希和永久相对链接见文末。SI 使用论文库 19 页版本。不能把无法可靠解码的旧正文当作完整阅读证据。
+
+## 2. 来源事实与需要纠正的推理跨越
+
+| 来源 | 已报道内容 | 审查判断 |
+| --- | --- | --- |
+| 正文 PDF pp6–7 | Job 分析和荧光响应，1:1 模型；表观结合常数 Cd 1.57×10⁴、Co 4.32×10⁴、Ni 6.43×10⁴ M⁻¹ | 可限定第一版模型，但 Job 峰不独立证明唯一溶液物种；光学拟合常数不是未经定义即可使用的 DFT 结合自由能 |
+| 正文 PDF p8 / Table 1 | 间隙 1.997/1.511/1.243 eV；硬度和亲电性由轨道能导出 | 三类数值并非三项独立机制证据，很多排序是代数相关的 |
+| 正文 PDF pp8–9 | 协调后电荷重排及 TD 激发讨论 | KS gap 不是光学激发能，变小不自动证明结合最强或荧光淬灭最快 |
+| SI PDF pp11–13 | 金属络合物坐标和自旋信息 | 65 原子、总电荷 +2；Cd/Ni 单重态，Co 双重态 |
+| SI Table S8，PDF p18 | 激发能、强度和跃迁信息 | 正文泛称全部 S₀→S₁…S₁₀ 与 Co 双重态定义冲突；重建参考时须用正确开放壳层态 |
+
+[正文 PDF p6](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=6) [正文 PDF p7](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=7) [正文 PDF p8](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=8) [正文 PDF p9](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf#page=9) [SI PDF p11](../../../papers/paper_2877efc02814175d/documents/supplementary_001.pdf#page=11) [SI PDF p12](../../../papers/paper_2877efc02814175d/documents/supplementary_001.pdf#page=12) [SI PDF p13](../../../papers/paper_2877efc02814175d/documents/supplementary_001.pdf#page=13) [SI PDF p18](../../../papers/paper_2877efc02814175d/documents/supplementary_001.pdf#page=18)
+
+## 3. 原始结果与当前 evaluator 对照
+
+| 对象/关键点 | 实算 | 判断 |
+| --- | --- | --- |
+| Cd、Co、Ni 身份与极小值 | 三个正确电荷/自旋的 Opt/Freq，各有 189 个正频率 | 支持指定对象的基态几何要求 |
+| 间隙 / eV | Cd 1.980716805；Co α 1.515946328；Ni 1.238934416 | 与源 1.997/1.511/1.243 接近且排序一致 |
+| 亲电性 / eV | 10.09699、15.02287、19.83710 | 支持既定公式下的描述符趋势，不是配位平衡常数 |
+| 开壳层定义 | Co β 间隙 1.521660719 eV；稳定性检查有记录；S² 从约 0.9911 经湮灭后约 0.7509 | α/β 必须明确。波函数 stable 不等于所有自旋污染问题已消失 |
+| 最终解释 | Cd→Co→Ni 间隙降低、亲电性增加 | 当前窄范围可计算；不能据此认定完整感应机制已验证 |
+
+已有 5 个原始输出条目。本轮读取实算 JSON 并检查对应原生日志；未发现这 9 篇在 `codex_gpt56` 的新 agent 运行，不把历史作者知情验证冒称该运行文件夹内的独立发现。
+
+## 4. B 方案：解开电子效应与形变效应
+
+新问题：**在明确的 1:1 配位模型中，金属引起的配体形变与直接电子作用，分别如何改变吸收相关态的能量和电荷转移？哪些源文机制说法仍缺证据？**
+
+最低范围保留 free ligand 与 Cd/Co/Ni 三络合物。自由配体的质子化状态必须与络合物定义核对；不能把“取下金属后的残余碎片”默认成某个不同电荷/质子数的中性分子。首先按已有模型完成同一配体身份的对照，溶液全物种平衡暂列扩展。
+
+| 解释 | 控制设计 | 能区分的结果 |
+| --- | --- | --- |
+| 平面化/扭转变化主导光学变化 | 对同一自由配体在自身几何及来自不同络合物的冻结配体几何计算，再与弛豫结果比较 | 没有金属时几何变化已解释多少激发能/态性质差异 |
+| 金属直接改变电子态 | 对络合物保留金属，在匹配局部几何的诊断模型比较；完整弛豫模型为主结果 | 几何相近时仍存在的态性质与能量变化；不把不稳定冻结结构当真实物种 |
+| 小 KS gap 足以解释响应 | 同一方法比较 KS gap 与 TD 激发、振子强度和 NTO/电荷转移 | 若排序不同或最低态暗，直接否定单描述符解释 |
+| 原趋势受自旋/基组控制 | Co 正确开放壳层，Ni 检查必要的竞争自旋；用一致基组/ECP 对照 | 源趋势是否对电子态和数值定义稳健 |
+
+## 5. 具体计算与记录
+
+1. **统一物种/方法。** 建立 ligand、三个 1:1 模型的原子映射、质子化、电荷和多重度表。保留作者 B3LYP 与原混合基组作复现锚点；用于跨物种因果比较时增加一致的基组/ECP 对照，不能把方法差混作金属效应。
+2. **可靠基态。** 分别优化、做频率与波函数稳定性诊断；对于 Co 记录 α/β 轨道和 S²，对 Ni 必要的自旋竞争给出依据。新增不同质子化/计量属于新问题，不混入原三络合物参考。
+3. **匹配几何控制。** 构建自由配体冻结于各络合几何的同电子数控制、对应释放约束后几何以及实际含金属模型。逐一标明这类受限单点没有极小值含义。
+4. **激发态与态身份。** 计算足够覆盖实验波段的跃迁，输出能量、振子强度、NTO/跃迁密度及片段电荷转移，比较同类态而非机械比较各文件第一行。Co 不得强写为闭壳层 S₁。对关键 CT 态做另一合理泛函敏感性，避免用误差偶然抵消作结论。
+5. **定量反驳或支持。** 分别展示几何控制、含金属模型和方法变化产生的能量/态性质差，明确哪个解释仍成立。实验吸收可作独立对照；荧光强弱涉及激发态弛豫和非辐射过程，不从基态描述符输出绝对量子产率。
+
+## 6. 拟议评价目标与公开边界
+
+AR 题面可要求“解释金属配位为何改变探针的光学响应，并用成对计算分离构象与电子作用”。公开化学身份、实验吸收窗口、比较溶剂、有限模型和计算预算；私有保留源文归因、作者优化几何作为维护参考，以及新增控制的结果。若提供源优化几何用于固定物种任务，就明确评价解释而非几何发现。
+
+评价应要求：四类物种身份可核验；基础描述符重算正确；至少一组实做的几何/电子对照；正确自旋定义下的激发态证据；结论与这些证据对应。只输出间隙表加一句“Ni 结合强”仍按 A 完成度处理。不能用原文中有缺陷的“所有体系都是 singlet excitation”作为硬标准。
+
+最低方案只解释固定模型的吸收与态性质，**不把“证明溶液选择性淬灭机制”写成必达目标**。要增加结合自由能，必须先构建电荷/原子守恒的金属溶剂配体交换反应和标准态；裸二价离子气相结合不适合作为混合溶剂实验常数的直接参考。淬灭机制进一步需要足够的激发态/寿命信息，另列条件化研究。
+
+## 7. 工具可行性与优先顺序
+
+**有条件可行。** 基态计算已由真实 Gaussian 输出支持，Gaussian/ORCA TD 与 Multiwfn 可形成最低证据链。关键前置条件是 Co 开放壳层激发的参考定义、配体质子化/电荷守恒和同方法对照；并非仅缺少程序安装。
+
+先用 ligand 与一个闭壳层 Cd 络合物闭合几何/电子控制，再处理 Co 与 Ni 的态身份；若开放壳层 TD 不稳定，应缩小到可信态性质而非伪造闭壳层数值。首轮不必新增溶液全配位搜索。新增墙钟/CPU 核小时待先导实测，5 条历史输出不代表升级所需次数。
+
+若未来改为 C，可让 agent 在有限质子化/配位集合中发现最能同时解释吸收、计量和其他独立观测的物种，但必须先补化学环境和新的参考。当前三个指定结构不足以直接承担该 C 目标。
+
+## 当前包与证据索引
+
+来源页码均指本地 PDF 的实际页序；上文“建议/拟议”内容是本次设计，不是已获得的计算结果。
+
+| 模式 | 当前任务 | 关键点／结论／评分 | 已验证计算档案与维护记录 |
+| --- | --- | --- | --- |
+| 自主科研 AR | [task.md](../../../tasks/final_verified_autonomous_research/paper_2877efc02814175d/agent_input/task.md) | [关键点](../../../tasks/final_verified_autonomous_research/paper_2877efc02814175d/evaluation/reference_key_points.json) · [结论](../../../tasks/final_verified_autonomous_research/paper_2877efc02814175d/evaluation/reference_conclusions.json) · [规则](../../../tasks/final_verified_autonomous_research/paper_2877efc02814175d/evaluation/scoring_rules.json) | [计算档案（含第7节）](../../../tasks/final_verified_autonomous_research/paper_2877efc02814175d/evaluation/verified_computation_reference.md) · [维护审查](../../../tasks/final_verified_autonomous_research/paper_2877efc02814175d/evaluation/task_provenance/maintenance_audit.md) |
+| 论文复现 PR | [task.md](../../../tasks/final_verified_paper_reproduction/paper_2877efc02814175d/agent_input/task.md) | [关键点](../../../tasks/final_verified_paper_reproduction/paper_2877efc02814175d/evaluation/reference_key_points.json) · [结论](../../../tasks/final_verified_paper_reproduction/paper_2877efc02814175d/evaluation/reference_conclusions.json) · [规则](../../../tasks/final_verified_paper_reproduction/paper_2877efc02814175d/evaluation/scoring_rules.json) | [计算档案（含第7节）](../../../tasks/final_verified_paper_reproduction/paper_2877efc02814175d/evaluation/verified_computation_reference.md) · [维护审查](../../../tasks/final_verified_paper_reproduction/paper_2877efc02814175d/evaluation/task_provenance/maintenance_audit.md) |
+
+**读取的结构化结果：** [实算核查记录](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/recovered_source_closure_20260925/INDEPENDENT_RESULTS.json)；[历史结构化结果](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/recovered_source_closure_20260925/autonomous_research/report/results.json)。
+
+本轮还读取以下原生日志，提取电子能/自由能、频率和结束状态以核对结果来源。以下为档案有效步骤的证据入口，**不是累计实际引擎启动次数**；扫描/IRC 的多个点不分别计次，单独重启应依据完整执行记录计次。路径前缀与失败尾部的适用范围按上文和计算档案说明。
+
+| 档案中的步骤标签 | 原始输出 |
+| --- | --- |
+| Cd Opt/Freq | [原生日志](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/qzcli_hpc/author_cd_b3lyp_lanl2dz_dmsO_optfreq_local_migration_20260904T161554Z/stdout.log) |
+| Co preparatory Stable=Opt determinant | [原生日志](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/qzcli_hpc/author_Co_doublet_PCM_DMSO_wavefunction_stability_20260915_20260916T043623Z/stdout.log) |
+| Co Opt/Freq | [原生日志](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/qzcli_hpc/author_Co_stable_doublet_checkpoint_optfreq_20260916_20260916T211754Z/stdout.log) |
+| Co final Stable/frontiers | [原生日志](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/qzcli_hpc/author_Co_final_minimum_checkpoint_stability_20260918_20260918T033658Z/stdout.log) |
+| Ni Opt/Freq | [原生日志](../../../docs/verification/group_2/paper_2877efc02814175d/provenance/qzcli_hpc/author_ni_b3lyp_lanl2dz_dmsO_optfreq_local_migration_20260904T150248Z/stdout.log) |
+
+**工具证据：** [运行时配置](../../../chemistry_toolbox/config/mcp_profiles.yaml)；[原生软件指南](../../../chemistry_toolbox/config/native_software_guides.yaml)；[已有动作覆盖记录](../../../chemistry_toolbox/evidence/status/action_test_coverage.json)。本轮核对本地 Gaussian/ORCA/Multiwfn 可执行文件，并检查相应环境中的 Python 模块与 CREST/xTB/pysis 路径；未把安装检查算作新增科学验证。
+
+最新批次维护状态另见[MAINTENANCE_REPORT 第26节](../../../tasks/verified_tasks/MAINTENANCE_REPORT.md)；它区分原科学结果支持、提交契约问题与 hold 原因，不把文件回归测试当科学计算。
+
+| 来源文件 | PDF 页数 | SHA-256 |
+| --- | ---: | --- |
+| [SI](../../../papers/paper_2877efc02814175d/documents/supplementary_001.pdf) | 19 | `9244bf34a4da6ee7f3829c7eb75798289030a65fc3cf8107e6f8026a90edf45f` |
+| [正文（恢复版）](../../../docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf) | 10 | `3ed031e94536c075f14d4aaec6fced89d457235c3202c1bc2eb8c7a236ee2d39` |
+
+任务版本、来源哈希、真实输出和本次分类见[本批审查清单](review_manifest_20260927_verified_tasks.json)；[返回总索引](README.md)。

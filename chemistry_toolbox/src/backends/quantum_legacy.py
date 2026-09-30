@@ -296,7 +296,7 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         arguments=[],
         directory=directory,
         stdin_text=input_path.read_text(encoding="utf-8"),
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         environment_overrides={"GAUSS_SCRDIR": str(scratch_directory)},
     )
     output_path = directory / "job.log"
@@ -358,7 +358,7 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             environment_variable="CHEMGRAPH_GAUSSIAN_FORMCHK_COMMAND",
             arguments=[str(checkpoint), str(formatted)],
             directory=directory,
-            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         )
         (directory / "formchk.stdout.log").write_text(formchk["stdout"], encoding="utf-8")
         (directory / "formchk.stderr.log").write_text(formchk["stderr"], encoding="utf-8")
@@ -548,7 +548,7 @@ def gamess(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_GAMESS_COMMAND",
         arguments=[job_name, "00", str(cores), str(cores)],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         environment_overrides={
             "GMS_SCRATCH": str(scratch_directory),
             "GMS_RESTART": str(restart_directory),

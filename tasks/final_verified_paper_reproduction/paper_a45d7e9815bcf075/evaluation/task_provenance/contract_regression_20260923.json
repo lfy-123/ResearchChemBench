@@ -1,0 +1,139 @@
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_a45d7e9815bcf075",
+  "mode": "paper_reproduction",
+  "source": "runs/hold_verification/group_6/paper_a45d7e9815bcf075/20260921_global_closure/report/results.json",
+  "mapping": [
+    "Current global-closure raw records mapped into fragment/candidate output fields; author-informed design identified, no blind discovery claimed"
+  ],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 11,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": [
+    {
+      "file": "3I40.pdb",
+      "checks": {
+        "same_original_experimental_pdb": true,
+        "chain_lengths_21_30": true
+      }
+    }
+  ],
+  "followup_definition_checks": [
+    {
+      "check": "actual_historical_result_valid",
+      "passed": true
+    },
+    {
+      "check": "primary_Calpha_and_any_atom_rule",
+      "passed": true
+    },
+    {
+      "check": "caps_excluded_before_membership",
+      "passed": true
+    },
+    {
+      "check": "reference_radius_observation_is_not_universal",
+      "passed": true
+    },
+    {
+      "check": "early_failure_still_valid",
+      "passed": true
+    }
+  ],
+  "followup_boundary": "Historical scientific values preserved. New checks are schema/candidate-separation/measurement-definition checks, not a new quantum run or LLM judge validation. Different records with the same physical mode still need semantic/evidence checking.",
+  "followup_fragment_membership_check": {
+    "source_fragments": 153,
+    "exact_membership_matches": 153,
+    "all_retained_residues_complete": true,
+    "quantum_computation": false
+  }
+}

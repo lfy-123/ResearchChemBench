@@ -1,0 +1,93 @@
+{
+  "paper_id": "paper_03deb7fdd833c466",
+  "rules": [
+    {
+      "rule_id": "r_pr_state",
+      "reference_id": "kp_pr_state",
+      "type": "condition",
+      "expected": "Both state records show correct identity, charge/multiplicity and validation before orbital extraction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.neutral.validation",
+          "$.protonated.validation"
+        ],
+        "comparison": "expert check of per-state validation"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_pr_neutral",
+      "reference_id": "kp_pr_gap_neutral",
+      "type": "numeric",
+      "target": 3.62,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.neutral.gap_eV"
+        ],
+        "comparison": "absolute difference for the neutral state record"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_pr_prot",
+      "reference_id": "kp_pr_gap_prot",
+      "type": "numeric",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protonated.gap_eV"
+        ],
+        "comparison": "absolute difference for the protonated state record"
+      },
+      "applicable_outcome": "complete",
+      "target": 2.79,
+      "unit": "eV",
+      "tolerance": 0.5
+    },
+    {
+      "rule_id": "r_pr_loc",
+      "reference_id": "kp_pr_localization",
+      "type": "semantic",
+      "expected": "Qualitative frontier-density comparison consistent with protonation-affected redistribution is provided.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.neutral.localization",
+          "$.protonated.localization",
+          "$.comparison.orbital_change"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_pr_final",
+      "reference_id": "c_pr_final",
+      "type": "semantic",
+      "expected": "Bounded support for protonation-driven acidochromic explanation, with ground-state limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicable_outcome": "complete"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use complete source molecules including both octyl chains. The public ideal (10,10) armchair tube has 12 primitive repeats, 480 C atoms, periodic z and 18 angstrom transverse vacuum on each side. Source experimental tubes have unspecified chirality; this benchmark model is conditional and is not claimed to reconstruct the exact experimental distribution. Use one molecule per baseline cell, total neutral charge, with the same electronic/spin treatment and dispersion protocol across all interfaces. E_int=E(tube+molecule)-E(tube at interface geometry)-E(molecule at interface geometry); E_def=E(tube frozen)-E(tube relaxed)+E(molecule frozen)-E(molecule relaxed); E_ads=E_int+E_def. All in eV per molecule at identical numerical conditions. Work function W=V_vac-E_F; electron gain on the molecule is positive in the declared density partition. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use complete source molecules including both octyl chains. The public ideal (10,10) armchair tube has 12 primitive repeats, 480 C atoms, periodic z and 18 angstrom transverse vacuum on each side. Source experimental tubes have unspecified chirality; this benchmark model is conditional and is not claimed to reconstruct the exact experimental distribution. Use one molecule per baseline cell, total neutral charge, with the same electronic/spin treatment and dispersion protocol across all interfaces. E_int=E(tube+molecule)-E(tube at interface geometry)-E(molecule at interface geometry); E_def=E(tube frozen)-E(tube relaxed)+E(molecule frozen)-E(molecule relaxed); E_ads=E_int+E_def. All in eV per molecule at identical numerical conditions. Work function W=V_vac-E_F; electron gain on the molecule is positive in the declared density partition. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_interface_matrix",
+      "reference_id": "kp_interface_matrix",
+      "type": "semantic",
+      "expected": "Inspect models, adsorption poses, charge-neutral stoichiometry and full dispersion/settings. Recompute E_ads/E_int/E_def and W. Molecular HOMO ordering alone earns no interface endpoint.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.interface_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect models, adsorption poses, charge-neutral stoichiometry and full dispersion/settings. Recompute E_ads/E_int/E_def and W. Molecular HOMO ordering alone earns no interface endpoint."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_boundary_controls",
+      "reference_id": "kp_boundary_controls",
+      "type": "semantic",
+      "expected": "Require real paired interface/pristine calculations; normalize doubled cell energy per molecule and preserve density. Doubling length with one adsorbate conflates finite size and coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.boundary_controls",
+          "$.calculation_records"
+        ],
+        "comparison": "Require real paired interface/pristine calculations; normalize doubled cell energy per molecule and preserve density. Doubling length with one adsorbate conflates finite size and coverage."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_charge_mechanism",
+      "reference_id": "kp_charge_mechanism",
+      "type": "semantic",
+      "expected": "Cross-check density integration, vacuum potential and projected states; partition dependence must be reported. Work-function change can contain an interface dipole and is not automatically a free-carrier count.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.charge_mechanism",
+          "$.calculation_records"
+        ],
+        "comparison": "Cross-check density integration, vacuum potential and projected states; partition dependence must be reported. Work-function change can contain an interface dipole and is not automatically a free-carrier count."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether isolated-molecule donor arguments survive explicit adsorption, charge-rearrangement and vacuum-referenced work-function comparisons on a common periodic SWCNT model. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether isolated-molecule donor arguments survive explicit adsorption, charge-rearrangement and vacuum-referenced work-function comparisons on a common periodic SWCNT model. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "interface_matrix",
+      "max_score": 25,
+      "description": "Three full interfaces with frozen and relaxed references",
+      "rule_ids": [
+        "rule_interface_matrix"
+      ]
+    },
+    {
+      "id": "boundary_controls",
+      "max_score": 25,
+      "description": "Length, coverage, vacuum and reciprocal-sampling controls",
+      "rule_ids": [
+        "rule_boundary_controls"
+      ]
+    },
+    {
+      "id": "charge_mechanism",
+      "max_score": 15,
+      "description": "Donation versus interfacial dipole and adsorption geometry",
+      "rule_ids": [
+        "rule_charge_mechanism"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Three full interfaces with frozen and relaxed references",
+      "Length, coverage, vacuum and reciprocal-sampling controls",
+      "Donation versus interfacial dipole and adsorption geometry",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

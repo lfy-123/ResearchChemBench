@@ -1,0 +1,333 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "scope": "Determine whether terminal substitution changes DBC photophysics through ground-state twisting, excited-state relaxation or state localization, using DBC-Ph/DBC-Nap and a frozen DBC-Cbz prediction with a common-geometry control.",
+  "species": [
+    {
+      "id": "DBC_Ph",
+      "mapped_smiles": "[n:1]1(-[c:34]2[c:35]([H:38])[c:37]([H:42])[c:41](-[c:44]3[c:45]([H:48])[c:47]([H:51])[c:50]([H:54])[c:49]([H:53])[c:46]3[H:52])[c:39]([H:43])[c:36]2[H:40])[c:2]2[c:3]([H:4])[c:5]([H:6])[c:7]3[c:9]([H:10])[c:11]([H:12])[c:13]([H:14])[c:15]([H:16])[c:17]3[c:18]2[c:19]2[c:8]1[c:32]([H:33])[c:30]([H:31])[c:29]1[c:20]2[c:21]([H:22])[c:23]([H:24])[c:25]([H:26])[c:27]1[H:28]",
+      "formula": "C32H21N",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "DBC_Nap",
+      "mapped_smiles": "[H:1][c:50]1[c:3]([H:5])[c:7]2[c:9]([H:11])[c:13]([H:15])[c:16]3[n:2](-[c:17]4[c:19]([H:25])[c:23]([H:33])[c:31](-[c:37]5[c:39]6[c:43]([H:52])[c:51]([H:57])[c:56]([H:60])[c:53]([H:58])[c:45]6[c:54]([H:59])[c:47]([H:55])[c:41]5[H:49])[c:27]([H:35])[c:21]4[H:29])[c:4]4[c:6]([H:8])[c:10]([H:12])[c:14]5[c:18]([H:20])[c:22]([H:24])[c:26]([H:28])[c:30]([H:32])[c:34]5[c:36]4[c:38]3[c:40]2[c:42]([H:44])[c:46]1[H:48]",
+      "formula": "C36H23N",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "DBC_Cbz",
+      "mapped_smiles": "[n:1]1(-[c:34]2[cH:35][cH:37][c:41](-[n:100]3[c:101]4[cH:102][cH:103][cH:104][cH:105][c:106]4[c:107]4[cH:108][cH:109][cH:110][cH:111][c:112]34)[cH:39][cH:36]2)[c:2]2[cH:3][cH:5][c:7]3[cH:9][cH:11][cH:13][cH:15][c:17]3[c:18]2[c:19]2[c:8]1[cH:32][cH:30][c:29]1[c:20]2[cH:21][cH:23][cH:25][cH:27]1",
+      "formula": "C38H24N2",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Source DBC-Cbz structure, main panel/SI synthesis; carbazol-9-yl replaces terminal phenyl at common phenylene para carbon41.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "pair_map": {
+      "from": "DBC_Ph",
+      "to": "DBC_Nap",
+      "atom_map_pairs": [
+        [
+          1,
+          2
+        ],
+        [
+          34,
+          17
+        ],
+        [
+          35,
+          19
+        ],
+        [
+          37,
+          23
+        ],
+        [
+          41,
+          31
+        ],
+        [
+          39,
+          27
+        ],
+        [
+          36,
+          21
+        ],
+        [
+          44,
+          37
+        ],
+        [
+          45,
+          39
+        ],
+        [
+          47,
+          45
+        ],
+        [
+          50,
+          54
+        ],
+        [
+          49,
+          47
+        ],
+        [
+          46,
+          41
+        ],
+        [
+          2,
+          16
+        ],
+        [
+          3,
+          13
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          17,
+          40
+        ],
+        [
+          18,
+          38
+        ],
+        [
+          19,
+          36
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          32,
+          6
+        ],
+        [
+          30,
+          10
+        ],
+        [
+          29,
+          14
+        ],
+        [
+          20,
+          34
+        ],
+        [
+          21,
+          30
+        ],
+        [
+          23,
+          26
+        ],
+        [
+          25,
+          22
+        ],
+        [
+          27,
+          18
+        ],
+        [
+          15,
+          42
+        ],
+        [
+          13,
+          46
+        ],
+        [
+          11,
+          50
+        ],
+        [
+          9,
+          3
+        ]
+      ],
+      "meaning": "Deterministic common heavy-atom correspondence; symmetry-equivalent alternatives are allowed if explicitly mapped. Unmatched atoms are the intervention. Match uses element/ring topology, not a claim of unchanged bond orders.",
+      "search_timed_out": false
+    },
+    "holdout_map": {
+      "from": "DBC_Ph",
+      "to": "DBC_Cbz",
+      "atom_map_pairs": [
+        [
+          1,
+          1
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          35,
+          35
+        ],
+        [
+          37,
+          37
+        ],
+        [
+          41,
+          41
+        ],
+        [
+          39,
+          39
+        ],
+        [
+          36,
+          36
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          17,
+          17
+        ],
+        [
+          18,
+          18
+        ],
+        [
+          19,
+          19
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          30,
+          30
+        ],
+        [
+          29,
+          29
+        ],
+        [
+          20,
+          20
+        ],
+        [
+          21,
+          21
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          9,
+          9
+        ]
+      ],
+      "meaning": "Deterministic common heavy-atom correspondence; symmetry-equivalent alternatives are allowed if explicitly mapped. Unmatched atoms are the intervention. Match uses element/ring topology, not a claim of unchanged bond orders.",
+      "search_timed_out": false
+    },
+    "common_torsion": "Identify the DBC-N–ipso phenylene bond and phenylene–terminal group bond by graph maps. Choose one bonded four-atom definition per bond, orient by common atom mapping. For Ph/Nap constrain both to45° with the same orientation, relax other coordinates in S0 and trackedS1. Record maps and actual signed angles.",
+    "four_point_energies": "For each species provide E0(R0),E1(R0),E0(R1),E1(R1) with one electronic method/solvent definition. Absorption=E1(R0)-E0(R0), emission=E1(R1)-E0(R1), λ0=E0(R1)-E0(R0), λ1=E1(R0)-E1(R1). Use consistent equilibrium/non-equilibrium solvation definitions and expose if approximated.",
+    "holdout": "Before analyzing DBC-Cbz observation freeze the Ph/Nap-derived state/geometry explanation and predict absorption/emission trend or values forCbz. This is retrospective validation, not an unseen-literature claim. No Cbz-specific energy shift is allowed.",
+    "common_torsion_quadruples": {
+      "DBC_Ph": [
+        [
+          2,
+          1,
+          34,
+          35
+        ],
+        [
+          37,
+          41,
+          44,
+          45
+        ]
+      ],
+      "DBC_Nap": [
+        [
+          16,
+          2,
+          17,
+          19
+        ],
+        [
+          23,
+          31,
+          37,
+          39
+        ]
+      ]
+    },
+    "matched_signed_targets_deg": [
+      45,
+      45
+    ]
+  },
+  "source_notes": [
+    "Main theoretical/photophysical discussion pp3–5; SI S0/S1 computations pp11–13 and DBC-Cbz geometry/synthesis."
+  ],
+  "molecular_boundary": "All neutral singlets in toluene. Retain full DBC, para-phenylene and terminal groups. Track singlet state character through optimization; a root-index change is not automatically the same S1. Ordinary S0→Sn TD transitions at an S1 geometry are not excited-state absorption. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Film quantum yields and complete nonradiative dynamics are outside scope."
+}

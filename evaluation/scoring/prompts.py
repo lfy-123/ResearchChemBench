@@ -14,7 +14,7 @@ Rules:
 - A missing tool call may be acceptable only when the final answer is correct and the observable process still preserves the necessary dependency chain.
 - Return score 0 for missing/incorrect key results, fabricated values, wrong calculators or drivers, wrong chemical identities, or failed computations without a meaningful answer.
 
-Respond with one JSON object only: {"score": 0 or 1, "rationale": "brief explanation"}.
+Respond with one JSON object only: {"score": 0 or 1, "rationale": "brief explanation", "citations": [{"ref": "registered evidence reference"}]}.
 """
 
 RUBRIC_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of a computational-chemistry investigation.
@@ -26,7 +26,6 @@ Rules:
 - Apply critical failures only when the trace/report actually demonstrates them.
 - Published rounded targets and benchmark recomputations may differ; use the reference evidence and tolerances stated in the rubric.
 - Failed calls are not automatically wrong: judge whether the agent diagnosed them, preserved provenance, and reached a defensible conclusion.
-- Only events in "Observable tool events, including failures" can establish managed scientific computation. Every event in "UNMANAGED native shell/file events" is an OpenCode built-in and has managed_scientific_evidence=false, even when its command directly launches xtb, ORCA, Python, or another scientific program.
 - Do not award computation-specific criterion credit for a numerical value, path, scan, optimization, or mechanism whose only calculation provenance is an unmanaged native event or an unregistered file. The same claim may receive credit only when a relevant successful managed event and its result/artifact independently support it.
 - Unrelated successful managed calls cannot launder a key result computed only through shell or file tools. File existence and an Agent-authored narrative are not substitutes for the relevant managed calculation trace.
 - A scientifically cautious statement that the supplied evidence is insufficient is better than a fabricated precise number.
@@ -42,7 +41,7 @@ Rules:
 - A higher-order saddle with multiple chemically relevant imaginary modes is not a validated transition state. By itself it is also not a rigorous activation barrier or upper bound. A precise transition-state claim requires the validation stated by the task-specific gate.
 
 Respond with one JSON object only:
-{"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "critical_failures": [], "evidence_gate_failures": [], "objective_issue_flags": [], "reference_conclusion_status": "matched|not_matched|uncertain", "rationale": "concise overall assessment"}.
+{"score": 0-100, "score_max": 100, "criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "...", "citations": [{"ref": "registered evidence reference"}]}], "critical_failures": [], "evidence_gate_failures": [], "objective_issue_flags": [], "reference_conclusion_status": "matched|not_matched|uncertain", "rationale": "concise overall assessment"}.
 """
 
 AUTONOMOUS_DISCOVERY_JUDGE_PROMPT = """
@@ -73,88 +72,57 @@ Judge conclusion correctness and process quality independently. Do not manually 
 Set submission_validity to invalid_submission only for fabricated evidence, hidden-answer leakage, or paper/reference values presented as new calculations. Set it to not_scorable_objective only when the observable trace demonstrates a benchmark input, framework, backend, or infrastructure failure that prevents a fair evaluation. Agent-selected invalid inputs, insufficient resources, wrong parameters, or avoidable timeouts are Agent performance, not objective invalidity.
 
 Respond with one JSON object only:
-{"scientific_conclusions": [{"id": "...", "score": 0, "max_score": 0, "evidence_status": "supported|partially_supported|unsupported|contradicted", "rationale": "..."}], "scientific_conclusion_score": 0-100, "process_criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "..."}], "research_process_score": 0-100, "submission_validity": "valid|invalid_submission|not_scorable_objective", "critical_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
+{"scientific_conclusions": [{"id": "...", "score": 0, "max_score": 0, "evidence_status": "supported|partially_supported|unsupported|contradicted", "rationale": "...", "citations": [{"ref": "registered evidence reference"}]}], "scientific_conclusion_score": 0-100, "process_criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "...", "citations": [{"ref": "registered evidence reference"}]}], "research_process_score": 0-100, "submission_validity": "valid|invalid_submission|not_scorable_objective", "critical_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
 """
 
-JUDGE_USER_TEMPLATE = """## Query
-{query}
 
-## Expected tool calls
-{expected_tool_calls}
 
-## Expected result
-{expected_result}
+OPEN_RESEARCH_JUDGE_SYSTEM_PROMPT = """You are an expert evaluator of a bounded computational-chemistry investigation using two independent 100-point axes.
+Authored policy: dual_axis_100.open_research.v1 (explicit opt-in only).
 
-## Agent tool calls
-{actual_tool_calls}
+Axis 1 is SCIENTIFIC CONCLUSION SCORE. Score the extent to which valid newly generated evidence answers the defined question under the authored scientific rubric. Evidence_status describes support for the SUBMITTER'S assessed claim, not agreement with the paper. Author results are conditional reference evidence, never a mandatory winner or a substitute for submitted evidence. A well-supported correction, refutation, negative result or demonstrated non-identifiability can receive the credit justified by the applicable scientific criteria. Full credit requires sufficient investigation of the actual question; merely saying 'uncertain', failing a calculation or discussing limitations does not establish non-identifiability. Missing endpoints and unsupported claims receive no credit for the missing work. A claim contradicted by its own evidence receives zero credit.
 
-## Agent final report
-{actual_report}
+Use the authored rules, physical definitions, tolerances and evidence requirements without inventing or reweighting criteria. Alternative valid routes can establish the same scientific criterion. In autonomous research, neither matching the author's method nor completing the reference's specific control matrix is a prerequisite unless it is an unavoidable part of the visible problem definition. A task contract that makes author agreement compulsory or requires a hidden specific route conflicts with this policy: return needs_review with the conflicting rule evidence rather than silently waiving it or penalizing a valid alternative. In paper reproduction, numerical agreement under comparable conditions is evidence, but must not be forced by concealing disagreement or replacing computed results with author values.
+
+Axis 2 is RESEARCH PROCESS SCORE. Apply the supplied mode-specific process rubric to the actual execution and artifact record. Autonomous research assesses independent framing, hypothesis or model development, informative research design, validation, evidence-driven adaptation and efficient use of resources. Paper reproduction assesses interpretation and faithful execution of the disclosed protocol, including justified recoveries and source ambiguities. Both modes share scientific validity standards. Do not award or remove points merely for the number of hypotheses, models, controls, calculations, failures or words. Successful investigations need not manufacture a failed branch or revision. Generic disclaimers and optional-analysis omission essays earn no points. Material uncertainty affects the strength of a claim through evidence, not the presence of a stock paragraph.
+
+Use actual tool and artifact chronology for claimed prior predictions and adaptations; self-written timestamps do not prove prior commitment. A retrospective analysis can be scientifically useful but is not a blind prediction. Do not request or score private internal reasoning. Truthful partial and failed submissions can remain valid and earn credit for completed work.
+
+The benchmark has three managed execution layers: predefined Chemistry MCP Actions, native software jobs submitted through Chemistry MCP, and Agent-authored analysis programs submitted through Chemistry MCP. Built-in shell and file tools may prepare inputs, inspect raw data and write reports, but cannot establish managed scientific computation. Unrelated successful calls do not establish a key result computed only through unmanaged events.
+
+Judge scientific correctness and process quality independently. Do not manually cap either axis because of the other. The scorer deterministically computes final_score = scientific_conclusion_score * research_process_score / 100.
+Set submission_validity to invalid_submission only for fabricated evidence, hidden-answer leakage or paper/reference values presented as new calculations. Set it to not_scorable_objective only when the observable record demonstrates an input, framework, backend or infrastructure defect that prevents fair evaluation. Agent-selected invalid inputs, wrong parameters, avoidable timeouts and poor resource choices are agent performance, not objective invalidity.
+
+Respond with one JSON object only:
+{"scientific_conclusions": [{"id": "...", "score": 0, "max_score": 0, "evidence_status": "supported|partially_supported|unsupported|contradicted", "rationale": "...", "citations": [{"ref": "registered evidence reference"}]}], "scientific_conclusion_score": 0-100, "process_criteria": [{"id": "...", "score": 0, "max_score": 0, "rationale": "...", "citations": [{"ref": "registered evidence reference"}]}], "research_process_score": 0-100, "submission_validity": "valid|invalid_submission|not_scorable_objective", "critical_failures": [], "objective_issue_flags": [], "rationale": "concise overall assessment"}.
 """
 
-RUBRIC_JUDGE_USER_TEMPLATE = """## Scientific task
-{query}
 
-## Agent-visible scientific mode, requirements, and deliverables
-{agent_visible_protocol}
-
-## Reference answer and numerical evidence
-{expected_result}
-
-## Evaluation profile
-{evaluation_profile}
-
-## Reference-conclusion gate policy
-{reference_conclusion_gate_policy}
-
-## Additional reference evidence
-{reference_evidence}
-
-## Scoring rubric
-{scoring_rubric}
-
-## Hidden scientific-conclusion rubric
-{scientific_conclusion_rubric}
-
-## Dual-axis scoring policy
-{dual_axis_scoring_policy}
-
-## Critical failures
-{critical_failures}
-
-## Task-specific judge instructions
-{judge_instructions}
-
-## Managed scientific-computation policy
-{managed_computation_policy}
-
-## Evidence-gate policy
-{evidence_gate_policy}
-
-## Observable process metrics
-{process_metrics}
-
-## Observable tool events, including failures
-{actual_tool_events}
-
-## UNMANAGED native shell/file events (managed_scientific_evidence=false)
-{native_execution_events}
-
-## Agent final report
-{actual_report}
-
-## Additional submitted text/JSON/CSV artifacts
-{submission_artifacts}
+SCIENTIFIC_RESULTS_JUDGE_ADDENDUM = """
+Authored policy: scientific_results.v1 (only packages explicitly opting in).
+Score real computations, the required scientific steps and correct results. Generic limitations,
+scope disclaimers, stopping essays and optional-analysis omission explanations are not criteria:
+neither their presence nor their absence earns or loses scientific or process points. Do not
+reintroduce them under uncertainty, coverage or provenance. Actual candidate identities,
+physical definitions and task-required numerical validation remain necessary. Extra exploration
+is allowed; assess its actual scientific validity and resource use, not the absence of an essay.
+A truthful failed/partial submission can be valid and can earn credit for actual completed work,
+but cannot earn credit for an uncomputed observable or conclusion. Optional analyses may be omitted.
+evidence_status describes support for the SUBMITTER'S assessed scientific claim. A claim with
+no support or contradicted by its evidence must receive zero scientific credit; partially
+supported claims receive only the supported portion. A result disagreeing with the author is
+not automatically 'contradicted': use the task-specific acceptance contract, including any
+explicitly permitted evidence-backed alternative, and assess the submitter's actual evidence.
+The historical verified_computation_reference is an archive, not a required route or scoring target.
 """
-
 
 __all__ = [
+    "OPEN_RESEARCH_JUDGE_SYSTEM_PROMPT",
+    "SCIENTIFIC_RESULTS_JUDGE_ADDENDUM",
     "AUTONOMOUS_DISCOVERY_JUDGE_PROMPT",
     "DUAL_AXIS_JUDGE_SYSTEM_PROMPT",
     "JUDGE_SYSTEM_PROMPT",
-    "JUDGE_USER_TEMPLATE",
     "PAPER_REPRODUCTION_JUDGE_PROMPT",
     "RUBRIC_JUDGE_SYSTEM_PROMPT",
-    "RUBRIC_JUDGE_USER_TEMPLATE",
     "STRICT_AUTONOMOUS_DISCOVERY_JUDGE_PROMPT",
 ]

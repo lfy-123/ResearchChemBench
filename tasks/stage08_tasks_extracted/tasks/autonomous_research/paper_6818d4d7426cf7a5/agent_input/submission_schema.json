@@ -1,0 +1,170 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "hypotheses",
+      "pathways",
+      "reference_state",
+      "search_record",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "statement",
+            "discrimination_observable"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "statement": {
+              "type": "string"
+            },
+            "discrimination_observable": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "pathways": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "pathway_id",
+            "candidate_ids",
+            "outcome"
+          ],
+          "anyOf": [
+            {"required": ["validation", "barrier_kcal_mol", "barrier_uncertainty_kcal_mol"]},
+            {"required": ["failure_explanation", "attempted_search"]}
+          ],
+          "properties": {
+            "pathway_id": {
+              "type": "string"
+            },
+            "identity": {"type": "string"},
+            "candidate_ids": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string"
+              }
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "stationary_point",
+                "connectivity",
+                "evidence"
+              ],
+              "properties": {
+                "stationary_point": {
+                  "type": "string"
+                },
+                "connectivity": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "outcome": {
+              "type": "string",
+              "enum": ["validated_best_candidate", "bounded_failure"]
+            },
+            "barrier_kcal_mol": {
+              "type": "number"
+            },
+            "barrier_uncertainty_kcal_mol": {
+              "type": "number"
+            },
+            "failure_explanation": {"type": "string"},
+            "attempted_search": {"type": "string"}
+          }
+        }
+      },
+      "reference_state": {
+        "type": "string"
+      },
+      "search_record": {
+        "type": "object",
+        "required": [
+          "candidates_generated",
+          "deduplication",
+          "stopping_reason",
+          "coverage_limitations"
+        ],
+        "properties": {
+          "candidates_generated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "stopping_reason": {
+            "type": "string"
+          },
+          "coverage_limitations": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "claim",
+          "supporting_evidence"
+        ],
+        "properties": {
+          "barrier_difference_kcal_mol": {
+            "type": "number"
+          },
+          "favored_pathway_id": {"type": "string"},
+          "claim": {
+            "type": "string"
+          },
+          "supporting_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "bounded_failure": {"type": "boolean"}
+        }
+      },
+      "failure_explanation": {
+        "type": "string"
+      },
+      "method": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -21,14 +21,14 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 ## Known failures and repairs
 | Symptom | Likely cause | Corrective action |
 |---|---|---|
-| shared library cannot be opened | the migrated host lacks the locally bundled GUI runtime libraries | copy .software_cache/installations/vesta/deps and preserve the configured library path |
+| shared library cannot be opened | the migrated host lacks an optional GUI runtime library | use -nogui for headless work or provide the complete host GTK3/OpenGL stack |
 | cannot open display | no X server is available | run in a graphical environment or use a non-GUI alternative |
 
 ## Path and staging failures
 A source file existing in the benchmark workspace does not make it visible to the native process. Every dependency must be declared in `staged_inputs`. The content of an input deck must reference the staged `target_path`, not its original workspace path. Fixed-name programs are case-sensitive. Never assume the process starts in the task workspace.
 
 ## Resource failures
-All required shared libraries resolve. Xvfb supports bounded headless launch; an interactive session still needs a display/OpenGL stack. VESTA is a visualization tool, not a numerical solver.
+The non-GUI command path is verified. Interactive rendering additionally requires a host display plus GTK3, Wayland/X11, GBM, EGL, and OpenGL libraries. VESTA is a visualization tool, not a numerical solver.
 If the Supervisor reports `memory_limit_exceeded`, reduce software parallelism or request a justified larger total allocation. If it reports timeout, inspect whether the software was progressing and whether the requested task can finish within the remaining evaluation lifetime. Resource increases do not repair malformed input.
 
 ## False-success prevention

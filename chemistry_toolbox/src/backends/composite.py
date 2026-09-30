@@ -75,7 +75,7 @@ def invoke_calculator_component(
             "backend_id": calculator_id,
             "request": nested_request,
         },
-        timeout_seconds=int((request.get("resource_limits") or {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int((request.get("resource_limits") or {}).get("walltime_seconds", 86400)),
     )
     if worker.get("status") not in {"success", "partial_success"}:
         error = worker.get("error") or {}
@@ -130,6 +130,37 @@ def forces_ev_per_angstrom(value: dict[str, Any]) -> list[list[float]]:
     raise RuntimeError(f"Unsupported calculator force unit for composite optimization: {unit!r}")
 
 
+def evaluate_energy_and_forces(request, structure):
+    """Reuse energy only where the calculator's property contract guarantees it."""
+    force_result, force_provenance = invoke_calculator_component(request, "calculate_forces", structure)
+    forces = forces_ev_per_angstrom(force_result)
+    if len(forces) != len(structure["atoms"]):
+        raise RuntimeError("Calculator force matrix does not match the supplied structure")
+    calculator = (request.get("component_backends") or {}).get("calculator")
+    reason = "backend_has_no_verified_force_energy_contract"
+    # ORCA SP and EnGrad share method/structure/resource settings. The current
+    # adapter supports no per-action physical settings for these two actions;
+    # unknown fields conservatively keep the independent energy path.
+    if calculator == "orca":
+        force_settings = _component_settings(request, "calculate_forces")
+        energy_settings = _component_settings(request, "calculate_energy")
+        if force_settings or energy_settings:
+            reason = "unverified_action_settings"
+        elif force_provenance.get("calculator_status") != "success":
+            reason = "force_state_not_verified_success"
+        else:
+            try:
+                # Force unit is different from the auxiliary energy's unit.
+                energy = energy_hartree({"energy_hartree": force_result.get("energy_hartree")})
+            except (ValueError, TypeError, RuntimeError):
+                reason = "auxiliary_energy_unavailable"
+            else:
+                provenance = {**force_provenance, "energy_source": "force_result"}
+                return energy, forces, provenance, force_provenance
+    energy_result, energy_provenance = invoke_calculator_component(request, "calculate_energy", structure)
+    return energy_hartree(energy_result), forces, {**energy_provenance, "energy_source": "independent_calculation", "reuse_unavailable_reason": reason}, force_provenance
+
+
 def execute_sella(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     """Run one Sella order-0/order-1 search with an Agent-selected calculator."""
 
@@ -179,16 +210,9 @@ def execute_sella(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
                     for index in range(len(value))
                 ],
             }
-            force_result, force_provenance = invoke_calculator_component(
-                request, "calculate_forces", structure
-            )
-            energy_result, energy_provenance = invoke_calculator_component(
-                request, "calculate_energy", structure
-            )
-            energy_ev = energy_hartree(energy_result) * HARTREE_TO_EV
-            forces = np.asarray(forces_ev_per_angstrom(force_result), dtype=float)
-            if forces.shape != (len(value), 3):
-                raise RuntimeError("Calculator force matrix does not match the Sella structure")
+            energy, forces, energy_provenance, force_provenance = evaluate_energy_and_forces(request, structure)
+            energy_ev = energy * HARTREE_TO_EV
+            forces = np.asarray(forces, dtype=float)
             self.results = {"energy": energy_ev, "forces": forces}
             self.evaluations.append(
                 {

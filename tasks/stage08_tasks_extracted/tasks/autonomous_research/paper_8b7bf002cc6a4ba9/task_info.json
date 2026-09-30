@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_8b7bf002cc6a4ba9",
+  "task_type": "autonomous_research",
+  "title": "Independent aqueous conformer and dipole investigation of AL and AB",
+  "category": "computational chemistry / autonomous conformer search",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate and discriminate compact/open conformational hypotheses without an author-route hint.",
+    "The candidate space is open-ended and requires coverage, deduplication, validation and an outcome-based stopping or limitation report."
+  ],
+  "paper": {
+    "title": "Interface-Targeting Amino-Acid-Derivative-Based Dipolar Molecular Strategy for High-Performance Zn–I2 Full Batteries",
+    "doi": "10.1021/acsnano.5c19783",
+    "journal": "ACS Nano",
+    "publication_date": "2026-02-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Unique zwitterionic molecular identities, charge states, multiplicities and solvent boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated conformer energies, dipoles, selections and independent conclusion."
+    },
+    {
+      "path": "report/validation.json",
+      "description": "Candidate generation, deduplication, optimization and stopping evidence."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Scientific objective
 
-For neutral singlet diethyl (diazo(phenyl)methyl)phosphonate (1a), independently discover and test the chemically plausible first oxidation events that could initiate its anodic electrochemical reactivity. At minimum investigate (i) oxidation accompanied by prompt N2 extrusion and (ii) oxidation with N2 retained. Determine validated activation Gibbs free energies for these two named events when possible, compare them, and state which event is supported within the computational scope. Do not assume a mechanism identity beyond the event definitions; if your calculations support another first oxidation explanation, propose it and discriminate it from the two required events.
+For neutral singlet dimethyl (diazo(phenyl)methyl)phosphonate (1a), independently discover and test the chemically plausible first oxidation events that could initiate its anodic electrochemical reactivity. At minimum investigate (i) oxidation accompanied by prompt N2 extrusion and (ii) oxidation with N2 retained. Determine validated activation Gibbs free energies for these two named events when possible, compare them, and state which event is supported within the computational scope. Do not assume a mechanism identity beyond the event definitions; if your calculations support another first oxidation explanation, propose it and discriminate it from the two required events.
 
 # Public inputs and scientific boundaries
 
@@ -9,6 +9,10 @@ The sole public molecular input is `data/inputs/compound_1a.json`, which gives t
 # Required scientific validation/investigation
 
 Define the plausible first-oxidation hypothesis space operationally, then generate a finite set of distinct guesses covering the two required event classes and any additional explanation you propose. Preserve candidate identity, event assignment, conformer/guess provenance and computational outcome. Deduplicate by connectivity and geometry, and advance candidates only when optimization produces the intended reactant-side state. Validate the 1a reference as a minimum and each claimed saddle as a first-order stationary point with one relevant imaginary frequency. Use IRC or a justified equivalent reaction-coordinate test to verify the event; report failures rather than relabeling them. Use one consistent thermochemical convention for comparisons and state temperature/standard-state choices. Completion requires either validated barriers for both required event classes or a documented bounded failure for every unresolved class; stop when additional distinct guesses cease to yield new validated states or resources prevent further defensible searches. Report search coverage, stopping rule, and limitations. Do not presume an author route, winning candidate or expected direction.
+
+## Input correction and task readiness (2026-09-25)
+
+The molecular input has been corrected to dimethyl C9H11N2O3P. The two-event objective is unchanged. This package is not yet qualified for numerical evaluation because the competing event's chemical boundary, charge/spin and common oxidation-energy reference remain unresolved. Do not substitute former diethyl calculations or guess these missing definitions.
 
 # Deliverables
 

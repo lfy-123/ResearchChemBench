@@ -4,7 +4,7 @@ Independently test the authors' qualitative hypothesis that neutral HPY 10a has 
 
 # Public inputs and scientific boundaries
 
-The only chemical input is HPY 10a: ethyl (E)-6-(2-((3-(ethoxycarbonyl)-4,5-diphenyl-1H-pyrrol-2-yl)methylene)hydrazineyl)-5-isocyano-2-methyl-4-phenylnicotinate, formula C33H30N6O4, charge 0, multiplicity 1, with the E hydrazone geometry and 1H pyrrole tautomer stated in the identity file. The physical boundary is one isolated neutral molecule with implicit dichloromethane solvation. You may generate conformers and choose a computational method, but must report method, basis, dispersion, solvent model, convergence, and all starting/conformer coverage. Define θ1, θ2 and θ3 by explicit four-atom selections and explain how those selections correspond to the R1/R2/R3 substituent-to-pyrrole/pyridine torsions; do not rely on an internal paper atom label.
+The only chemical input is HPY 10a: ethyl (E)-6-(2-((3-(ethoxycarbonyl)-4,5-diphenyl-1H-pyrrol-2-yl)methylene)hydrazineyl)-5-cyano-2-methyl-4-phenylnicotinate, formula C36H31N5O4, charge 0, multiplicity 1, with the E hydrazone geometry and 1H pyrrole tautomer stated in the identity file. The physical boundary is one isolated neutral molecule with implicit dichloromethane solvation. You may generate conformers and choose a computational method, but must report method, basis, dispersion, solvent model, convergence, and all starting/conformer coverage. Define θ1, θ2 and θ3 by explicit four-atom selections and explain how those selections correspond to the R1/R2/R3 substituent-to-pyrrole/pyridine torsions; do not rely on an internal paper atom label.
 
 # Required scientific validation/investigation
 

@@ -1,0 +1,600 @@
+
+===== PDF PAGE 1 =====
+ 
+Contents lists available at ScienceDirect
+Dyes and Pigments
+journal homepage: www.elsevier.com/locate/dyepig
+ 
+Positional isomers of 𝜋-extended phenolate-based inverted solvatochromic 
+dyes: Shifting the inversion point by relocating the aryl spacer$
+Matías Vidal
+1, Fabián Melinao
+1, Carolina Aliaga
+, Moisés Domínguez
+∗
+Facultad de Química y Biología, Universidad de Santiago de Chile, Av. Bernardo O’Higgins 3363, Santiago, Chile
+A R T I C L E  I N F O
+Keywords:
+Solvatochromism
+Solvatochromic inversion
+Charge-transfer
+Solute-solvent interactions
+DFT-calculations
+ 
+A B S T R A C T
+Phenolate–nitroaryl dyes exhibit inverted solvatochromism that is highly sensitive to the architecture of the 
+𝜋-bridge. By reversing the sequence within the 𝜋-bridge of a phenolate–imine–aryl–nitroaryl framework and 
+systematically varying phenylene or thienylene spacers and nitroaryl acceptors, we obtained dyes that preserve 
+solvatochromic inversion behavior while shifting the solvatochromic inversion point SIP at lower solvent 
+polarities with enhanced sensitivity in aprotic solvents. Multiparametric analysis shows that hydrogen bonding 
+governs the negative branch of the inversion curve, whereas polarizability and dipolar interactions dominate 
+the positive branch. TDDFT calculations confirm a phenolate-to-nitroaryl charge-transfer transition, modulated 
+by the 𝜋-spacer. These results demonstrate that rational 𝜋-bridge engineering provides a powerful handle to 
+tune both the polarity domain and the amplitude of solvatochromic inversion.
+1. Introduction
+Push–pull chromophores are a central class of functional organic 
+sensors because of their strong sensitivity of intramolecular charge 
+transfer (ICT) to subtle changes in medium polarity [1–4]. To ob-
+tain strong ICT, push-pull dyes must be constructed by joining strong 
+electron-donating and electron-accepting groups through 𝜋-conjugated 
+bridges. This architecture confers intense visible absorption and pro-
+nounced sensitivity to the surrounding medium, leading to marked sol-
+vatochromic responses that are widely exploited in polarity sensing [5–
+7] and optical materials [8,9].
+Phenolate-based push–pull dyes incorporating nitroaryl acceptors 
+are particularly notable because they often display inverted solva-
+tochromism [10–13], a spectral behavior characterized by an initial 
+hypsochromic shift of the ICT band with increasing solvent polarity, 
+followed by a bathochromic shift from a polarity value known as a 
+solvatochromic inversion point or SIP. In recent years, we have shown 
+that this inversion is highly correlated with the sensitivity of the dyes 
+to the polarizability, and one of the most effective ways to achieve this 
+is to expand the 𝜋-bridge that connects the donor–acceptor pair of the 
+dye [13–18].
+In a previous study, we showed that the addition of a 1,4-phenylene 
+unit in the 𝜋-bridge of the inverted solvatochromic dye 1 resulted in 
+dye 2 (Fig. 1) displaying inverted solvatochromism but with a SIP 
+$ This article is part of a Special issue entitled: ‘LatinAmerica’ published in Dyes and Pigments.
+∗Corresponding author.
+E-mail address: moises.dominguez@usach.cl (M. Domínguez).
+1 These authors contributed equally to this work.
+value shifted towards higher solvent polarities [13]. The shift of SIP 
+towards the highest solvent polarity caused by the addition of the 1,4-
+phenylene group to the 𝜋-bridge has been observed in other push-pull 
+dyes, however, the influence of the relative position of the aromatic 
+spacer within the donor–acceptor scaffold remains unexplored.
+In this work, we address this question by redesigning the 𝜋-bridge 
+sequence of dye 3 to generate a new series of chromophores with 
+a phenolate–imine–aryl–nitroaryl arrangement, in which the aromatic 
+spacer is displaced towards the acceptor side of the molecule. In 
+addition, the 1,4-phenylene unit was replaced with a 2,5-thienylene 
+ring and three different nitroaryl acceptors were examined. By correlat-
+ing the solvent-dependent spectral shifts with various solvent polarity 
+scales, we show that both the spectral window and the polarity of the 
+solvatochromic inversion point are modulated by the spacer position 
+and identity.
+2. Results and discussion
+2.1. Synthesis of the dyes
+As depicted in Scheme 1, the synthetic route to dyes 3–6 follows 
+a concise three-step strategy. The first step involves Suzuki–Miyaura 
+cross-coupling of aryl bromides 7, 11, and 14, which serve as precur-
+sors of the electron-accepting units, with the corresponding aryl linkers
+https://doi.org/10.1016/j.dyepig.2026.113635
+Received 5 January 2026; Received in revised form 3 February 2026; Accepted 6 February 2026
+Dyes and Pigments 250 (2026) 113635 
+Available online 12 February 2026 
+0143-7208/© 2026 Elsevier Ltd. All rights are reserved, including those for text and data mining, AI training, and similar technologies. 
+
+
+===== PDF PAGE 2 =====
+M. Vidal et al.
+Scheme 1. Synthesis of the solvatochromic dyes 3–6.
+8 and 17. This palladium-catalyzed coupling provides the biaryl aldehy-
+des 9, 12, 15 and 18 in moderate to excellent yields (55%–93%). In the 
+case of intermediate 15, purification proved particularly challenging 
+due to its limited stability and propensity for rapid decomposition. 
+Consequently, following the Suzuki–Miyaura coupling between 14 and
+8, the crude reaction mixture containing 15 was subjected directly to 
+the subsequent condensation step without prior isolation. Condensation 
+with 4-aminophenol under standard conditions afforded the corre-
+sponding nitrophenol 16 in an overall yield of 50% over the two-step 
+sequence.
+For the remaining intermediates, the condensation of the isolated 
+biaryl aldehydes with 4-aminophenol provided the 𝜋-extended phenolic 
+precursors 10, 13 and 19 in moderate yields (50%–62%). Finally, 
+solvatochromic dyes 3–6 were generated in situ by base-induced de-
+protonation of the corresponding phenols in each solvent used for 
+UV–Vis measurements (Table S2), employing Bu4NOH as the base. This 
+final step yields the phenolate species responsible for the observed 
+solvatochromic behavior.
+2.2. UV/Vis spectroscopic studies
+The spectra of dyes 3–6 were recorded in 19 solvents of a wide 
+range of polarities, from toluene (𝐸N
+T = 0.099) as the least polar 
+solvent to methanol (𝐸N
+T = 0.762) as the most polar. The UV–Vis 
+spectra of dyes 3–6 exhibited two absorption bands, the first located 
+in the UV-A part of the spectrum, and a second and more intense 
+band located in the Vis at variable wavelengths depending on the dye. 
+For instance, the spectra of dye 3 shown in Fig. 2 shows this second 
+absorption band located between 450–540 nm. Both absorption bands 
+showed solvatochromic changes, the more energetic band following 
+spectral changes with increasing solvent polarity that resembles an 
+inverted solvatochromic pattern, but provides erratic behavior in front 
+of 𝐸N
+T . The full set of transition energy values associated with the 
+lowest-energy absorption band of dyes 3–6 is provided in Table S1, 
+and their correlations with 𝐸N
+T in Figures S1-S4 of the Supplementary 
+Material. As illustrated in Fig. 2, the second, lower-energy absorption 
+band exhibits an inverted solvatochromic behavior, displaying an initial 
+bathochromic shift upon going from toluene to ethyl acetate, followed 
+by a progressive hypsochromic shift in protic, more polar solvents such 
+as 1-propanol and methanol. An analogous representation for dyes 4–6
+is provided in the Supplementary Material.
+Fig. 1. Molecular structures of the inverted solvatochromic dyes compared in 
+the present work. Previous work in [13].
+All dyes were found to be stable in the polar protic region from 
+methanol to 2-propanol (𝛥𝐸N
+T = 0.762 −0.546), showing no detectable 
+spectral changes after addition of base or exposure to visible light after 
+5 min. In contrast, in less polar protic solvents such as 1-octanol (𝐸N
+T =
+0.537) and 2-methyl-2-propanol (𝐸N
+T = 0.407), a slow photodegradation 
+process was observed. This photodegradation became more pronounced 
+in basic hydrogen-bond acceptor (HBA) solvents, such as ethyl acetate, 
+in which, for example, dye 3 undergoes complete photodegradation 
+within 10 s of its generation. Nevertheless, photodegradation did not 
+cause a sufficiently slow disappearance of the solvatochromic bands 
+Dyes and Pigments 250 (2026) 113635 
+2 
+
+
+===== PDF PAGE 3 =====
+M. Vidal et al.
+Fig. 2. Normalized UV/Vis spectra of dye 3 in toluene (PhMe), methyl tert-
+butyl ether (MeOBu), ethyl acetate (EtOAc), 2-propanol (2-PrOH), 1-propanol 
+(1-PrOH), and methanol (MeOH). All the spectra were recorded at 3 × 10−5
+mol L−1.
+of dyes 3–6 to prevent the record of their UV–Vis in those solvents, 
+with the only exception of dye 3 in diethyl ether (𝐸N
+T
+=
+0.117), 
+where photodegradation occurs simultaneously with its generation by 
+deprotonation from its phenol precursor 10. The complete collection 
+of electronic transition energies 𝐸T for dyes 3–6 in the 19 recorded 
+solvents is listed in Table S2 of the Supplementary Material.
+Fig. 3 presents the solvatochromic behavior of dye 2 from previ-
+ous work as a reference compound and newly synthesized dyes 3–6, 
+which were specifically designed to investigate the reorganization of 
+the 𝜋-conjugated bridge and to elucidate the influence of aromatic 
+substitution of 1,4-phenylene to 2,5-thienylene or 2,5-thiazolene on 
+solvatochromic inversion. The dependence of the transition energy (𝐸T) 
+of all dyes on the solvent polarity (𝐸N
+T ) produces V-shaped correla-
+tions, which are characteristic of an inverted solvatochromic tendency, 
+and the SIP of the new dyes 3–6 occurs at a slightly lower solvent 
+polarity (𝐸N
+T = 0.202–0.253) than the observed inversion for dye 2
+(𝐸N
+T = 0.275). The reorganization of the 1,4-phenylene group from 
+a position closer to the electron-donating group in 2 to a position 
+closer to the electron-accepting group in 3 results in a shift of the ICT 
+band towards lower polarity and, consequently, in an increase in the 
+relative predominance of the negative response in the overall inverted 
+solvatochromic behavior. While maintaining the general architecture 
+of dye 3, the successive replacement of the 1,4-phenylene group with 
+the 2,5-thiazolene and 2,5-thiophene groups in dyes 4–6 amplified the 
+shift of the SIP to lower polarities, also causing an increase in the 
+sensitivity of these derivatives to changes in polarity in the positive 
+solvatochromic response region.
+The sensitivity to variations in solvent polarity, quantified by the 
+slopes of the linear responses 𝑚Pos and 𝑚Neg corresponding to the two 
+segments of the inverted solvatochromic behavior of the dyes shown 
+in Fig. 3, also depends on the relative arrangement of the imine and 
+aryl moieties employed as 𝜋-bridges. This dependence follows distinct 
+trends in the different regions of the inverted curve. Dye 2 exhibited the 
+largest absolute slope in the negative region (𝑚Neg = 23.21 kcal mol−1), 
+whereas dyes 3–6 displayed attenuated responses in this region (𝑚Neg =
+10.64–17.55 kcal mol−1). In the positive region, dye 3 (𝑚Pos = −12.67
+kcal mol−1) showed less sensitivity than reference dye 2 (𝑚Pos = 23.21
+kcal mol−1), while dyes 4–6 exhibit substantially higher absolute slopes 
+(𝑚Pos = −27.45 to −30.18 kcal mol−1). These steeper slopes indicate a 
+more pronounced stabilization of the excited state when the dyes are 
+𝜋-extended and/or when the heteroaromatic units are located close to 
+the nitroaryl acceptor.
+Fig. 3. Variations of the electronic transition energy 𝐸T of dyes 2–6 as a 
+function of the normalized solvent polarity values 𝐸N
+T . Data of dye 2 were 
+taken from Ref. [13].
+The solute–solvent interactions responsible for the inverted solva-
+tochromism of dyes 2–6 were quantified using Catalán’s multipara-
+metric approach [19], which decomposes the effect of the solvent 
+on the electronic transition energy into independent solvent contribu-
+tions. Within this framework, the transition energy in solution (𝐸T) is 
+expressed as: 
+𝐸T = 𝐸0
+T + a𝑆𝐴+ b𝑆𝐵+ c𝑆𝑃+ d𝑆𝑑𝑃
+(1)
+where SA represents the solvent hydrogen-bond donor acidity, SB the 
+hydrogen-bond acceptor basicity, SP the solvent polarizability, and SdP
+the solvent dipolarity. The regression coefficients (a-d) quantify the 
+relative weight of each interaction, while their sign indicates whether a 
+given solvent property contributes to a bathochromic or hypsochromic 
+shift of the solvatochromic band of the dyes, allowing the dominant sta-
+bilization mechanisms to be identified for each segment of the inverted 
+solvatochromic curve. The complete set of coefficients, denoted a–d, is 
+presented in Table S3 of the Supplementary Material.
+As shown in Fig. 4, the hypsochromic shifts that define the negative 
+solvatochromic branch of the curves in Fig. 3 are governed exclusively 
+by SA for all dyes, demonstrating that ground-state stabilization is 
+controlled by hydrogen-bond donation from the solvent. The absence 
+of significant contributions from SB, SP, or SdP in this region indicates 
+that neither solvent basicity nor nonspecific dipolar or dispersive in-
+teractions play a relevant role in driving the negative solvatochromic 
+response. In contrast, the bathochromic shifts of the solvatochromic 
+absorption band, which give rise to the positive solvatochromic branch, 
+display a more complex balance of solute–solvent interactions. In this 
+region, the solvatochromic response arises from the combined con-
+tributions of SP, SdP, and SB, with solvent polarizability (SP) acting 
+as the dominant factor. The additional contributions from dipolarity 
+(SdP) and hydrogen-bond acceptor basicity (SB) are of comparable 
+magnitude, indicating that excited-state stabilization involves not only 
+dispersive and dipolar interactions, but also specific solvent basicity 
+effects. This multicomponent stabilization reflects the increased charge 
+separation and polarizability of the Frank–Condon excited state of the 
+dyes and accounts for the enhanced sensitivity observed in the positive 
+branch of the solvatochromic curves.
+2.3. Computational calculations
+The electronic picture provided by the TDDFT calculations offers 
+a direct microscopic rationale for the solvent effects identified by 
+Dyes and Pigments 250 (2026) 113635 
+3 
+
+
+===== PDF PAGE 4 =====
+M. Vidal et al.
+Fig. 4. Contribution of Catalán’s solvent acidity (SA, blue), basicity (SB, ma-
+genta), solvent polarizability (SP, green), and solvent dipolarity (SdP, orange) 
+to the experimental inverted solvatochromism of reported dyes 2 [13], and 
+novel dyes 3–6.
+Fig. 5. Frontier molecular orbitals of dye 3 in dichloromethane, obtained by 
+the TDDFT 𝜔-B97X-D4/def2-TZVP CPCM (CH2Cl2) method.
+Catalán’s multiparametric analysis. As shown in Fig. 5, in a similar 
+frame to that reported for 2 the lowest-energy electronic transition 
+of dye 3 (similar to 4–6, see Supplementary Material) involves a 
+clear intramolecular phenolate-to-nitroaryl charge transfer, with the 
+HOMO localized in the donor phenolate and the LUMO centered on the 
+nitroaryl acceptor. This redistribution of the electron density implies a 
+more localized and hydrogen-bond-accessible ground state, in contrast 
+to a more charge-separated, polarizable excited state.
+The TDDFT calculations predict two low-lying electronic transitions 
+with a distinct character. The higher-energy transition corresponds to a 
+localized 𝜋–𝜋∗ excitation, assigned to the high-energy absorption band 
+observed in the UV–Vis spectra (Fig. 3), which shows only weak solva-
+tochromic sensitivity. The calculated energy for this transition (84.79 
+kcal mol−1) is in reasonable agreement with the experimental value 
+(77.48 kcal mol−1), supporting its assignment. In contrast, the lower-
+energy transition that dominates the visible region corresponds to 
+an intramolecular charge-transfer (ICT) excitation from the phenolate 
+donor to the nitroaryl acceptor.
+For this ICT band, the dominance of SA in the negative solva-
+tochromic region reflects preferential ground-state stabilization via 
+hydrogen-bond donation to the phenolate moiety, as revealed by the 
+Catalán analysis. Upon excitation, electron density shifts towards the 
+nitroaryl unit, reducing the relevance of hydrogen bonding and in-
+creasing the sensitivity of the excited state to nonspecific solvent inter-
+actions. Consequently, the positive solvatochromic region is governed 
+by a cooperative contribution of SP, SdP, and SB, with polarizability 
+(SP) as the leading factor, consistent with stabilization of a delocalized 
+and highly polarizable ICT excited state. The close agreement between 
+experimental transition energies (57.18 kcal mol−1) and calculated en-
+ergies (59.44 kcal mol−1) for this band further validates the electronic 
+assignment and provides a unified TDDFT–Catalán interpretation of 
+inverted solvatochromic behavior.
+3. Conclusions
+In this work, we show how the 𝜋-bridge enables the modulation 
+of inverted solvatochromism in phenolate–nitroaryl push–𝜋–pull chro-
+mophores. Both the spatial arrangement of the aromatic spacer and 
+the electronic characteristics of the nitroaryl acceptor exert a decisive 
+influence on the solvatochromic behavior, leading to shifts in the 
+solvatochromic inversion point (SIP) and alterations in solvent sensi-
+tivity. Whereas the reference dye exhibits inversion only at relatively 
+high solvent polarities, structural reorganization in the newly designed 
+derivatives shifts the inversion towards lower polarity domains and 
+produces distinct sensitivity profiles.
+Multiparametric regression analysis employing Catalán’s solvent 
+scales reveals a distinct mechanistic bifurcation underlying the two 
+branches of the inverted solvatochromic response: negative solva-
+tochromism is dictated exclusively by the hydrogen-bond donor ca-
+pacity of the medium, while positive solvatochromism originates from 
+a cooperative interplay between solvent polarizability, dipolarity, and 
+basicity, with polarizability emerging as the predominant determinant. 
+Time-dependent density functional theory (TDDFT) calculations corrob-
+orate that the lowest-energy absorption band arises from a phenolate-
+to-nitroaryl intramolecular charge-transfer transition, yielding a highly 
+polarizable excited state whose differential stabilization accounts for 
+the observed solvent-dependent behavior. Collectively, these findings 
+establish a unified structure–solvent–electronic correlation framework 
+and identify 𝜋-bridge engineering as a powerful design strategy to 
+modulate the properties of solvent-responsive chromophores.
+4. Materials and methods
+4.1. General methods
+All NMR measurements were recorded on a Bruker Avance NEO 
+400 spectrometer (Billerica, MA, USA) operating at 400.13 MHz (1H) 
+and 100.62 MHz (13C). All experiments were carried out using 32 
+scans (ns), 4 dummy scans (ds) and a 64K time domain (TD). IR 
+spectra were recorded with a Spectrum Two FT-IR (ATR) Perkin Elmer 
+spectrophotometer HRMS was performed with Varian Ionspec QFT-7 
+(ESI-FT ICRMS) and Agilent 6210 ESI-TOF instruments. Melting points 
+were recorded with a Microthermal capillary melting point apparatus 
+and were not corrected. All reagents were of reagent grade and were 
+used without further purification. TLC was performed on TLC plates 
+(silica gel 60, fluorescence indicator F254, 0.25 mm layer thickness).
+Dyes and Pigments 250 (2026) 113635 
+4 
+
+
+===== PDF PAGE 5 =====
+M. Vidal et al.
+4.2. Synthesis of the dyes
+4.2.1. General procedure for the synthesis of formyl-substituted precursors
+Nitro-substituted aryl or heteroaryl bromides (1.0 equiv.) and the 
+corresponding formyl-functionalized boronic acids (1.2–1.6 equiv.) 
+were dissolved in a 1,4-dioxane/water mixture (2:1). Pd(PPh3)4 (5 
+mol%) and K3PO4 (1.5 equiv.) were added, and the reaction mixture 
+was heated at 104 ◦C for 16 h in a sealed pressure tube. After 
+being cooled to room temperature, the mixture was extracted with 
+dichloromethane (3 × 15 mL). The combined organic layers were 
+dried over anhydrous Na2SO4, filtered, and concentrated under reduced 
+pressure. The crude products were purified by column chromatography 
+on silica gel using n-hexane/EtOAc mixtures from 10:1 to 2:1 to provide 
+the corresponding aldehydes 9, 12, 15 and 18.
+4-(5-Nitrothiophen-2-yl)benzaldehyde 9. Prepared according to the 
+general Suzuki–Miyaura procedure from 2-bromo-5-nitrothiophene 7
+(1.0 mmol, 209 mg) and (4-formylphenyl)boronic acid 8 (1.2 mmol, 
+180 mg). The product was obtained as bright yellowish-green crystals 
+with a yield of 89% (207 mg); mp 157–158 ◦C. FTIR (ATR) 𝜈 3090, 
+2783, 1689, 1601, 1486, 1327, 1049, 828, 807 cm−1. 1H NMR (400 
+MHz, DMSO-d6) 𝛿 10.06 (s, 1H), 8.22 (d, J = 4.4 Hz, 1H), 8.08 (d,
+J = 8.2 Hz, 2H), 8.01 (d, J = 8.7 Hz, 2H), 7.86 (d, J = 4.4 Hz, 1H) 
+ppm. 13C NMR (101 MHz, DMSO-d6) 𝛿 192.9, 149.8, 137.2, 137.1, 
+131.7, 130.9, 130.7, 128.4, 127.4, 126.4 ppm. HRMS (ESI-TOF): m/z
+[M] calculated for C11H7NO3S: 233.0147; found: 233.0154.
+4’-Nitro-[1,1’-biphenyl]-4-carbaldehyde 12. Prepared according to the 
+general Suzuki–Miyaura procedure from 1-bromo-4-nitrobenzene 11
+(1.0 mmol, 202 mg) and (4-formylphenyl)boronic acid 8 (1.2 mmol, 
+180 mg). The product was obtained as an opaque creamy white powder 
+in a yield of 93% (211 mg); mp 129–130 ◦C. FTIR (ATR) 𝜈 3090, 2842, 
+1698, 1606, 1511, 1341, 1213, 1004, 837, 818 cm−1. 1H NMR (400 
+MHz, DMSO-d6) 𝛿 10.10 (s, 1H), 8.34 (d, J = 8.9 Hz, 2H), 8.10 – 7.98 
+(m, 6H) ppm. 13C NMR (101 MHz, DMSO-d6) 𝛿 193.3, 147.8, 145.6, 
+143.8, 136.6, 130.7, 128.9, 128.6, 124.6 ppm. HRMS (ESI-TOF): m/z
+[M] calculated for C13H9NO3: 227.0582; found: 227.0591.
+5’-Nitro-[2,2’-bithiophene]-5-carbaldehyde 18 [20]. Prepared accord-
+ing to the general Suzuki–Miyaura procedure from 2-bromo-5-
+nitrothiophene 7 (1.0 mmol, 208 mg) and (5-formylthiophen-2-yl)boronic 
+acid 17 (1.2 mmol, 186 mg). The product was obtained as bright 
+olive-green crystals in 65% yield (156 mg); mp 140–141 ◦C (litt. mp 
+139–141 ◦C [20]). 1H NMR (400 MHz, CDCl3) 𝛿 9.94 (s, 1H), 7.90 (d,
+J = 4.4 Hz, 1H), 7.75 (d, J = 4.1 Hz, 1H), 7.43 (d, J = 4.1 Hz, 1H), 
+7.28 (d, J = 4.4 Hz, 1H) ppm. The analytical data match those reported 
+in the literature [20].
+4.2.2. General procedure for the synthesis of iminophenols
+A mixture of the corresponding aldehyde (1.0 equiv) and
+4-aminophenol (1.0 equiv) in toluene (15.0 mL) was refluxed in the 
+presence of molecular sieves (3 Å) for 6 h. After cooling to 0 ◦C, the 
+reaction mixture was filtered and purified by column chromatography 
+on silica gel (n-hexane/EtOAc 10:1 to 1:1 and in some case to pure 
+EtOAc) to afford the corresponding iminophenols 10, 13, 16, and 19.
+(E)-4-((4-(5-Nitrothiophen-2-yl)benzylidene)amino)phenol 10. Prepared 
+according to the general imine condensation procedure from 4-(5-
+nitrothiophen-2-yl)benzaldehyde 9 (0.43 mmol, 100 mg) and
+4-aminophenol (0.43 mmol, 47 mg). The product was obtained as a 
+bright orange-red powder with a yield of 54% (75 mg); mp 219–220 ◦C. 
+FTIR (ATR) 𝜈 3457, 3091, 1621, 1584, 1505, 1480, 1423, 1322, 1183, 
+811 cm−1. 1H NMR (400 MHz, DMSO-d6) 𝛿 9.58 (s, 1H), 8.69 (s, 1H), 
+8.20 (d, J = 4.4 Hz, 1H), 8.08 – 7.91 (m, 4H), 7.78 (d, J = 4.4 Hz, 
+1H), 7.26 (d, J = 8.7 Hz, 2H), 6.83 (d, J = 8.7 Hz, 2H) ppm. 13C NMR 
+(101 MHz, DMSO-d6) 𝛿 157.2, 156.3, 151.1, 150.2, 142.7, 138.4, 133.8, 
+131.9, 129.6, 127.1, 125.2, 123.3, 116.2 ppm. HRMS (ESI-TOF): m/z
+[M + H]+ calculated for C17H13N2O3S+: 325.0642; found: 325.0647.
+(E)-4-(((4’-Nitro-[1,1’-biphenyl]-4-yl)methylene)amino)phenol 13. Pre-
+pared according to the general imine condensation procedure from 
+4’-nitro-[1,1’-biphenyl]-4-carbaldehyde 12 (0.50 mmol, 113 mg) and 
+4-aminophenol (0.50 mmol, 55 mg). The product was obtained as an 
+opaque yellow powder in a yield of 62% (99 mg); mp 183–184 ◦C. 
+FTIR (ATR) 𝜈 3445, 3085, 1615, 1580, 1512, 1483, 1418, 1310, 1170, 
+817 cm−1. 1H NMR (400 MHz, DMSO-d6) 𝛿 9.63 (s, 1H), 8.71 (s, 
+1H), 8.34 (d, J = 8.8 Hz, 2H), 8.05 (d, J = 7.2 Hz, 4H), 7.94 (d,
+J = 8.1 Hz, 1H), 7.26 (d, J = 8.7 Hz, 2H), 6.83 (d, J = 8.7 Hz, 2H) 
+ppm. 13C NMR (101 MHz, DMSO-d6) 𝛿 157.1, 156.7, 147.4, 146.2, 
+142.8, 140.2, 137.4, 130.7, 129.5, 129.0, 128.6, 128.4, 128.1, 124.6, 
+123.2, 116.2 ppm. HRMS (ESI-TOF): m/z [M + H]+ calculated for 
+C19H15N2O3
++: 319.1078; found: 319.1086.
+(E)-4-((4-(5-Nitrothiazol-2-yl)benzylidene)amino)phenol 16. Prepared 
+according to the general Suzuki–Miyaura procedure from 2-bromo-
+5-nitrothiazole 14 (1.2 mmol, 251 mg) and (4-formylphenyl)boronic 
+acid 8 (1.6 mmol, 250 mg). Then, according to the general imine 
+condensation procedure from 4-(5-nitrothiazol-2-yl)benzaldehyde 15
+(0.21 mmol, 50 mg) and 4-aminophenol (1.44 mmol, 156 mg). The 
+product was obtained as an orange-brown powder in a yield of 50% 
+(195 mg); mp 255–256 ◦C. FTIR (ATR) 𝜈 3460, 3078, 1618, 1580, 1498, 
+1475, 1420, 1315, 1170, 805 cm−1. 1H NMR (400 MHz, DMSO-d6) 𝛿
+9.50 (s, 1H), 8.62 (s, 1H), 8.16 (s, 2H), 7.90 (d, J = 7.9 Hz, 2H), 7.85 (d,
+J = 7.8 Hz, 2H), 7.22 (d, J = 8.7 Hz, 2H), 6.81 (d, J = 8.7 Hz, 2H) ppm. 
+13C NMR (101 MHz, DMSO-d6) 𝛿 157.7, 156.8, 143.1, 138.2, 137.6, 
+135.0, 134.8, 128.8, 127.7, 123.0, 116.2 ppm. HRMS (ESI-TOF): m/z
+[M + H]+ calculated for C16H12N3O3S+: 326.0594; found: 326.0603.
+(E)-4-(((5’-Nitro-[2,2’-bithiophen]-5-yl)methylene)amino)phenol 19.
+Prepared according to the general imine condensation procedure from 
+5’-nitro-[2,2’-bithiophene]-5-carbaldehyde 18 (0.84 mmol, 92 mg) and 
+4-aminophenol (0.84 mmol, 200 mg). The product was obtained as 
+bright moss-green crystals with a yield of 53% (147 mg); mp 204–
+205 ◦C.FTIR (ATR) 𝜈 3460, 3105, 1615, 1585, 1515, 1485, 1417, 1318, 
+1192, 817 cm−1. 1H NMR (400 MHz, DMSO-d6) 𝛿 9.58 (s, 1H), 8.69 (s, 
+1H), 8.20 (d, J = 4.4 Hz, 1H), 8.08 – 7.91 (m, 4H), 7.78 (d, J = 4.4 Hz, 
+1H), 7.26 (d, J = 8.7 Hz, 2H), 6.83 (d, J = 8.7 Hz, 2H) ppm. 13C NMR 
+(101 MHz, DMSO-d6) 𝛿 157.2, 156.3, 151.1, 150.2, 142.7, 138.4, 133.8, 
+131.9, 129.6, 127.1, 125.2, 123.3, 116.2 ppm. HRMS (ESI-TOF): m/z
+[M + H]+ calculated for C15H11N2O3S2
++: 331.0206; found: 331.0211.
+4.3. UV/Vis measurements
+UV–Vis spectra were recorded on a diode array UV–Vis near IR 
+Specord S 600 (Maximum recording speed for complete spectra: 12 
+msec) at a room temperature of 23 ± 1 ◦C. The molar concentration 
+of the dyes in the solutions used during UV–Vis measurements was
+approximately 3 ± 10−5 mol L−1.
+Solvatochromic dyes 3–6 were obtained in situ by adding 5 𝜇L of a 1 
+mol L−1 of an n-tetrabutylammonium hydroxide (NBu4OH) methanolic 
+solution to a solution of their corresponding precursor phenols in every 
+solvent before recording their spectra.
+4.4. Computational calculations
+All dyes were optimized at the r2SCAN-3c composite density-
+functional level [21] using the RI approximation to speed up the 
+calculations [22]. Frequencies were obtained at the same level to verify 
+that each optimized structure was a minimum in the potential energy 
+surface of the respective system. The conductor-like screening model 
+was employed for modeling solvent effects, using the dielectric constant 
+of dichloromethane (𝜖 = 9.08, n = 1.424). On the minima obtained, 
+energies for Frank–Condon electronic transitions were calculated at 
+the time-dependent density-functional level of theory (TD-DFT) with 
+the 𝜔-B97X-D4 [23] and def2-TZVP [24] density functional and basis 
+set, respectively, employing both the RI and the Chain of Spheres 
+approximations for the Coulomb and Exchange integrals, respectively. 
+The conductor polarizable continuum model (CPCM) was used to model 
+solvent effects [25,26]. All TD-DFT calculations were performed with 
+Orca 6.1.0 [27].
+Dyes and Pigments 250 (2026) 113635 
+5 
+
+
+===== PDF PAGE 6 =====
+M. Vidal et al.
+CRediT authorship contribution statement
+Matías Vidal: Investigation, Formal analysis. Fabián Melinao: In-
+vestigation, Formal analysis, Data curation. Carolina Aliaga: Writ-
+ing – review & editing, Formal analysis. Moisés Domínguez: Writ-
+ing – review & editing, Visualization, Methodology, Formal analysis, 
+Conceptualization.
+Declaration of competing interest
+The authors declare the following financial interests/personal rela-
+tionships which may be considered as potential competing interests: 
+Moisés Domínguez reports financial support was provided by Fondo 
+Nacional de Desarrollo Científico y Tecnológico FONDECYT.
+Acknowledgments
+F. M. thanks the Agencia Nacional de Investigación y Desarrollo 
+de Chile ANID for a doctoral grant. M. V. and M. D. thank the AYU-
+DANTE_DICYT Código 022541DC_Ayudante,. This work was funded by 
+the Fondo Nacional de Desarrollo Científico y Tecnológico FONDE-
+CYT, Chile project numbers 1240302 (C.A), and 1240893 (M.D.). The 
+authors thank Fondo de Equipamiento Científico y Tecnológico FOND-
+EQUIP project number EQM 150106 for the NMR facilities. Pow-
+ered@NLHPC: This research was partially supported by the supercom-
+puting infrastructure of the NLHPC (CCSS210001).
+Appendix A. Supplementary data
+Supplementary material related to this article can be found online 
+at https://doi.org/10.1016/j.dyepig.2026.113635.
+Data availability
+Data will be made available on request.
+References
+[1] Reichardt C. Solvatochromic dyes as solvent polarity indicators. Chem Rev 
+1994;94(8):2319–58. http://dx.doi.org/10.1021/cr00032a005.
+[2] Machado VG, Stock RI, Reichardt C. Pyridinium N-phenolate betaine dyes. Chem 
+Rev 2014;114(20):10429–75. http://dx.doi.org/10.1021/cr5001157.
+[3] Ahmed R, Manna AK. Origins of large Stokes shifts in a Pyrene–Styrene-based 
+Push–Pull organic molecular dyad in polar solvents and large electron mobility in 
+the crystalline state: A theoretical perspective. J Phys Chem C 2021;126:423–33. 
+http://dx.doi.org/10.1021/acs.jpcc.1c09288.
+[4] Sabek HAZ, Alazaly AMM, Salah D, Abdel-Samad HS, Ismail MA, Abdel-
+Shafi AA. Photophysical properties and fluorosolvatochromism of D-𝜋-A thio-
+phene based derivatives. RSC Adv 2020;10(71):43459–71. http://dx.doi.org/10.
+1039/d0ra08433f.
+[5] Danylchuk DI, Jouard P-H, Klymchenko AS. Targeted solvatochromic fluorescent 
+probes for imaging lipid order in organelles under oxidative and mechanical 
+stress. J Am Chem Soc 2021;143(2):912–24. http://dx.doi.org/10.1021/jacs.
+0c10972.
+[6] Zheng Y, Venkatesh R, Callaway CP, Viersen C, Fagbohungbe KH, Liu AL, 
+Risko C, Reichmanis E, Silva-Acuña C. Chain conformation and exciton delocal-
+ization in a push-pull conjugated polymer. Chem Mater 2023;35(23):10258–67. 
+http://dx.doi.org/10.1021/acs.chemmater.3c02665.
+[7] Ludwanowski S, Samanta A, Loescher S, Barner-Kowollik C, Walther A. A 
+modular fluorescent probe for viscosity and polarity sensing in DNA hybrid 
+mesostructures. Adv Sci (Weinh) 2021;8(5):2003740. http://dx.doi.org/10.1002/
+advs.202003740.
+[8] Philippe C, Bui AT, Batsongo-Boulingui S, Pokladek Z, Matczyszyn K, Mon-
+gin O, Lemiègre L, Paul F, Hamlin TA, Trolez Y. 1,1,4,4-tetracyanobutadiene-
+functionalized anthracenes: Regioselectivity of cycloadditions in the synthesis of 
+small near-IR dyes. Org Lett 2021;23(6):2007–12. http://dx.doi.org/10.1021/acs.
+orglett.1c00136.
+[9] Katsidas A, Fecková M, Bureš F, Achelle S, Fakis M. The role of branching in 
+the ultrafast dynamics and two-photon absorption of two pyrimidine push-pull 
+molecules. Phys Chem Chem Phys 2025;27(22):11649–58. http://dx.doi.org/10.
+1039/d5cp00589b.
+[10] de Melo CEA, Nicoleti CR, Rezende MC, Bortoluzzi AJ, da S Heying R, 
+da S Oliboni R, Caramori GF, Machado VG. Reverse solvatochromism of imine 
+dyes comprised of 5-nitrofuran-2-yl or 5-nitrothiophen-2-yl as electron acceptor 
+and phenolate as electron donor. Chemistry 2018;24(37):9364–76. http://dx.doi.
+org/10.1002/chem.201800613.
+[11] Hermosilla L, Rezende MC, Machado VG, Stock RI. Thermohalochromism of 
+phenolate dyes conjugated with nitro-substituted aryl groups. Spectrochim Acta 
+A Mol Biomol Spectrosc 2017;173:556–61. http://dx.doi.org/10.1016/j.saa.2016.
+10.017.
+[12] de Melo CEA, Domínguez M, Rezende MC, Machado VG. Solvatochromism of 
+dyes inspired in Effenberger’s probe. Dyes Pigm 2021;184:108757. http://dx.
+doi.org/10.1016/j.dyepig.2020.108757.
+[13] Aburto I, Muñoz M, Vidal M, Aliaga C, Domínguez M. Extending the 𝜋-system 
+of inverted solvatochromic phenolate-based dyes shifts their inversion point 
+due to an increment in their sensitivity to solvent polarizability. J Mol Liq 
+2022;368:120784. http://dx.doi.org/10.1016/j.molliq.2022.120784.
+[14] Melinao F, Vidal M, Mera-Adasme R, Aliaga C, Domínguez M. Reaching the limit 
+of inverted solvatochromism in 𝜋-extended bipyridinium-phenolate dyes. Org Lett 
+2025;27(38):10647–51. http://dx.doi.org/10.1021/acs.orglett.5c02983.
+[15] Vidal M, Morales S, Mera-Adasme R, Aliaga C, Domínguez M. Solva-
+tochromism of 𝜋-extended pyridinium-thienylene-phenolates. J Org Chem 
+2025;(acs.joc.5c01134). http://dx.doi.org/10.1021/acs.joc.5c01134.
+[16] Morales S, Vidal M, Martínez-Gómez F, Mera-Adasme R, Aliaga C, Domínguez M. 
+Aminocarbonyl fluorophores with a strong emissive inverted solvatochromism. 
+J Phys Chem Lett 2024;15(46):11671–7. http://dx.doi.org/10.1021/acs.jpclett.
+4c02457.
+[17] Melinao F, Vidal M, Aliaga C, Domínguez M. Inverting the solvatochromism of 
+pyridinium-n-phenolate dyes by the addition of a second pyridinium unit. J Org 
+Chem 2024;89(3):1534–42. http://dx.doi.org/10.1021/acs.joc.3c02158.
+[18] Mera-Adasme R, Moraga D, Medina R, Domínguez M. Mapping the solute-
+solvent interactions for the interpretation of the three types of solvatochromism 
+exhibited by phenolate-based dyes. J Mol Liq 2022;359(119302):119302. http:
+//dx.doi.org/10.1016/j.molliq.2022.119302.
+[19] Catalán J. Toward a generalized treatment of the solvent effect based on four 
+empirical scales: dipolarity (SdP, a new scale), polarizability (SP), acidity (SA), 
+and basicity (SB) of the medium. J Phys Chem B 2009;113(17):5951–60. http:
+//dx.doi.org/10.1021/jp8095727.
+[20] Albano VG, Bandini M, Barbarella G, Melucci M, Monari M, Piccinelli F, 
+Tommasi S, Umani-Ronchi A. Controlling stereochemical outcomes of asymmetric 
+processes by catalyst remote molecular functionalizations: chiral diamino-
+oligothiophenes (DATs) as ligands in asymmetric catalysis. Chem Eur J 
+2006;12(3):667–75. http://dx.doi.org/10.1002/chem.200500889.
+[21] Grimme S, Hansen A, Ehlert S, Mewes J-M. r2SCAN-3c: A ‘‘swiss army knife’’ 
+composite electronic-structure method. J Chem Phys 2021;154(6):064103. http:
+//dx.doi.org/10.1063/5.0040021.
+[22] Weigend F. Accurate Coulomb-fitting basis sets for H to Rn. Phys Chem Chem 
+Phys 2006;8(9):1057–65. http://dx.doi.org/10.1039/b515623h.
+[23] Najibi A, Goerigk L. DFT-D4 counterparts of leading meta-generalized-gradient 
+approximation and hybrid density functionals for energetics and geometries. J 
+Comput Chem 2020;41(30):2562–72. http://dx.doi.org/10.1002/jcc.26411.
+[24] Weigend F, Ahlrichs R. Balanced basis sets of split valence, triple zeta valence 
+and quadruple zeta valence quality for h to rn: Design and assessment of 
+accuracy. Phys Chem Chem Phys 2005;7(18):3297–305. http://dx.doi.org/10.
+1039/b508541a.
+[25] Mennucci B. Polarizable continuum model. WIREs Comput Mol Sci 
+2012;2(3):386–404. http://dx.doi.org/10.1002/wcms.1086.
+[26] Barone V, Cossi M. Quantum calculation of molecular energies and en-
+ergy gradients in solution by a conductor solvent model. J Phys Chem A 
+1998;102:1995–2001.
+[27] Neese F. Software update: The ORCA program system—Version 5.0. Wiley 
+Interdiscip Rev Comput Mol Sci 2022;12(5). http://dx.doi.org/10.1002/wcms.
+1606.
+Dyes and Pigments 250 (2026) 113635 
+6 

@@ -4,7 +4,7 @@ Independently determine whether the two reduced double-B←N isomers p-2BN and m
 
 # Public inputs and scientific boundaries
 
-Use exactly the two objects in `data/inputs/molecular_records.json`. Resolve CCDC 1941938 as p-2BN and CCDC 2480480 as m-2BN, replace every octyl side chain by methyl as specified, and preserve connectivity/stereochemistry. Both objects are isolated, neutral, singlet molecules. The endpoint is relaxation between their lowest relevant singlet excited state S1 and singlet ground state S0. Solvent, crystal packing, counterions, and experimental observables are outside the target.
+Use exactly the two objects in `data/inputs/molecular_records.json` and the supplied immutable CCDC files `data/inputs/ccdc_1941938.cif` (p-2BN) and `data/inputs/ccdc_2480480.cif` (m-2BN) directly. The CCDC record numbers are provenance only; CCDC database retrieval is not required or scored. Verify each CIF's internal archive ID, formula, element set, occupancy and cell, select the documented molecular component, then replace every octyl side chain by methyl as specified while preserving connectivity/stereochemistry and recording atom mapping. Do not edit the raw CIFs. Both objects are isolated, neutral, singlet molecules. The endpoint is relaxation between their lowest relevant singlet excited state S1 and singlet ground state S0. Solvent, crystal packing, counterions, and experimental observables are outside the target.
 
 # Required scientific validation/investigation
 

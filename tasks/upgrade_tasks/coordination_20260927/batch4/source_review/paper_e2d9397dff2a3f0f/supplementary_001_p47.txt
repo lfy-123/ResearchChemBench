@@ -1,0 +1,55 @@
+Computational Details
+
+     All density functional theory (DFT) calculations were carried out using Gaussian 16,1 employing
+
+the hybrid B3LYP functional2 augmented with Grimme’s D3 dispersion correction using the Becke–
+
+Johnson (BJ) damping scheme.3,4 Geometries were optimized with the SDD effective core potential5
+
+for Ru and the 6-31G(d,p) basis set6,7 for all other atoms (S, C, N, O, H). Vibrational frequency
+
+analyses were performed at the same level of theory to confirm the nature of each stationary point
+
+(minimum or transition states) and to provide Gibbs free energy corrections at 298.15 K. Single-point
+
+energies were refined using the def2-TZVP basis set8 for all atoms with the SMD continuum solvation
+
+model9 to account for acetonitrile solvent effects.
+
+    The experimental absolute redox potential of the standard hydrogen electrode (SHE, 4.52 V)10
+
+was  utilized  to  calculate redox  potentials, which was  established  as −0.028(4) V11 vs  the
+
+ferrocenium/ferrocene couple. Consequently, standard redox potentials were computed relative to the
+
+ferrocenium/ferrocene (Fc⁺/0) couple, taken as 4.548 V in acetonitrile, corresponding to an absolute
+
+electron affinity of 104.879 kcal/mol.
+
+    For pKa calculations, the Gibbs free energy of a proton in acetonitrile was taken as –264.7
+
+kcal/mol, incorporating both its experimental solvation free energy (–258.4 kcal/mol)12,13 and a gas-
+
+phase translational entropy correction (–6.3 kcal/mol) 14. The pKa of NH₄⁺ was estimated at 15.1 when
+
+modeled as the [NH₄⁺⋯NH₃] dimer, consistent with the experimental value (15.6) 15, and this value was
+
+used as a pH reference. The Gibbs energy for proton-coupled electron transfer (PCET) was calculated
+
+as 390.2 kcal/mol based on the expression: GPCET = 104.879 + 264.7 + 1.364 × pH, using pH = 15.1.
+
+Standard state corrections were applied: +1.9 kcal/mol for species undergoing a 1 atm to 1 M
+
+concentration change, and +3.6 kcal/mol for acetonitrile, as its standard state concentration of 19.2 M.
+
+Unless otherwise noted, all reported energies include Gibbs corrections and D3(BJ) dispersion.
+
+Molecular structures were visualized using CYLView.16 Visual molecular dynamics (VMD) software17
+
+and the Multiwfn program18 were used in the orbitals visualization.
+
+
+
+
+
+                                                  S46

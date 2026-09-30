@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "mode": "PR",
+  "updated_at": "2026-09-28T13:31:58.878942+00:00",
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "previous_reference_stage": "development_pending_expanded_reference_calculations",
+  "scientific_reference_status": "author_informed_bounded_reference_validated",
+  "semantic_judge_calibration": "not_performed",
+  "blind_AR_trial": "not_performed",
+  "coordinator_final_review": "pending",
+  "accepted_at": "2026-09-28T13:27:18.131555+00:00",
+  "completed_endpoints": [
+    "five_full_identity_minima",
+    "eta1_eta2_competition",
+    "relative_ligand_geometry_alternatives",
+    "native_modes_and_nitrate_PPh3_mixing",
+    "four_and_five_band_comparisons",
+    "uniform_scale_sensitivity",
+    "bounded_candidate_set"
+  ],
+  "limitations": [
+    "作者知情的参考验证，非盲AR。有限五起点而非全局构象穷尽；气相B3LYP/LANL2DZ含ECP，无显式自旋轨道/晶体堆积/固态环境。统一0.96/0.98/1.00比例只测试敏感性，不能消除方法与固态误差；没有预设任意光谱通过容差，没有以缺峰降低RMSE后宣布胜者。电子能与谐振G分别保留，但不推断固态群体或氧/NO生成路径。"
+  ],
+  "evidence": {
+    "report/scientific_acceptance.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/scientific_acceptance.json",
+      "sha256": "93501ca1bd4a3bcf4de3a17b30da50c859d24833bdc3b12b7cf04f905d303b4c"
+    },
+    "report/results.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/results.json",
+      "sha256": "9e5f196f310831cf9b83c9d0b61028d3ccaeceba47d2a625825dab8359d81c8d"
+    },
+    "report/verification_report.md": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/verification_report.md",
+      "sha256": "59fb112db4efb677065d5223a1a425dbec324a7f2e8276ede84f4ce860338705"
+    },
+    "report/validation/contract_checks.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/validation/contract_checks.json",
+      "sha256": "256fdec4b4702da0d5d1ebb9725fffdbbae477c910d3f557805e380dd3d877a2"
+    },
+    "report/resource_summary.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/resource_summary.json",
+      "sha256": "b5bf2f99525518df4a7b4f22a9099551a8f529863db49cc7b0acad0575d5b2fb"
+    },
+    "evaluator_mapping.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/evaluator_mapping.json",
+      "sha256": "b74ca0861847647f7e4e1c2e8dd53660c4004d5dfacb7536a735a1a5cd602876"
+    },
+    "task_snapshot/manifest.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/task_snapshot/manifest.json",
+      "sha256": "fc71f1cae1c678e3d5a8816104bf78c021e035ec46961b3791a9f09045b03931"
+    }
+  },
+  "raw_artifact_index": {
+    "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f0a4f80a37fbccd/report/validation/contract_checks.json",
+    "sha256": "256fdec4b4702da0d5d1ebb9725fffdbbae477c910d3f557805e380dd3d877a2"
+  },
+  "validated_scientific_package_hashes": {
+    "AR": "135040a1d7e1f9e1530853158b2d5e7d79fe04a613182900b644acdcce90f0bf",
+    "PR": "b41905e567b5f656b248e8a9c4db2bff8846150970cfec84865406ea43c56c6b"
+  },
+  "package_before_reference_binding_sha256": "b41905e567b5f656b248e8a9c4db2bff8846150970cfec84865406ea43c56c6b",
+  "historical_package_snapshot": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/history/reference_binding/paper_2f0a4f80a37fbccd/PR/b41905e567b5f656b248e8a9c4db2bff8846150970cfec84865406ea43c56c6b",
+  "change_scope": "Private evidence/provenance metadata and manifest only. Public inputs, schemas, scoring criteria, weights, critical failures, and author route are unchanged.",
+  "current_result_schema_checked": true
+}

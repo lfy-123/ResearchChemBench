@@ -4,7 +4,7 @@ Independently determine how replacing the meta-ring halogen in the three named q
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/crystal_records.json`. The objects are exactly the 300 K experimental CCDC records 2499860 (Cl), 2499862 (Br), and 2499861 (I), each P21/c with Z=4. The CCDC connector is an allowed controlled database input; no paper, SI, general-web search, or unpinned substitute structure may be used. Preserve identity, charge/protonation, occupancy, cell and coordinates from each record. You may generate conformers only where needed for a deterministic periodic input conversion; do not alter the crystal composition. The measured object is the electronic band gap of each periodic crystal and its band-edge character. SOC may be computed directly or represented by a clearly labelled validated approximation, but the two must not be conflated.
+Use `data/inputs/crystal_records.json` and the three supplied immutable CIFs at `data/inputs/ccdc_2499860.cif` (Cl), `data/inputs/ccdc_2499862.cif` (Br), and `data/inputs/ccdc_2499861.cif` (I) directly. The record numbers are provenance only; CCDC database retrieval is not required or scored. Verify that each is the 300 K P21/c, Z=4 record and preserve identity, charge/protonation, occupancy, cell and coordinates. You may generate conformers only where needed for deterministic periodic input conversion; do not alter crystal composition. The measured object is the electronic band gap of each periodic crystal and its band-edge character. SOC may be computed directly or represented by a clearly labelled validated approximation, but the two must not be conflated.
 
 # Required scientific validation/investigation
 

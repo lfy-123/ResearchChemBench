@@ -1,0 +1,169 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "items": [
+      {
+        "key_point_id": "ar_kp_process",
+        "key_point_type": "process",
+        "statement": "The autonomous investigation defines and applies a chemically explicit candidate-generation, deduplication, advancement and validation protocol.",
+        "expected": "The report records each candidate identity/mapping and status, validates advanced structures, and quantifies searched versus unresolved scope.",
+        "evidence_ids": [
+          "ev_doc_965c59b084a2_000079_ab2fb2e78776"
+        ]
+      },
+      {
+        "key_point_id": "ar_kp_thermo",
+        "key_point_type": "result",
+        "statement": "The investigation uses a consistent relative thermochemical comparison to discriminate pathways.",
+        "expected": "A consistent energy quantity, units, uncertainty and candidate ordering are reported; the comparison is not an unsupported single-structure assertion.",
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000060_34f22ca8a885",
+          "ev_doc_965c59b084a2_000095_d92bdfc5a932"
+        ]
+      },
+      {
+        "key_point_id": "ar_kp_selectivity",
+        "key_point_type": "result",
+        "statement": "The final mechanism explanation accounts for the observed exclusive product boundary using computed evidence.",
+        "expected": "The conclusion identifies the supported sequential channel or a justified bounded uncertainty and connects it to exclusive dibenzo[a,o]picene formation.",
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000063_b4bfe33d0c76"
+        ]
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "items": [
+      {
+        "conclusion_id": "ar_c_final",
+        "claim_role": "final",
+        "statement": "The computed and validated first-stage and sequential second-stage candidates, comparable free energies and electronic or structural evidence support the product-selectivity conclusion.",
+        "expected": "The computed and validated first-stage and sequential second-stage candidates, comparable free energies and electronic or structural evidence support the product-selectivity conclusion.",
+        "supporting_key_point_ids": [
+          "ar_kp_process",
+          "ar_kp_thermo",
+          "ar_kp_selectivity"
+        ],
+        "evidence_ids": [
+          "ev_doc_5a2534d03b71_000063_b4bfe33d0c76"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "rules": [
+      {
+        "rule_id": "ar_r_process",
+        "reference_id": "ar_kp_process",
+        "type": "semantic",
+        "expected": "The report contains candidate-specific generation, deduplication, validation and actual candidate coverage.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.validation.process_evidence",
+            "$.coverage.generation_rule",
+            "$.coverage.searched_scope",
+            "$.candidates"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "ar_r_thermo",
+        "reference_id": "ar_kp_thermo",
+        "type": "semantic",
+        "expected": "A consistent quantitative thermochemical comparison with ordering, units and uncertainty discriminates candidates. Compare equal-composition candidates within each declared reaction stage with a common energy convention. Preserve atom mapping and stage identity; never compare unrelated absolute energies across stages.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparison.quantity",
+            "$.comparison.ordering_or_result",
+            "$.candidates"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "ar_r_selectivity",
+        "reference_id": "ar_kp_selectivity",
+        "type": "semantic",
+        "expected": "The final conclusion connects independently computed pathway evidence to the exclusive product boundary or transparently reports bounded uncertainty. Endpoint thermodynamic and site-electronic evidence supports a bounded selectivity interpretation, not a proven activation pathway or product rate. No new TS/IRC requirement is introduced.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion",
+            "$.comparison.electronic_evidence"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      },
+      {
+        "rule_id": "ar_r_final",
+        "reference_id": "ar_c_final",
+        "type": "semantic",
+        "expected": "The computed and validated first-stage and sequential second-stage candidates, comparable free energies and electronic or structural evidence support the product-selectivity conclusion. Endpoint thermodynamic and site-electronic evidence supports a bounded selectivity interpretation, not a proven activation pathway or product rate. No new TS/IRC requirement is introduced.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion",
+            "$.coverage"
+          ],
+          "comparison": "expert semantic comparison"
+        }
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "items": [
+      {
+        "failure_id": "ar_cf_discovery",
+        "condition": "The report presents a route or winner without a reproducible candidate-generation rule and candidate-specific mapping."
+      },
+      {
+        "failure_id": "ar_cf_validation",
+        "condition": "Advanced candidates are not independently validated or failures are omitted from the coverage record."
+      },
+      {
+        "failure_id": "ar_cf_overclaim",
+        "condition": "The report treats isolated-molecule thermochemistry or orbital analysis as proof of photochemical kinetics or rates."
+      },
+      {
+        "failure_id": "ar_cf_input",
+        "condition": "The supplied precursor identity, neutral charge or singlet state is changed or guessed without explicit disclosure."
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_0dc85595cab7bc0a",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_965c59b084a2_000079_ab2fb2e78776",
+        "source": "Supporting Information, Section 5.1, Computational Methods: optimization, frequencies, single points and stationary-point validation."
+      },
+      {
+        "evidence_id": "ev_doc_5a2534d03b71_000060_34f22ca8a885",
+        "source": "Main paper, mechanism discussion: thermodynamic mapping and electronic rationale for regioselectivity."
+      },
+      {
+        "evidence_id": "ev_doc_965c59b084a2_000095_d92bdfc5a932",
+        "source": "Supporting Information, Gibbs free-energy pathway figure/data for compounds and intermediates."
+      },
+      {
+        "evidence_id": "ev_doc_5a2534d03b71_000063_b4bfe33d0c76",
+        "source": "Main paper, conclusion that combined evidence accounts for exclusive target formation."
+      }
+    ]
+  }
+}

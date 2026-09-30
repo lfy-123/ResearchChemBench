@@ -1,0 +1,17 @@
+# Scientific objective
+
+Using the two explicitly defined zwitterionic amino-acid molecules AL and AB in water, investigate how their one-carbon difference changes conformational stability and molecular dipole moment. Identify and discriminate plausible compact and open conformational explanations from your calculations. The scored observables are the validated conformer set, within-molecule relative energies, geometry-based conformer descriptions, and dipole moments; battery-level performance is outside the research object.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/molecular_system.json` uniquely defines AL as `[NH3+]CCC(=O)[O-]` and AB as `[NH3+]CCCC(=O)[O-]`; each is neutral overall, singlet, and modeled in water. The input does not prescribe a mechanism, winning conformer, software, model chemistry, or result direction. Define compact/open labels quantitatively if you use them, and state charge/protonation, solvent treatment, energy convention, and model limitations. Do not use the paper, SI, general web, or hidden reference values. Do not infer battery lifetime or electrode behavior from these molecule-only calculations.
+
+This is an autonomous-research task. Do not use the paper, SI, author route, candidate ranking, optimized/final structure, transition-state or product coordinates, hidden reference values, or evaluator conclusions as input. Generate and validate the scientific candidates independently within the public boundary.
+
+# Required scientific validation/investigation
+
+Plan and execute an independent conformer investigation for both named molecules. Generate multiple chemically plausible candidates, preserve candidate IDs and provenance, deduplicate with a stated geometry criterion, and optimize every retained candidate consistently in an aqueous model. Verify convergence and stationary-point quality (or report a candidate as failed), calculate dipoles with a stated convention, and define relative energies only within each molecule against its lowest validated candidate. Explain why the candidates cover the compact/open possibilities you considered, and report any alternative hypotheses that were tested and discriminated. Stop when repeated independent generation/seeding no longer adds a distinct validated conformer under your stated criterion, or when computational limits prevent that test; then report bounded failure with attempted candidates and coverage limitations. A complete result has at least one validated conformer for each molecule; otherwise use the bounded-failure branch without fabricating a preferred conformer.
+
+# Deliverables
+
+Submit `report/results.json` and `report/validation.json`. For a complete investigation, report a validated lowest-energy candidate for each molecule and the requested candidate energies and dipoles. If computational limits or failed optimizations prevent that outcome, submit `status: "bounded_failure"`, set unavailable selections/observables to JSON `null`, and include `failure_report` listing attempted candidates, failures and coverage limitations; do not fabricate a preferred conformer or numeric value. `validation.json` must document candidate generation, deduplication, optimization/convergence, stationary-point or failure checks, energy reference conventions, and stopping/coverage evidence. Include units and reproducibility information for every reported observable.

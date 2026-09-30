@@ -18,6 +18,7 @@ from chemistry_toolbox.src.models import ActionRequest, ActionSpec
 from chemistry_toolbox.src.service import execute_action
 
 from .tracing import execute_traced
+from .result_transport import compact_action_result as _feedback_action
 from .discovery_tools import register_progressive_discovery_tools
 from .open_tools import register_open_execution_tools
 from .async_action_tools import register_async_action_tools
@@ -134,7 +135,7 @@ def _make_action_callable(specification: ActionSpec):
         return execute_traced(
             specification.id,
             arguments,
-            lambda: execute_action(specification.id, request),
+            lambda: _feedback_action(execute_action(specification.id, request)),
         )
 
     invoke.__name__ = specification.id
@@ -157,6 +158,9 @@ def register_all_tools(mcp) -> list[str]:
         registered.append(specification.id)
     registered.extend(register_open_execution_tools(mcp))
     registered.extend(register_async_action_tools(mcp))
+    from .discovery_tools import validate_action, TOOL_DESCRIPTIONS
+    mcp.tool(name="validate_action", description=TOOL_DESCRIPTIONS["validate_action"])(validate_action)
+    registered.append("validate_action")
     return registered
 
 

@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "rules": [
+    {
+      "rule_id": "r_kp_validation",
+      "reference_id": "kp_validation",
+      "type": "semantic",
+      "expected": "Each named molecule has molecule-specific convergence and geometry validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].validation"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_assignment",
+      "reference_id": "kp_assignment",
+      "type": "semantic",
+      "expected": "The selected absorption feature has an explicit state identity and assignment rule that considers oscillator strength. Inspect the available state table and oscillator strengths together with the selection rationale. A root must not be selected because it is closest to the experimental wavelength. Transition character requires its corresponding orbital/spatial evidence; root number alone is insufficient.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_shift",
+      "reference_id": "kp_shift",
+      "type": "semantic",
+      "expected": "The four-member series is compared for structure-dependent absorption shifts. Compare all four named systems and the supplied toluene bands. Check each signed wavelength difference against its submitted assigned feature and experimental band. Report absolute residuals separately from ordering; trend agreement does not establish wavelength accuracy. Retain the 1c second-band comparison and its assignment uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].id",
+          "$.molecules[*].selected_feature",
+          "$.molecules[*].comparison",
+          "$.series_comparison"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_c_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "The validated state energies, oscillator strengths and orbital evidence explain the absorption differences across the specified series and the assignment of the defined experimental bands. Account separately for system coverage, justified band assignment, wavelength residuals, oscillator/character evidence and cross-series trend. A supported alternative interpretation is not automatically quantitative agreement; missing bands remain unfulfilled, not zero-error matches.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules",
+          "$.series_comparison",
+          "$.overall_conclusion"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -241,7 +241,7 @@ def _run_sisso(directory: Path, request: dict[str, Any], processes: int) -> dict
     cpu_cores = int((request.get("resource_limits") or {}).get("cpu_cores", 1))
     if processes < 1 or processes > cpu_cores:
         raise ValueError("mpi_processes must be positive and no larger than resource_limits.cpu_cores")
-    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 7200))
+    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
     if processes == 1:
         completed = run_external(
             executable="SISSO", arguments=[], directory=directory,
@@ -278,7 +278,7 @@ def _run_sisso_predict(
     (directory / "SISSO_predict_para").write_text(
         f"{len(rows)}\n{len(feature_columns)}\n{dimension}\n1\n", encoding="utf-8"
     )
-    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 7200))
+    timeout = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
     completed = run_external(
         executable="SISSO_predict", arguments=[], directory=directory,
         environment_variable="CHEMGRAPH_SISSO_PREDICT_COMMAND", timeout_seconds=max(1, timeout),

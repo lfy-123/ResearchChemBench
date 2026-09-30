@@ -1,0 +1,9 @@
+{
+  "enzyme": {"name": "MnKstD2", "source_organism": "Mycolicibacterium neoaurum ATCC 25795", "record": {"database": "NCBI Protein", "accession": "AHG53938"}, "states": ["wild_type", "A395G"]},
+  "mutation": {"position": 395, "from": "Ala", "to": "Gly"},
+  "cofactor": {"name": "FAD", "database": "PubChem", "cid": 643975, "role": "noncovalently bound flavin cofactor"},
+  "substrate": {"name": "Delta4,16(17)-diene-progesterone (4-PG)", "identity": "pregn-4,16-diene-3,20-dione; natural progesterone steroid stereochemistry at all saturated stereocentres; C4-C5 and C16-C17 double bonds", "role": "KstD2 substrate", "atom_labels": {"C1_sub": "steroid C1", "C2_sub": "steroid C2", "O3_sub": "oxygen of the C3 ketone"}},
+  "active_site_labels": {"N5_FAD": "N5 atom of the isoalloxazine ring", "OH_Y359": "phenolic hydroxyl oxygen of Tyr359", "OH_Y532": "phenolic hydroxyl oxygen of Tyr532"},
+  "model_boundary": "Compare enzyme-substrate-FAD complexes for WT and A395G; water, protonation, force field, docking/conformer generation, sampling length and analysis protocol are investigator choices and must be disclosed. No experimental structure or author trajectory is supplied.",
+  "experimental_boundary": {"reported_kcat_trend": "A395G has higher kcat than WT", "purpose": "qualitative external validation only; do not treat the kinetic value as a computed target"}
+}

@@ -1,0 +1,20 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "hypotheses", "candidates", "barrier_kcal_mol", "uncertainty", "conclusion"],
+    "properties": {
+      "status": {"enum": ["completed", "bounded_failure"]},
+      "hypotheses": {"type": "array", "items": {"type": "object", "required": ["hypothesis_id", "route", "discrimination"], "properties": {"hypothesis_id": {"type": "string"}, "route": {"type": "string"}, "discrimination": {"type": "string"}}}},
+      "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "role", "provenance", "validation_status", "diagnostics"], "properties": {"candidate_id": {"type": "string"}, "role": {"type": "string"}, "provenance": {"type": "string"}, "validation_status": {"type": "string"}, "diagnostics": {"type": "string"}}}},
+      "barrier_kcal_mol": {"type": ["number", "null"]},
+      "uncertainty": {"type": "string"},
+      "conclusion": {"type": "string"}
+    },
+    "oneOf": [
+      {"properties": {"status": {"const": "completed"}, "selected_candidate": {"type": "string"}, "barrier_kcal_mol": {"type": "number"}, "ts_validation": {"type": "object", "required": ["imaginary_frequency_cm-1", "mode_assignment", "minima_frequency_check"], "properties": {"imaginary_frequency_cm-1": {"type": "number"}, "mode_assignment": {"type": "string"}, "minima_frequency_check": {"type": "string"}}}, "connectivity_validation": {"type": "object", "required": ["method", "reactant_connection", "product_connection"], "properties": {"method": {"type": "string"}, "reactant_connection": {"type": "string"}, "product_connection": {"type": "string"}}}, "reactant_reference_state": {"type": "string"}, "product_structure": {"type": "string"}}, "required": ["status", "selected_candidate", "barrier_kcal_mol", "ts_validation", "connectivity_validation", "reactant_reference_state", "product_structure"]},
+      {"properties": {"status": {"const": "bounded_failure"}, "barrier_kcal_mol": {"type": "null"}, "failure_diagnostics": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "reason"], "properties": {"candidate_id": {"type": "string"}, "reason": {"type": "string"}}}}}, "required": ["status", "barrier_kcal_mol", "failure_diagnostics"]}
+    ]
+  }
+}

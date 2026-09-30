@@ -1,0 +1,24 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "public_files": [
+    "data/inputs/objects.json",
+    "data/inputs/observations.json",
+    "resources.md",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "task_info_is_runtime_visible": true,
+  "bibliographic_metadata_redacted_in_both_modes": true,
+  "author_route_public_only_in_PR": true,
+  "old_public_and_evaluator_archived_private": true,
+  "runtime_isolation_status": "pending; physical public export is not filesystem isolation",
+  "public_transformations": [
+    "Retain E/Z complete starting molecular graphs, chloride and TBA composition; remove the preassembled bound objects as an obligatory research inventory.",
+    "Replace controls.json (fixed binding equations and intervention axes) with neutral context and the two actual SI Table S2 E/Z observation pairs, including reported errors and acetone-d6 conditions.",
+    "Remove source coordinate/energy answers and prescribed conformer labels from AR; archive all V1 material privately, keep public topology/stereochemistry only.",
+    "Replace fixed species_ensembles/binding_cycle/intervention rows and hypothesis-count requirement with freely named models, operations, quantitative evidence and claims.",
+    "Neutralize title, difficulty reasons, bibliography and all public instructions; retain real author protocol only in PR guidance."
+  ],
+  "new_structures_generated_as_source_answers": false
+}

@@ -18,10 +18,10 @@ def _yaml(path: str):
     return yaml.safe_load((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_requested_software_inventory_covers_all_58_unique_items():
+def test_requested_software_inventory_covers_all_59_unique_items():
     items = _yaml("config/requested_software.yaml")["requested_software"]
     names = [item["name"] for item in items]
-    assert len(names) == len(set(names)) == 58
+    assert len(names) == len(set(names)) == 59
     assert {item["category"] for item in items} == {
         "Data and Workflow Infrastructure",
         "Conformers and Molecular Quantum Chemistry",
@@ -101,7 +101,7 @@ def test_generated_requested_software_status_has_no_unaccounted_missing_item():
     payload = json.loads(
         (ROOT / "evidence/status/requested_software_status.json").read_text(encoding="utf-8")
     )
-    assert payload["summary"]["total"] == 58
+    assert payload["summary"]["total"] == 59
     assert payload["summary"]["counts"].get("not_found", 0) == 0
     assert {item["status"] for item in payload["software"]} <= {
         "configured",

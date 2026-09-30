@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+Gaussian16 calculations used B3LYP/6-31G(d,p) with SMD chloroform, SDD for iodine and def2TZVP for selenium; iodide counterions were omitted (SI pp.7–8). The authors used DFT ground-state structures, TDDFT excited-state calculations and Multiwfn electron–hole analysis, emphasizing selenium contributions. Main p.6 reports UDFT adiabatic T1 energies1.02,1.02,1.09 eV for IR780,Cy1,Cy2 and1.00 eV for rubrene, noting systematic underestimation relative to rubrene experiment1.14 eV. The authors propose S1→T2 ISC from energy gaps and a heavy-atom SOC argument; the cited source does not provide a direct molecular SOC matrix proving the rate. Reproduce this disclosed baseline or justify substitutes; explicit SOC, planar constraints and matched extra controls in V1 were later validation, not source measurements.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

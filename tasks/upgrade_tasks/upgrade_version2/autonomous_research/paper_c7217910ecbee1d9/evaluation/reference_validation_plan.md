@@ -1,0 +1,9 @@
+# Source and reference plan
+
+Read main pp2–5, actual p3 Figs2/3, Fig4 explanation and the true DOCX computational details and SI FigsS2/S4. The bounded subset is gas-phase PAl12 with zero to two B(C6F5)3 ligands. Other Lewis acids, MAl12/Au and graphene studies are not required. No complete Cartesian table occurs in the supplied SI.
+
+Private existing_evidence_reuse.json binds the historical full-size n2 opt/freq logs and subsequent n1/n2 vertical audits to file hashes. n2 electronic AEA and ZPE-corrected AEA are distinct historical quantities. The historical Gaussian runs terminate on negligible forces with positive frequency sets; some final displacement criteria remain above the printed thresholds, so do not describe all four convergence checks as passed. n1 vertical-pair evidence is not a free-geometry AEA. Failed xTB structures cannot invalidate existing DFT candidates.
+
+The smallest future calibration should independently authenticate one relevant state/structure pair and its own raw quantity/uncertainty, using the selected model and geometry/energy definition. Broader calibration should test whether conclusions hold over the domain actually claimed, with alternative explanatory routes considered fairly. Managed Gaussian, ORCA and wavefunction-analysis interfaces exist; their use and adequacy depend on the investigation. No old fixed-core/state/density matrix is mandatory. This development launches no scientific job and adopts no uncalibrated acceptance interval.
+
+This V2 development did not launch scientific jobs or a semantic judge. Future scientific calibration is a separate authorization/workstream. Existing evidence is listed with SHA256 in task_provenance/existing_evidence_reuse.json. No old narrow target interval is inherited. Alternative routes require method-appropriate uncertainty; source agreement alone is insufficient. Access-control isolation and actual judge calibration remain pending.

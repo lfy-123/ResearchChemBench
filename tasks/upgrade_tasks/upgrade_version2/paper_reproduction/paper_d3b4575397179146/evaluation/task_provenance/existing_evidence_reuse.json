@@ -1,0 +1,619 @@
+{
+  "paper_id": "paper_d3b4575397179146",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_d3b4575397179146_20260921_161326_0be178/runs/cli_runs/batch_20260921_161327_edb693/autonomous_research-paper_d3b4575397179146-codex-20260921_161327-689cfa/report/results.json",
+      "sha256": "36a6047e8a3d14e2e8099734ba1be350237813b3a30eaba7ef81e62130608e07",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_6/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "733d1efabb39deac239f2318d48fc7385a9faa720b2a206bfeede892b4a158fa",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_d3b4575397179146",
+        "title": "Heptazine SET/EnT 热力学",
+        "disposition": "needs_work",
+        "interim": true,
+        "scientifically_validated": false,
+        "current_package_hashes": {
+          "AR": "154e958cd3fcd7273de4f136184b74241b5abd8f9e3f1f07cdbdaba7b1a76c8e",
+          "PR": "180b287b49567747b3fbbf7276c17b0b6beaa8916e9fb041ca95535327418c3c"
+        },
+        "current_combined_sha256": "692abcb564c1d17e9811f0b7e135c032995dd3a5bdee65978d3c12ac85ad422a",
+        "binding_checks": [
+          {
+            "mode": "AR",
+            "current_path": "tasks/upgrade_tasks/autonomous_research/paper_d3b4575397179146",
+            "package_content_sha256": "154e958cd3fcd7273de4f136184b74241b5abd8f9e3f1f07cdbdaba7b1a76c8e",
+            "manifest_sha256": "60e607eea140667373a8a0446b14f2021f0ad80f1c6faeb578db1a595b4519a9",
+            "checked_manifest_entry_count": 28,
+            "binding_source": "docs/upgrade_tasks_verification/coordination/ready/paper_d3b4575397179146.json",
+            "matches_current_binding": true,
+            "mismatch": [],
+            "official_payload_hash_recomputed": true
+          },
+          {
+            "mode": "PR",
+            "current_path": "tasks/upgrade_tasks/paper_reproduction/paper_d3b4575397179146",
+            "package_content_sha256": "180b287b49567747b3fbbf7276c17b0b6beaa8916e9fb041ca95535327418c3c",
+            "manifest_sha256": "f47056835e3c772fd499acd1fb8611a52792adc2efe2c11ac63cbe5528aba709",
+            "checked_manifest_entry_count": 28,
+            "binding_source": "docs/upgrade_tasks_verification/coordination/ready/paper_d3b4575397179146.json",
+            "matches_current_binding": true,
+            "mismatch": [],
+            "official_payload_hash_recomputed": true
+          }
+        ],
+        "scientific_summary": "dF溶液S0为132正频且同几何稳定，O2/超氧/实测单重氧参照已绑定。先前429查重失败后完整重查成功：T1 f0b6fc69、TD-S1 N18 c2cc904b已于14:49前提交，最新平台CREATING，保留原作业。N24仅准备未提交；阴离子正常运行。后续S1优化/底物及完整矩阵暂停新增，待所有权指派。",
+        "remaining": "溶液红氧/激发态及底物矩阵，单重氧校准及方法控制",
+        "scientific_review_reports": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/progress.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/progress.md",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/evaluator_mapping.json"
+        ],
+        "raw_evidence": [
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/legacy/independent_reaudit.json",
+            "sha256": "82cfe0e7cdd3d7959e577d5c4c7dc2117186bda2015995191df7078c1478741a"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/O2_phase_reference_ledger.json",
+            "sha256": "c2acb5a9b4649d2a73429399f57d5eed203b811a767c05f5ab57f29d560b5f67"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/dFHeptZ_S0_minimum_audit.json",
+            "sha256": "de338d42f37788bdaa5e7305a939ef074748c25364ce2cbbc61330dce12ea06b"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/dFHeptZ_S0_stability_audit.json",
+            "sha256": "9ced3ca6ef71994beb4d404a1d14312399fb540088d0d885bfa9f3566530ce79"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/singlet_oxygen_calibration.json",
+            "sha256": "a010bbe5b2b98589b702391680898ed7ff8853f99c7d31d0251a1aa866fee964"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/provenance/df_td_window_preparation.json",
+            "sha256": "c1ee47a4933b6c829738b6296c8290e828732bc59eabd000835055dc192568f5"
+          }
+        ],
+        "check_outputs": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/legacy/independent_reaudit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/O2_phase_reference_ledger.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/dFHeptZ_S0_minimum_audit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/dFHeptZ_S0_stability_audit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/singlet_oxygen_calibration.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/provenance/df_td_window_preparation.json"
+        ],
+        "AR_status": "incomplete",
+        "PR_status": "incomplete",
+        "evaluator_status": "final submission not yet evaluated",
+        "active_jobs": [
+          {
+            "scientific_case_id": "dFHeptZ_anion_PCM_optfreq",
+            "job_id": "hpc-job-7d58a51d-6905-451d-90f3-3e393e64abe1",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T07:13:56.959240+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "46ba36c3e2187a84da20b435db7a55b88896f8bf266250f37d5d679c894660e2",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_anion_PCM_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790579636000",
+              "resources_prepared_at": "1790579782000",
+              "started_at": "1790581912000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_anion_PCM_optfreq/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_anion_PCM_optfreq/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "dFHeptZ_T1_PCM_optfreq",
+            "job_id": "hpc-job-f0b6fc69-e937-432b-848c-c4618ed51567",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:48:58.976648+00:00",
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "0588be815c3679fa981a688bbb43f212997bb58cb8e761b0798955b70b44b5b9",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_T1_PCM_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790606938000",
+              "resources_prepared_at": "1790607521000",
+              "started_at": "1790607658000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_T1_PCM_optfreq/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_T1_PCM_optfreq/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "dFHeptZ_S0_PCM_TD_S1_N18",
+            "job_id": "hpc-job-c2cc904b-92cf-46c5-a235-932becb1c41f",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:48:59.755503+00:00",
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "8d1638a8c165e3fab1760f1f45e26a50c300e9d6075ff5c50f96273949658f1e",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_TD_S1_N18/attempt_01",
+            "timeline": {
+              "created_at": "1790606939000",
+              "resources_prepared_at": "1790607522000",
+              "started_at": "1790607659000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_TD_S1_N18/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_TD_S1_N18/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          }
+        ],
+        "attempts": [
+          {
+            "scientific_case_id": "dFHeptZ_S0_PCM_optfreq",
+            "job_id": "hpc-job-64735cbd-f005-418d-aa66-c4ef1551788e",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T04:03:56.082801+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "58c4be19ce4cce5cdd23bac15f5d720795e8b88c69a5fe8c4a9a8a2b05909530",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790568235000",
+              "finished_at": "1790578861000",
+              "released_at": "1790578890000",
+              "resources_prepared_at": "1790568351000",
+              "started_at": "1790569361000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T07:00:10Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_optfreq/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_optfreq/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "triplet_O2_PCM_optfreq",
+            "job_id": null,
+            "pid": 967049,
+            "process_start_ticks": "1614512427",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "b981b23903558b8b8163a61c97f191156948140ae79e7821dc97085361ac634d",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_optfreq/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:00:12.631172+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_optfreq/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_optfreq/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "superoxide_PCM_optfreq",
+            "job_id": null,
+            "pid": 1070172,
+            "process_start_ticks": "1614529358",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "cda923220b588601eeff25fae60e2113208bb394f8998b06feb760ac3afdf518",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_optfreq/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:02:58.434579+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_optfreq/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_optfreq/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "triplet_O2_PCM_stability",
+            "job_id": null,
+            "pid": 1728393,
+            "process_start_ticks": "1614648138",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "eaeb410214b5a5fd1fc3a206ed05fe593169dc6e0ec997545acb5caffe4c7101",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_stability/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:22:35.256851+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_stability/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_stability/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_stability/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_stability/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_PCM_stability/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "superoxide_PCM_stability",
+            "job_id": null,
+            "pid": 1798535,
+            "process_start_ticks": "1614660322",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "43e0ee5a8c910778b7011172a2f6803102b353afc880b55700a540382d3e023e",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_stability/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:24:43.071899+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_stability/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_stability/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_stability/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_stability/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/superoxide_PCM_stability/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "triplet_O2_gas_optfreq",
+            "job_id": null,
+            "pid": 2382044,
+            "process_start_ticks": "1614756288",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "5bf1775e4c77811bc552bf61a190e78f6768f37feb1aaf61ed28b5462443ee57",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_optfreq/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:40:42.847742+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_optfreq/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_optfreq/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "triplet_O2_gas_stability",
+            "job_id": null,
+            "pid": 2588662,
+            "process_start_ticks": "1614791365",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "ed6a0c0af443058412a18084c5d75d4a2bd8165d2b9a29d5f39116de131f907f",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_stability/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:46:27.152072+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_stability/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_stability/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_stability/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_stability/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/triplet_O2_gas_stability/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "dFHeptZ_anion_PCM_optfreq",
+            "job_id": "hpc-job-7d58a51d-6905-451d-90f3-3e393e64abe1",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T07:13:56.959240+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "46ba36c3e2187a84da20b435db7a55b88896f8bf266250f37d5d679c894660e2",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_anion_PCM_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790579636000",
+              "resources_prepared_at": "1790579782000",
+              "started_at": "1790581912000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_anion_PCM_optfreq/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_anion_PCM_optfreq/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "dFHeptZ_S0_PCM_stability",
+            "job_id": null,
+            "pid": 663759,
+            "process_start_ticks": "1615212175",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "06b2870cdeff04d1a9b5979032c748829714b4f58c63d5b69a663b38b4991dff",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_stability/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T09:16:08.701993+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_stability/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_stability/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_stability/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_stability/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_stability/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "dFHeptZ_T1_PCM_optfreq",
+            "job_id": "hpc-job-f0b6fc69-e937-432b-848c-c4618ed51567",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:48:58.976648+00:00",
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "0588be815c3679fa981a688bbb43f212997bb58cb8e761b0798955b70b44b5b9",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_T1_PCM_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790606938000",
+              "resources_prepared_at": "1790607521000",
+              "started_at": "1790607658000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_T1_PCM_optfreq/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_T1_PCM_optfreq/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "dFHeptZ_S0_PCM_TD_S1_N18",
+            "job_id": "hpc-job-c2cc904b-92cf-46c5-a235-932becb1c41f",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:48:59.755503+00:00",
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "8d1638a8c165e3fab1760f1f45e26a50c300e9d6075ff5c50f96273949658f1e",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_TD_S1_N18/attempt_01",
+            "timeline": {
+              "created_at": "1790606939000",
+              "resources_prepared_at": "1790607522000",
+              "started_at": "1790607659000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_TD_S1_N18/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/outputs/dFHeptZ_S0_PCM_TD_S1_N18/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          }
+        ],
+        "prepared_not_submitted": [
+          "dFHeptZ_S0_PCM_TD_S1_N24",
+          "dOMeHeptZ_S0_PCM_optfreq",
+          "dOMeHeptZ_T1_PCM_optfreq",
+          "dOMeHeptZ_anion_PCM_optfreq",
+          "substrate1a_cation_PCM_optfreq",
+          "substrate1a_neutral_PCM_optfreq"
+        ],
+        "known_new_native_allocated_core_hours": 57.57255555555556,
+        "resource_totals_complete": false,
+        "unresolved_issues": [
+          "溶液红氧/激发态及底物矩阵，单重氧校准及方法控制"
+        ],
+        "package_repair_status": "No new task-package mutation during this resumed segment; frozen package binding checked above.",
+        "packages_frozen": true,
+        "development_handoff_ready": true,
+        "scientific_validation_complete": false,
+        "freeze_disposition": "Release task-package write ownership for content-development handoff. Scientific gaps remain; no new jobs or package writes by this controller."
+      },
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "allowed_use": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/legacy/independent_reaudit.json",
+      "sha256": "82cfe0e7cdd3d7959e577d5c4c7dc2117186bda2015995191df7078c1478741a",
+      "frozen_sha256": "82cfe0e7cdd3d7959e577d5c4c7dc2117186bda2015995191df7078c1478741a",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/O2_phase_reference_ledger.json",
+      "sha256": "c2acb5a9b4649d2a73429399f57d5eed203b811a767c05f5ab57f29d560b5f67",
+      "frozen_sha256": "c2acb5a9b4649d2a73429399f57d5eed203b811a767c05f5ab57f29d560b5f67",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/dFHeptZ_S0_minimum_audit.json",
+      "sha256": "de338d42f37788bdaa5e7305a939ef074748c25364ce2cbbc61330dce12ea06b",
+      "frozen_sha256": "de338d42f37788bdaa5e7305a939ef074748c25364ce2cbbc61330dce12ea06b",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/dFHeptZ_S0_stability_audit.json",
+      "sha256": "9ced3ca6ef71994beb4d404a1d14312399fb540088d0d885bfa9f3566530ce79",
+      "frozen_sha256": "9ced3ca6ef71994beb4d404a1d14312399fb540088d0d885bfa9f3566530ce79",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/report/singlet_oxygen_calibration.json",
+      "sha256": "a010bbe5b2b98589b702391680898ed7ff8853f99c7d31d0251a1aa866fee964",
+      "frozen_sha256": "a010bbe5b2b98589b702391680898ed7ff8853f99c7d31d0251a1aa866fee964",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_d3b4575397179146/provenance/df_td_window_preparation.json",
+      "sha256": "c1ee47a4933b6c829738b6296c8290e828732bc59eabd000835055dc192568f5",
+      "frozen_sha256": "c1ee47a4933b6c829738b6296c8290e828732bc59eabd000835055dc192568f5",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+      "scope": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+      "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "The source provides all four molecular identities, ground-state/TD methods and a comparable1a screen; existing photophysical jobs can inform their exact state/geometry windows. This supports a bounded electronic investigation but does not validate full mechanism or an expanded oxygen-state cycle. Actual source mechanistic experiments apply to9a/24; this distinction corrects V1 overtransfer. No new scientific run.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Existing heptazine vertical spectra and dF ground-state solution minimum/stability audit; O2/superoxide phase/reference ledger and singlet-oxygen empirical calibration are bounded intermediate evidence.",
+    "allowed": "Reuse confirmed graphs, completed spectrum/minimum artifacts and explicit oxygen reference definitions, retaining vertical versus adiabatic distinctions and source temperature/solvent.",
+    "not_supported": "Prepared/queued T1/S1/window jobs are not completed results. Vertical excitations are not automatically E00/redox free energies. Source detailed quenching/trapping on 9a/24 does not directly establish the selected 1a mechanism."
+  },
+  "new_scientific_calculations_performed": false
+}

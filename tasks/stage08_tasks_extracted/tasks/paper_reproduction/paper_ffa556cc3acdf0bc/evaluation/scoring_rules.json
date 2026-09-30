@@ -1,0 +1,67 @@
+{
+  "paper_id": "paper_ffa556cc3acdf0bc",
+  "rules": [
+    {
+      "rule_id": "r_input",
+      "reference_id": "kp_input",
+      "type": "condition",
+      "expected": "Both candidates pass identity and mapping validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.input_validation"
+        ],
+        "comparison": "expert process check"
+      }
+    },
+    {
+      "rule_id": "r_compare",
+      "reference_id": "kp_compare",
+      "type": "condition",
+      "expected": "Both candidates are comparably calculated with normalized probabilities.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.comparison"
+        ],
+        "comparison": "expert process check"
+      }
+    },
+    {
+      "rule_id": "r_result",
+      "reference_id": "kp_result",
+      "type": "semantic",
+      "expected": "The report supports 8S*,9aR*,12aR* over 8R*,9aR*,12aR*.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "Relative configuration is assigned as 8S*,9aR*,12aR* within scope and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.relative_configuration",
+          "$.conclusion.support"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

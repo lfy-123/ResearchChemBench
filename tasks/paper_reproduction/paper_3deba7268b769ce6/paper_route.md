@@ -6,7 +6,7 @@ The paper tests how relocating a π-bridge spacer changes inverted solvatochromi
 
 ## 2. System and model boundary
 
-The computed solute is the singly deprotonated (phenolate) form of compound 13, the E-imine made from 4-aminophenol and 4′-nitro-[1,1′-biphenyl]-4-carbaldehyde: a phenolate–imine–para-phenylene–para-nitrophenyl π scaffold. The electronic state is closed-shell singlet, charge −1. Solvent is dichloromethane represented by a continuum model.
+The computed solute is the singly deprotonated (phenolate) form of compound 10, the E-imine made from 4-aminophenol and 4-(5-nitrothiophen-2-yl)benzaldehyde: a phenolate–imine–para-phenylene–5-nitrothiophen-2-yl π scaffold. The electronic state is closed-shell singlet, charge −1. Solvent is dichloromethane represented by a continuum model.
 
 ## 3. Authors' implemented computational route
 

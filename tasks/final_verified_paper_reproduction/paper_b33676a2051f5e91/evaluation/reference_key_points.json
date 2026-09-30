@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "items": [
+    {
+      "key_point_id": "pr_process_freq",
+      "key_point_type": "process",
+      "statement": "Int-3 is a minimum and the claimed TS is a first-order saddle.",
+      "expected": "Int-3 has 0 and the channel TS has 1 imaginary frequency.",
+      "evidence_ids": [
+        "ev_doc_dfd058e5c120_000225_32a2a213ce20",
+        "ev_doc_dfd058e5c120_000263_29ac259a6c8d",
+        "ev_doc_dfd058e5c120_000272_39550e09ec22"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_connection",
+      "key_point_type": "process",
+      "statement": "The TS connects Int-3 to the intended products.",
+      "expected": "IRC or equivalent connects Int-3 to acetophenone and ethyl radical.",
+      "evidence_ids": [
+        "ev_doc_dfd058e5c120_000225_32a2a213ce20"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_barrier",
+      "key_point_type": "result",
+      "statement": "The activation free energy for this channel is the reported 9.07 kcal/mol.",
+      "expected": "Delta G double dagger = 9.07 kcal/mol.",
+      "evidence_ids": [
+        "ev_doc_0661377fa5b3_000135_887350f93520"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_identity",
+      "key_point_type": "result",
+      "statement": "The tested channel forms acetophenone and an ethyl radical.",
+      "expected": "Acetophenone + ethyl radical with atom-balanced identity and independent connection evidence.",
+      "evidence_ids": [
+        "ev_doc_0661377fa5b3_000135_887350f93520"
+      ]
+    }
+  ]
+}

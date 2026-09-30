@@ -1,0 +1,201 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "molecule": {
+        "type": "object",
+        "required": [
+          "compound_id",
+          "charge",
+          "multiplicity",
+          "stereochemistry"
+        ],
+        "properties": {
+          "compound_id": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "stereochemistry": {
+            "type": "string"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "optimization_converged",
+          "settings"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "optimization_converged": {
+            "type": "boolean"
+          },
+          "settings": {
+            "type": "string"
+          }
+        }
+      },
+      "geometry_validation": {
+        "type": "object",
+        "required": [
+          "frequency_check",
+          "imaginary_frequency_count",
+          "evidence",
+          "optimized_geometry_or_path"
+        ],
+        "properties": {
+          "frequency_check": {
+            "type": "string"
+          },
+          "imaginary_frequency_count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "optimized_geometry_or_path": {
+            "type": "string"
+          }
+        }
+      },
+      "frontier_orbitals": {
+        "type": "object",
+        "required": [
+          "homo_au",
+          "lumo_au",
+          "gap_ev",
+          "gap_formula"
+        ],
+        "properties": {
+          "homo_au": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "lumo_au": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "gap_ev": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "gap_formula": {
+            "type": "string"
+          }
+        },
+        "description": "For completed status provide numeric values; for bounded_failure use null for unavailable numerical observables and explain why in failure."
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "starting_geometry_count",
+          "starting_geometry_diversity",
+          "limitations"
+        ],
+        "properties": {
+          "starting_geometry_count": {
+            "type": "integer"
+          },
+          "limitations": {
+            "type": "string"
+          },
+          "starting_geometry_diversity": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "failure": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "attempted_steps": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        },
+        "description": "Required for bounded_failure; set to null or an empty object only for completed."
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "molecule",
+          "method",
+          "geometry_validation",
+          "frontier_orbitals",
+          "coverage",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "molecule",
+          "method",
+          "geometry_validation",
+          "frontier_orbitals",
+          "coverage",
+          "conclusion",
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+# Upgraded author-route and scope record
+
+The authors attribute the improved cycloaddition to the trifluoroacetyl group increasing quaternary-ammonium activation of epoxide; KI is essential (main Tables2–3). Charge protocol: B3LYP-D3BJ/6-31G(d,p), PCM MeCN geometries and M06-2X-D3/def2-TZVP/SMD refinement. Those charge calculations did not validate ring-opening TSs. This benchmark selects only the KI opening segment and matched preorganization controls; H2O2 stoichiometry conflicts in the epoxidation discussion do not enter this version.
+
+Freeze only the CO2-cycloaddition stage, specifically the KI-promoted opening of styrene oxide. Compare full [TMTFABA]OTf and [PTMA]OTf with identical styrene oxide, K+I−, one explicit H2O and spectator CO2. Primary medium MeCN continuum, 353.15 K/1 M; source mixture is 3mL MeCN/612µL H2O, CO2 2MPa (main Table2). Every cluster is neutral singlet; keep OTf and KI inventories. Use terminal-carbon iodide attack as the matched elementary step and benzylic attack as a finite alternative in each model. CO2 insertion/epoxidation/full turnover are outside this first-version step. Preorganization controls relocate the same cationic catalyst at fixed composition; they are constrained diagnostics.
+
+The AR public prompt excludes this route. AR and PR share objects, schema, scientific rubric and completion requirements. Development status: implemented_pending_expanded_reference. Old route and old PASS are historical only in the snapshot.

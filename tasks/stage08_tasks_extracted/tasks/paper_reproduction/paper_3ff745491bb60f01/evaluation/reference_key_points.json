@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_3ff745491bb60f01",
+  "items": [
+    {
+      "reference_id": "kp_identity",
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Both named XYZ inputs are used with their supplied atom identities and counts (51 and 38), with neutral singlet S0 assignments explicitly checked.",
+      "expected": "The report identifies cso.xyz as 51 atoms and product.xyz as 38 atoms and records charge 0/multiplicity 1 for each.",
+      "evidence_ids": [
+        "ev_doc_b9b2a39868bb_000057_9eccd44ade03",
+        "ev_doc_b9b2a39868bb_000066_e96132083ce3"
+      ]
+    },
+    {
+      "reference_id": "kp_protocol",
+      "key_point_id": "kp_protocol",
+      "key_point_type": "process",
+      "statement": "A consistent paired electronic-structure protocol is applied and convergence/stationarity validation is reported for both structures.",
+      "expected": "The report contains reproducible method settings and per-structure convergence/validation evidence, or a truthful bounded-failure diagnostic.",
+      "evidence_ids": [
+        "ev_doc_b925c5c8752d_000067_834bbacb18f3"
+      ]
+    },
+    {
+      "reference_id": "kp_gaps",
+      "key_point_id": "kp_gaps",
+      "key_point_type": "result",
+      "statement": "The paired calculation yields the reported ordering and approximate gaps: CSO-CY 2.59 eV and product 2.99 eV.",
+      "expected": "Numeric gaps are close to 2.59 eV and 2.99 eV, with product-minus-probe approximately +0.40 eV, subject to rule tolerances.",
+      "evidence_ids": [
+        "ev_doc_b925c5c8752d_000080_23c1867a2c75"
+      ]
+    },
+    {
+      "reference_id": "kp_interpretation",
+      "key_point_id": "kp_interpretation",
+      "key_point_type": "result",
+      "statement": "The larger product gap is interpreted as supporting a blue shift, while acknowledging that a HOMO-LUMO gap is not itself an optical spectrum.",
+      "expected": "Conclusion explicitly states the direction and qualified blue-shift consistency.",
+      "evidence_ids": [
+        "ev_doc_b925c5c8752d_000080_23c1867a2c75"
+      ]
+    }
+  ]
+}

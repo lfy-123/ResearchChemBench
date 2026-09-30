@@ -1,0 +1,93 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "rules": [
+    {
+      "rule_id": "r_minimum",
+      "reference_id": "kp_minimum",
+      "type": "condition",
+      "expected": "For the correct unconstrained parent, inspect the actual frequency output showing zero imaginary internal modes, or the submitted equivalent_evidence establishing stationarity and positive curvature in all internal nuclear directions. A missing validation_method with a reported frequency count is the compatible frequency branch. An equivalent branch need not invent an uncomputed frequency count. Inspect all reported evidence for contradictions; optimization convergence alone, a few sampled directions, nonempty text or failure disclosure does not establish a minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum_validation",
+          "$.system"
+        ],
+        "comparison": "expert comparison of stated frequency validation"
+      }
+    },
+    {
+      "rule_id": "r_spin",
+      "reference_id": "kp_spin",
+      "type": "numeric",
+      "target": 0.401,
+      "unit": "dimensionless",
+      "tolerance": 0.05,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.spin_density.sulfur_hirshfeld"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_bde2g",
+      "reference_id": "kp_bde",
+      "type": "numeric",
+      "target": 198.5,
+      "unit": "kJ/mol",
+      "tolerance": 8.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bde_2g.value"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_bde2a",
+      "reference_id": "kp_bde",
+      "type": "numeric",
+      "target": 173.7,
+      "unit": "kJ/mol",
+      "tolerance": 8.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bde_2a_comparator.value"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_mechanism",
+      "type": "semantic",
+      "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Substantial sulfur Hirshfeld spin population and a higher electronic 2g benzylic C–H dissociation energy than 2a are correctly calculated and interpreted as descriptor-level oxidation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.comparison",
+          "$.method",
+          "$.spin_density",
+          "$.bde_2g",
+          "$.bde_2a_comparator"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -1,0 +1,168 @@
+{
+  "paper_id": "paper_3235db287859287e",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Use 1a and benzenethiol, not benzylthiol. Verify submitted graphs and any new species from actual artifacts. Trace relevant O atoms, proton/electron transfers and spectators; comparisons must include consistent chemical reservoirs. Giving a radical a label is not a state validation. Full credit requires correct accounting for the chosen route; no named intermediate is mandatory. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Use 1a and benzenethiol, not benzylthiol. Verify submitted graphs and any new species from actual artifacts. Trace relevant O atoms, proton/electron transfers and spectators; comparisons must include consistent chemical reservoirs. Giving a radical a label is not a state validation. Full credit requires correct accounting for the chosen route; no named intermediate is mandatory. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_question",
+      "reference_id": "kp_question",
+      "type": "condition",
+      "expected": "New calculations or reproducible quantitative analysis must materially constrain the atom/bond reorganization and its viability for this source system. Recompute claimed observables from raw output with correct E/G/reference definitions. Old E/Z energy alone or repeating isotope outcomes cannot answer the molecular explanation question. Credit an appropriate non-author route or an evidence-backed limitation; no fixed number of paths or protection calculation is required. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.records",
+          "$.scientific_response"
+        ],
+        "comparison": "New calculations or reproducible quantitative analysis must materially constrain the atom/bond reorganization and its viability for this source system. Recompute claimed observables from raw output with correct E/G/reference definitions. Old E/Z energy alone or repeating isotope outcomes cannot answer the molecular explanation question. Credit an appropriate non-author route or an evidence-backed limitation; no fixed number of paths or protection calculation is required. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "condition",
+      "expected": "Assess how the proposed account explains relevant supplied labelling/trapping/protection observations, including what those data do not distinguish. Relevant tests may be computational, analytical or evidence integration; assess their discriminating power, not whether the author route or V1 matrix was repeated. Claimed atom origin must resolve isotope mapping. Claimed saddle requires valid unstable-mode/connectivity evidence; a monotonic scan cannot establish zero free-energy barrier. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.validity_checks",
+          "$.results",
+          "$.decision_log"
+        ],
+        "comparison": "Assess how the proposed account explains relevant supplied labelling/trapping/protection observations, including what those data do not distinguish. Relevant tests may be computational, analytical or evidence integration; assess their discriminating power, not whether the author route or V1 matrix was repeated. Claimed atom origin must resolve isotope mapping. Claimed saddle requires valid unstable-mode/connectivity evidence; a monotonic scan cannot establish zero free-energy barrier. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Assess the chosen model's decisive uncertainty, particularly electrical reservoir assumptions, spin/chemical inventory and solvent/thermal definitions when used. Require actual evidence or defensible error bounds relevant to the conclusion, not an obligatory second functional or arbitrary tolerance. Do not compare the source39-atom HI-containing inventory with isolated37-atom product energies without balancing. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.uncertainty",
+          "$.methods",
+          "$.validity_checks"
+        ],
+        "comparison": "Assess the chosen model's decisive uncertainty, particularly electrical reservoir assumptions, spin/chemical inventory and solvent/thermal definitions when used. Require actual evidence or defensible error bounds relevant to the conclusion, not an obligatory second functional or arbitrary tolerance. Do not compare the source39-atom HI-containing inventory with isolated37-atom product energies without balancing. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Accept support, correction, refutation or well-investigated unresolved conclusions with matching evidence. A conclusion may identify only a supported class of explanations when evidence cannot distinguish finer claims. Missing investigation disguised as uncertainty earns no dependent result credit. No exact yield, electrode-scale mechanism or exclusive global pathway follows from local stationary/thermochemical evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.scientific_response",
+          "$.limitations",
+          "$.results"
+        ],
+        "comparison": "Accept support, correction, refutation or well-investigated unresolved conclusions with matching evidence. A conclusion may identify only a supported class of explanations when evidence cannot distinguish finer claims. Missing investigation disguised as uncertainty earns no dependent result credit. No exact yield, electrode-scale mechanism or exclusive global pathway follows from local stationary/thermochemical evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Correct reaction identity and chemical accounting Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "question",
+      "max_score": 30,
+      "description": "Quantitative evidence addresses the rearrangement question Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_question"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 25,
+      "description": "Interpretation survives evidence-based tests Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "State, reservoir and numerical limitations are bounded Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 15,
+      "description": "Conclusions stay within demonstrated molecular evidence Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

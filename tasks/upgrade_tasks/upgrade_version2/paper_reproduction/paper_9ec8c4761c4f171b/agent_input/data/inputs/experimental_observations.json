@@ -1,0 +1,60 @@
+{
+  "absorption": {
+    "source": "Main PDF p8 Table2",
+    "quantity": "long-wavelength absorption maximum",
+    "unit": "nm",
+    "CHCl3": {
+      "compound_7a": 440,
+      "compound_8a": 415,
+      "compound_5g": 407
+    },
+    "DMF": {
+      "compound_7a": 422,
+      "compound_8a": 420,
+      "compound_5g": 405
+    }
+  },
+  "spectroscopic_context": {
+    "source": "Main PDF p5; source-series observations, not per-form measured targets",
+    "NMR_media": [
+      "CDCl3",
+      "DMSO-d6"
+    ],
+    "one_H_resonance_range_ppm": [
+      12,
+      14
+    ],
+    "one_C13_resonance_range_ppm": [
+      155,
+      160
+    ],
+    "solid_IR_feature_range_cm_inverse": [
+      1650,
+      1670
+    ],
+    "specific_7a_observation": {
+      "labile_proton_resonance_ppm": 14.07,
+      "medium": null,
+      "medium_status": "conflicting_source_annotations",
+      "source_annotations": [
+        {
+          "source": "Main PDF p14, compound7a experimental characterization",
+          "medium_label": "DMSO-d6",
+          "spectrometer_frequency_MHz": 500,
+          "reported_shift_ppm": 14.07,
+          "temperature_K": null
+        },
+        {
+          "source": "SI PDF p155, compound7a1H NMR spectrum and acquisition panel, visually inspected",
+          "medium_label": "CDCl3",
+          "spectrometer_frequency_MHz": 500.134001,
+          "reported_shift_ppm": 14.07,
+          "temperature_K": 296.4
+        }
+      ],
+      "interpretation_limit": "For the 7a proton resonance at 14.07 ppm, main PDF p14 labels the 1H NMR medium DMSO-d6 (500 MHz), whereas the SI PDF p155 spectrum acquisition panel labels SOLVENT CDCl3, TE 296.4 K and SFO1 500.1340010 MHz. Both sources show the same reported shift. The solvent provenance is unresolved; these annotations do not establish two independently measured solvent-specific observations. Do not select one label as definitive, infer solvent invariance, or treat either as an unambiguous quantitative calibration target without independent evidence.",
+      "use_in_inference": "If using this resonance, retain both source annotations and assess the consequence of unresolved medium attribution. A bounded interpretation or omitting it from solvent-specific quantitative calibration is valid when justified. Resolving the publication discrepancy is not a mandatory new calculation or an agent input failure."
+    },
+    "uncertainty": "No new instrument error bars or theory acceptance bands are inferred from these rounded source ranges."
+  }
+}

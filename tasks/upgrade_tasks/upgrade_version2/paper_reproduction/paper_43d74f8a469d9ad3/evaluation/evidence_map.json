@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_43d74f8a469d9ad3/documents/main.pdf",
+          "sha256": "3702c207117b172cf5f60f75a5488e55a7c10fc33cccf97eb8ff0c1a3bc721cb",
+          "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p2 Scheme1 和 p5 溶剂讨论；2–4 在 MeCN 中有解离，不能当完好母体默认光谱介质。SI pp32–37 的坐标标签/组成冲突已在旧审查识别，CCDC2441197 支持身份。",
+          "actual_read_pages_and_sections": "Main pp2–4 Scheme1/methods; pp7–8 Tables4–6 optical discussion; SI pp32–37 identities/rotational subsection checked against Scheme1."
+        },
+        {
+          "path": "papers/paper_43d74f8a469d9ad3/documents/supplementary_001.pdf",
+          "sha256": "7b0fafc26a4cfda88dd80c6a1b3d524940e51ec7eb20480383262cb8c4f7d3d5",
+          "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p2 Scheme1 和 p5 溶剂讨论；2–4 在 MeCN 中有解离，不能当完好母体默认光谱介质。SI pp32–37 的坐标标签/组成冲突已在旧审查识别，CCDC2441197 支持身份。",
+          "actual_read_pages_and_sections": "Main pp2–4 Scheme1/methods; pp7–8 Tables4–6 optical discussion; SI pp32–37 identities/rotational subsection checked against Scheme1."
+        }
+      ],
+      "description": "The source studies organoboron probes1–4. This task focuses on the molecular absorption behavior of source1/2 in the measured chloroform/methanol environments, preserving a tractable subproblem and avoiding biological or bleaching extrapolation. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "保留已有 S1 pilot、频率/结构与在途输出；完整物理态对应和所有扫描不是现已完成参考。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular explanation accounts for the solution absorption of source organoboron dyes1 and2 and their response to the two supplied solvents? Determine whether proposed structural/electronic differences are supported beyond a coincidental match to an absorption maximum. Specify the molecular/solvent state and how calculated properties relate to measured absorption. Validate transitions and structures material to the argument and account for coupled chemical/environmental differences when making causal claims. Sampling and numerical uncertainty should be sufficient for the claimed resolution, with no prescribed scan or unique method."
+    }
+  ]
+}

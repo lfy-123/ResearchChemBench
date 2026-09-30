@@ -1,0 +1,243 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_0dc85595cab7bc0a_20260920_164554_4baadc/runs/cli_runs/batch_20260920_164558_4a5af1/autonomous_research-paper_0dc85595cab7bc0a-codex-20260920_164558-491621/report/results.json",
+      "sha256": "b58a1cbec6e43d8c7ee3c0e261d06cb932bb2c0c1733b08f95a2f89992b7efdf",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_0dc85595cab7bc0a",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_0dc85595cab7bc0a",
+          "package_content_sha256": "236f57ee286d0c50dd8cebf3f85fdc4c236bf0b4a857cf7d8cfe2e0e4610eb0e",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_0dc85595cab7bc0a/package_manifest.json",
+            "sha256": "1ce9ea5fb231bc56c47e8d0fb764062e2188cd196a24abe7793f878fbd82176b"
+          },
+          "payload_entries_checked": 30,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_0dc85595cab7bc0a",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_0dc85595cab7bc0a",
+          "package_content_sha256": "5180360650339a269e287c255693b78286647522a845c8603f7d145c9e8445e8",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_0dc85595cab7bc0a/package_manifest.json",
+            "sha256": "f7945baf24d9ad1abd603ec3318907181a24a7d475d933604e9beef6925c22d7"
+          },
+          "payload_entries_checked": 30,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_0dc85595cab7bc0a",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "9个旧极小点完成原生、价态及立体形式核查；112条生成历史通过闭壳层价态与H收支。新缺失首氧化C30H20无虚频，同作者组合G比旧IS3低5.62321 kcal/mol。缺失第二层4构造类的10个正式立体形式已备输入并回读，尚非DFT；均仅基态约束，不证明光产物。",
+        "unfinished_validation": "第二层候选实际DFT精化、第一/二层构象与立体敏感性、双阶段代表S0/光态性质诊断和方法控制。",
+        "input_and_reference_gaps": [
+          "112条价态历史/14构造类、9旧极小点和新第一氧化异构体已核验；缺失第二层10输入未计算。",
+          "S0闭环与激发态跟踪未完成，基态能量排序不能确定光产物。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/legacy/nine_minima_native_deep_audit.json",
+            "sha256": "b80360da7752227a34b7d84984e196ecd880a3c954754341b630594f437cf264"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/provenance/finite_graph_layer_audit.json",
+            "sha256": "c63ada2342d85a649d6bc3ad8b2426c539889f82cb9e561a1e14a49d74838435"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/provenance/finite_valence_stereochemistry_audit.json",
+            "sha256": "fbaea4b348335c7383f51ecef0cb343fd29c6a9ada0a2f45f1d17e38bd7c4014"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/provenance/missing_candidate_preparation.json",
+            "sha256": "bfe6b9b3ba8eae45fbe741eb09471dca683e01c9cc910e7e7699ca42da28e563"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/outputs/alternate_first_oxidized_optfreq_sp/a01/scientific_audit.json",
+            "sha256": "8785919e98911231369e604166b9cc67bcd9f5f2b690a70d0f8a14b288784b79"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/report/progress_report.md",
+          "sha256": "33c96c48dac604cde3380063cc5d1fc5b3bcede5d7f82bfc33e605594d27fc7b"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/report/progress_evaluator_mapping.json",
+          "sha256": "ec542abe7097d4d74cc77ca24e8f7a80fb09ff77358f6e7df7c79313a9247164"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/alternate_first_oxidized_optfreq_sp.com",
+            "sha256": "457bb401f3a7e66b078168b422903d34b30caaa500784cf3204cabddcea13684"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_3_stereo1_optfreq_sp.com",
+            "sha256": "4c20b9d3a034200be85dc5aa1c59941af54442ad32ffbd5cb241dcc2bd273fd6"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_3_stereo2_optfreq_sp.com",
+            "sha256": "8f91a8c4e47afce03fece01e76621c09d4ed8b94096e7f12c72fca067abf5817"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_3_stereo3_optfreq_sp.com",
+            "sha256": "d5e1e8aba2b8d5b4cb5d0a411154c835113362d4c02d75bce6f1bdc7e3641fc2"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_3_stereo4_optfreq_sp.com",
+            "sha256": "5d24e0d15292de8b99f6f72794a8ffec14ad52a7e3931a3f7f2a8f579fbee446"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_4_stereo1_optfreq_sp.com",
+            "sha256": "8fe9e15584ed9ff19fbf18d8509ba12c4a3a24df3a0190c02f3d99fb3235af4c"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_4_stereo2_optfreq_sp.com",
+            "sha256": "9a9755d2abb15dd4ea6f965103d581827b98e21d81161a76bfe4f34f9496849f"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_4_stereo3_optfreq_sp.com",
+            "sha256": "beb69f8dcd8f4c7124203abb90cb3d9c50f48aeecb9fe75c2dcf8161f7fea994"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_dihydro_4_stereo4_optfreq_sp.com",
+            "sha256": "7400bb3f7a6b292742f2508010bcead216971cda8883aef7dff35e42ba6e3f44"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_oxidized_2_stereo1_optfreq_sp.com",
+            "sha256": "4c4d7889fb4cf22ec499a35acba07b9779c5797ae6f670717c210f26cdb44215"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/second_oxidized_3_stereo1_optfreq_sp.com",
+            "sha256": "ab2ca23ee3d512b0bbf70029ce5fdc6f1b3f5d78ec6bc0865129e0d6d96c3160"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/stage1_S0_closure_3_8.com",
+            "sha256": "4d492934fa234e55fa7c963930fa0e807f53a55c88a83e0cc6527222b5623c32"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/inputs/stage2_S0_closure_21_41.com",
+            "sha256": "892484d54865e4c44ef456ac666a4cc784b8e6fbd2ad8384305ac1aab510a3b1"
+          }
+        ],
+        "active_jobs": [],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/task_snapshot/frozen_binding.json",
+          "sha256": "b97561c67e3f296f8cca3f776b7403ecd004bfbafd147e20c957da2bbb0c2fa0"
+        }
+      },
+      "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+      "allowed_use": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed.",
+      "scope": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/legacy/nine_minima_native_deep_audit.json",
+      "sha256": "b80360da7752227a34b7d84984e196ecd880a3c954754341b630594f437cf264",
+      "frozen_sha256": "b80360da7752227a34b7d84984e196ecd880a3c954754341b630594f437cf264",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+      "scope": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/provenance/finite_graph_layer_audit.json",
+      "sha256": "c63ada2342d85a649d6bc3ad8b2426c539889f82cb9e561a1e14a49d74838435",
+      "frozen_sha256": "c63ada2342d85a649d6bc3ad8b2426c539889f82cb9e561a1e14a49d74838435",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+      "scope": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/provenance/finite_valence_stereochemistry_audit.json",
+      "sha256": "fbaea4b348335c7383f51ecef0cb343fd29c6a9ada0a2f45f1d17e38bd7c4014",
+      "frozen_sha256": "fbaea4b348335c7383f51ecef0cb343fd29c6a9ada0a2f45f1d17e38bd7c4014",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+      "scope": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/provenance/missing_candidate_preparation.json",
+      "sha256": "bfe6b9b3ba8eae45fbe741eb09471dca683e01c9cc910e7e7699ca42da28e563",
+      "frozen_sha256": "bfe6b9b3ba8eae45fbe741eb09471dca683e01c9cc910e7e7699ca42da28e563",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+      "scope": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_0dc85595cab7bc0a/outputs/alternate_first_oxidized_optfreq_sp/a01/scientific_audit.json",
+      "sha256": "8785919e98911231369e604166b9cc67bcd9f5f2b690a70d0f8a14b288784b79",
+      "frozen_sha256": "8785919e98911231369e604166b9cc67bcd9f5f2b690a70d0f8a14b288784b79",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+      "scope": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+      "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "The source constitutional graph and small polyaromatic molecular size support candidate/structure and electronic investigations with available tools. Historical ground-state candidate outputs only support their exact composition/state; they do not validate photodynamics. Source S0/optical calculations establish a baseline, not complete accessibility calibration. No scientific engine run.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Nine historical ground-state minima and finite graph/stereochemical audits; an alternative first-oxidized C30H20 minimum was optimized with the recorded source-like baseline.",
+    "allowed": "Reuse its completed ground-state minimum and relative energy only within matched formula/method. Keep the alternative graph exploration as one feasible route, not the only route.",
+    "not_supported": "Lower S0 energy does not establish a photochemical pathway or observed product selection. Prepared second-stage inputs are not results; no excited-state connectivity/selectivity reference is completed."
+  },
+  "new_scientific_calculations_performed": false
+}

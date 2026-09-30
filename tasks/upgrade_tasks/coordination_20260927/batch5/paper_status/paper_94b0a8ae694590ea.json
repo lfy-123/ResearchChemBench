@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "A",
+  "new_class": "B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_94b0a8ae694590ea",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_94b0a8ae694590ea"
+  },
+  "new_reference_gaps": [
+    "Adsorption structures, work functions, density analysis and size/convergence reference have not been calculated.",
+    "Source tube chirality distribution is not known; benchmark conclusions remain model-conditional."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "6b2f3f08ea530f4362fa8e18a7972d9844fff3178770eedc43d038076acd028b",
+    "paper_reproduction": "a9490afbdb09d90b5b7b8dd92437e7b9fb7c877acbeba0f00d38a94107a598bc"
+  },
+  "source_review": "paper_reviews/paper_94b0a8ae694590ea.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_94b0a8ae694590ea",
+      "package_content_sha256": "38e2acd59591f67b1b0db0e9367727397c9ff9216fe8596e18a1429a54a25446"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_94b0a8ae694590ea",
+      "package_content_sha256": "5790ae6a307184b9aec579622bf19138d355b9fed6ec26c0db4caef845df5892"
+    }
+  },
+  "result_panels": [
+    "interface_matrix",
+    "boundary_controls",
+    "charge_mechanism"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_94b0a8ae694590ea/documents/main.pdf",
+      "sha256": "9fe1fcd47f0da4b843db4f058e7482a4ca3049b1e17b0a3117b6c4c7328f130d",
+      "pages": [
+        3,
+        4,
+        5
+      ],
+      "total_pages": 12
+    },
+    {
+      "path": "papers/paper_94b0a8ae694590ea/documents/supplementary_001.pdf",
+      "sha256": "3a0f1cd4f04cb734daeb4c1cb4520edca7343964e00d8a594022193b87f659a9",
+      "pages": [
+        10,
+        15,
+        20
+      ],
+      "total_pages": 20
+    },
+    {
+      "path": "docs/evalution/update/paper_94b0a8ae694590ea.md",
+      "sha256": "4e6a7fc317ef69c42f770cee51bbb290e42639e31201c2b008a35f9ea06b6456",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_94b0a8ae694590ea/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_94b0a8ae694590ea/evaluation/reference_validation_plan.md"
+  }
+}

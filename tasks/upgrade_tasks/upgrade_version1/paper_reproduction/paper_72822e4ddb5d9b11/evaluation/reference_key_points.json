@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use all 165 atoms in complex_4.xyz without ligand truncation. Retain neutral charge and the original connectivity; singlet, unrestricted broken-symmetry Ms=0 and triplet alternatives must be distinguished. A BS input multiplicity of 1 is not proof of a pure singlet. Adiabatic electronic spin gap E(T;R_T)-E(CS;R_CS), separately from vertical E(T;R_CS)-E(CS;R_CS), in kcal/mol (1 hartree=627.509474 kcal/mol). No ZPE or G is folded into these E gaps. A collapsed BS attempt has no independent minimum energy. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_state_matrix",
+      "statement": "Two-method electronic-state and stability matrix",
+      "expected": "Check independent BS initial densities and final density overlap/collapse. Spin occupations and populations must corroborate energy assignments. Failed convergence cannot be substituted for demonstrated collapse.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_geometry_control",
+      "statement": "Vertical versus relaxed spin energetics",
+      "expected": "Recompute matched electronic energy differences and relaxation term. Verify full structure, basis partition and stationarity; for 165 nonlinear atoms use 489 internal modes, not 495.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_interpretation",
+      "statement": "Method robustness and metal–ligand electronic assignment",
+      "expected": "Use signed energy, stable wavefunctions, occupations and spin location together. Accept supported BS collapse and unresolved ordering, but reject an unattempted alternative or whole catalytic-cycle claims.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

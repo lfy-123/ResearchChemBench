@@ -6,7 +6,7 @@ The paper tests whether the Polytope Formalism connectivity graph for H-tautomer
 
 ## 2. System and model boundary
 
-The system is the charge −1, singlet free-base subporphyrin monoanion (triphyrin[1.1.1]ate), treated as a single nondissociating molecule. The three N sites are the connectivity sites and the inner H atom is the mobile bonder; all other atoms are spectators. The SI19 coordinate records contain 28 atoms for the LM and TS records and 30 atoms for the second-order saddle record, with explicit charge and multiplicity.
+The system is the charge −1, singlet free-base subporphyrin monoanion (triphyrin[1.1.1]ate), treated as a single nondissociating molecule. The three N sites are the connectivity sites and the inner H atom is the mobile bonder; all other atoms are spectators. The SI19 coordinate records for species 6a, 7a and 8a each contain 28 atoms with explicit charge and multiplicity. The original v0 public mapping was incorrect (candidate B was 8a and candidate C was the unrelated 29-atom species 9); v1 corrects the mapping to A=6a, B=7a and C=8a.
 
 ## 3. Authors' implemented computational route
 

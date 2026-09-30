@@ -1,0 +1,218 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_a3892396b1843698",
+    "items": [
+      {
+        "key_point_id": "kp_pr_process_ts",
+        "key_point_type": "process",
+        "statement": "Each submitted [3,3] and [5,5] transition-state candidate is converged and supported by exactly one imaginary frequency with a channel-consistent displacement.",
+        "expected_result": "Both channel assignments include convergence evidence, one-imaginary-frequency evidence and a chemically consistent displacement check.",
+        "evidence_ids": [
+          "ev_doc_a83f54c6ca47_000034_9a7436bb8a08"
+        ],
+        "expected": "Both channel assignments include convergence evidence, one-imaginary-frequency evidence and a chemically consistent displacement check."
+      },
+      {
+        "key_point_id": "kp_pr_process_reference",
+        "key_point_type": "process",
+        "statement": "The two barriers use a common 3a Gibbs free-energy reference and a disclosed consistent thermochemical protocol.",
+        "expected_result": "The report explicitly defines the common reference state and thermal/free-energy treatment.",
+        "evidence_ids": [
+          "ev_doc_a83f54c6ca47_000034_9a7436bb8a08"
+        ],
+        "expected": "The report explicitly defines the common reference state and thermal/free-energy treatment."
+      },
+      {
+        "key_point_id": "kp_pr_result_barriers",
+        "key_point_type": "result",
+        "statement": "The double-boat [3,3] and [5,5] activation barriers are approximately 23.5 and 26.2 kcal/mol, respectively.",
+        "expected_result": "Two reported numeric barriers are close to those source values and retain channel identity.",
+        "evidence_ids": [
+          "ev_doc_9f2c11e4e641_000055_a30e8b391de5"
+        ],
+        "expected": "Two reported numeric barriers are close to those source values and retain channel identity."
+      },
+      {
+        "key_point_id": "kp_pr_result_comparison",
+        "key_point_type": "result",
+        "statement": "The [3,3] double-boat channel has the lower barrier than the [5,5] double-boat channel.",
+        "expected_result": "The conclusion states [3,3] is lower within the submitted uncertainty.",
+        "evidence_ids": [
+          "ev_doc_9f2c11e4e641_000055_a30e8b391de5"
+        ],
+        "expected": "The conclusion states [3,3] is lower within the submitted uncertainty."
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_a3892396b1843698",
+    "items": [
+      {
+        "conclusion_id": "c_pr_final",
+        "claim_role": "final",
+        "expected_conclusion": "A validated computation should recover a lower [3,3] than [5,5] double-boat barrier, near 23.5 and 26.2 kcal/mol, and may support the qualitative strained-cyclopropyl organization hypothesis.",
+        "evidence_ids": [
+          "ev_doc_9f2c11e4e641_000055_a30e8b391de5"
+        ],
+        "supporting_key_point_ids": [
+          "kp_pr_process_ts",
+          "kp_pr_result_barriers",
+          "kp_pr_result_comparison"
+        ],
+        "statement": "A validated computation should recover a lower [3,3] than [5,5] double-boat barrier, near 23.5 and 26.2 kcal/mol, and may support the qualitative strained-cyclopropyl organization hypothesis.",
+        "expected": "A validated computation should recover a lower [3,3] than [5,5] double-boat barrier, near 23.5 and 26.2 kcal/mol, and may support the qualitative strained-cyclopropyl organization hypothesis."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_a3892396b1843698",
+    "rules": [
+      {
+        "rule_id": "r_pr_kp_ts",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.channels.shift_33.validation",
+            "$.channels.shift_55.validation"
+          ],
+          "comparison": "expert validation"
+        },
+        "type": "condition",
+        "reference_id": "kp_pr_process_ts",
+        "expected": "all required validation booleans are true for validated candidates Validation flags alone are insufficient: inspect each actual mode/path/endpoint evidence under the public channel requirements. Distinct starting files for one channel do not establish separate mechanisms."
+      },
+      {
+        "rule_id": "r_pr_kp_ref",
+        "expected": "common 3a reference and disclosed consistent thermochemistry",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.method.reference_state",
+            "$.method.thermochemistry"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "type": "semantic",
+        "reference_id": "kp_pr_process_reference"
+      },
+      {
+        "rule_id": "r_pr_barrier_33",
+        "target": 23.5,
+        "unit": "kcal/mol",
+        "tolerance": 3,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.channels.shift_33.barrier_kcal_mol"
+          ],
+          "comparison": "absolute difference"
+        },
+        "type": "numeric",
+        "reference_id": "kp_pr_result_barriers"
+      },
+      {
+        "rule_id": "r_pr_barrier_55",
+        "target": 26.2,
+        "unit": "kcal/mol",
+        "tolerance": 3,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.channels.shift_55.barrier_kcal_mol"
+          ],
+          "comparison": "absolute difference"
+        },
+        "type": "numeric",
+        "reference_id": "kp_pr_result_barriers"
+      },
+      {
+        "rule_id": "r_pr_order",
+        "expected": "[3,3] barrier lower than [5,5]",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion"
+          ],
+          "comparison": "expert ordering comparison"
+        },
+        "type": "ordering",
+        "reference_id": "kp_pr_result_comparison"
+      },
+      {
+        "rule_id": "r_pr_final",
+        "expected": "validated lower [3,3] barrier and source-consistent barrier magnitudes Check common 3a reference and consistent thermochemical/qRRHO components. Limit the ordering to the two validated channels, not the globally best pathway over an unsearched surface.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "type": "semantic",
+        "reference_id": "c_pr_final"
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_a3892396b1843698",
+    "items": [
+      {
+        "failure_id": "cf_pr_identity",
+        "condition": "submitted system is not the supplied neutral 3a structure or charge/multiplicity are missing",
+        "severity": "critical"
+      },
+      {
+        "failure_id": "cf_pr_ts",
+        "condition": "barrier is reported for a candidate lacking exactly-one-imaginary-frequency and channel assignment evidence",
+        "severity": "critical"
+      },
+      {
+        "failure_id": "cf_pr_reference",
+        "condition": "barriers use inconsistent or undefined reactant reference states",
+        "severity": "critical"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_a3892396b1843698",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_9f2c11e4e641_000055_a30e8b391de5",
+        "source": "main_paper page 4 3a double-boat barriers and comparison",
+        "document_id": "doc_9f2c11e4e641",
+        "source_ref": "content_list_v2:55"
+      },
+      {
+        "evidence_id": "ev_doc_9f2c11e4e641_000149_257b5c60efd0",
+        "source": "main_paper page 14 central summary claim",
+        "document_id": "doc_9f2c11e4e641",
+        "source_ref": "content_list_v2:149"
+      },
+      {
+        "evidence_id": "ev_doc_a83f54c6ca47_000034_9a7436bb8a08",
+        "source": "supporting_information page 6 energy convention, imaginary frequencies and computational protocol",
+        "document_id": "doc_a83f54c6ca47",
+        "source_ref": "content_list_v2:34"
+      },
+      {
+        "evidence_id": "ev_doc_9f2c11e4e641_000026_6f27a5e9c37c",
+        "source": "main_paper page 2 10-electron system scope",
+        "document_id": "doc_9f2c11e4e641",
+        "source_ref": "content_list_v2:26"
+      }
+    ]
+  }
+}

@@ -1,0 +1,305 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "method": {
+                "type": "string"
+              },
+              "method_justification": {
+                "type": "string"
+              },
+              "sign_convention": {
+                "type": "string"
+              },
+              "deduplication_criterion": {
+                "type": "string"
+              },
+              "pair_results": {
+                "type": "object",
+                "required": [
+                  "DED2_PC",
+                  "TEA_PC",
+                  "BF4_PC"
+                ],
+                "properties": {
+                  "DED2_PC": {
+                    "$ref": "#/$defs/pair_result"
+                  },
+                  "TEA_PC": {
+                    "$ref": "#/$defs/pair_result"
+                  },
+                  "BF4_PC": {
+                    "$ref": "#/$defs/pair_result"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ordering": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sensitivity": {
+                "type": "object",
+                "required": [
+                  "change_tested",
+                  "result",
+                  "ordering_robust"
+                ],
+                "properties": {
+                  "change_tested": {
+                    "type": "string"
+                  },
+                  "result": {
+                    "type": "string"
+                  },
+                  "ordering_robust": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "coverage": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              },
+              "conclusion": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "status",
+              "method",
+              "method_justification",
+              "sign_convention",
+              "deduplication_criterion",
+              "pair_results",
+              "ordering",
+              "sensitivity",
+              "coverage",
+              "conclusion"
+            ]
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "method": {
+                "type": "string"
+              },
+              "method_justification": {
+                "type": "string"
+              },
+              "sign_convention": {
+                "type": "string"
+              },
+              "pair_attempts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/pair_attempt"
+                }
+              },
+              "coverage": {
+                "type": "string"
+              },
+              "failure_reason": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              },
+              "conclusion": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "status",
+              "method",
+              "method_justification",
+              "sign_convention",
+              "pair_attempts",
+              "coverage",
+              "failure_reason",
+              "conclusion"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "$defs": {
+      "candidate": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "starting_orientation",
+          "provenance",
+          "convergence",
+          "minimum_test",
+          "complex_energy",
+          "ion_energy",
+          "pc_energy",
+          "binding_energy_kcal_mol"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "starting_orientation": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "convergence": {
+            "type": "string"
+          },
+          "minimum_test": {
+            "type": "string"
+          },
+          "complex_energy": {
+            "type": "number"
+          },
+          "ion_energy": {
+            "type": "number"
+          },
+          "pc_energy": {
+            "type": "number"
+          },
+          "binding_energy_kcal_mol": {
+            "type": "number"
+          }
+        }
+      },
+      "pair_result": {
+        "type": "object",
+        "required": [
+          "candidates",
+          "selected_candidate_id",
+          "selected_binding_energy_kcal_mol"
+        ],
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "$ref": "#/$defs/candidate"
+            }
+          },
+          "selected_candidate_id": {
+            "type": "string"
+          },
+          "selected_binding_energy_kcal_mol": {
+            "type": "number"
+          }
+        }
+      },
+      "pair_attempt": {
+        "type": "object",
+        "required": [
+          "pair_id",
+          "attempted_candidates",
+          "unresolved_condition"
+        ],
+        "properties": {
+          "pair_id": {
+            "type": "string"
+          },
+          "attempted_candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "starting_orientation",
+                "provenance",
+                "convergence",
+                "minimum_test",
+                "energy_bookkeeping"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "starting_orientation": {
+                  "type": "string"
+                },
+                "provenance": {
+                  "type": "string"
+                },
+                "convergence": {
+                  "type": "string"
+                },
+                "minimum_test": {
+                  "type": "string"
+                },
+                "energy_bookkeeping": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "unresolved_condition": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

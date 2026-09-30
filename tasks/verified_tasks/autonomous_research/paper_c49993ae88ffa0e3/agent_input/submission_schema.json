@@ -1,0 +1,238 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "reference_convention"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "bounded_failure"
+        ],
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "method": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "description",
+            "disposition"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "disposition": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "hypothesis_id",
+            "charge",
+            "multiplicity",
+            "validation_evidence"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "validation_evidence": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      },
+      "coverage": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "states": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "state_id",
+            "delta_g_kcal_mol",
+            "validation"
+          ],
+          "properties": {
+            "state_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "delta_g_kcal_mol": {
+              "type": "number"
+            },
+            "validation": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        "uniqueItems": true
+      },
+      "water_effect": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "sensitivity": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "attempt_diagnostics": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "diagnostic"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "diagnostic": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      },
+      "partial_results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "state_id",
+            "validation"
+          ],
+          "properties": {
+            "state_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "delta_g_kcal_mol": {
+              "type": "number"
+            },
+            "validation": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      },
+      "reference_convention": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "Optional additional or unsuccessful trials, separate from primary results."
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "success"
+          }
+        },
+        "required": [
+          "hypotheses",
+          "candidates",
+          "coverage",
+          "states",
+          "water_effect",
+          "sensitivity",
+          "conclusion"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "hypotheses",
+          "attempt_diagnostics",
+          "partial_results",
+          "coverage",
+          "conclusion"
+        ]
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_fda8b9b53f8276db/documents/main.pdf",
+          "sha256": "0afa69242ab928c082802d029d66eaa4c3c58cea7f791438d64de1c7f88de8d1",
+          "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p4 区分气相优化 cis 与晶体 trans；SI Table S2 印刷 S10–S11 的六个键长均带 (1)，当前 experimental_bonds.json 已给 standard_uncertainty_A=0.001。",
+          "actual_read_pages_and_sections": "Main p4 §2.4; SI pp10–11 TableS2 and pp11–15 molecular coordinates/frequency/structure figures; authentic CCDC record and atom-label mapping."
+        },
+        {
+          "path": "papers/paper_fda8b9b53f8276db/documents/supplementary_001.pdf",
+          "sha256": "13ace6b2daec90e737a69c21f21a4af2d7cab7a54b967859e270ca1147c496de",
+          "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p4 区分气相优化 cis 与晶体 trans；SI Table S2 印刷 S10–S11 的六个键长均带 (1)，当前 experimental_bonds.json 已给 standard_uncertainty_A=0.001。",
+          "actual_read_pages_and_sections": "Main p4 §2.4; SI pp10–11 TableS2 and pp11–15 molecular coordinates/frequency/structure figures; authentic CCDC record and atom-label mapping."
+        }
+      ],
+      "description": "The source compares a free quinoxaline ligand molecular calculation with its crystal geometry. The bounded task concerns ligand1, not its Re complex, biological activity or crystal-lattice thermodynamics. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "group_3 已有有限十行原生参考并修复 ESD；新 C 任务的 evaluator 校准和独立运行仍须另报。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular description of the free quinoxaline ligand is supported by the supplied crystal structure and an independent molecular investigation, and how should agreement or disagreement with the crystal geometry be interpreted? Establish which structural conclusions are reliable and which remain model dependent. Verify any claimed optimized state or structural minimum and define the molecular/experimental environments compared. If reporting residuals, state the included atoms/bonds and statistic; separate marginal crystallographic ESDs, absent covariance, rounding and model error. A local minimum is not a certified global minimum, and bond agreement alone cannot explain a phase-dependent conformation."
+    }
+  ]
+}

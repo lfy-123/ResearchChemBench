@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_minimum",
+      "type": "condition",
+      "expected": "Convergence, stationary-point minimum validation and consistent fragment bookkeeping are explicitly evidenced. Verify atom/charge bookkeeping and E_bind = E_complex - sum(E_fragments) at a consistent electronic-energy level. Do not substitute Gibbs energy or reverse-sign dissociation energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation",
+          "$.energies"
+        ],
+        "comparison": "expert check of process evidence"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_coverage",
+      "type": "semantic",
+      "expected": "Candidate generation, deduplication and actual candidate comparison are reproducibly documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_binding",
+      "type": "numeric",
+      "target": -2.16,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.binding_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_result_interpretation",
+      "type": "semantic",
+      "expected": "Geometry/contact interpretation explicitly supports, weakens or leaves unresolved the qualitative Li-O/Li-F chelation hypothesis using actual calculated energy and coordination evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "The validated gas-phase Li+-TFPM complex and consistent fragment references give the required signed binding energy and Li-O/F coordination geometry.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

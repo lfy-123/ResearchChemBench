@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use the full neutral singlet INT-G C39H34OP2Pd reactant. In its fixed map, Pd75 binds hydrides H76/H77 and P1/P41 of XantPhos. Build the H–H saddle, eta2-H2 adduct, separated H2+Pd(XantPhos), and one DMAc-coordinated Pd regeneration endpoint. Keep the XantPhos graph intact. Use DMAc and 298.15 K. Primary ledger: solutes 1 M and H2 at 1 atm; separately report all-species 1 M and H2 pressure sensitivity. Source 1 atm and all-solute 1 M values cannot be combined.",
+  "panels": {
+    "HH_formation": {
+      "requirement": "Connected H–H formation saddle and bound-H2 endpoint.",
+      "required_cells": [
+        "outcome",
+        "candidate_ids",
+        "reactant_record_ids",
+        "product_record_ids",
+        "atom_mapping_file",
+        "reaction_balance_file",
+        "search_log",
+        "local_reference",
+        "common_reference",
+        "temperature_K",
+        "solute_standard_state",
+        "endpoint_forward_file",
+        "endpoint_reverse_file",
+        "evidence_files",
+        "forming_bonds",
+        "breaking_bonds"
+      ]
+    },
+    "release_and_recoordination": {
+      "requirement": "Real separated and re-ligated states, not relabelled eta2-H2.",
+      "required_cells": [
+        "bound_H2_record",
+        "separated_Pd_record",
+        "H2_record",
+        "DMAc_record",
+        "coordinated_Pd_record",
+        "dissociation_E_kcal_mol",
+        "dissociation_G_kcal_mol",
+        "association_G_kcal_mol",
+        "dissociation_profile_file",
+        "stationary_evidence_files"
+      ]
+    },
+    "standard_state_control": {
+      "requirement": "Explicit H2 pressure and gas/solute standard-state conversions.",
+      "required_cells": [
+        "gas_1atm_solutes_1M",
+        "all_species_1M"
+      ]
+    }
+  },
+  "optional_not_required": "完整光催化回路、精确周转频率不加入。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

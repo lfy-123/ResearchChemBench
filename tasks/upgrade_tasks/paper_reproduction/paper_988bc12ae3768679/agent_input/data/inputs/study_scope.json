@@ -1,0 +1,61 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "parent_2a": {
+      "formula": "C30H20N6O4",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "parent_identity.json"
+    },
+    "candidate_2a": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "charges": [
+        -2,
+        -1,
+        0,
+        1,
+        2
+      ],
+      "identity_file": "candidate_seeds.json",
+      "formula_rule": "C30H(20+proton_change)N6O4; charge=proton_change; heavy atoms fixed"
+    }
+  },
+  "identity_files": [
+    "candidate_seeds.json",
+    "parent_identity.json",
+    "experimental_observations.json"
+  ],
+  "control_definitions": {
+    "candidates": "Attempt neutral_parent, neutral_lactim, acid_O, acid_azoN, base_O and base_lactamN using the exact mapped seed edits. Include two independent conformer starts per seed and documented collapse. Other candidates are optional unless needed to resolve the joint evidence. No seed is designated the observed species.",
+    "spectra": "Predict both aromatic 1H shifts with an explicit shielding reference and allowed TD transitions in the corresponding solvents; select absorption features using oscillator strengths, not closest-energy matching.",
+    "protons": "Supply a balanced proton-exchange cycle for every cross-charge comparison. State acid/base reference species and solvation convention; test the decisive reference/solvent sensitivity.",
+    "mixtures": "A mixture is allowed only with normalized nonnegative populations and simultaneous fit of both observation types; extra free parameters need identifiability checks."
+  },
+  "observable_definition": "Within a fixed proton count compare like-solvated relative G. Across proton counts use a balanced proton-exchange cycle with a declared common acid/base reference and pH chemical-potential convention; raw different-charge total energies are not population rankings. Joint NMR/UV residuals use one predeclared error model per observable across all candidates.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "candidate_registry",
+      "description": "Explicit proton/tautomer candidates and conformer evidence"
+    },
+    {
+      "id": "joint_evidence",
+      "description": "Joint NMR/UV discrimination"
+    },
+    {
+      "id": "thermodynamic_and_robustness",
+      "description": "Balanced speciation and robustness"
+    }
+  ],
+  "optional_not_scored": "Cellulose sensor morphology, full pH dynamics, all substituted dyes and gas-phase dianion calculations are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

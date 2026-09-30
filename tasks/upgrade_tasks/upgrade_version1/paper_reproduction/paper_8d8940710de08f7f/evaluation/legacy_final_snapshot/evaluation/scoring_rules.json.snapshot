@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "rules": [
+    {
+      "rule_id": "r_pr_kp_minima",
+      "type": "condition",
+      "expected": "Six named states have object-specific minimum validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].states[*].minimum_validation"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "kp_pr_process_minima"
+    },
+    {
+      "rule_id": "r_pr_kp_relative",
+      "type": "condition",
+      "expected": "Per-molecule reference state and subtraction procedure are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].states[*].relative_gibbs_kcal_mol",
+          "$.coverage.state_coverage"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "kp_pr_process_relative"
+    },
+    {
+      "rule_id": "r_pr_energy_sn",
+      "type": "numeric",
+      "target": 2.57,
+      "unit": "kcal/mol",
+      "tolerance": 0.8,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "For each unique molecule identity SNaft and SAntr, select its unique state_id=Z and compare its G-minus-lowest-of-that-molecule to target with absolute tolerance. Apply independently to both Z gaps, not to V+/V- values. Assess near-degenerate V-pair ordering separately from all submitted state energies."
+      },
+      "reference_id": "kp_pr_result_energy"
+    },
+    {
+      "rule_id": "r_pr_hbond",
+      "type": "semantic",
+      "expected": "The report evaluates intramolecular hydrogen bonding as a plausible contributor to V-like stabilization and provides supporting structural or interaction evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.author_hypothesis_test"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_result_hbond"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "type": "semantic",
+      "expected": "V(+)/V(−) are the low-energy pair and Z is higher by approximately 3 kcal/mol for both compounds.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.ordering",
+          "$.conclusion.text"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_final_order"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}

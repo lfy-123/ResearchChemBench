@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_988bc12ae3768679/documents/main.pdf",
+          "sha256": "8ee6c2620ae4107f7fd8043982eb478ffa01714734e69416a7b186e9ff32e189",
+          "pages": [
+            4,
+            5,
+            6
+          ],
+          "total_pages": 10
+        },
+        {
+          "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_988bc12ae3768679.publisher_si.docx",
+          "sha256": "b3633cc3dbdbae1fe21da6413596b8434189d1a6f4b55dafeeaa6975bc3acedf",
+          "sections": "Details on 1H-NMR Spectra Simulation, Table S2, TDDFT and neutral DMSO coordinate block."
+        }
+      ],
+      "scope": "Source material establishes problem, identities and bounded reference claims. See private source_scope_audit."
+    },
+    {
+      "evidence_id": "historical_evidence",
+      "source": {
+        "freeze_handoff": {
+          "validation_group_not_authoring_batch": 5,
+          "handoff_path": "docs/upgrade_tasks_v2_review_20260928/group_5/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+          "handoff_sha256": "b48a083f8b5cd4e6db80cf8adc372cf2b27b2e96143b1d7ca26108952729dc4b",
+          "recorded_at_utc": "2026-09-28T15:05:46.703865+00:00",
+          "scientific_disposition": "needs_work",
+          "completed_evidence_summary": "六类原子映射候选各两套独立ETKDG/UFF初猜已生成并审查；12个UFF收敛仅属输入准备。首个水相CAM-B3LYP优化被平台中断，恢复01因checkpoint缺几何FileIO失败；恢复02保持原独立坐标和方法重新启动，已登记排队，未重复活跃作业。",
+          "unfinished_scientific_or_input_work": [
+            "酸碱不同位点/键型与构象的实际搜索、坍缩证据",
+            "中性标定及所有保留候选DMSO NMR/水相UV",
+            "配平质子热力学循环、溶剂/方法稳健性"
+          ],
+          "not_a_content_dispatch_gate": true,
+          "job_status_refreshed_this_turn": false
+        },
+        "v1_reference_plan": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_988bc12ae3768679/evaluation/reference_validation_plan.md",
+        "applicability": "十二个力场初猜只证明输入可构建；溶剂优化、光谱和质子循环参考仍待补，不把 UFF 收敛当科学最低点。",
+        "new_scientific_calculations_performed": false,
+        "precise_artifact_inventory": "evaluation/task_provenance/evidence_reuse_inventory.json",
+        "inventory_boundary": "File existence/hash establishes provenance only. Historical job status is a dated recorded observation, not a live platform check. V1 matrices are historical designs, not mandatory V2 evaluation routes."
+      },
+      "scope": "Read-only historical work with explicit applicability limits; not blanket V2 acceptance."
+    }
+  ],
+  "judge_calibration_status": "pending",
+  "numerical_tolerance_policy": "No new universal tolerance is asserted. Judge quantitative significance against the submission error evidence and the specific reference conditions."
+}

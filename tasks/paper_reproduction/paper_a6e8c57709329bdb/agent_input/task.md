@@ -4,7 +4,7 @@ Independently determine the electronic structure of the isolated neutral HL liga
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/hl_ligand.json` as the complete molecular identity: its SMILES, formula C20H20N4O6, formal charge 0, singlet multiplicity, E imines, and isolated-molecule scope define the system. You may generate starting conformers and choose software, electronic-structure method, basis, convergence settings, and orbital-analysis tools. Do not add Mn, Fe, solvent, counterions, crystal packing, or implicit environmental terms unless you provide a separate clearly labelled sensitivity calculation. The measured quantities are orbital energies in eV, their difference calculated as E(LUMO) − E(HOMO), and qualitative atom/group localization from orbital data.
+Use `data/inputs/hl_ligand.json` as the complete molecular identity: its SMILES, formula C20H22N4O6, formal charge 0, singlet multiplicity, E imines, and isolated-molecule scope define the system. You may generate starting conformers and choose software, electronic-structure method, basis, convergence settings, and orbital-analysis tools. Do not add Mn, Fe, solvent, counterions, crystal packing, or implicit environmental terms unless you provide a separate clearly labelled sensitivity calculation. The measured quantities are orbital energies in eV, their difference calculated as E(LUMO) − E(HOMO), and qualitative atom/group localization from orbital data.
 
 # Required scientific validation/investigation
 

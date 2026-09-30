@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_72822e4ddb5d9b11",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use all 165 atoms in complex_4.xyz without ligand truncation. Retain neutral charge and the original connectivity; singlet, unrestricted broken-symmetry Ms=0 and triplet alternatives must be distinguished. A BS input multiplicity of 1 is not proof of a pure singlet. Adiabatic electronic spin gap E(T;R_T)-E(CS;R_CS), separately from vertical E(T;R_CS)-E(CS;R_CS), in kcal/mol (1 hartree=627.509474 kcal/mol). No ZPE or G is folded into these E gaps. A collapsed BS attempt has no independent minimum energy. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use all 165 atoms in complex_4.xyz without ligand truncation. Retain neutral charge and the original connectivity; singlet, unrestricted broken-symmetry Ms=0 and triplet alternatives must be distinguished. A BS input multiplicity of 1 is not proof of a pure singlet. Adiabatic electronic spin gap E(T;R_T)-E(CS;R_CS), separately from vertical E(T;R_CS)-E(CS;R_CS), in kcal/mol (1 hartree=627.509474 kcal/mol). No ZPE or G is folded into these E gaps. A collapsed BS attempt has no independent minimum energy. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_state_matrix",
+      "reference_id": "kp_state_matrix",
+      "type": "semantic",
+      "expected": "Check independent BS initial densities and final density overlap/collapse. Spin occupations and populations must corroborate energy assignments. Failed convergence cannot be substituted for demonstrated collapse.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.state_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Check independent BS initial densities and final density overlap/collapse. Spin occupations and populations must corroborate energy assignments. Failed convergence cannot be substituted for demonstrated collapse."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_geometry_control",
+      "reference_id": "kp_geometry_control",
+      "type": "semantic",
+      "expected": "Recompute matched electronic energy differences and relaxation term. Verify full structure, basis partition and stationarity; for 165 nonlinear atoms use 489 internal modes, not 495.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.geometry_control",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute matched electronic energy differences and relaxation term. Verify full structure, basis partition and stationarity; for 165 nonlinear atoms use 489 internal modes, not 495."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Use signed energy, stable wavefunctions, occupations and spin location together. Accept supported BS collapse and unresolved ordering, but reject an unattempted alternative or whole catalytic-cycle claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.interpretation",
+          "$.calculation_records"
+        ],
+        "comparison": "Use signed energy, stable wavefunctions, occupations and spin location together. Accept supported BS collapse and unresolved ordering, but reject an unattempted alternative or whole catalytic-cycle claims."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether the full Ni complex supports a closed-shell description, a triplet or a distinct broken-symmetry state, and whether the conclusion survives geometry and electronic-method controls. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether the full Ni complex supports a closed-shell description, a triplet or a distinct broken-symmetry state, and whether the conclusion survives geometry and electronic-method controls. Reject truncated ligand/incorrect charge, a BS determinant identified as a spin-pure singlet, failed SCF called collapse, mixing electronic and thermal energies or different basis partitions, or claims about water-oxidation performance. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "state_matrix",
+      "max_score": 25,
+      "description": "Two-method electronic-state and stability matrix",
+      "rule_ids": [
+        "rule_state_matrix"
+      ]
+    },
+    {
+      "id": "geometry_control",
+      "max_score": 25,
+      "description": "Vertical versus relaxed spin energetics",
+      "rule_ids": [
+        "rule_geometry_control"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 15,
+      "description": "Method robustness and metal–ligand electronic assignment",
+      "rule_ids": [
+        "rule_interpretation"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Two-method electronic-state and stability matrix",
+      "Vertical versus relaxed spin energetics",
+      "Method robustness and metal–ligand electronic assignment",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

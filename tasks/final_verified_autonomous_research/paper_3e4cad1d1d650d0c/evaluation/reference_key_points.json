@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_identity",
+      "key_point_type": "process",
+      "statement": "The submission preserves the two supplied molecular identities, charge −1, singlet state, and isolated/no-counterion boundary.",
+      "expected_result": "Both named records match the supplied explicit SMILES and state assignments.",
+      "evidence_ids": [
+        "ev_doc_7f0130e00b46_000032_9c866370fad2"
+      ],
+      "expected": "Both named records match the supplied explicit SMILES and state assignments."
+    },
+    {
+      "key_point_id": "kp_ar_process_minimum",
+      "key_point_type": "process",
+      "statement": "Each reported final geometry is converged and checked as a stationary minimum.",
+      "expected_result": "Each successful record reports convergence and zero imaginary modes or a justified equivalent.",
+      "evidence_ids": [
+        "ev_doc_27b1282aff03_000639_419d305b24f1",
+        "ev_doc_27b1282aff03_000641_11477ba51236"
+      ],
+      "expected": "Each successful record reports convergence and zero imaginary modes or a justified equivalent."
+    },
+    {
+      "key_point_id": "kp_ar_result_A",
+      "key_point_type": "result",
+      "statement": "The HOMO energy for system_A is consistent with the source-reported value.",
+      "expected_result": "HOMO is approximately −5.03 eV.",
+      "evidence_ids": [
+        "ev_doc_7f0130e00b46_000032_9c866370fad2"
+      ],
+      "expected": "HOMO is approximately −5.03 eV."
+    },
+    {
+      "key_point_id": "kp_ar_result_B",
+      "key_point_type": "result",
+      "statement": "The HOMO energy for system_B is consistent with the source-reported value.",
+      "expected_result": "HOMO is approximately −5.18 eV.",
+      "evidence_ids": [
+        "ev_doc_7f0130e00b46_000034_3f1a8d7dd0f9"
+      ],
+      "expected": "HOMO is approximately −5.18 eV."
+    }
+  ]
+}

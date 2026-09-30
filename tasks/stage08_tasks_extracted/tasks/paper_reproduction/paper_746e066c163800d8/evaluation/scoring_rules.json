@@ -1,0 +1,85 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "condition",
+      "expected": "minimum validation is documented and imaginary-mode outcome is reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.minimum_test",
+          "$.validation.imaginary_modes"
+        ],
+        "comparison": "expert condition comparison"
+      },
+      "reference_id": "pr_process_minimum"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "condition",
+      "expected": "five individually indexed torsions and a stated convention are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.torsions"
+        ],
+        "comparison": "expert structural audit"
+      },
+      "reference_id": "pr_process_torsion_trace"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "numeric",
+      "target": 27.1,
+      "unit": "degree",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.mean_torsion_deg"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": {"field": "$.status", "equals": "complete"},
+      "reference_id": "pr_result_mean"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "semantic",
+      "expected": "validated calculation supports the bounded structural calibration conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final",
+      "applicability": {"field": "$.status", "equals": "complete"}
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_result_calibration",
+      "type": "semantic",
+      "expected": "the result is compared with the experimental boundary as structural calibration, not universal validation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.interpretation", "$.limitations"],
+        "comparison": "expert condition comparison"
+      },
+      "applicability": {"field": "$.status", "equals": "complete"}
+    }
+  ],
+  "paper_id": "paper_746e066c163800d8"
+}

@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "recorded_at": "2026-09-28T17:43:05.069815+00:00",
+  "legacy_summary": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_3deba7268b769ce6/evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+    "sha256": "55ee4349c69eb7d52de17be24b8218fd18072a1bf2a3e2257731da435551ff57",
+    "role": "Read-only historical summary; old PASS and numerical tolerances are not V2 validation."
+  },
+  "applicability_and_limits": "V1 evaluation/legacy_final_snapshot preserves old dye computations and source method context. Source SI TableS2 provides real lower-band observations; the main paper separately provides preparation and stability constraints. The old continuum/microsolvation references do not establish the full solution composition or a unique solvent mechanism. Existing source calculated coordinates are private and are not public experimental inputs.",
+  "existing_files": [
+    {
+      "path": "runs/hold_verification/group_5/dye3_identity_20260916/paper_3deba7268b769ce6/provenance/qzcli_hpc/dye3_correct_thiophene_s0_optfreq_20260916/20260916T063130_096116_341/input.inp",
+      "sha256": "c4efb8e85c3a41d86de36b7f17ce3a866fd06e34f7e2f324d43cc23a73c05073",
+      "bytes": 1833,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "runs/hold_verification/group_5/dye3_identity_20260916/paper_3deba7268b769ce6/provenance/qzcli_hpc/dye3_correct_thiophene_s0_optfreq_20260916/20260916T063130_096116_341/orca_stdout.log",
+      "sha256": "66ee07dadfe7d19b5b5a5d74efe1135bf8f63d25cb20d5d2432e52c266b5eb77",
+      "bytes": 1510732,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "runs/hold_verification/group_5/followup_20260916/paper_3deba7268b769ce6/provenance/local_tests/recovery_20260914/dye3_correct_minimum_fulltddft_nto_20260916/20260916T110755_941206_3368861/input.inp",
+      "sha256": "c81c84cc48c5fc1dd6f77ddeb783e1bfd3d1f2d3e867264c966f7f6acd011780",
+      "bytes": 1894,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "runs/hold_verification/group_5/followup_20260916/paper_3deba7268b769ce6/provenance/local_tests/recovery_20260914/dye3_correct_minimum_fulltddft_nto_20260916/20260916T110755_941206_3368861/orca_stdout.log",
+      "sha256": "b9e6315dada4bdc15580af89dbb9f31b8bed49d5fc5f7975027e4b4bd97eab82",
+      "bytes": 132153,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "runs/hold_verification/group_5/followup_20260916/paper_3deba7268b769ce6/report/results.json",
+      "sha256": "2e4617213323d7e3d76db9b8c11ed84d66ce791b170e5f50b0a82ebe5d68152e",
+      "bytes": 16495,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    }
+  ],
+  "unresolved_historical_links": [],
+  "boundary": "The locator/hash audit establishes bytes and existence only. It does not re-run chemistry or certify every historical file. Source paper, historical calculation and synthetic development fixtures remain distinct; no synthetic fixture appears in this inventory.",
+  "new_scientific_calculations_performed": false
+}

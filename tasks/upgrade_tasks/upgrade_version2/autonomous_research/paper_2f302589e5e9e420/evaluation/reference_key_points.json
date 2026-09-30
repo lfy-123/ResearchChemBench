@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "items": [
+    {
+      "key_point_id": "kp_fragment_identity",
+      "statement": "Correct full model identities and comparably defined molecular observables.",
+      "expected": "Check source topology, formula, substituent positions, N-alkyl groups and actual charge/state against artifacts. Verify each reported property belongs to that object and condition. Truncating an ethyl to methyl or silently changing EPI1/EPI2 invalidates dependent conclusions. Conformer IDs must not be confused with distinct chemical species.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_polarity_findings",
+      "statement": "Reproducible polarity findings rather than copied source dipoles.",
+      "expected": "Recompute the chosen polarity quantity from native outputs/analysis, checking units, definitions and method appropriateness. Accept a suitable alternative to mu or <mu²> when its relation to the stated question is justified. A single evaluated geometry earns only its demonstrated scope; publication dipoles, attractive ESP pictures or unverified statements alone earn no numerical finding credit.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_explanation_and_generality",
+      "statement": "Evidence that establishes the explanation and conditions of the substitution effect.",
+      "expected": "Assess whether the chosen evidence distinguishes the claimed source of the molecular difference and tests any asserted generality. If claiming a hydrogen-bond cause, inspect actual geometry/electronic or spectroscopic evidence and pertinent competing changes; no specific OH rotation or frozen backbone is mandatory. If a conformational counterexample invalidates a universal claim, reward it in proportion to verified scope. Neither lower polarity nor any named mechanism is required.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_statistical_and_physical_validity",
+      "statement": "Reliability sufficient for single-structure or population claims.",
+      "expected": "Check stationary-point/curvature evidence where minima are claimed. For population claims inspect distinct basins, energy/free-energy conventions, temperature, weights and uncertainty; repeated collapsed searches are not degeneracy. Do not equate <|mu|> with <mu²> or average lab-frame dipoles as an isotropic bulk response. For non-ensemble claims require the alternative relevant uncertainty evidence, not unused ensemble tests. Do not score a fixed arbitrary conformer number or low-frequency recipe.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    }
+  ]
+}

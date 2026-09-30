@@ -1,0 +1,79 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "2BF-TTA": {
+      "formula": "C26H12O2S4",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "2BF-TTA.xyz"
+    },
+    "2BT-TTA": {
+      "formula": "C26H12S6",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "2BT-TTA.xyz"
+    },
+    "2C8Ph-TTA": {
+      "formula": "C38H44S4",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "2C8Ph-TTA.xyz"
+    },
+    "SWCNT": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "benchmark_10_10_12repeat.extxyz"
+    },
+    "adsorbed_interface": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "note": "Formula must equal mapped tube plus intact declared adsorbate(s); spin treatment documented, multiplicity here denotes nonmagnetic periodic baseline."
+    }
+  },
+  "identity_files": [
+    "2BF-TTA.xyz",
+    "2BT-TTA.xyz",
+    "2C8Ph-TTA.xyz",
+    "benchmark_10_10_12repeat.extxyz",
+    "tube_definition.json"
+  ],
+  "control_definitions": {
+    "poses": "At least two independent adsorption orientations per molecule, with relaxation and retained/collapsed placement evidence.",
+    "size": "For at least the representative 2BF-TTA, repeat a 24-period/two-adsorbate cell at the same coverage and reciprocal k spacing; distinguish this from dilution.",
+    "numerical": "Converge tube k sampling and transverse vacuum using clean and adsorbed paired calculations; inspect a radial vacuum plateau rather than using a charged-cell potential zero.",
+    "density": "Subtract pristine tube and molecule densities at the same frozen interface coordinates, cell and real-space grid; integrate to verify total charge conservation."
+  },
+  "observable_definition": "E_int=E(tube+molecule)-E(tube at interface geometry)-E(molecule at interface geometry); E_def=E(tube frozen)-E(tube relaxed)+E(molecule frozen)-E(molecule relaxed); E_ads=E_int+E_def. All in eV per molecule at identical numerical conditions. Work function W=V_vac-E_F; electron gain on the molecule is positive in the declared density partition.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "interface_matrix",
+      "description": "Three full interfaces with frozen and relaxed references"
+    },
+    {
+      "id": "boundary_controls",
+      "description": "Length, coverage, vacuum and reciprocal-sampling controls"
+    },
+    {
+      "id": "charge_mechanism",
+      "description": "Donation versus interfacial dipole and adsorption geometry"
+    }
+  ],
+  "optional_not_scored": "Absolute carrier transport, NEGF, thermoelectric PF, tube diameter series and dilution dependence are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

@@ -1,0 +1,1578 @@
+
+===== PDF PAGE 1 =====
+Lateral π-extension in hexa-peri-hexabenzo[7]helicene: Enhanced linear 
+and second-order nonlinear optical properties
+Chunyu Liu a,*, Xiumei Pan b
+a College of Chemistry, Changchun Normal University, Changchun, 130032, China
+b Institute of Functional Material Chemistry, National & Local United Engineering Lab for Power Battery, Faculty of Chemistry, Northeast Normal University, Changchun, 
+130024, China
+A R T I C L E I N F O
+Keywords:
+Hexa-peri-hexabenzo[7]helicene
+Lateral π-extension
+Second-order nonlinear optical properties
+Electronic transition
+Reorganization energy
+A B S T R A C T
+The novel hexa-peri-hexabenzo[7]helicene (compound 5) features a unique π-extended structure and intriguing 
+photophysical properties. Elucidating the structure-property relationships is crucial for rational molecular design 
+and performance optimization. Density functional theory (DFT) and time-dependent DFT (TDDFT) methods were 
+employed to investigate the geometric and electronic structures, electronic absorption spectra, charge transport 
+characteristics, and second-order nonlinear optical (NLO) properties of compound 5 and its π-extended de­
+rivatives. Our calculations accurately reproduced the experimental absorption spectrum, allowing for the reliable 
+assignment of electronic transition properties. Lateral π-extension effectively modulates the energy gap (Eg) and 
+markedly enhances the second-order NLO response. Upon extending the number of benzene rings to 5n (n = 1, 2, 
+3) on each lateral side of compound 13, the resulting derivatives 25, 32, and 39 exhibit a linear increase in static 
+first hyperpolarizability (βHRS,∞) by a factor of 15n, while their Eg values remain nearly constant at approximately 
+0.2 eV. Remarkably, compound 39 achieves the highest βHRS,∞ value of 1560 × 10−30 esu, highlighting that the 
+π-extended derivatives are promising candidates for second-order NLO materials. Due to their low reorganization 
+energies, the studied compounds exhibit excellent charge transport properties. We propose an optimal molecular 
+design strategy enabled by precise lateral π-extension that simultaneously maximizes the transferred charge, 
+confines the charge transfer distance within a target range, and preserves a favorable electron-hole overlap. This 
+work provides guidelines for the design and synthesis of π-extended helicenes for high-performance 
+optoelectronics.
+1. Introduction
+Polycyclic aromatic hydrocarbons (PAHs) are garnering increased 
+attention in materials science. In particular, chiral PAHs, recognized for 
+their distinctive structures and properties, are highly desirable [1–3]. 
+Helicenes, a class of ortho-fused PAHs with inherent helical chirality, 
+have gradually emerged as a major focus of research [4,5]. The intrinsic 
+chiral π-conjugated frameworks of helicenes impart exceptional optical 
+and electronic properties, enabling their application in diverse fields 
+such as asymmetric catalysis [6–8], organic optoelectronics [9–13], and 
+NLO materials [14–16]. Consequently, considerable efforts have been 
+devoted to advancing helicene chemistry.
+Conventional helicenes are called [n]helicenes, where n represents 
+the number of benzene rings [17]. Studies have shown that both the 
+chiral stability and chiroptical responses increase with the helical length 
+n [18]. As a consequence, higher [n]helicenes have been developed 
+since the [6]helicene was synthesized [19,20]. To date, the longest [n] 
+helicene is [16]helicene, which was reported in 2015 [21]. However, the 
+helical elongation approach suffers from limited (chiro)optical proper­
+ties [21,22]. Another research direction is fusing aromatic rings to form 
+π-extended helicenes [23–25]. The extension of π-conjugation can lead 
+to desirable properties, such as controlling the bandgap of semi­
+conductor materials that exhibit low redox potentials [26,27], and 
+shifting the photophysical response into the visible and near-infrared 
+regions [28].
+Recently, a novel chiral homogeneous π-extended [7]helicene (hexa- 
+peri-hexabenzo[7]helicene, compound 5) was reported (Fig. 1) [29]. Its 
+structure consists of three perylene units fused at ortho-positions, with 
+each pair of adjacent units sharing a common benzene ring [29]. The 
+unique structure endows compound 5 with remarkable photophysical 
+* Corresponding author.
+E-mail address: liucy385@nenu.edu.cn (C. Liu). 
+Contents lists available at ScienceDirect
+Dyes and Pigments
+journal homepage: www.elsevier.com/locate/dyepig
+https://doi.org/10.1016/j.dyepig.2025.113306
+Received 21 April 2025; Received in revised form 27 September 2025; Accepted 2 October 2025  
+Dyes and Pigments 246 (2026) 113306 
+Available online 3 October 2025 
+0143-7208/© 2025 Elsevier Ltd. All rights are reserved, including those for text and data mining, AI training, and similar technologies. 
+
+
+===== PDF PAGE 2 =====
+properties, including a high dissymmetry factor (gCD > 10−2) in the 
+near-infrared region and ultrafast dynamics (τS1 = 1–2 ps) of the S1 → S0 
+transition [29]. It also exhibits a narrow band gap, as evidenced by its 
+broad absorption extending to 800 nm [29]. Given these merits, com­
+pound 5 is a promising functional material [29]. Moreover, its inherent 
+non-centrosymmetric structure and delocalized π-electron system 
+render it well-suited for optoelectronic applications, particularly 
+second-order NLO materials. Furthermore, investigating its electronic 
+structure and developing effective strategies to modulate energy gaps 
+and excitation properties will advance the field of π-extended helicenes.
+Theoretical calculations serve as a powerful tool for rationalizing the 
+observed properties, establishing structure-property relationships, and 
+probing the photophysical properties of helicene derivatives. For 
+example, Champagne and colleagues employed quantum chemical cal­
+culations to elucidate the structure-NLO property relationships in 7-ring 
+helicenes based on thiophene-benzene scaffolds. Their work demon­
+strated that terminal nitro functionalization and thiophene-to-furan 
+replacement are effective strategies for enhancing the first hyper­
+polarizability [30]. A computational analysis accurately rationalized the 
+absorption and emission behaviors of double aza-oxa[7]helicene, 
+revealing how its structural features govern these key photophysical 
+properties [31]. Liu et al. systematically investigated the effects of het­
+eroatom substitution (C, Si, Ge, O, S, and Se) on the electronic structures 
+and chiroptical characteristics of [7]helicene derivatives using a 
+combination of DFT, TD-DFT, and the thermal vibration correlation 
+function theory [32]. DFT studies have shown that structural tuning of 
+the two [7]helicene subunits in π-extended double [7]helicenes enables 
+precise alignment of electric and magnetic transition dipole moments, 
+thereby enhancing the chiroptical response [33].
+Therefore, a systematic investigation of the structure-property re­
+lationships of hexa-peri-hexabenzo[7]helicene (compound 5) via quan­
+tum chemical calculations is crucial to further optimize its performance 
+and expand its applications. Using compound 5 as the parent molecule, 
+we designed 41 π-extended derivatives by extending benzene rings at 
+the top, lateral, and bottom positions to develop high-performance 
+materials. In this work, we employ DFT/TDDFT calculations to inves­
+tigate the geometric and electronic structures, electronic absorption and 
+emission properties, charge transport characteristics, and second-order 
+NLO responses of these systems. Our primary objective is to establish 
+clear structure-property relationships, thereby providing theoretical 
+guidance for the design and synthesis of novel high-performance 
+materials.
+2. Theoretical methods and computational details
+Ground-state geometry optimization of all studied compounds was 
+performed at the B3LYP level without symmetry constraints. B3LYP is a 
+hybrid density functional that incorporates Becke’s three-parameter 
+Fig. 1. Chemical structures of the studied compounds 1–46.
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+2 
+
+
+===== PDF PAGE 3 =====
+hybrid exchange functional [34] and the Lee−Yang−Parr correlation 
+functional [35], which can suitably optimize molecular structures. The 
+6-31G(d) basis set was employed for the C and H atoms. The absence of 
+imaginary frequencies in the optimized geometries confirms that a local 
+minimum on the potential energy surface was reached.
+Molecular planarity was quantified using the molecular planarity 
+parameter (MPP), defined as the root-mean-square deviation of the 
+atoms from the least-squares fitted plane [36], 
+MPP =̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅
+1
+Natom
+∑
+i
+d2
+i
+√
+(1) 
+where Natom represents the total number of atoms considered, and di 
+denotes the distance of the ith atom from the fitted plane, given by: 
+di = |Axi + Byi + Czi + D|̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅
+A2 + B2 + C2
+√
+(2) 
+To distinguish atomic positions relative to the fitted plane, the signed 
+distance of atom i to this plane is defined as: 
+ds
+i = Axi + Byi + Czi + D̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅
+A2 + B2 + C2
+√
+(3) 
+Then, the span of deviation from the plane (SDP) can be written as 
+follows: 
+SDP = ds
+max −ds
+min
+(4) 
+where ds
+max and ds
+min represent the maximum positive and minimum 
+negative values of ds, respectively, among all atoms considered. MPP 
+and SDP were calculated using Multiwfn 3.8 (dev) [37,38], while the 
+mapping of atomic signed distances to the best-fit plane was visualized 
+in VMD 1.9.3 [39].
+To reliably determine the electronic excitation energies and assign 
+the electronic transition properties, five popular DFT functionals were 
+selected. The global hybrid exchange-correlation B3LYP is widely used 
+in modeling organic molecules due to its balanced accuracy and 
+computational efficiency [34,35]. The meta-generalized gradient 
+approximation (meta-GGA) M06-2X with a 54 % Hartree-Fock (HF) 
+exact exchange was developed by Zhao and Truhlar [40,41]. The 
+BHandHLYP functional is obtained by incorporating 50 % exact ex­
+change 
+into 
+the 
+BLYP 
+functional 
+[42,43]. 
+Moreover, 
+the 
+long-range-corrected CAM-B3LYP [44] and LC-BLYP [45] functionals 
+were selected, which are generally recognized to provide reliable de­
+scriptions of optoelectronic properties in π-conjugated organic charge 
+transfer systems. To balance computational efficiency and accuracy, we 
+employed the diffuse 6-31+G(d) basis set [46,47].
+To characterize charge transfer (CT) properties, the following pa­
+rameters were calculated: transferred charge (qCT), CT distance (dCT), 
+ground-to-excited-state dipole moment difference (ΔμGS−ES), as well as 
+the t index [48,49]. Let ρGS(r) and ρES(r) be the electron densities of the 
+ground- and excited-states (GS and ES), respectively. The density dif­
+ference is then given by: 
+Δρ(r) = ρES(r) −ρGS(r)
+(5) 
+Δρ(r) is partitioned into spatially resolved components of density 
+increment (ρ+(r)) and depletion (ρ−(r)) upon absorption, defined as: 
+ρ+(r) =
+{
+Δρ(r)
+if
+Δρ(r) > 0
+0
+if
+Δρ(r) < 0
+(6) 
+ρ−(r) =
+{
+Δρ(r)
+if
+Δρ(r) < 0
+0
+if
+Δρ(r) > 0
+(7) 
+Integrating the ρ+(r) component over all space yields the qCT: 
+qCT =
+∫
+ρ+(r) dr
+(8) 
+This quantity can also be defined using ρ−(r). The barycenters of the 
+spatial regions defined by ρ+(r) and ρ−(r), denoted r+ and r−respec­
+tively, are given by: 
+r+ = (x+, y+, z+) = 1
+qCT
+∫
+rρ+(r) dr
+(9) 
+r−= (x−, y−, z−) = 1
+qCT
+∫
+rρ−(r) dr
+(10) 
+The distance separating the two barycenters directly corresponds to 
+dCT: 
+dCT = |r+ −r−|
+(11) 
+whereas the norm of the dipole moment variation between the ground 
+and excited states (μCT) can be expressed as: ⃦⃦
+μCT⃦⃦= dCTqCT
+(12) 
+This value equals the difference between the dipole moments computed 
+from the total GS and ES electron densities, that is ΔμGS−ES.
+An index t is introduced to assess the degree of separation between 
+the ρ+(r) and ρ−(r) regions. 
+t = dCT −H
+(13) 
+The larger t is, the less overlap exists between the electron and hole 
+regions. Additionally, the H index is defined as half of the sum of cen­
+troids axis along the donor (D)–acceptor (A) direction. The electron 
+densities for the GS and ES were calculated at the CAM-B3LYP/6-31+G 
+(d) level.
+The hole (λh) and electron (λe) reorganization energies were calcu­
+lated using the adiabatic potential energy surface method, as defined in 
+the following equation [50,51]: 
+λh =
+(
+E0
++ −E0
+)
++
+(
+E+
+0 −E+
+)
+λe =
+(
+E0
+−−E0
+)
++
+(
+E−
+0 −E−
+)
+(14) 
+The four energies corresponding to: (i) the optimized geometry of the 
+neutral molecule, E0; (ii) the neutral configuration of the optimized 
+charged geometry, E0
++/E0
+−; (iii) the optimized geometry of charged 
+molecules, E+/E−; and (iv) the charged (cations/anions) configuration 
+of the optimized neutral geometry, E+
+0 /E−
+0 .
+First hyperpolarizability (β) is a key parameter for evaluating the 
+second-order NLO properties. Here, the hyper-Rayleigh scattering (HRS) 
+was used to determine the βHRS, which can be described as [52,53]: 
+βHRS(−2ω; ω, ω) =̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅
+{
+〈β2
+ZZZ〉+ 〈β2
+XZZ〉
+}
+√
+(15) 
+〈β2
+ZZZ〉 and 〈β2
+XZZ〉 correspond to the orientational averages of the β tensor 
+without assuming Kleinman’s conditions. Setting the frequency to zero 
+in Equation (15) yields the static first hyperpolarizability, denoted as 
+βHRS,∞.
+The associated depolarization ratio (DR) reveals the shape informa­
+tion of the chromophore, i.e. the part of the molecule responsible for the 
+NLO response, expressed as follows [52,54,55]: 
+DR = 〈β2
+ZZZ〉
+〈β2
+XZZ〉
+(16) 
+DR = 5 is for an ideal one-dimensional D/A system; DR = 1.5 is for an 
+octupolar molecule and DR = 9 is for a dipolar molecule; whereas for a 
+Λ-shaped molecule, the amplitude of DR depends on the angle between 
+the chromophore as well as on the D/A groups.
+β is also typically decomposed into the sum of dipolar (J = 1) and 
+octupolar (J = 3) tensorial components [55]: 
+〈β2
+ZZZ〉= 9
+45|βJ=1|2 + 6
+105|βJ=3|2
+(17) 
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+3 
+
+
+===== PDF PAGE 4 =====
+〈β2
+XZZ〉= 1
+45|βJ=1|2 + 4
+105|βJ=3|2
+(18) 
+The nonlinear anisotropy parameter ρ = |βJ=3|/|βJ=1| quantifies the 
+relative contributions of the dipolar [Φ(βJ=1) = 1 /(1 +ρ)] and octupolar 
+[Φ(βJ=3) = ρ /(1 +ρ)] components to the first hyperpolarizability tensor 
+β.
+To evaluate the robustness of our results, we calculated the βHRS,∞ 
+using several DFT functionals, including M06-2X [40,41], BHandHLYP 
+[42,43], and CAM-B3LYP [44] with the 6-31+G(d) basis set [46,47]. 
+Furthermore, 
+the 
+frequency-dependent 
+first 
+hyperpolarizability 
+(βHRS,4556 nm) was calculated at the CAM-B3LYP/6-31+G(d) level of 
+theory. All calculations in this work were performed using the Gaussian 
+09 program [56]. The electron density difference maps (EDDMs) were 
+plotted by employing the Multiwfn 3.8 (dev) [37,38].
+3. Results and discussion
+3.1. Molecular structures
+3.1.1. Molecular design
+The chemical structures of the studied compounds are shown in 
+Fig. 1. To investigate the evolution of the photoelectric properties from 
+[7]helicene (compound 1) [57] to hexa-peri-hexabenzo[7]helicene 
+(compound 5), compound 1 was selected as the reference. Compounds 
+2–4 were designed by fusing benzene rings at the top 1,1′, lateral 1,1′, 
+and bottom 1,1′ positions, respectively. Compound 5 is a homoge­
+neously π-extended structure of compound 1. Furthermore, using com­
+pound 5 as the parent molecule, derivatives 6–46 were designed 
+through π-extension to explore the effects of fusing different numbers of 
+benzene rings at distinct positions on the optical properties and to 
+discover novel high-performance materials. Compound 6 was designed 
+by fusing a benzene ring at the top 1 position of compound 5. Com­
+pounds 7–9 were obtained through fusing benzene rings at the lateral 1, 
+1′, 2,2′, and bottom 1,1′ positions, respectively. Benzene rings were fused 
+at the top 1, lateral 1,1′, 2,2′, and bottom 1,1′ positions of compound 5 to 
+form compound 10. Compounds 11–17 were designed by fusing ben­
+zene rings at the top 1,1′, lateral 1,1′-5,5′, and bottom 1,1′ positions of 
+compound 10, respectively. We designed compound 18 through fusing 
+benzene rings at the top 1,1′, lateral 1,1′-5,5′, and bottom 1,1′ positions 
+of compound 10. Compounds 19–46 are laterally π-extended derivatives 
+of compound 13.
+3.1.2. Geometric parameters
+All ground-state geometries were optimized at the B3LYP/6-31G(d) 
+level without imposing any symmetry constraints. Cartesian co­
+ordinates of the optimized structures are provided in the Supplementary 
+Material. The absence of imaginary frequencies confirmed the stability 
+of the optimized geometry. Here, compound 5 was selected as an 
+example to test the reliability of our adopted method. The calculated 
+structural parameters (bond lengths and angles) obtained from the 
+B3LYP functional show excellent agreement with experimental data 
+(Table S1), demonstrating that the selected functional and basis set 
+reliably describe molecular structures. To further strengthen our results, 
+geometry optimization for compound 5 was additionally carried out at 
+the dispersion-corrected DFT level using the B3LYP-D3 [58,59] func­
+tional with the 6-31G(d) basis set. The key structural parameters 
+calculated with the B3LYP-D3 functional show negligible deviations 
+from those obtained with B3LYP, as evidenced by ≤0.007 Å for bond 
+lengths and ≤0.3◦for angles (Table S1). This geometric insensitivity to 
+dispersion corrections indicates that dispersion effects are not a domi­
+nant factor in determining the ground-state molecular structures of the 
+studied compounds.
+Orthographic projections (front and side views) of the optimized 
+structures for compounds 1–46 are shown in Fig. S1, with key geometric 
+parameters provided in Table S2. All investigated compounds feature 
+coiled helical structures, evidenced by significant overlap of terminal 
+benzene rings (Fig. S1). The C–C bond lengths along the helical inner rim 
+display positional symmetry in all studied compounds: C1–C2=C7–C8, 
+C2–C3=C6–C7, and C3–C4=C5–C6, directly evidencing equivalent 
+strain environments at symmetric sites. The mean bond lengths for 
+compounds 2–4 (1.437–1.441 Å) approach the value observed in com­
+pound 1 (1.445 Å). In contrast, compound 5 exhibits a significantly 
+reduced mean bond length (1.429 Å, Δ = 0.016 Å), attributed to ho­
+mogeneous π-extension. The mean bond lengths of designed compounds 
+6–9 (1.431–1.435 Å) are comparable to that of the parent compound 5 
+(1.429 Å), with a maximum deviation of 0.006 Å. Remarkably, de­
+rivatives 10–46 maintain an identical mean bond length of ~1.44 Å, 
+indicating that peripheral modifications exert minimal influence on the 
+bond lengths of the helical core.
+The geometric distortion in helical molecules is directly quantified 
+by torsion angles (ϕ) along the helical inner rim. Complementing the 
+bond-length symmetry, torsion angles ϕ exhibit positional equivalence 
+for all compounds: ϕ1 = ϕ5 and ϕ2 = ϕ4 (Table S2). This dual-parameter 
+congruence–spanning bond lengths and angular distortions–definitively 
+establishes strain-field equivalence at helically symmetric sites. Com­
+pound 1 exhibits a mean torsion angle of 22.3◦, whereas compounds 2–4 
+display elevated values of 22.7◦–24.0◦. The calculated mean torsion 
+angle of compound 5 (27.1◦) matches the experimental value (27.0◦) 
+[29] within 0.1◦, further validating the computational methodology. 
+Notably, this 4.8◦elevation of compound 5 over compound 1 (22.3◦) 
+unambiguously demonstrates steric-driven geometric distortion at the 
+helical core. The designed derivatives 6–46 exhibit reduced mean tor­
+sion angles compared to the parent compound 5. Specifically, com­
+pounds 19–46 maintain stable angles in a narrow range of 
+approximately 23◦–24◦, demonstrating that lateral π-extension allevi­
+ates steric strain at the helical core.
+The centroid distance (d) between terminal benzene rings directly 
+reflects the tightness of coiling in the helical structure. A smaller d in­
+dicates a more tightly coiled helix. Structural analysis reveals that the 
+parent compound 5 possesses a larger centroid distance (d = 4.419 Å). 
+π-Extended derivatives 6–46 (excluding 8 and 9) exhibit reduced 
+d values relative to the parent system, revealing that π-extension en­
+hances helical tightness.
+3.1.3. Planarity assessment
+Molecular planarity is a key factor in characterizing the structure of 
+helical π-conjugated systems. This property can be quantitatively eval­
+uated using the MPP and SDP, where smaller values indicate enhanced 
+planarity. The MPP, SDP, and atomic signed-distance maps relative to 
+the best-fit plane for compounds 1–46 are presented in Fig. S2. As 
+illustrated, the color gradient reflects the degree of deviation from the 
+plane, with lighter hues indicating regions closer to the plane. Red and 
+blue correspond to atomic positions above and below the fitted plane, 
+respectively. The larger MPP and SDP values demonstrate low planarity 
+in the studied compounds, consistent with their intrinsic helical struc­
+tures. Low planarity is primarily due to atomic deviations from the plane 
+in the basal region and terminal rings. Compounds 1–5 exhibit compa­
+rable MPP values (~1.3 Å), indicating minimal variation in planarity. 
+Compared to compound 5, the MPP values decrease for compounds 6–8 
+but increase for compounds 9–18, except for compound 14. For 
+example, compounds 9 and 17 exhibit the largest MPP values (1.754 Å 
+and 1.824 Å, respectively). This suggests that the extended benzene 
+rings at the bottom positions of compounds 5 and 10 significantly impair 
+molecular planarity. The MPP values of compounds 19–46 show an 
+overall progressive decrease (with minor fluctuations) compared with 
+compound 13, indicating enhanced molecular planarity with an 
+increasing number of laterally π-extended benzene rings. In particular, 
+compounds 43–46 exhibit MPP values of approximately 0.7 Å. More­
+over, when compared to the parent compound 5, a significant decrease 
+in MPP values is observed for compounds 23, 24, and 26–46. Further­
+more, the planarity of both left and right lateral π-extended segments 
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+4 
+
+
+===== PDF PAGE 5 =====
+was assessed, with the calculated MPP and SDP values compiled in 
+Table S3. The significantly low MPP and SDP values indicate that the 
+π-extended segments exhibit excellent planarity.
+3.1.4. Dipole moments
+The dipole moment (μ) quantifies intrinsic charge-distribution 
+asymmetry and molecular polarity, bridging molecular geometry to 
+material functionalities. The calculated dipole moments for compounds 
+1–46 are summarized in Table S4. Compound 1 possesses a near-zero 
+dipole moment (0.06 D), resulting from the vector summation cancel­
+lation of local bond dipoles despite its chiral structure. The dipole mo­
+ments of compounds 1 to 5 exhibit a progressive increase. Specifically, 
+Fig. 2. Frontier molecular orbitals and energy levels of the studied compounds.
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+5 
+
+
+===== PDF PAGE 6 =====
+compound 5 (0.61 D) represents a 10-fold increase relative to that of 
+compound 1. This trend is attributed to enhanced electron delocaliza­
+tion stemming from π-extension. Compounds 6–46 display dipole mo­
+ments ranging from approximately 0.5 to 2.6 D, demonstrating that the 
+designed π-extended derivatives possess dipole moments that match or 
+surpass the value of compound 5 (0.61 D). Notably, compounds 32 and 
+39–constructed by laterally extending 10 and 15 benzene rings, 
+respectively, on each side of compound 13–exhibit significantly larger 
+dipole moments of 2.63 D and 1.99 D. The substantial dipole moments 
+primarily arise from lateral π-extension, which accentuates inherent 
+electronic asymmetry through enhanced electron delocalization. 
+Crucially, these significant dipole moments induce a redshift in the 
+electronic absorption spectra and enhance the second-order NLO re­
+sponses, as quantitatively demonstrated in Sections 3.3.1 and 3.4.1.
+3.2. Frontier molecular orbital analysis
+Frontier molecular orbital (FMO) theory is a powerful tool to ratio­
+nalize the observed optoelectronic properties of various organic π-con­
+jugated molecules [60]. Therefore, examining the distribution of the 
+highest occupied molecular orbital (HOMO) and the lowest unoccupied 
+molecular orbital (LUMO), as well as the energy gap (HOMO-LUMO 
+gap), is important for the rational design and synthesis of novel mate­
+rials with excellent properties. The variations in the HOMO-LUMO en­
+ergy gaps and the distributions of HOMO/LUMO orbitals for the studied 
+compounds are shown in Fig. 2 and Fig. S3.
+Compound 1 possesses the largest energy gap (Eg = 3.87 eV) among 
+the studied compounds. The energy gaps decrease sequentially from 
+compound 2 (Eg = 2.35 eV) to compound 4 (Eg = 0.87 eV), demon­
+strating that the fusion of benzene rings at any of the three directions 
+(top, lateral, or bottom) contributes to Eg reduction. Compound 5 ex­
+hibits an energy gap of 2.02 eV, a reduction of 1.85 eV compared to that 
+of compound 1 (Eg = 3.87 eV), arising from homogeneous π-conjugation 
+extension.
+Building upon compound 5, we further extended the π-system by 
+fusing additional benzene rings to develop effective strategies for energy 
+gap modulation. Fusing a benzene ring at the top 1 position increased 
+the Eg of compound 6 to 2.06 eV. However, the Eg decreased signifi­
+cantly to 1.63 eV in compound 7 upon fusion of two benzene rings at the 
+lateral 1 and 1′ positions. Fusion at the lateral 2 and 2′ positions resulted 
+in compound 8, with an Eg of 2.06 eV, identical to that of compound 6. 
+Compound 9, featuring fusion at the bottom 1 and 1′ positions, shows a 
+slightly reduced Eg of 1.94 eV compared to compound 5. Compound 10, 
+derived from compound 5 by fusing benzene rings at the top 1, lateral 
+1,1′, 2,2′, and bottom 1,1′ positions, exhibits an Eg of 1.64 eV, which is 
+comparable to that of compound 7. These results demonstrate that 
+extension at the lateral 1 and 1′ positions of compound 5 effectively 
+reduces the energy gap. A significant reduction is also achieved by 
+extension at the top 1, lateral 1,1′, 2,2′, and bottom 1,1′ positions, 
+yielding a similarly small energy gap. Further fusion at the top 1,1′, 
+lateral 1,1′, and 5,5′ positions of compound 10 resulted in increased 
+energy gaps of compounds 11, 12, and 16, respectively. In contrast, 
+compounds 13, 14, 15, 17, and 18 all exhibit lower Eg values than 
+compound 10. Notably, the Eg of compound 13 is significantly reduced 
+to 0.49 eV.
+Given the relatively narrow energy gap of compound 13 (Eg = 0.49 
+eV), we strategically fused benzene rings at its lateral positions to 
+construct laterally π-extended systems. Compound 19, designed by 
+extending compound 13 at the lateral 1 and 1′ positions, exhibits an Eg of 
+1.36 eV. When extended at the lateral 2 and 2′ positions, compound 20 
+shows a lower Eg of 0.43 eV. Simultaneous fusion at both the lateral 1,1′ 
+and 2,2′ positions results in compound 21 with an Eg of 1.29 eV. 
+Employing the same π-extension principle used for 19–21, compounds 
+22–24 exhibit energy gaps ranging from 0.34 to 0.39 eV. Notably, 
+symmetrical fusion of 5 benzene rings onto each lateral side of com­
+pound 13 results in a reduced Eg of 0.22 eV for compound 25. Following 
+the same design strategy, compounds 32, 39, and 46 were constructed 
+by symmetrically fusing 10, 15, and 20 benzene rings, respectively, onto 
+each lateral side of compound 13. Compounds 32 and 39 exhibit Eg 
+values (0.22 and 0.20 eV, respectively) nearly identical to that of com­
+pound 25 (Eg = 0.22 eV), whereas compound 46 possesses the smallest 
+Eg of 0.07 eV, which originates directly from the largest π-conjugated 
+framework. Moreover, all laterally π-extended derivatives 19–46 exhibit 
+substantially reduced energy gaps compared to the parent compound 5 
+(Eg = 2.02 eV). The results reveal a clear trend: upon lateral extension of 
+compound 13 with 5n (n = 1, 2, 3) benzene rings per side, the Eg values 
+plateau at approximately 0.2 eV. However, for n = 4, the Eg value drops 
+abruptly to 0.07 eV.
+The FMOs of compounds 1–13, 15–17, 19–21, and 28 are delo­
+calized over the entire molecular framework. In contrast, the FMOs in 
+compounds 14, 18, 22–24, 26, 27, 29–31, 33, 34, 36–38, 40, 41, and 
+43–45 are predominantly localized in the basal region. Another distinct 
+pattern is observed for compounds 25, 32, 35, 39, and 42, where the 
+FMOs are localized in both the basal and the two lateral regions. Com­
+pound 46 is unique, with its FMOs confined exclusively to the lateral 
+regions.
+Based on the above analyses, the expansion of the π-conjugated 
+system through the fusion of benzene rings not only modulates the en­
+ergy gap but also alters the distribution of the frontier molecular or­
+bitals. Lateral π-extension starting from compound 13 is an effective 
+strategy for reducing the energy gap, as evidenced by all derivatives 
+19–46 exhibiting narrower energy gaps than the parent compound 5. A 
+clear trend emerges: as the structure is extended symmetrically with 5n 
+(n = 1, 2, 3) benzene rings on each lateral side of compound 13, the Eg 
+values remain nearly constant at approximately 0.2 eV. Such a narrow 
+energy gap is anticipated to confer advantageous optical properties, 
+including red-shifted absorption spectra, a strong second-order NLO 
+response, and promising charge transport capabilities.
+3.3. Electronic absorption and emission properties
+3.3.1. Absorption spectra
+TDDFT has emerged as a powerful method for investigating elec­
+tronic transition properties, due to its balance between efficiency and 
+accuracy [61–65]. Generally, electronic excitation energies and transi­
+tion properties are sensitive to the DFT functional and basis set selected. 
+For compound 5, calculations of the electronic excitation properties for 
+low-lying 
+excited 
+states 
+were 
+conducted 
+exclusively 
+at 
+the 
+TD-B3LYP/6-311G(2d,p) level, with no validation performed for the 
+methodology’s reliability [29]. To reliably determine the electronic 
+transition properties for our studied compounds, five popular DFT 
+functionals were selected: the global hybrid B3LYP [34,35]; the higher 
+HF exchange functionals M06-2X [40,41] and BHandHLYP [42,43]; and 
+the long-range corrected functionals CAM-B3LYP [44] and LC-BLYP 
+[45]. In addition, previous studies have shown that the 6-31+G(d) 
+basis set is sufficient to determine the nature of electronic transitions for 
+organic compounds [46,47]. Therefore, we employed these functionals 
+in conjunction with the 6-31+G(d) basis set to calculate the electronic 
+absorption properties of compound 5. If the computed spectra cover the 
+experimental spectral range, the accuracy of assigning electronic tran­
+sition properties will be significantly enhanced. Here, calculations 
+included 40 excited states, sufficient to span the experimental mea­
+surement window.
+Simulated absorption spectra generated via Gaussian broadening 
+with a full width at half maximum (FWHM) of 0.40 eV are presented in 
+Fig. 3 and Fig. S4, alongside the experimental spectra. Table S5 tabulates 
+TDDFT absorption wavelengths for five functionals compared to 
+experimental values. The results demonstrate that computed absorption 
+spectra exhibit strong functional dependence. The B3LYP functional 
+underestimates excitation energies, consistent with previous literature 
+reports [29]. Calculations using the LC-BLYP functional yielded ab­
+sorption maxima with a maximum absolute error of 103 nm relative to 
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+6 
+
+
+===== PDF PAGE 7 =====
+the experimental data. However, the CAM-B3LYP-derived absorption 
+spectra exhibit excellent agreement with experimental bands, accurately 
+reproducing both band positions and shapes (Fig. 3), thereby enabling 
+reliable assignment of electronic transition properties. In addition, the 
+absorption wavelengths from M06-2X and BHandHLYP are similar to 
+those of CAM-B3LYP. The long-range-corrected exchange inherent to 
+functionals like CAM-B3LYP empowers accurate prediction of excitonic 
+and optoelectronic behavior in π-conjugated systems [66,67]. Thus, 
+excitation energies, absorption wavelengths, and oscillator strengths for 
+compounds 1–46 were calculated at the CAM-B3LYP/6-31+G(d) level, 
+as summarized in Table 1 and Table S6. To optimize computational ef­
+ficiency, the first 20 excited states were calculated for compounds 1–4, 
+and the first 15 for derivatives 6–46; these state counts suffice to capture 
+key spectral features. Electronic absorption spectra were simulated 
+using Gaussian broadening (FWHM = 0.40 eV). To characterize the 
+electronic absorption characteristics, the simulated absorption spectra 
+alongside electron density difference maps (EDDMs) corresponding to 
+the crucial electronic transitions are illustrated in Fig. 4 and Fig. S5.
+Compound 1 exhibits two prominent absorption bands at 242 and 
+328 nm, which are assigned to the S14 and S3 excited states, respectively. 
+These transitions arise from π→π* character, as revealed by the EDDMs. 
+The dominant absorption bands of compounds 2, 3, and 4 correspond to 
+the S16 and S1 states; the S19 and S1 states; and the S5 and S1 states, 
+respectively. Relative to compound 1, these compounds exhibit pro­
+gressive redshifts in both bands, a trend that correlates with a systematic 
+reduction in their energy gaps. The absorption bands of compound 5 at 
+408 nm (S3) and 656 nm (S1), which are in good agreement with 
+experimental values, are also red-shifted compared with those of com­
+pound 1. Based on the EDDMs, these electronic transitions are primarily 
+assigned to π→π* excitations involving π-electron delocalization 
+throughout the molecular framework. Consistent with their larger en­
+ergy gaps, the low-energy absorption bands of compounds 6 and 8 (both 
+corresponding to the S1 state) are blue-shifted relative to those of 
+compound 5. In contrast, compounds 7, 9, and 10 exhibit reduced en­
+ergy gaps and concomitant redshifts in their low-energy absorption 
+bands, all of which correspond to the S1 state. All low-energy absorption 
+bands of compounds 6–10 are attributed to π→π* transitions. Com­
+pounds 11, 12, 15, and 16 exhibit blue-shifted low-energy absorption 
+bands (all assigned to the S1 state) relative to compound 10, whereas 
+those of compounds 14 and 17 (also S1) are red-shifted. The low-energy 
+transitions of compounds 11, 12, and 15–17 are assigned to π→π* ex­
+citations delocalized over the entire molecule. In contrast, compound 14 
+displays a charge transfer (CT) process localized in the basal region. 
+Compound 13 possesses lower excitation energies than compound 10. 
+Its low-energy absorption band at 880 nm (S3) corresponds to a unidi­
+rectional CT process from the apical to the basal region, while the high- 
+energy band at 553 nm (S5) arises from CT from the central to the pe­
+ripheral region. Compound 18 displays two absorption bands: the low- 
+energy band, which remarkably extends to 1989 nm (S1), originates 
+from π→π* transitions localized in the central region.
+Compounds 19–46–laterally π-extended derivatives of 13–exhibit 
+significant redshifts in their low-energy absorption bands relative to 13, 
+demonstrating that lateral π-extension enhances light absorption prop­
+erties. The primary low-energy electronic transitions in compounds 19, 
+21, and 28 are π→π* excitations, all assigned to the S1 state. Notably, the 
+low-energy S3 excited state of compound 20 exhibits a CT character 
+analogous to that of compound 13. Compounds 22–24, 26, 27, 29–31, 
+33, 34, 36–38, and 40 display similar CT behavior: their low-energy 
+absorption bands (each corresponding to the S3 state) are primarily 
+derived from π→π* transitions localized in the central-upper molecular 
+region, superimposed with CT components extending to the basal re­
+gion. For compounds 35 and 42, the S1 electronic transitions are 
+ascribed to π→π* character localized in both lateral regions. The low- 
+energy absorption bands of compounds 41 and 43–46 (S1 state for 41, 
+43–45; S4 state for 46) are characterized by π→π* excitations within the 
+basal peripheral region. Notably, the low-energy absorption bands of 
+compounds 25, 32, and 39 appear at 909 nm (S8), 994 nm (S7), and 
+1059 nm (S7), respectively. Crucially, in contrast to the other de­
+rivatives, compounds 25, 32, and 39 exhibit efficient multidirectional 
+CT characteristics, manifested by electron density shifts from the 
+central-upper to both lateral and basal regions. Overall, extending 
+benzene rings at distinct positions significantly modulates both elec­
+tronic transition characteristics and absorption band positions.
+3.3.2. Charge transfer analysis
+To quantify key CT characteristics and elucidate the origin of the 
+second-order NLO responses, we calculated critical parameters for the 
+low-energy absorption bands, including transferred charge (qCT), CT 
+distance (dCT), change in dipole moment (ΔμGS−ES), and electron-hole 
+overlap index (t), all of which are summarized in Table 2 and Table S7.
+The calculated parameters for compound 1 (qCT = 0.316 e−, dCT =
+0.352 Å, ΔμGS−ES = 0.535 D) collectively indicate a partial CT process, 
+Fig. 3. Calculated absorption spectrum of compound 5 at the CAM-B3LYP/6- 
+31+G(d) level overlaid with experimental data (red dashed line; adapted from 
+ref. 29). (For interpretation of the references to color in this figure legend, the 
+reader is referred to the Web version of this article.)
+Table 1 
+Calculated excitation energies (ΔEge, eV), absorption wavelengths (λabs, nm), 
+and oscillator strengths (f) at the CAM-B3LYP/6-31+G(d) level of theory, with 
+experimental λabs values provided in parentheses for comparison.
+Compound
+State
+ΔEge
+λabs
+f
+1
+S3
+3.78
+328
+0.207
+S14
+5.12
+242
+0.571
+5
+S1
+1.89
+656 (675)
+0.134
+S3
+3.04
+408 (459)
+0.521
+10
+S1
+1.65
+752
+0.208
+S3
+2.68
+463
+0.909
+13
+S3
+1.41
+880
+0.167
+S5
+2.24
+553
+0.578
+18
+S1
+0.62
+1989
+0.084
+S8
+2.40
+516
+0.408
+25
+S8
+1.36
+909
+0.175
+S9
+1.93
+643
+0.670
+32
+S7
+1.25
+994
+0.325
+S9
+1.78
+697
+1.299
+39
+S7
+1.17
+1059
+0.484
+S9
+1.64
+757
+1.520
+46
+S4
+0.64
+1923
+0.417
+S9
+1.61
+770
+2.426
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+7 
+
+
+===== PDF PAGE 8 =====
+consistent with the π→π* excitations as visualized by EDDM. This 
+interpretation is further supported by a moderate electron-hole overlap 
+index (t = −1.917 Å), signifying an excited state with intermediate 
+character between localized and fully separated. Compounds 2–4 
+exhibit minimal variation in their qCT values, all being comparable to 
+that of compound 1. The larger qCT value (0.387 e−) of compound 5 
+implies a greater CT involvement in the excitation process. Despite this 
+enhanced CT character, its smaller dCT (0.220 Å) and ΔμGS−ES (0.409 D) 
+relative to compound 1 suggest a more efficient yet shorter-range charge 
+redistribution. This observation is consistent with the stronger spatial 
+overlap evidenced by the more negative t value (−2.231 Å). Compounds 
+6–10 exhibit qCT values (0.371–0.390 e−) comparable to that of com­
+pound 5. The dCT, ΔμGS−ES, and t values for compounds 6, 7, and 10 are 
+smaller than those of 5. In contrast, compounds 8 and 9 possess larger 
+dCT, ΔμGS−ES, and t values, which favor enhanced first hyper­
+polarizability. For compounds 11–18, the qCT values range from 0.175 to 
+0.497 e−, and their dCT and ΔμGS−ES values exceed those of compound 
+10. Among them, compound 15 shows the most negative t value 
+(−3.161 Å). Compound 13 represents a long-range CT state, as 
+demonstrated by its high qCT (0.497 e−), dCT (2.098 Å), and ΔμGS−ES 
+(5.004 D) values–a combination that indicates nearly complete charge 
+separation. The EDDM reveals unidirectional CT from apical to basal 
+regions, while the larger t index (−1.207 Å) confirms minimal spatial 
+overlap between the hole and electron densities.
+Among the laterally π-extended derivatives (19–46), compound 20 
+shares an analogous CT mechanism with compound 13, as evidenced by 
+their comparable CT metrics (qCT, dCT, ΔμGS−ES, and t)–a finding that is 
+consistent with their similar EDDM patterns. The other laterally 
+Fig. 4. Electronic absorption spectra along with electron density difference maps (EDDMs) for the crucial electronic transitions. Here, ε/(103 L mol−1 cm−1) is the 
+molar absorption coefficient, and f is the oscillator strength. Blue and purple indicate depletion and accumulation of electron density, respectively. (For interpretation 
+of the references to color in this figure legend, the reader is referred to the Web version of this article.)
+Table 2 
+Charge transfer parameters (qCT in e−; ΔμGS−ES in Debye; dCT and t in Å) calcu­
+lated at the CAM-B3LYP/6-31+G(d) level.
+Compound
+State
+qCT
+dCT
+ΔμGS−ES
+t
+1
+S3
+0.316
+0.352
+0.535
+−1.917
+5
+S1
+0.387
+0.220
+0.409
+−2.231
+10
+S1
+0.385
+0.011
+0.021
+−2.950
+13
+S3
+0.497
+2.098
+5.004
+−1.207
+18
+S1
+0.219
+0.400
+0.420
+−2.716
+25
+S8
+0.620
+0.645
+1.920
+−2.241
+32
+S7
+0.570
+0.933
+2.555
+−2.217
+39
+S7
+0.496
+0.912
+2.173
+−2.248
+46
+S4
+0.198
+0.018
+0.017
+−3.106
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+8 
+
+
+===== PDF PAGE 9 =====
+π-extended derivatives (excluding 25, 32, and 39) display significantly 
+lower qCT, dCT, ΔμGS−ES , and t values than compound 13, suggesting 
+locally excited (LE) states, in agreement with their dominant π→π* 
+transition character. Compounds 25, 32, and 39 were designed by 
+symmetrically extending the structure of compound 13 with 5, 10, and 
+15 benzene rings, respectively. These compounds exhibit the highest qCT 
+values (0.620, 0.570, and 0.496 e−, respectively), rivaling or exceeding 
+compound 13, signifying a strong CT character. Interestingly, their dCT 
+values (0.645, 0.933, and 0.912 Å) are nevertheless shorter. This is 
+attributed to a multidirectional electron density flow from the central- 
+upper to both lateral and basal regions, contrasting with the unidirec­
+tional transfer in 13. The spatial confinement of a significant amount of 
+transferred charge (qCT) over a moderate distance (dCT) preserves a 
+stronger electron-hole overlap (t ≈−2.2 Å) than that in compound 13. 
+This unique mechanism leads to a highly polarizable electronic state, 
+thereby contributing to enhanced NLO responses. The vanishingly small 
+CT parameters of compound 46 (qCT = 0.198 e−, dCT = 0.018 Å, ΔμGS−ES 
+= 0.017 D, t = −3.106 Å) are indicative of a highly LE state. This finding 
+demonstrates that extending 15 benzene rings on each lateral side of 
+compound 13 represents the optimum for promoting charge transfer; 
+further extension diminishes CT efficiency.
+3.3.3. Emission properties
+Furthermore, the emission properties of compound 5 were evaluated 
+for its potential as a fluorescent probe. Based on the optimized ground 
+state (S0) structure, the excited-state (S1) geometry of compound 5 was 
+optimized at the TD-B3LYP/6-31G(d) level. The notable structural dif­
+ference occurs in the central ortho-fused aromatic rings between the 
+ground- and excited-state structures (Table S8), which can be used to 
+rationalize the observed large Stokes shifts. Subsequently, the same 
+method (TD-CAM-B3LYP/6-31+G(d)) as that used for electronic ab­
+sorption was applied to calculate the emission wavelength. The emission 
+appears at 1066 nm, corresponding to the electronic transition from 
+HOMO to LUMO (Fig. 5). The dominant electronic transition is assigned 
+as π→π* character within the whole molecule. Notably, the Stokes shift 
+of compound 5 reaches 410 nm, indicating its potential as a fluorescent 
+probe material.
+3.4. Second-order NLO properties
+3.4.1. Static first hyperpolarizability
+The intrinsic asymmetric geometry induced by chirality, coupled 
+with the pronounced intramolecular CT character, satisfies the essential 
+criteria for second-order NLO materials. These findings warrant further 
+investigation into their second-order NLO properties. To reliably predict 
+the static first hyperpolarizability (βHRS,∞), we employed three popular 
+DFT functionals (M06-2X [40,41], BHandHLYP [42,43], and 
+CAM-B3LYP [44]) with the 6-31+G(d) basis set [46,47] to evaluate the 
+βHRS,∞ values of nine structurally representative compounds. Notably, 
+the βHRS,∞ values calculated with these three functionals exhibit 
+consistent trends across the nine compounds (Table S9). It is 
+well-established that the long-range-corrected functional CAM-B3LYP, 
+by mitigating the electron self-interaction error, provides more accu­
+rate predictions of first hyperpolarizabilities than standard functionals 
+[44,68,69]. Therefore, the βHRS,∞ values of the remaining compounds 
+were calculated at the CAM-B3LYP/6-31+G(d) level; the results of all 
+compounds are summarized in Table 3 and Table S10. To elucidate the 
+origin of the second-order NLO response, we focused on the dominant 
+low-energy excited state properties (such as CT parameters) in each 
+compound. This approach is consistent with the Oudar-Chemla two-le­
+vel model [70,71], which simplifies the sum-over-states (SOS) frame­
+work by correlating the first hyperpolarizability with low-lying charge 
+transfer transitions.
+The βHRS,∞ results reveal a marked second-order NLO response in the 
+studied compounds, highlighting their potential as candidates for 
+second-order NLO materials. For example, compound 39 exhibits the 
+largest βHRS,∞ (1560 × 10−30 esu), which is greater by a factor of ~352 
+than that of a bis(benzene)-substituted quinoxaline-fused [7]helicene 
+(βHRS,∞ = 4.43 × 10−30 esu) [72].
+Among the studied molecules, compound 1 shows the smallest βHRS,∞ 
+(1.04 × 10−30 esu). The βHRS,∞ values of compounds 2 and 3 are slightly 
+larger than that of compound 1. The significantly lower energy gap of 
+compound 4 (0.87 eV vs. 3.87 eV for compound 1) leads to its elevated 
+βHRS,∞ (8.49 × 10−30 esu). As a homogeneously π-extended derivative of 
+compound 1, compound 5 possesses a marginally larger βHRS,∞ (1.92 ×
+10−30 esu); this trend is consistent with its increased qCT (Table 2). 
+Compounds 6 and 7 exhibit reduced βHRS,∞ values compared to com­
+pound 5, whereas compounds 8–10 show increased βHRS,∞ values. The 
+trend in βHRS,∞ for compounds 6–9 mirrors the parallel changes observed 
+in their dCT, ΔμGS−ES, and t values (see Section 3.3.2). Despite its smaller 
+dCT, ΔμGS−ES, and t values, compound 10 exhibits a larger ground-state 
+dipole moment than compound 5 (0.90 D vs. 0.61 D), which accounts 
+for the enhanced βHRS,∞. The βHRS,∞ values of compounds 11–18 are all 
+higher than that of compound 10, with compound 15 being the only 
+exception. The lower βHRS,∞ value of 15 is attributed to its strongest 
+electron-hole overlap (t = −3.161 Å) among these compounds. Inter­
+estingly, the βHRS,∞ of compound 13 (34.38 × 10−30 esu) is ~13 times 
+higher than that of compound 10, due to its improved charge transfer 
+characteristics, as reflected in its superior CT metrics.
+Shifting focus to the laterally π-extended derivatives 19–46, com­
+pounds 19 and 21 exhibit distinctly smaller βHRS,∞ values (6.20 and 7.04 
+× 10−30 esu, respectively) than compound 13. In contrast, compounds 
+20 and 22–46 show βHRS,∞ values ranging from 22.07 to 1560 × 10−30 
+esu. This broad range of βHRS,∞ highlights the profound influence of 
+lateral π-extension on the static first hyperpolarizability, with most de­
+rivatives demonstrating significantly enhanced performance relative to 
+13. Moreover, derivatives 19–46 all exhibit a marked enhancement in 
+βHRS,∞ compared to the parent compound 5.
+Remarkably, compounds 25, 32, and 39–designed by laterally 
+extending the structure of compound 13 with 5, 10, and 15 benzene 
+rings per side, respectively–maintain energy gaps at ~0.2 eV. These 
+compounds exhibit significantly enhanced βHRS,∞ values of 496.7 ×
+10−30, 1076 × 10−30, and 1560 × 10−30 esu–representing approxi­
+mately 15-, 31-, and 45-fold increases relative to compound 13. The 
+markedly improved second-order NLO responses arise not only from 
+extended π-conjugation but, more critically, from an optimized CT 
+character. EDDM analyses reveal that compounds 25, 32, and 39 exhibit 
+efficient multidirectional CT–a distinct contrast to the unidirectional 
+Fig. 5. Molecular orbitals involved in the emission transition of compound 5.
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+9 
+
+
+===== PDF PAGE 10 =====
+transfer observed in compound 13. Moreover, the confinement of a 
+substantial amount of transferred charge (qCT ≈0.5–0.6 e−) over a 
+moderate distance (dCT ≈0.6–0.9 Å), coupled with a stronger electron- 
+hole overlap (t ≈−2.2 Å) than that in compound 13 (t = −1.207 Å), 
+collectively leads to the observed 15–45-fold enhancement, as presented 
+in Fig. 6. Most importantly, a linear correlation is observed: extending 
+the structure of compound 13 symmetrically with 5n benzene rings (n =
+1, 2, 3; corresponding to compounds 25, 32, and 39) results in a pro­
+portional 15n-fold increase in the βHRS,∞.
+In stark contrast, compound 46 was constructed via extending 20 
+benzene rings on each lateral side of compound 13. This further 
+extension results in an energy gap approaching 0 eV (0.07 eV) but a 
+reduced βHRS,∞ value of 22.07 × 10−30 esu. Such a decrease is consistent 
+with a highly LE state, as unambiguously evidenced by its vanishingly 
+small CT parameters (see Section 3.3.2), with the narrow energy gap 
+favoring the formation of this LE state. The inefficient CT mechanism 
+originating from this electronic localization is identified as the origin of 
+its suppressed second-order NLO response. These results establish that 
+an extension up to 15 benzene rings per side defines the optimal per­
+formance limit; further structural expansion, although reducing the 
+energy gap, fails to produce additional enhancement in the second-order 
+NLO response.
+Therefore, the optimal strategy for molecular design lies in achieving 
+a balance: appropriately expanding the π-conjugated system via lateral 
+π-extension to maximize qCT, while confining the dCT within an optimal 
+range and maintaining a beneficial electron-hole overlap. This unique 
+electronic structure stabilizes the electron cloud in a readily polarizable 
+yet not fully separated intermediate state, which is responsible for the 
+exceptional second-order NLO response. Compounds 25, 32, and 39 
+successfully embody this design principle. Their remarkably high static 
+first hyperpolarizabilities underscore the significant potential for 
+application in advanced optoelectronic devices.
+3.4.2. Analysis of DR, ρ, and dominant NLO contributions
+The depolarization ratio (DR) and nonlinear anisotropy parameter 
+(ρ) are critical for characterizing NLO materials, as they quantify the 
+relative contributions of the dipolar (|βJ=1|) and octupolar (|βJ=3|) 
+tensorial components to the first hyperpolarizability tensor. The calcu­
+lated parameters–including DR, ρ, the |βJ=1| and |βJ=3| components, 
+and the dipolar (Φ(βJ=1)) and octupolar (Φ(βJ=3)) contribution 
+ratios–are summarized in Table 3 and Table S10.
+DR > 4.26 with ρ < 1 indicates that the second-order NLO response is 
+dipolar-dominated, whereas DR < 4.26 with ρ > 1 suggests octupolar 
+dominance [55]. The results demonstrate that the octupolar component 
+(|βJ=3|) dominates over its dipolar counterpart (|βJ=1|) in most com­
+pounds. For example, the second-order NLO responses of compounds 3, 
+4, 6, 7, 10, 13, 14, 18–24, and 26–46 arise primarily from octupolar 
+contributions, because of their low depolarization ratios (DR < 4.26) 
+and high nonlinear anisotropy parameters (ρ > 1). Notably, compounds 
+3, 7, and 21 exhibit very low DR values of ~1.5, consistent with a 
+predominantly octupolar character, a conclusion further solidified by 
+their high Φ(βJ=3) contribution ratios (0.97, 0.95, and 0.92, respec­
+tively). Conversely, dipolar components dominate the second-order NLO 
+responses of the remaining compounds (1, 2, 5, 8, 9, 11, 12, 15–17, and 
+25), as evidenced by DR > 4.26 and ρ < 1.
+3.4.3. Frequency-dependent first hyperpolarizability
+To further facilitate experimental investigations, the frequency- 
+dependent first hyperpolarizability was calculated using the same 
+method as for the static counterpart. The selection of an appropriate 
+frequency is critical for the accurate calculation of the frequency- 
+dependent second-order NLO properties of these compounds. To avoid 
+overestimating the first hyperpolarizability induced by the resonance 
+effect in second harmonic generation, the incident wavelength should be 
+chosen sufficiently far from twice the molecular absorption wavelength. 
+Based on the absorption profiles of all studied compounds, 4556 nm (ω 
+= 0.01 a.u.) was therefore employed as the incident wavelength, as used 
+in previous work [73].
+As shown in Table 3 and Table S10, the frequency-dependent first 
+hyperpolarizability (βHRS,4556 nm) values are higher than their static 
+counterparts, demonstrating the presence of frequency dispersion effects 
+in the studied systems. Focusing on the structurally representative 
+compounds, the frequency-dependent first hyperpolarizability at 4556 
+nm follows the increasing order: compound 1 < 5 < 10 < 18 < 13 < 25 
+< 32 < 39. This trend is identical to that of the static first hyper­
+polarizability, as displayed in Fig. 7. Compound 46 exhibits a massive 
+enhancement of its first hyperpolarizability at 4556 nm (βHRS,4556 nm =
+2393 × 10−30 esu), with a value ~108 times greater than the static 
+Table 3 
+Static and frequency-dependent first hyperpolarizabilities (βHRS,∞ and βHRS,4556 nm, respectively), along with related static parameters (DR, |βJ|, ρ, Φ(βJ)), calculated at 
+the CAM-B3LYP/6-31+G(d) level; βHRS,∞, βHRS,4556 nm, and |βJ| are in 10−30 esu.
+Compound
+βHRS,∞
+βHRS,4556 nm
+DR
+|βJ=1|
+|βJ=3|
+ρ
+Φ(βJ=1)
+Φ(βJ=3)
+1
+1.04
+1.07
+7.03
+2.11
+0.96
+0.45
+0.69
+0.31
+5
+1.92
+2.02
+5.29
+3.65
+2.76
+0.76
+0.57
+0.43
+10
+2.56
+2.78
+1.90
+2.32
+7.49
+3.23
+0.24
+0.76
+13
+34.38
+86.74
+2.19
+39.23
+93.91
+2.39
+0.29
+0.71
+18
+4.64
+45.77
+2.74
+6.54
+11.23
+1.72
+0.37
+0.63
+25
+496.7
+752.7
+4.49
+897.7
+842.5
+0.94
+0.52
+0.48
+32
+1076
+2827
+2.70
+1502
+2626
+1.75
+0.36
+0.64
+39
+1560
+5731
+2.49
+2033
+3989
+1.96
+0.34
+0.66
+46
+22.07
+2393
+1.76
+16.57
+66.87
+4.04
+0.20
+0.80
+Note: β values are limited to 4 significant digits.
+Fig. 6. A comparative overview of key charge transfer parameters and static 
+first hyperpolarizabilities for selected compounds.
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+10 
+
+
+===== PDF PAGE 11 =====
+counterpart (βHRS,∞ = 22.07 × 10−30 esu). This dramatic increase is a 
+direct manifestation of pronounced frequency dispersion, a consequence 
+of low-lying electronic excitations enabled by the larger π skeleton and 
+its vanishingly small energy gap. Despite this dramatic increase, the 
+βHRS,4556 nm value of compound 46 remains smaller than those of com­
+pounds 32 and 39 (2827 and 5731 × 10−30 esu, respectively), a trend 
+consistent with that observed for the static first hyperpolarizabilities.
+3.5. Reorganization energy
+The total reorganization energy (λ) comprises both internal (λint) and 
+external (λext) reorganization energies. The λext arises from polarization 
+of the surrounding medium, which is generally very small and can be 
+neglected in nonpolar solvents [74,75]. Consequently, only the λint was 
+considered in this study. The λint is a critical parameter that governs 
+charge carrier (electron and hole) mobilities in organic molecular sys­
+tems. It is defined as the sum of geometric relaxation energies during the 
+interconversion between ionic (i.e., anion for electron and cation for 
+hole) and neutral states [76]. The adiabatic potential energy surface 
+approach was employed to calculate hole and electron reorganization 
+energies (λh, λe) for structurally representative compounds, as illustrated 
+in Fig. 8. The calculated reorganization energies at the B3LYP/6-31G(d) 
+level are summarized in Table 4.
+The λh and λe values of compound 1 were calculated to be 0.213 and 
+0.244 eV, respectively. In contrast, compounds 5, 10, 13, 18, 25, 32, and 
+39 exhibit significantly lower reorganization energies. This reduction 
+facilitates more efficient charge transport, a finding further corrobo­
+rated by their CT parameters (Table 2). For example, compounds 5, 10, 
+13, 25, 32, and 39 display larger transferred charge (qCT = 0.385–0.620 
+e−) compared to compound 1 (qCT = 0.316 e−). Notably, compounds 13, 
+25, 32, and 39 stand out, demonstrating concurrently elevated qCT, dCT, 
+and ΔμGS−ES values. This synergistic enhancement of key CT descriptors 
+underpins their superior charge transfer efficiency, which is directly 
+reflected in their reorganization energies being among the lowest within 
+the series. These results establish the critical role of expanded π-conju­
+gation in enhancing charge carrier mobility. Among these compounds, 
+compound 46 exhibits the highest λh and λe values, corresponding to its 
+relatively compromised charge transport efficiency–as further evi­
+denced by its minimal qCT, dCT, and ΔμGS−ES parameters. This reaffirms 
+that an extension up to 15 benzene rings on each lateral side of com­
+pound 13 represents the performance optimum; beyond this size, key 
+functional properties begin to degrade.
+The λh values of these compounds are smaller than the λe values 
+except for compounds 13 and 39, indicating that hole transport is 
+favored over electron transport. Interestingly, the reorganization energy 
+decreases linearly with the energy gap. For instance, for compounds 1, 
+5, 10, 13, and 18, the Eg values follow the order Eg (1) > Eg (5) > Eg (10) 
+> Eg (18) > Eg (13), and the λh and λe values exhibit the same trend: λ 
+(1) > λ (5) > λ (10) > λ (18) > λ (13). The hole reorganization energies 
+(λh) of the investigated compounds 1, 5, 10, 13, 18, 25, 32, 39, and 46 
+range from 0.019 to 0.269 eV. These λh values are smaller than that of N, 
+N′-diphenyl-N,N′-bis(3-methylphenyl)-([1,1′-biphenyl])-4,4′-diamine 
+(TPD), a typical hole transport material with λh = 0.290 eV [77]. The 
+electron reorganization energies (λe = 0.019–0.244 eV) of compounds 1, 
+5, 10, 13, 18, 25, 32, and 39 are lower than the value of 0.276 eV re­
+ported 
+for 
+the 
+excellent 
+electron 
+transport 
+material 
+tris 
+(8-hydroxyquinolinato)aluminium(III) (Alq) [78]. However, the elec­
+tron reorganization energy (λe = 0.295 eV) of compound 46 is slightly 
+higher than that of Alq. Lower reorganization energy is associated with 
+high charge carrier mobility [79], demonstrating that the studied 
+compounds exhibit excellent charge transport properties.
+4. Conclusions
+In this study, we systematically investigated the geometric and 
+electronic structures, electronic absorption spectra, charge transport 
+characteristics, and second-order NLO properties of hexa-peri-hex­
+abenzo[7]helicene and its π-extended derivatives using DFT/TDDFT 
+methods to gain a comprehensive understanding of their structure- 
+property relationships and explore potential applications. The simu­
+lated electronic absorption spectrum closely matches its experimental 
+counterpart, enabling confident assignment of electronic transition 
+properties. Lateral π-extension not only effectively tunes the energy gap 
+but also significantly enhances the second-order NLO response. When 
+Fig. 
+7. Correlation 
+between 
+static 
+and 
+frequency-dependent 
+first 
+hyperpolarizabilities.
+Fig. 8. Schematic diagram of hole and electron reorganization energies.
+Table 4 
+Calculated hole and electron reorganization energies (λh and λe, eV) at the 
+B3LYP/6-31G(d) level.
+Compound
+λh
+λe
+1
+0.213
+0.244
+5
+0.186
+0.239
+10
+0.106
+0.110
+13
+0.021
+0.019
+18
+0.064
+0.096
+25
+0.019
+0.052
+32
+0.044
+0.052
+39
+0.164
+0.039
+46
+0.269
+0.295
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+11 
+
+
+===== PDF PAGE 12 =====
+the number of laterally extended benzene rings reaches 5n (n = 1, 2, 3), 
+the βHRS,∞ values increase linearly by a factor of 15n, while the Eg values 
+remain nearly constant at approximately 0.2 eV. Compound 39 exhibits 
+the largest βHRS,∞ value of 1560 × 10−30 esu, demonstrating that 
+π-extended derivatives are excellent candidates for second-order NLO 
+materials. The studied compounds also exhibit outstanding charge 
+transport properties, which can be attributed to their low reorganization 
+energies. We propose an optimal molecular design strategy through 
+well-tuned lateral π-extension that simultaneously maximizes the qCT, 
+confines the dCT within an optimal range, and maintains a favorable 
+electron-hole overlap. This study establishes a rational framework for 
+the design and synthesis of π-extended helicenes targeting high- 
+performance optoelectronic applications.
+CRediT authorship contribution statement
+Chunyu Liu: Writing – review & editing, Writing – original draft, 
+Investigation, Funding acquisition, Data curation, Conceptualization. 
+Xiumei Pan: Software, Resources, Methodology, Investigation.
+Declaration of competing interest
+The authors declare no conflict of interest.
+Acknowledgements
+This work was supported by the Natural Science Foundation of Jilin 
+Province (YDZJ202201ZYTS366), the Science and Technology Research 
+Project of Jilin Provincial Education Department (JJKH20210876KJ), 
+the Natural Science Foundation of Changchun Normal University 
+(2019001 and 2020013), and the Doctoral Research Start-up Fund 
+Project of Changchun Normal University.
+Appendix A. Supplementary data
+Supplementary data to this article can be found online at https://doi. 
+org/10.1016/j.dyepig.2025.113306.
+Data availability
+Data will be made available on request.
+References
+[1] Anderson HV, Gois ND, Chalifoux WA. New advances in chiral nanographene 
+chemistry. Org Chem Front 2023;10(16):4167–97.
+[2] Yang WW, Shen JJ. Multiple heterohelicenes: synthesis, properties and 
+applications. Chem Eur J 2022;28(65):e202202069.
+[3] Tan JY, Xu XS, Liu J, Vasylevskyi S, Lin ZS, Kabe R, et al. Synthesis of a π-extended 
+double [9]helicene. Angew Chem Int Ed 2023;62(18):e202218494.
+[4] Gingras M. One hundred years of helicene chemistry. Part 3: applications and 
+properties of carbohelicenes. Chem Soc Rev 2013;42(3):1051–95.
+[5] Lam`ere JF, Malfant I, Sournia-Saquet A, Lacroix PG, Fabre JM, Kaboub L, et al. 
+Quadratic nonlinear optical response in partially charged donor-substituted 
+tetrathiafulvalene: from a computational investigation to a rational synthetic 
+feasibility. Chem Mater 2007;19(4):805–15.
+[6] Takenaka N, Sarangthem RS, Captain B. Helical chiral pyridine N-Oxides: a new 
+family of asymmetric catalysts. Angew Chem Int Ed 2008;47(50):9708–10.
+[7] Takenaka N, Chen J, Captain B, Sarangthem RS, Chandrakumar A. Helical chiral 2- 
+aminopyridinium ions: a new class of hydrogen bond donor catalysts. J Am Chem 
+Soc 2010;132(13):4536–7.
+[8] Sawada Y, Furumi S, Takai A, Takeuchi M, Noguchi K, Tanaka K. Rhodium- 
+catalyzed enantioselective synthesis, crystal structures, and photophysical 
+properties of helically chiral 1,1′-bitriphenylenes. J Am Chem Soc 2012;134(9): 
+4080–3.
+[9] Kiran V, Mathew SP, Cohen SR, Hernandez Delgado I, Lacour J, Naaman R. 
+Helicenes—A new class of organic spin filter. Adv Mater 2016;28(10):1957–62.
+[10] Yang Y, da Costa RC, Fuchter MJ, Campbell AJ. Circularly polarized light detection 
+by a chiral organic semiconductor transistor. Nat Photonics 2013;7(8):634–8.
+[11] Shioukhi I, Batchu H, Schwartz G, Minion L, Deree Y, Bogoslavsky B, et al. 
+Helitwistacenes—Combining lateral and longitudinal helicity results in solvent- 
+induced inversion of circularly polarized light. Angew Chem Int Ed 2024;63(11): 
+e202319318.
+[12] Gan FW, Zhang GL, Liang JC, Shen CS, Qiu HB. π-extended diaza[7]helicenes with 
+dual negatively curved heptagons: extensive synthesis and spontaneous resolution 
+into strippable homochiral lamellae with helical symmetry. Angew Chem Int Ed 
+2024;63(11):e202320076.
+[13] Gedeon C, Del Rio N, Furlan F, Taddeucci A, Vanthuyne N, Gregoriou VG, et al. 
+Rational design of new conjugated polymers with main chain chirality for efficient 
+optoelectronic devices: carbo[6]helicene and indacenodithiophene copolymers as 
+model compounds. Adv Mater 2024:2314337.
+[14] Fox JM, Katz TJ, Van Elshocht S, Verbiest T, Kauranen M, Persoons A, et al. 
+Synthesis, self-assembly, and nonlinear optical properties of conjugated helical 
+metal phthalocyanine derivatives. J Am Chem Soc 1999;121(14):3453–9.
+[15] Verbiest T. Strong enhancement of nonlinear optical properties through 
+supramolecular chirality. Science 1998;282(5390):913–5.
+[16] Champagne B. Helicenes and nonlinear optical properties: a good match? In: 
+Crassous J, Star´a IG, Starý I, editors. Helicenes: synthesis, properties and 
+applications. Weinheim, Germany: Wiley; 2022. p. 453–72.
+[17] Toya M, Omine T, Ishiwari F, Saeki A, Ito H, Itami K. Expanded [2,1][n] 
+carbohelicenes with 15- and 17-benzene rings. J Am Chem Soc 2023;145(21): 
+11553–65.
+[18] Greenfield JL, Wade J, Brandt JR, Shi X, Penfold TJ, Fuchter MJ. Pathways to 
+increase the dissymmetry in the interaction of chiral light and chiral molecules. 
+Chem Sci 2021;12(25):8589–602.
+[19] Newman MS, Lednicer D. The synthesis and resolution of hexahelicene. J Am Chem 
+Soc 1956;78(18):4765–70.
+[20] Janˇcaˇrík A, Ryb´aˇcek J, Cocq K, Vacek Chocholouˇsov´a J, Vacek J, Pohl R, et al. 
+Rapid access to dibenzohelicenes and their functionalized derivatives. Angew 
+Chem Int Ed 2013;52(38):9970–5.
+[21] Mori K, Murase T, Fujita M. One-step synthesis of [16]helicene. Angew Chem Int 
+Ed 2015;54(23):6847–51.
+[22] Shen Y, Chen CF. Helicenes: synthesis and applications. Chem Rev 2012;112(3): 
+1463–535.
+[23] Qiu Z, Ju CW, Fr´ed´eric L, Hu Y, Schollmeyer D, Pieters G, et al. Amplification of 
+dissymmetry factors in π-extended [7]- and [9]helicenes. J Am Chem Soc 2021;143 
+(12):4661–7.
+[24] Kiel GR, Bergman HM, Samkian AE, Schuster NJ, Handford RC, Rothenberger AJ, 
+et al. Expanded [23]-helicene with exceptional chiroptical properties via an 
+iterative ring-fusion strategy. J Am Chem Soc 2022;144(51):23421–7.
+[25] Shen YJ, Yao NT, Diao LN, Yang Y, Chen XL, Gong HY. A π-extended 
+pentadecabenzo[9]helicene. Angew Chem Int Ed 2023;62(15):e202300840.
+[26] Pschirer NG, Kohl C, Nolde F, Qu J, Mullen K. Pentarylene- and hexarylenebis 
+(dicarboximide)s: near-infrared-absorbing polyaromatic dyes. Angew Chem Int Ed 
+2006;45(9):1401–4.
+[27] Zeng W, Phan H, Herng TS, Gopalakrishna TY, Aratani N, Zeng Z, et al. Rylene 
+ribbons with unusual diradical character. Chem 2017;2(1):81–92.
+[28] Barbieri A, Bandini E, Monti F, Praveen VK, Armaroli N. The rise of near-infrared 
+emitters: organic dyes, porphyrinoids, and transition metal complexes. Top Curr 
+Chem 2016;374(4):47.
+[29] Nakakuki Y, Hirose T, Sotome H, Miyasaka H, Matsuda K. Hexa-peri-hexabenzo[7] 
+helicene: homogeneously π-extended helicene as a primary substructure of 
+helically twisted chiral graphenes. J Am Chem Soc 2018;140(12):4317–26.
+[30] Champagne B, Labidi SN. Second-order nonlinear optical responses of 
+heptahelicene and heptathiahelicene derivatives. Chem Phys Lett 2016;644: 
+195–200.
+[31] Salem MSH, Sabri A, Khalid MI, Sasai H, Takizawa S. Two-step synthesis, structure, 
+and optical features of a double hetero[7]helicene. Molecules 2022;27(24):9068.
+[32] Liu Y, Ma Z, Su H, Wei R, Shen Z, Wang H. The influence of heteroatoms on the 
+circularly polarized luminescence performance of [7]helicene derivatives: 
+aromatic vs. non-aromatic five-membered rings. Phys Chem Chem Phys 2024;26 
+(7):6099–106.
+[33] Niu W, Fu Y, Deng Q, Qiu ZL, Liu F, Popov AA, et al. Enhancing chiroptical 
+responses in helical nanographenes via geometric engineering of double [7] 
+helicenes. Angew Chem Int Ed 2024;63(19):e202319874.
+[34] Becke AD. Density-functional thermochemistry. III. The role of exact exchange. 
+J Chem Phys 1993;98(7):5648–52.
+[35] Lee C, Yang W, Parr RG. Development of the Colle-Salvetti correlation-energy 
+formula into a functional of the electron density. Phys Rev B 1988;37(2):785–9.
+[36] Lu T. Simple, reliable, and universal metrics of molecular planarity. J Mol Model 
+2021;27(9):263.
+[37] Lu T, Chen F. Multiwfn: a multifunctional wavefunction analyzer. J Comput Chem 
+2012;33(5):580–92.
+[38] Lu T. A comprehensive electron wavefunction analysis toolbox for chemists, 
+Multiwfn. J Chem Phys 2024;161(8):082503.
+[39] Humphrey W, Dalke A, Schulten K. VMD: visual molecular dynamics. J Mol Graph 
+1996;14(1):33–8.
+[40] Zhao Y, Truhlar DG. The M06 suite of density functionals for main group 
+thermochemistry, thermochemical kinetics, noncovalent interactions, excited 
+states, and transition elements: two new functionals and systematic testing of four 
+M06-class functionals and 12 other functionals. Theor Chem Acc 2008;120(1): 
+215–41.
+[41] Valero R, Costa R, de PR, Moreira I, Truhlar DG, Illas F. Performance of the M06 
+family of exchange-correlation functionals for predicting magnetic coupling in 
+organic and inorganic molecules. J Chem Phys 2008;128(11):114103.
+[42] Becke AD. A new mixing of Hartree-Fock and local density-functional theories. 
+J Chem Phys 1993;98(2):1372–7.
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+12 
+
+
+===== PDF PAGE 13 =====
+[43] Musso F, Ugliengo P, Solans-Monfort X, Sodupe M. Periodic DFT study of radical 
+species on crystalline silica surfaces. J Phys Chem C 2010;114(39):16430–8.
+[44] Yanai T, Tew DP, Handy NC. A new hybrid exchange-correlation functional using 
+the Coulomb-attenuating method (CAM-B3LYP). Chem Phys Lett 2004;393(1): 
+51–7.
+[45] Tawada Y, Tsuneda T, Yanagisawa S, Yanai T, Hirao K. A long-range-corrected 
+time-dependent density functional theory. J Chem Phys 2004;120(18):8425–33.
+[46] Lin J, Sa R, Zhang M, Wu K. Exploring second-order nonlinear optical properties 
+and switching ability of a series of dithienylethene-containing, cyclometalated 
+platinum complexes: a theoretical investigation. J Phys Chem A 2015;119(29): 
+8174–81.
+[47] Si Y, Yang G. Photophysical properties of azaboradibenzo[6]helicene derivatives. 
+J Mater Chem C 2013;1(12):2354–61.
+[48] Le Bahers T, Adamo C, Ciofini I. A qualitative index of spatial extent in charge- 
+transfer excitations. J Chem Theor Comput 2011;7(8):2498–506.
+[49] Ciofini I, Le Bahers T, Adamo C, Odobel F, Jacquemin D. Through-space charge 
+transfer in rod-like molecules: lessons from theory. J Phys Chem C 2012;116(22): 
+11946–55.
+[50] Wang L, Nan G, Yang X, Peng Q, Li Q, Shuai Z. Computational methods for design 
+of organic materials with high charge mobility. Chem Soc Rev 2010;39(2):423–34.
+[51] Subash Sundar T, Sen R, Johari P. Rationally designed donor-acceptor scheme 
+based molecules for applications in opto-electronic devices. Phys Chem Chem Phys 
+2016;18(13):9133–47.
+[52] Plaquet A, Guillaume M, Champagne B, Castet F, Ducasse L, Pozzo JL, et al. In 
+silico optimization of merocyanine-spiropyran compounds as second-order 
+nonlinear optical molecular switches. Phys Chem Chem Phys 2008;10(41): 
+6223–32.
+[53] Bersohn R, Pao YH, Frisch HL. Double-quantum light scattering by molecules. 
+J Chem Phys 1966;45(9):3184–98.
+[54] Castet F, Bogdan E, Plaquet A, Ducasse L, Champagne B, Rodriguez V. Reference 
+molecules for nonlinear optics: a joint experimental and theoretical investigation. 
+J Chem Phys 2012;136(2):024506.
+[55] Beaujean P, Bondu F, Plaquet A, Garcia-Amor´os J, Cusido J, Raymo FM, et al. 
+Oxazines: a new class of second-order nonlinear optical switches. J Am Chem Soc 
+2016;138(15):5052–62.
+[56] Frisch MJ, Trucks GW, Schlegel HB, Scuseria GE, Robb MA, Cheeseman JR, et al. 
+Gaussian 09, revision D.01. Wallingford, CT: Gaussian, Inc; 2009.
+[57] Sakai H, Shinto S, Araki Y, Wada T, Sakanoue T, Takenobu T, et al. Formation of 
+one-dimensional helical columns and excimerlike excited states by racemic 
+quinoxaline-fused [7]carbohelicenes in the crystal. Chem Eur J 2014;20(32): 
+10099–109.
+[58] Grimme S, Antony J, Ehrlich S, Krieg H. A consistent and accurate ab initio 
+parametrization of density functional dispersion correction (DFT-D) for the 94 
+elements H-Pu. J Chem Phys 2010;132(15):154104.
+[59] Grimme S. Semiempirical GGA-type density functional constructed with a long- 
+range dispersion correction. J Comput Chem 2006;27(15):1787–99.
+[60] Ivanov MV, Reid SA, Rathore R. Game of frontier orbitals: a view on the rational 
+design of novel charge-transfer materials. J Phys Chem Lett 2018;9(14):3978–86.
+[61] Guido CA, Jacquemin D, Adamo C, Mennucci B. Electronic excitations in solution: 
+the interplay between state specific approaches and a time-dependent density 
+functional theory description. J Chem Theor Comput 2015;11(12):5782–90.
+[62] Azarias C, Cupellini L, Belhboub A, Mennucci B, Jacquemin D. Modelling 
+excitation energy transfer in covalently linked molecular dyads containing a 
+BODIPY unit and a macrocycle. Phys Chem Chem Phys 2018;20(3):1993–2008.
+[63] Azarias C, Pawelek M, Jacquemin D. Structural and optical properties of 
+subporphyrinoids: a TD-DFT study. J Phys Chem A 2017;121(22):4306–17.
+[64] Ma MS, Zou LY, Li Y, Ren AM, Feng JK. An isomeric strategy for enhancing 
+phosphorescence efficiency of iridium(III) complexes with N-heterocyclic 
+naphthyridine ligands: a theoretical study. Org Electron 2015;22:180–90.
+[65] Liu C, Yang G, Si Y, Liu Y, Pan X. Understanding photophysical properties of chiral 
+conjugated corrals for organic photovoltaics. J Mater Chem C 2017;5(14): 
+3495–502.
+[66] Kuritz N, Stein T, Baer R, Kronik L. Charge-transfer-like π→π* excitations in time- 
+dependent density functional theory: a conundrum and its solution. J Chem Theor 
+Comput 2011;7(8):2408–15.
+[67] Wong BM, Hsieh TH. Optoelectronic and excitonic properties of oligoacenes: 
+substantial improvements from range-separated time-dependent density functional 
+theory. J Chem Theor Comput 2010;6(12):3704–12.
+[68] Misra R. Tuning of second-order nonlinear optical response properties of aryl- 
+substituted boron-dipyrromethene dyes: unidirectional charge transfer coupled 
+with structural tailoring. J Phys Chem C 2017;121(10):5731–9.
+[69] Torrent-Sucarrat M, Anglada JM, Luis JM. Evaluation of the nonlinear optical 
+properties for annulenes with Hückel and M¨obius topologies. J Chem Theor 
+Comput 2011;7(12):3935–43.
+[70] Oudar JL. Optical nonlinearities of conjugated molecules. Stilbene derivatives and 
+highly polar aromatic compounds. J Chem Phys 1977;67(2):446–57.
+[71] Oudar JL, Chemla DS. Hyperpolarizabilities of the nitroanilines and their relations 
+to the excited state dipole moment. J Chem Phys 1977;66(6):2664–8.
+[72] Liu CY, Si YL, Pan XM, Yang GC. Photophysical properties of quinoxaline-fused [7] 
+carbohelicene derivatives. RSC Adv 2015;5(89):72907–15.
+[73] Wang WY, Ma NN, Wang CH, Zhang MY, Sun SL, Qiu YQ. Enhancement of second- 
+order nonlinear optical response in boron nitride nanocone: Li-doped effect. J Mol 
+Graph Model 2014;48:28–35.
+[74] McMahon DP, Troisi A. Evaluation of the external reorganization energy of 
+polyacenes. J Phys Chem Lett 2010;1(6):941–6.
+[75] Norton JE, Br´edas JL. Polarization energies in oligoacene semiconductor crystals. 
+J Am Chem Soc 2008;130(37):12377–84.
+[76] Reimers JR. A practical method for the use of curvilinear coordinates in 
+calculations of normal-mode-projected displacements and Duschinsky rotation 
+matrices for large molecules. J Chem Phys 2001;115(20):9103–9.
+[77] Malagoli M, Br´edas JL. Density functional theory study of the geometric structure 
+and energetics of triphenylamine-based hole-transporting molecules. Chem Phys 
+Lett 2000;327(1):13–7.
+[78] Lin BC, Cheng CP, You ZQ, Hsu CP. Charge transport properties of tris(8- 
+hydroxyquinolinato)aluminum(III): why it is an electron transporter. J Am Chem 
+Soc 2005;127(1):66–7.
+[79] Marcus RA. Electron transfer reactions in chemistry. Theory and experiment. Rev 
+Mod Phys 1993;65(3):599–610.
+C. Liu and X. Pan                                                                                                                                                                                                                               
+Dyes and Pigments 246 (2026) 113306 
+13 

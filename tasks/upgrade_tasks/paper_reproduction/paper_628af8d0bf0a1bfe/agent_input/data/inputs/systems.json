@@ -1,0 +1,56 @@
+{
+  "systems": [
+    {
+      "system_id": "4a",
+      "systematic_name": "6,12-bis[3,5-bis(trifluoromethyl)phenyl]pentaleno[1,2-b:4,5-b']dibenzothiophene",
+      "molecular_formula": "C36H14F12S2",
+      "formal_charge": 0,
+      "spin_multiplicity": 1,
+      "substitution_definition": "Identical 3,5-bis(trifluoromethyl)phenyl groups are bonded through their ipso carbon atoms to positions 6 and 12 of pentaleno[1,2-b:4,5-b']dibenzothiophene. All unspecified valences are satisfied by hydrogen. No stereogenic element is specified or required."
+    },
+    {
+      "system_id": "4c",
+      "systematic_name": "6,12-bis(4-methoxyphenyl)pentaleno[1,2-b:4,5-b']dibenzothiophene",
+      "molecular_formula": "C34H22O2S2",
+      "formal_charge": 0,
+      "spin_multiplicity": 1,
+      "substitution_definition": "Identical 4-methoxyphenyl groups are bonded through their ipso carbon atoms to positions 6 and 12 of pentaleno[1,2-b:4,5-b']dibenzothiophene. Each methoxy group is para to the core attachment. All unspecified valences are satisfied by hydrogen. No stereogenic element is specified or required."
+    }
+  ],
+  "observable_definition": {
+    "name": "NICS_nn(h)",
+    "rings": "The two monocyclic five-membered carbon rings that together form the central fused pentalene unit; exclude the sulfur-containing and six-membered benzenoid rings.",
+    "centroid": "Arithmetic mean of the Cartesian coordinates of the five ring carbon nuclei.",
+    "mean_plane": "Least-squares plane through all carbon nuclei of the fused pentalene unit.",
+    "probe_positions": "For each of the two carbon-ring centroids use centroid + h*n in the declared molecular frame at every signed height.",
+    "reported_molecular_value": "Retain ring-resolved values at every height and side; the +1.7 ring mean is an additional baseline observable.",
+    "sign_convention": "NICSzz = - n^T sigma n in ppm, where sigma is the shielding tensor in the geometry coordinate frame and n is the declared unit plane normal. An aligned Cartesian z component is equivalent; an unaligned global zz is not.",
+    "signed_probe_heights_A": [
+      -2.3,
+      -1.7,
+      -1.0,
+      1.0,
+      1.7,
+      2.3
+    ]
+  },
+  "model_boundary": {
+    "phase": "gas",
+    "electronic_state": "neutral closed-shell singlet",
+    "endpoint": "Validated relaxed minima and explicitly constrained common-core controls; do not call the controls unconstrained minima.",
+    "excluded_effects": [
+      "solvent",
+      "crystal packing",
+      "finite temperature",
+      "vibrational averaging",
+      "excited states"
+    ]
+  },
+  "geometry_comparison": {
+    "conditions": [
+      "relaxed",
+      "fixed_core"
+    ],
+    "fixed_core_policy": "Choose a common core or reciprocal core swaps and declare peripheral relaxation; record each constraint."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "failure_id": "pr_cf_identity",
+      "condition": "Submitted structures do not have formula/connectivity PAl12B2C36F30 or alter charge state identity.",
+      "scientific_impact": "AEA is not for the requested system."
+    },
+    {
+      "failure_id": "pr_cf_unvalidated",
+      "condition": "Endpoint is reported without convergence and stationary-point/frequency evidence.",
+      "scientific_impact": "The claimed adiabatic endpoint may be a saddle or incomplete optimization."
+    },
+    {
+      "failure_id": "pr_cf_answerless",
+      "condition": "No endpoint energies or computable AEA are supplied and no bounded-failure coverage is documented.",
+      "scientific_impact": "The central observable cannot be evaluated."
+    }
+  ],
+  "paper_id": "paper_c7217910ecbee1d9"
+}

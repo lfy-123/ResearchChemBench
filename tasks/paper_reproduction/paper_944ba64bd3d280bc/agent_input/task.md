@@ -4,7 +4,7 @@ Determine whether the neutral E and Z stereoisomers of 1,2-bis(tetrazol-5-yl)eth
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system_manifest.json`, `e_h2bte.xyz`, and `z_h2bte.xyz`. Both structures are neutral singlets with formula C4H4N8 and explicitly labeled E/Z central-alkene stereochemistry; XYZ coordinates are starting guesses and must not be treated as results. The object is an isolated-molecule comparison, optionally with an explicitly reported methanol continuum. Crystal packing, synthesis, irradiation, and experimental sensitivity values are context for interpretation only. Do not use the paper, SI, general web, or hidden reference values. Do not report an unlabeled “best” structure: every result must retain `E-H2bte` or `Z-H2bte` identity.
+Use `data/inputs/system_manifest.json`, `e_h2bte.xyz`, and `z_h2bte.xyz`. Both structures are neutral singlets with formula C4H4N8 and explicitly labeled E/Z central-alkene stereochemistry; XYZ coordinates are starting guesses and must not be treated as results. The scope has two distinct levels: optimized isolated-molecule ESP/LOL-π and frozen crystal-derived intermolecular NCI. Use the supplied CCDC1872388/2474069 CIFs and `data/inputs/crystal_nci_protocol.json` to reconstruct complete molecules and all independent first-shell pairs. Synthesis, irradiation and measured bulk sensitivity are interpretation context, not computed observables. Do not use the paper, SI, general web, or hidden reference values. Do not report an unlabeled “best” structure: every result must retain `E-H2bte` or `Z-H2bte` identity.
 
 # Required scientific validation/investigation
 
@@ -13,3 +13,8 @@ For each named isomer, generate at least one optimized structure from the suppli
 # Deliverables
 
 Write `report/results.json` conforming to the submission schema. Include methods, per-isomer structure and validation records, ESP extrema, NCI and LOL-π observations, comparison, limitations, and a concise conclusion. Include enough provenance (input file, charge, multiplicity, method, solvent, settings, software, and output filenames or hashes) for another researcher to reproduce the investigation. A bounded failure must use the schema's failure branch and still report completed validation and limitations.
+
+
+## Crystal NCI evidence boundary (2026-09-25)
+
+Intermolecular π-stacking/hydrogen-bond claims require density calculations on the explicit source-CIF pairs, not an isolated optimized molecule. Preserve CIF symmetry operations, translations, molecular components, pair multiplicities and geometry hashes. Follow the matched gas/PCM density and grid-convergence protocol supplied above; its finite-cluster choices are explicit benchmark conventions, not assumed original unpublished author input. Include all crystallographically independent Z molecules and normalize summaries per central molecule. Do not count more plotted Z pairs as stronger physical interaction. Keep molecular ESP/LOL and crystal NCI evidence separate. Record the NCI per-pair results and provenance in each isomer's `nci.crystal_pairs` array, with `nci.crystal_model` and `nci.boundary_sensitivity` summaries. If the interaction contrast is not supported or is sensitive to unspecified boundaries, report that limitation rather than assert the expected trend.

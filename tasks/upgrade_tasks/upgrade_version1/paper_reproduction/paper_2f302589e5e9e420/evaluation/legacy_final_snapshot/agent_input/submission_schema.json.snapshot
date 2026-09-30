@@ -1,0 +1,256 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "fragments",
+      "method",
+      "percent_change_ePI2_vs_EPI1",
+      "conclusion",
+      "candidate_records",
+      "comparison_basis",
+      "evidence_files"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "fragments": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "validated",
+            "validation_evidence",
+            "dipole_debye",
+            "optimization_evidence",
+            "property_evidence"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "enum": [
+                "EPI1",
+                "EPI2"
+              ]
+            },
+            "validated": {
+              "type": "boolean"
+            },
+            "validation_evidence": {
+              "type": "string"
+            },
+            "dipole_debye": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "hydroxyl_oxygen_esp_kcal_mol": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "esp_definition": {
+              "type": "string"
+            },
+            "optimization_evidence": {
+              "type": "string"
+            },
+            "property_evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "candidate_records": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "fragment_id",
+            "generation_rationale",
+            "energy",
+            "validation_evidence",
+            "advanced"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "fragment_id": {
+              "type": "string",
+              "enum": [
+                "EPI1",
+                "EPI2"
+              ]
+            },
+            "generation_rationale": {
+              "type": "string"
+            },
+            "energy": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "validation_evidence": {
+              "type": "string"
+            },
+            "advanced": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "comparison_basis": {
+        "type": "string"
+      },
+      "uncertainty_sensitivity": {
+        "type": "string"
+      },
+      "evidence_files": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        }
+      },
+      "failure_details": {
+        "type": "string"
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "optimization_protocol",
+          "minimum_test"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "optimization_protocol": {
+            "type": "string"
+          },
+          "minimum_test": {
+            "type": "string"
+          }
+        }
+      },
+      "percent_change_ePI2_vs_EPI1": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "percent_change_ePI2_vs_EPI1": {
+              "type": "number"
+            },
+            "fragments": {
+              "items": {
+                "properties": {
+                  "validated": {
+                    "const": true
+                  },
+                  "dipole_debye": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              },
+              "allOf": [
+                {
+                  "contains": {
+                    "properties": {
+                      "id": {
+                        "const": "EPI1"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "id": {
+                        "const": "EPI2"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "required": [
+            "failure_details"
+          ],
+          "properties": {
+            "failure_details": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    ]
+  }
+}

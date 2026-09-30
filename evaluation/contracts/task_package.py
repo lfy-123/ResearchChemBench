@@ -298,6 +298,11 @@ def validate_evaluation(
     key_points = key_points if isinstance(key_points, list) else []
     conclusions = conclusions if isinstance(conclusions, list) else []
     rules = rules if isinstance(rules, list) else []
+    try:
+        from .scientific_rubric import scientific_rubric
+        scientific_rubric(documents.get("scoring_rules.json", {}))
+    except (ValueError, TypeError, KeyError) as exc:
+        findings.append(f"scientific_rubric_invalid:{exc}")
     evidence = evidence if isinstance(evidence, list) else []
 
     key_ids: set[str] = set()
@@ -441,14 +446,25 @@ def validate_task_package(root: str | Path) -> TaskPackageValidation:
         required_set: set[str] = set()
     else:
         try:
-            required_set = {_safe_path(str(item)) for item in required_files}
-        except ValueError:
+            required_set = {_safe_path(item["path"] if isinstance(item, dict) else item) for item in required_files}
+            if any(isinstance(item, dict) and not isinstance(item.get("allow_empty", False), bool) for item in required_files):
+                raise ValueError("allow_empty must be boolean")
+        except (ValueError, KeyError, TypeError):
             required_set = set()
             findings.append("submission_required_file_path_invalid")
     if task_info:
         if root.name != task_info.paper_id:
             findings.append("task_directory_paper_id_mismatch")
-        if root.parent.name != task_info.task_type:
+        # Final and held snapshots preserve the canonical task_type contract.
+        # These are storage aliases for structural validation only: accepting
+        # a held package here does not register it in TaskRepository discovery
+        # or certify its scientific validity/release eligibility.
+        valid_parent_names = {
+            task_info.task_type,
+            f"final_verified_{task_info.task_type}",
+            f"hold_verified_{task_info.task_type}",
+        }
+        if root.parent.name not in valid_parent_names:
             findings.append("task_directory_type_mismatch")
         declared = {item.path for item in task_info.required_deliverables}
         if declared != required_set:

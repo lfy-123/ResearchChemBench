@@ -1,0 +1,13 @@
+{
+  "components": {
+    "SnI2": {"formula": "SnI2", "smiles": "[Sn+2]([I-])[I-]", "charge": 0, "multiplicity": 1},
+    "PbI2": {"formula": "PbI2", "smiles": "[Pb+2]([I-])[I-]", "charge": 0, "multiplicity": 1},
+    "FAI": {"formula": "CH(NH2)2I", "smiles": "C(=[NH2+])N.[I-]", "charge": 0, "multiplicity": 1},
+    "HDC": {"formula": "N2H6Cl2 (hydrazinium dichloride)", "smiles": "[NH3+][NH3+].[Cl-].[Cl-]", "charge": 0, "multiplicity": 1},
+    "DMSO": {"formula": "C2H6OS", "smiles": "CS(C)=O", "charge": 0, "multiplicity": 1}
+  },
+  "complexes": ["SnI2-FAI", "SnI2-HDC", "SnI2-HDC-DMSO", "PbI2-FAI", "PbI2-HDC", "PbI2-HDC-DMSO"],
+  "complex_definition": "For each named complex, use one BX2 unit and the named ligand package; HDC-DMSO means the HDC plus one DMSO molecule associated with the same BX2 unit. Preserve the component stoichiometry and total charge, and report the atom mapping used. The initial arrangement and any proton-transfer/coordination choice must be justified and tested by the submitted conformer search.",
+  "energy_definition": "Report E_bind = E(complex) - sum(E(isolated components)) in eV using the same electronic-structure level for complex and fragments. More negative means stronger association.",
+  "scope": "Molecular gas-phase or explicitly stated finite-cluster calculations only; do not interpret the result as a bulk perovskite free energy."
+}

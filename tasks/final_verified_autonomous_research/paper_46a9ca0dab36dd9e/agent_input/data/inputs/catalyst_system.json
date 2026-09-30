@@ -1,0 +1,47 @@
+{
+  "system_name": "tetraethylammonium tetrachloroferrate ion pair",
+  "components": [
+    {
+      "id": "TEA_cation",
+      "smiles": "CC[N+](CC)(CC)CC",
+      "formal_charge": 1,
+      "connectivity_note": "N bonded to four ethyl groups"
+    },
+    {
+      "id": "tetrachloroferrate_anion",
+      "formula": "FeCl4",
+      "formal_charge": -1,
+      "connectivity": {
+        "central": "Fe",
+        "ligands": [
+          "Cl",
+          "Cl",
+          "Cl",
+          "Cl"
+        ]
+      },
+      "oxidation_state_note": "Fe(III) chloride complex"
+    }
+  ],
+  "total_charge": 0,
+  "spin_multiplicity": 6,
+  "geometry_policy": "No source geometry is supplied; generate and document a reproducible ion-pair geometry/conformer.",
+  "environment": {
+    "solvent": "acetonitrile",
+    "representation": "implicit continuum",
+    "explicit_solvent": false
+  },
+  "measurement_protocol": {
+    "representative_state": "highest oscillator strength in the documented low-lying sextet manifold; retain top three and full examined list",
+    "IFCT": "Mulliken-like transition-density fragment decomposition",
+    "fragments": [
+      "all four Cl",
+      "Fe",
+      "complete TEA+"
+    ],
+    "LMCT": "Cl -> Fe",
+    "MLCT": "Fe -> Cl",
+    "normalization": "all fragment-to-fragment channels including local channels",
+    "state_index_is_not_an_answer": true
+  }
+}

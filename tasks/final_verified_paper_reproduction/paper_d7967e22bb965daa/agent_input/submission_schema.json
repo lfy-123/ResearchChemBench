@@ -1,0 +1,304 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "coverage",
+      "reference_convention",
+      "candidates",
+      "comparison",
+      "conclusion"
+    ],
+    "properties": {
+      "coverage": {
+        "type": "object",
+        "required": [
+          "status",
+          "attempted_labels"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "attempted_labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "stopping_statement": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          }
+        }
+      },
+      "reference_convention": {
+        "type": "object",
+        "required": [
+          "reference_state",
+          "energy_expression",
+          "unit",
+          "geometry_definition"
+        ],
+        "properties": {
+          "reference_state": {
+            "type": "string"
+          },
+          "energy_expression": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "geometry_definition": {
+            "type": "string"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 4,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "status",
+            "input_provenance",
+            "frequency_validation",
+            "barrier",
+            "notes"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "input_provenance": {
+              "type": "object",
+              "required": [
+                "file",
+                "atom_count",
+                "charge",
+                "multiplicity"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "description": "Public reactant file plus independently generated TS-guess artifact, not a supplied author TS file."
+                },
+                "atom_count": {
+                  "type": "integer"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                }
+              }
+            },
+            "frequency_validation": {
+              "type": "object",
+              "required": [
+                "imaginary_frequency_count",
+                "imaginary_frequencies",
+                "assignment_evidence",
+                "validated"
+              ],
+              "properties": {
+                "imaginary_frequency_count": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "imaginary_frequencies": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "assignment_evidence": {
+                  "type": "string"
+                },
+                "validated": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "barrier": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string"
+                }
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "frequency_validation": {
+                    "properties": {
+                      "imaginary_frequency_count": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "frequency_validation": {
+                    "properties": {
+                      "validated": {
+                        "const": false
+                      }
+                    }
+                  },
+                  "notes": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "frequency_validation": {
+                    "properties": {
+                      "validated": {
+                        "const": true
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "frequency_validation": {
+                    "properties": {
+                      "imaginary_frequency_count": {
+                        "const": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "comparison": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "ordering",
+              "barrier_values",
+              "comparison_basis"
+            ],
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "ordering": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "barrier_values": {
+                "type": "object",
+                "required": [
+                  "TS3A-quartet",
+                  "TS3B-quartet",
+                  "TS3C-quartet",
+                  "TS3D-quartet"
+                ],
+                "properties": {
+                  "TS3A-quartet": {
+                    "type": "number"
+                  },
+                  "TS3B-quartet": {
+                    "type": "number"
+                  },
+                  "TS3C-quartet": {
+                    "type": "number"
+                  },
+                  "TS3D-quartet": {
+                    "type": "number"
+                  }
+                }
+              },
+              "comparison_basis": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "unresolved_labels",
+              "comparison_basis"
+            ],
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "unresolved_labels": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              },
+              "comparison_basis": {
+                "type": "string"
+              },
+              "why_incomplete": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    }
+  }
+}

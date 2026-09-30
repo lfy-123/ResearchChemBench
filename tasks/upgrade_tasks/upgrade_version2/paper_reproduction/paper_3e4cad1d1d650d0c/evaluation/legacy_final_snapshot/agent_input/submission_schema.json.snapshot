@@ -1,0 +1,233 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "comparison",
+      "reproducibility"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "status",
+                "method",
+                "geometry",
+                "validation",
+                "homo_energy_eV"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "1a_anion",
+                    "1e_anion"
+                  ]
+                },
+                "status": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "object",
+                  "required": [
+                    "software",
+                    "method",
+                    "basis",
+                    "solvation",
+                    "charge",
+                    "multiplicity"
+                  ],
+                  "properties": {
+                    "software": {
+                      "type": "string"
+                    },
+                    "method": {
+                      "type": "string"
+                    },
+                    "basis": {
+                      "type": "string"
+                    },
+                    "solvation": {
+                      "type": "string"
+                    },
+                    "charge": {
+                      "type": "integer"
+                    },
+                    "multiplicity": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "geometry": {
+                  "type": "object",
+                  "required": [
+                    "provenance",
+                    "optimization_status"
+                  ],
+                  "properties": {
+                    "provenance": {
+                      "type": "string"
+                    },
+                    "optimization_status": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "frequency_method",
+                    "imaginary_modes",
+                    "evidence"
+                  ],
+                  "properties": {
+                    "frequency_method": {
+                      "type": "string"
+                    },
+                    "imaginary_modes": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "evidence": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "homo_energy_eV": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "status",
+                "attempts"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "1a_anion",
+                    "1e_anion"
+                  ]
+                },
+                "status": {
+                  "type": "string"
+                },
+                "attempts": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "description",
+                      "outcome"
+                    ],
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "outcome": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "limitation": {
+                  "type": "string",
+                  "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+                }
+              }
+            }
+          ]
+        },
+        "allOf": [
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "1a_anion"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "1e_anion"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        ]
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "statement"
+        ],
+        "properties": {
+          "statement": {
+            "type": "string"
+          },
+          "difference_eV": {
+            "type": "number"
+          }
+        }
+      },
+      "reproducibility": {
+        "type": "object",
+        "required": [
+          "software_version",
+          "settings"
+        ],
+        "properties": {
+          "software_version": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "paper_id": "paper_7574d99707125e60",
+  "rules": [
+    {
+      "rule_id": "ar_rule_01",
+      "type": "semantic",
+      "expected": "The supplied isolated G1 system is explicitly reconstructed and independently parameterized.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.method"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_01"
+    },
+    {
+      "rule_id": "ar_rule_02",
+      "type": "semantic",
+      "expected": "Candidate/state coverage, stopping condition, convergence, state identity and stationary-point validation are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search",
+          "$.validation",
+          "$.workflow"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_02"
+    },
+    {
+      "rule_id": "ar_rule_03",
+      "type": "numeric",
+      "target": 540.3,
+      "unit": "nm",
+      "tolerance": 15.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoint.emission_wavelength_nm"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_result_01"
+    },
+    {
+      "rule_id": "ar_rule_04",
+      "type": "semantic",
+      "expected": "Transition assignment is independently argued from submitted spatial diagnostics and excludes host-mediated transfer for the isolated system.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transition_analysis"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_02"
+    },
+    {
+      "rule_id": "ar_rule_05",
+      "type": "semantic",
+      "expected": "Final wavelength conclusion is tied to validated endpoint and disclosed uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.endpoint", "$.final_conclusion", "$.limitations"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_01"
+    },
+    {
+      "rule_id": "ar_rule_06",
+      "type": "semantic",
+      "expected": "Final transition-character conclusion is independently reasoned and bounded to isolated G1.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.transition_analysis", "$.final_conclusion"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_02"
+    },
+    {
+      "rule_id": "ar_rule_07",
+      "type": "semantic",
+      "expected": "Search coverage and unresolved sensitivities are explicitly stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_limit_01"
+    }
+  ]
+}

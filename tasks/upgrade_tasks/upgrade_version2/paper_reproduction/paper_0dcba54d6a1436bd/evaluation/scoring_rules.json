@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_molecular_identity",
+      "reference_id": "kp_molecular_identity",
+      "type": "semantic",
+      "expected": "Check actual constitutional graphs, full alkyl chains, neutral formulas, charge/spin and Z stereochemistry. Map each electronic result to its geometry and solvent representation. Truncated or wrong-isomer output cannot answer the stated full-molecule question without a scientifically validated approximation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.systems",
+          "$.methods",
+          "$.records"
+        ],
+        "comparison": "Check actual constitutional graphs, full alkyl chains, neutral formulas, charge/spin and Z stereochemistry. Map each electronic result to its geometry and solvent representation. Truncated or wrong-isomer output cannot answer the stated full-molecule question without a scientifically validated approximation."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_excitation_findings",
+      "reference_id": "kp_excitation_findings",
+      "type": "semantic",
+      "expected": "Inspect actual excitation outputs and analyses for the three supplied molecules at declared comparable conditions. Check energies, oscillator/intensity measures and state-character evidence relevant to the claims, including units and energy–wavelength conversion. Distinguish orbital gaps, S1, bright transitions and emission. No fixed root count, NTO output, charge-transfer label, fragment partition or source ordering is required; copying source targets is not new evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.records",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Inspect actual excitation outputs and analyses for the three supplied molecules at declared comparable conditions. Check energies, oscillator/intensity measures and state-character evidence relevant to the claims, including units and energy–wavelength conversion. Distinguish orbital gaps, S1, bright transitions and emission. No fixed root count, NTO output, charge-transfer label, fragment partition or source ordering is required; copying source targets is not new evidence."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_molecular_explanation",
+      "reference_id": "kp_molecular_explanation",
+      "type": "semantic",
+      "expected": "Judge whether comparisons support the claimed relation between molecular structure and excitation properties and whether material alternative causes or representation effects remain. A direct causal torsion/substituent claim requires more than three unequal scalar energies. A bounded association or demonstrated inability to distinguish explanations can earn applicable credit. Do not require the source ICT/LE assignments or the V1 common-angle/method matrix.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.results",
+          "$.claims",
+          "$.research_log"
+        ],
+        "comparison": "Judge whether comparisons support the claimed relation between molecular structure and excitation properties and whether material alternative causes or representation effects remain. A direct causal torsion/substituent claim requires more than three unequal scalar energies. A bounded association or demonstrated inability to distinguish explanations can earn applicable credit. Do not require the source ICT/LE assignments or the V1 common-angle/method matrix."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_state_and_numerical_validity",
+      "reference_id": "kp_state_and_numerical_validity",
+      "type": "semantic",
+      "expected": "Check claimed minima, constraints, electronic convergence, solvent/state definitions and dominant numerical/conformational uncertainty. When corresponding states are compared, require actual character evidence rather than equal root numbers, energy proximity or labels alone. Probability-distribution similarity cannot be called phase-sensitive wavefunction overlap. A state-character plot or orbital gap alone does not prove an absorption or causal mechanism. Alternative methods need their own relevant validity evidence, not the reference functional pair.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Check claimed minima, constraints, electronic convergence, solvent/state definitions and dominant numerical/conformational uncertainty. When corresponding states are compared, require actual character evidence rather than equal root numbers, energy proximity or labels alone. Probability-distribution similarity cannot be called phase-sensitive wavefunction overlap. A state-character plot or orbital gap alone does not prove an absorption or causal mechanism. Alternative methods need their own relevant validity evidence, not the reference functional pair."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer what low-energy optical or excitation-character differences are supported within the three-molecule DCM scope, how strongly the molecular explanation is supported, and what remains unresolved. Accept supported reverse order, revised state assignments, negative findings and bounded non-identifiability. Do not require all states to be CT, the source assignments, a fixed torsion effect or a unique mechanism. Missing calculations are not negative evidence, and vertical monomer results alone do not explain fluorescence yield, aggregate/solid-state emission or device behavior.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.limitations",
+          "$.results",
+          "$.missing_work"
+        ],
+        "comparison": "Answer what low-energy optical or excitation-character differences are supported within the three-molecule DCM scope, how strongly the molecular explanation is supported, and what remains unresolved. Accept supported reverse order, revised state assignments, negative findings and bounded non-identifiability. Do not require all states to be CT, the source assignments, a fixed torsion effect or a unique mechanism. Missing calculations are not negative evidence, and vertical monomer results alone do not explain fluorescence yield, aggregate/solid-state emission or device behavior."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "molecular_identity",
+      "max_score": 15,
+      "description": "Correct full Z molecules, structures and physical conditions. Check actual constitutional graphs, full alkyl chains, neutral formulas, charge/spin and Z stereochemistry. Map each electronic result to its geometry and solvent representation. Truncated or wrong-isomer output cannot answer the stated full-molecule question without a scientifically validated approximation.",
+      "rule_ids": [
+        "rule_molecular_identity"
+      ]
+    },
+    {
+      "id": "excitation_findings",
+      "max_score": 30,
+      "description": "Inspectable low-energy singlet absorption and excitation-character evidence. Inspect actual excitation outputs and analyses for the three supplied molecules at declared comparable conditions. Check energies, oscillator/intensity measures and state-character evidence relevant to the claims, including units and energy–wavelength conversion. Distinguish orbital gaps, S1, bright transitions and emission. No fixed root count, NTO output, charge-transfer label, fragment partition or source ordering is required; copying source targets is not new evidence.",
+      "rule_ids": [
+        "rule_excitation_findings"
+      ]
+    },
+    {
+      "id": "molecular_explanation",
+      "max_score": 25,
+      "description": "Evidence discriminating the submitted molecular explanation at its stated scope. Judge whether comparisons support the claimed relation between molecular structure and excitation properties and whether material alternative causes or representation effects remain. A direct causal torsion/substituent claim requires more than three unequal scalar energies. A bounded association or demonstrated inability to distinguish explanations can earn applicable credit. Do not require the source ICT/LE assignments or the V1 common-angle/method matrix.",
+      "rule_ids": [
+        "rule_molecular_explanation"
+      ]
+    },
+    {
+      "id": "state_and_numerical_validity",
+      "max_score": 20,
+      "description": "Validity, uncertainty and correspondence appropriate to the chosen states and method. Check claimed minima, constraints, electronic convergence, solvent/state definitions and dominant numerical/conformational uncertainty. When corresponding states are compared, require actual character evidence rather than equal root numbers, energy proximity or labels alone. Probability-distribution similarity cannot be called phase-sensitive wavefunction overlap. A state-character plot or orbital gap alone does not prove an absorption or causal mechanism. Alternative methods need their own relevant validity evidence, not the reference functional pair.",
+      "rule_ids": [
+        "rule_state_and_numerical_validity"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 10,
+      "description": "Answer what low-energy optical or excitation-character differences are supported within the three-molecule DCM scope, how strongly the molecular explanation is supported, and what remains unresolved. Accept supported reverse order, revised state assignments, negative findings and bounded non-identifiability. Do not require all states to be CT, the source assignments, a fixed torsion effect or a unique mechanism. Missing calculations are not negative evidence, and vertical monomer results alone do not explain fluorescence yield, aggregate/solid-state emission or device behavior.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_development_with_bounded_V1_reuse_not_V2_scientific_acceptance",
+  "scoring_notes": [
+    "Apply each criterion to demonstrated evidence: zero for unsupported assertions; partial credit proportional to valid, relevant findings; full credit requires its entire evidential purpose, not completion of a reference workflow.",
+    "Negative, alternative and demonstrated non-identifiable answers can earn full applicable credit; claimed failure or uncertainty alone cannot. Do not renormalize away missing work.",
+    "Conditional examples are validity requirements only if that observable or causal claim is made. Source numerical targets are not universal tolerances.",
+    "Scientific semantics, alternative-route calibration, blind AR trials and execution isolation remain pending. Synthetic fixture success is not science.",
+    "The process axis is the actually loaded shared open_research AR/PR rubric, not an extra package-local rubric."
+  ]
+}

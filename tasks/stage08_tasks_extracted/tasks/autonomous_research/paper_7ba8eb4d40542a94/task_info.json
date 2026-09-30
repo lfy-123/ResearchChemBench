@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_7ba8eb4d40542a94",
+  "task_type": "autonomous_research",
+  "title": "Autonomous search for stable imidazole–salicylic-acid hydrogen-bonded complexes",
+  "category": "computational chemistry / molecular interaction energy",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must generate and prioritize a broad intermolecular orientation and donor/acceptor hypothesis space.",
+    "Each candidate requires independent optimization, stationary-point validation, deduplication, and coverage/stopping justification."
+  ],
+  "paper": {
+    "title": "Efficient and air-stable perovskite solar cells driven by interfacial self-assembly and hydrogen bond system: Dual interface passivation and collaborative mechanism",
+    "doi": "10.1016/j.cej.2025.171573",
+    "journal": "Chemical Engineering Journal",
+    "publication_date": "2026-01-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs/imidazole.xyz",
+      "description": "Explicit 6-atom neutral imidazole starting geometry, including its N1-H and three ring C-H protons; connectivity is defined in system.json."
+    },
+    {
+      "path": "data/inputs/salicylic_acid.xyz",
+      "description": "Explicit 16-atom neutral 2-hydroxybenzoic-acid starting geometry, including four aromatic C-H and both O-H protons; connectivity is defined in system.json."
+    },
+    {
+      "path": "data/inputs/system.json",
+      "description": "Explicit stoichiometry, connectivity, proton placement, charge, multiplicity, environment, interaction-energy definition, and identity constraints."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured candidate-level investigation, validation, energies, coverage/stopping record, and final conclusion."
+    }
+  ]
+}

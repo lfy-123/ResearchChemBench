@@ -4,7 +4,7 @@ Test the authors' qualitative hypothesis that a neutral and a monoanionic ortho-
 
 ## Public inputs and scientific boundaries
 
-Use `data/inputs/neutral.xyz` (C10H16BO3P, charge 0, singlet) and `data/inputs/anion.xyz` (C9H13BO3P, charge −1, singlet), with the SI atom order. In each file, P is atom 11, O1/O2/O3 are atoms 12/13/14, and B is atom 21 (neutral) or 18 (anion). Measure P–O1, P–O2, P–O3 and O1···B in Å. These are isolated gas-phase models: omit Li+, solvent, crystal packing and experimental bulky substituents. The experimental comparison boundary is the paper's 2a versus [Li(MeCN)2][3] crystallographic trend, including the reported O(P)···B and selected P–O changes; do not treat it as a quantitative crystal prediction.
+Use `data/inputs/neutral.xyz` (C10H16BO3P, charge 0, singlet) and `data/inputs/anion.xyz` (C9H13BO3P, charge −1, singlet), with the SI atom order. In each file, P is atom 11, O1/O2/O3 are atoms 12/13/14, and B is atom 21 (neutral) or 18 (anion). Measure P–O1, P–O2, P–O3 and O1···B in Å. These are isolated gas-phase models: omit Li+, solvent, crystal packing and experimental bulky substituents. The experimental comparison observations are provided in `data/inputs/experimental_crystal_boundary.json` for 2a and [Li(MeCN)2][3]. Use them as an external structural boundary, state any atom-label mapping, and do not treat them as a quantitative crystal prediction or computed target.
 
 ## Required scientific validation/investigation
 

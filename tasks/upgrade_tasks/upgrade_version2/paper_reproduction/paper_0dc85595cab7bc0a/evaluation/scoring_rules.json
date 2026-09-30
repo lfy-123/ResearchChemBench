@@ -1,0 +1,166 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Preserve source precursor connectivity and explicitly define stereochemical/conformational state, any new bonds and any removed hydrogens. Compare compatible compositions or include balanced reservoirs; C30H22,C30H20 andC30H18 absolute energies are not directly comparable. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.results",
+          "$.validity_checks"
+        ],
+        "comparison": "Preserve source precursor connectivity and explicitly define stereochemical/conformational state, any new bonds and any removed hydrogens. Compare compatible compositions or include balanced reservoirs; C30H22,C30H20 andC30H18 absolute energies are not directly comparable. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_outcomes",
+      "reference_id": "kp_outcomes",
+      "type": "condition",
+      "expected": "Provide auditable generated evidence for the outcome or supported set claimed. Define why considered possibilities are sufficient at that scope, without a required ortho enumeration rule, authorIS list or fixed candidate count. Repeating the source product name alone is insufficient. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.records",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Provide auditable generated evidence for the outcome or supported set claimed. Define why considered possibilities are sufficient at that scope, without a required ortho enumeration rule, authorIS list or fixed candidate count. Repeating the source product name alone is insufficient. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_accessibility",
+      "reference_id": "kp_accessibility",
+      "type": "condition",
+      "expected": "Use physical evidence appropriate to the asserted state/path. Ground-state energies or orbitals can constrain a model but do not alone prove unique photoproduct branching. Conditional supported sets and investigated unresolved outcomes remain eligible; no mandatory nonadiabatic trajectory or fixed scan. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validity_checks",
+          "$.claims",
+          "$.scientific_response"
+        ],
+        "comparison": "Use physical evidence appropriate to the asserted state/path. Ground-state energies or orbitals can constrain a model but do not alone prove unique photoproduct branching. Conditional supported sets and investigated unresolved outcomes remain eligible; no mandatory nonadiabatic trajectory or fixed scan. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "condition",
+      "expected": "Assess structural/state/method sensitivity that can change the claimed selection. Distinguish source synthesis stereochemistry from an assumed irradiated ensemble and state limitations of simplified oxidation treatment. No fabricated tolerance or pathway barrier. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.uncertainty",
+          "$.decision_log"
+        ],
+        "comparison": "Assess structural/state/method sensitivity that can change the claimed selection. Distinguish source synthesis stereochemistry from an assumed irradiated ensemble and state limitations of simplified oxidation treatment. No fabricated tolerance or pathway barrier. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "condition",
+      "expected": "State what the analysis establishes and what remains unproved about source selectivity. A bounded ground-state finding can earn appropriate credit but cannot be sold as complete photochemical dynamics. Molecular conclusions cannot establish crystal/device behavior. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.limitations"
+        ],
+        "comparison": "State what the analysis establishes and what remains unproved about source selectivity. A bounded ground-state finding can earn appropriate credit but cannot be sold as complete photochemical dynamics. Molecular conclusions cannot establish crystal/device behavior. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Mapped precursor and transformation bookkeeping Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "outcomes",
+      "max_score": 25,
+      "description": "Independent evidence for molecular outcomes Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_outcomes"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "max_score": 25,
+      "description": "Distinguish stability from photochemical accessibility Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_accessibility"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Uncertainty relevant to the outcome claim Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Evidence-proportional regioselectivity conclusion Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_scope",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

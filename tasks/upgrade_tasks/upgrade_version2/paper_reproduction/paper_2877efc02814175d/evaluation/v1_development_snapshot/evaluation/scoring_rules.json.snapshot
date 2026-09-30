@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Full neutral DQCS is C31H27N3O3 singlet; retain the phenolic hydrogen present in the three source graphs. Metal complexes all have charge+2; Cd/Co/Ni source multiplicities are1/2/1. Primary medium DMSO. A free ligand extracted from a complex has charge0 singlet, not the parent complex charge. Identify ligand versus metal density partitions and fixed-geometry atom correspondence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Full neutral DQCS is C31H27N3O3 singlet; retain the phenolic hydrogen present in the three source graphs. Metal complexes all have charge+2; Cd/Co/Ni source multiplicities are1/2/1. Primary medium DMSO. A free ligand extracted from a complex has charge0 singlet, not the parent complex charge. Identify ligand versus metal density partitions and fixed-geometry atom correspondence."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_relaxed_species",
+      "reference_id": "kp_relaxed_species",
+      "type": "semantic",
+      "expected": "Compute like-defined TD/NTO observables with six roots or a justified larger window. Co transitions retain doublet reference/spin character rather than forced singlet labels. Core rows: DQCS, Cd_DQCS, Co_DQCS, Ni_DQCS. Recompute excitation_eV, oscillator_strength, metal_transition_fraction, spin_squared from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxed_species",
+          "$.calculation_records"
+        ],
+        "comparison": "Compute like-defined TD/NTO observables with six roots or a justified larger window. Co transitions retain doublet reference/spin character rather than forced singlet labels. Core rows: DQCS, Cd_DQCS, Co_DQCS, Ni_DQCS. Recompute excitation_eV, oscillator_strength, metal_transition_fraction, spin_squared from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_frozen_ligand",
+      "reference_id": "kp_frozen_ligand",
+      "type": "semantic",
+      "expected": "Extract identical complete ligand graph/charge from each source complex, retaining all hydrogens; pair frozen and relaxed ligand results. Core rows: ligand_from_Cd, ligand_from_Co, ligand_from_Ni. Recompute excitation_eV, oscillator_strength, ligand_distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.frozen_ligand",
+          "$.calculation_records"
+        ],
+        "comparison": "Extract identical complete ligand graph/charge from each source complex, retaining all hydrogens; pair frozen and relaxed ligand results. Core rows: ligand_from_Cd, ligand_from_Co, ligand_from_Ni. Recompute excitation_eV, oscillator_strength, ligand_distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_attribution",
+      "reference_id": "kp_attribution",
+      "type": "semantic",
+      "expected": "Separate geometry and metal contributions with state matching and real density fractions. Do not use gap/hardness/electrophilicity algebra as independent causal evidence. Core rows: Cd_effect, Co_effect, Ni_effect, method_sensitivity. Recompute electronic_shift_eV, geometry_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.attribution",
+          "$.calculation_records"
+        ],
+        "comparison": "Separate geometry and metal contributions with state matching and real density fractions. Do not use gap/hardness/electrophilicity algebra as independent causal evidence. Core rows: Cd_effect, Co_effect, Ni_effect, method_sensitivity. Recompute electronic_shift_eV, geometry_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. DNA association, quenching rates and antibacterial mechanism are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. DNA association, quenching rates and antibacterial mechanism are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Full neutral DQCS is C31H27N3O3 singlet; retain the phenolic hydrogen present in the three source graphs. Metal complexes all have charge+2; Cd/Co/Ni source multiplicities are1/2/1. Primary medium DMSO. A free ligand extracted from a complex has charge0 singlet, not the parent complex charge. Identify ligand versus metal density partitions and fixed-geometry atom correspondence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "relaxed_species",
+      "max_score": 20,
+      "description": "Compute like-defined TD/NTO observables with six roots or a justified larger window. Co transitions retain doublet reference/spin character rather than forced singlet labels. Core rows: DQCS, Cd_DQCS, Co_DQCS, Ni_DQCS. Recompute excitation_eV, oscillator_strength, metal_transition_fraction, spin_squared from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_relaxed_species"
+      ]
+    },
+    {
+      "id": "frozen_ligand",
+      "max_score": 25,
+      "description": "Extract identical complete ligand graph/charge from each source complex, retaining all hydrogens; pair frozen and relaxed ligand results. Core rows: ligand_from_Cd, ligand_from_Co, ligand_from_Ni. Recompute excitation_eV, oscillator_strength, ligand_distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_frozen_ligand"
+      ]
+    },
+    {
+      "id": "attribution",
+      "max_score": 20,
+      "description": "Separate geometry and metal contributions with state matching and real density fractions. Do not use gap/hardness/electrophilicity algebra as independent causal evidence. Core rows: Cd_effect, Co_effect, Ni_effect, method_sensitivity. Recompute electronic_shift_eV, geometry_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_attribution"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. DNA association, quenching rates and antibacterial mechanism are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

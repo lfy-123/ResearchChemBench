@@ -1,0 +1,99 @@
+{
+  "source": "Main PDF p2, Figure1b–d; SI PDF pp11–13, FiguresS5–S7. Experimental observations only; no computed backbone or transition assignments.",
+  "optical_conditions": {
+    "solvent": "dichloromethane",
+    "concentration_mol_L": 1e-05,
+    "temperature": "Not numerically specified for the Figure1 optical measurements in the cited passage."
+  },
+  "optical_observations": [
+    {
+      "systems": [
+        "mono_R"
+      ],
+      "observable": "reported absorption coverage",
+      "range_nm": [
+        400,
+        550
+      ]
+    },
+    {
+      "systems": [
+        "di_R"
+      ],
+      "observable": "reported absorption coverage",
+      "range_nm": [
+        300,
+        700
+      ]
+    },
+    {
+      "systems": [
+        "mono_R",
+        "mono_S"
+      ],
+      "observable": "circular dichroism",
+      "observation": "The source reports negligible Cotton effects; no numerical detection limit is given."
+    },
+    {
+      "systems": [
+        "di_R",
+        "di_S"
+      ],
+      "observable": "circular dichroism",
+      "observation": "The source reports strong mirror-image signals across the UV-visible region."
+    },
+    {
+      "systems": [
+        "di_R",
+        "di_S"
+      ],
+      "observable": "reported absolute absorption dissymmetry magnitude",
+      "wavelength_nm": 502,
+      "absolute_g_abs": 0.0086,
+      "qualification": "Magnitude reported for the dimer pair; no assignment of backbone helicity or individual sign is encoded here."
+    }
+  ],
+  "chromatography": {
+    "system": "di_R",
+    "eluent": "dichloromethane/hexane 90:10 v/v",
+    "column": "CHIRALPAK IG chiral-NR",
+    "temperature_C": 20,
+    "flow_mL_min": 0.8,
+    "injection_uL": 5,
+    "detection_nm": 400,
+    "peaks": [
+      {
+        "retention_min": 5.068,
+        "relative_area_percent": 84.79
+      },
+      {
+        "retention_min": 6.053,
+        "relative_area_percent": 15.21
+      }
+    ],
+    "qualification": "Peak identities are unassigned in public data. Areas are detector responses, not calibrated solution free energies."
+  },
+  "nmr_observations": [
+    {
+      "system": "di_R",
+      "solvent": "CDCl3",
+      "observation": "Two sets of bay-region proton signals, approximately 5.5:1; no public structural assignment."
+    },
+    {
+      "system": "di_R",
+      "solvent": "C2D2Cl4",
+      "temperature_K_range": [
+        293,
+        393
+      ],
+      "observation": "No coalescence reported for the lower-field resonances over this range."
+    },
+    {
+      "system": "di_R",
+      "solvent": "CD2Cl2",
+      "temperature_K_approx": 223,
+      "observation": "Cooling produces changes/coalescence around this temperature in the high-field signals as described by the source."
+    }
+  ],
+  "limitations": "Reported intervals and qualitative descriptions are not pointwise raw spectra, detection limits or independent error bars. No curve-fitting precision is implied. A claim requiring resolved spectral intensities must identify adequate evidence and its uncertainty; do not fabricate a digitized trace from this summary."
+}

@@ -1,0 +1,72 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "rules": [
+    {
+      "rule_id": "r_ar_minimum",
+      "type": "condition",
+      "expected": "Minimum/stationarity evidence is present and scientifically interpretable.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum_validation"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "kp_ar_process_minimum"
+    },
+    {
+      "rule_id": "r_ar_pairs",
+      "type": "condition",
+      "expected": "Three pair objects identify Sn atom 1 and butyl carbons 2,3,7 using the original 1-based XYZ indices, with distances and evidence confirming the final-geometry assignment. Program-internal reordering is allowed; use the supplied mapping to connect working logs to the original-index result pairs.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sn_bu_pairs"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "kp_ar_process_pairs"
+    },
+    {
+      "rule_id": "r_ar_mean",
+      "type": "numeric",
+      "target": -217,
+      "unit": "Hz",
+      "tolerance": 15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sn_bu_pairs",
+          "$.mean_coupling_hz",
+          "$.method"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_ar_result_mean",
+      "expected": "Recompute the signed arithmetic mean of all three identified full Sn-C coupling values. FC-only, absolute-value or empirically corrected values cannot silently replace the declared full coupling."
+    },
+    {
+      "rule_id": "r_ar_conclusion",
+      "type": "semantic",
+      "expected": "A validated, sign-aware coupling result is reported with computational evidence and interpretation bounded to the supplied system.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_ar_final"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}

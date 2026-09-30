@@ -1,0 +1,165 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "system_id",
+          "method",
+          "validation",
+          "observables",
+          "localization_analysis",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "success"
+          },
+          "system_id": {
+            "type": "string"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "method",
+              "basis_or_model"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string"
+              },
+              "basis_or_model": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "atom_count",
+              "charge",
+              "multiplicity",
+              "optimization_converged",
+              "imaginary_frequency_count"
+            ],
+            "properties": {
+              "atom_count": {
+                "type": "integer"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "optimization_converged": {
+                "type": "boolean"
+              },
+              "imaginary_frequency_count": {
+                "type": "integer"
+              }
+            }
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "HOMO_energy_eV",
+              "LUMO_energy_eV",
+              "electronic_energy_au",
+              "zero_point_energy_au",
+              "gibbs_free_energy_au",
+              "entropy_cal_mol_K"
+            ],
+            "properties": {
+              "HOMO_energy_eV": {
+                "type": "number"
+              },
+              "LUMO_energy_eV": {
+                "type": "number"
+              },
+              "electronic_energy_au": {
+                "type": "number"
+              },
+              "zero_point_energy_au": {
+                "type": "number"
+              },
+              "gibbs_free_energy_au": {
+                "type": "number"
+              },
+              "entropy_cal_mol_K": {
+                "type": "number"
+              }
+            }
+          },
+          "localization_analysis": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "system_id",
+          "method",
+          "validation",
+          "diagnostics",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "system_id": {
+            "type": "string"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "method",
+              "basis_or_model"
+            ]
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "atom_count",
+              "charge",
+              "multiplicity",
+              "optimization_converged"
+            ]
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      }
+    ]
+  }
+}

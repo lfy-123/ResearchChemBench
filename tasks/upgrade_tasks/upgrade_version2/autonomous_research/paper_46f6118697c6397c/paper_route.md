@@ -1,0 +1,7 @@
+# V2 paper route and provenance
+
+The authors interpret boron-substituent-dependent absorption through changes in N6-related orbital energies and transition character (main pp3–4). The visible band is described as mainly HOMO→LUMO for1/4 but mainly HOMO−4→LUMO for2/3; this is a source assignment to assess, not a rule for selecting every calculated root. The disclosed computational route is Gaussian16 B3LYP/6-31+G(d), SMD dichloromethane; SI p16 additionally specifies DFT-D3BJ, which is omitted from the shorter main-text label. Main and SI excitation numbers are not identical: for example compound1 main prose gives3.52eV while SI TableS2 gives3.0119eV with f=0.3456. Report the actual chosen protocol and raw output rather than tuning to either printed number. The authors discuss limited dissociation of2 from its solvent-insensitive spectrum. V1 common-core freezes and effect partitioning were added benchmark interventions.
+
+Source CIF/structural records and SI TD tables are useful private identity and method evidence. V1 evaluation/legacy_final_snapshot preserves the older narrow calculation/reference; its scalar targets do not validate the four-member explanation or a common-core effect decomposition. Main Table1 absorption and the stated solvent observation are reusable public measurements. No new comparative V2 reference was calculated.
+
+AR is not instructed to follow this private author route. This file is package metadata, not an exported agent input. The active public task and V2 rubric supersede all archived V1 requirements.

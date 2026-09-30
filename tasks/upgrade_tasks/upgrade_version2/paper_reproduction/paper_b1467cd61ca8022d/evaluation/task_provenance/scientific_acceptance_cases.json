@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.504013+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_b1467cd61ca8022d/documents/main.pdf",
+      "sha256": "5d8206d63bf9546ab21cd825a8b6401671658eb2b405a2a6f4d2512b9079a058",
+      "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p3溶剂族、p12方法；真实正式 SI 另存于 batch3/evidence 的 official_si.pdf，p7 FigS7为四个2 M LiFSI体系；本地原supplementary_001是peer-review文档。",
+      "actual_read_pages_and_sections": "Main p3 chemical identities, Fig2 discussion and distinction between molecular/MD results; main p12 complete theoretical methods; formal publisher SI pp2–8, especially p7 FigS7."
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_b1467cd61ca8022d_official_si.pdf",
+      "sha256": "990e77372a82e68e2f69c340c32bad64e4f83a0d2065a48f55751e312ea3b155",
+      "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+      "role": "formal_publisher_SI",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p3溶剂族、p12方法；真实正式 SI 另存于 batch3/evidence 的 official_si.pdf，p7 FigS7为四个2 M LiFSI体系；本地原supplementary_001是peer-review文档。",
+      "actual_read_pages_and_sections": "Main p3 chemical identities, Fig2 discussion and distinction between molecular/MD results; main p12 complete theoretical methods; formal publisher SI pp2–8, especially p7 FigS7."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Agent-selected local models of the four source ethers and Li/FSI preserve composition and connect quantitative solvation evidence to a bounded explanation without fixed 1:1:1 clusters.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual local interactions are sensitive to justified model/environment assumptions, preventing a robust local ordering or extrapolation to bulk transport.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "One isolated ether descriptor or RESP charge labeled eV proves superior bulk electrolyte transport or an SEI mechanism.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A correctly normalized molecular electrostatic analysis is reported as such, with no uncomputed ion-association free energy or battery performance claim.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: How do the molecular identities of PM, BM, TFPM and TFBM affect local lithium solvation in the presence of FSI, and what account of their differences is supported by a defensible molecular investigation? Determine the extent to which the evidence supports a common explanation across these four solvents.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify the terminal-CF3 substitution and chain length of the four complete ether graphs, Li+ and FSI−, and conserved atom/charge counts for every derived model. Formula alone does not distinguish positional isomers. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Define the observable, molecular composition and reference of every comparison. Show adequate validity for any claimed structure or relative interaction, and justify transfer from selected models to the stated local question. If electrostatic or charge descriptors are used, distinguish potential units/locations from fitted atomic charges and document the calculation; an ESP extremum is not automatically a RESP charge. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Limit claims to the local interactions and the actual range of sampled models. Isolated descriptors or small-cluster energies cannot prove bulk coordination fractions, ionic conductivity, SEI composition, oxidation stability, low-temperature cycling or cell lifetime. Do not treat source MD populations as experimental observations. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

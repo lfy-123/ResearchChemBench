@@ -1,0 +1,70 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "type": "semantic",
+      "expected": "coverage and deduplication are explicit for all fixed systems",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage",
+          "$.systems"
+        ],
+        "comparison": "expert semantic comparison A single-conformer result establishes only that comparison. Score sensitivity only where actually tested; disclosing uncertainty is not evidence of invariance or a substitute for missing sensitivity."
+      },
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "type": "semantic",
+      "expected": "validated calculations and unambiguous atom identity/provenance",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "type": "semantic",
+      "expected": "four charges and paired differences are reported or bounded failure is truthful Keep each value tied to its mapped carbonyl carbon or quaternary-ammonium nitrogen in the complete identified system. Check paired differences against those four values and their signs. PR retains its declared primary protocol; AR retains its allowed model/conformer choices.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.systems",
+          "$.comparison",
+          "$.failure"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "type": "semantic",
+      "expected": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison A single-conformer result establishes only that comparison. Score sensitivity only where actually tested; disclosing uncertainty is not evidence of invariance or a substitute for missing sensitivity."
+      },
+      "reference_id": "ar_c1"
+    }
+  ],
+  "paper_id": "paper_6f9a36fff6964313",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -6,7 +6,7 @@ The paper asks why Rh-catalyzed keto-(5+2) cycloaddition of keto-vinylcyclopropa
 
 ## 2. System and model boundary
 
-The computed model is substrate 1t, the oxygen-bridged structural analog of the experimental keto-VCP, with a monomeric Rh species derived from [Rh(CO)2Cl]2. The paper considers the keto-(5+2) surface, an oxidative-cyclometalation alternative, and related CO-containing surfaces. Relative Gibbs energies are referenced to the separated catalyst/substrate (and CO where present), with CO at 6.2 mM and all other species at 1 M.
+The computed model is substrate 1t, the oxygen-bridged structural analog of the experimental keto-VCP, with a monomeric Rh species derived from [Rh(CO)2Cl]2. SI p32 gives 25 atoms (C9H14O2) for 1t and 12 atoms (C4Cl2O4Rh2) for the dimer. Keto-(5+2) intermediates/TSs have 29 atoms (C10H14ClO3Rh); oxidative-cyclometalation structures have 31 atoms (C11H14ClO4Rh). A 29-atom complex plus one free CO has the same composition as 1t plus half a dimer; the 31-atom branch needs no added free CO. The paper considers the keto-(5+2) surface, an oxidative-cyclometalation alternative, and related CO-containing surfaces. Relative Gibbs energies are referenced to the separated catalyst/substrate (and CO where present), with CO at 6.2 mM and all other species at 1 M. Earlier public XYZ files omitted every oxygen row in substrate/catalyst; these identity errors were corrected from SI p32, without changing the scientific objective.
 
 ## 3. Authors' implemented computational route
 
@@ -24,7 +24,7 @@ The authors optimized and frequency-checked intermediates and transition states,
 
 ## 5. Private reference results
 
-The source reports, for the keto-(5+2) surface, TS1 24.0, INT2 18.0, INT3 14.5, TS2 40.8, INT3′ 22.7, TS2′ 36.4, TS4 36.4 and TS-OC 44.6 kcal/mol relative Gibbs energies/barriers as identified in the paper discussion and Figure 3. The paper characterizes the overall metallo-ene barrier as 36.4 kcal/mol and the classical keto insertion barrier as 40.8 kcal/mol.
+Figure 3 reports profile heights TS1 24.0, INT2 18.0, INT3 14.5, TS2 55.3, INT3′ 22.7, TS2′ 36.4 and TS-OC 44.6 kcal/mol. The scored classical keto-insertion activation free energy is the **local** difference G(TS2)−G(INT3)=55.3−14.5=40.8 kcal/mol. In contrast, the metallo-ene value 36.4 and oxidative-cyclization value 44.6 are **profile heights relative to the separated-reactant zero**, not their local barriers. The main-text keto-(5+2) paragraph's reference to “TS4” at 36.4 conflicts with Figure 3, which labels that structure TS2′; SI pp35 and 37 distinguish the 29-atom TS2′ from the 31-atom carbonylation TS4. Do not compute the unrelated carbonylation TS4 to satisfy this evaluator. This clarification does not change the three numerical evaluator targets.
 
 ## 6. Limitations and interpretation boundaries
 

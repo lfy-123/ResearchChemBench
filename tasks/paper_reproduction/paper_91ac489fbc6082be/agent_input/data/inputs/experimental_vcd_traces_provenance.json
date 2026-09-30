@@ -1,0 +1,27 @@
+{
+  "paper_id": "paper_91ac489fbc6082be",
+  "source_type": "digitized_plotted_experimental_trace",
+  "trace_file": "experimental_vcd_traces.csv",
+  "trace_sha256": "ad657f3cfa91f87f7e263f5ffebc4d3e8cd1990adbbb8c5a70a021df5803be68",
+  "source_pdf": "papers/paper_91ac489fbc6082be/documents/supplementary_001.pdf",
+  "source_pdf_sha256": "e0cf041ce39cfceb249f64546ba96a457d403f3e85f57ad391f8b6973433eae7",
+  "figure": "Figure S63",
+  "source_pdf_page": 59,
+  "columns": [
+    "wavenumber_cm-1",
+    "cdcl3_delta_epsilon",
+    "c6d6_delta_epsilon"
+  ],
+  "solvents": {
+    "cdcl3": "CDCl3, 0.08 M",
+    "c6d6": "C6D6, 0.30 M"
+  },
+  "axis_note": "Figure labels the ordinate Δε but does not print a unit; conventional M^-1 cm^-1 is inferred, not explicit.",
+  "estimated_digitization_error": {
+    "wavenumber_cm-1": 0.2,
+    "delta_epsilon": 2.9e-05
+  },
+  "processing": "6x RGB raster render; linear axis calibration; median colored-pixel trace; linear interpolation only for 62 missing red columns; no smoothing.",
+  "mask_recommendation": "Exclude 1325-1335 cm^-1 unless a different solvent-absorption mask is explicitly justified.",
+  "scope": "Plotted experimental boundary, not raw instrument data and not a calculated target."
+}

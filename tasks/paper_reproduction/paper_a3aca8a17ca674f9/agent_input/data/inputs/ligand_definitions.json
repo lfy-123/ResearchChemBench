@@ -1,1 +1,40 @@
-{"L7":{"identity":"mono-N-protected amino-acid ligand L7","family":"MPAA","source_definition":"SI §2.4.4 isolated ligand block headed L7","connectivity_description":"N-acetyl amino-acid ligand: carboxylic acid carbon bonded to the alpha carbon; alpha carbon bonded to N-acetylamino and a substituted aryl group; aryl substituent is the source-defined methyl-substituted phenyl group","atom_mapping_requirement":"Map every atom from the supplied source-defined connectivity before complex construction; state protonation and charge."},"L9":{"identity":"mono-N-protected amino-aryl-thioether ligand L9","family":"MPAThio","source_definition":"SI §2.4.4 isolated ligand block headed L9","connectivity_description":"N-acetyl amino-aryl-thioether ligand: amino-acid carboxylate/alpha-carbon/N-acetyl unit linked to the source-defined aryl-thioether substituent","atom_mapping_requirement":"Map every atom from the supplied source-defined connectivity before complex construction; state protonation and charge."},"L12":{"identity":"bidentate pyridone ligand L12","family":"bidentate pyridone","source_definition":"SI §2.4.4 isolated ligand block headed L12","connectivity_description":"2-pyridone N,O donor framework bearing the source-defined methyl substituent and N-linked alkyl substituent","atom_mapping_requirement":"Map every atom from the supplied source-defined connectivity before complex construction; state protonation and charge."},"note":"These are problem-defining ligand identities and connectivity descriptions only. No optimized complex, transition structure, intermediate, energy, ordering, target or tolerance is supplied."}
+{
+  "L7": {
+    "identity": "mono-N-protected amino-acid ligand L7",
+    "family": "MPAA",
+    "source_definition": "SI §2.4.4 isolated ligand block headed L7",
+    "connectivity_description": "N-acetyl amino-acid ligand: carboxylic acid carbon bonded to the alpha carbon; alpha carbon bonded to N-acetylamino and a substituted aryl group; aryl substituent is the source-defined methyl-substituted phenyl group",
+    "coordinate_file": "L7.xyz",
+    "formula": "C11H12NO3",
+    "charge": -1,
+    "multiplicity": 1,
+    "coordinate_source": "supplementary_001.pdf p. 33, isolated L7 block (27 atoms)",
+    "protonation_note": "The supplied L7 block is the deprotonated carboxylate form used under basic LiOH conditions; the protonated analogue L7' is not silently substituted.",
+    "atom_mapping_requirement": "Map every atom from the supplied source-defined connectivity before complex construction; state protonation and charge."
+  },
+  "L9": {
+    "identity": "mono-N-protected amino-aryl-thioether ligand L9",
+    "family": "MPAThio",
+    "source_definition": "SI §2.4.4 isolated ligand block headed L9",
+    "connectivity_description": "N-acetyl amino-aryl-thioether ligand: amino-acid carboxylate/alpha-carbon/N-acetyl unit linked to the source-defined aryl-thioether substituent",
+    "coordinate_file": "L9.xyz",
+    "formula": "C13H19NOS",
+    "charge": 0,
+    "multiplicity": 1,
+    "coordinate_source": "supplementary_001.pdf pp. 32-33, isolated L9 block (35 atoms)",
+    "atom_mapping_requirement": "Map every atom from the supplied source-defined connectivity before complex construction; state protonation and charge."
+  },
+  "L12": {
+    "identity": "bidentate pyridone ligand L12",
+    "family": "bidentate pyridone",
+    "source_definition": "SI §2.4.4 isolated ligand block headed L12",
+    "connectivity_description": "2-pyridone N,O donor framework bearing the source-defined methyl substituent and N-linked alkyl substituent",
+    "coordinate_file": "L12.xyz",
+    "formula": "C8H10N2O2",
+    "charge": 0,
+    "multiplicity": 1,
+    "coordinate_source": "supplementary_001.pdf pp. 32-33, isolated L12 block (22 atoms)",
+    "atom_mapping_requirement": "Map every atom from the supplied source-defined connectivity before complex construction; state protonation and charge."
+  },
+  "note": "Coordinate files are source-defined isolated ligand geometries and atom order. The agent must preserve this mapping when constructing Pd complexes; complex charge, Pd oxidation state, and site-specific proton transfers remain explicit modeling choices."
+}

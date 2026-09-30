@@ -1,0 +1,494 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "compounds"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "compounds": {
+        "type": "array",
+        "minItems": 4,
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "status",
+                "method",
+                "convergence",
+                "dihedrals",
+                "orbital_localization",
+                "validation",
+                "atom_mapping_file",
+                "excited_state"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "MeAC",
+                    "TfAC",
+                    "MeACFy",
+                    "TfACFy"
+                  ]
+                },
+                "status": {
+                  "const": "complete"
+                },
+                "method": {
+                  "type": "object",
+                  "required": [
+                    "software",
+                    "method",
+                    "basis",
+                    "charge",
+                    "multiplicity",
+                    "structure_provenance"
+                  ]
+                },
+                "convergence": {
+                  "type": "object",
+                  "required": [
+                    "optimized",
+                    "evidence",
+                    "termination_record"
+                  ]
+                },
+                "dihedrals": {
+                  "type": "object",
+                  "required": [
+                    "alpha3",
+                    "beta1"
+                  ],
+                  "properties": {
+                    "alpha3": {
+                      "type": "object",
+                      "required": [
+                        "signed_value_deg",
+                        "value_deg",
+                        "atom_indices"
+                      ],
+                      "properties": {
+                        "signed_value_deg": {
+                          "type": "number"
+                        },
+                        "value_deg": {
+                          "type": "number"
+                        },
+                        "atom_indices": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "uniqueItems": true,
+                          "minItems": 4,
+                          "maxItems": 4
+                        }
+                      },
+                      "description": "Mapped bonded alpha3 torsion; atom_indices use your output coordinate order."
+                    },
+                    "beta1": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "value_deg",
+                        "plane_atom_indices",
+                        "plane_fit_rms_A"
+                      ],
+                      "properties": {
+                        "value_deg": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 90
+                        },
+                        "plane_atom_indices": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "uniqueItems": true,
+                            "minItems": 6,
+                            "maxItems": 6
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        },
+                        "plane_fit_rms_A": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "description": "Unsigned plane angle; null only when the molecular graph lacks the spirofluorene pair."
+                    }
+                  }
+                },
+                "orbital_localization": {
+                  "type": "object",
+                  "required": [
+                    "fragment_definitions",
+                    "homo_fragments",
+                    "lumo_fragments"
+                  ]
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "evidence"
+                  ]
+                },
+                "atom_mapping_file": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "excited_state": {
+                  "type": "object",
+                  "required": [
+                    "state_index",
+                    "spin",
+                    "method",
+                    "energy_eV",
+                    "oscillator_strength",
+                    "geometry_file",
+                    "state_assignment_evidence",
+                    "calculation_files",
+                    "nto",
+                    "ifct"
+                  ],
+                  "properties": {
+                    "state_index": {
+                      "const": 1
+                    },
+                    "spin": {
+                      "const": "singlet"
+                    },
+                    "method": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "energy_eV": {
+                      "type": "number"
+                    },
+                    "oscillator_strength": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "geometry_file": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "state_assignment_evidence": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "calculation_files": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1
+                    },
+                    "nto": {
+                      "type": "object",
+                      "required": [
+                        "state_index",
+                        "weights",
+                        "orbital_file",
+                        "hole_index",
+                        "electron_index",
+                        "fragment_populations",
+                        "evidence"
+                      ],
+                      "properties": {
+                        "state_index": {
+                          "const": 1
+                        },
+                        "weights": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "minItems": 1
+                        },
+                        "orbital_file": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hole_index": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "electron_index": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "fragment_populations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          },
+                          "minItems": 2
+                        },
+                        "evidence": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "ifct": {
+                      "type": "object",
+                      "required": [
+                        "state_index",
+                        "partition_method",
+                        "fragment_definitions",
+                        "ct_percent",
+                        "le_percent",
+                        "transfer_matrix_file",
+                        "evidence"
+                      ],
+                      "properties": {
+                        "state_index": {
+                          "const": 1
+                        },
+                        "partition_method": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "fragment_definitions": {
+                          "type": "object"
+                        },
+                        "ct_percent": {
+                          "type": "number"
+                        },
+                        "le_percent": {
+                          "type": "number"
+                        },
+                        "transfer_matrix_file": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "type": "object",
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "enum": [
+                          "MeACFy",
+                          "TfACFy"
+                        ]
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "dihedrals": {
+                        "properties": {
+                          "beta1": {
+                            "type": "object"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "dihedrals": {
+                        "properties": {
+                          "beta1": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "status",
+                "failure"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "MeAC",
+                    "TfAC",
+                    "MeACFy",
+                    "TfACFy"
+                  ]
+                },
+                "status": {
+                  "const": "bounded_failure"
+                },
+                "failure": {
+                  "type": "object",
+                  "required": [
+                    "stage",
+                    "evidence",
+                    "attempted_remedies",
+                    "bounded_conclusion"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "maxItems": 4,
+        "allOf": [
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "MeAC"
+                }
+              }
+            }
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "TfAC"
+                }
+              }
+            }
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "MeACFy"
+                }
+              }
+            }
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "const": "TfACFy"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "comparisons": {
+        "type": "array",
+        "minItems": 4,
+        "items": {
+          "type": "object",
+          "required": [
+            "pair",
+            "finding",
+            "evidence"
+          ]
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure_summary": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "comparisons",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "compounds": {
+            "items": {
+              "properties": {
+                "status": {
+                  "const": "complete"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "failure_summary"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_e0791c047a731974",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "A",
+  "new_class": "B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_e0791c047a731974",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_e0791c047a731974"
+  },
+  "new_reference_gaps": [
+    "New SOC, independent rubrene energetics, geometry intervention and relativistic uncertainty are uncomputed."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "8478adf920694a86c816ea553242235f381fc00b09a0b108b5e4091df1cf6d9b",
+    "paper_reproduction": "d7ae2a74b879c229c9f09f5cc4e8f913ad4d9e6eaadef4e0c2d7d7ff6c69da73"
+  },
+  "source_review": "paper_reviews/paper_e0791c047a731974.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_e0791c047a731974",
+      "package_content_sha256": "e1ee38567e7ac65700f7aee3687a9af3cd0cdde194aa49d266d8c9cec80656ae"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_e0791c047a731974",
+      "package_content_sha256": "ca32929a3619b82a67a89263f83dd1d98de380125907a51c106b9a9ac0f4fcbc"
+    }
+  },
+  "result_panels": [
+    "sensitizer_states",
+    "rubrene_energy_cycle",
+    "geometry_and_method_test"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_e0791c047a731974/documents/main.pdf",
+      "sha256": "4d136fb1b060c26a81c3dacdb397eed6c4c913f61d95b8ada7262e801a1a91c1",
+      "pages": [
+        4,
+        5,
+        6
+      ],
+      "total_pages": 9
+    },
+    {
+      "path": "papers/paper_e0791c047a731974/documents/supplementary_001.pdf",
+      "sha256": "06893f8d0c9056eba31a55a3c726a76bba621a0d20c80d6eb9fe11f9d35f1d02",
+      "pages": [
+        7,
+        8,
+        24,
+        30
+      ],
+      "total_pages": 45
+    },
+    {
+      "path": "docs/evalution/update/paper_e0791c047a731974.md",
+      "sha256": "5e1adbdefec628b2693679965471527952834a126681645549eaf818ed15fd42",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_e0791c047a731974/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_e0791c047a731974/evaluation/reference_validation_plan.md"
+  }
+}

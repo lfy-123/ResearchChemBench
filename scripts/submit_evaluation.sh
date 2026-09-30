@@ -22,6 +22,10 @@ if [[ ! -x "$PYTHON" ]]; then
 fi
 
 export RESEARCHCHEMBENCH_ENV_ROOT="$ENV_ROOT"
+# Match the pilot launcher: these paths are part of the frozen MCP runtime
+# environment and must be identical when an existing run is resumed.
+export PATH="$FRAMEWORK_ENV/bin:$PATH"
+export LD_LIBRARY_PATH="$FRAMEWORK_ENV/lib:${LD_LIBRARY_PATH:-}"
 
 usage() {
   cat <<'EOF'
@@ -36,15 +40,17 @@ Usage:
   bash scripts/submit_evaluation.sh stop    --session NAME
 
 Submit options:
+  --recovery                    Legacy persistence flag (Codex local saves by default).
+  --resume / --no-resume         Enable/disable bounded automatic session recovery.
   --agent NAME                  Agent framework preset. Default: opencode.
   --model MODEL                 Agent model. Default: deepseek-v4-flash.
   --judge-model MODEL           Judge model. Default: same as --model.
-  --timeout-seconds N           Per-task Agent wall time. Default: 14400.
+  --timeout-seconds N           Per-task Agent wall time. Default: 90000.
   --compute-action-timeout-seconds N
-                                Fixed timeout for compute Actions/jobs. Default: 10800.
+                                Fixed timeout for compute Actions/jobs. Default: 86400.
   --fast-action-timeout-seconds N
-                                Fixed timeout for fast/data Actions. Default: 240.
-  --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 14000.
+                                Fixed timeout for fast/data Actions. Default: 86400.
+  --mcp-tool-timeout-seconds N  MCP client deadline per tool call. Default: 86700.
   --job-event-settle-seconds N  Stable notification window after job events. Default: 60.
   --available-cpu-cores N       CPU cores available to each task. Default: 48.
   --available-memory-mb N       Memory available to each task, in MiB. Default: 204800.
@@ -75,7 +81,7 @@ Examples:
   bash scripts/submit_evaluation.sh submit \
     --model deepseek-v4-flash \
     --judge-model deepseek-v4-flash \
-    --timeout-seconds 10800 \
+    --timeout-seconds 90000 \
     --max-turns 600 \
     --follow \
     autonomous_research/paper_A paper_reproduction/paper_A
@@ -131,7 +137,7 @@ import os
 import sys
 from pathlib import Path
 
-from evaluation.provenance.token_usage import workspace_token_usage
+from evaluation.provenance.progress_snapshot import build_progress_snapshot, format_progress_summary
 
 run_root = Path(sys.argv[1]).resolve()
 batch_dir = Path(sys.argv[2]).resolve() if sys.argv[2] else None
@@ -139,6 +145,8 @@ submission = {}
 submission_path = run_root / "submission.json"
 if submission_path.is_file():
     submission = json.loads(submission_path.read_text(encoding="utf-8"))
+if submission.get("error"):
+    print("Submission failure: " + json.dumps(submission["error"], ensure_ascii=False))
 tasks = list(submission.get("tasks") or [])
 records = {}
 if batch_dir and batch_dir.is_dir():
@@ -152,20 +160,34 @@ if batch_dir and batch_dir.is_dir():
         if (workspace / "_score.json").is_file():
             score = json.loads((workspace / "_score.json").read_text(encoding="utf-8"))
         try:
-            tokens = workspace_token_usage(workspace)["tokens"]
+            progress = build_progress_snapshot(workspace)
+            tokens = progress["usage"]
+            accounting_status = tokens.get("accounting_status", "unavailable")
         except Exception:
             tokens = {}
+            progress = None
+            accounting_status = "unavailable"
         records.setdefault(task_key, []).append(
             {
-                "status": meta.get("status", "unknown"),
+                "status": progress.get("run_status") if progress else meta.get("status", "unknown"),
+                "run_id": meta.get("run_id"), "workspace": str(workspace),
                 "duration": meta.get("duration_seconds"),
                 "score": score.get("score"),
                 "score_max": score.get("score_max"),
-                "tools": int(meta.get("tool_call_count") or 0),
-                "failed_tools": int(meta.get("failed_tool_calls") or 0),
-                "tokens": int(tokens.get("total") or 0),
+                "tools": progress.get("tool_call_count") if progress else None,
+                "failed_tools": meta.get("failed_tool_calls"),
+                "tokens": None if accounting_status == "unavailable" else tokens.get("total_tokens"),
+                "progress": progress,
+                "accounting_status": accounting_status,
             }
         )
+if batch_dir and (batch_dir / "eval_report.json").is_file():
+    for row in json.loads((batch_dir / "eval_report.json").read_text()).get("runs", []):
+        if not row.get("workspace"):
+            key = f"{row['task_type']}/{row['paper_id']}"
+            records.setdefault(key, []).append(row)
+            if row.get("error"):
+                print("Startup failure: " + json.dumps(row["error"], ensure_ascii=False))
 ordered = [
     f"{task['task_type']}/{task['paper_id']}" if isinstance(task, dict) else str(task)
     for task in tasks
@@ -179,22 +201,35 @@ for task in ordered:
     repeats = max(1, int(submission.get("repeats") or 1))
     for repeat in range(repeats):
         row = values[repeat] if repeat < len(values) else {}
-        status = str(row.get("status") or "pending")
+        status = str(row.get("status") or (submission.get("status") if not batch_dir else None) or "pending")
         duration = row.get("duration")
         duration_text = "-" if duration is None else f"{float(duration):.1f}s"
         score = row.get("score")
         score_text = "-" if score is None else f"{score}/{row.get('score_max')}"
         label = task if repeats == 1 else f"{task} [repeat {repeat + 1}]"
+        token_text = "unavailable" if row.get("tokens") is None else format(row["tokens"], ",")
+        tools_text = "?" if row.get("tools") is None else str(row["tools"])
+        failures_text = "?" if row.get("failed_tools") is None else str(row["failed_tools"])
         print(
             f"{label[:54]:54} {status[:12]:12} {duration_text:12} "
-            f"{score_text:11} {int(row.get('tools') or 0):5d} "
-            f"{int(row.get('failed_tools') or 0):7d} {int(row.get('tokens') or 0):12,d}"
+            f"{score_text:11} {tools_text:>5} "
+            f"{failures_text:>7} {token_text:>12}"
         )
+import shlex
+for task_records in records.values():
+    for record in task_records:
+        if record.get("run_id"):
+            print("Workspace: " + record["workspace"])
+            if record.get("progress"):
+                print(format_progress_summary(record["progress"]))
+            for operation in ("status", "cancel", "resume"):
+                print(operation + ": " + shlex.join(["bash", "scripts/submit_evaluation.sh", operation,
+                    "--run-root", str(run_root), "--run-id", record["run_id"]]))
 results_path = batch_dir / "results.json" if batch_dir else None
 if results_path and results_path.is_file():
     result = json.loads(results_path.read_text(encoding="utf-8"))
     summary = result.get("summary") or {}
-    print("\nBatch complete:")
+    print("\nSaved batch summary (current controller status shown above):")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
 PY
 }
@@ -206,15 +241,20 @@ if [[ -z "$command" || "$command" == "-h" || "$command" == "--help" ]]; then
 fi
 shift
 
+if [[ "$command" =~ ^(status|resume|pause|cancel|reconcile)$ && " $* " == *" --run-id "* ]]; then
+  exec "$PYTHON" "$ROOT_DIR/scripts/manage_evaluation_run.py" "$command" "$@"
+fi
+
 case "$command" in
-  submit)
+  submit|create)
     agent="opencode"
     model="deepseek-v4-flash"
+    model_explicit=false
     judge_model=""
-    timeout_seconds=14400
-    compute_action_timeout_seconds=10800
-    fast_action_timeout_seconds=240
-    mcp_tool_timeout_seconds=14000
+    timeout_seconds=90000
+    compute_action_timeout_seconds=86400
+    fast_action_timeout_seconds=86400
+    mcp_tool_timeout_seconds=86700
     job_event_settle_seconds="${RESEARCHCHEMBENCH_JOB_EVENT_SETTLE_SECONDS:-60}"
     job_event_max_batch_seconds="${RESEARCHCHEMBENCH_JOB_EVENT_MAX_BATCH_SECONDS:-300}"
     job_wait_heartbeat_seconds="${RESEARCHCHEMBENCH_JOB_WAIT_HEARTBEAT_SECONDS:-}"
@@ -239,12 +279,21 @@ case "$command" in
     follow=false
     dry_run=false
     tasks=()
+    resume_option=""
     while [[ $# -gt 0 ]]; do
       case "$1" in
+        --resume|--no-resume)
+          if [[ -n "$resume_option" && "$resume_option" != "$1" ]]; then
+            echo "Error: --resume and --no-resume are mutually exclusive." >&2
+            exit 2
+          fi
+          resume_option="$1"; shift ;;
+        --recovery)
+          export RESEARCHCHEMBENCH_RECOVERY_ENABLED=1; shift ;;
         --agent)
           require_value "$1" "${2:-}"; agent="$2"; shift 2 ;;
         --model)
-          require_value "$1" "${2:-}"; model="$2"; shift 2 ;;
+          require_value "$1" "${2:-}"; model="$2"; model_explicit=true; shift 2 ;;
         --judge-model)
           require_value "$1" "${2:-}"; judge_model="$2"; shift 2 ;;
         --timeout-seconds)
@@ -306,6 +355,9 @@ case "$command" in
         *) tasks+=("$1"); shift ;;
       esac
     done
+    if [[ "$agent" == "codex" && "$model_explicit" == false ]]; then
+      model="${RCB_CODEX_MODEL:-gpt-5.6-sol}"
+    fi
     if [[ ${#tasks[@]} -eq 0 ]]; then
       echo "Error: provide at least one TASK_TYPE/PAPER_ID." >&2
       exit 2
@@ -408,7 +460,7 @@ case "$command" in
       "$job_event_settle_seconds" "$job_event_max_batch_seconds" \
       "$job_wait_heartbeat_seconds" "$job_internal_poll_interval_seconds" \
       "$job_failure_tail_chars" \
-      "$execution_mode" "$distributed_transport" \
+      "$execution_mode" "$distributed_transport" "$resume_option" \
       "${tasks[@]}" <<'PY'
 import json
 import os
@@ -424,13 +476,16 @@ from pathlib import Path
     mcp_tool_timeout_seconds, available_cpu_cores, available_memory_mb,
     available_gpu_count, job_event_settle_seconds, job_event_max_batch_seconds,
     job_wait_heartbeat_seconds, job_internal_poll_interval_seconds,
-    job_failure_tail_chars, execution_mode, distributed_transport, *tasks
+    job_failure_tail_chars, execution_mode, distributed_transport, resume_option, *tasks
 ) = sys.argv[1:]
 def flag(value):
     return value.casefold() == "true"
 config = {
     "name": f"submission_{Path(run_root).name}",
     "agents": [agent],
+    **({"recovery_enabled": True} if os.environ.get("RESEARCHCHEMBENCH_RECOVERY_ENABLED") == "1" else {}),
+    "resume": resume_option == "--resume",
+    "codex_model": model if agent == "codex" else None,
     "tasks": [
         {"task_type": value.split("/", 1)[0], "paper_id": value.split("/", 1)[1]}
         for value in tasks
@@ -558,6 +613,7 @@ PY
     printf -v quoted_log '%q' "$launcher_log"
     tmux new-session -d -s "$session_name" \
       "cd $quoted_root && exec $quoted_command >> $quoted_log 2>&1"
+    echo "Submission accepted; evaluation completion is reported separately."
     echo "tmux session: $session_name"
     echo "Launcher log: $launcher_log"
     echo "Status: bash scripts/submit_evaluation.sh status --run-root '$run_root'"
@@ -601,8 +657,15 @@ PY
       printf '\n[%s]\n' "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
       print_status "$run_root"
       batch_dir="$(latest_batch_dir "$run_root")"
-      if [[ -n "$batch_dir" && -f "$batch_dir/results.json" ]]; then
-        break
+      if [[ -n "$batch_dir" ]]; then
+        if "$PYTHON" - "$batch_dir" <<'PYFOLLOW'
+import sys
+from evaluation.provenance.progress_snapshot import batch_is_active
+raise SystemExit(1 if batch_is_active(sys.argv[1]) else 0)
+PYFOLLOW
+        then
+          break
+        fi
       fi
       sleep "$interval"
     done

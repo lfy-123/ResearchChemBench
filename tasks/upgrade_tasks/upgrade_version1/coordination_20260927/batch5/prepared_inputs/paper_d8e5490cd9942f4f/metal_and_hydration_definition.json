@@ -1,0 +1,27 @@
+{
+  "metals": {
+    "La": {
+      "Z": 57,
+      "f_core_electrons": 46,
+      "explicit_electrons_neutral_atom": 11
+    },
+    "Tb": {
+      "Z": 65,
+      "f_core_electrons": 54,
+      "explicit_electrons_neutral_atom": 11
+    },
+    "Lu": {
+      "Z": 71,
+      "f_core_electrons": 60,
+      "explicit_electrons_neutral_atom": 11
+    }
+  },
+  "formal_complex_charge": 1,
+  "model_multiplicity": 1,
+  "spin_warning": "Pseudo-singlet in the 4f-core model does not assert physical Tb spin zero.",
+  "source_basis": "Verified public numerical MWB ECP and matching Dolg (7s6p5d)/[5s4p3d] basis from the originating Cologne library. See ecp_basis_manifest.json.",
+  "starting_structures": "Use both La XYZs as starting topology. Replace only La element at its existing row with Tb or Lu. This generates starting guesses, not source optimized Tb/Lu structures. Preserve original row IDs.",
+  "hydration": "For each syn/anti metal complex add one neutral H2O with O ID82 and H83/84, plus a free-water reference; trial Mn-O starts at 2.6 and 3.0 angstrom along the least-occupied coordination direction. Original O,N donor set unchanged initially. Allow water loss/collapse with evidence; never count disconnected water as a bound minimum.",
+  "required_matrix": "La/Tb/Lu x syn/anti x zero/one water; compare frozen La skeleton metal substitutions separately from relaxed states.",
+  "pending_reference": "Check engine parsing and one molecule minimum/thermochemistry with these exact files. Public coefficient availability does not certify any new molecular reference."
+}

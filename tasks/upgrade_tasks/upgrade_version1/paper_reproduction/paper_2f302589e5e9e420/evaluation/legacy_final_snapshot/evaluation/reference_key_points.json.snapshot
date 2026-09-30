@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "items": [
+    {
+      "key_point_id": "kp_process_minimum",
+      "key_point_type": "process",
+      "statement": "Both named fragments are optimized with a stated protocol and the submitted validation evidence supports minima or a documented bounded failure.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000190_8ba207dcd7ac",
+        "ev_doc_6fcbe6c501d3_000191_ab4d5ab200d1"
+      ],
+      "expected": "Per-fragment optimization and minimum-test evidence is present, with fragment IDs preserved."
+    },
+    {
+      "key_point_id": "kp_process_consistent",
+      "key_point_type": "process",
+      "statement": "The two fragment properties are computed on consistently defined validated structures and the comparison protocol is explicit.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000302_18a146d62fe2"
+      ],
+      "expected": "The report identifies both structures, method, dipole definition and comparison basis."
+    },
+    {
+      "key_point_id": "kp_result_dipole",
+      "key_point_type": "result",
+      "statement": "The methoxy-bearing EPI2 fragment has a lower dipole magnitude than EPI1, approximately 1.9036 D versus 2.2223 D under the paper reference protocol.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000303_deaaaad57e30"
+      ],
+      "expected": "The two calculated dipoles and their signed percentage change are consistent: 100*(mu_EPI2-mu_EPI1)/mu_EPI1, with a source change of approximately -14.3%. A positive reduction magnitude is not the primary change field."
+    },
+    {
+      "key_point_id": "kp_result_esp",
+      "key_point_type": "result",
+      "statement": "The hydroxyl oxygen in EPI2 has less negative ESP than EPI1 in the paper analysis, consistent with reduced local polarity.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000304_9eb7ebf8962d"
+      ],
+      "expected": "Optional ESP analysis, when supplied, compares the same defined oxygen-region potential for both fragments. Omitting this supplementary analysis does not reduce the core score."
+    }
+  ]
+}

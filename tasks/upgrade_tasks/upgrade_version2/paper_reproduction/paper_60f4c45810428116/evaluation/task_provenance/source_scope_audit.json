@@ -1,0 +1,96 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "source_documents": [
+    {
+      "path": "papers/paper_60f4c45810428116/documents/main.pdf",
+      "sha256": "7c3fb2808e4d8f7f26836f47f3947d9e773a8fbaefbe89f78156e7e1ba10d91f",
+      "page_count": 8,
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_60f4c45810428116/documents/supplementary_001.pdf",
+      "sha256": "5a9d2e70dc461cb7731eb715a4251b800c264f87b08b89260bb41d84c6597d62",
+      "page_count": 53,
+      "pdf_pages_1_based": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        19,
+        22
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "What kinetic information about the transformation of benzyl chloromethyl sulfide 1a can be established from the measured residence-time/temperature grid, and which mechanistic or rate claims are not identifiable from those observations?",
+    "scope": "Investigate the 1a/LiNp/MeOH microflow dataset only. Choose a physically defensible quantitative representation of its generation, consumption and observed post-quench yields. Other leaving-group substrates, new experimental data, full reactor CFD and compulsory independent elementary-rate determination are outside scope.",
+    "facts": "The source mixes 0.050 M 1a in THF at10mL/min with0.30 M LiNp at5mL/min, then0.30 M MeOH at5mL/min. R1 residence times range0.002–6.3s and temperatures−78–0°C; post-capture residence is2.4s. Saturated NH4Cl completes quenching; GC with undecane measures product2a, byproduct3a and recovered1a. The25 source grid positions include23 non-clogged observations and2 clogged positions. All are public in kinetic_observations.json. trace/n.d./dash retain their exact categorical meaning; numerical detection limits, replicate variance and quantitative uncertainty are not supplied.",
+    "claim_source_map": [
+      {
+        "claim": "Identity and grid-generating conditions",
+        "source": "main PDFpp2–3; SI PDFpp3–7"
+      },
+      {
+        "claim": "Observed grid, categorical entries and missingness",
+        "source": "SI PDFpp5–6 TableS2"
+      },
+      {
+        "claim": "Author generation/decomposition interpretation and interpolation",
+        "source": "main PDFpp3–4; SI PDFp6",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "Different-substrate back-quench cannot fix1a network",
+        "source": "main PDFpp4–5",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "Auxiliary source redox protocol",
+        "source": "SI PDFpp19,22",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Identity and grid-generating conditions",
+      "source": "main PDFpp2–3; SI PDFpp3–7"
+    },
+    {
+      "claim": "Observed grid, categorical entries and missingness",
+      "source": "SI PDFpp5–6 TableS2"
+    },
+    {
+      "claim": "Author generation/decomposition interpretation and interpolation",
+      "source": "main PDFpp3–4; SI PDFp6",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "Different-substrate back-quench cannot fix1a network",
+      "source": "main PDFpp4–5",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "Auxiliary source redox protocol",
+      "source": "SI PDFpp19,22",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Independent microscopic rate data and calibrated observation uncertainties are absent and need not be fabricated.",
+    "Expanded scientific reference and semantic calibration must evaluate sound alternative models and demonstrated non-identifiability.",
+    "Historical1a source-model gate remains blocked for the V1 fixed network; it is not inherited as an unsupported fixed requirement in V2."
+  ]
+}

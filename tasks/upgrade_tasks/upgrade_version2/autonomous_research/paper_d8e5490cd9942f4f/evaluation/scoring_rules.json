@@ -1,0 +1,172 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_scope",
+      "reference_id": "kp_scope",
+      "type": "semantic",
+      "expected": "Preserve ligand composition, protonation and complex charge. Compare like stoichiometries or use explicitly balanced chemical cycles with consistent chemical potentials and standard states. Declare the treatment of 4f electrons, explicit electron count and spin. Establish the structural and thermodynamic meaning of any claimed preference. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Preserve ligand composition, protonation and complex charge. Compare like stoichiometries or use explicitly balanced chemical cycles with consistent chemical potentials and standard states. Declare the treatment of 4f electrons, explicit electron count and spin. Establish the structural and thermodynamic meaning of any claimed preference."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_measure",
+      "reference_id": "kp_measure",
+      "type": "semantic",
+      "expected": "Obtain a quantitative coordination/conformational assessment for the three specified metal complexes with traceable structures and state definitions. The conformations and sampling strategy are chosen by the agent; an author syn/anti pair is not the unique admissible search. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Obtain a quantitative coordination/conformational assessment for the three specified metal complexes with traceable structures and state definitions. The conformations and sampling strategy are chosen by the agent; an author syn/anti pair is not the unique admissible search."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_explain",
+      "reference_id": "kp_explain",
+      "type": "semantic",
+      "expected": "Explain metal-dependent preferences or their absence using discriminating structural and energetic evidence. If hydration or protonation changes are invoked, balance the relevant species rather than count disconnected water as a bound complex. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.quantities",
+          "$.calculation_records",
+          "$.artifacts"
+        ],
+        "comparison": "Explain metal-dependent preferences or their absence using discriminating structural and energetic evidence. If hydration or protonation changes are invoked, balance the relevant species rather than count disconnected water as a bound complex."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_robust",
+      "reference_id": "kp_robust",
+      "type": "semantic",
+      "expected": "Support aqueous and population claims with a coherent solvation/standard-state treatment and relevant structural/low-frequency uncertainty. An evidenced ensemble or model-dependent non-resolution may be scientifically justified. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.limitations",
+          "$.quantities",
+          "$.artifacts"
+        ],
+        "comparison": "Support aqueous and population claims with a coherent solvation/standard-state treatment and relevant structural/low-frequency uncertainty. An evidenced ensemble or model-dependent non-resolution may be scientifically justified."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    },
+    {
+      "rule_id": "rule_answer",
+      "reference_id": "con_answer",
+      "type": "semantic",
+      "expected": "A chemically and thermodynamically supported account of the metal dependence, including defensible unresolved preferences, answers the task. A source syn–anti number copied without aqueous evidence does not. Use actual source-linked artifacts. Check objects, atom/electron/charge balance, units and state/energy references. If a claim relies on a minimum, electronic-state assignment, constrained comparison or parameter inference, inspect the appropriate raw convergence/curvature/state/identifiability evidence. Common result validity does not mandate one program, hypothesis count or control matrix. PR process assessment still considers faithful reproduction of the disclosed baseline and justified deviations. Self-written timestamps do not prove prospective decisions. An unattempted alternative is not evidence of equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.artifacts"
+        ],
+        "comparison": "A chemically and thermodynamically supported account of the metal dependence, including defensible unresolved preferences, answers the task. A source syn–anti number copied without aqueous evidence does not."
+      },
+      "partial_credit": {
+        "full": "Valid evidence adequately resolves the stated in-scope claim, including justified refutation or non-identifiability.",
+        "partial": "Award only the independently supported subset; disclose missing coverage and its effect on the answer.",
+        "zero": "No applicable raw evidence, invalid objects/references or assertions alone."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "scope",
+      "max_score": 15,
+      "description": "Identity and scope: Preserve ligand composition, protonation and complex charge. Compare like stoichiometries or use explicitly balanced chemical cycles with consistent chemical potentials and standard states. Declare the treatment of 4f electrons, explicit electron count and spin. Establish the structural and thermodynamic meaning of any claimed preference.",
+      "rule_ids": [
+        "rule_scope"
+      ]
+    },
+    {
+      "id": "measure",
+      "max_score": 30,
+      "description": "Quantitative scientific results: Obtain a quantitative coordination/conformational assessment for the three specified metal complexes with traceable structures and state definitions. The conformations and sampling strategy are chosen by the agent; an author syn/anti pair is not the unique admissible search.",
+      "rule_ids": [
+        "rule_measure"
+      ]
+    },
+    {
+      "id": "explain",
+      "max_score": 25,
+      "description": "Evidence that distinguishes the claimed explanation: Explain metal-dependent preferences or their absence using discriminating structural and energetic evidence. If hydration or protonation changes are invoked, balance the relevant species rather than count disconnected water as a bound complex.",
+      "rule_ids": [
+        "rule_explain"
+      ]
+    },
+    {
+      "id": "robust",
+      "max_score": 20,
+      "description": "Uncertainty and limits: Support aqueous and population claims with a coherent solvation/standard-state treatment and relevant structural/low-frequency uncertainty. An evidenced ensemble or model-dependent non-resolution may be scientifically justified.",
+      "rule_ids": [
+        "rule_robust"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "Bounded answer to the question: A chemically and thermodynamically supported account of the metal dependence, including defensible unresolved preferences, answers the task. A source syn–anti number copied without aqueous evidence does not.",
+      "rule_ids": [
+        "rule_answer"
+      ]
+    }
+  ],
+  "reference_stage": "content_implemented_reference_and_judge_pending",
+  "scoring_notes": [
+    "AR and PR share result validity; actual open_research runtime supplies mode-specific process rubrics.",
+    "Source author outcomes are conditional reference evidence, not mandatory winners. No inherited numerical tolerance.",
+    "No penalty simply for a different justified model, hypothesis count, metric or valid analysis route. Scientific adequacy is claim-dependent.",
+    "Completion requires a substantiated answer to the stated question. Honest partial credit is distinct from passing all scientific criteria."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "task_type": "paper_reproduction",
+  "title": "Electronic descriptors of a methylsulfanyl benzyl-alcohol radical cation",
+  "category": "computational chemistry / mechanistic physical organic chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The supplied radical-cation endpoint is fixed, but the Agent must independently choose and validate an electronic-structure route and construct a like-defined methoxy comparator."
+  ],
+  "paper": {
+    "title": "Electrochemistry Facilitates the Chemoselectivity of Benzylic Alcohol Oxidations Mediated by Flavin-Based Photoredox Catalysis",
+    "doi": "10.1021/acs.orglett.5c04603",
+    "journal": "Organic Letters",
+    "publication_date": "2026-01-27"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Public 20-atom XYZ structure for the isolated 4-(methylsulfanyl)benzyl alcohol radical cation; charge +1 and doublet state are specified in the XYZ comment and task."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "JSON report containing methods, mapping, validation, spin density, both BDEs, and conclusion."
+    }
+  ]
+}

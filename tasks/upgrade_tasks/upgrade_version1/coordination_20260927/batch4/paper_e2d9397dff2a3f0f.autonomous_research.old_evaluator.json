@@ -1,0 +1,167 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_e2d9397dff2a3f0f",
+    "items": [
+      {
+        "key_point_id": "kp_ar_process_freq",
+        "key_point_type": "process",
+        "statement": "The submission executes a reproducible optimization and frequency workflow for the public reference starter and an independently generated transition-state candidate, and states charge/multiplicity.",
+        "evidence_ids": [
+          "ev_doc_d29674c1bddc_000540_d8dcc822e989"
+        ],
+        "expected": "The supplied reference starter and independently generated candidate have documented optimization/frequency outcomes and computational settings."
+      },
+      {
+        "key_point_id": "kp_ar_process_ts",
+        "key_point_type": "process",
+        "statement": "The target is tested as a first-order saddle and the reported imaginary mode is connected to the specified N–O cleavage endpoint.",
+        "evidence_ids": [
+          "ev_doc_d29674c1bddc_000817_76da90988e7c"
+        ],
+        "expected": "One imaginary frequency and atom/bond displacement evidence are reported."
+      },
+      {
+        "key_point_id": "kp_ar_result_barrier",
+        "key_point_type": "result",
+        "statement": "The report gives the fixed-pair Gibbs barrier in kcal/mol with an explicit equation.",
+        "evidence_ids": [
+          "ev_doc_7419176c5781_000765_81f1905507d0"
+        ],
+        "expected": "A numerical barrier or scientifically justified bounded failure is supplied."
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_e2d9397dff2a3f0f",
+    "items": [
+      {
+        "conclusion_id": "c_ar_final",
+        "claim_role": "final",
+        "evidence_ids": [
+          "ev_doc_7419176c5781_000765_81f1905507d0"
+        ],
+        "expected": "The submission reaches a justified conclusion about the fixed Ru-bda-Py N–O-cleavage endpoint from its own computation and validation evidence.",
+        "supporting_key_point_ids": [
+          "kp_ar_process_freq",
+          "kp_ar_process_ts",
+          "kp_ar_result_barrier"
+        ],
+        "statement": "The submission reaches a justified conclusion about the fixed Ru-bda-Py N–O-cleavage endpoint from its own computation and validation evidence."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_e2d9397dff2a3f0f",
+    "rules": [
+      {
+        "rule_id": "r_ar_freq",
+        "reference_id": "kp_ar_process_freq",
+        "type": "condition",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.structures.reference",
+            "$.structures.target",
+            "$.method"
+          ],
+          "comparison": "expert validation"
+        },
+        "expected": "optimization and frequency workflow is documented for the supplied reference starter and independently generated candidate"
+      },
+      {
+        "rule_id": "r_ar_ts",
+        "reference_id": "kp_ar_process_ts",
+        "type": "condition",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.structures.target",
+            "$.barrier.mode_assignment",
+            "$.barrier.evidence"
+          ],
+          "comparison": "exact count plus expert mode assessment"
+        },
+        "expected": "one imaginary frequency and N–O mode evidence Inspect relative N/O displacement or equivalent local chemical evidence for the target N-O cleavage. Individual atom motion and a count of one imaginary frequency alone are insufficient. Do not impose a universal 50 cm^-1 cutoff or mandatory IRC."
+      },
+      {
+        "rule_id": "r_ar_barrier",
+        "reference_id": "kp_ar_result_barrier",
+        "type": "numeric",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.barrier.value_kcal_mol"
+          ],
+          "comparison": "absolute difference"
+        },
+        "target": 6.2,
+        "unit": "kcal/mol",
+        "tolerance": 2
+      },
+      {
+        "rule_id": "r_ar_final",
+        "reference_id": "c_ar_final",
+        "type": "semantic",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.structures",
+            "$.method",
+            "$.barrier"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "expected": "independent validated conclusion for the fixed endpoint Check target-mode support and the same-reference thermochemical barrier separately; normal software termination or a plausible number cannot replace reaction identity evidence."
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_e2d9397dff2a3f0f",
+    "items": [
+      {
+        "failure_id": "cf_ar_identity",
+        "condition": "submitted calculation changes the supplied structures, charge or multiplicity without disclosure",
+        "why_serious": "the fixed endpoint is not evaluated"
+      },
+      {
+        "failure_id": "cf_ar_ts",
+        "condition": "target is not frequency-tested or no N–O mode evidence is supplied",
+        "why_serious": "transition-state assignment is unsupported"
+      },
+      {
+        "failure_id": "cf_ar_fabrication",
+        "condition": "a numerical barrier is asserted without evidence or bounded-failure diagnostics",
+        "why_serious": "the result is not scientifically reproducible"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_e2d9397dff2a3f0f",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_7419176c5781_000765_81f1905507d0",
+        "source": "main paper p10 b5",
+        "statement": "reported +6.2 kcal/mol N–O cleavage barrier"
+      },
+      {
+        "evidence_id": "ev_doc_d29674c1bddc_000540_d8dcc822e989",
+        "source": "SI Computational Details",
+        "statement": "DFT, frequency, solvent and temperature protocol"
+      },
+      {
+        "evidence_id": "ev_doc_d29674c1bddc_000817_76da90988e7c",
+        "source": "SI Table S21",
+        "statement": "optimized bda structures and TS imaginary-frequency annotations"
+      }
+    ]
+  }
+}

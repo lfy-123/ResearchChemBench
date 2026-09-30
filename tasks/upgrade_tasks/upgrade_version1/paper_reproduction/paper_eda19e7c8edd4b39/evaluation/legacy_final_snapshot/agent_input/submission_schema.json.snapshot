@@ -1,0 +1,214 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "completed"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software_or_code",
+              "model",
+              "supercell",
+              "charge_state",
+              "reservoir_convention",
+              "provenance"
+            ],
+            "properties": {
+              "software_or_code": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "supercell": {
+                "type": "string"
+              },
+              "charge_state": {
+                "type": "integer"
+              },
+              "reservoir_convention": {
+                "type": "string"
+              },
+              "provenance": {
+                "type": "string"
+              }
+            }
+          },
+          "energies": {
+            "type": "object",
+            "required": [
+              "pristine_total_energy",
+              "ni_vacancy_total_energy",
+              "al_vacancy_total_energy",
+              "ni_vacancy_formation_energy",
+              "al_vacancy_formation_energy"
+            ],
+            "properties": {
+              "pristine_total_energy": {
+                "type": "number"
+              },
+              "ni_vacancy_total_energy": {
+                "type": "number"
+              },
+              "al_vacancy_total_energy": {
+                "type": "number"
+              },
+              "ni_vacancy_formation_energy": {
+                "type": "number"
+              },
+              "al_vacancy_formation_energy": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "difference_ni_minus_al",
+              "lower_energy_species",
+              "statement"
+            ],
+            "properties": {
+              "difference_ni_minus_al": {
+                "type": "number"
+              },
+              "lower_energy_species": {
+                "type": "string"
+              },
+              "statement": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "defect_identity_check",
+              "convergence_or_sensitivity",
+              "evidence"
+            ],
+            "properties": {
+              "defect_identity_check": {
+                "type": "string"
+              },
+              "convergence_or_sensitivity": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        },
+        "required": [
+          "status",
+          "method",
+          "energies",
+          "comparison",
+          "validation",
+          "conclusion"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software_or_code",
+              "model",
+              "supercell",
+              "charge_state",
+              "reservoir_convention",
+              "provenance"
+            ],
+            "properties": {
+              "software_or_code": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "supercell": {
+                "type": "string"
+              },
+              "charge_state": {
+                "type": "integer"
+              },
+              "reservoir_convention": {
+                "type": "string"
+              },
+              "provenance": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "defect_identity_check",
+              "evidence"
+            ],
+            "properties": {
+              "defect_identity_check": {
+                "type": "string"
+              },
+              "convergence_or_sensitivity": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "failure_details": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        },
+        "required": [
+          "status",
+          "method",
+          "validation",
+          "failure_details",
+          "conclusion"
+        ]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      }
+    }
+  }
+}

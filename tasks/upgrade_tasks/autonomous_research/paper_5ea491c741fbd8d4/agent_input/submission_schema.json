@@ -1,0 +1,1149 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_5ea491c741fbd8d4"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "prerequisite_checks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "gate_id": {
+              "enum": [
+                "authenticated_cif",
+                "validated_neighbors",
+                "representative_area_energy_pilot"
+              ]
+            },
+            "status": {
+              "enum": [
+                "closed",
+                "open"
+              ]
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            },
+            "finding": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "gate_id",
+            "status",
+            "evidence_files",
+            "finding"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "system_id": {
+              "enum": [
+                "isoxazole_1a",
+                "crystal_dimer"
+              ]
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "converged",
+                "failed",
+                "not_run"
+              ]
+            },
+            "charge": {
+              "enum": [
+                0
+              ]
+            },
+            "multiplicity": {
+              "enum": [
+                1
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "log_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "atom_map_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "identity_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "scf_convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "geometry_or_boundary_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_check": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "identity_check",
+                "scf_convergence",
+                "geometry_or_boundary_check",
+                "state_check"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_Eh": {
+              "type": "number"
+            },
+            "kind": {
+              "enum": [
+                "dimer_single_point",
+                "monomer_own",
+                "monomer_ghost",
+                "surface_analysis",
+                "failed"
+              ]
+            }
+          },
+          "required": [
+            "record_id",
+            "system_id",
+            "method_id",
+            "status",
+            "charge",
+            "multiplicity",
+            "input_file",
+            "log_file",
+            "geometry_file",
+            "atom_map_file",
+            "evidence_files",
+            "validation",
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_settings_file": {
+            "type": "string",
+            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definitions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "software_versions",
+          "numerical_settings_file",
+          "environment",
+          "definitions"
+        ],
+        "additionalProperties": false
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "crystal": {
+            "type": "object",
+            "properties": {
+              "cif_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "cif_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "deposit": {
+                "const": "CCDC 2445596"
+              },
+              "cell_A": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "angles_deg": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "space_group": {
+                "type": "string",
+                "minLength": 1
+              },
+              "Z": {
+                "const": 4
+              },
+              "occupancy_disorder_assessment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "symmetry_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "mapping_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "hydrogen_treatment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "radius_table_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              }
+            },
+            "required": [
+              "cif_file",
+              "cif_sha256",
+              "deposit",
+              "cell_A",
+              "angles_deg",
+              "space_group",
+              "Z",
+              "occupancy_disorder_assessment",
+              "symmetry_file",
+              "mapping_file",
+              "hydrogen_treatment",
+              "radius_table_file"
+            ],
+            "additionalProperties": false
+          },
+          "neighbors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pair_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "symmetry_operation": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "translation": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "multiplicity": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "atom_map_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                },
+                "geometry_file": {
+                  "type": "string",
+                  "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                },
+                "closest_atom_maps": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "closest_distance_A": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "surface_area_A2": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "surface_fraction": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "contact_types": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "area_A2": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "area_A2"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                },
+                "job_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1
+                },
+                "E_AB_Eh": {
+                  "type": "number"
+                },
+                "E_A_own_Eh": {
+                  "type": "number"
+                },
+                "E_B_own_Eh": {
+                  "type": "number"
+                },
+                "E_A_ghost_Eh": {
+                  "type": "number"
+                },
+                "E_B_ghost_Eh": {
+                  "type": "number"
+                },
+                "Eint_raw_kJ_mol": {
+                  "type": "number"
+                },
+                "Eint_CP_kJ_mol": {
+                  "type": "number"
+                },
+                "evidence_files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "pair_id",
+                "symmetry_operation",
+                "translation",
+                "multiplicity",
+                "atom_map_file",
+                "geometry_file",
+                "closest_atom_maps",
+                "closest_distance_A",
+                "surface_area_A2",
+                "surface_fraction",
+                "contact_types",
+                "job_ids",
+                "E_AB_Eh",
+                "E_A_own_Eh",
+                "E_B_own_Eh",
+                "E_A_ghost_Eh",
+                "E_B_ghost_Eh",
+                "Eint_raw_kJ_mol",
+                "Eint_CP_kJ_mol",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 2
+          },
+          "surface": {
+            "type": "object",
+            "properties": {
+              "definition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mesh_settings_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "total_area_A2": {
+                "type": "number",
+                "minimum": 0
+              },
+              "unassigned_fraction": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "convergence_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              }
+            },
+            "required": [
+              "definition",
+              "mesh_settings_file",
+              "total_area_A2",
+              "unassigned_fraction",
+              "convergence_file"
+            ],
+            "additionalProperties": false
+          },
+          "ranking": {
+            "type": "object",
+            "properties": {
+              "area_descending_pair_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "energy_ascending_pair_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "distance_ascending_pair_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "pairwise_comparisons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "comparison_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "left_pair_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "right_pair_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "area_difference_A2": {
+                      "type": "number"
+                    },
+                    "Eint_difference_kJ_mol": {
+                      "type": "number"
+                    },
+                    "energy_uncertainty_kJ_mol": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "relation": {
+                      "enum": [
+                        "concordant",
+                        "discordant",
+                        "indistinguishable"
+                      ]
+                    },
+                    "evidence_files": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "comparison_id",
+                    "left_pair_id",
+                    "right_pair_id",
+                    "area_difference_A2",
+                    "Eint_difference_kJ_mol",
+                    "energy_uncertainty_kJ_mol",
+                    "relation",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              },
+              "multiplicity_weighted_sum_kJ_mol": {
+                "type": "number"
+              },
+              "interpretation": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "area_descending_pair_ids",
+              "energy_ascending_pair_ids",
+              "distance_ascending_pair_ids",
+              "pairwise_comparisons",
+              "multiplicity_weighted_sum_kJ_mol",
+              "interpretation"
+            ],
+            "additionalProperties": false
+          },
+          "cutoff_control": {
+            "type": "object",
+            "properties": {
+              "primary_offset_A": {
+                "const": 0.5
+              },
+              "expanded_offset_A": {
+                "const": 1.0
+              },
+              "primary_pair_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "expanded_pair_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "ranking_effect": {
+                "type": "string",
+                "minLength": 1
+              },
+              "raw_table_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              }
+            },
+            "required": [
+              "primary_offset_A",
+              "expanded_offset_A",
+              "primary_pair_ids",
+              "expanded_pair_ids",
+              "ranking_effect",
+              "raw_table_file"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "crystal",
+          "neighbors",
+          "surface",
+          "ranking",
+          "cutoff_control"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "counterprediction": {
+              "type": "string",
+              "minLength": 1
+            },
+            "comparison_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim",
+            "counterprediction",
+            "comparison_ids",
+            "outcome",
+            "reason",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "perturbed_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "observable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "difference": {
+              "type": "number"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "factor",
+            "baseline_record_ids",
+            "perturbed_record_ids",
+            "observable",
+            "unit",
+            "baseline_value",
+            "perturbed_value",
+            "difference",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "comparison_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "outcome",
+          "claim",
+          "comparison_ids",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "artifact_index": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "role": {
+              "enum": [
+                "input",
+                "log",
+                "geometry",
+                "mapping",
+                "density",
+                "table",
+                "diagnostic",
+                "script",
+                "restart"
+              ]
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "role"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "resource_record": {
+        "type": "object",
+        "properties": {
+          "engine_launches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_launches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "engine_wall_hours_sum": {
+            "type": "number",
+            "minimum": 0
+          },
+          "elapsed_wall_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_launches",
+          "failed_launches",
+          "allocated_core_hours",
+          "engine_wall_hours_sum",
+          "elapsed_wall_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "diagnostic_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "diagnostic_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "prerequisite_checks",
+      "calculation_records",
+      "conclusion",
+      "artifact_index",
+      "resource_record"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "complete"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "prerequisite_checks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "gate_id": {
+                    "enum": [
+                      "authenticated_cif",
+                      "validated_neighbors",
+                      "representative_area_energy_pilot"
+                    ]
+                  },
+                  "status": {
+                    "enum": [
+                      "closed",
+                      "open"
+                    ]
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  },
+                  "finding": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "gate_id",
+                  "status",
+                  "evidence_files",
+                  "finding"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "allOf": [
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "authenticated_cif"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "validated_neighbors"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "representative_area_energy_pilot"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              ]
+            },
+            "artifact_index": {
+              "minItems": 1
+            },
+            "resource_record": {
+              "properties": {
+                "engine_launches": {
+                  "minimum": 1
+                }
+              }
+            },
+            "calculation_records": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "status": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "conclusion": {
+              "properties": {
+                "outcome": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            }
+          },
+          "required": [
+            "methods",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "outcome": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          },
+          "required": [
+            "failure_report"
+          ]
+        }
+      }
+    ]
+  }
+}

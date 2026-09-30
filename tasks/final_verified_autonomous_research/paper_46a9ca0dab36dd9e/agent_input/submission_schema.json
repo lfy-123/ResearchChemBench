@@ -1,0 +1,230 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "geometry_source"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "geometry_source": {
+            "type": "string"
+          }
+        }
+      },
+      "state_selection": {
+        "type": "object",
+        "required": [
+          "state_id",
+          "states_examined",
+          "excitation_energy_eV",
+          "wavelength_nm",
+          "oscillator_strength",
+          "rationale",
+          "states"
+        ],
+        "properties": {
+          "state_id": {
+            "type": "integer"
+          },
+          "states_examined": {
+            "type": "integer"
+          },
+          "excitation_energy_eV": {
+            "type": "number"
+          },
+          "wavelength_nm": {
+            "type": "number"
+          },
+          "oscillator_strength": {
+            "type": "number"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Explain state-space coverage, the top three oscillator strengths, and why this is the primary highest-f physical state. Other selection criteria apply only to auxiliary/sensitivity cases."
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "state_id",
+                "excitation_energy_eV",
+                "wavelength_nm",
+                "oscillator_strength",
+                "analyzed"
+              ],
+              "properties": {
+                "state_id": {
+                  "type": "integer"
+                },
+                "excitation_energy_eV": {
+                  "type": "number"
+                },
+                "wavelength_nm": {
+                  "type": "number"
+                },
+                "oscillator_strength": {
+                  "type": "number"
+                },
+                "analyzed": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "description": "Primary highest-oscillator-strength physical state in the documented low-lying sextet manifold in implicit acetonitrile; not an arbitrary auxiliary state or fixed software state number."
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "convergence_evidence",
+          "stationary_point_or_geometry_check",
+          "fragment_definition",
+          "sensitivity_check"
+        ],
+        "properties": {
+          "convergence_evidence": {
+            "type": "string"
+          },
+          "stationary_point_or_geometry_check": {
+            "type": "string"
+          },
+          "fragment_definition": {
+            "type": "string"
+          },
+          "sensitivity_check": {
+            "type": "string"
+          }
+        }
+      },
+      "ifct": {
+        "type": "object",
+        "required": [
+          "lmct_percent",
+          "mlct_percent",
+          "other_channels"
+        ],
+        "properties": {
+          "lmct_percent": {
+            "type": "number"
+          },
+          "mlct_percent": {
+            "type": "number"
+          },
+          "other_channels": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        },
+        "description": "Primary IFCT fractions for the same highest-f physical state identified in state_selection, using the declared Cl/Fe/TEA+ Mulliken-like partition and all-channel normalization. Do not substitute another state."
+      },
+      "ifct_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "state_id",
+            "fragment_definition",
+            "lmct_percent",
+            "mlct_percent",
+            "other_channels"
+          ],
+          "properties": {
+            "state_id": {
+              "type": "integer"
+            },
+            "fragment_definition": {
+              "type": "string"
+            },
+            "lmct_percent": {
+              "type": "number"
+            },
+            "mlct_percent": {
+              "type": "number"
+            },
+            "other_channels": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "description": "State-resolved IFCT evidence; identify auxiliary/sensitivity cases separately. These records do not replace the primary highest-f state_selection/ifct summary."
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure_reason": {
+        "type": "string"
+      },
+      "attempted_states": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status",
+          "state_selection",
+          "validation",
+          "ifct",
+          "ifct_records"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "status",
+          "failure_reason",
+          "attempted_states"
+        ]
+      }
+    ]
+  }
+}

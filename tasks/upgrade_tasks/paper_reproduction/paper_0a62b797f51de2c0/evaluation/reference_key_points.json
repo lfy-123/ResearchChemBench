@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_length_series",
+      "key_point_type": "result",
+      "statement": "Calculate all three substitution levels at n=1,2,3 with the same caps, method and state definition. Validate minima and conformer/torsion coverage. Compute dipole/ESP and independent electron-hole separation/overlap; do not infer charge separation from polarization alone.",
+      "expected": "Calculate all three substitution levels at n=1,2,3 with the same caps, method and state definition. Validate minima and conformer/torsion coverage. Compute dipole/ESP and independent electron-hole separation/overlap; do not infer charge separation from polarization alone.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_regiochemical_control",
+      "key_point_type": "result",
+      "statement": "Verify the two same-formula graphs differ in cyano position, then compare at relaxed and identical inter-ring torsions. Attribute any difference to the specified regio/twist intervention while acknowledging state-character changes. Supply all matched atom maps and NTO evidence.",
+      "expected": "Verify the two same-formula graphs differ in cyano position, then compare at relaxed and identical inter-ring torsions. Attribute any difference to the specified regio/twist intervention while acknowledging state-character changes. Supply all matched atom maps and NTO evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_length_holdout",
+      "key_point_type": "result",
+      "statement": "Freeze an explicit ordering or quantitative relationship using n<=2 before testing all n=3 members. State prediction residual/rank success and whether the regio control falsifies a dipole-only explanation. Do not claim polymer-length convergence from three short chains.",
+      "expected": "Freeze an explicit ordering or quantitative relationship using n<=2 before testing all n=3 members. State prediction residual/rank success and whether the regio control falsifies a dipole-only explanation. Do not claim polymer-length convergence from three short chains.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

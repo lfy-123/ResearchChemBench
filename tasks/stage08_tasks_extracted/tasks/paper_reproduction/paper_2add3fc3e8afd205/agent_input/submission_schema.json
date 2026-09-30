@@ -1,0 +1,274 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "limitations", "conclusion"],
+    "oneOf": [
+      {"required": ["status", "route", "identity_checks", "convergence", "cn_bonds", "cd_n_bonds", "distortion", "bonding_analysis", "validation", "limitations", "conclusion"], "properties": {"status": {"const": "complete"}}},
+      {"required": ["status", "failure_report", "limitations", "conclusion"], "properties": {"status": {"const": "bounded_failure"}}}
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "failure_report": {
+        "type": "object",
+        "required": ["failed_stage", "attempted_remedies", "evidence_needed"],
+        "properties": {
+          "failed_stage": {"type": "string"},
+          "attempted_remedies": {"type": "array", "items": {"type": "string"}},
+          "evidence_needed": {"type": "string"}
+        }
+      },
+      "route": {
+        "type": "object",
+        "required": [
+          "software",
+          "method",
+          "settings",
+          "steps"
+        ],
+        "properties": {
+          "software": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "method": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "object"
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "identity_checks": {
+        "type": "object",
+        "required": [
+          "formula",
+          "space_group",
+          "cell",
+          "charge",
+          "mapping_verified"
+        ],
+        "properties": {
+          "formula": {
+            "type": "string"
+          },
+          "space_group": {
+            "type": "string"
+          },
+          "cell": {
+            "type": "object"
+          },
+          "charge": {
+            "type": "number"
+          },
+          "mapping_verified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "convergence": {
+        "type": "object",
+        "required": [
+          "energy",
+          "forces",
+          "stress",
+          "converged",
+          "evidence"
+        ],
+        "properties": {
+          "energy": {
+            "type": "number"
+          },
+          "forces": {
+            "type": "number"
+          },
+          "stress": {
+            "type": "number"
+          },
+          "converged": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "cn_bonds": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "class",
+            "selector",
+            "distance_angstrom",
+            "multiplicity"
+          ],
+          "properties": {
+            "class": {
+              "type": "string"
+            },
+            "selector": {
+              "type": "string"
+            },
+            "distance_angstrom": {
+              "type": "number"
+            },
+            "multiplicity": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "cd_n_bonds": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "selector",
+            "bond_index",
+            "unit"
+          ],
+          "properties": {
+            "selector": {
+              "type": "string"
+            },
+            "bond_index": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "distortion": {
+        "type": "object",
+        "required": [
+          "metric",
+          "value",
+          "unit",
+          "definition"
+        ],
+        "properties": {
+          "metric": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string"
+          }
+        }
+      },
+      "bonding_analysis": {
+        "type": "object",
+        "required": [
+          "method",
+          "cn_icobi",
+          "diagnostics"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "cn_icobi": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "selector",
+                "value",
+                "unit"
+              ],
+              "properties": {
+                "selector": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "diagnostics": {
+            "type": "string"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "checks",
+          "sensitivity",
+          "interpretation_basis"
+        ],
+        "properties": {
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "outcome",
+                "evidence"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "sensitivity": {
+            "type": "string"
+          },
+          "interpretation_basis": {
+            "type": "string"
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ For the isolated neutral singlet molecule C1 supplied in `data/inputs/c1_identit
 
 # Public inputs and scientific boundaries
 
-The only molecular input is the explicit C1 SMILES, formula C17H16BF2N2O, neutral charge, and singlet multiplicity in `data/inputs/c1_identity.json`. It represents one isolated molecule in the gas phase. No solvent, counterion, aggregate, crystal, experimental correction, or paper-derived coordinates are part of the task. You may generate 3-D geometries and use any available quantum-chemistry software. Define every atom ordering and dihedral used in your report from the supplied connectivity. Do not use the paper, SI, general web, or hidden evaluator files during the investigation.
+The only molecular input is the explicit C1 SMILES, formula C17H17BF2N2O, neutral charge, and singlet multiplicity in `data/inputs/c1_identity.json`. It represents one isolated molecule in the gas phase. The explicit `[N+]/[B-]` formal charges encode the neutral closed-shell N,O-chelated BF2 ring and do not define a separated ion pair. No solvent, counterion, aggregate, crystal, experimental correction, or paper-derived coordinates are part of the task. You may generate 3-D geometries and use any available quantum-chemistry software. Define every atom ordering and dihedral used in your report from the supplied connectivity. Do not use the paper, SI, general web, or hidden evaluator files during the investigation.
 
 # Required scientific validation/investigation
 

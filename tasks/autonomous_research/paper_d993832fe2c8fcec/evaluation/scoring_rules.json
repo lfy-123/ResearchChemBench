@@ -36,19 +36,37 @@
     {
       "rule_id": "ar_r3",
       "type": "numeric",
-      "target": 177.9,
+      "target": 179.0,
       "unit": "degree",
       "tolerance": 3.0,
       "binding": {
         "artifact_paths": [
           "report/results.json"
         ],
-        "fields": ["$.candidates[*].phi_1_2_3_4_deg"],
+        "fields": [
+          "$.candidates[*].phi_1_2_3_4_deg"
+        ],
         "comparison": "absolute difference for selected candidate"
       },
       "reference_id": "ar_result_torsions"
     },
-    {"rule_id":"ar_r3b","type":"numeric","target":59.7,"unit":"degree","tolerance":3.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.candidates[*].phi_2_3_4_5_deg"],"comparison":"absolute difference for selected candidate"},"reference_id":"ar_result_torsions"},
+    {
+      "rule_id": "ar_r3b",
+      "type": "numeric",
+      "target": 57.3,
+      "unit": "degree",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].phi_2_3_4_5_deg"
+        ],
+        "comparison": "absolute difference for selected candidate"
+      },
+      "reference_id": "ar_result_torsions"
+    },
     {
       "rule_id": "ar_r4",
       "type": "numeric",

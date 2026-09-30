@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_c7217910ecbee1d9/documents/main.pdf",
+        "sha256": "15a46fe1f07860776ac02e85707265593a747493fde6652f6eb7c32085ac1f87",
+        "read_scope": "PDF pp2–5; Fig.2 geometries, Fig.3 AEA/charge, Fig.4 orbital/CDA interpretation; Fig.5 graphene explicitly excluded."
+      },
+      "scope": "Personally read main PDF pp2–5 and visually checked Figs.2–3 on p3. The source isolated series preserves a complete P-centered Al12 shell and intact borane ligands; claims of shell retention additionally use orbital analysis. Figure 4/associated discussion distinguishes electronic-level shifts, fragment mixing and charge transfer."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_c7217910ecbee1d9/documents/supplementary_001.docx",
+        "sha256": "b27d17f45ccc1f4d6de0567f4c939fc0ce1da8a12e000964a253908abb126671",
+        "read_scope": "Computational details, Figs S1–S9, Table S1; checked XML text and embedded-image nature, no Cartesian list."
+      },
+      "scope": "Personally read the formal DOCX SI: Gaussian16/PBE0/def2-SVP, spin/site search, same-level frequency/ZPE and Hirshfeld/Multiwfn; VASP PBE-D3 and 300-K 10-ps AIMD are separate calculations. Figs S1–S4 show optimized structures, S6–S8 electronic evidence, S9 AIMD; no complete Cartesian table is present. The original missing-SI issue is resolved, but this is not an intact-endpoint validation."
+    },
+    {
+      "evidence_id": "extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "benchmark_design_not_reference_result"
+      },
+      "scope": "Expanded controls and definitions; not claimed to be author calculations."
+    },
+    {
+      "evidence_id": "readiness_review",
+      "source": {
+        "path": "evaluation/task_provenance/source_review.json"
+      },
+      "scope": "Local/public prerequisite investigation and historical failure evidence; not a new PASS."
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Check C24H24N2O4 constitution, E alkene, map17 stereochemical correspondence, charge/multiplicity and medium. Assigned models must state the actual stereochemistry after generation/optimization rather than relying on input filenames.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Check C24H24N2O4 constitution, E alkene, map17 stereochemical correspondence, charge/multiplicity and medium. Assigned models must state the actual stereochemistry after generation/optimization rather than relying on input filenames. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Evaluate numerical evidence relevant to configuration and its reproducibility from spectra or other valid artifacts. ECD sign/units and any spectral transformations must be explicit. Ensemble claims require justified models/weights and honest sampling scope, but no fixed conformer count or preset broadening is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Evaluate numerical evidence relevant to configuration and its reproducibility from spectra or other valid artifacts. ECD sign/units and any spectral transformations must be explicit. Ensemble claims require justified models/weights and honest sampling scope, but no fixed conformer count or preset broadening is required. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Judge whether the investigation distinguishes the proposed configuration from relevant unresolved alternatives and whether apparent agreement survives the identified limitations. Credit an evidenced unresolved assignment as fairly as a supported unique one. No source absolute label is a required winner.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Judge whether the investigation distinguishes the proposed configuration from relevant unresolved alternatives and whether apparent agreement survives the identified limitations. Credit an evidenced unresolved assignment as fairly as a supported unique one. No source absolute label is a required winner. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Assess the impact of available plot precision and consequential molecular/spectral-model uncertainty. Reject certainty based on arbitrary candidate-specific fitting or untested ensemble truncation. An unperformed search cannot be relabeled a demonstrated nonidentifiability result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Assess the impact of available plot precision and consequential molecular/spectral-model uncertainty. Reject certainty based on arbitrary candidate-specific fitting or untested ensemble truncation. An unperformed search cannot be relabeled a demonstrated nonidentifiability result. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "State the supported absolute-configurational inference at map17 and its evidential limits in methanol, using the known constitution. Confidence must follow the achieved discrimination; source agreement and historical three-conformer results are not completion criteria.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "State the supported absolute-configurational inference at map17 and its evidential limits in methanol, using the known constitution. Confidence must follow the achieved discrimination; source agreement and historical three-conformer results are not completion criteria. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Check C24H24N2O4 constitution, E alkene, map17 stereochemical correspondence, charge/multiplicity and medium. Assigned models must state the actual stereochemistry after generation/optimization rather than relying on input filenames.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Evaluate numerical evidence relevant to configuration and its reproducibility from spectra or other valid artifacts. ECD sign/units and any spectral transformations must be explicit. Ensemble claims require justified models/weights and honest sampling scope, but no fixed conformer count or preset broadening is required.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Judge whether the investigation distinguishes the proposed configuration from relevant unresolved alternatives and whether apparent agreement survives the identified limitations. Credit an evidenced unresolved assignment as fairly as a supported unique one. No source absolute label is a required winner.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Assess the impact of available plot precision and consequential molecular/spectral-model uncertainty. Reject certainty based on arbitrary candidate-specific fitting or untested ensemble truncation. An unperformed search cannot be relabeled a demonstrated nonidentifiability result.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "State the supported absolute-configurational inference at map17 and its evidential limits in methanol, using the known constitution. Confidence must follow the achieved discrimination; source agreement and historical three-conformer results are not completion criteria.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

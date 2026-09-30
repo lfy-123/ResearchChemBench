@@ -7,6 +7,6 @@
   "state_policy":"Use the deposited protein coordinates and document protonation, total charge and multiplicity selected for every quantum calculation. Remove solvent and ions before QM. Do not infer an unreported state silently.",
   "public_geometry_transformation":"After retrieval, preserve chain/residue/atom identity; generate any 3D conformer or minimization independently and report software, force field, convergence and resulting coordinates.",
   "fragment_boundary":"Candidate local fragments must be explicitly defined by center atom/residue and radius, with broken-bond treatment and cap atoms recorded. A 5.0 Å radius case is required for comparison; 4.0 and 6.0 Å cases are optional sensitivity cases.",
-  "observables":{"orbital_mi":"s2(i,j)-s1(i)-s1(j) from one- and two-orbital reduced-density-matrix entropies","ami":"sum orbital MI over orbitals assigned to atom pair A,B","fmi":"sum AMI over atoms assigned to residue pair X,Y"},
+  "observables":{"orbital_mi":"s1(i)+s1(j)-s2(i,j) from one- and two-orbital reduced-density-matrix entropies; nonnegative quantum mutual information in nat (natural logarithms)","ami":"sum orbital MI over orbitals assigned to atom pair A,B","fmi":"sum AMI over atoms assigned to residue pair X,Y"},
   "qualitative_experimental_boundary":"Use the known insulin connectivity and disulfide connectivity in the deposited structure as system definition, not as a target numerical result."
 }

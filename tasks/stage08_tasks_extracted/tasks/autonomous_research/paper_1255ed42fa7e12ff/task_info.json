@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_1255ed42fa7e12ff",
+  "task_type": "autonomous_research",
+  "title": "Autonomous excited-state ESIPT kinetics of 8QBDY chalcogen analogues",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The fixed three-system calculation requires the agent to formulate plausible pathways and independently locate and validate excited-state stationary points."
+  ],
+  "paper": {
+    "title": "Chalcogen substitution and ionization effects on the fluorescence behavior of 8-chalcogen-quinoline-BODIPY: a DFT and TD-DFT investigation",
+    "doi": "10.1039/d5ra09145d",
+    "journal": "RSC Advances",
+    "publication_date": "2026-01-20"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Three explicit 37-atom neutral S1 enol XYZ starting geometries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-compound ESIPT barriers, rates, search record and conclusion."
+    }
+  ]
+}

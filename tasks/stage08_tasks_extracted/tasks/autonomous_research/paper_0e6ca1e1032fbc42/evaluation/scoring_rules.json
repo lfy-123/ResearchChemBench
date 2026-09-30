@@ -1,0 +1,88 @@
+{
+  "rules": [
+    {
+      "rule_id": "a_r1",
+      "type": "semantic",
+      "expected": "At least two distinct hypotheses with discrimination tests.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "a_proc_hyp"
+    },
+    {
+      "rule_id": "a_r2",
+      "type": "semantic",
+      "expected": "Candidate identities, per-case validation and coverage/stopping are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.validation",
+          "$.cases[*].case_id",
+          "$.cases[*].support",
+          "$.cases[*].film_layers",
+          "$.cases[*].validation_note"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "a_proc_valid"
+    },
+    {
+      "rule_id": "a_r3",
+      "type": "numeric",
+      "target": -1.66,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.cases[*].reaction_energy"
+        ],
+        "comparison": "absolute difference for 1-ML Pt case"
+      },
+      "reference_id": "a_res_energy"
+    },
+    {
+      "rule_id": "a_r4",
+      "type": "semantic",
+      "expected": "Charge transfer and Co-O polarization are evaluated as an evidence-backed explanation with 1-ML/Pt emphasis and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "a_res_mech"
+    },
+    {
+      "rule_id": "a_c1",
+      "type": "semantic",
+      "expected": "Independent hypotheses are discriminated and final explanation is evidence-bounded.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "a_final"
+    }
+  ],
+  "paper_id": "paper_0e6ca1e1032fbc42"
+}

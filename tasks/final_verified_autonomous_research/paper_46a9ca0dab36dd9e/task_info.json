@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_46a9ca0dab36dd9e",
+  "task_type": "autonomous_research",
+  "title": "Independent discovery of charge-transfer character in a sextet iron chloride ion pair",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The system and highest-f measurement rule are fixed, but the Agent must independently design geometry/state-space coverage, infer charge-transfer character, and justify sensitivity and stopping within that scope."
+  ],
+  "paper": {
+    "title": "Direct B–H Activation of Carborane Clusters via Synergistic LMCT and HAT Photocatalysis",
+    "doi": "10.1021/jacs.5c20945",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-22"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed molecular identities, charges, connectivity and sextet multiplicity for the isolated catalyst ion pair."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured investigation record with per-state evidence, IFCT values, independent conclusion and limitations."
+    }
+  ]
+}

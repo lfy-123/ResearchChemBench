@@ -1,0 +1,35 @@
+{
+  "paper_id": "paper_534ae3b6e2fb695f",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use full ODA, 6FODA, PFMB and TMC mapped graphs. The selected TMC site is acyl C2/Cl3; shift TMC maps by +1000 to avoid molecule-map collisions. For each amine, attack with the lowest-numbered supplied amine N and retain the second NH2 unchanged. Model the same net reaction TMC+diamine→monoamide+HCl, with departing chloride as the proton acceptor and no arbitrary free proton. This first-version local gas-phase model at 298.15 K/1 M is benchmark-authored and does not model the membrane interface. Retain source-comparable isolated gas-phase electronic descriptors on their defined scale as auxiliary tests. No polymer MD or membrane performance is required.",
+  "panels": {
+    "first_acylation": {
+      "requirement": "Real connected first-acylation paths under identical proton/Cl bookkeeping.",
+      "required_cells": [
+        "ODA",
+        "6FODA",
+        "PFMB"
+      ]
+    },
+    "descriptors_vs_barriers": {
+      "requirement": "Identity-matched descriptor versus barrier comparison; contrary ordering is a valid result.",
+      "required_cells": [
+        "ODA",
+        "6FODA",
+        "PFMB"
+      ]
+    },
+    "distortion_interaction": {
+      "requirement": "Fixed TMC/diamine fragment comparison at matched N–C distances.",
+      "required_cells": [
+        "ODA",
+        "6FODA",
+        "PFMB"
+      ]
+    }
+  },
+  "optional_not_required": "短聚酰胺片段、膜界面扩散与 MD 是独立扩展，不列首版第4个必做工作。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

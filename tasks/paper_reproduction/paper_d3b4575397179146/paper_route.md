@@ -2,7 +2,7 @@
 
 ## 1. Scientific objective and author claim
 
-The paper uses computation to explain substituent-dependent optical properties of four triaryl-heptazine photocatalysts. The authors claim that the weak visible absorption is dominated by a symmetry-forbidden HOMO→LUMO excitation for dFHeptZ, dClHeptZ and dMeHeptZ, whereas dOMeHeptZ is dominated by HOMO−3→LUMO; the frontier-orbital density is chiefly on the heptazine nitrogen core for dFHeptZ (and similarly dClHeptZ/dMeHeptZ), while dOMeHeptZ has HOMO density on its dimethoxyphenyl substituents.
+The paper uses computation to explain substituent-dependent optical properties of four triaryl-heptazine photocatalysts. The authors claim that the weak visible absorption is dominated by a symmetry-forbidden HOMO→LUMO excitation for dFHeptZ, dClHeptZ and dMeHeptZ, whereas dOMeHeptZ is dominated by HOMO−3→LUMO. The HOMO density is chiefly on the heptazine nitrogen core for dFHeptZ (and similarly dClHeptZ/dMeHeptZ); this does not describe their LUMO density, which extends across the molecule. dOMeHeptZ has HOMO density on its dimethoxyphenyl substituents (main PDF p3).
 
 ## 2. System and model boundary
 
@@ -15,7 +15,7 @@ The system is the neutral, closed-shell singlet molecule in acetonitrile, for ea
 | 1 | Optimize ground-state geometry | Each named heptazine | Gaussian 16 Rev. B.01 | B3LYP/6-311+G(d,p), charge 0, singlet | Optimized geometry | ev_doc_2b68f45a212f_000247_eb97a539c3c1; ev_doc_2b68f45a212f_000251_114fa7ca3032 |
 | 2 | Verify a true minimum | Optimized geometry | Gaussian 16 frequency calculation | Same level; zero imaginary frequencies required | Frequency-validated minimum | ev_doc_2b68f45a212f_000247_eb97a539c3c1; ev_doc_2b68f45a212f_000257_81d2bdb3a80f |
 | 3 | Calculate vertical UV-visible transitions | Validated optimized geometry | Gaussian 16 TD-DFT | TD-PBE0/6-311+G(d,p), IEFPCM acetonitrile, first 18 singlet states | Energy, wavelength, oscillator strength, major orbital contributions | ev_doc_2b68f45a212f_000249_f418ce718d65; ev_doc_2b68f45a212f_000267_cab8f82ada13 |
-| 4 | Inspect frontier orbitals and interpret bands | Ground-state orbitals and TD-DFT output | Gaussian 16/GaussView 6.1.1 | Orbital isovalue 0.02; compare visible low-energy states | Localization and transition-character interpretation | ev_doc_2b68f45a212f_000287_b6ac20791ec1; ev_doc_b5d19aa5ec32_000047_466756b3a378 |
+| 4 | Inspect frontier orbitals and interpret bands | PBE0 orbitals at the optimized B3LYP geometries and TD-DFT output | Gaussian 16/GaussView 6.1.1 | Same PBE0/6-311+G(d,p)/IEFPCM acetonitrile level as step 3 (SI S19); orbital isovalue 0.02; distinguish HOMO and LUMO localization | Localization and transition-character interpretation | ev_doc_2b68f45a212f_000287_b6ac20791ec1; ev_doc_b5d19aa5ec32_000047_466756b3a378 |
 
 ## 4. Validation and analysis protocol
 

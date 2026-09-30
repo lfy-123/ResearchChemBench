@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_08c040bf4e456891",
+  "items": [
+    {
+      "key_point_id": "pr_process_states",
+      "key_point_type": "process",
+      "statement": "The submission independently optimizes neutral CHClF2 and CHClF2+ with the declared charge/multiplicity and uses their relaxed electronic energies for AIE.",
+      "expected": "Neutral singlet and monocation doublet are converged and charge/spin assignments are explicit.",
+      "evidence_ids": [
+        "ev_doc_fb21b47b4bb6_000101_acf0b2d3b4fa"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_paths",
+      "key_point_type": "process",
+      "statement": "Both named product channels have continuous, charge-conserving paths to separated products, with a defensible choice of relaxed scan or multidimensional path treatment.",
+      "expected": "CHF2+ + Cl and CHFCl+ + F endpoints and path-validation evidence are individually identified.",
+      "evidence_ids": [
+        "ev_doc_1807c2e8e205_000170_92f3216c3560",
+        "ev_doc_1807c2e8e205_000171_c48109368f90",
+        "ev_doc_1807c2e8e205_000173_0dccba584531"
+      ]
+    },
+    {
+      "key_point_id": "pr_aie",
+      "key_point_type": "result",
+      "statement": "The adiabatic first ionization energy is approximately 11.9 eV.",
+      "expected": "AIE near 11.9 eV.",
+      "evidence_ids": [
+        "ev_doc_fb21b47b4bb6_000441_f8aaa36ade59"
+      ]
+    },
+    {
+      "key_point_id": "pr_r1",
+      "key_point_type": "result",
+      "statement": "The CHF2+ + Cl channel has an appearance energy of approximately 12.4 eV.",
+      "expected": "R1 appearance energy 12.4 eV.",
+      "evidence_ids": [
+        "ev_doc_fb21b47b4bb6_000441_f8aaa36ade59",
+        "ev_doc_fb21b47b4bb6_000442_d5b3f43350dc"
+      ]
+    },
+    {
+      "key_point_id": "pr_r2",
+      "key_point_type": "result",
+      "statement": "The CHFCl+ + F channel has an appearance energy of approximately 13.5 eV.",
+      "expected": "R2 appearance energy 13.5 eV.",
+      "evidence_ids": [
+        "ev_doc_fb21b47b4bb6_000441_f8aaa36ade59",
+        "ev_doc_fb21b47b4bb6_000462_deabccd4bd9e"
+      ]
+    }
+  ]
+}

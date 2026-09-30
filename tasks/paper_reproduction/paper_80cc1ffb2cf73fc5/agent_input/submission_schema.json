@@ -236,7 +236,11 @@
             }
           },
           "mae_cm_minus_1": {
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Null when no observed peak trace is provided; never use a fabricated zero MAE."
           },
           "origin_alignment": {
             "type": "string"

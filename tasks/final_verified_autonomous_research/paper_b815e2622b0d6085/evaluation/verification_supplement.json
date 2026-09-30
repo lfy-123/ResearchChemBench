@@ -1,0 +1,3751 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "record_type": "evaluator_private_author_route_verification_supplement",
+  "agent_visible": false,
+  "verified_at_UTC": "2026-09-20",
+  "scientific_status": "current_scoped_evaluator_supported",
+  "second_mesh_identity_gap_closed": true,
+  "required_additional_quantum_calculations": [],
+  "new_quantum_calculations_this_maintenance": false,
+  "supplementary_calculations": "Three fixed-parent 3x3x1 HSE06 projected SCF calculations completed on 2026-09-16; independently re-extracted on 2026-09-20.",
+  "release_state": "HOLD maintained; verification repair complete, separate release decision pending",
+  "scope": "Current hold_verified AR/PR contracts only. No SOC, optical or structure-relaxation extension.",
+  "audit_evidence": [
+    {
+      "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json",
+      "sha256": "d6402b04137cdc0c101a21cd4463d6fddcb09c60e2d97a1a421ec82d0a4a093a"
+    },
+    {
+      "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md",
+      "sha256": "9269c5e399e674ab5c91ee8aa4ae8663f1bf0d6bddd07784e32b704450651860"
+    }
+  ],
+  "objects": {
+    "Cl": {
+      "ccdc": "2499860",
+      "evidence": {
+        "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json",
+        "sha256": "832e6f0ef9d784402dcbc3f2270ed3c3c95a8d3b845aef5e03ab9d4ee6d29624"
+      },
+      "same_parent_and_PAW": true,
+      "independent_projection_assignment": {
+        "primary": {
+          "all_unoccupied_projection_records": 608,
+          "lower_band_count": 8,
+          "lower_candidate_records_checked": 64,
+          "all_lower_candidates_C_p_leading": true,
+          "lowest_Pb_p_leading_at_each_k_spin": [
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.01376019,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.54421768707483
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98474149,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5655172413793104
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.22859224,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5587188612099645
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.5,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.25429189,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5676156583629893
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.01376047,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.54421768707483
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98474164,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5655172413793104
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.22859247,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5587188612099645
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.5,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.25429187,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5638297872340425
+            }
+          ],
+          "selected_band_is_lowest_Pb_p_leading_at_every_sampled_k_spin": true,
+          "band_ordinal_was_not_a_selection_input": true,
+          "candidate_Pb_p_range": [
+            0.6802721088435375,
+            0.703448275862069
+          ],
+          "minimum_candidate_leading_margin": 0.54421768707483
+        },
+        "check": {
+          "all_unoccupied_projection_records": 608,
+          "lower_band_count": 8,
+          "lower_candidate_records_checked": 64,
+          "all_lower_candidates_C_p_leading": true,
+          "lowest_Pb_p_leading_at_each_k_spin": [
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.01383663,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.54421768707483
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.3333333,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.99204807,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5547945205479452
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.12204076,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5594405594405594
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.3333333,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.1190529,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5678571428571431
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.01383662,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.54421768707483
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.3333333,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.99204807,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5547945205479452
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.12204076,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5594405594405594
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.3333333,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.1190529,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5678571428571431
+            }
+          ],
+          "selected_band_is_lowest_Pb_p_leading_at_every_sampled_k_spin": true,
+          "band_ordinal_was_not_a_selection_input": true,
+          "candidate_Pb_p_range": [
+            0.6802721088435375,
+            0.6917808219178083
+          ],
+          "minimum_candidate_leading_margin": 0.54421768707483
+        }
+      },
+      "raw_validation": {
+        "primary": {
+          "raw_directory": "docs/verification/group_6/paper_b815e2622b0d6085/provenance/qzcli_hpc/Cl_parent_HSE06_lorbit_analysis/1_20260903T215944Z_267",
+          "normal_footer": true,
+          "EDIFF_reached": true,
+          "INCAR": {
+            "SYSTEM": "CCDC PARENT CELL HSE06 ELECTRONIC STRUCTURE",
+            "LHFCALC": ".TRUE.",
+            "AEXX": "0.25",
+            "HFSCREEN": "0.2",
+            "ALGO": "NORMAL",
+            "PREC": "ACCURATE",
+            "EDIFF": "1E-7",
+            "ISMEAR": "0",
+            "SIGMA": "0.05",
+            "ISPIN": "2",
+            "IBRION": "-1",
+            "NSW": "0",
+            "LREAL": "AUTO",
+            "LASPH": ".TRUE.",
+            "LWAVE": ".FALSE.",
+            "LCHARG": ".TRUE.",
+            "LORBIT": "11",
+            "NEDOS": "2001"
+          },
+          "VASP_version_line": "vasp.6.3.2 27Jun22 (build Jul 19 2026 07:54:09) complex",
+          "nonzero_HF_exchange_energy_evidenced": true,
+          "XML_has_projected_array": true,
+          "XML_EIGENVAL_compared_records": 1600,
+          "XML_EIGENVAL_max_energy_difference_eV": 5.000000000165983e-05,
+          "XML_EIGENVAL_max_print_rounding_bound_eV": 5.0500001000000004e-05,
+          "XML_EIGENVAL_all_records_agree_within_print_precision": true,
+          "minimum_occupied_occupation": 1.0,
+          "maximum_unoccupied_occupation": 0.0,
+          "max_spin_splitting_over_all_saved_bands_eV": 0.008882999999999086,
+          "elapsed_seconds_from_OUTCAR": 6262.258
+        },
+        "check": {
+          "raw_directory": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Cl",
+          "normal_footer": true,
+          "EDIFF_reached": true,
+          "INCAR": {
+            "SYSTEM": "CCDC PARENT CELL HSE06 ELECTRONIC STRUCTURE",
+            "LHFCALC": ".TRUE.",
+            "AEXX": "0.25",
+            "HFSCREEN": "0.2",
+            "ALGO": "NORMAL",
+            "PREC": "ACCURATE",
+            "EDIFF": "1E-7",
+            "ISMEAR": "0",
+            "SIGMA": "0.05",
+            "ISPIN": "2",
+            "IBRION": "-1",
+            "NSW": "0",
+            "LREAL": "AUTO",
+            "LASPH": ".TRUE.",
+            "LWAVE": ".TRUE.",
+            "LCHARG": ".TRUE.",
+            "LORBIT": "11",
+            "NEDOS": "2001",
+            "KPAR": "4",
+            "NCORE": "2",
+            "NBANDS": "200",
+            "ISTART": "1",
+            "ICHARG": "0",
+            "NWRITE": "3"
+          },
+          "VASP_version_line": "vasp.6.3.2 27Jun22 (build Jul 19 2026 07:54:09) complex",
+          "nonzero_HF_exchange_energy_evidenced": true,
+          "XML_has_projected_array": true,
+          "XML_EIGENVAL_compared_records": 1600,
+          "XML_EIGENVAL_max_energy_difference_eV": 4.999999999988347e-05,
+          "XML_EIGENVAL_max_print_rounding_bound_eV": 5.0500001000000004e-05,
+          "XML_EIGENVAL_all_records_agree_within_print_precision": true,
+          "minimum_occupied_occupation": 1.0,
+          "maximum_unoccupied_occupation": 0.0,
+          "max_spin_splitting_over_all_saved_bands_eV": 0.028495999999998745,
+          "elapsed_seconds_from_OUTCAR": 4245.471,
+          "application_record": {
+            "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Cl/application_success.json",
+            "bytes": 2984,
+            "sha256": "f7d41ea184c0cea02f8acdfa2a8c24d87dcff043189c3f96c932f8ab0694d770"
+          },
+          "started_at": "2026-09-16T04:35:57.744518+00:00",
+          "finished_at": "2026-09-16T05:46:46.846762+00:00",
+          "WAVECAR": {
+            "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Cl/WAVECAR",
+            "bytes": 266822080,
+            "sha256": "f44d3752a0cdef38d51e1e0654d0df02baa10a7799e6c7f30f039c12e4e148ba"
+          },
+          "wave_header_valid": true,
+          "complete_wave_bytes": 266822080,
+          "wave_tag": 45200,
+          "wave_nspin": 2,
+          "wave_nbands": 200
+        }
+      },
+      "mesh_comparison": {
+        "same_parent_and_PAW": true,
+        "same_component_partition": true,
+        "primary_candidate_band_result": 133,
+        "check_candidate_band_result": 133,
+        "band_ordinals_used_for_assignment": false,
+        "changes": {
+          "fundamental": {
+            "edge_gap_eV": {
+              "signed_change_eV": -0.013949999999999907,
+              "absolute_change_eV": 0.013949999999999907
+            },
+            "minimum_same_k_gap_eV": {
+              "signed_change_eV": 0.008857000000000337,
+              "absolute_change_eV": 0.008857000000000337
+            }
+          },
+          "framework": {
+            "edge_gap_eV": {
+              "signed_change_eV": -0.014976000000000766,
+              "absolute_change_eV": 0.014976000000000766
+            },
+            "minimum_same_k_gap_eV": {
+              "signed_change_eV": 0.009852000000000416,
+              "absolute_change_eV": 0.009852000000000416
+            }
+          }
+        },
+        "common_k_character_comparisons": [
+          {
+            "spin": 1,
+            "k": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "primary_band": 133,
+            "check_band": 133,
+            "primary_leading": "framework:Pb:p",
+            "check_leading": "framework:Pb:p",
+            "component_keys": [
+              "framework:Br:d",
+              "framework:Br:p",
+              "framework:Br:s",
+              "framework:Pb:d",
+              "framework:Pb:p",
+              "framework:Pb:s",
+              "organic:C:d",
+              "organic:C:p",
+              "organic:C:s",
+              "organic:Cl:d",
+              "organic:Cl:p",
+              "organic:Cl:s",
+              "organic:H:d",
+              "organic:H:p",
+              "organic:H:s",
+              "organic:N:d",
+              "organic:N:p",
+              "organic:N:s"
+            ],
+            "primary_weights": [
+              0.006802721088435375,
+              0.13605442176870755,
+              0.0748299319727891,
+              0.0,
+              0.6802721088435375,
+              0.0,
+              0.0,
+              0.06122448979591839,
+              0.006802721088435375,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006802721088435375,
+              0.0
+            ],
+            "check_weights": [
+              0.006802721088435375,
+              0.13605442176870755,
+              0.0748299319727891,
+              0.0,
+              0.6802721088435375,
+              0.0,
+              0.0,
+              0.06122448979591839,
+              0.006802721088435375,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006802721088435375,
+              0.0
+            ],
+            "component_vector_cosine": 1.0,
+            "energy_change_eV": 7.643999999995543e-05,
+            "note": "Component similarity is supporting evidence, not a wavefunction-overlap measurement."
+          },
+          {
+            "spin": 2,
+            "k": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "primary_band": 133,
+            "check_band": 133,
+            "primary_leading": "framework:Pb:p",
+            "check_leading": "framework:Pb:p",
+            "component_keys": [
+              "framework:Br:d",
+              "framework:Br:p",
+              "framework:Br:s",
+              "framework:Pb:d",
+              "framework:Pb:p",
+              "framework:Pb:s",
+              "organic:C:d",
+              "organic:C:p",
+              "organic:C:s",
+              "organic:Cl:d",
+              "organic:Cl:p",
+              "organic:Cl:s",
+              "organic:H:d",
+              "organic:H:p",
+              "organic:H:s",
+              "organic:N:d",
+              "organic:N:p",
+              "organic:N:s"
+            ],
+            "primary_weights": [
+              0.006802721088435375,
+              0.13605442176870755,
+              0.0748299319727891,
+              0.0,
+              0.6802721088435375,
+              0.0,
+              0.0,
+              0.06122448979591839,
+              0.006802721088435375,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006802721088435375,
+              0.0
+            ],
+            "check_weights": [
+              0.006802721088435375,
+              0.13605442176870755,
+              0.0748299319727891,
+              0.0,
+              0.6802721088435375,
+              0.0,
+              0.0,
+              0.06122448979591839,
+              0.006802721088435375,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006802721088435375,
+              0.0
+            ],
+            "component_vector_cosine": 1.0,
+            "energy_change_eV": 7.614999999994154e-05,
+            "note": "Component similarity is supporting evidence, not a wavefunction-overlap measurement."
+          }
+        ],
+        "interpretation": "Finite sampled meshes only. Equal band ordinal or a small energy change is not proof of state identity.",
+        "status": "independent_projection_evidence_ready_for_scientific_review"
+      },
+      "all_four_observables_and_per_spin": {
+        "primary": {
+          "fundamental": {
+            "spin": null,
+            "vbm": {
+              "spin": 2,
+              "band": 124,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.209093e-15
+              ],
+              "energy_eV": -0.679531,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 125,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.209093e-15
+              ],
+              "energy_eV": 2.414573,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 3.0941039999999997,
+            "minimum_same_k_gap_eV": 3.094105,
+            "vbm_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "direct"
+          },
+          "framework": {
+            "spin": null,
+            "vbm": {
+              "spin": 2,
+              "band": 124,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.209093e-15
+              ],
+              "energy_eV": -0.679531,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 133,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.209093e-15
+              ],
+              "energy_eV": 3.984741,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 4.664272,
+            "minimum_same_k_gap_eV": 4.664273,
+            "vbm_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "direct"
+          },
+          "per_spin_fundamental": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": -0.679532,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 125,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": 2.414573,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.094105,
+              "minimum_same_k_gap_eV": 3.094105,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": -0.679531,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 125,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": 2.414575,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.094106,
+              "minimum_same_k_gap_eV": 3.094106,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            }
+          ],
+          "per_spin_framework": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": -0.679532,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 133,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": 3.984741,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.664273,
+              "minimum_same_k_gap_eV": 4.664273,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": -0.679531,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 133,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.209093e-15
+                ],
+                "energy_eV": 3.984742,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.664273,
+              "minimum_same_k_gap_eV": 4.664273,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            }
+          ]
+        },
+        "check": {
+          "fundamental": {
+            "spin": null,
+            "vbm": {
+              "spin": 1,
+              "band": 124,
+              "k": [
+                0.3333333,
+                0.3333333,
+                1.233039e-15
+              ],
+              "energy_eV": -0.657248,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 125,
+              "k": [
+                0.3333333,
+                1.262379e-15,
+                1.233039e-15
+              ],
+              "energy_eV": 2.422906,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 3.080154,
+            "minimum_same_k_gap_eV": 3.102962,
+            "vbm_k_set": [
+              [
+                0.3333333,
+                0.3333333,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.3333333,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "framework": {
+            "spin": null,
+            "vbm": {
+              "spin": 1,
+              "band": 124,
+              "k": [
+                0.3333333,
+                0.3333333,
+                1.233039e-15
+              ],
+              "energy_eV": -0.657248,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 133,
+              "k": [
+                0.3333333,
+                1.262379e-15,
+                1.233039e-15
+              ],
+              "energy_eV": 3.992048,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 4.649296,
+            "minimum_same_k_gap_eV": 4.674125,
+            "vbm_k_set": [
+              [
+                0.3333333,
+                0.3333333,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.3333333,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "per_spin_fundamental": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.233039e-15
+                ],
+                "energy_eV": -0.657248,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 125,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.233039e-15
+                ],
+                "energy_eV": 2.422906,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.080154,
+              "minimum_same_k_gap_eV": 3.102962,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.233039e-15
+                ],
+                "energy_eV": -0.657248,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 125,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.233039e-15
+                ],
+                "energy_eV": 2.422906,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.080154,
+              "minimum_same_k_gap_eV": 3.102962,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ],
+          "per_spin_framework": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.233039e-15
+                ],
+                "energy_eV": -0.657248,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 133,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.233039e-15
+                ],
+                "energy_eV": 3.992048,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.649296,
+              "minimum_same_k_gap_eV": 4.674125,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.233039e-15
+                ],
+                "energy_eV": -0.657248,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 133,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.233039e-15
+                ],
+                "energy_eV": 3.992048,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.649296,
+              "minimum_same_k_gap_eV": 4.674125,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ]
+        }
+      },
+      "current_CIF_mapping_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json#objects.Cl.current_CIF_matches",
+      "raw_output_sha256": {
+        "primary": {
+          "directory": "docs/verification/group_6/paper_b815e2622b0d6085/provenance/qzcli_hpc/Cl_parent_HSE06_lorbit_analysis/1_20260903T215944Z_267",
+          "files": {
+            "INCAR": "7de88fa578af3e1da765f1e57d3f8db5c823a44277f72288804b446a5f4475b4",
+            "POSCAR": "751a4be98f080394ffd524a6bec028509aff542de9b459c02510d6580c6e6aa8",
+            "POTCAR": "6d735f433c6b26765213728f91a26cd4b83159f436d2796af678b7a44204e30b",
+            "KPOINTS": "79be718100b6a15455cb3fcb5f56f049cdff85db0ba971053e03250362a5d72d",
+            "OUTCAR": "ca8caaed0f9b752d6eb2832e6975bc31ca39775a54dd2c27a54ca1f643993d3c",
+            "EIGENVAL": "e7aafbb6b7877e184b7394d6690edeb5b5c3a91e45b982995616a3697f509ce9",
+            "PROCAR": "a12abcf4c1a8a78be133a78a8116fecef288af05de6b818822c6de2010a2f2b5",
+            "vasprun.xml": "c9bd7174113805e82b00182bf07052355a1d300f4dc2010a40ff3098dd3758c4"
+          }
+        },
+        "check": {
+          "directory": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Cl",
+          "files": {
+            "INCAR": "99327aaf0b0548681058594e9a863183c8cfe858df9f865ecf6c493866621a1e",
+            "POSCAR": "751a4be98f080394ffd524a6bec028509aff542de9b459c02510d6580c6e6aa8",
+            "POTCAR": "6d735f433c6b26765213728f91a26cd4b83159f436d2796af678b7a44204e30b",
+            "KPOINTS": "d2fee0f58a711ce204780def7d5e42de510093a6690b66a9dc0085850243da48",
+            "OUTCAR": "1590baa60cbd97c000096b271fe89bd49e0963a2712b2b594d5dcc6f524af456",
+            "EIGENVAL": "c8964aec47ed84c926d4a7e8aba63f3e7e99b8d98230eddbcea65e04872e68d9",
+            "PROCAR": "42009c305e41f19508066ce277940fdd866a768cf2c02245d47fffc26fe15965",
+            "vasprun.xml": "a1a2adc6127391008006e2b62e2e1e1b13330cfe045b33b8c064633361360917"
+          }
+        }
+      }
+    },
+    "Br": {
+      "ccdc": "2499862",
+      "evidence": {
+        "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json",
+        "sha256": "03f1071a05c95a3876f58eabedcfbc9d5aee570743ff5ca79c1151fa7016dcbf"
+      },
+      "same_parent_and_PAW": true,
+      "independent_projection_assignment": {
+        "primary": {
+          "all_unoccupied_projection_records": 608,
+          "lower_band_count": 8,
+          "lower_candidate_records_checked": 64,
+          "all_lower_candidates_C_p_leading": true,
+          "lowest_Pb_p_leading_at_each_k_spin": [
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98828551,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5310344827586208
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.96290092,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5310344827586206
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.08548898,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.49116607773851595
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.5,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.13251472,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.4911971830985916
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98828603,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5310344827586208
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.96290136,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5310344827586206
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.08548919,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.48586572438162545
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.5,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.13251479,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.4912280701754386
+            }
+          ],
+          "selected_band_is_lowest_Pb_p_leading_at_every_sampled_k_spin": true,
+          "band_ordinal_was_not_a_selection_input": true,
+          "candidate_Pb_p_range": [
+            0.5865724381625442,
+            0.6758620689655173
+          ],
+          "minimum_candidate_leading_margin": 0.48586572438162545
+        },
+        "check": {
+          "all_unoccupied_projection_records": 608,
+          "lower_band_count": 8,
+          "lower_candidate_records_checked": 64,
+          "all_lower_candidates_C_p_leading": true,
+          "lowest_Pb_p_leading_at_each_k_spin": [
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98832805,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5310344827586208
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.3333333,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.96823413,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5347222222222221
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98486333,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.4929577464788733
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.3333333,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.99691848,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98832806,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5310344827586208
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.3333333,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.96823414,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5347222222222221
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.98486332,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.4929577464788733
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.3333333,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 3.99691847,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.5
+            }
+          ],
+          "selected_band_is_lowest_Pb_p_leading_at_every_sampled_k_spin": true,
+          "band_ordinal_was_not_a_selection_input": true,
+          "candidate_Pb_p_range": [
+            0.591549295774648,
+            0.6805555555555555
+          ],
+          "minimum_candidate_leading_margin": 0.4929577464788733
+        }
+      },
+      "raw_validation": {
+        "primary": {
+          "raw_directory": "docs/verification/group_6/paper_b815e2622b0d6085/provenance/qzcli_hpc/Br_parent_HSE06_lorbit_analysis/1_20260903T215944Z_267",
+          "normal_footer": true,
+          "EDIFF_reached": true,
+          "INCAR": {
+            "SYSTEM": "CCDC PARENT CELL HSE06 ELECTRONIC STRUCTURE",
+            "LHFCALC": ".TRUE.",
+            "AEXX": "0.25",
+            "HFSCREEN": "0.2",
+            "ALGO": "NORMAL",
+            "PREC": "ACCURATE",
+            "EDIFF": "1E-7",
+            "ISMEAR": "0",
+            "SIGMA": "0.05",
+            "ISPIN": "2",
+            "IBRION": "-1",
+            "NSW": "0",
+            "LREAL": "AUTO",
+            "LASPH": ".TRUE.",
+            "LWAVE": ".FALSE.",
+            "LCHARG": ".TRUE.",
+            "LORBIT": "11",
+            "NEDOS": "2001"
+          },
+          "VASP_version_line": "vasp.6.3.2 27Jun22 (build Jul 19 2026 07:54:09) complex",
+          "nonzero_HF_exchange_energy_evidenced": true,
+          "XML_has_projected_array": true,
+          "XML_EIGENVAL_compared_records": 1600,
+          "XML_EIGENVAL_max_energy_difference_eV": 4.999999999988347e-05,
+          "XML_EIGENVAL_max_print_rounding_bound_eV": 5.0500001000000004e-05,
+          "XML_EIGENVAL_all_records_agree_within_print_precision": true,
+          "minimum_occupied_occupation": 1.0,
+          "maximum_unoccupied_occupation": 0.0,
+          "max_spin_splitting_over_all_saved_bands_eV": 0.006940000000000168,
+          "elapsed_seconds_from_OUTCAR": 6446.626
+        },
+        "check": {
+          "raw_directory": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Br",
+          "normal_footer": true,
+          "EDIFF_reached": true,
+          "INCAR": {
+            "SYSTEM": "CCDC PARENT CELL HSE06 ELECTRONIC STRUCTURE",
+            "LHFCALC": ".TRUE.",
+            "AEXX": "0.25",
+            "HFSCREEN": "0.2",
+            "ALGO": "NORMAL",
+            "PREC": "ACCURATE",
+            "EDIFF": "1E-7",
+            "ISMEAR": "0",
+            "SIGMA": "0.05",
+            "ISPIN": "2",
+            "IBRION": "-1",
+            "NSW": "0",
+            "LREAL": "AUTO",
+            "LASPH": ".TRUE.",
+            "LWAVE": ".TRUE.",
+            "LCHARG": ".TRUE.",
+            "LORBIT": "11",
+            "NEDOS": "2001",
+            "KPAR": "4",
+            "NCORE": "2",
+            "NBANDS": "200",
+            "ISTART": "1",
+            "ICHARG": "0",
+            "NWRITE": "3"
+          },
+          "VASP_version_line": "vasp.6.3.2 27Jun22 (build Jul 19 2026 07:54:09) complex",
+          "nonzero_HF_exchange_energy_evidenced": true,
+          "XML_has_projected_array": true,
+          "XML_EIGENVAL_compared_records": 1600,
+          "XML_EIGENVAL_max_energy_difference_eV": 5.0000000000105516e-05,
+          "XML_EIGENVAL_max_print_rounding_bound_eV": 5.0500001000000004e-05,
+          "XML_EIGENVAL_all_records_agree_within_print_precision": true,
+          "minimum_occupied_occupation": 1.0,
+          "maximum_unoccupied_occupation": 0.0,
+          "max_spin_splitting_over_all_saved_bands_eV": 0.007286999999999821,
+          "elapsed_seconds_from_OUTCAR": 4828.429,
+          "application_record": {
+            "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Br/application_success.json",
+            "bytes": 3004,
+            "sha256": "c9c1317c79e78d8c2be06f4b201a47380ad726781d29eadf8a35b189e5d2fee8"
+          },
+          "started_at": "2026-09-16T04:36:06.765899+00:00",
+          "finished_at": "2026-09-16T05:56:37.942633+00:00",
+          "WAVECAR": {
+            "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Br/WAVECAR",
+            "bytes": 270840640,
+            "sha256": "3ead900153d3b8f20ce0f6df268cd5a2ad90d203e8c90a907410b321d0d81aec"
+          },
+          "wave_header_valid": true,
+          "complete_wave_bytes": 270840640,
+          "wave_tag": 45200,
+          "wave_nspin": 2,
+          "wave_nbands": 200
+        }
+      },
+      "mesh_comparison": {
+        "same_parent_and_PAW": true,
+        "same_component_partition": true,
+        "primary_candidate_band_result": 133,
+        "check_candidate_band_result": 133,
+        "band_ordinals_used_for_assignment": false,
+        "changes": {
+          "fundamental": {
+            "edge_gap_eV": {
+              "signed_change_eV": -0.00455899999999998,
+              "absolute_change_eV": 0.00455899999999998
+            },
+            "minimum_same_k_gap_eV": {
+              "signed_change_eV": 0.013348999999999833,
+              "absolute_change_eV": 0.013348999999999833
+            }
+          },
+          "framework": {
+            "edge_gap_eV": {
+              "signed_change_eV": -0.008891000000000204,
+              "absolute_change_eV": 0.008891000000000204
+            },
+            "minimum_same_k_gap_eV": {
+              "signed_change_eV": 0.009018000000000193,
+              "absolute_change_eV": 0.009018000000000193
+            }
+          }
+        },
+        "common_k_character_comparisons": [
+          {
+            "spin": 1,
+            "k": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "primary_band": 133,
+            "check_band": 133,
+            "primary_leading": "framework:Pb:p",
+            "check_leading": "framework:Pb:p",
+            "component_keys": [
+              "framework:Br:d",
+              "framework:Br:p",
+              "framework:Br:s",
+              "framework:Pb:d",
+              "framework:Pb:p",
+              "framework:Pb:s",
+              "organic:Br:d",
+              "organic:Br:p",
+              "organic:Br:s",
+              "organic:C:d",
+              "organic:C:p",
+              "organic:C:s",
+              "organic:H:d",
+              "organic:H:p",
+              "organic:H:s",
+              "organic:N:d",
+              "organic:N:p",
+              "organic:N:s"
+            ],
+            "primary_weights": [
+              0.006896551724137932,
+              0.13103448275862076,
+              0.07586206896551724,
+              0.0,
+              0.6620689655172415,
+              0.0,
+              0.0,
+              0.0206896551724138,
+              0.0,
+              0.0,
+              0.06896551724137932,
+              0.006896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "check_weights": [
+              0.006896551724137932,
+              0.13103448275862076,
+              0.07586206896551724,
+              0.0,
+              0.6620689655172415,
+              0.0,
+              0.0,
+              0.0206896551724138,
+              0.0,
+              0.0,
+              0.06896551724137932,
+              0.006896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "component_vector_cosine": 1.0,
+            "energy_change_eV": 4.2539999999924305e-05,
+            "note": "Component similarity is supporting evidence, not a wavefunction-overlap measurement."
+          },
+          {
+            "spin": 2,
+            "k": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "primary_band": 133,
+            "check_band": 133,
+            "primary_leading": "framework:Pb:p",
+            "check_leading": "framework:Pb:p",
+            "component_keys": [
+              "framework:Br:d",
+              "framework:Br:p",
+              "framework:Br:s",
+              "framework:Pb:d",
+              "framework:Pb:p",
+              "framework:Pb:s",
+              "organic:Br:d",
+              "organic:Br:p",
+              "organic:Br:s",
+              "organic:C:d",
+              "organic:C:p",
+              "organic:C:s",
+              "organic:H:d",
+              "organic:H:p",
+              "organic:H:s",
+              "organic:N:d",
+              "organic:N:p",
+              "organic:N:s"
+            ],
+            "primary_weights": [
+              0.006896551724137932,
+              0.13103448275862076,
+              0.07586206896551724,
+              0.0,
+              0.6620689655172415,
+              0.0,
+              0.0,
+              0.0206896551724138,
+              0.0,
+              0.0,
+              0.06896551724137932,
+              0.006896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "check_weights": [
+              0.006896551724137932,
+              0.13103448275862076,
+              0.07586206896551724,
+              0.0,
+              0.6620689655172415,
+              0.0,
+              0.0,
+              0.0206896551724138,
+              0.0,
+              0.0,
+              0.06896551724137932,
+              0.006896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "component_vector_cosine": 1.0,
+            "energy_change_eV": 4.203000000035928e-05,
+            "note": "Component similarity is supporting evidence, not a wavefunction-overlap measurement."
+          }
+        ],
+        "interpretation": "Finite sampled meshes only. Equal band ordinal or a small energy change is not proof of state identity.",
+        "status": "independent_projection_evidence_ready_for_scientific_review"
+      },
+      "all_four_observables_and_per_spin": {
+        "primary": {
+          "fundamental": {
+            "spin": null,
+            "vbm": {
+              "spin": 2,
+              "band": 124,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.222402e-15
+              ],
+              "energy_eV": -0.697585,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 125,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.222402e-15
+              ],
+              "energy_eV": 2.408113,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 3.1056980000000003,
+            "minimum_same_k_gap_eV": 3.1056990000000004,
+            "vbm_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "direct"
+          },
+          "framework": {
+            "spin": null,
+            "vbm": {
+              "spin": 2,
+              "band": 124,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.222402e-15
+              ],
+              "energy_eV": -0.697585,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 133,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.222402e-15
+              ],
+              "energy_eV": 3.962901,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 4.660486,
+            "minimum_same_k_gap_eV": 4.660486,
+            "vbm_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "direct"
+          },
+          "per_spin_fundamental": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": -0.697586,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 125,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": 2.408113,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.1056990000000004,
+              "minimum_same_k_gap_eV": 3.1056990000000004,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": -0.697585,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 125,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": 2.408115,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.1057,
+              "minimum_same_k_gap_eV": 3.1057,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            }
+          ],
+          "per_spin_framework": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": -0.697586,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 133,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": 3.962901,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.660487,
+              "minimum_same_k_gap_eV": 4.660487,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": -0.697585,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 133,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.222402e-15
+                ],
+                "energy_eV": 3.962901,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.660486,
+              "minimum_same_k_gap_eV": 4.660486,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            }
+          ]
+        },
+        "check": {
+          "fundamental": {
+            "spin": null,
+            "vbm": {
+              "spin": 1,
+              "band": 124,
+              "k": [
+                0.3333333,
+                0.3333333,
+                1.275297e-15
+              ],
+              "energy_eV": -0.683361,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 125,
+              "k": [
+                0.3333333,
+                1.262379e-15,
+                1.275297e-15
+              ],
+              "energy_eV": 2.417778,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 3.1011390000000003,
+            "minimum_same_k_gap_eV": 3.1190480000000003,
+            "vbm_k_set": [
+              [
+                0.3333333,
+                0.3333333,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.3333333,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "framework": {
+            "spin": null,
+            "vbm": {
+              "spin": 1,
+              "band": 124,
+              "k": [
+                0.3333333,
+                0.3333333,
+                1.275297e-15
+              ],
+              "energy_eV": -0.683361,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 133,
+              "k": [
+                0.3333333,
+                1.262379e-15,
+                1.275297e-15
+              ],
+              "energy_eV": 3.968234,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 4.6515949999999995,
+            "minimum_same_k_gap_eV": 4.669504,
+            "vbm_k_set": [
+              [
+                0.3333333,
+                0.3333333,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.3333333,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "per_spin_fundamental": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.275297e-15
+                ],
+                "energy_eV": -0.683361,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 125,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.275297e-15
+                ],
+                "energy_eV": 2.417778,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.1011390000000003,
+              "minimum_same_k_gap_eV": 3.1190480000000003,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.275297e-15
+                ],
+                "energy_eV": -0.683361,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 125,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.275297e-15
+                ],
+                "energy_eV": 2.417778,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.1011390000000003,
+              "minimum_same_k_gap_eV": 3.1190480000000003,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ],
+          "per_spin_framework": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.275297e-15
+                ],
+                "energy_eV": -0.683361,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 133,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.275297e-15
+                ],
+                "energy_eV": 3.968234,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.6515949999999995,
+              "minimum_same_k_gap_eV": 4.669504,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.275297e-15
+                ],
+                "energy_eV": -0.683361,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 133,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.275297e-15
+                ],
+                "energy_eV": 3.968234,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.6515949999999995,
+              "minimum_same_k_gap_eV": 4.669504,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ]
+        }
+      },
+      "current_CIF_mapping_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json#objects.Br.current_CIF_matches",
+      "raw_output_sha256": {
+        "primary": {
+          "directory": "docs/verification/group_6/paper_b815e2622b0d6085/provenance/qzcli_hpc/Br_parent_HSE06_lorbit_analysis/1_20260903T215944Z_267",
+          "files": {
+            "INCAR": "7de88fa578af3e1da765f1e57d3f8db5c823a44277f72288804b446a5f4475b4",
+            "POSCAR": "c433296a277ac0e428f60fd2fc1887a598975b00f8dd86c790e3435a176e26cb",
+            "POTCAR": "240f4c5add641640cd0da4535c8953eb3a247bc4751d532d1bffbbdf76b4e632",
+            "KPOINTS": "d3db563c98126d1771930dd975d649b2e0dbebd191fbcc94a67708b8bd7ded6b",
+            "OUTCAR": "0d5304433de8d12a888bd6f7cda8562f66b81fefeea6de0ca4db7ab6193f56b8",
+            "EIGENVAL": "6cdc0d11cae1e8c8e880fe9eb7a3c166faabe3a8b642c1957ed7d4128cf110b2",
+            "PROCAR": "cff0d7810147b9f72e547f2ab2aa984dc73899cff3180085f8d55b7a5a5d2883",
+            "vasprun.xml": "4655ca33c2a69240b7107cfc8a0ffeb58ad4a9c7096a55632014f2eb5e499b36"
+          }
+        },
+        "check": {
+          "directory": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/Br",
+          "files": {
+            "INCAR": "99327aaf0b0548681058594e9a863183c8cfe858df9f865ecf6c493866621a1e",
+            "POSCAR": "c433296a277ac0e428f60fd2fc1887a598975b00f8dd86c790e3435a176e26cb",
+            "POTCAR": "240f4c5add641640cd0da4535c8953eb3a247bc4751d532d1bffbbdf76b4e632",
+            "KPOINTS": "66618b4ee3d0da32f1c832d8b1f49aa747c94a60e5bd1a0bfac72587a10d2ad2",
+            "OUTCAR": "c7ea3087be765004b5187b3b143b71c850861f92a651cc048202639dff8b2226",
+            "EIGENVAL": "3bcfa90936fb226f6a348bd8a5f21105541c18dff46ec8fae754f99dacf60a99",
+            "PROCAR": "1afc9c8e52c8bfcba5cd7e9523163545f7baccfda9c61dc289df3652cc780f9c",
+            "vasprun.xml": "29832889e8a8d5fe68beb67b203ed2b3214a017bfb42bee95056a565d44cbaba"
+          }
+        }
+      }
+    },
+    "I": {
+      "ccdc": "2499861",
+      "evidence": {
+        "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json",
+        "sha256": "19c69e2c36a9055c4a17d69b6f29e48f4bad153663b7b0b9dfb5e5c6c199e156"
+      },
+      "same_parent_and_PAW": true,
+      "independent_projection_assignment": {
+        "primary": {
+          "all_unoccupied_projection_records": 608,
+          "lower_band_count": 8,
+          "lower_candidate_records_checked": 64,
+          "all_lower_candidates_C_p_leading": true,
+          "lowest_Pb_p_leading_at_each_k_spin": [
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.09022474,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.12413793103448276
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.15790662,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.3355704697986578
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.1604293,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.18181818181818182
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.5,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.18394039,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.1968365553602812
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.09022698,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.12413793103448276
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.5,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.1579096,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.3355704697986578
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.16043117,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.18181818181818182
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.5,
+                0.5,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.18394216,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.19999999999999998
+            }
+          ],
+          "selected_band_is_lowest_Pb_p_leading_at_every_sampled_k_spin": true,
+          "band_ordinal_was_not_a_selection_input": true,
+          "candidate_Pb_p_range": [
+            0.3448275862068966,
+            0.45637583892617456
+          ],
+          "minimum_candidate_leading_margin": 0.12413793103448276
+        },
+        "check": {
+          "all_unoccupied_projection_records": 608,
+          "lower_band_count": 8,
+          "lower_candidate_records_checked": 64,
+          "all_lower_candidates_C_p_leading": true,
+          "lowest_Pb_p_leading_at_each_k_spin": [
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.09035641,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.12413793103448276
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.3333333,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.14844818,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.27397260273972596
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.0,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.09487287,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.1386861313868613
+            },
+            {
+              "spin": 1,
+              "k": [
+                0.3333333,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.11276915,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.143884892086331
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.09035642,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.12413793103448276
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.3333333,
+                0.0,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.1484482,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.27397260273972596
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.0,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.09487289,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.1386861313868613
+            },
+            {
+              "spin": 2,
+              "k": [
+                0.3333333,
+                0.3333333,
+                0.0
+              ],
+              "band": 133,
+              "energy_eV": 4.11276918,
+              "leading_group": "framework:Pb:p",
+              "leading_margin": 0.143884892086331
+            }
+          ],
+          "selected_band_is_lowest_Pb_p_leading_at_every_sampled_k_spin": true,
+          "band_ordinal_was_not_a_selection_input": true,
+          "candidate_Pb_p_range": [
+            0.3448275862068966,
+            0.43150684931506844
+          ],
+          "minimum_candidate_leading_margin": 0.12413793103448276
+        }
+      },
+      "raw_validation": {
+        "primary": {
+          "raw_directory": "docs/verification/group_6/paper_b815e2622b0d6085/provenance/qzcli_hpc/I_parent_HSE06_lorbit_analysis/1_20260903T215950Z_344",
+          "normal_footer": true,
+          "EDIFF_reached": true,
+          "INCAR": {
+            "SYSTEM": "CCDC PARENT CELL HSE06 ELECTRONIC STRUCTURE",
+            "LHFCALC": ".TRUE.",
+            "AEXX": "0.25",
+            "HFSCREEN": "0.2",
+            "ALGO": "NORMAL",
+            "PREC": "ACCURATE",
+            "EDIFF": "1E-7",
+            "ISMEAR": "0",
+            "SIGMA": "0.05",
+            "ISPIN": "2",
+            "IBRION": "-1",
+            "NSW": "0",
+            "LREAL": "AUTO",
+            "LASPH": ".TRUE.",
+            "LWAVE": ".FALSE.",
+            "LCHARG": ".TRUE.",
+            "LORBIT": "11",
+            "NEDOS": "2001"
+          },
+          "VASP_version_line": "vasp.6.3.2 27Jun22 (build Jul 19 2026 07:54:09) complex",
+          "nonzero_HF_exchange_energy_evidenced": true,
+          "XML_has_projected_array": true,
+          "XML_EIGENVAL_compared_records": 1600,
+          "XML_EIGENVAL_max_energy_difference_eV": 5.000000000165983e-05,
+          "XML_EIGENVAL_max_print_rounding_bound_eV": 5.0500001000000004e-05,
+          "XML_EIGENVAL_all_records_agree_within_print_precision": true,
+          "minimum_occupied_occupation": 1.0,
+          "maximum_unoccupied_occupation": 0.0,
+          "max_spin_splitting_over_all_saved_bands_eV": 0.010327999999999449,
+          "elapsed_seconds_from_OUTCAR": 5533.212
+        },
+        "check": {
+          "raw_directory": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/I",
+          "normal_footer": true,
+          "EDIFF_reached": true,
+          "INCAR": {
+            "SYSTEM": "CCDC PARENT CELL HSE06 ELECTRONIC STRUCTURE",
+            "LHFCALC": ".TRUE.",
+            "AEXX": "0.25",
+            "HFSCREEN": "0.2",
+            "ALGO": "NORMAL",
+            "PREC": "ACCURATE",
+            "EDIFF": "1E-7",
+            "ISMEAR": "0",
+            "SIGMA": "0.05",
+            "ISPIN": "2",
+            "IBRION": "-1",
+            "NSW": "0",
+            "LREAL": "AUTO",
+            "LASPH": ".TRUE.",
+            "LWAVE": ".TRUE.",
+            "LCHARG": ".TRUE.",
+            "LORBIT": "11",
+            "NEDOS": "2001",
+            "KPAR": "4",
+            "NCORE": "2",
+            "NBANDS": "200",
+            "ISTART": "1",
+            "ICHARG": "0",
+            "NWRITE": "3"
+          },
+          "VASP_version_line": "vasp.6.3.2 27Jun22 (build Jul 19 2026 07:54:09) complex",
+          "nonzero_HF_exchange_energy_evidenced": true,
+          "XML_has_projected_array": true,
+          "XML_EIGENVAL_compared_records": 1600,
+          "XML_EIGENVAL_max_energy_difference_eV": 5.000000000165983e-05,
+          "XML_EIGENVAL_max_print_rounding_bound_eV": 5.0500001000000004e-05,
+          "XML_EIGENVAL_all_records_agree_within_print_precision": true,
+          "minimum_occupied_occupation": 1.0,
+          "maximum_unoccupied_occupation": 0.0,
+          "max_spin_splitting_over_all_saved_bands_eV": 0.023258000000000223,
+          "elapsed_seconds_from_OUTCAR": 5309.973,
+          "application_record": {
+            "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/I/application_success.json",
+            "bytes": 2980,
+            "sha256": "ad59267afa874b8e4da8cbb103e9d385b72d55b7b9805a86207061d9a57bb09d"
+          },
+          "started_at": "2026-09-16T04:38:37.893016+00:00",
+          "finished_at": "2026-09-16T06:07:12.490047+00:00",
+          "WAVECAR": {
+            "path": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/I/WAVECAR",
+            "bytes": 277383680,
+            "sha256": "adc256c44ce03a6e64410a5a6335bed09e0a9d125a39fc4afc10adbbede50448"
+          },
+          "wave_header_valid": true,
+          "complete_wave_bytes": 277383680,
+          "wave_tag": 45200,
+          "wave_nspin": 2,
+          "wave_nbands": 200
+        }
+      },
+      "mesh_comparison": {
+        "same_parent_and_PAW": true,
+        "same_component_partition": true,
+        "primary_candidate_band_result": 133,
+        "check_candidate_band_result": 133,
+        "band_ordinals_used_for_assignment": false,
+        "changes": {
+          "fundamental": {
+            "edge_gap_eV": {
+              "signed_change_eV": 0.012913000000000174,
+              "absolute_change_eV": 0.012913000000000174
+            },
+            "minimum_same_k_gap_eV": {
+              "signed_change_eV": 0.016062000000000243,
+              "absolute_change_eV": 0.016062000000000243
+            }
+          },
+          "framework": {
+            "edge_gap_eV": {
+              "signed_change_eV": 0.003699000000000119,
+              "absolute_change_eV": 0.003699000000000119
+            },
+            "minimum_same_k_gap_eV": {
+              "signed_change_eV": -0.01951400000000003,
+              "absolute_change_eV": 0.01951400000000003
+            }
+          }
+        },
+        "common_k_character_comparisons": [
+          {
+            "spin": 1,
+            "k": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "primary_band": 133,
+            "check_band": 133,
+            "primary_leading": "framework:Pb:p",
+            "check_leading": "framework:Pb:p",
+            "component_keys": [
+              "framework:Br:d",
+              "framework:Br:p",
+              "framework:Br:s",
+              "framework:Pb:d",
+              "framework:Pb:p",
+              "framework:Pb:s",
+              "organic:C:d",
+              "organic:C:p",
+              "organic:C:s",
+              "organic:H:d",
+              "organic:H:p",
+              "organic:H:s",
+              "organic:I:d",
+              "organic:I:p",
+              "organic:I:s",
+              "organic:N:d",
+              "organic:N:p",
+              "organic:N:s"
+            ],
+            "primary_weights": [
+              0.013793103448275864,
+              0.055172413793103454,
+              0.04137931034482759,
+              0.0,
+              0.3448275862068966,
+              0.006896551724137932,
+              0.0,
+              0.22068965517241382,
+              0.06896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.06206896551724139,
+              0.12413793103448278,
+              0.027586206896551727,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "check_weights": [
+              0.013793103448275864,
+              0.055172413793103454,
+              0.04137931034482759,
+              0.0,
+              0.3448275862068966,
+              0.006896551724137932,
+              0.0,
+              0.22068965517241382,
+              0.06896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.06206896551724139,
+              0.12413793103448278,
+              0.027586206896551727,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "component_vector_cosine": 1.0,
+            "energy_change_eV": 0.00013167000000002815,
+            "note": "Component similarity is supporting evidence, not a wavefunction-overlap measurement."
+          },
+          {
+            "spin": 2,
+            "k": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "primary_band": 133,
+            "check_band": 133,
+            "primary_leading": "framework:Pb:p",
+            "check_leading": "framework:Pb:p",
+            "component_keys": [
+              "framework:Br:d",
+              "framework:Br:p",
+              "framework:Br:s",
+              "framework:Pb:d",
+              "framework:Pb:p",
+              "framework:Pb:s",
+              "organic:C:d",
+              "organic:C:p",
+              "organic:C:s",
+              "organic:H:d",
+              "organic:H:p",
+              "organic:H:s",
+              "organic:I:d",
+              "organic:I:p",
+              "organic:I:s",
+              "organic:N:d",
+              "organic:N:p",
+              "organic:N:s"
+            ],
+            "primary_weights": [
+              0.013793103448275864,
+              0.055172413793103454,
+              0.04137931034482759,
+              0.0,
+              0.3448275862068966,
+              0.006896551724137932,
+              0.0,
+              0.22068965517241382,
+              0.06896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.06206896551724139,
+              0.12413793103448278,
+              0.027586206896551727,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "check_weights": [
+              0.013793103448275864,
+              0.055172413793103454,
+              0.04137931034482759,
+              0.0,
+              0.3448275862068966,
+              0.006896551724137932,
+              0.0,
+              0.22068965517241382,
+              0.06896551724137932,
+              0.0,
+              0.0,
+              0.0,
+              0.06206896551724139,
+              0.12413793103448278,
+              0.027586206896551727,
+              0.0,
+              0.006896551724137932,
+              0.0
+            ],
+            "component_vector_cosine": 1.0,
+            "energy_change_eV": 0.00012944000000025824,
+            "note": "Component similarity is supporting evidence, not a wavefunction-overlap measurement."
+          }
+        ],
+        "interpretation": "Finite sampled meshes only. Equal band ordinal or a small energy change is not proof of state identity.",
+        "status": "independent_projection_evidence_ready_for_scientific_review"
+      },
+      "all_four_observables_and_per_spin": {
+        "primary": {
+          "fundamental": {
+            "spin": null,
+            "vbm": {
+              "spin": 2,
+              "band": 124,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.308474e-15
+              ],
+              "energy_eV": -0.369853,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 125,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.308474e-15
+              ],
+              "energy_eV": 2.740118,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 3.109971,
+            "minimum_same_k_gap_eV": 3.1099759999999996,
+            "vbm_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "direct"
+          },
+          "framework": {
+            "spin": null,
+            "vbm": {
+              "spin": 2,
+              "band": 124,
+              "k": [
+                0.5,
+                1.262379e-15,
+                1.308474e-15
+              ],
+              "energy_eV": -0.369853,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 133,
+              "k": [
+                1.262379e-15,
+                1.262379e-15,
+                1.262379e-15
+              ],
+              "energy_eV": 4.090225,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 4.460078,
+            "minimum_same_k_gap_eV": 4.488663,
+            "vbm_k_set": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "per_spin_fundamental": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.308474e-15
+                ],
+                "energy_eV": -0.369858,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 125,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.308474e-15
+                ],
+                "energy_eV": 2.740118,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.1099759999999996,
+              "minimum_same_k_gap_eV": 3.1099759999999996,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.308474e-15
+                ],
+                "energy_eV": -0.369853,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 125,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.308474e-15
+                ],
+                "energy_eV": 2.740133,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.109986,
+              "minimum_same_k_gap_eV": 3.109986,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "direct"
+            }
+          ],
+          "per_spin_framework": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.308474e-15
+                ],
+                "energy_eV": -0.369858,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 133,
+                "k": [
+                  1.262379e-15,
+                  1.262379e-15,
+                  1.262379e-15
+                ],
+                "energy_eV": 4.090225,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.460083,
+              "minimum_same_k_gap_eV": 4.488666,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.5,
+                  1.262379e-15,
+                  1.308474e-15
+                ],
+                "energy_eV": -0.369853,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 133,
+                "k": [
+                  1.262379e-15,
+                  1.262379e-15,
+                  1.262379e-15
+                ],
+                "energy_eV": 4.090227,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.46008,
+              "minimum_same_k_gap_eV": 4.488663,
+              "vbm_k_set": [
+                [
+                  0.5,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ]
+        },
+        "check": {
+          "fundamental": {
+            "spin": null,
+            "vbm": {
+              "spin": 1,
+              "band": 124,
+              "k": [
+                0.3333333,
+                0.3333333,
+                1.314422e-15
+              ],
+              "energy_eV": -0.373421,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 125,
+              "k": [
+                0.3333333,
+                1.262379e-15,
+                1.314422e-15
+              ],
+              "energy_eV": 2.749463,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 3.122884,
+            "minimum_same_k_gap_eV": 3.126038,
+            "vbm_k_set": [
+              [
+                0.3333333,
+                0.3333333,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.3333333,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "framework": {
+            "spin": null,
+            "vbm": {
+              "spin": 1,
+              "band": 124,
+              "k": [
+                0.3333333,
+                0.3333333,
+                1.314422e-15
+              ],
+              "energy_eV": -0.373421,
+              "occupation": 1.0
+            },
+            "conduction_edge": {
+              "spin": 1,
+              "band": 133,
+              "k": [
+                1.262379e-15,
+                1.262379e-15,
+                1.262379e-15
+              ],
+              "energy_eV": 4.090356,
+              "occupation": 0.0
+            },
+            "edge_gap_eV": 4.463777,
+            "minimum_same_k_gap_eV": 4.469149,
+            "vbm_k_set": [
+              [
+                0.3333333,
+                0.3333333,
+                0.0
+              ]
+            ],
+            "conduction_edge_k_set": [
+              [
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "degeneracy_tolerance_eV": 1e-05,
+            "directness_on_sampled_mesh": "indirect"
+          },
+          "per_spin_fundamental": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.314422e-15
+                ],
+                "energy_eV": -0.373421,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 125,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.314422e-15
+                ],
+                "energy_eV": 2.749463,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.122884,
+              "minimum_same_k_gap_eV": 3.126038,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.314422e-15
+                ],
+                "energy_eV": -0.373421,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 125,
+                "k": [
+                  0.3333333,
+                  1.262379e-15,
+                  1.314422e-15
+                ],
+                "energy_eV": 2.749463,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 3.122884,
+              "minimum_same_k_gap_eV": 3.126038,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.3333333,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ],
+          "per_spin_framework": [
+            {
+              "spin": 1,
+              "vbm": {
+                "spin": 1,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.314422e-15
+                ],
+                "energy_eV": -0.373421,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 1,
+                "band": 133,
+                "k": [
+                  1.262379e-15,
+                  1.262379e-15,
+                  1.262379e-15
+                ],
+                "energy_eV": 4.090356,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.463777,
+              "minimum_same_k_gap_eV": 4.469149,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            },
+            {
+              "spin": 2,
+              "vbm": {
+                "spin": 2,
+                "band": 124,
+                "k": [
+                  0.3333333,
+                  0.3333333,
+                  1.314422e-15
+                ],
+                "energy_eV": -0.373421,
+                "occupation": 1.0
+              },
+              "conduction_edge": {
+                "spin": 2,
+                "band": 133,
+                "k": [
+                  1.262379e-15,
+                  1.262379e-15,
+                  1.262379e-15
+                ],
+                "energy_eV": 4.090356,
+                "occupation": 0.0
+              },
+              "edge_gap_eV": 4.463777,
+              "minimum_same_k_gap_eV": 4.469149,
+              "vbm_k_set": [
+                [
+                  0.3333333,
+                  0.3333333,
+                  0.0
+                ]
+              ],
+              "conduction_edge_k_set": [
+                [
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "degeneracy_tolerance_eV": 1e-05,
+              "directness_on_sampled_mesh": "indirect"
+            }
+          ]
+        }
+      },
+      "current_CIF_mapping_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json#objects.I.current_CIF_matches",
+      "raw_output_sha256": {
+        "primary": {
+          "directory": "docs/verification/group_6/paper_b815e2622b0d6085/provenance/qzcli_hpc/I_parent_HSE06_lorbit_analysis/1_20260903T215950Z_344",
+          "files": {
+            "INCAR": "7de88fa578af3e1da765f1e57d3f8db5c823a44277f72288804b446a5f4475b4",
+            "POSCAR": "2edcd8227f76a11bfc2378b71074199b3f6e98624b39314826e260a181229aa1",
+            "POTCAR": "eae538c9cd836e673d58160248e900f85b1cc907554cdf43c63443268baed694",
+            "KPOINTS": "fd6d91fc9782afa15aa9b886260f8aba0fd976b8f18ca2e9d9b531259b68e282",
+            "OUTCAR": "79c9dd25ae1085def53c2a7445ba10e1caafed0466a3b5d4303e1288c6316c3d",
+            "EIGENVAL": "9989e88b2727e9c3e3bcf9cf79b9de3f769e51ae5d0ef7408f1dc51c5f4a4210",
+            "PROCAR": "9c43744668d9808cba48a588bbf38f7ee714a1a72140fa72b92e42d053ae3e1c",
+            "vasprun.xml": "e09aa2a3e567090652886cc89d9a9d0751f31258655ce59c28e810ca03f879c1"
+          }
+        },
+        "check": {
+          "directory": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260915_kmesh_identity/production/I",
+          "files": {
+            "INCAR": "99327aaf0b0548681058594e9a863183c8cfe858df9f865ecf6c493866621a1e",
+            "POSCAR": "2edcd8227f76a11bfc2378b71074199b3f6e98624b39314826e260a181229aa1",
+            "POTCAR": "eae538c9cd836e673d58160248e900f85b1cc907554cdf43c63443268baed694",
+            "KPOINTS": "7022fbdbba61356ff3b3fef79106c87631be105e0203892976cfb88f52680718",
+            "OUTCAR": "7f9d06f151b4e1d62233793e1de7d5cd57f0717f16c3c0643f350d481a21c8c7",
+            "EIGENVAL": "19056d96b242367293561f6e3236feff5dc0cca338627f6ab66abaf980e059ff",
+            "PROCAR": "037b26e6e7936f9621c03fdce64527c3d921642684b8de86724d5850296b07f7",
+            "vasprun.xml": "d4e86519286921b38f7d1954a20cacde996be34e2e79068bc2b6fca21c1f11df"
+          }
+        }
+      }
+    }
+  },
+  "numeric_rules": [
+    {
+      "current_rule": {
+        "path": "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/scoring_rules.json",
+        "bytes": 9059,
+        "sha256": "28adb281e2f0cc1fe6c09fed169b897cc70540945804a79a97d02b3782358deb"
+      },
+      "rule_id": "r_ar_gap_cl",
+      "value_eV": 4.664272,
+      "target_eV": 4.63,
+      "tolerance_eV": 0.15,
+      "signed_error_eV": 0.034272000000000524,
+      "absolute_error_eV": 0.034272000000000524,
+      "within_numeric_tolerance": true
+    },
+    {
+      "current_rule": {
+        "path": "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/scoring_rules.json",
+        "bytes": 9059,
+        "sha256": "28adb281e2f0cc1fe6c09fed169b897cc70540945804a79a97d02b3782358deb"
+      },
+      "rule_id": "r_ar_gap_br",
+      "value_eV": 4.660486,
+      "target_eV": 4.64,
+      "tolerance_eV": 0.15,
+      "signed_error_eV": 0.020486000000000004,
+      "absolute_error_eV": 0.020486000000000004,
+      "within_numeric_tolerance": true
+    },
+    {
+      "current_rule": {
+        "path": "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/scoring_rules.json",
+        "bytes": 9059,
+        "sha256": "28adb281e2f0cc1fe6c09fed169b897cc70540945804a79a97d02b3782358deb"
+      },
+      "rule_id": "r_ar_gap_i",
+      "value_eV": 4.460078,
+      "target_eV": 4.44,
+      "tolerance_eV": 0.15,
+      "signed_error_eV": 0.020077999999999818,
+      "absolute_error_eV": 0.020077999999999818,
+      "within_numeric_tolerance": true
+    },
+    {
+      "current_rule": {
+        "path": "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/scoring_rules.json",
+        "bytes": 8916,
+        "sha256": "b4c063fb970d71d1e8853a60cf1b4249199fa01f8a0216e859c96eac76215690"
+      },
+      "rule_id": "r_pr_gap_cl",
+      "value_eV": 4.664272,
+      "target_eV": 4.63,
+      "tolerance_eV": 0.15,
+      "signed_error_eV": 0.034272000000000524,
+      "absolute_error_eV": 0.034272000000000524,
+      "within_numeric_tolerance": true
+    },
+    {
+      "current_rule": {
+        "path": "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/scoring_rules.json",
+        "bytes": 8916,
+        "sha256": "b4c063fb970d71d1e8853a60cf1b4249199fa01f8a0216e859c96eac76215690"
+      },
+      "rule_id": "r_pr_gap_br",
+      "value_eV": 4.660486,
+      "target_eV": 4.64,
+      "tolerance_eV": 0.15,
+      "signed_error_eV": 0.020486000000000004,
+      "absolute_error_eV": 0.020486000000000004,
+      "within_numeric_tolerance": true
+    },
+    {
+      "current_rule": {
+        "path": "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/scoring_rules.json",
+        "bytes": 8916,
+        "sha256": "b4c063fb970d71d1e8853a60cf1b4249199fa01f8a0216e859c96eac76215690"
+      },
+      "rule_id": "r_pr_gap_i",
+      "value_eV": 4.460078,
+      "target_eV": 4.44,
+      "tolerance_eV": 0.15,
+      "signed_error_eV": 0.020077999999999818,
+      "absolute_error_eV": 0.020077999999999818,
+      "within_numeric_tolerance": true
+    }
+  ],
+  "evaluator_alignment": [
+    {
+      "mode": "autonomous_research",
+      "id": "kp_ar_process_identity",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The submission uses the three specified 300 K experimental P21/c crystals and preserves their individual Cl, Br, and I identities through calculation and reporting.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "autonomous_research",
+      "id": "kp_ar_process_validation",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "Every reported gap and band-edge assignment is supported by validation evidence for that same named crystal.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "autonomous_research",
+      "id": "kp_ar_gap_values",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "Source scalar-relativistic HSE06 Pb-framework-related interband energies are approximately Cl 4.63, Br 4.64, I 4.44 eV; these are not the fundamental gaps to the lowest unoccupied organic states.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "autonomous_research",
+      "id": "kp_ar_explanation",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The computed cross-crystal trend is interpreted using a clearly defined structural descriptor and independently considered alternatives, without requiring the authors' interpretation.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "autonomous_research",
+      "id": "c_ar_final_gap",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The source supports a lower I endpoint for the Pb-framework-related scalar-relativistic electronic interband gap, not necessarily for the fundamental gap or a proven optical onset.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "autonomous_research",
+      "id": "c_ar_limitations",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "Reduced-model SOC estimates are not equivalent to a validated direct parent-cell SOC calculation, and structural correlations alone do not prove causality.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "paper_reproduction",
+      "id": "kp_pr_process_identity",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The submission uses the three specified 300 K experimental P21/c crystals and preserves their individual Cl, Br, and I object identities through calculation and reporting.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "paper_reproduction",
+      "id": "kp_pr_process_validation",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The reported gaps are supported by per-object numerical-stability evidence and band/DOS or equivalent band-edge evidence.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "paper_reproduction",
+      "id": "kp_pr_gap_values",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "Source scalar-relativistic HSE06 Pb-framework-related interband energies are approximately Cl 4.63, Br 4.64, I 4.44 eV; these are not the fundamental gaps to the lowest unoccupied organic states.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "paper_reproduction",
+      "id": "kp_pr_trend",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The source framework-related scalar-relativistic interband trend has I below Cl/Br; the fundamental-gap trend is a different observation.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "paper_reproduction",
+      "id": "c_pr_final_gap",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "The source supports a lower I endpoint for the Pb-framework-related scalar-relativistic electronic interband gap, not necessarily for the fundamental gap or a proven optical onset.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    },
+    {
+      "mode": "paper_reproduction",
+      "id": "c_pr_limitations",
+      "judgment": "supported_for_current_sampled_domain_contract",
+      "source_statement": "Any SOC estimate based on reduced model cells is an approximate trend correction and must be distinguished from a direct parent-cell SOC calculation.",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/supplementary_verification.md"
+    }
+  ],
+  "unchanged_contract_sha256": {
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/data/inputs/ccdc_2499860.cif": "563f2b8888d4f9041281f3d8cfff64a29c5be259cc0261b79b2ba0f3ac1c23cd",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/data/inputs/ccdc_2499861.cif": "23c07419f96646ebc7742a0ea795e12fb709c8db90af95fec204b1607b095001",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/data/inputs/ccdc_2499862.cif": "680d426526427f205277ca9a99ac5ebd53acc55527a473f7672d2cb0219b733c",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/data/inputs/crystal_records.json": "ea5b4de36b7ea55805043121bba80b5d71b179daa0f8a7e41a8f377638eae305",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/data/inputs/electronic_observables.json": "4a54b357cc5efabb6cc9808f6063ac7be1348f2c9f63fb83116787ac23988071",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/submission_schema.json": "f70c5e1a2d19cf7d93bb0b726b1d7b794dc6296b0a0c8b3f7d900fd3778e57f8",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/agent_input/task.md": "b5527980331b2e0753921a414255e28b0b7199f08438bc9ecee0b1467b7e49e9",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/critical_failures.json": "db479adc8e3836e1c480f11c9ebcfe5c98ad714281efa7663f57077aba7bb9a7",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/reference_conclusions.json": "5bd335f5f627068a2f0a8012f2ff45855ba70ae2947845e88decef2e26452104",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/reference_key_points.json": "811d7ec86d4c33bc76220d1120e507f60b26899eed85095d3ba20c841055f554",
+    "tasks/hold_verified_autonomous_research/paper_b815e2622b0d6085/evaluation/scoring_rules.json": "28adb281e2f0cc1fe6c09fed169b897cc70540945804a79a97d02b3782358deb",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/data/inputs/ccdc_2499860.cif": "563f2b8888d4f9041281f3d8cfff64a29c5be259cc0261b79b2ba0f3ac1c23cd",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/data/inputs/ccdc_2499861.cif": "23c07419f96646ebc7742a0ea795e12fb709c8db90af95fec204b1607b095001",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/data/inputs/ccdc_2499862.cif": "680d426526427f205277ca9a99ac5ebd53acc55527a473f7672d2cb0219b733c",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/data/inputs/crystal_records.json": "ea5b4de36b7ea55805043121bba80b5d71b179daa0f8a7e41a8f377638eae305",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/data/inputs/electronic_observables.json": "4a54b357cc5efabb6cc9808f6063ac7be1348f2c9f63fb83116787ac23988071",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/submission_schema.json": "f70c5e1a2d19cf7d93bb0b726b1d7b794dc6296b0a0c8b3f7d900fd3778e57f8",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/agent_input/task.md": "1f58e67d9c2c643ed5988b18562e28746b8a4c71e2f98a2886bf1cc25576f36e",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/critical_failures.json": "e33f6d34dc790a284110bc0dcbab46c910efd0cb1bde3490a739bcd2eadd550d",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/reference_conclusions.json": "c874ea9c0b96351d25fd43f8f566ce209384d6a6f473a1ca4b46b5b3424f924e",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/reference_key_points.json": "f3e01928be7353c6ea8571832cbda7456ff28aff7d497d3871719bdd89c2906b",
+    "tasks/hold_verified_paper_reproduction/paper_b815e2622b0d6085/evaluation/scoring_rules.json": "b4c063fb970d71d1e8853a60cf1b4249199fa01f8a0216e859c96eac76215690"
+  },
+  "author_route_results": {
+    "record_type": "real_author_route_results_not_an_autonomous_agent_run",
+    "objects": {
+      "cl_crystal": {
+        "object_id": "cl_crystal",
+        "compound": "3-Cl-C5H4NH-PbBr3",
+        "status": "complete",
+        "validation_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json#objects.Cl",
+        "orbital_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json",
+        "scalar_relativistic": {
+          "functional": "HSE06",
+          "relativistic_treatment": "scalar_relativistic_without_SOC",
+          "settings": "VASP 6.3.2 (author 6.3.0 disclosed); fixed supplied parent cells, PAW/HSE06, AEXX=.25, HFSCREEN=.2/A, default ENCUT=400eV, EDIFF=1e-7eV, ISPIN=2, LSORBIT=F, NSW=0, LORBIT=11. No SOC substitution. Paper labels these room-temperature cells 300K; CIF measurement metadata is 296K.",
+          "fundamental": {
+            "status": "computed",
+            "gap_eV": 3.0941039999999997,
+            "minimum_same_k_gap_eV": 3.094105,
+            "vbm_energy_eV": -0.679531,
+            "conduction_edge_energy_eV": 2.414573,
+            "vbm_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "directness": "direct",
+            "sampling_scope": "sampled_mesh: Gamma-centered 2x2x1, checked against independent 3x3x1; no full-zone proof",
+            "spin_treatment": "collinear ISPIN=2, LSORBIT=F; all occupied/unoccupied spin channels for extrema, same spin for same-k differences",
+            "degeneracy_tolerance_eV": 1e-05,
+            "band_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json",
+            "stability": {
+              "setting_change": "Gamma-centered 2x2x1 to 3x3x1; same parent, PAW and HSE06; independently projected states",
+              "primary_value_eV": 3.0941039999999997,
+              "check_value_eV": 3.080154,
+              "signed_change_eV": -0.013949999999999907,
+              "absolute_change_eV": 0.013949999999999907,
+              "same_k_primary_value_eV": 3.094105,
+              "same_k_check_value_eV": 3.102962,
+              "same_k_signed_change_eV": 0.008857000000000337,
+              "same_k_absolute_change_eV": 0.008857000000000337,
+              "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json"
+            }
+          },
+          "framework_interband": {
+            "assignment_status": "supported",
+            "gap_eV": 4.664272,
+            "minimum_same_k_gap_eV": 4.664273,
+            "vbm_energy_eV": -0.679531,
+            "conduction_edge_energy_eV": 3.984741,
+            "vbm_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "directness": "direct",
+            "sampling_scope": "sampled_mesh: Gamma-centered 2x2x1, checked against independent 3x3x1; no full-zone proof",
+            "spin_treatment": "collinear ISPIN=2, LSORBIT=F; all occupied/unoccupied spin channels for extrema, same spin for same-k differences",
+            "degeneracy_tolerance_eV": 1e-05,
+            "band_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json",
+            "stability": {
+              "setting_change": "Gamma-centered 2x2x1 to 3x3x1; same parent, PAW and HSE06; independently projected states",
+              "primary_value_eV": 4.664272,
+              "check_value_eV": 4.649296,
+              "signed_change_eV": -0.014976000000000766,
+              "absolute_change_eV": 0.014976000000000766,
+              "same_k_primary_value_eV": 4.664273,
+              "same_k_check_value_eV": 4.674125,
+              "same_k_signed_change_eV": 0.009852000000000416,
+              "same_k_absolute_change_eV": 0.009852000000000416,
+              "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json"
+            },
+            "assignment_criterion": "Lowest independently tracked manifold whose leading component/element/angular-momentum group at the edge is framework:Pb:p; no target energy or fixed ordinal.",
+            "component_atom_mapping": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json#check.projection (organic halogens identified by C connectivity; framework Pb4Br12)",
+            "assignment_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json#comparison and candidate_records on BOTH meshes",
+            "lower_candidate_analysis": "All eight lower bands are organic:C:p-leading at every sampled k/spin in both meshes. First Pb-p-leading candidate is lowest at each sampled point; band ordinal is an output. I mixing is retained without a 50% inorganic threshold."
+          }
+        },
+        "optical_allowedness": {
+          "status": "not_established",
+          "evidence": "No transition matrix elements or explicit selection-rule calculation.",
+          "scope": "Electronic scalar parent-cell comparison only."
+        }
+      },
+      "br_crystal": {
+        "object_id": "br_crystal",
+        "compound": "3-Br-C5H4NH-PbBr3",
+        "status": "complete",
+        "validation_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json#objects.Br",
+        "orbital_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json",
+        "scalar_relativistic": {
+          "functional": "HSE06",
+          "relativistic_treatment": "scalar_relativistic_without_SOC",
+          "settings": "VASP 6.3.2 (author 6.3.0 disclosed); fixed supplied parent cells, PAW/HSE06, AEXX=.25, HFSCREEN=.2/A, default ENCUT=400eV, EDIFF=1e-7eV, ISPIN=2, LSORBIT=F, NSW=0, LORBIT=11. No SOC substitution. Paper labels these room-temperature cells 300K; CIF measurement metadata is 296K.",
+          "fundamental": {
+            "status": "computed",
+            "gap_eV": 3.1056980000000003,
+            "minimum_same_k_gap_eV": 3.1056990000000004,
+            "vbm_energy_eV": -0.697585,
+            "conduction_edge_energy_eV": 2.408113,
+            "vbm_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "directness": "direct",
+            "sampling_scope": "sampled_mesh: Gamma-centered 2x2x1, checked against independent 3x3x1; no full-zone proof",
+            "spin_treatment": "collinear ISPIN=2, LSORBIT=F; all occupied/unoccupied spin channels for extrema, same spin for same-k differences",
+            "degeneracy_tolerance_eV": 1e-05,
+            "band_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json",
+            "stability": {
+              "setting_change": "Gamma-centered 2x2x1 to 3x3x1; same parent, PAW and HSE06; independently projected states",
+              "primary_value_eV": 3.1056980000000003,
+              "check_value_eV": 3.1011390000000003,
+              "signed_change_eV": -0.00455899999999998,
+              "absolute_change_eV": 0.00455899999999998,
+              "same_k_primary_value_eV": 3.1056990000000004,
+              "same_k_check_value_eV": 3.1190480000000003,
+              "same_k_signed_change_eV": 0.013348999999999833,
+              "same_k_absolute_change_eV": 0.013348999999999833,
+              "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json"
+            }
+          },
+          "framework_interband": {
+            "assignment_status": "supported",
+            "gap_eV": 4.660486,
+            "minimum_same_k_gap_eV": 4.660486,
+            "vbm_energy_eV": -0.697585,
+            "conduction_edge_energy_eV": 3.962901,
+            "vbm_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "directness": "direct",
+            "sampling_scope": "sampled_mesh: Gamma-centered 2x2x1, checked against independent 3x3x1; no full-zone proof",
+            "spin_treatment": "collinear ISPIN=2, LSORBIT=F; all occupied/unoccupied spin channels for extrema, same spin for same-k differences",
+            "degeneracy_tolerance_eV": 1e-05,
+            "band_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json",
+            "stability": {
+              "setting_change": "Gamma-centered 2x2x1 to 3x3x1; same parent, PAW and HSE06; independently projected states",
+              "primary_value_eV": 4.660486,
+              "check_value_eV": 4.6515949999999995,
+              "signed_change_eV": -0.008891000000000204,
+              "absolute_change_eV": 0.008891000000000204,
+              "same_k_primary_value_eV": 4.660486,
+              "same_k_check_value_eV": 4.669504,
+              "same_k_signed_change_eV": 0.009018000000000193,
+              "same_k_absolute_change_eV": 0.009018000000000193,
+              "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json"
+            },
+            "assignment_criterion": "Lowest independently tracked manifold whose leading component/element/angular-momentum group at the edge is framework:Pb:p; no target energy or fixed ordinal.",
+            "component_atom_mapping": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json#check.projection (organic halogens identified by C connectivity; framework Pb4Br12)",
+            "assignment_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json#comparison and candidate_records on BOTH meshes",
+            "lower_candidate_analysis": "All eight lower bands are organic:C:p-leading at every sampled k/spin in both meshes. First Pb-p-leading candidate is lowest at each sampled point; band ordinal is an output. I mixing is retained without a 50% inorganic threshold."
+          }
+        },
+        "optical_allowedness": {
+          "status": "not_established",
+          "evidence": "No transition matrix elements or explicit selection-rule calculation.",
+          "scope": "Electronic scalar parent-cell comparison only."
+        }
+      },
+      "i_crystal": {
+        "object_id": "i_crystal",
+        "compound": "3-I-C5H4NH-PbBr3",
+        "status": "complete",
+        "validation_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json#objects.I",
+        "orbital_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json",
+        "scalar_relativistic": {
+          "functional": "HSE06",
+          "relativistic_treatment": "scalar_relativistic_without_SOC",
+          "settings": "VASP 6.3.2 (author 6.3.0 disclosed); fixed supplied parent cells, PAW/HSE06, AEXX=.25, HFSCREEN=.2/A, default ENCUT=400eV, EDIFF=1e-7eV, ISPIN=2, LSORBIT=F, NSW=0, LORBIT=11. No SOC substitution. Paper labels these room-temperature cells 300K; CIF measurement metadata is 296K.",
+          "fundamental": {
+            "status": "computed",
+            "gap_eV": 3.109971,
+            "minimum_same_k_gap_eV": 3.1099759999999996,
+            "vbm_energy_eV": -0.369853,
+            "conduction_edge_energy_eV": 2.740118,
+            "vbm_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "directness": "direct",
+            "sampling_scope": "sampled_mesh: Gamma-centered 2x2x1, checked against independent 3x3x1; no full-zone proof",
+            "spin_treatment": "collinear ISPIN=2, LSORBIT=F; all occupied/unoccupied spin channels for extrema, same spin for same-k differences",
+            "degeneracy_tolerance_eV": 1e-05,
+            "band_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json",
+            "stability": {
+              "setting_change": "Gamma-centered 2x2x1 to 3x3x1; same parent, PAW and HSE06; independently projected states",
+              "primary_value_eV": 3.109971,
+              "check_value_eV": 3.122884,
+              "signed_change_eV": 0.012913000000000174,
+              "absolute_change_eV": 0.012913000000000174,
+              "same_k_primary_value_eV": 3.1099759999999996,
+              "same_k_check_value_eV": 3.126038,
+              "same_k_signed_change_eV": 0.016062000000000243,
+              "same_k_absolute_change_eV": 0.016062000000000243,
+              "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json"
+            }
+          },
+          "framework_interband": {
+            "assignment_status": "supported",
+            "gap_eV": 4.460078,
+            "minimum_same_k_gap_eV": 4.488663,
+            "vbm_energy_eV": -0.369853,
+            "conduction_edge_energy_eV": 4.090225,
+            "vbm_kpoints": [
+              [
+                0.5,
+                0.0,
+                0.0
+              ]
+            ],
+            "conduction_edge_kpoints": [
+              [
+                0.0,
+                0.0,
+                0.0
+              ]
+            ],
+            "directness": "indirect",
+            "sampling_scope": "sampled_mesh: Gamma-centered 2x2x1, checked against independent 3x3x1; no full-zone proof",
+            "spin_treatment": "collinear ISPIN=2, LSORBIT=F; all occupied/unoccupied spin channels for extrema, same spin for same-k differences",
+            "degeneracy_tolerance_eV": 1e-05,
+            "band_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json",
+            "stability": {
+              "setting_change": "Gamma-centered 2x2x1 to 3x3x1; same parent, PAW and HSE06; independently projected states",
+              "primary_value_eV": 4.460078,
+              "check_value_eV": 4.463777,
+              "signed_change_eV": 0.003699000000000119,
+              "absolute_change_eV": 0.003699000000000119,
+              "same_k_primary_value_eV": 4.488663,
+              "same_k_check_value_eV": 4.469149,
+              "same_k_signed_change_eV": -0.01951400000000003,
+              "same_k_absolute_change_eV": 0.01951400000000003,
+              "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json"
+            },
+            "assignment_criterion": "Lowest independently tracked manifold whose leading component/element/angular-momentum group at the edge is framework:Pb:p; no target energy or fixed ordinal.",
+            "component_atom_mapping": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json#check.projection (organic halogens identified by C connectivity; framework Pb4Br12)",
+            "assignment_evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json#comparison and candidate_records on BOTH meshes",
+            "lower_candidate_analysis": "All eight lower bands are organic:C:p-leading at every sampled k/spin in both meshes. First Pb-p-leading candidate is lowest at each sampled point; band ordinal is an output. I mixing is retained without a 50% inorganic threshold."
+          }
+        },
+        "optical_allowedness": {
+          "status": "not_established",
+          "evidence": "No transition matrix elements or explicit selection-rule calculation.",
+          "scope": "Electronic scalar parent-cell comparison only."
+        }
+      }
+    },
+    "method": {
+      "summary": "Existing converged parent HSE06 SCF and independent projection evidence on two meshes",
+      "settings": "VASP 6.3.2 (author 6.3.0 disclosed); fixed supplied parent cells, PAW/HSE06, AEXX=.25, HFSCREEN=.2/A, default ENCUT=400eV, EDIFF=1e-7eV, ISPIN=2, LSORBIT=F, NSW=0, LORBIT=11. No SOC substitution. Paper labels these room-temperature cells 300K; CIF measurement metadata is 296K.",
+      "artifacts": [
+        "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Cl.json",
+        "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/Br.json",
+        "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/reextraction/I.json"
+      ]
+    },
+    "validation": {
+      "status": "supported_in_sampled_domain",
+      "evidence": "runs/hold_verification/group_6/paper_b815e2622b0d6085/20260920_current_hold_audit/report/results.json",
+      "coverage": "Three parent objects; both independent projection meshes; every saved eigenvalue and unoccupied candidate. No full-Brillouin-zone extremum proof."
+    },
+    "structural_comparison": {
+      "descriptor": "Norm of supplied crystallographic a vector: Cl=9.2210, Br=9.3638, I=9.6254 angstrom.",
+      "sign_convention": "Positive elongation from Cl through Br to I; framework edge I lower on both meshes, fundamental I higher.",
+      "evidence": "The I framework state has stronger organic mixing than Cl/Br (Pb-p weights and component maps in verification_supplement.json). Thus a-axis correlation is not isolated causation. Cl/Br fine ordering reverses across meshes."
+    },
+    "conclusion": "Current scalar framework comparison supports I below Cl/Br. Fundamental gaps instead increase Cl to Br to I in these samples. No robust Cl/Br fine ordering or optical allowedness is claimed.",
+    "limitations": "Finite sampled meshes, rounded PAW-sphere projections and component similarity without wavefunction-overlap proof. Directness is sample-dependent. Optical allowedness not_established; SOC not computed here. VASP patch-version difference disclosed. Not a blind autonomous-agent replay."
+  }
+}

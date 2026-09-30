@@ -1,129 +1,13 @@
 {
   "paper_id": "paper_0bea8aa6bfd57e65",
+  "scope_revision": "2026-09-11",
   "rules": [
-    {
-      "rule_id": "ar_rule_minima",
-      "reference_id": "ar_process_minima",
-      "type": "semantic",
-      "expected": "All three named systems retain candidate-specific minimum validation and deduplication evidence.",
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.systems[].candidates[].validation"
-        ],
-        "comparison": "expert semantic comparison"
-      }
-    },
-    {
-      "rule_id": "ar_rule_definition",
-      "reference_id": "ar_process_energy_definition",
-      "type": "semantic",
-      "expected": "A consistent BSSE/counterpoise interaction-energy definition and electronic-state protocol is stated.",
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.protocol.counterpoise_definition",
-          "$.protocol.charge_multiplicity"
-        ],
-        "comparison": "expert semantic comparison"
-      }
-    },
-    {
-      "rule_id": "ar_rule_im",
-      "reference_id": "ar_energy_im",
-      "type": "numeric",
-      "target": -65.1,
-      "unit": "kJ/mol",
-      "tolerance": 15.0,
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.systems[].energy_kj_mol"
-        ],
-        "comparison": "absolute difference after selecting id Tau-Im-2"
-      }
-    },
-    {
-      "rule_id": "ar_rule_gly",
-      "reference_id": "ar_energy_gly",
-      "type": "numeric",
-      "target": -91.4,
-      "unit": "kJ/mol",
-      "tolerance": 15.0,
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.systems[].energy_kj_mol"
-        ],
-        "comparison": "absolute difference after selecting id Tau-Gly-2"
-      }
-    },
-    {
-      "rule_id": "ar_rule_mea",
-      "reference_id": "ar_energy_mea",
-      "type": "numeric",
-      "target": -116.1,
-      "unit": "kJ/mol",
-      "tolerance": 15.0,
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.systems[].energy_kj_mol"
-        ],
-        "comparison": "absolute difference after selecting id Tau-MEA-2"
-      }
-    },
-    {
-      "rule_id": "ar_rule_order",
-      "reference_id": "ar_order",
-      "type": "ordering",
-      "expected": "Tau-MEA-2 stronger than Tau-Gly-2 stronger than Tau-Im-2 under the submitted sign convention.",
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.conclusion.ordering"
-        ],
-        "comparison": "ordered semantic comparison"
-      }
-    },
-    {
-      "rule_id": "ar_rule_final_claim",
-      "reference_id": "ar_final_energy_claim",
-      "type": "semantic",
-      "expected": "The final conclusion states the source-supported ordering with explicit scope and limitations.",
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.conclusion.interpretation",
-          "$.limitations"
-        ],
-        "comparison": "expert semantic comparison"
-      }
-    },
-    {
-      "rule_id": "ar_rule_hypothesis",
-      "reference_id": "ar_hypothesis_test",
-      "type": "semantic",
-      "expected": "The report compares at least one plausible explanation, such as hydrogen-bond organization versus dispersion or conformational effects, and binds the explanation to concrete submitted comparative calculations or structural evidence.",
-      "binding": {
-        "artifact_paths": ["report/results.json"],
-        "fields": ["$.conclusion.hypothesis_test"],
-        "comparison": "expert semantic comparison"
-      }
-    }
+    {"rule_id":"rp_identity","reference_id":"rp_process_identity","type":"semantic","expected":"Three named Tau donor systems, charge/multiplicity, stoichiometry and finite pose boundary are explicit.","binding":{"artifact_paths":["report/results.json"],"fields":["$.systems","$.protocol.charge_multiplicity","$.coverage"],"comparison":"expert semantic comparison"}},
+    {"rule_id":"rp_minima","reference_id":"rp_process_minima","type":"semantic","expected":"Every retained system has candidate-specific minimum validation and selection/deduplication evidence.","binding":{"artifact_paths":["report/results.json"],"fields":["$.systems[].candidates[].validation","$.coverage"],"comparison":"expert semantic comparison"}},
+    {"rule_id":"rp_definition","reference_id":"rp_process_energy_definition","type":"semantic","expected":"A consistent BSSE/counterpoise definition and electronic-state protocol is stated for all systems.","binding":{"artifact_paths":["report/results.json"],"fields":["$.protocol.counterpoise_definition","$.protocol.charge_multiplicity","$.protocol.model_chemistry"],"comparison":"expert semantic comparison"}},
+    {"rule_id":"rp_values","reference_id":"rp_energy_values","type":"semantic","expected":"Three finite signed kJ/mol interaction energies are present and traceable to selected candidates; source numerical values are informative, not hard gates for this bounded subset.","binding":{"artifact_paths":["report/results.json"],"fields":["$.systems[].id","$.systems[].energy_kj_mol","$.systems[].energy_status"],"comparison":"finite-value and provenance check"}},
+    {"rule_id":"rp_order","reference_id":"rp_order","type":"ordering","expected":"The reported ordering is internally consistent with the submitted signed energies.","binding":{"artifact_paths":["report/results.json"],"fields":["$.conclusion.ordering","$.systems[].energy_kj_mol"],"comparison":"recompute ordering from values"}},
+    {"rule_id":"rp_interpretation","reference_id":"rp_interpretation","type":"semantic","expected":"Any H-bond/dispersion interpretation is tied to submitted evidence and bounded to the isolated pose model.","binding":{"artifact_paths":["report/results.json"],"fields":["$.conclusion.interpretation","$.limitations"],"comparison":"expert semantic comparison"}},
+    {"rule_id":"rp_scope","reference_id":"rp_scope","type":"semantic","expected":"The report discloses the finite deterministic pose boundary and does not claim exhaustive PM6-D3/MOPAC ensemble reproduction.","binding":{"artifact_paths":["report/results.json"],"fields":["$.coverage","$.limitations"],"comparison":"expert semantic comparison"}}
   ]
 }

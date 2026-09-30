@@ -1,0 +1,524 @@
+{
+  "batch": 3,
+  "reviewed_at": "2026-09-27T11:43:08.850712+00:00",
+  "status": "changes_requested",
+  "scope": "Parent reviewed all 19 source-specific objectives, public object boundaries, matrix/schema, PR route and evaluator criteria; no scientific reference calculation",
+  "papers": [
+    {
+      "paper_id": "paper_36722b90a0c12825",
+      "source_scope": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "expected_matrix": "源 E/Z 主体各含游离与 Cl⁻ 结合态，在 acetone 中以相同构象处理形成闭合结合循环；第二主体只用于预先选择的检验。",
+      "parent_scientific_review": "E/Z free/bound ensembles and chloride complete the binding cycle; 339 K/photostationary populations are not mixed into the 298.15 K acetone model. Frozen-host and environmental interventions test preorganization.",
+      "implemented_panels": {
+        "species_ensembles": [
+          "E_free",
+          "E_bound",
+          "Z_free",
+          "Z_bound",
+          "chloride"
+        ],
+        "binding_cycle": [
+          "E_bind",
+          "Z_bind",
+          "Z_minus_E"
+        ],
+        "intervention": [
+          "frozen_host",
+          "solvent_or_ion_pair"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_9455a82229de2427",
+      "source_scope": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+      "expected_matrix": "从 SiN 双重态和异戊二烯出发，有限枚举加成方向与闭环候选；SiNC₅H₇ 单重态产品和游离 H 双重态满足守恒。对能窗内候选至少建立一条主路径及最重要竞争路径。",
+      "parent_scientific_review": "Four Si/N terminal attack families, two connected routes, H-loss asymptote and E0 zero separate collision accessibility from thermodynamic product ordering. Distinct products are not forced when candidates collapse.",
+      "implemented_panels": {
+        "candidate_space": [
+          "terminal_C1_Si",
+          "terminal_C4_Si",
+          "terminal_C1_N",
+          "terminal_C4_N"
+        ],
+        "connected_routes": [
+          "main_route",
+          "competitor_route"
+        ],
+        "accessibility": [
+          "thermodynamic_vs_kinetic",
+          "method_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "source_scope": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+      "expected_matrix": "从正文确认 5a 与全碳对照 5b/前体的真实匹配连接，构建各自松弛与公共骨架；所有比较都跟踪同一物理激发态。",
+      "parent_scientific_review": "BN/CC matched framework, cross geometries, NTO/state matching and density convergence separate chemical and geometric response. Corrects BN formula to C22H14B2N2.",
+      "implemented_panels": {
+        "relaxed_states": [
+          "BN_relaxed",
+          "CC_relaxed"
+        ],
+        "common_scaffold": [
+          "BN_on_CC",
+          "CC_on_BN"
+        ],
+        "attribution": [
+          "chemical_effect",
+          "geometry_effect",
+          "analysis_convergence"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_9f4c259696ad2f87",
+      "source_scope": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+      "expected_matrix": "PXX1/PXX2 各有游离、B(C₆F₅)₃ 的 1:1/1:2 模型；同几何取出酸与完全松弛配对，以计量守恒循环比较。",
+      "parent_scientific_review": "PXX1/PXX2 times 0/1/2 acids, sequential balanced association and frozen acid removal cover electronic versus geometry effects; source occupancy and basis discrepancies disclosed.",
+      "implemented_panels": {
+        "stoichiometric_series": [
+          "PXX1_acid0",
+          "PXX1_acid1",
+          "PXX1_acid2",
+          "PXX2_acid0",
+          "PXX2_acid1",
+          "PXX2_acid2"
+        ],
+        "balanced_binding": [
+          "PXX1_step1",
+          "PXX1_step2",
+          "PXX2_step1",
+          "PXX2_step2"
+        ],
+        "geometry_and_spectrum": [
+          "PXX1_acid_removed",
+          "PXX2_acid_removed",
+          "titration_discrimination"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_a0f6b899582cb9f7",
+      "source_scope": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+      "expected_matrix": "M3 分别与一个来源明确的 PM6 片段和一个真实受体片段配对，设多个合理接触及冻结/松弛几何控制；至少一组增大片段检查截短。",
+      "parent_scientific_review": "M3 plus actual donor/acceptor fragments and truncation sensitivity required; blocked because exact capped PM6/BTP-eC9 models are not source-verified. M3-only results cannot pass.",
+      "implemented_panels": {
+        "contact_models": [
+          "PM6_face",
+          "PM6_edge",
+          "BTP_core_face",
+          "BTP_core_edge"
+        ],
+        "decomposition": [
+          "PM6_pair",
+          "BTP_pair"
+        ],
+        "truncation_and_tensor": [
+          "larger_fragment",
+          "M3_tensor"
+        ]
+      },
+      "development_status": "blocked",
+      "first_version_coverage": "covered_as_development_definition; blockers remain explicit",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_b276b18215cba283",
+      "source_scope": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+      "expected_matrix": "相同连接规则的单臂/完整三臂模型，各自 cis/trans 与冻结臂/松弛臂对照；同一溶剂和同一物理态。",
+      "parent_scientific_review": "Complete single-/three-arm graphs, torsional families, extracted frozen-arm controls and common medium test transfer without two-photon or membrane overclaim.",
+      "implemented_panels": {
+        "relaxed_models": [
+          "single_transoid",
+          "single_cisoid",
+          "three_transoid",
+          "three_cisoid"
+        ],
+        "arm_geometry_control": [
+          "single_on_three_transoid",
+          "single_on_three_cisoid",
+          "three_fixed_arm"
+        ],
+        "transfer_and_medium": [
+          "gas_transfer",
+          "ethanol_transfer"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_fda8b9b53f8276db",
+      "source_scope": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+      "expected_matrix": "先以现包 cis 局部极小值及六条映射键校准；新题比较同组成 cis/trans 的低能构象和气相/一个论文相关溶剂，做代表扭转控制。",
+      "parent_scientific_review": "Cis/trans in gas/MeCN, exactly six source bond residuals and mapped torsion intervention separate local geometry agreement from thermodynamic preference.",
+      "implemented_panels": {
+        "conformer_environment": [
+          "cis_gas",
+          "trans_gas",
+          "cis_MeCN",
+          "trans_MeCN"
+        ],
+        "six_bond_residuals": [
+          "cis_gas",
+          "trans_gas",
+          "cis_MeCN",
+          "trans_MeCN"
+        ],
+        "torsional_intervention": [
+          "gas_fixed_vs_relaxed",
+          "MeCN_fixed_vs_relaxed"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "source_scope": "Main pp3-4 Fig2/Table1; SI pp10-11 TablesS3/S4, pp15-18 TablesS7/S8 and orbital/EPR sections.",
+      "expected_matrix": "26 原子母体的中性/阳离子，加正文可定位的一项环尺寸或刚性对照；同一拓扑族内比较固定骨架与松弛骨架。",
+      "parent_scientific_review": "Neutral/cation norDTCO and DTCO with vertical cross-geometries plus spin/occupation/density evidence test 2c-3e interpretation beyond short S-S distance.",
+      "implemented_panels": {
+        "oxidation_pairs": [
+          "nor_neutral",
+          "nor_cation",
+          "DTCO_neutral",
+          "DTCO_cation"
+        ],
+        "vertical_geometry": [
+          "nor_cation_on_neutral",
+          "nor_neutral_on_cation",
+          "DTCO_cation_on_neutral",
+          "DTCO_neutral_on_cation"
+        ],
+        "bonding_interpretation": [
+          "rigidity_contrast",
+          "analysis_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_43d74f8a469d9ad3",
+      "source_scope": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+      "expected_matrix": "正文可比染料系列的 S0/S1 扭转，采用相同映射键的受限与松弛控制，保留光谱对应状态。",
+      "parent_scientific_review": "Two source-correct dyes, mapped aryl torsion at S0/S1, restricted/released controls and state continuity replace a single ground scan; SI coordinate identity conflict is retained.",
+      "implemented_panels": {
+        "torsion_profiles": [
+          "dye1_S0",
+          "dye1_S1",
+          "dye2_S0",
+          "dye2_S1"
+        ],
+        "restriction_control": [
+          "dye1_restricted_vs_free",
+          "dye2_restricted_vs_free"
+        ],
+        "continuity_and_robustness": [
+          "state_following",
+          "method_or_grid"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "source_scope": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+      "expected_matrix": "原 Ir–Salen–NHC 两异构体在 339 K、THF，同温同标准态建立低能构象；受控堆积与松弛几何配对。",
+      "parent_scientific_review": "Ir isomer ensembles at THF339 K, common-contact interventions and thermal/method controls address inverted ranking without treating isolated yield as equilibrium.",
+      "implemented_panels": {
+        "isomer_ensembles": [
+          "isomer1",
+          "isomer2"
+        ],
+        "stacking_intervention": [
+          "isomer1_contact",
+          "isomer2_contact"
+        ],
+        "ranking_robustness": [
+          "method_change",
+          "thermal_model_change"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "source_scope": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+      "expected_matrix": "源 BN 蒽分子的运动限制与对应 S0/S1、CT 变化；同分子公共扭转或受限运动与自由松弛成对。",
+      "parent_scientific_review": "PBNA S0/S1 motion restraints and common medium test an isolated-molecule effect; full AIE, rates and yields excluded.",
+      "implemented_panels": {
+        "state_geometry": [
+          "S0_free",
+          "S1_free",
+          "S0_restrained",
+          "S1_restrained"
+        ],
+        "motion_response": [
+          "vertical_fixed_motion",
+          "relaxed_motion"
+        ],
+        "local_robustness": [
+          "second_torsion_or_method",
+          "common_solvent"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_9aa6d5655edfeb52",
+      "source_scope": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+      "expected_matrix": "来源明确的稠合/非稠合碳硼烷与同态笼 C–C 位移对照；固定和松弛几何分开。",
+      "parent_scientific_review": "Fused carborane and real brominated unfused precursor, symmetric cage displacement and state diagnostics preserve Br composition confound rather than call the pair pure geometry.",
+      "implemented_panels": {
+        "fusion_pair": [
+          "fused2a",
+          "nonfused1a"
+        ],
+        "cage_displacement": [
+          "2a_minus",
+          "2a_plus",
+          "1a_minus",
+          "1a_plus"
+        ],
+        "causal_limits": [
+          "fusion_vs_motion",
+          "method_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_a6e8c57709329bdb",
+      "source_scope": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "expected_matrix": "HL、Fe–HL 和论文一个竞争金属的有限配位/质子化候选，保持配位水、反离子、质子及总物料守恒。",
+      "parent_scientific_review": "HL Fe/Co coordination, spin and balanced solution exchanges are specified as future scope; counterion/proton/water definition unresolved and explicitly blocked.",
+      "implemented_panels": {
+        "coordination_candidates": [
+          "HL",
+          "Fe_HL_protonated",
+          "Fe_HL_deprotonated",
+          "Co_HL_protonated",
+          "Co_HL_deprotonated"
+        ],
+        "solution_cycles": [
+          "Fe_exchange",
+          "Co_exchange",
+          "proton_exchange"
+        ],
+        "selectivity_tests": [
+          "binding_contrast",
+          "state_contrast",
+          "speciation_sensitivity"
+        ]
+      },
+      "development_status": "blocked",
+      "first_version_coverage": "covered_as_development_definition; blockers remain explicit",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_b1467cd61ca8022d",
+      "source_scope": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+      "expected_matrix": "PM/BM/TFPM/TFBM 与 LiFSI 的固定计量有限簇，配对不同 O/F 配位和阴离子竞争；各比较总组成一致或写平衡交换循环。",
+      "parent_scientific_review": "Four actual ethers and neutral LiFSI clusters, anion competition and interaction/distortion decomposition distinguish O/F coordination from bare-ion and bulk claims.",
+      "implemented_panels": {
+        "cluster_orientations": [
+          "PM_solvent_contact",
+          "PM_anion_contact",
+          "BM_solvent_contact",
+          "BM_anion_contact",
+          "TFPM_solvent_contact",
+          "TFPM_anion_contact",
+          "TFBM_solvent_contact",
+          "TFBM_anion_contact"
+        ],
+        "fragment_controls": [
+          "PM",
+          "BM",
+          "TFPM",
+          "TFBM"
+        ],
+        "descriptor_test": [
+          "O_F_contrast",
+          "anion_competition",
+          "method_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_c28b0a1c549f4575",
+      "source_scope": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+      "expected_matrix": "TEA/DED、BF₄⁻、PC 的电荷守恒交换循环；在同计量簇比较接触离子对和分隔构型及有限 PC 配位数。",
+      "parent_scientific_review": "TEA/BF4 and DED/(BF4)2 neutral clusters with one/two PC, contact/separated states and balanced PC exchange repair charge/stoichiometry confounds.",
+      "implemented_panels": {
+        "equal_composition_clusters": [
+          "TEA_PC1_contact",
+          "TEA_PC1_separated",
+          "TEA_PC2_contact",
+          "TEA_PC2_separated",
+          "DED_PC1_contact",
+          "DED_PC1_separated",
+          "DED_PC2_contact",
+          "DED_PC2_separated"
+        ],
+        "PC_exchange": [
+          "first_PC",
+          "second_PC"
+        ],
+        "ion_pair_control": [
+          "TEA_contact_effect",
+          "DED_contact_effect",
+          "conformer_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_2877efc02814175d",
+      "source_scope": "Readable historical source excerpts in private final evidence; SI pp11-13 TablesS1-S3 and p18 TableS8 directly checked. Main.pdf currently extracts no readable body; do not depend on it for the new contract.",
+      "expected_matrix": "游离配体与 Cd/Co/Ni 三个源络合物，分别做松弛和冻结配体骨架；Cd/Co/Ni 原模型电荷 +2，自旋多重度 1/2/1，游离配体独立核准。",
+      "parent_scientific_review": "Full Cd/Co/Ni complexes, retained ligand protons and frozen neutral-ligand controls separate metal/geometry effects; doublet Co response not forced to singlet.",
+      "implemented_panels": {
+        "relaxed_species": [
+          "DQCS",
+          "Cd_DQCS",
+          "Co_DQCS",
+          "Ni_DQCS"
+        ],
+        "frozen_ligand": [
+          "ligand_from_Cd",
+          "ligand_from_Co",
+          "ligand_from_Ni"
+        ],
+        "attribution": [
+          "Cd_effect",
+          "Co_effect",
+          "Ni_effect",
+          "method_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_2f2aa11ea61a32bb",
+      "source_scope": "Main pp2-3 Fig3 and optical table; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+      "expected_matrix": "第一版限定 1a–d 同介质单体，做取代×公共几何/松弛几何及同态 TD/NTO 对照；至少一个独立谱趋势用于检验。",
+      "parent_scientific_review": "Four boron monomers, mapped common local chelate and spectral state assignment separate electronic/topology and geometry effects; experimental input is not blind prediction.",
+      "implemented_panels": {
+        "relaxed_monomers": [
+          "1a",
+          "1b",
+          "1c",
+          "1d"
+        ],
+        "common_geometry": [
+          "1a_common",
+          "1b_common",
+          "1c_common",
+          "1d_common"
+        ],
+        "spectral_test": [
+          "electronic_vs_geometry",
+          "independent_trend",
+          "method_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_3a22e838133b906d",
+      "source_scope": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+      "expected_matrix": "阴离子、Li 配位、MeCN 配位与至少一个真实晶体支持二聚形成分层对照，所有能差用计量守恒循环。",
+      "parent_scientific_review": "Full phosphonate-borane identity, Li/MeCN layers and genuine 2-anion2-Li4-MeCN dimer with balanced cycles make aggregation testable; truncated surrogate insufficient.",
+      "implemented_panels": {
+        "coordination_layers": [
+          "full_anion",
+          "Li_anion",
+          "Li_anion_2MeCN",
+          "crystal_supported_dimer"
+        ],
+        "balanced_cycles": [
+          "Li_association",
+          "MeCN_association",
+          "dimerization",
+          "deethylation"
+        ],
+        "truncation_and_mechanism": [
+          "small_vs_full",
+          "coordination_vs_aggregation"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_98b6f8a0352f72c2",
+      "source_scope": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+      "expected_matrix": "从正式 SI 固定 2–3 个真实衍生物及 CHCl₃/EtOAc；同态 S0/TD/S1、公共扭角与松弛几何比较。",
+      "parent_scientific_review": "Two real donor-substituted phenazines in two media, tracked relaxed S1, common torsion and radiative conventions separate absorption/emission and theoretical/experimental lifetime.",
+      "implemented_panels": {
+        "solvent_series": [
+          "12a_CHCl3",
+          "12a_EtOAc",
+          "12d_CHCl3",
+          "12d_EtOAc"
+        ],
+        "common_torsion": [
+          "12a_CHCl3",
+          "12a_EtOAc",
+          "12d_CHCl3",
+          "12d_EtOAc"
+        ],
+        "rates_and_robustness": [
+          "radiative_convention",
+          "substitution_vs_solvent",
+          "state_sensitivity"
+        ]
+      },
+      "development_status": "implemented_pending_expanded_reference",
+      "first_version_coverage": "core covered; expanded science not yet validated",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    }
+  ],
+  "common_findings": [
+    "Allow zero-launch pre-engine diagnostic failure without synthetic object/job records.",
+    "Restrict collapse substitution to physical candidate/basin rows; analytic comparison and robustness rows require actual numeric analysis."
+  ],
+  "independent_readback": "parent_batch3_initial.json",
+  "scientific_reference_validation": false
+}

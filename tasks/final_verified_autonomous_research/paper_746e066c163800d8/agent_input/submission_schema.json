@@ -1,0 +1,218 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "candidate": {
+            "properties": {
+              "converged": {
+                "const": true
+              }
+            }
+          },
+          "validation": {
+            "anyOf": [
+              {
+                "properties": {
+                  "imaginary_modes": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "imaginary_modes"
+                ]
+              },
+              {
+                "properties": {
+                  "equivalent_minimum_evidence": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "equivalent_minimum_evidence"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "method",
+          "candidate",
+          "validation",
+          "torsions",
+          "mean_torsion_deg",
+          "mean_definition",
+          "uncertainty_deg",
+          "interpretation"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "method",
+          "candidate",
+          "validation",
+          "failure_diagnostics"
+        ]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "candidate": {
+        "type": "object",
+        "required": [
+          "id",
+          "geometry_source",
+          "converged"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "geometry_source": {
+            "type": "string"
+          },
+          "converged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "minimum_test",
+          "imaginary_modes",
+          "independent_check",
+          "search_coverage"
+        ],
+        "properties": {
+          "minimum_test": {
+            "type": "string"
+          },
+          "imaginary_modes": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "independent_check": {
+            "type": "string"
+          },
+          "search_coverage": {
+            "type": "string"
+          },
+          "stopping_reason": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          },
+          "equivalent_minimum_evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "torsions": {
+        "type": "array",
+        "minItems": 5,
+        "maxItems": 5,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "atom_indices",
+            "value_deg",
+            "convention"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "atom_indices": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "integer"
+              }
+            },
+            "value_deg": {
+              "type": "number"
+            },
+            "convention": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "mean_torsion_deg": {
+        "type": "number"
+      },
+      "mean_definition": {
+        "type": "string",
+        "description": "mean(abs(phi_i)) over the five fixed inner-rim quadruples; individual value_deg values remain signed."
+      },
+      "uncertainty_deg": {
+        "type": "number",
+        "minimum": 0
+      },
+      "interpretation": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure_diagnostics": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "task_type": "autonomous_research",
+  "title": "Molecular absorption behavior of a three-arm dye",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The source investigates dye5-loaded quatsomes and uses single-arm/full-dye molecular calculations to examine an additional long-wavelength absorption feature. The task retains the molecular explanation subproblem; it does not ask for vesicle or imaging performance.",
+    "Generate source-consistent molecular explanations and choose structures/states and useful evidence."
+  ],
+  "paper": {
+    "title": "",
+    "doi": "",
+    "journal": "",
+    "publication_date": ""
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Chemical identities, authorized observations and physical scope; research design is chosen by the agent."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured model, execution, quantitative evidence and claim records with raw artifact links."
+    },
+    {
+      "path": "report/report.md",
+      "description": "Scientific answer, evidence, revisions, uncertainty and scope."
+    }
+  ]
+}

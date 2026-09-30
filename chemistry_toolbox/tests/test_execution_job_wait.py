@@ -123,6 +123,20 @@ def test_partial_terminal_return_keeps_other_job_running(workspace: Path) -> Non
     assert running_status["supervisor_pid"] == 424242
 
 
+def test_event_wait_crosses_many_heartbeats_without_return(workspace: Path) -> None:
+    job = _write_job(workspace, "a", "running")
+    path = workspace / "outputs/execution_jobs" / job / "status.json"
+    def finish(now):
+        if now >= 7200:
+            value = json.loads(path.read_text())
+            value["status"] = "success"
+            path.write_text(json.dumps(value))
+    clock = FakeClock(finish)
+    result = _wait(JobWaitRequest(job_ids=[job]), clock, wait_mode="event", poll_interval_seconds=300)
+    assert result["return_reason"] == "all_terminal"
+    assert clock.value >= 7200
+
+
 def test_failure_is_collected_with_bounded_tail(workspace: Path) -> None:
     failed = _write_job(workspace, "c", "failed", stderr="x" * 100)
 
@@ -298,3 +312,37 @@ def test_distributed_transport_statuses_share_wait_semantics(
 
     assert result["return_reason"] == "all_terminal"
     assert result["newly_terminal_jobs"][0]["worker_id"] == f"{transport}-1"
+
+
+@pytest.mark.parametrize("state", ["partial_success", "invalid_request", "unsupported", "unavailable"])
+def test_all_terminal_outcomes_return_without_heartbeat(workspace, state):
+    job = _write_job(workspace, "9", state)
+    result = _wait(JobWaitRequest(job_ids=[job]), FakeClock())
+    assert result["return_reason"] == "all_terminal"
+    assert result["remaining_job_ids"] == []
+    assert result["running_jobs"] == []
+    assert result["newly_terminal_jobs"][0]["status"] == state
+    assert result["wait_duration_seconds"] < 8
+
+
+@pytest.mark.parametrize("state, reason", [("needs_reconciliation", "needs_reconciliation"), ("typo_state", "monitor_error")])
+def test_unverified_or_unknown_state_is_not_reported_as_running(workspace, state, reason):
+    job = _write_job(workspace, "8", state)
+    result = _wait(JobWaitRequest(job_ids=[job]), FakeClock())
+    assert result["return_reason"] == reason
+    assert result["status"] == "failed"
+
+
+def test_partial_success_and_running_are_separated(workspace):
+    done = _write_job(workspace, "9", "partial_success")
+    running = _write_job(workspace, "8", "running")
+    result = _wait(JobWaitRequest(job_ids=[done, running]), FakeClock())
+    assert result["remaining_job_ids"] == [running]
+    assert result["newly_terminal_jobs"][0]["job_id"] == done
+
+
+def test_mixed_batch_retains_partial_outcome():
+    from chemistry_toolbox.src.execution_states import aggregate_outcomes, process_status
+    assert aggregate_outcomes(["partial_success", "failed"]) == "partial_success"
+    assert aggregate_outcomes(["success", "partial_success"]) == "partial_success"
+    assert process_status("partial_success") == "completed"

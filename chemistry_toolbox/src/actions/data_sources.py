@@ -119,4 +119,15 @@ ACTION_SPECS = (
             data_action=True,
             requires_network=True,
         ),
+    _action(
+            "retrieve_crystal_structure",
+            "data_sources",
+            "Retrieve one explicitly identified CCDC/CSD crystal record from a licensed CCDC API or an Agent-supplied CIF export.",
+            "CrystalStructureRecord",
+            ("ccdc",),
+            ("query",),
+            input_description="query={record_id, optional cif_path}; settings select component and hydrogen policies",
+            data_action=True,
+            requires_network=False,
+        ),
 )

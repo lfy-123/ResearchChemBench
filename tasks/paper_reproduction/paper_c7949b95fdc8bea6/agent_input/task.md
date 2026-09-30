@@ -4,7 +4,7 @@ Determine, for the supplied periodic bulk crystalline-Si/Li interstitial system,
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/bulk_si_li_system.json`. It defines the 3x3x3 conventional diamond-Si supercell, lattice, all eight Si fractional positions in the conventional cell, Li identity and the initial/final fractional coordinates, endpoint atom mapping, periodic boundary condition, and charge states 0 and -1. The object is dilute bulk interstitial migration only: no surfaces, explicit Sb, electrolyte, SEI, amorphous phase, or finite-temperature free energy. The measured barrier is the maximum relaxed-path energy minus the lower relaxed endpoint energy, in eV, for each charge state. Electronic-state interpretation is optional only if supported by the chosen method.
+Use `data/inputs/bulk_si_li_system.json`. It defines the 2x2x2 conventional diamond-Si supercell (64 Si plus one Li), an initial lattice guess to optimize, all eight Si fractional positions in the conventional cell, Li identity and symmetry-derived adjacent empty Td initial/final fractional coordinates, endpoint atom mapping, periodic boundary condition, and charge states 0 and -1. The object is dilute bulk interstitial migration only: no surfaces, explicit Sb, electrolyte, SEI, amorphous phase, or finite-temperature free energy. The measured barrier is the maximum relaxed-path energy minus the lower relaxed endpoint energy, in eV, for each charge state. Electronic-state interpretation is optional only if supported by the chosen method.
 
 # Required scientific validation/investigation
 

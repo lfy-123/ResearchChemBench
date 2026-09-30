@@ -1,0 +1,21 @@
+# Structural inference for an iridium nitrato complex from molecular evidence and IR
+
+Investigate what molecular structures and nitrate coordination can be supported for the supplied iridium complex by its composition and reported IR observations. Develop an evidence-based structural interpretation, assess whether it is uniquely identifiable within the molecular model, and state which conclusions remain uncertain. The coordination topology and relative ligand arrangement are research questions, not supplied candidate answers.
+
+## Supplied facts and scope
+
+`complex_specification.json` gives the composition and molecular model boundary; `experimental_ir.json` gives unassigned experimental bands including qualitative strength and a source-account discrepancy. Preserve full composition and explicit atom mapping in each model. Explain the relationship between your molecular calculations and the KBr measurement. Choose the structure search, observables and inference method; report what evidence supports your assignment and its uncertainty. This task does not request a reaction-formation pathway, electrochemistry, CO/NO chemistry or a solid-state population calculation.
+
+## Author protocol for reproduction
+
+The authors assign a bidentate eta2-nitrato Ir(III) complex using crystallography together with spectroscopy (main pp3–4 Figure4/Table2; SI p15). Crystal Ir–O distances are2.173(2)/2.174(2)A, O–Ir–O60.02(9)degrees and nitrate N–O about1.294/1.291/1.209A. Reproduce the full-complex source molecular characterization and assess its evidential relationship to the supplied IR. Main p7 reports Gaussian09/WebMO B3LYP/LANL2DZ geometry optimization and IR with a frequency correction factor but does not state an unambiguous numerical factor. Main p3 reports calculated nitrate frequencies1541,1102,926cm-1. Label source frequencies and crystal data as source references; do not present them as your computed outputs. The detailed experimental list has1532/1261/1223/802cm-1 among other bands, while discussion/Table2 additionally includes1561; retain this discrepancy. Source crystal geometry establishes its own experimental assignment; it does not prove IR alone is unique. The V1 eta1 competition, relative-ligand search, mode-fraction thresholds and scaling residual matrix are benchmark extensions, not source protocol. Main p5 FMO species naming differs from Figure11 on p6; do not use this as unqualified evidence for the present nitrato complex.
+
+Reproduce the disclosed source baseline and assess what it supports about the same scientific question. Explain source ambiguities and any deviations. Additional tests you choose are your extensions; they are not publication results. A defensible disagreement earns scientific credit; protocol fidelity is assessed separately on the process axis.
+
+## Investigation and deliverables
+
+Reproduce the disclosed source baseline, recording protocol ambiguities and any scientifically justified substitution. Choose additional comparisons and stopping decisions that assess what the baseline supports. Generate inspectable evidence and assess its validity, uncertainty and ability to support your claims. Adapt the investigation when results warrant it. The disclosed protocol guides reproduction; the choice of additional investigations remains yours. No particular winning explanation, direction of effect or number of hypotheses is required by the common scientific result criteria. Separate supplied observations, your results and interpretation.
+
+Submit `report/results.json` and `report/report.md` as described in `submission_guide.md`. Link raw outputs and reproducible analyses. The result axis evaluates supported scientific findings; the process axis evaluates research decisions and execution independently, each out of 100, with product divided by 100 as the total. Honest partial work is reportable; unperformed research does not count as an unresolved scientific result.
+
+This is a self-contained task. Use its public inputs and the tools/resources actually made available by the runner. Do not access target-paper answers, its full article/SI, private evaluator files, prior verification archives or another mode's guidance. General scientific/software documentation is allowed. The supplied facts and any source protocol explicitly disclosed in this task are authorized.

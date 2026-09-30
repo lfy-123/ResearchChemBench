@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_9ec32e81e2826041/documents/main.pdf",
+        "sha256": "c494b9ed5388f0c6d968d8e80ce851426473aa9779a3c3930927445340195dec",
+        "pdf_pages_1_based": [
+          5,
+          6,
+          7
+        ]
+      },
+      "scope": "Published identities/methods and original evidence, not verification of benchmark-authored extensions.",
+      "context": "SI PDF p3 computational methods; p21 Table S7 and Tables S8–S11. Source DeltaG(coplanar−perpendicular) is approximately −0.1 kJ/mol with D3 and +4.8 kJ/mol without. Source example S1 transitions: perpendicular 3.1097 eV, f=0.0883; coplanar 2.4526 eV, f=0.0132. These are method-specific literature values, not a new full cross-geometry or uncertainty reference."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_9ec32e81e2826041/documents/supplementary_001.pdf",
+        "sha256": "dbb8ec5153da3d86acde2fd320f01cc1bae86bf16cebf2fd2cf835280933d7cb",
+        "pdf_pages_1_based": [
+          3,
+          21,
+          22
+        ]
+      },
+      "scope": "Published identities/methods and original evidence, not verification of benchmark-authored extensions.",
+      "context": "SI PDF p3 computational methods; p21 Table S7 and Tables S8–S11. Source DeltaG(coplanar−perpendicular) is approximately −0.1 kJ/mol with D3 and +4.8 kJ/mol without. Source example S1 transitions: perpendicular 3.1097 eV, f=0.0883; coplanar 2.4526 eV, f=0.0132. These are method-specific literature values, not a new full cross-geometry or uncertainty reference."
+    },
+    {
+      "evidence_id": "benchmark_extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "benchmark_authored_design",
+        "date": "2026-09-27"
+      },
+      "scope": "Expanded endpoints and controls, justified by the source question; numerical reference calculations pending.",
+      "description": "Test how dispersion changes conformational energetics and whether the resulting geometry change alters the electronic absorption of Z-cAACCy. Separate the direct energy contribution of the dispersion correction from geometric relaxation, and separate excitation energy, intensity and state identity."
+    }
+  ]
+}

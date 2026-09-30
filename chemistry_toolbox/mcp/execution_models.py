@@ -15,6 +15,7 @@ from chemistry_toolbox.src.models import ResourceLimits
 _SOFTWARE_ID = re.compile(r"^[a-z][a-z0-9_]*$")
 _JOB_ID = re.compile(r"^job_[0-9a-f]{32}$")
 _RUNTIME_ID = re.compile(r"^[a-z][a-z0-9_]*$")
+_SUBMISSION_KEY = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,199}$")
 _JOB_CONTROL_FILES = {
     "analysis_contract.json",
     "artifact_manifest.json",
@@ -39,6 +40,13 @@ def _validate_relative_target(value: str) -> str:
     if path.parts[0] in {".tmp", ".home"} or str(path) in _JOB_CONTROL_FILES:
         raise ValueError("staged target conflicts with an execution job control path")
     return str(path)
+
+
+class OutputContractValidationRequest(BaseModel):
+    """Inspect outputs against the public contract without changing any files."""
+
+    model_config = ConfigDict(extra="forbid")
+    max_errors: int = Field(default=100, ge=1, le=500)
 
 
 class SoftwareListRequest(BaseModel):
@@ -228,6 +236,14 @@ class NativeJobRequest(BaseModel):
     ] | None = None
     label: str | None = Field(default=None, max_length=200)
     parent_job_id: str | None = None
+    submission_key: str | None = Field(
+        default=None,
+        max_length=200,
+        description=(
+            "Stable retry identity for a long-running submission. Reuse the same key only "
+            "when the normalized request and staged input contents are unchanged."
+        ),
+    )
 
     @field_validator("software_id")
     @classmethod
@@ -267,6 +283,19 @@ class NativeJobRequest(BaseModel):
             raise ValueError("invalid parent_job_id")
         return value
 
+    @field_validator("submission_key")
+    @classmethod
+    def validate_submission_key(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip()
+        if not _SUBMISSION_KEY.fullmatch(normalized):
+            raise ValueError(
+                "submission_key must start with an alphanumeric character and contain "
+                "only letters, digits, '.', '_' ':' or '-'"
+            )
+        return normalized
+
     @model_validator(mode="after")
     def validate_staging(self) -> "NativeJobRequest":
         targets = [item.target_path for item in self.staged_inputs]
@@ -297,6 +326,7 @@ class AnalysisJobRequest(BaseModel):
     resource_limits: ResourceLimits = Field(default_factory=ResourceLimits)
     label: str | None = Field(default=None, max_length=200)
     parent_job_id: str | None = None
+    submission_key: str | None = Field(default=None, max_length=200)
 
     @field_validator("runtime")
     @classmethod
@@ -379,6 +409,19 @@ class AnalysisJobRequest(BaseModel):
             raise ValueError("invalid parent_job_id")
         return value
 
+    @field_validator("submission_key")
+    @classmethod
+    def validate_submission_key(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip()
+        if not _SUBMISSION_KEY.fullmatch(normalized):
+            raise ValueError(
+                "submission_key must start with an alphanumeric character and contain "
+                "only letters, digits, '.', '_' ':' or '-'"
+            )
+        return normalized
+
     @model_validator(mode="after")
     def validate_staging(self) -> "AnalysisJobRequest":
         targets = [item.target_path for item in self.staged_inputs] + [
@@ -433,6 +476,8 @@ class JobStatusRequest(BaseModel):
 
     job_id: str
     tail_chars: int = Field(default=8000, ge=0, le=100_000)
+    known_result_version: str | None = Field(default=None, max_length=128,
+        description="Explicit conditional read: omit unchanged terminal details only when this returned result_version matches. Omit for a full read.")
 
     @field_validator("job_id")
     @classmethod
@@ -465,6 +510,7 @@ class JobCollectRequest(JobStatusRequest):
 
     include_inputs: bool = False
     max_files: int = Field(default=1000, ge=1, le=10_000)
+    file_offset: int = Field(default=0, ge=0, description="Offset in each output/manifest list; next offsets are returned in pagination.")
 
 
 class JobCancelRequest(BaseModel):
@@ -480,6 +526,25 @@ class JobCancelRequest(BaseModel):
         if not _JOB_ID.fullmatch(value):
             raise ValueError("invalid job_id")
         return value
+
+
+class ExecutionSubmissionLookupRequest(BaseModel):
+    """Look up a durable submission receipt after a transport interruption."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    submission_key: str = Field(min_length=1, max_length=200)
+
+    @field_validator("submission_key")
+    @classmethod
+    def validate_submission_key(cls, value: str) -> str:
+        normalized = value.strip()
+        if not _SUBMISSION_KEY.fullmatch(normalized):
+            raise ValueError(
+                "submission_key must start with an alphanumeric character and contain "
+                "only letters, digits, '.', '_' ':' or '-'"
+            )
+        return normalized
 
 
 class ArtifactDeclarationRequest(BaseModel):
@@ -502,6 +567,7 @@ __all__ = [
     "AnalysisOutputDeclaration",
     "AnalysisRuntimeListRequest",
     "ExecutionResourceRequest",
+    "ExecutionSubmissionLookupRequest",
     "ArtifactDeclarationRequest",
     "DocumentationReadRequest",
     "DocumentationSearchRequest",
@@ -515,3 +581,9 @@ __all__ = [
     "WorkspaceTextReadRequest",
     "WorkspaceTextWriteRequest",
 ]
+
+
+class ExecutionResultObservationRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    job_id: str = Field(pattern=r"^job_[a-f0-9]{32}$")
+    result_receipt_id: str = Field(pattern=r"^result_[a-f0-9]{32}$")

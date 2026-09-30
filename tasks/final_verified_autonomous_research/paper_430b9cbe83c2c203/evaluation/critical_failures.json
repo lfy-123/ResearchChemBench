@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_430b9cbe83c2c203",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "The report changes atom identity/connectivity, omits one of the two supplied conformers, or cannot identify the three Se sites.",
+      "severity": "scientifically serious",
+      "evidence_ids": [
+        "ev_doc_0dce5914050f_001525_524c3061bee",
+        "ev_doc_0dce5914050f_001529_3e798145948d"
+      ]
+    },
+    {
+      "failure_id": "cf_unvalidated",
+      "condition": "Numerical shifts or energies are asserted without computational provenance, validation diagnostics, or an honest bounded-failure explanation.",
+      "severity": "scientifically serious",
+      "evidence_ids": [
+        "ev_doc_0dce5914050f_001520_31e08834342b"
+      ]
+    },
+    {
+      "failure_id": "cf_misinterpretation",
+      "condition": "Calculated shielding is used as a chemical shift without the specified reference transformation, or a signal assignment contradicts the computed site identities and spectral evidence.",
+      "severity": "scientifically serious",
+      "evidence_ids": [
+        "ev_doc_0dce5914050f_001520_31e08834342b"
+      ]
+    }
+  ]
+}

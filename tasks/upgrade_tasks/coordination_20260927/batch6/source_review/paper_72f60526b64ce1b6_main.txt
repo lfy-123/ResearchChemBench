@@ -1,0 +1,1121 @@
+
+=== PDF PAGE 1 ===
+This journal is © the Owner Societies 2026
+Phys. Chem. Chem. Phys., 2026, 28, 3363–3374 | 3363
+Cite this: Phys. Chem. Chem. Phys.,
+2026, 28, 3363
+Eﬀect of bridge type on electronic structure and
+rectification in molecular junctions
+Morad M. El-Hendawy,
+*ab Hend S. Abd Elkhaira and Mahmoud M. A. Mohameda
+This study links the chemistry of isolated molecules with the physics of two-probe systems by exploring
+the role of molecular bridges in rectification through density functional theory (DFT) and nonequilibrium
+Green’s function (DFT–NEGF) methods. Two classes of molecules are studied: Group A (A–bridge–D),
+which is based on a pyrimidinyl–phenyl dithiol scaffold where the pyrimidinyl ring acts as an electron
+acceptor (A) and the phenyl ring as a donor (D), with thiol anchoring groups; and Group B (2A–bridge–
+2D), which uses dipyrimidinyl–diphenyl dithiol scaffolds designed to examine the impact of extended
+conjugation. For both groups, three types of bridges are investigated: s-bridge, p-bridge, and direct
+linkage. The computational workflow includes (i) DFT calculations to evaluate how external electric fields
+influence the structural and electronic properties of isolated molecules, and (ii) DFT–NEGF simulations
+of two-probe systems, where molecules are placed between gold electrodes. Electron transport
+properties—such as current–voltage (I–V) characteristics, density of states (DOS), and transmission spec-
+tra—are analyzed systematically. The results indicate that s-bridge molecules exhibit the strongest
+rectification, with the 2A–s–2D molecule reaching the highest rectification ratio of 6.7 at 2 V. These
+findings demonstrate a clear link between the chemistry of isolated molecules and the physics of mole-
+cular junctions, further supported by a linear regression correlation.
+1. Introduction
+Molecular electronics continues the trend of miniaturization
+beyond silicon’s physical limits, oﬀering new functionalities
+such as low-power operation and biosystem integration.1–3
+However, challenges in device integration, interface control,
+and scalable manufacturing still hinder its commercial pro-
+gress. One of the most fundamental electronic components is
+the diode, which allows current to flow more easily in the
+forward direction than in the reverse direction.
+The story of molecular electronics formally began in 1974
+when Ari Aviram and Mark Ratner theoretically designed a
+molecular rectifier. Their design featured donor and acceptor
+moieties separated by a s-bridge, resulting in an asymmetric
+charge
+flow
+due
+to
+an
+intramolecularly
+uneven
+charge
+distribution.4 This pioneering model inspired experimentalists
+to fabricate and examine several examples of molecular
+rectifiers.5,6 Molecular rectification is governed by the principle
+of asymmetry in charge transport across molecular junctions.
+This asymmetry has been demonstrated in numerous studies
+through strategies such as the use of distinct molecular
+cores,7,8 electrodes,9–11 anchoring groups,12–14 asymmetric
+environments,15 and the incorporation of spatial variations
+via molecular intercalations.16–18 In this context, El-Hendawy
+et al. emphasized strategies for designing novel organic mole-
+cular rectifiers using computational chemistry approaches.19
+The ratio or direction of rectification of molecular junctions
+can be controlled by many factors such as light, temperature,20
+gate potential,21–23 protonation processes,24 and others. Recent
+literature demonstrates major advances in molecular rectifiers,
+with high rectification ratios,25–27 improved device integration,
+and a deeper understanding of rectification mechanisms.5
+Strategies such as quantum interference control, environmen-
+tal tuning,15 and rational molecular design are driving the field
+toward practical nanoscale electronic applications.28
+Despite this progress, studies that specifically elucidate the
+role of the molecular bridge in controlling and rectifying charge
+transport remain limited.29–31 For instance, Su et al. demon-
+strated that the rectification performance of molecular diodes
+is strongly influenced by the conjugation of the central bridge,
+with non-conjugated bridges yielding higher rectification ratios
+(RRs) due to asymmetric electron localization under bias.29
+Another NEGF-DFT study30 reveals that cross-conjugated mole-
+cules with donor substituents function as efficient molecular
+rectifiers, exhibiting high conductance and RRs up to 10 at
+0.3 V. In contrast, donor–bridge–acceptor triads incorporating
+electron-withdrawing groups achieve RRs on the order of 102.
+a Chemistry Department, Faculty of Science, New Valley University, 72511 Kharga,
+Egypt. E-mail: morad.el-hendawy@wits.ac.za
+b Molecular Science Institute, School of Chemistry, University of the Witwatersrand,
+Private Bag X3, Johannesburg, 2050, South Africa
+Received 23rd September 2025,
+Accepted 5th January 2026
+DOI: 10.1039/d5cp03687a
+rsc.li/pccp
+PCCP
+PAPER
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+View Journal | View Issue
+
+
+=== PDF PAGE 2 ===
+3364 | Phys. Chem. Chem. Phys., 2026, 28, 3363–3374
+This journal is © the Owner Societies 2026
+The enhanced rectification arises from HOMO localization and
+quantum interference effects, while anti-resonance features
+near the Fermi level provide a route for tunable molecular
+rectification via electrochemical gating. Recently, Santamarı´a-
+Garcı´a et al. investigated the influence of molecular bridges on
+charge transport in molecular diodes using DFT-NEGF.31 They
+examined six phenylene-based structures with different types of
+conjugation and found that, although cross-conjugated bridges
+produced the highest RRs, systems featuring double-bonded
+bridges offered the best overall performance by maintaining
+high conductance.
+To elucidate the role of molecular bridges in electron trans-
+port and rectification, we examined a series of molecules with
+and without bridges, incorporating either saturated or unsatu-
+rated linkers. The conjugated units were connected directly or
+through ethane or ethylene bridges. The molecules were cate-
+gorized into two groups: Group A, comprising a phenyl donor
+and a pyrimidinyl acceptor, and Group B, comprising a biphe-
+nyl donor and a dipyrimidinyl acceptor. Thiol groups served as
+anchoring moieties in all cases, as depicted in Fig. 1.
+2. Computational details
+The present study was conducted in two phases of calculations:
+2.1
+Phase 1: isolated molecule calculations
+In the first phase, the influence of an external electric field on
+the geometric and electronic structures of isolated molecular
+systems was investigated using Gaussian 16 Rev. B.01.32
+Geometry optimizations for all molecules were carried out
+using the B3LYP/6-31+G(d) model chemistry.33 To simulate
+the interaction with electrodes, the terminal sulphur atoms
+were spatially fixed, and the molecules were subjected to an
+external electric field ranging from 2 V to +2 V.34,35 To refine
+the electronic energies and related properties, single-point
+energy
+calculations
+were
+performed
+using
+the
+B3LYP/6-
+311++G(d,p) level of theory. GaussView 6.0 was used as the
+visualization tool to prepare input files and to analyze and
+visualize the results.
+2.2
+Phase 2: two-probe system calculations
+In the second phase, the non-equilibrium Green’s function
+formalism
+combined
+with
+density
+functional
+theory
+(NEGF+DFT),36 as implemented in the QuantumATK W-2024.09
+package,37,38 was employed to explore the electron transport
+properties of molecular junctions. The software includes Vir-
+tual NanoLab (VNL), which features a built-in visualization tool
+used for constructing the molecular junctions and analyzing all
+computed properties. The B3LYP-optimized molecular struc-
+tures were positioned between two Au(111) electrodes to form a
+two-probe system,39 as illustrated in Fig. 2. This setup included
+a left electrode, a central scattering region (comprising the
+molecule and four layers of gold atoms on each end), and a
+right electrode.
+Minimization constraints were imposed to fix the bulk
+electrode atoms, while the molecule and interfacial layers were
+allowed to relax, ensuring physically meaningful two-probe
+transport calculations. Geometry optimization was performed
+until the maximum residual force on any atom was below
+0.05 eV Å1. The eﬀects of an applied electric field on electron
+transport were investigated using the PBE functional,40 with
+numerical convergence ensured by a tolerance of 104.
+To reduce computational cost, a single-zeta polarized (SZP)
+basis set was applied to Au atoms, while a double-zeta polarized
+(DZP) basis set was used for all other atoms.41–43 The Brillouin
+zone was sampled using a Monkhorst–Pack k-point grid of 4 
+4  130, after a thorough convergence analysis. Electrostatic
+potentials were computed on a real-space grid with a mesh
+cutoff energy of 75 Hartree. Each semi-infinite gold electrode
+was modeled using a 3  3  2 unit cell under periodic
+boundary conditions. The Cartesian coordinates of all species
+in both their isolated and junction configurations were
+included in the SI.
+The current across the two-probe system in QuantumATK is
+calculated according to the Landauer–Buttiker formula.44
+I ¼ 2e
+h
+ð
+T E; V
+ð
+Þ f E  mL
+ð
+Þ  E  mR
+ð
+Þ
+½
+dE
+(1)
+where: e represents the charge of the electron, h refers to
+Planck’s constant, and T(E, V) refers to the transfer coefficient
+Fig. 1
+2D structures of the donor–bridge–acceptor molecules under study, showing variations in the bridges: no bridge, s-bridge, and p-bridge. Group
+B features doubled donor and acceptor units compared to Group A.
+Paper
+PCCP
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 3 ===
+This journal is © the Owner Societies 2026
+Phys. Chem. Chem. Phys., 2026, 28, 3363–3374 | 3365
+of incident electrons at energy E under a bias potential
+V ¼ mL  mR
+ð
+Þ
+e
+. f (E  mL/R) refers to the Fermi–Dirac electron
+distribution at the left and right electrode with an electroche-
+mical potential mL ¼ Ef þ eV
+2 and mR ¼ Ef  eV
+2
+Transmission energy describes how likely an electron with a
+given energy passing through a device from one electrode to
+another. This transmission probability can be calculated in a
+self-consistent manner using NIGF in the QuantumATK soft-
+ware with the following formula:45,46
+T(E, V) = Tr[GL(E)GR(E)GR(E)GA(E)]
+(2)
+where: Tr is the trace of the matrix, and GR(E) and GA(E) are the
+retarded and advanced Green’s functions of the device, respec-
+tively. GL and GR are the coupling coeﬃcients (broadening
+functions) of the two electrode. The coupling coeﬃcient of
+the electrode (GL,R) is calculated using the following formula:
+GL;R ¼ i
+X
+R
+R;L
+
+X
+A
+R;L
+ 
+!
+(3)
+where
+P
+R
+R;L
+; P
+A
+R;L
+ 
+!
+are the retarded and advanced self-energy
+terms of the contacts of electrodes (contacts).
+3. Results and discussion
+In this section, we present the results of the first and second
+phase calculations on the isolated molecules and the two-probe
+system, discussed in Sections 3.1 and 3.2, respectively. Finally,
+Section 3.3 correlates these findings to identify the intrinsic
+properties of the isolated molecules that govern rectification in
+molecular junctions.
+3.1.
+Isolated molecular systems
+3.1.1.
+Molecular geometry. Geometric optimizations of the
+molecules, performed both in the absence and presence of an
+electric field, revealed diﬀerences in dihedral twist angles
+between the donor and acceptor moieties. p-Bridged molecules
+were nearly coplanar, whereas s-bridged and non-bridged
+molecules exhibited dihedral twists of approximately 271 and
+381,
+respectively.
+Consequently,
+p-bridged
+molecules
+are
+expected to facilitate current flow due to enhanced conjugation
+between the moieties. In contrast, s-bridged molecules are
+likely to impede charge transfer because the ethane bridge
+disrupts conjugation in addition to the dihedral twist. Variation
+of the applied voltage between 2 V and 2 V resulted in only
+minor changes in the dihedral angles, indicating the structural
+stability of the molecules under an electric field.
+3.1.2.
+Dipole moment. The dipole moment and rectifica-
+tion behavior of single molecules are strongly governed by the
+electronic asymmetry between their conjugated moieties, ana-
+logous to conventional p–n semiconductor junctions. Fig. 3
+presents the variation of dipole moments for Groups A and B as
+a function of applied bias voltage (2 V to 2 V). As bias
+increases, dipole moments decrease in both groups as the
+voltage shifts from negative to positive, indicating an asym-
+metric redistribution of electronic density under an external
+field. Applying a negative bias across a A–bridge–D system
+aligns the external electric field with the intrinsic dipole,
+facilitating electron transfer from donor to acceptor as sup-
+ported by the dipole moment versus applied voltage plot
+(Fig. 3). This enhances charge separation and increases the
+dipole moment by stabilizing the charge-separated state. In
+contrast, when the bias is reversed (positive voltage), the
+external field opposes the natural donor–acceptor charge trans-
+fer, thereby reducing charge separation or even reversing it,
+Fig. 2
+Schematic representation of the molecular device, in which a single organic molecule is positioned between two gold electrodes. The molecule
+is anchored to the electrodes via sulfur atoms (S1 and S2). The system is divided into three regions: the left electrode, the central region (comprising the
+molecule and portions of the electrodes), and the right electrode.
+Fig. 3
+Eﬀect of external bias voltage on the dipole moment of single-
+molecular systems.
+PCCP
+Paper
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 4 ===
+3366 | Phys. Chem. Chem. Phys., 2026, 28, 3363–3374
+This journal is © the Owner Societies 2026
+which leads to a decrease in dipole moment or a change in its
+direction. The decrease is more pronounced in Group B,
+reflecting their larger size, greater polarizability, and enhanced
+structural asymmetry. This effect is further amplified by the
+presence of additional electronegative nitrogen atoms in bipyr-
+imidine units, which strengthen electron-withdrawing interac-
+tions and polarization. Consequently, Group B molecules
+consistently exhibit higher dipole moments than Group A, even
+in the absence of bias. For instance, the dipole moments of A–D
+and 2A–2D are 2.67 and 5.27 Debye, respectively, in good
+agreement with reported values of 2.69 and 5.63 Debye by
+Huang et al.47 and close to the theoretical estimate of 5 Debye
+for 2A–2D reported by El-Hendawy et al.34 This behavior high-
+lights the role of the bridging unit in governing dipole moment
+asymmetry. Under negative bias, s-bridged molecules exhibit
+lower dipole moments than their p-bridged counterparts; how-
+ever, this trend reverses when the bias direction is switched,
+consistent with the charge transfer mechanisms discussed
+previously.
+3.1.3.
+Relative energy. The fundamental equation that
+describes the interaction between an electric dipole and an
+external uniform electric field is the expression for the potential
+energy, eqn (4):48
+U = pE cos y
+(4)
+where p is the dipole moment, E is the magnitude of the electric
+field, and y is the angle between them. In the present case, the
+external electric field is aligned with the molecular axis, which
+coincides with the dipole moment vector. Thus, y = 0 and
+cos 0 = 1, reducing the expression to:
+U = pE
+(5)
+The relative energy values (in eV) shown on the y-axis in Fig. 4
+correspond to the potential energy of the molecule under these
+conditions. The reference point (U = 0) is defined as the energy
+of the A–D molecule in the absence of the applied field. The
+negative sign in the above equation indicates an inverse rela-
+tionship between the relative energy and the dipole moment, as
+is evident in the current study by comparing Fig. 3 and 4.
+The most notable result is the asymmetric response of the
+molecule’s potential energy to the direction of the applied
+electric field. Fig. 4 demonstrates that the change in energy
+as the bias voltage shifts from negative to positive does not
+follow a simple symmetric trend. This asymmetry in the
+energy–bias relationship directly reflects the underlying elec-
+tronic structure of the molecule and forms the physical basis of
+its rectifying behavior. The difference in energy states between
+positive and negative bias voltages indicates that the potential
+barrier for electron transport is also asymmetric. Consequently,
+electrons moving in one direction experience a lower barrier,
+leading to enhanced conductivity, whereas in the reverse direc-
+tion, they face a higher barrier, resulting in current suppres-
+sion. Thus, the observed energy asymmetry provides strong
+evidence that these molecules can function as molecular
+rectifiers.
+Additionally, changes in the applied voltage can give rise to
+new molecular conformations because of modifications in their
+electronic structures. This eﬀect is evident in the steady
+increase of relative energy observed when moving from negative
+to positive bias, as illustrated in Fig. 4.
+3.1.4.
+Molecular orbital analysis. Bias-dependent frontier
+molecular orbital (HOMO and LUMO) energies of Groups A and
+B molecules are illustrated in Fig. 5. At zero bias, where
+molecules possess their intrinsic electronic structure, HOMO
+levels lie closer to the Au Fermi level (5.1 eV)20 than LUMO,
+favoring electron tunneling through the HOMO. Under applied
+bias (2 to +2 V), HOMO and LUMO energies shift asymme-
+trically: negative bias predominantly lowers LUMO energies
+toward the Fermi level, whereas positive bias pushes HOMO
+energies further away, but the Fermi level is still close to the
+HOMO level. This asymmetry is more pronounced in Group B
+molecules, reflecting their larger dipole moments and extended
+conjugation,
+which
+enhance
+electron–field
+interactions.
+s-Bridged systems show stronger asymmetry, indicative of
+Fig. 4
+Variation of the relative energy of isolated single molecules as a
+function of applied bias voltage, showing an increase as the voltage shifts
+from negative to positive.
+Fig. 5
+FMOs energies of the tested molecules as a function of applied
+bias voltage. The Au Fermi level (5.1 eV) is a horizontal red dashdotted line.
+Paper
+PCCP
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 5 ===
+This journal is © the Owner Societies 2026
+Phys. Chem. Chem. Phys., 2026, 28, 3363–3374 | 3367
+higher rectification. These findings highlight the voltage-
+dependent
+orbital
+delocalization
+underpinning
+molecular
+rectification.
+Comparing the HOMO–LUMO energy gap (Eg) of the groups
+(A) and (B) molecules, it’s evident that doubling the donor–
+acceptor units leads to a lower Eg for all molecule types in
+Group (B), as shown in Fig. 6. This is a well-established
+principle in molecular electronics: extended p-conjugation low-
+ers the energy gap, thereby enhancing conductivity. This is
+because a larger conjugated system allows for greater electron
+delocalization, stabilizing both the HOMO and LUMO levels
+and bringing them closer in energy. On the other hand, the Eg
+of all molecules, especially the s-bridged ones, changes more
+dramatically and rapidly under negative bias than under posi-
+tive bias. s-Bridged molecules show the strongest asymmetry
+between the two regions (positive and negative bias). This
+pronounced difference in Eg behaviour means that the mole-
+cule becomes significantly more conductive under negative
+bias than under positive bias.34 This strong asymmetry in
+conductivity directly leads to current rectification. When the
+molecule is connected in a circuit, a negative voltage will result
+in a much higher current flow (due to the smaller Eg) compared
+to a positive voltage of the same magnitude (due to the
+larger Eg), effectively acting as a molecular diode.
+Applying an external voltage to a molecule changes the
+electron distribution in its FMOs. This change aﬀects the
+energy gap between these orbitals and their alignment with
+the electrodes, which is a critical factor in determining how
+well the molecule conducts electricity and thus reflects their
+potential suitability as molecular diodes. The s-bridged mole-
+cules (A–s–D and 2A–s–2D) exhibit ideal rectifier behavior,
+Fig. 7. Upon applying a negative bias voltage, the HOMO and
+LUMO remain distinctly localized on the donor and acceptor
+moieties, respectively. In contrast, reversing the bias to a
+positive voltage causes this localization to reverse, with the
+electron density shifting towards the opposite ends of the
+molecule. This localization is a key feature of an Aviram–Ratner
+rectifier.4 A similar, albeit mixed, behavior was observed in the
+non-bridged molecules. This asymmetric response to the elec-
+tric field confirms that both s-bridged and non-bridged sys-
+tems
+possess
+the
+necessary
+features
+to
+function
+as
+unimolecular rectifiers.
+From a preliminary observation, the A–p–D molecule functions
+as a molecular wire rather than a diode. Its HOMO and LUMO are
+highly delocalized across the entire molecule. This symmetrical
+and stable electron distribution persists even when the bias
+voltage is reversed from negative to positive. Such consistent
+delocalization enables electrons to move freely and efficiently in
+both directions, which is the defining characteristic of a molecu-
+lar wire.34 However, upon duplicating the phenyl and pyrimidyl
+rings, 2A–p–2D, the strength of the donor and acceptor increases,
+leading to an observed shift in the electron density of the HOMO
+and LUMO toward the donor and acceptor moieties, respectively,
+upon applying a negative voltage. This behaviour is reversed when
+a positive bias is applied. The findings further emphasize the
+influence of molecular size on electronic properties.
+3.2.
+Two-probe systems
+In this section, the physics of molecular function will be
+addressed. In this regard, the I–V characteristics, density of
+states (DOS), transmission spectra, and other related aspects
+were discussed.
+3.2.1.
+Analysis of molecular rectification and current–
+voltage characteristics. The current–voltage (I–V) characteristics
+and RR are key parameters for evaluating molecular junction
+performance. The RR (RR = |IV+/IV|), defined as the forward-to-
+reverse current ratio at equal bias, quantifies current asymme-
+try, with larger values indicating stronger rectification. In
+molecular junctions, electron transport proceeds from the
+donor to the acceptor under positive bias, resulting in current
+flow from the acceptor to the donor.49,50
+Charge transport weakens with increasing molecular length,
+consistent with the findings of Huang et al.,47 where shorter
+Group A junctions exhibit higher currents than their longer
+Group B counterparts. For instance, at 2.00 V, the current
+decreases from E9470 nA in A–D to E3519 nA in 2A–2D,
+from E490 nA in A–s–D to E241 nA in 2A–s–2D, and from
+E16 341 nA in A–p–D to E7006 nA in 2A–p–2D (Fig. 8). This
+reduction reflects weaker electronic coupling to the electrodes.
+The nature of the bridge further modulates coupling. p-
+Conjugated bridges, with delocalized electrons, provide stron-
+ger coupling and higher current, whereas s-bridges, lacking
+delocalization, result in weaker transport. Within each group,
+p-bridged molecules (A–p–D, 2A–p–2D) exhibit the highest
+currents, followed by non-bridged systems (A–D, 2A–2D), while
+s-bridged molecules (A–s–D, 2A–s–2D) show the lowest. The
+apparent constant current of A–s–D and 2A–s–2D in Fig. 8 is
+only due to the plot scale. The I–V curves also display asym-
+metry around zero bias, a hallmark of rectifying behavior.
+s-Bridged junctions exhibit the strongest asymmetry and
+highest RRs relative to p-bridged and non-bridged systems. In
+Group A, RRs at 1 V follow A–s–D (E1.4) 4 A–p–D (E1.3) 4 A–
+D (E1.2), with only A–s–D increasing to E1.44 at 2 V, while
+Fig. 6
+HOMO–LUMO energy gap (Eg) of the isolated molecules as a
+function of externally applied bias.
+PCCP
+Paper
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 6 ===
+3368 | Phys. Chem. Chem. Phys., 2026, 28, 3363–3374
+This journal is © the Owner Societies 2026
+others plateau or decline. In contrast, Group B junctions show a
+monotonic increase, reaching significantly higher RRs at 2 V:
+2A–s–2D (E6.7), 2A–p–2D (E3.0), and 2A–2D (E3.7). Despite
+their lower currents, Group B devices outperform Group A in
+rectification
+due
+to
+longer
+molecular
+length,
+additional
+nitrogen atoms in the acceptor, and extended p-conjugation,
+which enhance asymmetry in charge transport. These results
+underscore the role of structural complexity in boosting direc-
+tional transport, in agreement with or exceeding previous
+theoretical and experimental reports.
+Fig. 7
+Spatial distributions of the FMOs of molecules in Groups (A) and (B) under applied bias voltages from 2 V to +2 V.
+Fig. 8
+Current–voltage characteristics and rectification ratio of the tested molecular junctions.
+Paper
+PCCP
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 7 ===
+This journal is © the Owner Societies 2026
+Phys. Chem. Chem. Phys., 2026, 28, 3363–3374 | 3369
+The 2A–2D molecular device, in particular, has been extensively
+studied both experimentally and and computationally.47,50–52 Our
+calculated RR of 2.20 at 1.50 V is lower than the B5.00 reported by
+Dı´ez–Pe´rez et al. in STM experiments on 2PM2PH diodes,51 but
+agrees well with the 2.97  1.20 measured by Hihath et al. using
+the mechanically controllable break junction technique52 and the
+theoretical RR of B2.10 at 1.50 V obtained by Zhang et al.50 The
+discrepancy with the higher experimental value may result from
+differences in junction fabrication and measurement, particularly
+the use of asymmetric electrodes, which can enhance rectification.
+Moreover, Huang et al.47 reported RRs of 1.00 and 1.30 at 1.00 V
+for A–D and 2A–2D junctions, respectively, values that align closely
+with our results of 1.23 and 1.77.
+3.2.2
+Projected density of states (PDOS) spectra of terminal
+sulfur atoms. The density of states (DOS) is a fundamental
+property for understanding electron transport in molecular
+junctions. It quantifies the number of available electronic
+states per unit energy that electrons can occupy.53 A high
+DOS at a particular energy level signifies a high density of
+available states, which facilitates more eﬃcient electron flow.
+Conversely, a low DOS indicates fewer states, impeding electron
+transport. However, the projected density of states (PDOS)
+provides insight into the electronic coupling between specific
+atoms and their surroundings. As shown in Fig. 9, peaks in the
+PDOS of the sulfur anchor atoms (S1 and S2) near the Fermi
+level (E  EF = 0) indicate strong electronic coupling with the
+gold electrodes. This strong coupling enhances electron trans-
+fer eﬃciency across the junction. At zero bias, the PDOS of both
+S1 and S2 appears nearly identical, suggesting symmetrical
+coupling between the molecule and the electrodes. While at
+negative bias (1 V), the PDOS of S1 (left sulfur atom) shifts
+upward, moving closer to the Fermi level, while the PDOS of S2
+(right sulfur atom) shifts below the Fermi level. This indicates
+that the S2 states are becoming more occupied with electrons
+and more localized, reflecting the chemical potential shift
+associated with electron flow from left to right. On the other
+hand, at 1 V, the opposite behaviour is observed. The PDOS of
+S2 shifts upward toward the Fermi level, while the PDOS of S1
+shifts downward. This suggests a potential for electron flow
+from right to left.
+Upon comparing the intensity of the PDOS peaks near the
+Fermi level, it is evident that the intensity for S2 at +1 V is
+stronger than the intensity for S1 at 1 V. This indicates that
+while electrons can move in both directions, the molecule
+exhibits a preference for right-to-left electron movement. This
+preference is attributed to the higher abundance of PDOS states
+for S2, which makes it more susceptible to electron injection
+from the right electrode and thereby demonstrates the mole-
+cule’s rectifying ability.
+3.2.3.
+Transmission spectra and projected self-consistent
+Hamiltonian. Transmission spectra are a key tool for analyzing
+electron transport, providing insights into molecular character-
+istics, electrode interactions, and the electronic states contri-
+buting to conduction. Fig. 10 presents the transmission spectra
+at zero bias for Group B molecular junctions, with the eigen-
+values of the projected self-consistent Hamiltonian (MPSH)
+indicated by red markers. The molecular bridge plays a decisive
+role in transport behavior, with pronounced peaks near the
+Fermi level observed in the order: 2A–p–2D 4 2A–2D 4 2A–s–
+2D. This sequence correlates with the relative positions of the
+HOMO and LUMO with respect to the Fermi level.
+Across all three junctions, charge transport was predomi-
+nantly governed by the LUMO. In the 2A–p–2D system, a
+distinct LUMO-associated peak appeared at 0.88 eV, alongside
+a broad, intense peak below the Fermi level at 1.64 eV arising
+from
+the
+combined
+contributions
+of
+HOMO,
+HOMO1,
+HOMO2, and HOMO3. The 2A–2D junction exhibited a
+Fig. 9
+Projected density of states (PDOS) for the 2A–s–2A molecular junction under 1, 0, and +1 V bias. The location of the anchors S1 and S2 is
+shown in Fig. 2.
+Fig. 10
+Transmission spectra of group B molecular junctions at zero bias
+voltage.
+The
+small
+red
+triangles
+indicate
+the
+positions
+of
+MPSH
+eigenvalues.
+PCCP
+Paper
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 8 ===
+3370 | Phys. Chem. Chem. Phys., 2026, 28, 3363–3374
+This journal is © the Owner Societies 2026
+sharp LUMO peak at 1.18 eV and a weaker, broader peak
+at 1.16 eV. In contrast, the 2A–s–2D junction showed rela-
+tively weak and distant peaks compared with the other systems,
+including a broad LUMO-associated feature at 1.36 eV and a
+weak peak at 2.06 eV attributed to HOMO2.
+Fig. 11 shows the variation of MPSH eigenvalues with
+applied voltage. Since orbitals near the bias window—appear-
+ing as peaks in the transmittance spectrum—govern current
+transport, the analysis focuses on the HOMO and LUMO. The
+HOMO exhibits a stronger response to applied voltage than the
+LUMO, shifting toward the bias window under both positive
+and negative bias. In contrast, the LUMO shifts away from the
+window under positive bias but approaches it under negative
+bias. For instance, in the 2A–p–2D junction, the HOMO shifts
+from 1.30 eV at 0 V to 0.81 eV at 2 V and 0.72 eV at +2 V,
+while the LUMO shifts from 0.84 eV at 0 V to 0.85 eV at 2 V
+and 1.11 eV at +2 V. These results indicate that the HOMO lies
+closest to the bias window and thus dominates current con-
+duction under the examined voltages.
+3.3.
+Bridging molecular reactivity and junction behavior
+Nguyen et al. reported that the intrinsic electronic properties of
+the isolated molecule leave a molecular signature on the
+rectification
+behavior,
+even
+in
+relatively
+thick
+molecular
+layers.54 In this regard and based on the findings presented
+in Sections 3.1 and 3.2, this section attempts to establish
+correlations
+between
+intrinsic
+global
+molecular
+reactivity
+descriptors—such as electrophilicity (o) and the maximum
+amount of electronic charge an electrophilic molecule can
+accept from its environment (i.e., the source electrode), DNmax.
+The goal is to demonstrate the extent to which the intrinsic
+properties of isolated molecules, particularly the nature of the
+molecular bridge, contribute to the behavior of electric current
+under an applied voltage.
+Using DFT to calculate some of the isolated molecule’s
+parameters, its response to an electric field when placed
+between two electrodes can be predicted, as electrons flow
+through the molecule from the source electrode to the drain.
+Therefore, the molecule might be regarded as electrophilic with
+respect to the source electrode. In the DFT framework, a
+molecular’s electrophilic power is quantified by the global
+electrophilicity index ‘‘o,’’ defined as follows:
+o ¼ m2
+2Z
+(6)
+where m and Z are the chemical potential and chemical hard-
+ness, respectively.
+The second descriptor, DNmax, can be expressed as:
+DNmax ¼ m
+Z
+(7)
+The values of DNmax and o were found to depend on the type of
+molecular bridge, following the trend: p-bridged 4 non-
+bridged 4 s-bridged molecules. This trend is consistent with
+the current-carrying ability of the molecular junctions, as
+confirmed by the corresponding I–V characteristics. This
+reflects the significant effect of the molecular signature on
+the rectification behavior.
+To quantify the relationship between molecular electrophili-
+city (o) and charge transport, regression analyses were per-
+formed between the current (I) of molecular junctions and the
+corresponding o of isolated molecules (Fig. 12). The R2 values for
+diblock, p-, and s-bridged systems were 0.91, 0.99, and 0.82 for
+Group A, and 0.74, 0.63, and 0.59 for Group B, respectively. These
+results indicate that most of the variation in current can be
+explained by o, confirming a clear direct relationship between
+molecular electrophilicity and junction current across all bridge
+types, where the direction of the applied positive bias corre-
+sponds to the direction of current flow through the molecular
+Fig. 11
+Variation of MPSH eigenvalues under applied bias voltages for 2A–p–2D, 2A–2D, 2A–s–2D molecular junctions.
+Paper
+PCCP
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 9 ===
+This journal is © the Owner Societies 2026
+Phys. Chem. Chem. Phys., 2026, 28, 3363–3374 | 3371
+junctions (i.e., from the acceptor moiety to the donor moiety).
+The high R2 values for p- and unbridged systems further high-
+light o as a reliable predictor of current in these junctions.
+4. Conclusions
+Six
+donor–bridge–acceptor
+molecular
+systems
+with
+thiol
+anchoring groups were investigated using NEGF-DFT formal-
+ism. The study examined the influence of bridge type (s-bridge,
+p-bridge, or no bridge) and molecular length (single vs. doubled
+donor and acceptor units) on electronic structure, transport
+properties, and rectification performance under applied bias.
+The key findings are summarized as follows:
+1. Rectification strongly depends on bridge type, following
+the trend: s-bridge 4 no bridge 4 p-bridge. The saturated
+s-bridge restricts donor–acceptor coupling, favouring asymme-
+try, whereas p-bridges enhance donor–acceptor communica-
+tion, reducing rectification.
+2. Group B molecules exhibit higher RRs than Group A because
+the greater number of nitrogen atoms in the acceptor moiety
+enhances asymmetric electron transport, improving rectification.
+3. The smaller Group A molecules, particularly A–p–D and A–
+D, show rectification ratios close to unity, suggesting largely
+symmetric current flow across the examined bias window, a
+characteristic behaviour of molecular wires.
+4. The 2A–s–2D device exhibited the highest rectification
+ratio (6.7 at 2 V), though its coupling with electrodes remained
+limited.
+5. The influence of molecular signatures on rectification
+behavior was confirmed through the mathematical correlation
+Fig. 12
+Eﬀect of electric field on global electrophilicity index ‘‘o’’ and the maximum amount of electronic charge an electrophilic molecule can accept
+from its environment (i.e., the source electrode), DNmax of the isolated molecules.
+PCCP
+Paper
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 10 ===
+3372 | Phys. Chem. Chem. Phys., 2026, 28, 3363–3374
+This journal is © the Owner Societies 2026
+between the electrophilicity of isolated molecules and the
+current in molecular junctions.
+6. The high R2 values for p- and unbridged systems further
+highlight o as a reliable predictor of current in these junctions.
+The findings oﬀer insights into molecular structure–trans-
+port relationships, which could inform the design of future
+molecular electronic components such as rectifiers or wires.
+Conflicts of interest
+The authors declare no competing financial interest.
+Data availability
+The data supporting this article have been included as part of
+the supplementary information.
+Supplementary information (SI) is available. See DOI:
+https://doi.org/10.1039/d5cp03687a.
+Acknowledgements
+This paper is based upon work supported by Science, Technol-
+ogy & Innovation Funding Authority (STDF) under grant
+number 48869.
+References
+1 J. Y. Lee, S. Y. Kim and H. J. Yoon, Small molecule approach
+to passivate undercoordinated ions in perovskite light emit-
+ting diodes: progress and challenges, Adv. Opt. Mater., 2022,
+10, 2101361.
+2 S. Y. Kim, H. Kang, K. Chang and H. J. Yoon, Case studies
+on structure–property relations in perovskite light-emitting
+diodes via interfacial engineering with self-assembled
+monolayers,
+ACS
+Appl.
+Mater.
+Interfaces,
+2021,
+13,
+31236–31247.
+3 Z. Dai, S. K. Yadavalli, M. Chen, A. Abbaspourtamijani, Y. Qi
+and
+N.
+P.
+Padture,
+Interfacial
+toughening
+with
+self-
+assembled monolayers enhances perovskite solar cell relia-
+bility, Science, 2021, 372, 618–622.
+4 A. Aviram and M. A. Ratner, Molecular rectifiers, Chem.
+Phys. Lett., 1974, 29, 277–283.
+5 R. Gupta, J. A. Fereiro, A. Bayat, A. Pritam, M. Zharnikov and
+P. C. Mondal, Nanoscale molecular rectifiers, Nat. Rev.
+Chem., 2023, 7, 106–122.
+6 G.-P. Zhang, L.-Y. Chen, J.-M. Zhao, Y.-Z. Sun, N.-P. Shi, M.-
+L. Wang, G.-C. Hu and C.-K. Wang, Large rectification ratio
+of up to 106 for conjugation-group-terminated undeca-
+nethiolate single-molecule diodes on pt electrodes, J. Phys.
+Chem. C, 2021, 125, 20783–20790.
+7 M. Handayani, H. Tanaka, S. Katayose, T. Ohto, Z. Chen,
+R. Yamada, H. Tada and T. Ogawa, Three site molecular
+orbital controlled single-molecule rectifiers based on per-
+pendicularly linked porphyrin–imide dyads,
+Nanoscale,
+2019, 11, 22724–22729.
+8 E. Lo¨rtscher, B. Gotsmann, Y. Lee, L. Yu, C. Rettner and
+H. Riel, Transport properties of a single-molecule diode,
+ACS Nano, 2012, 6, 4931–4939.
+9 G. Sikri and R. S. Sawhney, First principle approach to
+elucidate transport properties through l-glutamic acid-
+based molecular devices using symmetrical electrodes,
+J. Mol. Model., 2020, 26, 74.
+10 R. P. Kaur, R. S. Sawhney and D. Engles, Eﬀect of asym-
+metric molecule–electrode coupling and molecular bias on
+rectification in molecular junctions, Appl. Phys. A: Mater.
+Sci. Process., 2016, 122, 1029.
+11 S. Koley and S. Chakrabarti, Large Negative Diﬀerential
+Resistance and Rectification from a Donor–s–Acceptor
+Molecule in the Presence of Dissimilar Electrodes, Chem. –
+Eur. J., 2018, 24, 5876–5882.
+12 V. Obersteiner, D. A. Egger and E. Zojer, Impact of anchor-
+ing groups on ballistic transport: single molecule vs mono-
+layer junctions, J. Phys. Chem. C, 2015, 119, 21198–21208.
+13 F. Chen, X. Li, J. Hihath, Z. Huang and N. Tao, Eﬀect of
+anchoring groups on single-molecule conductance: com-
+parative
+study
+of
+thiol-,
+amine-,
+and
+carboxylic-acid-
+terminated
+molecules,
+J.
+Am.
+Chem. Soc., 2006,
+128,
+15874–15881.
+14 R. Kaur, S. Kaur, D. K. K. Randhawa, R. Sharma and P. Kaur,
+Mechanism of rectification and negative diﬀerential resis-
+tance in single-molecule junctions with asymmetric anchor-
+ing groups: a DFT study, J. Mol. Model., 2023, 29, 340.
+15 B. Capozzi, J. Xia, O. Adak, E. J. Dell, Z.-F. Liu, J. C. Taylor,
+J. B. Neaton, L. M. Campos and L. Venkataraman, Single-
+molecule diodes with high rectification ratios through
+environmental
+control,
+Nat.
+Nanotechnol.,
+2015,
+10,
+522–527.
+16 J. Park, L. Belding, L. Yuan, M. P. Mousavi, S. E. Root,
+H. J. Yoon and G. M. Whitesides, Rectification in molecular
+tunneling junctions based on alkanethiolates with bipyri-
+dine–metal complexes, J. Am. Chem. Soc., 2021, 143,
+2156–2163.
+17 L. Qiu, Y. Zhang, T. L. Krijger, X. Qiu, P. Van’t Hof,
+J. C. Hummelen and R. C. Chiechi, Rectification of current
+responds
+to
+incorporation
+of
+fullerenes
+into
+mixed-
+monolayers of alkanethiolates in tunneling junctions,
+Chem. Sci., 2017, 8, 2365–2372.
+18 C. Guo, K. Wang, E. Zerah-Harush, J. Hamill, B. Wang,
+Y. Dubi and B. Xu, Molecular rectifier composed of DNA
+with high rectification ratio enabled by intercalation, Nat.
+Chem., 2016, 8, 484–490.
+19 M. M. El-Hendawy, N. J. English and A. M. El-Nahas,
+Strategies for Design of New Organic Molecular Rectifiers:
+Chemical and Molecular-Simulation Perspectives, in Com-
+putational Chemistry: Theories, Methods, and Applications, ed.
+D. Bove, Nova Science Publishers, Inc. New York, 2014, pp.
+143–166,
+https://novapublishers.com/shop/computational-
+chemistry-theories-methods-and-applications/.
+20 J.-C. Li and X. Gong, Diode rectification and negative
+diﬀerential resistance of dipyrimidinyl–diphenyl molecular
+junctions, Org. Electron., 2013, 14, 2451–2458.
+Paper
+PCCP
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 11 ===
+This journal is © the Owner Societies 2026
+Phys. Chem. Chem. Phys., 2026, 28, 3363–3374 | 3373
+21 H. Wang, F. Hu, A. Adijiang, R. Emusani, J. Zhang, Q. Hu,
+X. Guo, T. Lee, L. Chen and D. Xiang, Gating the rectifying
+direction of tunneling current through single-molecule
+junctions, J. Am. Chem. Soc., 2024, 146, 35347–35355.
+22 M. L. Perrin, E. Gala´n, R. Eelkema, J. M. Thijssen,
+F. Grozema and H. S. van der Zant, A gate-tunable single-
+molecule diode, Nanoscale, 2016, 8, 8919–8923.
+23 Q. Zhang, A gate controlled conjugated single molecule
+diode: its rectification could be reversed, Phys. B, 2014,
+450, 90–93.
+24 G.-P. Zhang, G.-C. Hu, Z.-L. Li and C.-K. Wang, Theoretical
+studies on protonation-induced inversion of the rectifying
+direction
+in
+dipyrimidinyl–diphenyl
+diblock
+molecular
+junctions, J. Phys. Chem. C, 2012, 116, 3773–3778.
+25 Y. Guo, C. Yang, S. Zhou, K. N. Houk and X. Guo, A Robust
+Single-Molecule Diode with High Rectification Ratio and
+Integrability, J. Am. Chem. Soc., 2025, 147, 16972–16981.
+26 R. P. Sullivan, J. T. Morningstar, E. Castellanos-Trejo,
+R.
+W.
+Bradford
+III,
+Y.
+J.
+Hofstetter,
+Y.
+Vaynzof,
+M. E. Welker and O. D. Jurchescu, Intermolecular charge
+transfer enhances the performance of molecular rectifiers,
+Sci. Adv., 2022, 8, eabq7224.
+27 X. Chen, M. Roemer, L. Yuan, W. Du, D. Thompson, E. Del
+Barco and C. A. Nijhuis, Molecular diodes with rectification
+ratios exceeding 105 driven by electrostatic interactions,
+Nat. Nanotechnol., 2017, 12, 797–803.
+28 L. Yuan, N. Nerngchamnong, L. Cao, H. Hamoudi, E. Del
+Barco, M. Roemer, R. K. Sriramula, D. Thompson and
+C. A. Nijhuis, Controlling the direction of rectification in a
+molecular diode, Nat. Commun., 2015, 6, 6324.
+29 W.-X. Su, X. Zuo, Z. Xie, G.-P. Zhang and C.-K. Wang,
+Obvious modulation of rectifying performance by conjuga-
+tion breaking of the bridging fragment in donor–bridge–
+acceptor molecular diodes, RSC Adv., 2017, 7, 14200–14205.
+30 A. Polakovsky, J. Showman, J. Valdiviezo and J. L. Palma,
+Quantum interference enhances rectification behavior of
+molecular devices, Phys. Chem. Chem. Phys., 2021, 23,
+1550–1557.
+31 V. J. Santamarı´a-Garcı´a, J. Bonilla-Rı´os and J. L. Palma,
+Bridge Eﬀect on Molecular Rectification: Linearly Conju-
+gated, Cross-Conjugated, and Saturated Bridges, J. Phys.
+Chem. C, 2023, 127, 6825–6834.
+32 Me Frisch, G. Trucks, H. B. Schlegel, G. Scuseria, M. Robb,
+J. Cheeseman, G. Scalmani, V. Barone, G. Petersson and
+H. Nakatsuji, Gaussian 16, Gaussian, Inc., Wallingford, CT,
+2016.
+33 A. D. Becke, Density-functional thermochemistry. III. The
+role
+of
+exact
+exchange,
+J.
+Chem.
+Phys.,
+1993,
+98,
+5648–5652.
+34 M. M. El-Hendawy, A. M. El-Nahas and M. K. Awad, Eﬀect of
+Applied Voltage on the Geometrical and Electronic Struc-
+tures of Dipyrimidinyl-Diphenyl Diblock as a Molecular
+Diode:
+A
+DFT
+Study,
+J.
+Phys.
+Chem.
+C,
+2010,
+114,
+21728–21735.
+35 M. M. El-Hendawy, A. M. El-Nahas and M. K. Awad, Mod-
+ification of the electric properties of molecular devices via
+gradual increase of number of nitrogen atoms: a computa-
+tional study, Org. Electron., 2012, 13, 807–814.
+36 M. Brandbyge, J.-L. Mozos, P. Ordejo´n, J. Taylor and
+K. Stokbro, Density-functional method for nonequilibrium
+electron transport, Phys. Rev. B: Condens. Matter Mater.
+Phys., 2002, 65, 165401.
+37 Q.v.Q.W.-S.Q. (https://www.synopsys.com/quantumatk).
+38 S. Smidstrup, T. Markussen, P. Vancraeyveld, J. Wellendorﬀ,
+J. Schneider, T. Gunst, B. Verstichel, D. Stradi, P. A.
+Khomyakov and U. G. Vej-Hansen, QuantumATK: an inte-
+grated platform of electronic and atomic-scale modelling
+tools, J. Phys.: Condens. Matter, 2019, 32, 015901.
+39 D. Stradi, U. Martinez, A. Blom, M. Brandbyge and
+K. Stokbro, General atomistic approach for modeling
+metal-semiconductor interfaces using density functional
+theory and nonequilibrium Green’s function, Phys. Rev. B,
+2016, 93, 155302.
+40 J. P. Perdew, K. Burke and M. Ernzerhof, Generalized
+gradient approximation made simple, Phys. Rev. Lett.,
+1996, 77, 3865.
+41 Z. Wu, P. Cui and M. Deng, Rational design of photocon-
+trolled rectifier switches in single-molecule junctions based
+on diarylethene, Molecules, 2023, 28, 7158.
+42 A. Z. Thong, M. S. Shaﬀer and A. P. Horsfield, HOMO–
+LUMO coupling: the fourth rule for highly effective mole-
+cular rectifiers, Nanoscale, 2017, 9, 8119–8125.
+43 S. Kaur, R. Kaur, D. K. K. Randhawa, R. Sharma and
+H. Kaur, Doping-induced electronic transport properties
+in tetracene-based molecular device, Bull. Mater. Sci.,
+2024, 47, 247.
+44 M. Bu¨ttiker, Y. Imry, R. Landauer and S. Pinhas, General-
+ized many-channel conductance formula with application
+to small rings, Phys. Rev. B: Condens. Matter Mater. Phys.,
+1985, 31, 6207.
+45 Y. Yu, Y.-Y. Zhang, L. Liu, S.-S. Wang, J.-H. Guan, Y. Xia and
+S.-S. Li, Chebyshev polynomial method to Landauer–Bu¨tti-
+ker formula of quantum transport in nanostructures, AIP
+Adv., 2020, 10, 075215.
+46 P. Khomyakov, G. Brocks, V. Karpan, M. Zwierzycki and
+P. J. Kelly, Conductance calculations for quantum wires
+and interfaces: mode matching and Green’s functions,
+Phys. Rev. B: Condens. Matter Mater. Phys., 2005, 72,
+035450.
+47 J. Huang, Q. Li, Z. Li and J. Yang, Rectifying eﬀect in polar
+conjugated molecular junctions: a first-principles study,
+J. Nanosci. Nanotechnol., 2009, 9, 774–778.
+48 R. A. Serway, J. W. Jewett and V. Peroomian, Physics for
+scientists and engineers, Saunders college publishing, Phila-
+delphia, 2000.
+49 G.-P. Zhang, G.-C. Hu, Y. Song, Z.-L. Li and C.-K. Wang,
+Modulation of rectification in diblock co-oligomer diodes
+by adjusting anchoring groups for both symmetric and
+asymmetric
+electrodes,
+J.
+Phys.
+Chem.
+C,
+2012,
+116,
+22009–22014.
+50 G.-P. Zhang, Z. Xie, Y. Song, G.-C. Hu and C.-K. Wang,
+Molecular-length induced inversion of rectification in
+PCCP
+Paper
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online
+
+
+=== PDF PAGE 12 ===
+3374 | Phys. Chem. Chem. Phys., 2026, 28, 3363–3374
+This journal is © the Owner Societies 2026
+diblock pyrimidinyl–phenyl molecular junctions, Chem.
+Phys. Lett., 2014, 591, 296–300.
+51 I. Dı´ez-Pe´rez, J. Hihath, Y. Lee, L. Yu, L. Adamska,
+M. A. Kozhushner, I. I. Oleynik and N. Tao, Rectification
+and stability of a single molecular diode with controlled
+orientation, Nat. Chem., 2009, 1, 635–641.
+52 J. Hihath, C. Bruot, H. Nakamura, Y. Asai, I. Diez-Perez, Y. Lee,
+L. Yu and N. Tao, Inelastic transport and low-bias rectification
+in a single-molecule diode, ACS Nano, 2011, 5, 8331–8339.
+53 M. Y. Toriyama, A. M. Ganose, M. Dylla, S. Anand, J. Park,
+M. K. Brod, J. M. Munro, K. A. Persson, A. Jain and
+G. J. Snyder, How to analyse a density of states, Mater.
+Today Electron., 2022, 1, 100002.
+54 Qv Nguyen, P. Martin, D. Frath, M. L. Della Rocca, F. Lafolet,
+C. Barraud, P. Lafarge, V. Mukundan, D. James and
+R. L. McCreery, Control of rectification in molecular junc-
+tions: contact eﬀects and molecular signature, J. Am. Chem.
+Soc., 2017, 139, 11913–11922.
+Paper
+PCCP
+Published on 19 January 2026. Downloaded on 3/12/2026 1:55:06 AM. 
+View Article Online

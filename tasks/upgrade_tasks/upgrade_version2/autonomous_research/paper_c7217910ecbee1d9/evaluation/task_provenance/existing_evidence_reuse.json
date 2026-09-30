@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "records": [
+    {
+      "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_c7217910ecbee1d9/evaluation/task_provenance/historical_n2_reaudit.json",
+      "sha256": "d76f849f9a15e070197611079cf01b07218966083660255dd08b55ab5f0f699e",
+      "description": "冻结V1的完整n2原生日志/图审计",
+      "can_support": "PBE0/def2SVP气相81原子局部驻点可行性；电子与ZPE能量定义",
+      "cannot_support": "非全局最低证明，非全n系列校准，也非现运行生成产物"
+    },
+    {
+      "path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_anion_m1_nonclashing_optfreq_20260916_20260916T224848Z/stdout.log",
+      "sha256": "2e6a023a1ea77881664309e08d1ba227180db0ad6a2d34fcd7313e63dc68b02a",
+      "description": "既有选中n2原生opt/freq日志；态=[-1, 1]",
+      "can_support": "源方法、81原子计量、驻点/频率及条件性能量参考",
+      "cannot_support": "不自动证明充分自旋/位点搜索；低频及SCF/弥散敏感性需独立审查"
+    },
+    {
+      "path": "docs/verification/group_2/paper_c7217910ecbee1d9/provenance/qzcli_hpc/author_PAl12_BLA2_opposite_neutral_m2_nonclashing_optfreq_20260916_20260917T232712Z/stdout.log",
+      "sha256": "fed8f6c4c9db933546a3347985b5e6a66191560ab638631ba2c208e37a54d5b0",
+      "description": "既有选中n2原生opt/freq日志；态=[0, 2]",
+      "can_support": "源方法、81原子计量、驻点/频率及条件性能量参考",
+      "cannot_support": "不自动证明充分自旋/位点搜索；低频及SCF/弥散敏感性需独立审查"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/report/n2_vertical_results.json",
+      "sha256": "62f3c9f8c06c2534d75c887000194decaf36a6697c73b3eea9856df5477e5220",
+      "description": "已存在n2固定中性几何能量与密度审计",
+      "can_support": "相同几何下电子附着定义、历史参考原始日志路径及hash",
+      "cannot_support": "后续稳定性/基组与新题整体语义尚未校准；其旧固定矩阵remaining不是V2必做项"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_c7217910ecbee1d9/report/n1_stable_vertical_pair_audit.json",
+      "sha256": "7ff6ae08e4702a3a830a14c2c02d03de0c63653369e46efc12785b005fdf0e3e",
+      "description": "已存在n1双重态中性与单/三重态阴离子垂直对",
+      "can_support": "特定几何与方法的稳定SCF及垂直量可行性",
+      "cannot_support": "不等于自由阴离子AEA；同报告fixed-core量不是VEA"
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch6/source_review/cluster_raw_recheck.json",
+      "sha256": "fbc212119c8214c8da26355471d1f7ba12dd081f0fc1ba388cf10cdd5cb1dbe6",
+      "description": "旧xTB端点独立结构复核",
+      "can_support": "原始失败/重构负例与身份误报防线",
+      "cannot_support": "不得据此断言完整DFT对象不存在"
+    }
+  ],
+  "new_scientific_calculations_performed": false,
+  "reuse_boundary": "Prior results are private version-bound calibration evidence; never claim generated-in-run or author empirical observation. Source/expanded/semantic gaps remain."
+}

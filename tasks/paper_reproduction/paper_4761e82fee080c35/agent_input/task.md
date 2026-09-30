@@ -4,7 +4,7 @@ Determine whether oxidative activation of the supplied 1,4-dihydropyridine-N-pho
 
 # Public inputs and scientific boundaries
 
-`data/inputs/structure_1.xyz` through `structure_4.xyz` are the complete Cartesian coordinates of the four labeled species. The XYZ atom order and element identities are authoritative; preserve them when making charge/multiplicity assignments and state all assignments explicitly. The system boundary is these isolated molecular species with an implicit solvent representation of acetonitrile. Report potentials versus SCE in MeCN and BDEs in kcal/mol. The task concerns thermodynamic plausibility, not reaction yields, kinetics, or discovery of additional intermediates. You may generate conformers or alter computational models, but identify such choices and their consequences.
+`data/inputs/structure_1.xyz` through `structure_4.xyz` are the complete Cartesian coordinates of the four labeled species. `data/inputs/state_assignments.json` supplies the source-consistent charge and spin assignments: 1 `(0,1)`, 2 `(+1,2)`, 3 `(0,2)`, and 4 `(+1,1)`. The XYZ atom order and element identities remain authoritative. The system boundary is these isolated molecular species with an implicit solvent representation of acetonitrile. Report potentials versus SCE in MeCN and BDEs in kcal/mol. The task concerns thermodynamic plausibility, not reaction yields, kinetics, or discovery of additional intermediates. You may generate conformers or alter computational models, but identify such choices and their consequences.
 
 # Required scientific validation/investigation
 

@@ -6,13 +6,13 @@ The paper uses quantum-chemical calculations to explain why the meta-amino 1,8-n
 
 ## 2. System and model boundary
 
-The target is neutral, singlet m-NH2: 2-butyl-6-amino-1H-benzo[de]isoquinoline-1,3(2H)-dione (also described in the SI as the n-butyl imide of 3-amino-1,8-naphthalic anhydride; formula C16H16N2O2). The computational solvent is water represented with the SMD continuum model. The paper also discusses simplified dye/two-water clusters, but the core route described for the D-index uses the dye model and SMD water. The D-index is the distance between hole and electron centroids for the S0→S1 excitation.
+The target is neutral, singlet m-NH2: 2-butyl-6-amino-1H-benzo[de]isoquinoline-1,3(2H)-dione (the n-butyl imide of 3-amino-1,8-naphthalic anhydride; dye formula C16H16N2O2). The source model contains two explicit hydrogen-bonded waters in addition to SMD water, not a dye-only continuum calculation. Main-text computational discussion, SI Fig. S2, and the water-containing hole/electron images in SI Table S2 establish this boundary. The D-index is the distance between hole and electron centroids for the S0→S1 excitation of that cluster. The source DOCX was recovered from the publisher on 2026-09-18 and is archived under this paper's verification provenance; initial coordinates must be independently reconstructed because no Cartesian list is supplied.
 
 ## 3. Authors' implemented computational route
 
 | Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
 |---|---|---|---|---|---|---|
-| 1 | Obtain a ground-state geometry | m-NH2 structure | Gaussian 16 DFT optimization | B3LYP-GD3BJ/6-311+G(d,p) | optimized S0 geometry | ev_doc_e2b0baa00454_000002_5daf4e16247f; ev_doc_e2b0baa00454_000044_5daf4e16247f |
+| 1 | Obtain a ground-state geometry | correctly connected m-NH2 plus two amino-bound waters | Gaussian 16 DFT optimization | B3LYP-GD3BJ/6-311+G(d,p), SMD water | optimized cluster S0 geometry | ev_doc_e2b0baa00454_000002_5daf4e16247f; ev_doc_e2b0baa00454_000044_5daf4e16247f; SI Fig. S2 |
 | 2 | Calculate low-lying absorption states | optimized S0 geometry | Gaussian 16 linear-response TDDFT | optimally tuned LC-BLYP*/6-311G+(d,p), SMD water; first two singlet roots | S0→S1/S2 energies and oscillator strengths | ev_doc_e2b0baa00454_000002_5daf4e16247f; ev_doc_e2b0baa00454_000044_5daf4e16247f |
 | 3 | Determine the range-separation parameter | m-NH2 electronic structure | authors' GAP-TUNING procedure | molecule-specific optimal omega; value tabulated privately in SI Table S3 | tuned LC-BLYP* parameter | ev_doc_e2b0baa00454_000007_62b462179dc2; ev_doc_e2b0baa00454_000049_62b462179dc2 |
 | 4 | Analyze charge transfer | S0→S1 excitation wavefunction | Multiwfn hole–electron distribution analysis | D-index = distance between hole and electron centroids | D-index in Angstrom | ev_doc_e2b0baa00454_000002_5daf4e16247f; ev_doc_e2b0baa00454_000044_5daf4e16247f |
@@ -25,7 +25,7 @@ The implemented workflow is sequential: verify a converged S0 optimization; pref
 
 ## 5. Private reference results
 
-The main paper reports D = 2.25 Angstrom for m-NH2 and D = 1.33 Angstrom for p-NH2, concluding that meta substitution has stronger CT character. The SI states that the molecule-specific optimal range-separation parameters are listed in Table S3; those values are private to evaluation and are not part of the public task input. The paper also reports a meta acetylation D change of 0.31 Angstrom, but this is not a required endpoint here.
+The main paper reports D = 2.25 Angstrom for m-NH2 and D = 1.33 Angstrom for p-NH2; SI Table S2 gives 2.252 and 1.333 Angstrom. The authors conclude that meta substitution has stronger CT character. SI Table S3 gives omega = 0.232 bohr^-1 for m-NH2, absorption 429 nm and f = 0.1249. These are private reference data, not public task answers. The paper also reports a meta acetylation D change of 0.31 Angstrom, but this is not a required endpoint here. Do not require S1-optimized emission or nonradiative-rate calculations to verify this vertical-absorption descriptor.
 
 ## 6. Limitations and interpretation boundaries
 

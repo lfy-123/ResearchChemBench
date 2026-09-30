@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_spectral_series",
+      "key_point_type": "result",
+      "statement": "Construct complete identities with fixed operational backbone helicity; calculateUV/ECD/gabs and state-character correspondence at one solvent/response convention. Retain full transition moments/strengths and raw states. Do not infer spectral changes from the old relative single-point energy.",
+      "expected": "Construct complete identities with fixed operational backbone helicity; calculateUV/ECD/gabs and state-character correspondence at one solvent/response convention. Retain full transition moments/strengths and raw states. Do not infer spectral changes from the old relative single-point energy.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_common_geometry",
+      "key_point_type": "result",
+      "statement": "Use the explicit retained mono/di subunit maps, restore all monomerCl/H and quantify the common-core RMSD. Compare equivalent bands/NTO character under one broadening. State remaining composition/coupling effects; never call a clipped arbitrary fragment the fullmonomer or compare its unbalanced total energy.",
+      "expected": "Use the explicit retained mono/di subunit maps, restore all monomerCl/H and quantify the common-core RMSD. Compare equivalent bands/NTO character under one broadening. State remaining composition/coupling effects; never call a clipped arbitrary fragment the fullmonomer or compare its unbalanced total energy.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_ensemble_and_sign",
+      "key_point_type": "result",
+      "statement": "Sample sidechain conformers only within each fixed member/backbone, document minima/free energies and weight convergence. Perform a true mirror sign/energy calibration and one common broadening/weight perturbation. If kinetic evidence excludes equilibrium, report conditional spectra without unjustified cross-family weighting.",
+      "expected": "Sample sidechain conformers only within each fixed member/backbone, document minima/free energies and weight convergence. Perform a true mirror sign/energy calibration and one common broadening/weight perturbation. If kinetic evidence excludes equilibrium, report conditional spectra without unjustified cross-family weighting.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

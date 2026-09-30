@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "task_type": "paper_reproduction",
+  "title": "Cis quinoxaline ligand: six-bond geometry validation",
+  "category": "molecular geometry optimization and vibrational validation",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecular identity and endpoint are fixed, but the Agent must select a defensible computational protocol and construct an explicit atom mapping from a crystallographic record.",
+    "The Agent must validate a stationary point and perform a quantitative bond-length comparison while reporting gas-phase versus solid-state limitations."
+  ],
+  "paper": {
+    "title": "Structural and antimicrobial studies on a tricarbonyl rhenium(i) complex with the 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline ligand",
+    "doi": "10.1039/d5nj04125b",
+    "journal": "New Journal of Chemistry",
+    "publication_date": "2026-01-09"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Supplied immutable CCDC 2433822 CIF and compound-1 metadata, including identity, charge and multiplicity; CCDC retrieval is not scored."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured calculation, validation, mapped bond comparison and conclusion."
+    }
+  ]
+}

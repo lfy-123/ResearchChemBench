@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "rules": [
+    {
+      "rule_id": "r_ar_search",
+      "expected": "candidate identities, coverage and deduplication rule are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search_and_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "type": "semantic",
+      "reference_id": "kp_ar_process_search"
+    },
+    {
+      "rule_id": "r_ar_ts",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.shift_33.validation",
+          "$.channels.shift_55.validation"
+        ],
+        "comparison": "expert validation"
+      },
+      "type": "condition",
+      "reference_id": "kp_ar_process_ts",
+      "expected": "all required validation booleans are true for validated candidates Validation flags alone are insufficient: inspect each actual mode/path/endpoint evidence under the public channel requirements. Distinct starting files for one channel do not establish separate mechanisms."
+    },
+    {
+      "rule_id": "r_ar_33",
+      "target": 23.5,
+      "unit": "kcal/mol",
+      "tolerance": 3,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.shift_33.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "kp_ar_result_barriers"
+    },
+    {
+      "rule_id": "r_ar_55",
+      "target": 26.2,
+      "unit": "kcal/mol",
+      "tolerance": 3,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.shift_55.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "kp_ar_result_barriers"
+    },
+    {
+      "rule_id": "r_ar_final",
+      "expected": "computed comparison supporting a lower validated [3,3] barrier than [5,5] Check common 3a reference and consistent thermochemical/qRRHO components. Limit the ordering to the two validated channels, not the globally best pathway over an unsearched surface.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "type": "semantic",
+      "reference_id": "c_ar_final"
+    },
+    {
+      "rule_id": "r_ar_interp",
+      "type": "semantic",
+      "reference_id": "kp_ar_result_interpretation",
+      "expected": "computed channel ordering and its mechanistic interpretation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

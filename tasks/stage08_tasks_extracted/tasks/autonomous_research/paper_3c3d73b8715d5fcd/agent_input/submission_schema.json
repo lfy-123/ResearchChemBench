@@ -1,0 +1,252 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "completion_status",
+          "hypotheses",
+          "method",
+          "candidates",
+          "observables",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "completion_status": {
+            "const": "complete"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model_chemistry",
+              "thermochemistry",
+              "solvent",
+              "energy_assembly",
+              "reference_state"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "model_chemistry": {
+                "type": "string"
+              },
+              "thermochemistry": {
+                "type": "string"
+              },
+              "solvent": {
+                "type": "string"
+              },
+              "energy_assembly": {
+                "type": "string"
+              },
+              "reference_state": {
+                "type": "string"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "system_identity",
+                "input_geometry",
+                "pathway_role",
+                "attempt_outcome",
+                "validation_status",
+                "imaginary_frequencies_cm-1",
+                "connectivity_evidence",
+                "relative_gibbs_energy_kcal_mol"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "system_identity": {
+                  "type": "string"
+                },
+                "input_geometry": {
+                  "type": "string"
+                },
+                "pathway_role": {
+                  "type": "string"
+                },
+                "attempt_outcome": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string"
+                },
+                "imaginary_frequencies_cm-1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "connectivity_evidence": {
+                  "type": "string"
+                },
+                "relative_gibbs_energy_kcal_mol": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "cycloisomerization_activation_free_energy_kcal_mol",
+              "endo_exo_ocs_transition_state_difference_kcal_mol"
+            ],
+            "properties": {
+              "cycloisomerization_activation_free_energy_kcal_mol": {
+                "type": "number"
+              },
+              "endo_exo_ocs_transition_state_difference_kcal_mol": {
+                "type": "number"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          },
+          "hypotheses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "completion_status",
+          "hypotheses",
+          "method",
+          "candidates",
+          "conclusion",
+          "limitations",
+          "failure_account"
+        ],
+        "properties": {
+          "completion_status": {
+            "enum": [
+              "bounded_failure",
+              "partial"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model_chemistry",
+              "thermochemistry",
+              "solvent",
+              "energy_assembly",
+              "reference_state"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "model_chemistry": {
+                "type": "string"
+              },
+              "thermochemistry": {
+                "type": "string"
+              },
+              "solvent": {
+                "type": "string"
+              },
+              "energy_assembly": {
+                "type": "string"
+              },
+              "reference_state": {
+                "type": "string"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "system_identity",
+                "input_geometry",
+                "pathway_role",
+                "attempt_outcome",
+                "validation_status",
+                "imaginary_frequencies_cm-1",
+                "connectivity_evidence"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "system_identity": {
+                  "type": "string"
+                },
+                "input_geometry": {
+                  "type": "string"
+                },
+                "pathway_role": {
+                  "type": "string"
+                },
+                "attempt_outcome": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string"
+                },
+                "imaginary_frequencies_cm-1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "connectivity_evidence": {
+                  "type": "string"
+                },
+                "relative_gibbs_energy_kcal_mol": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          },
+          "failure_account": {
+            "type": "string"
+          },
+          "hypotheses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

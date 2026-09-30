@@ -1,0 +1,27 @@
+# Scientific objective
+
+Determine and validate the neutral gas-phase equilibrium geometry of 4,4-difluoro-8-phenyl-4-bora-3a,4a-diaza-s-indacene (Ph-BODIPY, C15H11BF2N2) from the supplied indexed molecular identity. Independently quantify the dipyrromethene-core out-of-plane geometry and the phenyl–core torsion without assuming their direction or magnitude. Report an optimized equilibrium structure; the evaluator will compare its non-hydrogen coordinates with a hidden gas-phase reference. The task concerns direct molecular-geometry computation; do not invent a discovery or mechanism narrative.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors proposed that the dipyrromethene skeleton is almost planar while the phenyl substituent is twisted relative to that core in the isolated equilibrium structure.
+
+**Candidate route or mechanism.**
+A useful reproduction should test this structural interpretation by optimizing neutral Ph-BODIPY geometries and considering the phenyl torsion as a coordinate that can support a twisted low-energy arrangement, while allowing the core geometry to relax rather than imposing planarity. The authors evaluated several density-functional geometry models, including CAM-B3LYP, PBE0, and mPW1PW91, as candidate computational descriptions.
+
+**Discriminating evidence.**
+Discriminate the interpretation using optimized non-hydrogen geometries, the core planarity and phenyl–core torsion descriptors, and comparison of computed internuclear distances across candidate computational models. A torsion scan or related energy variation with phenyl rotation can further test whether the proposed twisted arrangement is structurally supported.
+
+
+# Public inputs and scientific boundaries
+
+The only molecular input is `data/inputs/ph_bodipy_connectivity.json`, an answer-neutral 31-atom composition/connectivity specification with fixed atom indices; it contains no Cartesian geometry. Construct a chemically sensible starting geometry or documented conformer set from this identity. The molecule is neutral, closed-shell, singlet Ph-BODIPY; model the isolated gas-phase molecule without solvent, crystal packing or counterions. You may generate conformers and choose computational methods, but must state software, method, basis/model, convergence, and any symmetry constraints. No author route, candidate ranking, experimental coordinates or paper numerical result is public. For aggregate distance statistics use only non-hydrogen pairs; report the complete pair manifest and how bonded pairs are defined if that subset is used. This task evaluates geometry and validation, not spectra, reaction energetics or condensed-phase properties.
+
+# Required scientific validation/investigation
+
+Propose and execute an independent computational route. Generate a finite documented starting set appropriate to the molecular identity, state how it was generated and deduplicated, preserve each candidate's public atom indices, and explain which candidates advance to final validation. Attach the stationary-minimum criterion, outcome and diagnostics to every candidate reported as a minimum (for example, vibrational analysis with no imaginary modes, or a clearly justified alternative). Report the phenyl–core twist as the acute-equivalent magnitude of dihedral 16-15-12-2: wrap the signed dihedral to [-180°,180°], then report `min(abs(d),180-abs(d))` in [0°,90°]. Report core planarity as the RMS perpendicular distance in Angstrom of atoms 1-12 from their least-squares best-fit plane. Provide all 276 pair distances for the 24 non-hydrogen atoms, identified by their public index pair and derived from the submitted coordinates. Do not claim hidden-reference MUE, MSE or RMSE. Completion requires a converged validated minimum, all requested descriptors and pair distances, provenance, and a coverage/stopping statement. Stop when the declared conformer/method search scope is exhausted or when additional candidates no longer change the selected conclusion under your stated criterion; report what was not searched and do not claim global coverage.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. A complete branch includes method/provenance, candidate identities and per-candidate validation, selected-candidate coordinates, the two fixed descriptors, the 276 non-hydrogen pair distances, coverage/stopping, limitations and a conclusion. A partial branch is used when scientifically useful candidate work exists but no candidate has yet passed the declared minimum criterion; a bounded-failure branch is used when the route cannot produce usable candidate geometry. Both non-success branches require attempted-route evidence and diagnostics but do not require invented coordinates, descriptors or distances.

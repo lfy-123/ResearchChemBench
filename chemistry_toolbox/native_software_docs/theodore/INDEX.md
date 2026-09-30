@@ -29,6 +29,7 @@ Run TheoDORE excited-state and transition-density analyses from explicit subcomm
 ## Supported command entries
 | Executable | Input mode | Native invocation | Required staged inputs |
 |---|---|---|---|
+| `theodore_compat` | `arguments` | `theodore_compat analyze_tden -f dens_ana.in` | `orbital`, `dens_ana.in` |
 | `theodore` | `arguments` | `theodore analyze_tden -f dens_ana.in` | `orbital`, `dens_ana.in` |
 
 ## Supported task families

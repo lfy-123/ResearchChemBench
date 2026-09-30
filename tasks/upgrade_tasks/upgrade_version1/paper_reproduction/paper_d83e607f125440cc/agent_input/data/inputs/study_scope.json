@@ -1,0 +1,63 @@
+{
+  "members": [
+    {
+      "id": "H",
+      "name": "benzyl alcohol",
+      "neutral_SMILES": "OCc1ccccc1",
+      "neutral_formula": "C7H8O"
+    },
+    {
+      "id": "Cl",
+      "name": "4-chlorobenzyl alcohol",
+      "neutral_SMILES": "OCc1ccc(Cl)cc1",
+      "neutral_formula": "C7H7ClO"
+    },
+    {
+      "id": "Me",
+      "name": "4-methylbenzyl alcohol",
+      "neutral_SMILES": "OCc1ccc(C)cc1",
+      "neutral_formula": "C8H10O"
+    },
+    {
+      "id": "OMe",
+      "name": "4-methoxybenzyl alcohol",
+      "neutral_SMILES": "OCc1ccc(OC)cc1",
+      "neutral_formula": "C8H10O2"
+    },
+    {
+      "id": "SMe",
+      "name": "4-(methylsulfanyl)benzyl alcohol",
+      "neutral_SMILES": "OCc1ccc(SC)cc1",
+      "neutral_formula": "C8H10OS"
+    }
+  ],
+  "states": [
+    {
+      "species": "neutral_parent",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "species": "radical_cation",
+      "charge": 1,
+      "multiplicity": 2
+    },
+    {
+      "species": "benzylic_dehydrogenated_cation",
+      "charge": 1,
+      "multiplicity": 1
+    },
+    {
+      "species": "H_atom",
+      "charge": 0,
+      "multiplicity": 2
+    }
+  ],
+  "channel": "Remove exactly one hydrogen from CH2OH, preserve all other atoms and identify the relaxed benzylic cation channel; full connectivity mapping is required.",
+  "primary_observables": {
+    "I_e_kJ_mol": "E(radical_cation)-E(neutral_parent)",
+    "D_e_kJ_mol": "E(benzylic_dehydrogenated_cation)+E(H_atom)-E(radical_cation)"
+  },
+  "primary_phase": "gas",
+  "corrections": "Electronic energy only; no ZPE or thermal correction in I_e or D_e."
+}

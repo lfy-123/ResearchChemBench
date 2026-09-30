@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "rules": [
+    {
+      "rule_id": "ar_rule_process_opt",
+      "reference_id": "ar_process_optimization",
+      "type": "condition",
+      "expected": "optimization and validation evidence are present or bounded failure is documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation"
+        ],
+        "comparison": "expert check of convergence and validation"
+      }
+    },
+    {
+      "rule_id": "ar_rule_process_axis",
+      "reference_id": "ar_process_axis",
+      "type": "condition",
+      "expected": "the molecular axis and structural metrics are explicitly and reproducibly defined Re-extract the plane normal from the declared mapped atoms and project the raw Cartesian quadrupole onto it, retaining origin and units. A traceless tensor or a different origin/axis cannot be substituted without the explicit transformation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.axis_convention",
+          "$.observables.planarity_rms_angstrom",
+          "$.observables.ns_distance_angstrom"
+        ],
+        "comparison": "expert object-specific structural check"
+      }
+    },
+    {
+      "rule_id": "ar_rule_tensor",
+      "reference_id": "ar_result_tensor",
+      "type": "numeric",
+      "target": -108.35,
+      "unit": "Debye angstrom",
+      "tolerance": 5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.qzz_stacking_debye_angstrom"
+        ],
+        "comparison": "absolute difference in independently assigned stacking-axis component"
+      }
+    },
+    {
+      "rule_id": "ar_rule_structure",
+      "reference_id": "ar_result_structure",
+      "type": "semantic",
+      "expected": "the report uses its optimized geometry and correctly defined multipoles to assess planarity and net-dipole-cancelled quadrupolar character",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.dipole_debye",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_final",
+      "reference_id": "ar_final_conclusion",
+      "type": "semantic",
+      "expected": "The validated M3 calculation determines planarity, the mapped N-S contact, dipole and stacking-axis raw quadrupole, using the specified origin, axes and units.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

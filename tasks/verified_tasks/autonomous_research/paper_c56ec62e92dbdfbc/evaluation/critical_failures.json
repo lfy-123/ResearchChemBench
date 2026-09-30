@@ -1,0 +1,21 @@
+{
+  "paper_id": "paper_c56ec62e92dbdfbc",
+  "items": [
+    {
+      "failure_id": "cf_no_ts_validation",
+      "condition": "Final R/S ordering relies on a candidate without per-candidate one-imaginary-frequency and intended-mode/path-connectivity evidence."
+    },
+    {
+      "failure_id": "cf_identity_ambiguity",
+      "condition": "A candidate used for the final scientific comparison has missing or inconsistent candidate ID, atom mapping, stereochemical outcome or charge/multiplicity. An explicitly failed extra candidate may omit unavailable successful-validation fields and earns no result credit."
+    },
+    {
+      "failure_id": "cf_mixed_reference",
+      "condition": "Compared energies use different references, temperatures, standard states or unreported transformations."
+    },
+    {
+      "failure_id": "cf_fabricated_success",
+      "condition": "The report claims success without the required validated R/S pathways or scientific coverage/stopping evidence, or claims an ordering from an unresolved candidate family that could reverse it. A valid success does not require bounded-failure blockers; an honest bounded failure does not claim unavailable results."
+    }
+  ]
+}

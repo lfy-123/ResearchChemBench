@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_6492e1e5d38d23ae",
+  "task_type": "autonomous_research",
+  "title": "Independent TiO2 phase work-function investigation",
+  "category": "periodic_surface_electronic_structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The scientific endpoints are fixed, but the agent must independently plan calculations, validate both surface values, and decide what charge-transfer interpretation is justified without an author-route hint."
+  ],
+  "paper": {
+    "title": "In-situ Z-scheme hetero-phase homojunction significantly enhances the carrier separation efficiency of TiO2 nanotube arrays: Key role of crystal phase engineering",
+    "doi": "10.1016/j.cclet.2025.111424",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-02-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained anatase and rutile POSCAR bulk cells plus deterministic facet/slab protocol."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured work functions, validation evidence, independent comparison, and bounded interpretation."
+    }
+  ]
+}

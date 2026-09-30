@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "task_type": "autonomous_research",
+  "title": "Independent discovery of halogen-dependent band gaps in pyridinium lead bromides",
+  "category": "periodic electronic structure",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must independently design exploration and convergence checks while preserving the specified HSE06 no-SOC primary comparison and separating optional relativistic sensitivity models.",
+    "It must independently formulate and discriminate structural/orbital explanations while validating three heavy-element periodic systems."
+  ],
+  "paper": {
+    "title": "d5dt02637g 2232..2241 ++",
+    "doi": "10.1039/d5dt02637g",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Three experimental parent CIFs and explicit, separate fundamental/framework/same-k electronic observable and relativistic boundaries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Per-crystal fundamental/framework edge and same-k gaps, assignment and stability evidence, separately labeled optical/SOC claims, independent explanation and limitations."
+    }
+  ]
+}

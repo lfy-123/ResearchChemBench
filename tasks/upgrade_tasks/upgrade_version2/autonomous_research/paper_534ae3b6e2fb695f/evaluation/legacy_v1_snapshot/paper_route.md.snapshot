@@ -1,0 +1,7 @@
+# Upgraded author-route and scope record
+
+Formal publisher SI (117 pages), Note8 pp10–12 describes ORCA5.0.4 B3LYP-D3BJ/def2-SVP geometries and def2-TZVP refinement, with some subsequent all-TZVP wording; keep one primary protocol and disclose this ambiguity. SI pp20–22/Note13 interprets electronic descriptors as ODA>6FODA>PFMB nucleophilicity; these are not acylation TS results. New TMC paths and distortion controls test that explanation. MD/diffusion discussion in SI p32 is separate and not scored here.
+
+Use full ODA, 6FODA, PFMB and TMC mapped graphs. The selected TMC site is acyl C2/Cl3; shift TMC maps by +1000 to avoid molecule-map collisions. For each amine, attack with the lowest-numbered supplied amine N and retain the second NH2 unchanged. Model the same net reaction TMC+diamine→monoamide+HCl, with departing chloride as the proton acceptor and no arbitrary free proton. This first-version local gas-phase model at 298.15 K/1 M is benchmark-authored and does not model the membrane interface. Retain source-comparable isolated gas-phase electronic descriptors on their defined scale as auxiliary tests. No polymer MD or membrane performance is required.
+
+The AR public prompt excludes this route. AR and PR share objects, schema, scientific rubric and completion requirements. Development status: implemented_pending_expanded_reference. Old route and old PASS are historical only in the snapshot.

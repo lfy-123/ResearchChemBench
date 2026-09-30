@@ -35,6 +35,7 @@ from .common import (
     write_json,
     write_xyz,
 )
+from ..pysis_observations import read_path_hdf5, read_scan_observations
 
 
 ACTIONS = {
@@ -738,7 +739,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_PYSIS_COMMAND",
         arguments=[str(input_path)],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -748,21 +749,25 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         raise RuntimeError(
             f"pysisyphus failed: {_pysisyphus_failure_detail(directory, completed['stderr'])}"
         )
-    xyz_outputs = [path for path in directory.rglob("*.xyz") if path not in staged_inputs]
+    xyz_outputs = sorted(
+        (path for path in directory.rglob("*.xyz") if path not in staged_inputs),
+        key=lambda path: path.relative_to(directory).as_posix(),
+    )
     native_converged = bool(
         re.search(r"(?m)^\s*Converged!\s*$", completed["stdout"])
     ) and "Number of cycles exceeded!" not in completed["stdout"]
     partial_warnings: list[str] = []
     if action_id == "locate_transition_state":
-        candidate = xyz_outputs[-1] if xyz_outputs else None
+        final_geometry = directory / "final_geometry.xyz"
+        candidate = final_geometry if final_geometry.is_file() else (xyz_outputs[-1] if xyz_outputs else None)
         result_structure = (
             structure_dict(relative_workspace_path(candidate)) if candidate else None
         )
         if result_structure is not None:
             # Native XYZ writers rarely retain molecular electronic-state metadata.
             # These values are the exact Agent-selected state used by the calculator.
-            result_structure["charge"] = charge
-            result_structure["multiplicity"] = multiplicity
+            from ..electronic_state import inherit_state
+            result_structure = inherit_state(result_structure, input_structure, method)
         result = {
             "structure": result_structure,
             "converged": bool(candidate) and native_converged,
@@ -791,11 +796,20 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             directory / "interpolated.trj",
         ]
         path_file = next((path for path in path_candidates if path.is_file()), None)
-        frames = (
+        trajectory_frames = (
             _parse_multixyz(path_file, charge=charge, multiplicity=multiplicity)
             if path_file
             else []
         )
+        hdf5_path = directory / "optimization.h5"
+        if not hdf5_path.is_file():
+            hdf5_candidates = sorted(directory.rglob("optimization.h5"))
+            hdf5_path = hdf5_candidates[0] if hdf5_candidates else hdf5_path
+        hdf5_observation = read_path_hdf5(hdf5_path, charge=charge, multiplicity=multiplicity)
+        if hdf5_observation.get("source", {}).get("path") == hdf5_path.name:
+            hdf5_observation["source"]["path"] = relative_workspace_path(hdf5_path)
+        evaluated_frames = hdf5_observation.get("frames") if hdf5_observation.get("status") == "parsed" else []
+        frames = evaluated_frames or trajectory_frames
         image_files = []
         for index, frame in enumerate(frames):
             image_path = write_xyz(frame, directory / f"path_image_{index:03d}.xyz")
@@ -814,6 +828,7 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         )
         result = {
             "path_file": relative_workspace_path(path_file) if path_file else None,
+            "path_file_role": "final_written_trajectory" if path_file else None,
             "image_files": image_files,
             "image_count": len(image_files),
             "energies_hartree": energies if numeric_energies else None,
@@ -830,6 +845,11 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "converged": native_converged,
             "endpoints_consumed": True,
             "transition_state_validated": False,
+            "path_observation": {
+                "source": "optimization.h5" if evaluated_frames else "final_written_trajectory",
+                "hdf5": hdf5_observation,
+                "evaluated_cycle_image_files": image_files if evaluated_frames else [],
+            },
         }
         if not image_files:
             partial_warnings.append(
@@ -864,6 +884,25 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         else:
             reported_values = values
             reported_unit = "radian"
+        start_value = float(settings["start_value"])
+        end_value = float(settings["end_value"])
+        target_values = [start_value + (end_value - start_value) * index / int(settings["steps"]) for index in range(int(settings["steps"]) + 1)]
+        scan_observation = read_scan_observations(
+            completed["stdout"], targets=target_values[:len(reported_values)], actuals=reported_values,
+            coordinate_unit=reported_unit, requested_steps=int(settings["steps"]),
+            data_file=relative_workspace_path(data_path) if data_path.is_file() else None,
+            trajectory_file=relative_workspace_path(trajectory_path) if trajectory_path.is_file() else None,
+        )
+        if str(settings["coordinate_type"]).lower() == "dihedral":
+            # Preserve the raw difference while exposing the shortest periodic
+            # displacement as the primary delta.  No acceptance decision is made.
+            for point in scan_observation["points"]:
+                raw = point.get("delta")
+                if raw is None:
+                    continue
+                period = 360.0 if reported_unit == "degree" else 2.0 * math.pi
+                point["raw_delta"] = raw
+                point["delta"] = (raw + period / 2.0) % period - period / 2.0
         result = {
             "coordinate_type": str(settings["coordinate_type"]).lower(),
             "atom_indices": [int(value) for value in settings["atom_indices"]],
@@ -877,11 +916,12 @@ def _pysisyphus(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             "data_file": relative_workspace_path(data_path) if data_path.is_file() else None,
             "completed_points": len(values),
             "requested_points": int(settings["steps"]) + 1,
+            "target_values": target_values,
+            "target_unit": reported_unit,
+            "points": scan_observation["points"],
+            "native_scan_observation": scan_observation,
         }
-        native_converged = (
-            len(values) == int(settings["steps"]) + 1
-            and "did not converge. Breaking!" not in completed["stdout"]
-        )
+        native_converged = scan_observation["native_status"] == "converged"
         if not native_converged:
             partial_warnings.append(
                 "The relaxed scan did not complete every requested point with native convergence."
@@ -1992,7 +2032,7 @@ def _mess_master_equation(request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_MESS_COMMAND",
         arguments=[model.name],
         directory=model.parent,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -2141,7 +2181,7 @@ def _mesmer_master_equation(request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_MESMER_COMMAND",
         arguments=[model.name, f"-o{audit.name}"],
         directory=model.parent,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -2477,7 +2517,7 @@ def _pyfrag_analyze(request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_PYFRAG_COMMAND",
         arguments=[input_file.name, scratch.name],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         environment_overrides={"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1"},
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")

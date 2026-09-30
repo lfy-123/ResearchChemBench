@@ -4,7 +4,7 @@ Independently test the authors' qualitative proposal that the bilayer V₂O₅·
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/v2o5_h2o_p1.json`, the SI Table S1 P1 cell: neutral singlet V₈O₂₅H₈ (the O* atom is the water oxygen; H(1)–H(8) are water hydrogens), fractional coordinates and triclinic cell are explicit. The physical boundary is this periodic bilayer unit cell; generate Cartesian coordinates/conformers as needed. The measured quantities are cell lengths/angles and Γ-point vibrational/Raman wavenumbers in cm⁻¹. You may use any defensible electronic-structure, lattice-dynamics, and Raman implementation and must state it. Experimental comparison boundaries are the PDF lattice cell and observed hydrated-V₂O₅ Raman features, without treating them as computational targets.
+Use `data/inputs/v2o5_h2o_p1.json`, the SI Table S1 P1 cell: neutral singlet V₈O₂₄H₈ (O(1)–O(20) are framework oxygens; O(21)–O(24) and H(1)–H(8) form four waters), fractional coordinates and triclinic cell are explicit. The physical boundary is this periodic bilayer unit cell; generate Cartesian coordinates/conformers as needed. The measured quantities are cell lengths/angles and Γ-point vibrational/Raman wavenumbers in cm⁻¹. You may use any defensible electronic-structure, lattice-dynamics, and Raman implementation and must state it. Experimental comparison boundaries are the PDF lattice cell and observed hydrated-V₂O₅ Raman features, without treating them as computational targets.
 
 # Required scientific validation/investigation
 

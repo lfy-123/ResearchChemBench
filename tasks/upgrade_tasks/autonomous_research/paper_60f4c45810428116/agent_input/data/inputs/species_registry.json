@@ -1,0 +1,1484 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "coordinate_policy": "Only given reactant starters; new graph definitions are not optimized minima or TSs. Explicit atom maps, charge and multiplicity take priority over distance-based bond guesses.",
+  "species": [
+    {
+      "id": "carbanion_1a",
+      "smiles": "[CH2-]SCc1ccccc1",
+      "mapped_smiles": "[C-:1]([S:2][C:3]([c:4]1[c:5]([H:14])[c:6]([H:15])[c:7]([H:16])[c:8]([H:17])[c:9]1[H:18])([H:12])[H:13])([H:10])[H:11]",
+      "formula": "C8H9S-",
+      "charge": -1,
+      "multiplicity": 1,
+      "map_namespace": "carbanion_1a",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": -1,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "S",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 16,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 17,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 18,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            9,
+            4
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            1,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            16
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            17
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            9,
+            18
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "Li_cation",
+      "smiles": "[Li+]",
+      "mapped_smiles": "[Li+:1]",
+      "formula": "Li+",
+      "charge": 1,
+      "multiplicity": 1,
+      "map_namespace": "Li_cation",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "Li",
+          "formal_charge": 1,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "naphthalene",
+      "smiles": "c1ccc2ccccc2c1",
+      "mapped_smiles": "[c:1]1([H:11])[c:2]([H:12])[c:3]([H:13])[c:4]2[c:5]([H:14])[c:6]([H:15])[c:7]([H:16])[c:8]([H:17])[c:9]2[c:10]1[H:18]",
+      "formula": "C10H8",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "naphthalene",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 16,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 17,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 18,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            9,
+            10
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            10,
+            1
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            9,
+            4
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            1,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            16
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            17
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            10,
+            18
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "methanol",
+      "smiles": "CO",
+      "mapped_smiles": "[C:1]([O:2][H:6])([H:3])([H:4])[H:5]",
+      "formula": "CH4O",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "methanol",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "O",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            5
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            6
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "methoxide",
+      "smiles": "C[O-]",
+      "mapped_smiles": "[C:1]([O-:2])([H:3])([H:4])[H:5]",
+      "formula": "CH3O-",
+      "charge": -1,
+      "multiplicity": 1,
+      "map_namespace": "methoxide",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "O",
+          "formal_charge": -1,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            5
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "protonated_capture",
+      "smiles": "CSCc1ccccc1",
+      "mapped_smiles": "[C:1]([S:2][C:3]([c:4]1[c:5]([H:15])[c:6]([H:16])[c:7]([H:17])[c:8]([H:18])[c:9]1[H:19])([H:13])[H:14])([H:10])([H:11])[H:12]",
+      "formula": "C8H10S",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "protonated_capture",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "S",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 16,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 17,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 18,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 19,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            9,
+            4
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            1,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            16
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            17
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            9,
+            19
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "rearranged_thiolate",
+      "smiles": "Cc1ccccc1C[S-]",
+      "mapped_smiles": "[C:1]([c:2]1[c:3]([H:13])[c:4]([H:14])[c:5]([H:15])[c:6]([H:16])[c:7]1[C:8]([S-:9])([H:17])[H:18])([H:10])([H:11])[H:12]",
+      "formula": "C8H9S-",
+      "charge": -1,
+      "multiplicity": 1,
+      "map_namespace": "rearranged_thiolate",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "S",
+          "formal_charge": -1,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 16,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 17,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 18,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            2
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            1,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            16
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            17
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            18
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    },
+    {
+      "id": "byproduct_3a",
+      "smiles": "Cc1ccccc1CS",
+      "mapped_smiles": "[C:1]([c:2]1[c:3]([H:13])[c:4]([H:14])[c:5]([H:15])[c:6]([H:16])[c:7]1[C:8]([S:9][H:19])([H:17])[H:18])([H:10])([H:11])[H:12]",
+      "formula": "C8H10S",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "byproduct_3a",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 5,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 6,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 7,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 8,
+          "element": "C",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 9,
+          "element": "S",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 10,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 11,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 12,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 13,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 14,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 15,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 16,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 17,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 18,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 19,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            2,
+            3
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            3,
+            4
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            4,
+            5
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            5,
+            6
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            6,
+            7
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            7,
+            8
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            9
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            7,
+            2
+          ],
+          "order": 1.5
+        },
+        {
+          "atoms": [
+            1,
+            10
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            11
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            12
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            3,
+            13
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            4,
+            14
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            5,
+            15
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            6,
+            16
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            17
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            8,
+            18
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            9,
+            19
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Source molecular identity or explicitly labelled benchmark construction; see public_sources.json and construction_definitions."
+    }
+  ],
+  "construction_definitions": {
+    "network_definition": {
+      "reaction_lumping": [
+        "S -> A",
+        "A -> D",
+        "A -> Q",
+        "A + MeOH -> P + MeO−"
+      ],
+      "warning": "D is the rearranged thiolate, measured as 3a after quench. A -> Q below is an unvalidated diagnostic loss surrogate only, not source-established back-quench chemistry for 1a. Main pp4-5 concerns 1h/SPh and return to starting material; it cannot identify a 1a irreversible sink or elementary reverse process. Include chloride/naphthalene/electron and Li/reagent reservoirs before microscopic claims. No independent k values are supplied.",
+      "first_mixer_M": {
+        "S": 0.03333333333333333,
+        "LiNp": 0.1
+      },
+      "second_mixer_M": {
+        "S_total": 0.025,
+        "LiNp_total": 0.075,
+        "MeOH": 0.075
+      },
+      "reaction_lumping_status": "Unvalidated diagnostic hypothesis retained for provenance; not a chemically validated reaction network.",
+      "source_model_gate": "blocked_source_model_definition_mismatch",
+      "source_back_quench_scope": {
+        "precursor": "1h",
+        "leaving_group": "SPh",
+        "source_outcome": "return to starting material",
+        "source_location": "main.pdf physical pp4-5",
+        "transfer_to_1a_irreversible_sink_supported": false
+      }
+    }
+  }
+}

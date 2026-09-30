@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "source_documents": [
+    {
+      "path": "papers/paper_e2d9397dff2a3f0f/documents/main.pdf",
+      "sha256": "c24bbaae86761a8d40104b001d415708990565d075c29789011a3c8104993875",
+      "page_count": 13,
+      "pdf_pages_1_based": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_e2d9397dff2a3f0f/documents/supplementary_001.pdf",
+      "sha256": "1f4f524a63c1856d741bc9b9016079f9fe8ba2eea9117df6a2df9f72bd626975",
+      "page_count": 125,
+      "pdf_pages_1_based": [
+        25,
+        26,
+        47,
+        48,
+        69,
+        70,
+        71,
+        73,
+        78
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "For the source Ru–bda–Py nitrogen-containing model, what local molecular chemistry can support N–N bond formation with ammonia, and what role, if any, can be established for the ligand environment?",
+    "scope": "The local nitrogen-containing Ru–bda–Py composition used in the paper is the target; the source Ru–bcs–Py analogue is available for scientifically justified comparison. Investigate local structure, reactivity and explanatory limits. A full electrocatalytic cycle, device performance, turnover frequency or a claim about the global rate-determining step is outside scope.",
+    "facts": "The source studies ammonia oxidation inMeCN and uses pyridine-ligated computational models related to the experimental catalysts. The neutral bda and bcs catalyst frameworks contain oneRu, one dianionic bipyridyl ligand and two pyridines. The local nitrogen-containing composition adds oneN to that framework, netcharge+1. Charge is an electron-inventory definition; oxidation-state assignment, spin, ligand coordination and any N–O bond are unknown features to investigate. NH3 is the incoming molecular reagent. Source calculations refer to298.15K; redox thermodynamics use0.50V vsFc+/0 and aMeCN pH reference15.1, which are not automatically chemical activation barriers.",
+    "claim_source_map": [
+      {
+        "claim": "Local bda/Py nitrogen model and ligand counterpart",
+        "source": "main PDFpp8–10; SI PDFpp48,69–73"
+      },
+      {
+        "claim": "CPE observations and model/experimental ligand distinction",
+        "source": "SI PDFpp25–26; main PDFpp8–10"
+      },
+      {
+        "claim": "Redox reference and thermochemical definitions",
+        "source": "SI PDFp47"
+      },
+      {
+        "claim": "Author N–O and N–N mechanism with source figures",
+        "source": "main PDFpp9–10; SI PDFpp70–71,73,78",
+        "visibility": "PR/private"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Local bda/Py nitrogen model and ligand counterpart",
+      "source": "main PDFpp8–10; SI PDFpp48,69–73"
+    },
+    {
+      "claim": "CPE observations and model/experimental ligand distinction",
+      "source": "SI PDFpp25–26; main PDFpp8–10"
+    },
+    {
+      "claim": "Redox reference and thermochemical definitions",
+      "source": "SI PDFp47"
+    },
+    {
+      "claim": "Author N–O and N–N mechanism with source figures",
+      "source": "main PDFpp9–10; SI PDFpp70–71,73,78",
+      "visibility": "PR/private"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Independent local-state and N–N evidence and defensible numerical uncertainty remain pending.",
+    "Source diffusion-control and global-RDS interpretations need stronger evidence than a monotonic electronic scan or local thermochemistry.",
+    "Semantic calibration and isolation remain pending."
+  ]
+}

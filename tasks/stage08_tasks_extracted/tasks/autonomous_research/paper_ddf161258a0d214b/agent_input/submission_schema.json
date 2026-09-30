@@ -1,0 +1,144 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "candidates",
+      "validation",
+      "method",
+      "conclusion",
+      "barrier"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "validated",
+          "bounded_failure"
+        ]
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "initialization",
+            "outcome"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "initialization": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "validation_context": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "barrier": {
+        "type": ["object", "null"],
+        "required": [
+          "value",
+          "unit"
+        ],
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "imaginary_frequency_count",
+          "imaginary_frequency_value",
+          "connectivity_evidence",
+          "convergence",
+          "bond_changes",
+          "charge_multiplicity"
+        ],
+        "properties": {
+          "imaginary_frequency_count": {"type": ["integer", "null"]},
+          "imaginary_frequency_value": {"type": ["number", "null"]},
+          "connectivity_evidence": {"type": "string"},
+          "bond_changes": {"type": "string"},
+          "charge_multiplicity": {"type": "string"},
+          "convergence": {
+            "type": "string"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "level",
+          "free_energy_convention"
+        ],
+        "properties": {
+          "level": {
+            "type": "string"
+          },
+          "free_energy_convention": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "sensitivity": {
+        "type": "string"
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "validated"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "barrier",
+            "coverage",
+            "sensitivity"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "coverage",
+            "sensitivity"
+          ]
+        }
+      }
+    ]
+  }
+}

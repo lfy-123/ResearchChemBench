@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_221aafe4bd916a11",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "pr_process_freq",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.reactant_minimum"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "candidate-specific frequency validation is present or bounded failure is honestly documented"
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "pr_process_path",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.connectivity_test"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "candidate-specific path/connectivity validation is present"
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "pr_result_barrier",
+      "type": "numeric",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": 21.8,
+      "unit": "kcal/mol",
+      "tolerance": 3,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    },
+    {
+      "rule_id": "r4",
+      "reference_id": "pr_result_mechanism",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.mechanism_conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "final claim integrates the validated local path and numerical barrier"
+    },
+    {
+      "rule_id": "r5",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.mechanism_conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "The validated local hydride-transfer event for the defined 2a system has a computed activation barrier supported by the reaction-side minimum, relevant transition-state mode and chemical connectivity evidence."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

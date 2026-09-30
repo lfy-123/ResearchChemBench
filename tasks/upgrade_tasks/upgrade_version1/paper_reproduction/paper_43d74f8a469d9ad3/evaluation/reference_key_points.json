@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Core comparison: Scheme1 compound1 C23H20BNO3 and compound2 C24H22BNO4, neutral singlets. Compound1 is fixed by CCDC2441197; compound2 adds the para-to-phenoxy methoxy group shown in Scheme1, retaining the 3,5-dimethylphenyl boron substituent. Use mapped X-B-Cipso-Cortho on that aryl branch in both. Primary gas phase and an explicitly identical optical solvent sensitivity. Source SI coordinate labels S5/S6 conflict with Scheme1 identities; their unchecked coordinate assignments are not authorized.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Core comparison: Scheme1 compound1 C23H20BNO3 and compound2 C24H22BNO4, neutral singlets. Compound1 is fixed by CCDC2441197; compound2 adds the para-to-phenoxy methoxy group shown in Scheme1, retaining the 3,5-dimethylphenyl boron substituent. Use mapped X-B-Cipso-Cortho on that aryl branch in both. Primary gas phase and an explicitly identical optical solvent sensitivity. Source SI coordinate labels S5/S6 conflict with Scheme1 identities; their unchecked coordinate assignments are not authorized.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_torsion_profiles",
+      "statement": "Store a numeric angle-energy-property CSV with mapped atoms at each point, constrained degrees of freedom and forward/backward state overlap; include released anchors. Core rows: dye1_S0, dye1_S1, dye2_S0, dye2_S1. Recompute torsional_range_kJ_mol, reference_angle_degree, tracked_excitation_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Store a numeric angle-energy-property CSV with mapped atoms at each point, constrained degrees of freedom and forward/backward state overlap; include released anchors. Core rows: dye1_S0, dye1_S1, dye2_S0, dye2_S1. Recompute torsional_range_kJ_mol, reference_angle_degree, tracked_excitation_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_restriction_control",
+      "statement": "Use the same mapped angle intervention in both compounds, with actual frozen and relaxed calculations. Root switching is recorded, not smoothed away. Core rows: dye1_restricted_vs_free, dye2_restricted_vs_free. Recompute excitation_change_eV, oscillator_strength_change, relaxation_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Use the same mapped angle intervention in both compounds, with actual frozen and relaxed calculations. Root switching is recorded, not smoothed away. Core rows: dye1_restricted_vs_free, dye2_restricted_vs_free. Recompute excitation_change_eV, oscillator_strength_change, relaxation_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_continuity_and_robustness",
+      "statement": "Demonstrate TD root-window/step-size or method sensitivity and identify discontinuities. Do not extrapolate S0 resistance to an absolute photobleaching rate. Core rows: state_following, method_or_grid. Recompute minimum_state_overlap, energy_change_eV, profile_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Demonstrate TD root-window/step-size or method sensitivity and identify discontinuities. Do not extrapolate S0 resistance to an absolute photobleaching rate. Core rows: state_following, method_or_grid. Recompute minimum_state_overlap, energy_change_eV, profile_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

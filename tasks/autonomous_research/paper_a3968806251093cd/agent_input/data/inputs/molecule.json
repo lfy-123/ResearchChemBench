@@ -1,1 +1,11 @@
-{"name":"7a thione tautomer","formula":"C20H17ClN6OS","charge":0,"multiplicity":1,"smiles":"Cc1nn(c2ccccc2)c(C=Nn2c(=S)nnc2C)c1Oc1ccc(Cl)cc1","stereochemistry":"none specified; preserve the connectivity and thione C=S tautomer encoded here","notes":"Generate starting 3D coordinates independently; do not use crystal coordinates."}
+{
+  "name": "7a thione tautomer",
+  "formula": "C20H17ClN6OS",
+  "charge": 0,
+  "multiplicity": 1,
+  "smiles": "[CH3:10][c:9]1[n:22][n:21](-[c:6]2[cH:5][cH:4][cH:3][cH:2][cH:1]2)[c:7]([O:27][c:11]2[cH:12][cH:13][c:14]([Cl:29])[cH:15][cH:16]2)[c:8]1/[CH:17]=[N:23]/[N:24]1[C:18](=[S:28])[NH:25][N:26]=[C:19]1[CH3:20]",
+  "stereochemistry": "E imine: C8 and N4 are on opposite sides of C17=N3. Preserve this configuration and the thione C=S/N5-H tautomer. Other single-bond conformations must be generated and documented independently.",
+  "notes": "Generate starting 3D coordinates independently; do not use crystal coordinates.",
+  "smiles_representation": "Explicit atom-mapped graph; atom-map numbers are stable graph IDs, not coordinate row numbers.",
+  "identity_definition": "Pyrazole ring N1-N2-C9-C8-C7: N1-phenyl(C6), C7-O1-chlorophenyl(C11), C8-C17 imine, C9-C10 methyl. Triazole thione ring N4-C18(S1)-N5(H)-N6-C19(C20). Preserve this connectivity, neutral charge and singlet state."
+}

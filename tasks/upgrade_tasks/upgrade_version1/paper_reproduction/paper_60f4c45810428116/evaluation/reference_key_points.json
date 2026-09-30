@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use precursor 1a in THF to investigate Li-naphthalenide generation, MeOH capture and decomposition/rearrangement. SI p5: 0.050 M substrate at 10 mL/min mixed with 0.30 M LiNp at 5 mL/min; the first reactor has substrate 1/30 M and LiNp 0.10 M. MeOH 0.30 M at 5 mL/min is added downstream. Treat reactor dilution explicitly. The source contour has 23 measured grid positions and two clogged/missing positions; interpolation is not an observation. The measured rearrangement product is 2-methylbenzenemethanethiol 3a, obtained after quenching its thiolate. Source correction: main pp4-5 discusses a quench pathway returning to starting material for the SPh-leaving precursor 1h. It does not establish an irreversible A -> Q back-quench sink for the 1a grid. The originally proposed S -> A, A -> D, A -> Q, A + MeOH -> P model may be used only as an explicitly unvalidated diagnostic hypothesis; its Q channel is not an author-identified process. Release remains blocked by this source/model-definition mismatch as well as missing independent rate constraints and unresolved microscopic species/reservoir bookkeeping. Retaining the diagnostic does not resolve the intended mechanistic network.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_network",
+      "statement": "Conserved finite reaction model and independent rate intervals.",
+      "expected": "Conserved finite reaction model and independent rate intervals. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_identifiability",
+      "statement": "Numerical sensitivity/rank and parameter profiles; honest bounded ambiguity is allowed after complete analysis.",
+      "expected": "Numerical sensitivity/rank and parameter profiles; honest bounded ambiguity is allowed after complete analysis. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_holdout",
+      "statement": "Predictions for three genuinely held-out measured conditions, with clipping/missingness retained.",
+      "expected": "Predictions for three genuinely held-out measured conditions, with clipping/missingness retained. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. RBF interpolation called a mechanism; free rate per condition; fitting holdout data; inventing independent rate bounds; treating clogged observations as measured zeros.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

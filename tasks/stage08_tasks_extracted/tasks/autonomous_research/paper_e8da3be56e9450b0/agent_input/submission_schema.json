@@ -1,0 +1,163 @@
+{
+  "type": "object",
+  "required": [
+    "status",
+    "systems",
+    "comparison",
+    "conclusion"
+  ],
+  "additionalProperties": true,
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "systems", "comparison", "conclusion", "outcome"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "minLength": 1
+      },
+      "outcome": {
+        "oneOf": [
+          {"type": "object", "required": ["kind"], "properties": {"kind": {"const": "complete"}}},
+          {"type": "object", "required": ["kind", "failure_report"], "properties": {"kind": {"const": "bounded_failure"}, "failure_report": {"type": "string", "minLength": 1}}}
+        ]
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "system_id",
+            "composition_verified",
+            "relaxation",
+            "polarization",
+            "relaxed_structure",
+            "validation"
+          ],
+          "properties": {
+            "system_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "composition_verified": {
+              "type": "boolean"
+            },
+            "relaxation": {
+              "type": "object",
+              "required": [
+                "converged",
+                "method",
+                "evidence"
+              ],
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "method": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "polarization": {
+              "type": "object",
+              "required": [
+                "value",
+                "unit",
+                "branch_convention",
+                "reference_path"
+              ],
+              "properties": {
+                "value": {
+                  "type": ["number", "null"]
+                },
+                "unit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "branch_convention": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "reference_path": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "relaxed_structure": {
+              "oneOf": [
+                {"type": "object", "required": ["artifact_path", "format", "identity_evidence"], "properties": {"artifact_path": {"type": "string", "minLength": 1}, "format": {"type": "string", "minLength": 1}, "identity_evidence": {"type": "string", "minLength": 1}}},
+                {"type": "null"}
+              ]
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "sensitivity_check",
+                "sensitivity_change",
+                "notes"
+              ],
+              "properties": {
+                "sensitivity_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sensitivity_change": {
+                  "type": "number"
+                },
+                "notes": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "bzct_system_id",
+          "bto_system_id",
+          "difference",
+          "unit",
+          "enhancement_statement"
+        ],
+        "properties": {
+          "bzct_system_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bto_system_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "difference": {
+            "type": ["number", "null"]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enhancement_statement": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

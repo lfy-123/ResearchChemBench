@@ -111,13 +111,20 @@
           },
           "bright_transition": {
             "type": "object",
-            "required": [
-              "wavelength_nm",
-              "oscillator_strength",
-              "assignment",
+              "required": [
+                "energy_eV",
+                "wavelength_nm",
+                "oscillator_strength",
+                "assignment",
               "dominant_percentage"
             ],
             "properties": {
+              "energy_eV": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
               "wavelength_nm": {
                 "type": [
                   "number",

@@ -1,0 +1,100 @@
+{
+  "paper_id": "paper_1b285cf9f763f2cf",
+  "rules": [
+    {
+      "rule_id": "rp_r1",
+      "reference_id": "rp_process_models",
+      "type": "semantic",
+      "expected": "three state identities and substitution progression are explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "Require UC-1 Zn8FeAl15O32, UC-2 LiZn7FeAl15FO31, UC-3 LiSiZn6FeAl15FO31, each 56 atoms, fixed 8.08 A cubic cell, charge 0, one Fe, nominal sums 0/0/+2 and neutral electronic compensation; retain candidate assignments/coverage. One valid candidate per state meets the minimum numerical coverage, not proof of exhaustive site search."
+      }
+    },
+    {
+      "rule_id": "rp_r2",
+      "reference_id": "rp_process_validation",
+      "type": "semantic",
+      "expected": "candidate convergence and geometry extraction evidence are explicit Keep the constructed 56-atom fixed-cell model, neutral electronic compensation, actual dopant sites and magnetic state tied to each geometry. Do not describe it as a uniquely recovered experimental/author model or as evidence of optical performance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].candidates[*].validation",
+          "$.states[*].candidates[*].bond_lengths",
+          "$.states[*].candidates[*].bond_angles"
+        ],
+        "comparison": "Require candidate-bound final geometry, retained atom mapping, all nominal-shell bonds and all pair angles with periodic images, shell-integrity/next-neighbor checks, convergence, composition/fixed-cell and magnetic-state evidence. Re-extract from submitted geometry; no source-nearest angle selection."
+      }
+    },
+    {
+      "rule_id": "rp_r3",
+      "reference_id": "rp_geom_uc1",
+      "type": "semantic",
+      "expected": "UC-1 baseline observables are named and extracted from a converged periodic structure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "Within the UC-1 candidate, require Zn-O, O-Zn-O, Al-O and O-Al-O values with units and extraction evidence; do not require a single hidden numeric target. Compare complete same-definition shell distributions and stated summaries; method/site-dependent disagreement needs evidence, not forced agreement. Do not infer optical performance, exact dilute loading or an ionic compensation mechanism from this neutral fixed-cell model."
+      }
+    },
+    {
+      "rule_id": "rp_r4",
+      "reference_id": "rp_geom_uc2",
+      "type": "semantic",
+      "expected": "UC-2 reports Li/F local observables and the Li contraction/angle perturbation trend Keep the constructed 56-atom fixed-cell model, neutral electronic compensation, actual dopant sites and magnetic state tied to each geometry. Do not describe it as a uniquely recovered experimental/author model or as evidence of optical performance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.conclusion"
+        ],
+        "comparison": "Within the UC-2 candidate, require Li-O, O-Li-O, Al-F and O-Al-F values and a comparison showing Li-O is shorter than the UC-1 Zn-O baseline. Compare complete same-definition shell distributions and stated summaries; method/site-dependent disagreement needs evidence, not forced agreement. Do not infer optical performance, exact dilute loading or an ionic compensation mechanism from this neutral fixed-cell model."
+      }
+    },
+    {
+      "rule_id": "rp_r5",
+      "reference_id": "rp_geom_uc3",
+      "type": "semantic",
+      "expected": "UC-3 reports tetrahedral Si-O plus retained Li/F perturbation trends",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.conclusion"
+        ],
+        "comparison": "Within the UC-3 candidate, require Si-O, O-Si-O, Li-O, O-Li-O, Al-F and O-Al-F values and a comparison showing tetrahedral Si-O contraction, Al-F lengthening and changed angles. Compare complete same-definition shell distributions and stated summaries; method/site-dependent disagreement needs evidence, not forced agreement. Do not infer optical performance, exact dilute loading or an ionic compensation mechanism from this neutral fixed-cell model."
+      }
+    },
+    {
+      "rule_id": "rp_r6",
+      "reference_id": "rp_final_distortion",
+      "type": "semantic",
+      "expected": "The three specified fixed-cell, neutral electronically compensated 56-atom models are compared using validated relaxed geometries and complete same-definition coordination shells. Evaluate the resulting local distortion and symmetry changes; an evidence-backed method/site-dependent disagreement remains admissible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Compare complete same-definition shell distributions and stated summaries; method/site-dependent disagreement needs evidence, not forced agreement. Do not infer optical performance, exact dilute loading or an ionic compensation mechanism from this neutral fixed-cell model."
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

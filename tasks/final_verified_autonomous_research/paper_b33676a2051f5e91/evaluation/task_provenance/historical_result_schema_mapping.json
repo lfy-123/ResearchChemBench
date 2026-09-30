@@ -1,0 +1,44 @@
+{
+  "source_result": "docs/verification/group_4/paper_b33676a2051f5e91/report/results.json",
+  "purpose": "Private lossless schema-mapping check of a historical author-route result; not an agent run, new calculation, or evaluator reference.",
+  "mapping": [
+    "Wrap the existing conclusion into a one-element channels array with unchanged frequency/IRC/barrier evidence.",
+    "Derive channel_id, selected_channel and atom-mapping text from the existing C12-C13/C12-O24 and product-graph evidence; explicitly disclose author-directed selection.",
+    "Keep original candidate_count=3 as three guesses for one channel, not three distinct channels."
+  ],
+  "result": {
+    "status": "validated_result",
+    "method": {
+      "method_name": "Gaussian16 UBHandHLYP",
+      "basis_or_model": "aug-cc-pVDZ; neutral doublet Int-3/TS/path",
+      "solvent_treatment": "SMD(acetonitrile)",
+      "free_energy_convention": "G(TS)-G(Int-3); harmonic thermal Gibbs energies at 298.15 K,1 atm; Hartree to kcal/mol=627.5094740631"
+    },
+    "search": {
+      "candidate_count": 3,
+      "coverage": "Two C12-C13 stretched guesses and one QST2 candidate were investigated; the selected direct-TS Opt/Freq is independently connected by two real IRC branches. SI protocol permits use of recovered information; QST3 is not required by SI.",
+      "stopping_basis": "Only the evaluator Int-3 channel is tested; no competing methyl channel or complete polymer reaction is claimed. The forward IRC converged after 64 points; the reverse terminated normally at its 80-point limit in the disconnected acetophenone+ethyl region. Product constitutional graphs and ethyl spin establish channel connectivity; no finite-separation product minimum, dissociation free energy, or infinite-distance IRC convergence is claimed.",
+      "hypotheses": "Historical author-directed hypothesis: C12-C13 beta-scission of Int-3 to acetophenone + ethyl radical. Three guesses for this channel were explored; no independent comparison of distinct product channels is claimed."
+    },
+    "conclusion": {
+      "channel": "Int-3 -> acetophenone (C8H8O) + ethyl radical (C2H5)",
+      "frequency_validation": "66 modes each; reactant NImag=0; TS NImag=1 ([-474.9764]); mode C12-C13 displacement=1.068429",
+      "connection_validation": "Author-level forward IRC returns to graph-identical Int-3; reverse cleaves C12-C13 to 3.658492 A and forms C12=O24 at 1.213425 A. Graphs: CC(=O)c1ccccc1 and [CH2]C; ethyl summed Mulliken spin 0.998047. Only the evaluator Int-3 channel is tested; no competing methyl channel or complete polymer reaction is claimed. The forward IRC converged after 64 points; the reverse terminated normally at its 80-point limit in the disconnected acetophenone+ethyl region. Product constitutional graphs and ethyl spin establish channel connectivity; no finite-separation product minimum, dissociation free energy, or infinite-distance IRC convergence is claimed.",
+      "barrier_kcal_mol": 8.89745683274874,
+      "selected_channel": "Int3_acetophenone_ethyl",
+      "rationale": "The single author-selected channel has a one-imaginary-mode TS, two IRC branches and a barrier from the same validated reactant. This is not a demonstrated ranking over independently discovered alternative channels."
+    },
+    "limitations": "Only the evaluator Int-3 channel is tested; no competing methyl channel or complete polymer reaction is claimed. The forward IRC converged after 64 points; the reverse terminated normally at its 80-point limit in the disconnected acetophenone+ethyl region. Product constitutional graphs and ethyl spin establish channel connectivity; no finite-separation product minimum, dissociation free energy, or infinite-distance IRC convergence is claimed.",
+    "channels": [
+      {
+        "channel_id": "Int3_acetophenone_ethyl",
+        "products": "Int-3 -> acetophenone (C8H8O) + ethyl radical (C2H5)",
+        "atom_mapping": "Original 1-based labels: cleavage C12-C13, carbonyl formation C12-O24; ethyl fragment spin and product graphs are recorded in connection_validation.",
+        "frequency_validation": "66 modes each; reactant NImag=0; TS NImag=1 ([-474.9764]); mode C12-C13 displacement=1.068429",
+        "connection_validation": "Author-level forward IRC returns to graph-identical Int-3; reverse cleaves C12-C13 to 3.658492 A and forms C12=O24 at 1.213425 A. Graphs: CC(=O)c1ccccc1 and [CH2]C; ethyl summed Mulliken spin 0.998047. Only the evaluator Int-3 channel is tested; no competing methyl channel or complete polymer reaction is claimed. The forward IRC converged after 64 points; the reverse terminated normally at its 80-point limit in the disconnected acetophenone+ethyl region. Product constitutional graphs and ethyl spin establish channel connectivity; no finite-separation product minimum, dissociation free energy, or infinite-distance IRC convergence is claimed.",
+        "barrier_kcal_mol": 8.89745683274874
+      }
+    ]
+  },
+  "schema_errors": []
+}

@@ -1,72 +1,13 @@
 {
   "paper_id": "paper_0bea8aa6bfd57e65",
+  "scope_revision": "2026-09-11",
   "items": [
-    {
-      "key_point_id": "ar_process_minima",
-      "key_point_type": "process",
-      "statement": "For each of Tau-Im-2, Tau-Gly-2, and Tau-MEA-2, the submission identifies retained candidate poses and gives structure-specific evidence that the selected candidate is a validated minimum, with a deduplication rule.",
-      "expected": "Each named system has an identifiable retained candidate, minimum-validation evidence, and a stated deduplication basis.",
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000102_3eb5402a859f",
-        "ev_doc_99d3cb8f3445_000104_97d99b12590d"
-      ]
-    },
-    {
-      "key_point_id": "ar_process_energy_definition",
-      "key_point_type": "process",
-      "statement": "The submission applies a consistent monomer/complex energy definition with BSSE or counterpoise correction and reports charge, multiplicity, method, and software.",
-      "expected": "The report explicitly defines \u0394E and the BSSE/counterpoise calculation for all three named systems and discloses a consistent electronic-state protocol.",
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000106_92e88b5b40d4",
-        "ev_doc_99d3cb8f3445_000108_48392f611e63"
-      ]
-    },
-    {
-      "key_point_id": "ar_energy_im",
-      "key_point_type": "result",
-      "statement": "The Tau-Im-2 interaction energy is reproduced as the signed electronic interaction energy for the imidazole complex.",
-      "expected": "A numeric Tau-Im-2 energy is reported in kJ/mol with the stated sign convention.",
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000252_8ae351d1ddb3",
-        "ev_doc_99d3cb8f3445_000253_3485f3081431"
-      ]
-    },
-    {
-      "key_point_id": "ar_energy_gly",
-      "key_point_type": "result",
-      "statement": "The Tau-Gly-2 interaction energy is reproduced as the signed electronic interaction energy for the glycerol complex.",
-      "expected": "A numeric Tau-Gly-2 energy is reported in kJ/mol with the stated sign convention.",
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000252_8ae351d1ddb3",
-        "ev_doc_99d3cb8f3445_000254_85f2f7ab53ff"
-      ]
-    },
-    {
-      "key_point_id": "ar_energy_mea",
-      "key_point_type": "result",
-      "statement": "The Tau-MEA-2 interaction energy is reproduced as the signed electronic interaction energy for the ethanolamine complex.",
-      "expected": "A numeric Tau-MEA-2 energy is reported in kJ/mol with the stated sign convention.",
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000252_8ae351d1ddb3",
-        "ev_doc_99d3cb8f3445_000254_85f2f7ab53ff"
-      ]
-    },
-    {
-      "key_point_id": "ar_order",
-      "key_point_type": "result",
-      "statement": "The three complexes are ordered by interaction strength using the submitted signed energies, with the most negative value interpreted as strongest stabilization.",
-      "expected": "The submitted ordering is MEA, then Gly, then Im when energies are negative for stabilization.",
-      "evidence_ids": [
-        "ev_doc_99d3cb8f3445_000253_3485f3081431",
-        "ev_doc_99d3cb8f3445_000254_85f2f7ab53ff"
-      ]
-    },
-    {
-      "key_point_id": "ar_hypothesis_test",
-      "key_point_type": "result",
-      "statement": "The autonomous report proposes at least one plausible competing explanation for donor differences and identifies submitted calculations or analyses that discriminate it.",
-      "expected": "The report links a proposed explanation to concrete comparative evidence in the submission, without claiming unsupported discovery.",
-      "evidence_ids": ["ev_doc_99d3cb8f3445_000255_5ad2d78be19a"]
-    }
+    {"key_point_id":"rp_process_identity","key_point_type":"process","statement":"The bounded task explicitly identifies Tau-Im-2, Tau-Gly-2 and Tau-MEA-2, their stoichiometry, charge/multiplicity, and the submitted pose source.","expected":"The three named systems and the finite pose boundary are explicit; the report does not imply exhaustive random-structure coverage."},
+    {"key_point_id":"rp_process_minima","key_point_type":"process","statement":"Each retained pose has candidate-specific optimization/frequency evidence and a stated deduplication or selection rule.","expected":"All three systems have identifiable validated minima, or the report truthfully records a bounded failure."},
+    {"key_point_id":"rp_process_energy_definition","key_point_type":"process","statement":"One consistent monomer/complex BSSE or counterpoise interaction-energy definition is applied to all three systems.","expected":"Method, software, charge/multiplicity and signed energy convention are explicit."},
+    {"key_point_id":"rp_energy_values","key_point_type":"result","statement":"Finite signed interaction energies are reported for the three retained pose representatives in kJ/mol.","expected":"Tau-Im-2, Tau-Gly-2 and Tau-MEA-2 each have one auditable numeric value; literature values remain an informative comparison only."},
+    {"key_point_id":"rp_order","key_point_type":"result","statement":"The ordering is derived from the submitted signed energies rather than imposed from the literature.","expected":"The reported ordering is internally consistent with the sign convention and selected pose values."},
+    {"key_point_id":"rp_interpretation","key_point_type":"result","statement":"Hydrogen-bond-like or dispersion interpretations are linked to submitted geometry/electronic evidence.","expected":"Interpretation is evidence-bounded and does not assert solution-phase behavior."},
+    {"key_point_id":"rp_scope","key_point_type":"limitation","statement":"The task explicitly discloses that PM6-D3/MOPAC random-ensemble generation and full source ensemble statistics are outside the executable scope.","expected":"The finite deterministic pose subset is not silently presented as the full paper calculation."}
   ]
 }

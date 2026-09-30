@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.468599+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_9aa6d5655edfeb52/documents/main.pdf",
+      "sha256": "e318b656b7b6cc8b1814ad47956ce676db9c80f09b1c0516211a9e1fc601a0af",
+      "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p3 描述1a经金属卤素交换到2a及2a–2f的光谱；SI p4 证实1a含Br，p19为2a的THF/TD-DFT。1a不是与2a只差一个融合键的等组成对。",
+      "actual_read_pages_and_sections": "Main pp3–4 optical interpretation/Table1/Figs1–3; SI p4 precursor identity and pp19,22 computational protocol/2a transitions."
+    },
+    {
+      "path": "papers/paper_9aa6d5655edfeb52/documents/supplementary_001.pdf",
+      "sha256": "a9ac1730b24a478de5e980909e145583d9ef54c525e9ef7f20f5174003d733bc",
+      "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p3 描述1a经金属卤素交换到2a及2a–2f的光谱；SI p4 证实1a含Br，p19为2a的THF/TD-DFT。1a不是与2a只差一个融合键的等组成对。",
+      "actual_read_pages_and_sections": "Main pp3–4 optical interpretation/Table1/Figs1–3; SI p4 precursor identity and pp19,22 computational protocol/2a transitions."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "A same-identity compound 2a investigation respects closo multicenter topology and supports molecular optical claims in THF without a mandatory un-fused control.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual excited-state and structural evidence does not uniquely identify one relaxation account; the agent reports supported and unresolved components.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "Brominated 1a is treated as a pure un-fused equivalent of 2a, or one cage distance is used to prove aggregation-induced emission.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A genuine neutral 2a ground-state result is retained without claiming fluorescence yield or a resolved excited-state mechanism.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular explanation can be supported for the absorption and emission of arene-fused o-carborane2a in THF solution? Investigate the relevant electronic/structural description and establish which assignments are robust or remain unresolved.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Check C18H20B10, the12-vertex closo cage, arene fusion and atom mapping. Do not sanitize multicenter cage edges into an arbitrary ordinary-valence organic graph or substitute1a for2a. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Distinguish observed absorption and emission conditions and define calculated electronic states/geometry. A state-character or relaxation claim needs supporting electronic/structural evidence, with limitations from method, sampling and solvent model. Finite-state calculations cannot alone identify an aggregate or predict a photoluminescence yield. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "The task concerns solution molecular photophysics. Do not claim the solid-state539nm band, aggregation-induced emission, fluorescence quantum yield or the causal effect of fusion relative to a different molecule from these finite results alone. Precursor1a differs by Br/H composition and is not a chemically matched geometry-only control. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

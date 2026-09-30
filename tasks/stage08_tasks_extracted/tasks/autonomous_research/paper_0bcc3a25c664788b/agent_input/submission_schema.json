@@ -1,0 +1,19 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "computational_approach", "cases", "hypotheses", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string"},
+      "computational_approach": {"type": "string"},
+      "cases": {"type": "array", "minItems": 6, "items": {"oneOf": [
+        {"type": "object", "required": ["case_id", "molecule", "solvent", "outcome", "s1_energy", "t1_energy", "validation"], "properties": {"case_id": {"type": "string"}, "molecule": {"type": "string"}, "solvent": {"type": "string"}, "outcome": {"type": "string", "enum": ["validated"]}, "s1_energy": {"type": "number"}, "t1_energy": {"type": "number"}, "s1_oscillator_strength": {"type": ["number", "null"]}, "t1_oscillator_strength": {"type": ["number", "null"]}, "validation": {"type": "object", "required": ["state_identity", "converged", "evidence"], "properties": {"state_identity": {"type": "string"}, "converged": {"type": "boolean"}, "evidence": {"type": "string"}}}}},
+        {"type": "object", "required": ["case_id", "molecule", "solvent", "outcome", "failure_evidence", "validation"], "properties": {"case_id": {"type": "string"}, "molecule": {"type": "string"}, "solvent": {"type": "string"}, "outcome": {"type": "string", "enum": ["failed"]}, "failure_evidence": {"type": "string"}, "validation": {"type": "object", "required": ["state_identity", "converged", "evidence"], "properties": {"state_identity": {"type": "string"}, "converged": {"type": "boolean"}, "evidence": {"type": "string"}}}}}
+      ]}},
+      "hypotheses": {"type": "string"},
+      "conclusion": {"type": "string"},
+      "limitations": {"type": "string"}
+    }
+  }
+}

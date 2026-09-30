@@ -1,0 +1,266 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "sensitivity",
+      "coverage",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "properties": {
+            "system_id": {
+              "type": "string"
+            },
+            "geometry": {
+              "type": "object",
+              "required": [
+                "method",
+                "converged",
+                "stationary_point_evidence"
+              ],
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "converged": {
+                  "type": "boolean"
+                },
+                "stationary_point_evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "state_assignment",
+                "spin_check",
+                "provenance"
+              ],
+              "properties": {
+                "state_assignment": {
+                  "type": "string"
+                },
+                "spin_check": {
+                  "type": "string"
+                },
+                "provenance": {
+                  "type": "string"
+                }
+              }
+            },
+            "s1_eV": {
+              "type": "number"
+            },
+            "t1_eV": {
+              "type": "number"
+            },
+            "s1_minus_t1_eV": {
+              "type": "number"
+            },
+            "two_t1_minus_s1_eV": {
+              "type": "number"
+            },
+            "inequality_assessment": {
+              "type": "string"
+            }
+          },
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "system_id",
+                "geometry",
+                "validation",
+                "s1_eV",
+                "t1_eV",
+                "s1_minus_t1_eV",
+                "two_t1_minus_s1_eV",
+                "inequality_assessment"
+              ],
+              "properties": {
+                "system_id": {
+                  "type": "string"
+                },
+                "geometry": {
+                  "type": "object",
+                  "required": [
+                    "method",
+                    "basis",
+                    "software",
+                    "roots",
+                    "spin_treatment",
+                    "converged",
+                    "stationary_point_evidence"
+                  ],
+                  "properties": {
+                    "method": {
+                      "type": "string"
+                    },
+                    "converged": {
+                      "type": "boolean"
+                    },
+                    "stationary_point_evidence": {
+                      "type": "string"
+                    },
+                    "basis": {
+                      "type": "string"
+                    },
+                    "software": {
+                      "type": "string"
+                    },
+                    "roots": {
+                      "type": "string"
+                    },
+                    "spin_treatment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "identity_check",
+                    "state_assignment",
+                    "spin_check",
+                    "provenance"
+                  ],
+                  "properties": {
+                    "state_assignment": {
+                      "type": "string"
+                    },
+                    "spin_check": {
+                      "type": "string"
+                    },
+                    "provenance": {
+                      "type": "string"
+                    },
+                    "identity_check": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "s1_eV": {
+                  "type": "number"
+                },
+                "t1_eV": {
+                  "type": "number"
+                },
+                "s1_minus_t1_eV": {
+                  "type": "number"
+                },
+                "two_t1_minus_s1_eV": {
+                  "type": "number"
+                },
+                "inequality_assessment": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "system_id",
+                "geometry",
+                "validation",
+                "failure_diagnosis"
+              ],
+              "properties": {
+                "system_id": {
+                  "type": "string"
+                },
+                "geometry": {
+                  "type": "object",
+                  "required": [
+                    "method",
+                    "converged",
+                    "stationary_point_evidence"
+                  ],
+                  "properties": {
+                    "method": {
+                      "type": "string"
+                    },
+                    "converged": {
+                      "type": "boolean"
+                    },
+                    "stationary_point_evidence": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "state_assignment",
+                    "spin_check",
+                    "provenance"
+                  ],
+                  "properties": {
+                    "state_assignment": {
+                      "type": "string"
+                    },
+                    "spin_check": {
+                      "type": "string"
+                    },
+                    "provenance": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "failure_diagnosis": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "missing_observables",
+                    "diagnosis"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "missing_observables": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "diagnosis": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "sensitivity": {
+        "type": "string"
+      },
+      "coverage": {
+        "type": "string"
+      }
+    }
+  }
+}

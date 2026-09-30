@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Retain the complete 96-atom molecules, including the C87H7 adduct and two Y atoms (source XYZ rows 81 and 82, one-based). Both neutral molecules have a doublet electronic state. This is a molecular EPR-tensor task; a Gd substitution is not an equivalent electronic model. In a common molecule-fixed Cartesian frame, dT/dQ=[T(+h)-T(-h)]/(2h) for T=g or hyperfine A, with mass-weighted normal coordinate Q and units declared. Compare h/2. Report n=1/(exp(hc nu/kT)-1) and n(n+1) separately from the derivative-based coupling; use positive vibrational frequencies. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_mode_assignment",
+      "statement": "Mode eigenvectors and reproducible displacement classification",
+      "expected": "Inspect mass normalization, removed rigid modes, Y–Y axis and projection table. Frequency agreement without eigenvectors is insufficient.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_tensor_derivatives",
+      "statement": "Six central tensor derivatives with step control",
+      "expected": "Recalculate finite differences from raw tensors and mode normalization. Keep frames and spin states consistent. Require real smaller-step outputs; check electronic noise relative to derivative signal.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_thermal_and_frame_controls",
+      "statement": "Occupation versus coupling and rotational covariance",
+      "expected": "Check n(n+1), same temperature and frequency units. Weighted derivative norm is a stated proxy, not a computed relaxation rate. A larger Bose factor alone does not identify a stronger spin–phonon interaction.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "paper_id": "paper_0dc85595cab7bc0a",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "precursor_1_cis.xyz and species_registry.json",
+      "action": "replace cis model/coordinates by source precursor constitutional graph and experimental preparation facts",
+      "reason": "The source computational1-cis is a proposed reactive geometry, not a measured starting ensemble."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "Remove ortho-pair enumeration rule, fixed candidate layers, prescribed representative scans and vertical-state sampling."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

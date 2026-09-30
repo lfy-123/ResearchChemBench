@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -9,6 +11,7 @@ import pytest
 from chemistry_toolbox.src import runtime, service
 from chemistry_toolbox.src.resource_budget import (
     ResourceBudgetExceeded,
+    active_resource_usage,
     reserve_resources,
     resource_budget_record,
     validate_resource_limits,
@@ -158,6 +161,61 @@ def test_concurrent_reservations_receive_disjoint_cpu_and_gpu_ids(
         first.release()
 
 
+def test_global_allocation_root_accounts_for_independent_workspaces(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    shared_root = tmp_path / "shared"
+    first_workspace = shared_root / "paper_a" / "native_workspace"
+    second_workspace = shared_root / "paper_b" / "native_workspace"
+    status_path = (
+        first_workspace
+        / "outputs"
+        / "execution_jobs"
+        / ("job_" + "a" * 32)
+        / "status.json"
+    )
+    status_path.parent.mkdir(parents=True)
+    allowed = sorted(os.sched_getaffinity(0))
+    status_path.write_text(
+        json.dumps(
+            {
+                "status": "running",
+                "resource_limits": {
+                    "cpu_cores": 3,
+                    "memory_mb": 3000,
+                    "gpu_count": 0,
+                },
+                "resource_allocation": {
+                    "cpu_ids": allowed[:3],
+                    "gpu_ids": [],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    second_workspace.mkdir(parents=True)
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(second_workspace))
+    monkeypatch.setenv(
+        "RESEARCHCHEMBENCH_GLOBAL_RESOURCE_ALLOCATION_ROOT", str(shared_root)
+    )
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES", "4")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB", "4096")
+    monkeypatch.setenv("RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT", "0")
+
+    assert active_resource_usage() == {
+        "cpu_cores": 3,
+        "memory_mb": 3000,
+        "gpu_count": 0,
+    }
+    with pytest.raises(ResourceBudgetExceeded) as raised:
+        reserve_resources(
+            {"cpu_cores": 2, "memory_mb": 1200, "gpu_count": 0},
+            kind="test",
+            label="cross-workspace",
+        )
+    assert raised.value.aggregate is True
+
+
 def test_action_worker_passes_cpu_allocation_to_openmpi(
     budget_workspace: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -184,3 +242,35 @@ def test_action_worker_passes_cpu_allocation_to_openmpi(
     assert captured["environment"]["RESEARCHCHEM_WORKER_CPU_IDS"] == "4,5,6,7"
     assert captured["environment"]["OMPI_MCA_hwloc_base_cpu_list"] == "4,5,6,7"
     assert captured["environment"]["PRTE_MCA_hwloc_default_cpu_list"] == "4,5,6,7"
+
+
+def test_manager_action_allocation_bypasses_second_reservation(budget_workspace, monkeypatch):
+    monkeypatch.setattr(service, 'probe_all_backends', lambda specifications: {
+        item.id: {'available': True, 'status': 'available', 'runtime': item.runtime}
+        for item in specifications})
+    allocation = {'cpu_ids': [min(os.sched_getaffinity(0))], 'gpu_ids': []}
+    observed = []
+    def worker(**kwargs):
+        observed.append(kwargs['resource_allocation'])
+        return {'status': 'success', 'result': {}}
+    monkeypatch.setattr(service, 'invoke_worker', worker)
+    monkeypatch.setattr(service, 'reserve_resources', lambda *args, **kwargs: pytest.fail('reserved twice'))
+    result = service.execute_action('calculate_energy', {
+        'backend_id': 'xtb', 'inputs': {'structure': H2}, 'method_spec': {'method': 'gfn2'},
+        'resource_limits': {'cpu_cores': 1, 'memory_mb': 1024, 'gpu_count': 0},
+    }, _managed_allocation=allocation)
+    assert result['status'] == 'success'
+    assert observed == [allocation]
+
+
+def test_persistent_reservation_survives_owner_pid_exit(budget_workspace):
+    lease = reserve_resources({'cpu_cores': 8, 'memory_mb': 1024, 'gpu_count': 0}, kind='managed', label='test', owner_id='run/job')
+    try:
+        record = json.loads(lease.path.read_text()); record['pid'] = 999999999
+        lease.path.write_text(json.dumps(record))
+        assert active_resource_usage()['cpu_cores'] == 8
+        again = reserve_resources(lease.resource_limits, kind='managed', label='test', owner_id='run/job')
+        assert again.path == lease.path
+        with pytest.raises(ResourceBudgetExceeded):
+            reserve_resources({'cpu_cores': 1, 'memory_mb': 128, 'gpu_count': 0}, kind='other', label='other')
+    finally: lease.release()

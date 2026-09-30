@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_bridge_torsion",
+      "key_point_type": "result",
+      "statement": "Validate all four neutral singlet structures; evaluate corresponding singlet/triplet states and NTO/CT character at relaxed and common 60° arm torsions. Report actual mapped dihedrals, f for allowed singlets and state windows. Recompute 2T1−S1 with a single vertical reference.",
+      "expected": "Validate all four neutral singlet structures; evaluate corresponding singlet/triplet states and NTO/CT character at relaxed and common 60° arm torsions. Report actual mapped dihedrals, f for allowed singlets and state windows. Recompute 2T1−S1 with a single vertical reference.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_adiabatic_states",
+      "key_point_type": "result",
+      "statement": "Optimize/track S1 and T1 and report absolute energies alongside adiabatic gaps relative to S0. Inspect identity, root changes and triplet spin. A failed excited-state optimization must be bounded failure, not a vertical energy relabeled adiabatic.",
+      "expected": "Optimize/track S1 and T1 and report absolute energies alongside adiabatic gaps relative to S0. Inspect identity, root changes and triplet spin. A failed excited-state optimization must be bounded failure, not a vertical energy relabeled adiabatic.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_difference_of_effects",
+      "key_point_type": "result",
+      "statement": "Calculate bridge effects on the specified TTA margin in relaxed and matched-torsion panels and their difference. Compare localization changes with the proposed explanation. Composition and geometry confounds must be explicit; compatible energetics cannot prove bimolecular TTA.",
+      "expected": "Calculate bridge effects on the specified TTA margin in relaxed and matched-torsion panels and their difference. Compare localization changes with the proposed explanation. Composition and geometry confounds must be explicit; compatible energetics cannot prove bimolecular TTA.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

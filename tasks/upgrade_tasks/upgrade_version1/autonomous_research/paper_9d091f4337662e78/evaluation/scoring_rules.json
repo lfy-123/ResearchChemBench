@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_ensemble_search",
+      "reference_id": "kp_ensemble_search",
+      "type": "semantic",
+      "expected": "Search both configurations independently, show per-seed generation/deduplication, refine all retained conformers and document excluded populations. Supply geometries, G values, degeneracy and weights normalized within each configuration. Validate stereochemistry and minima. Conformer collapse is deduplicated, not artificially counted.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ensemble_search",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Search both configurations independently, show per-seed generation/deduplication, refine all retained conformers and document excluded populations. Supply geometries, G values, degeneracy and weights normalized within each configuration. Validate stereochemistry and minima. Conformer collapse is deduplicated, not artificially counted. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_ensemble_ECD",
+      "reference_id": "kp_ensemble_ECD",
+      "type": "semantic",
+      "expected": "Provide per-conformer transition/rotatory strengths, weighted spectrum and analysis code under one convention. Verify a mirror pair has matching energy and opposite rotatory sign within numerical convergence. Never average R and S populations into one spectrum or choose the sign from the known label.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ensemble_ECD",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Provide per-conformer transition/rotatory strengths, weighted spectrum and analysis code under one convention. Verify a mirror pair has matching energy and opposite rotatory sign within numerical convergence. Never average R and S populations into one spectrum or choose the sign from the known label. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_configuration_discrimination",
+      "reference_id": "kp_configuration_discrimination",
+      "type": "semantic",
+      "expected": "Compare both frozen ensemble predictions against the heldout experimental band; compute residual/sign diagnostics across cutoff and broadening perturbations. Account separately for digitization and model errors. A two-member support set is valid only after the required searches and comparisons, not as a substitute for them.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.configuration_discrimination",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Compare both frozen ensemble predictions against the heldout experimental band; compute residual/sign diagnostics across cutoff and broadening perturbations. Account separately for digitization and model errors. A two-member support set is valid only after the required searches and comparisons, not as a substitute for them. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Select an absolute configuration only if ensemble and heldout spectral evidence distinguish it; otherwise report the justified support set. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Select an absolute configuration only if ensemble and heldout spectral evidence distinguish it; otherwise report the justified support set. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "ensemble_search",
+      "max_score": 25,
+      "description": "Search both configurations independently, show per-seed generation/deduplication, refine all retained conformers and document excluded populations. Supply geometries, G values, degeneracy and weights normalized within each configuration. Validate stereochemistry and minima. Conformer collapse is deduplicated, not artificially counted.",
+      "rule_ids": [
+        "r_ensemble_search"
+      ]
+    },
+    {
+      "id": "ensemble_ECD",
+      "max_score": 20,
+      "description": "Provide per-conformer transition/rotatory strengths, weighted spectrum and analysis code under one convention. Verify a mirror pair has matching energy and opposite rotatory sign within numerical convergence. Never average R and S populations into one spectrum or choose the sign from the known label.",
+      "rule_ids": [
+        "r_ensemble_ECD"
+      ]
+    },
+    {
+      "id": "configuration_discrimination",
+      "max_score": 20,
+      "description": "Compare both frozen ensemble predictions against the heldout experimental band; compute residual/sign diagnostics across cutoff and broadening perturbations. Account separately for digitization and model errors. A two-member support set is valid only after the required searches and comparisons, not as a substitute for them.",
+      "rule_ids": [
+        "r_configuration_discrimination"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Select an absolute configuration only if ensemble and heldout spectral evidence distinguish it; otherwise report the justified support set. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

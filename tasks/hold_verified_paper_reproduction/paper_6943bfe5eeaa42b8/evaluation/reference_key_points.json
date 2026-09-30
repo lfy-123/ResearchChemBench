@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_6943bfe5eeaa42b8",
+  "items": [
+    {
+      "key_point_id": "kp_geometry",
+      "key_point_type": "process",
+      "statement": "The submitted workflow verifies a converged ground-state geometry for the specified neutral singlet m-NH2 molecule and records its geometry method and conformer provenance.",
+      "expected": "A reproducible geometry optimization is documented as converged, with identity and conformer provenance; a frequency or equivalent stability check is reported when available.",
+      "evidence_ids": [
+        "ev_doc_e2b0baa00454_000002_5daf4e16247f"
+      ]
+    },
+    {
+      "key_point_id": "kp_state",
+      "key_point_type": "process",
+      "statement": "The submitted D-index is obtained from an explicitly identified lowest singlet S0→S1 excitation, not an unspecified excited state or emission geometry.",
+      "expected": "The report identifies the S1 root/state and shows a completed excited-state calculation tied to the optimized S0 structure and water boundary.",
+      "evidence_ids": [
+        "ev_doc_e2b0baa00454_000002_5daf4e16247f"
+      ]
+    },
+    {
+      "key_point_id": "kp_analysis",
+      "key_point_type": "process",
+      "statement": "Hole–electron analysis uses the same S0→S1 excitation identified in the workflow and produces a finite positive centroid separation.",
+      "expected": "The report links the analysis artifact to the selected S1 excitation and validates a single finite positive D-index in Å.",
+      "evidence_ids": [
+        "ev_doc_e2b0baa00454_000002_5daf4e16247f"
+      ]
+    },
+    {
+      "key_point_id": "kp_result",
+      "key_point_type": "result",
+      "statement": "For m-NH2, the paper reports a D-index of 2.25 Å for the lowest singlet excitation.",
+      "expected": "Completed submissions report a D-index numerically consistent with 2.25 Å within the evaluator tolerance; bounded-failure submissions do not fabricate a value and instead document the failed stage.",
+      "evidence_ids": [
+        "ev_doc_01d8c1a9ec79_000150_91fd14230d4a",
+        "ev_doc_01d8c1a9ec79_000152_3c58b235d6d4"
+      ]
+    }
+  ]
+}

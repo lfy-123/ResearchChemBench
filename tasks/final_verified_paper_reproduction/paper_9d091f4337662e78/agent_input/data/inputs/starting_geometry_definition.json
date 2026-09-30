@@ -1,0 +1,130 @@
+{
+  "mapped_smiles": "[c:1]1([H:8])[c:3]([H:10])[c:5]([O:19][H:20])[c:7]2[c:9]([c:11]1[H:12])[C@:17]([H:18])([C:21]([H:22])([c:23]1[c:25]([C:37]([H:32])([H:34])[H:36])[n:27][c:29](/[C:39]([H:38])=[C:41](\\[H:40])[c:43]3[c:45]([H:42])[c:47]([H:44])[c:49]([H:46])[c:51]([O:6][H:54])[c:53]3[C:2]([O:4][H:52])([H:48])[H:50])[c:31]([C:35]([H:26])([H:28])[H:30])[n:33]1)[H:24])[O:15][C:13]2([H:14])[H:16]",
+  "formula": "C24H24N2O4",
+  "atom_count": 54,
+  "charge": 0,
+  "multiplicity": 1,
+  "shared_torsion_windows": [
+    {
+      "atom_ids": [
+        25,
+        23,
+        21,
+        17
+      ],
+      "degrees": [
+        -160,
+        -20
+      ]
+    },
+    {
+      "atom_ids": [
+        29,
+        39,
+        41,
+        43
+      ],
+      "absolute": true,
+      "degrees": [
+        140,
+        180
+      ]
+    }
+  ],
+  "conformers": {
+    "conformer_1-1.xyz": {
+      "id": "1-1",
+      "torsion_windows": [
+        {
+          "atom_ids": [
+            23,
+            21,
+            17,
+            9
+          ],
+          "degrees": [
+            -150,
+            -20
+          ],
+          "initial_angle_deg": -60
+        },
+        {
+          "atom_ids": [
+            45,
+            43,
+            41,
+            39
+          ],
+          "degrees": [
+            20,
+            150
+          ],
+          "initial_angle_deg": 60
+        }
+      ]
+    },
+    "conformer_1-2.xyz": {
+      "id": "1-2",
+      "torsion_windows": [
+        {
+          "atom_ids": [
+            23,
+            21,
+            17,
+            9
+          ],
+          "degrees": [
+            -150,
+            -20
+          ],
+          "initial_angle_deg": -60
+        },
+        {
+          "atom_ids": [
+            45,
+            43,
+            41,
+            39
+          ],
+          "degrees": [
+            -150,
+            -20
+          ],
+          "initial_angle_deg": -60
+        }
+      ]
+    },
+    "conformer_1-3.xyz": {
+      "id": "1-3",
+      "torsion_windows": [
+        {
+          "atom_ids": [
+            23,
+            21,
+            17,
+            9
+          ],
+          "degrees": [
+            20,
+            150
+          ],
+          "initial_angle_deg": 60
+        },
+        {
+          "atom_ids": [
+            45,
+            43,
+            41,
+            39
+          ],
+          "degrees": [
+            20,
+            150
+          ],
+          "initial_angle_deg": 60
+        }
+      ]
+    }
+  },
+  "description": "Topology and coarse conformer identity only. Atom-map numbers are one-based XYZ row identities; the supplied XYZ files are independently embedded, unoptimized starters. Identity windows distinguish the named initial conformer classes and are not constraints to impose during optimization. No endpoint coordinates, optimized torsion targets, energies or ordering are provided."
+}

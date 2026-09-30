@@ -1,0 +1,160 @@
+{
+  "paper_id": "paper_534ae3b6e2fb695f",
+  "rules": [
+    {
+      "rule_id": "ar_rule_model",
+      "reference_id": "ar_process_model",
+      "type": "semantic",
+      "expected": "The report provides auditable identity, charge/multiplicity, conformer and convergence validation for the fixed molecular set.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.methods",
+          "$.molecules",
+          "$.validation"
+        ],
+        "comparison": "Require exactly one entry per molecule; three validated neutral-singlet diamines and TMC context. Accept documented vertical charged probes. Check primary B3LYP/TZVP-on-B3LYP-D3BJ/SVP method, stationarity, local descriptor definitions/units, both N-site mappings and raw artifacts."
+      }
+    },
+    {
+      "rule_id": "ar_rule_dihedral",
+      "reference_id": "ar_process_dihedral",
+      "type": "semantic",
+      "expected": "Mapped ring-plane angle and every continuous linker torsion are correctly and separately extracted; noncoplanar geometry is evaluated without a mismatched hard angle target.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].id",
+          "$.molecules[*].ring_plane_angle_deg",
+          "$.molecules[*].linker_torsions",
+          "$.molecules[*].geometry_artifact",
+          "$.molecules[*].atom_mapping",
+          "$.molecules[*].plane_fit_residuals_A"
+        ],
+        "comparison": "Re-extract from each validated final geometry using the public atom maps and plane/sign definitions. Source 75.2/81.6/77.1 are not ring-plane targets. PFMB torsion uses bonded 2-3-12-13, never nonbonded 4-12 as center."
+      }
+    },
+    {
+      "rule_id": "ar_rule_order",
+      "reference_id": "ar_result_order",
+      "type": "ordering",
+      "expected": "ODA > 6FODA > PFMB",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ordering",
+          "$.molecules"
+        ],
+        "comparison": "Resolve identities, then assess global index ordering ODA > 6FODA > PFMB; distinguish local-descriptor rankings and allow evidence-backed disagreements with analysis, not silent descriptor substitution."
+      }
+    },
+    {
+      "rule_id": "ar_rule_final",
+      "reference_id": "ar_conclusion_final",
+      "type": "semantic",
+      "expected": "The fixed diamine set has a reproducible comparative reactivity analysis from the global TCE-referenced nucleophilicity index, separately defined local indicators and mapped geometry. An evidence-backed disagreement with the source ordering remains admissible. Distinguish global and local descriptor rankings and distinguish ring-plane angles from linker torsions. The source four-atom angle numbers are not hard ring-plane targets; geometry must be re-extractable from validated coordinates.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_global_oda",
+      "reference_id": "ar_result_values",
+      "type": "numeric",
+      "target": 4.26,
+      "unit": "eV",
+      "tolerance": 0.7,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].id",
+          "$.molecules[*].status",
+          "$.molecules[*].global_nucleophilicity_eV",
+          "$.molecules[*].homo_eV",
+          "$.molecules[*].global_reference_homo_eV",
+          "$.molecules[*].primary_model"
+        ],
+        "comparison": "Only the unique molecule id ODA, status complete, with validated primary_model gas_B3LYP_TZVP_on_B3LYP_D3BJ_SVP and fixed TCE -9.1212 eV may receive this comparison. Verify N_global=HOMO-reference and compare absolute difference. No array-position matching, local descriptor substitution or other-molecule value. Missing/failed/incomparable values do not establish numeric success; do not fabricate them to evaluate bounded failure."
+      },
+      "expected": "Recompute global N = E_HOMO(molecule) - (-9.1212 eV) using the publicly specified primary molecular model and fixed TCE reference. A local Fukui measure or a separately recomputed/shifted TCE reference cannot replace this primary convention; no extra TCE calculation is required."
+    },
+    {
+      "rule_id": "ar_rule_global_6foda",
+      "reference_id": "ar_result_values",
+      "type": "numeric",
+      "target": 3.68,
+      "unit": "eV",
+      "tolerance": 0.7,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].id",
+          "$.molecules[*].status",
+          "$.molecules[*].global_nucleophilicity_eV",
+          "$.molecules[*].homo_eV",
+          "$.molecules[*].global_reference_homo_eV",
+          "$.molecules[*].primary_model"
+        ],
+        "comparison": "Only the unique molecule id 6FODA, status complete, with validated primary_model gas_B3LYP_TZVP_on_B3LYP_D3BJ_SVP and fixed TCE -9.1212 eV may receive this comparison. Verify N_global=HOMO-reference and compare absolute difference. No array-position matching, local descriptor substitution or other-molecule value. Missing/failed/incomparable values do not establish numeric success; do not fabricate them to evaluate bounded failure."
+      },
+      "expected": "Recompute global N = E_HOMO(molecule) - (-9.1212 eV) using the publicly specified primary molecular model and fixed TCE reference. A local Fukui measure or a separately recomputed/shifted TCE reference cannot replace this primary convention; no extra TCE calculation is required."
+    },
+    {
+      "rule_id": "ar_rule_global_pfmb",
+      "reference_id": "ar_result_values",
+      "type": "numeric",
+      "target": 3.56,
+      "unit": "eV",
+      "tolerance": 0.7,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[*].id",
+          "$.molecules[*].status",
+          "$.molecules[*].global_nucleophilicity_eV",
+          "$.molecules[*].homo_eV",
+          "$.molecules[*].global_reference_homo_eV",
+          "$.molecules[*].primary_model"
+        ],
+        "comparison": "Only the unique molecule id PFMB, status complete, with validated primary_model gas_B3LYP_TZVP_on_B3LYP_D3BJ_SVP and fixed TCE -9.1212 eV may receive this comparison. Verify N_global=HOMO-reference and compare absolute difference. No array-position matching, local descriptor substitution or other-molecule value. Missing/failed/incomparable values do not establish numeric success; do not fabricate them to evaluate bounded failure."
+      },
+      "expected": "Recompute global N = E_HOMO(molecule) - (-9.1212 eV) using the publicly specified primary molecular model and fixed TCE reference. A local Fukui measure or a separately recomputed/shifted TCE reference cannot replace this primary convention; no extra TCE calculation is required."
+    },
+    {
+      "rule_id": "ar_rule_local",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "expected": "Local measures are independently defined, mapped to both amine sites, consistently computed and analyzed separately from the global eV index.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.methods.descriptor_definitions",
+          "$.molecules[*].local_descriptors",
+          "$.ordering"
+        ],
+        "comparison": "Check mathematical/charge/sampling convention, units, both mapped N sites, equivalent-site treatment and reproducible artifacts. A local value near a global target is not evidence of correctness."
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

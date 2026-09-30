@@ -1,0 +1,27 @@
+# Scientific objective
+
+Using the four proposed quartet insertion channels TS3A-quartet, TS3B-quartet, TS3C-quartet, and TS3D-quartet defined in `data/inputs/reaction_channels.json`, independently construct and locate their transition states and compute their relative free-energy barriers for the model reaction of 1,1,2,2-tetraphenyldisilane (1a) with 4-phenyl-1-butyne (2a) catalyzed by L10·FeCl2. The research object is the quartet migratory-insertion transition-state comparison, not an exhaustive search for additional transition states.
+
+# Author-provided scientific guidance
+
+Independently test the paper's qualitative hypothesis that the L10-supported iron-hydride cycle can distinguish regioisomeric alkyne migratory-insertion approaches through a sterically organized transition state.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `reaction_channels.json` and the given coordinated-reactant geometries `INT2A_quartet.xyz` and `INT2B_quartet.xyz` in `data/inputs`. Both references are 68-atom, neutral quartet (multiplicity 4) models. The channel file defines atom roles, face and the two alternative alkyne insertion regiochannels per reactant. Preserve each reference atom order or supply an explicit mapping. No transition-state or product coordinates are supplied. Refine and frequency-validate these references at the same model chemistry as the transition states. Define insertion barriers as G(TS3A/B-quartet)−G(INT2A-quartet) and G(TS3C/D-quartet)−G(INT2B-quartet). State any atom mapping explicitly. Energies relative to separated INT1A-sextet + 2a are optional profile heights, not these local insertion barriers; do not compare the two without the separately calculated coordination free-energy transformation.
+
+The requested observables are (i) the number and character of imaginary frequencies for each optimized candidate, (ii) each candidate's relative barrier in kcal/mol on a stated thermochemical convention, and (iii) the resulting ordering and mechanistic interpretation. The task boundary is the four named proposed channels and their quartet state. Do not use the paper, SI, general web, or undisclosed source coordinates during the investigation.
+
+# Required scientific validation/investigation
+
+For every one of the four named channels, construct TS guesses from the mapped reactant and proposed bond changes, and perform a documented optimization or equivalent stationary-point refinement, a vibrational analysis, and an energy/free-energy assembly that makes the reference state and solvent/thermal treatment explicit. Validate a transition-state assignment by showing exactly one imaginary frequency and explaining from the displacement/eigenvector evidence that it corresponds to the intended Fe–H/alkyne migratory-insertion bond-making/bond-breaking motion. If a candidate does not converge or fails this test, retain its identity, report the failure and the attempted remedies, and give a calculation-based conclusion rather than replacing it with an unnamed structure.
+
+Deduplicate only if an independently generated refinement is demonstrably the same stationary point; preserve the supplied candidate label and report any discarded duplicate. Scientific completion requires all requested primary observables, the specified validation evidence and the resulting scientific comparison. A partial or failed calculation may be submitted with its actual results and diagnostics, but does not satisfy an uncomputed scientific result. If the four-way comparison is incomplete, report no invented barrier value or ordering for unresolved labels. Report actual method sensitivity, spin diagnostics and any alternative validation method used.
+
+For the primary author-route comparison, optimize and compute frequencies at gas-phase M06L with SDD on Fe and 6-31G(d) on other atoms, and evaluate solvent electronic energies with M06L/6-311+G(d,p)-SDD and IEFPCM(THF). Use 298.15 K thermal terms and the stated two-thirds entropy convention: Gsol = Esol + Hcorr - (2/3)*(Hcorr-Gcorr). Hcorr and Gcorr are thermal corrections from the same low-level frequency calculation, not total energies. Other protocols are separately disclosed sensitivity. Report the local INT2 reference for each channel; do not add the dihydrodisilane molecule to these insertion models. An unavailable frequency count may be null only for an unvalidated failed candidate, with notes explaining the missing stage. Retain all genuinely computed imaginary frequencies.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. It must contain a per-candidate record for TS3A-quartet through TS3D-quartet, including status, optimized-structure evidence, imaginary-frequency evidence, relative barrier when available. Include the barrier ordering when a four-way comparison is possible, a final mechanistic conclusion, the reference-state/energy convention, and a concise candidate records statement. Include enough provenance (software, method, charge, multiplicity, coordinates/optimization and frequency outputs or hashes) for an evaluator to audit that each result belongs to the named channel and its mapped 68-atom reactant model.
+
+Additional starting structures or investigations may be used to obtain the required results. Report auxiliary results separately; they do not replace the primary observables or their specified definitions. Optional analyses may be omitted without explanation or penalty.

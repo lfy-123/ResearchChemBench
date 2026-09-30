@@ -1,0 +1,211 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "recorded_at": "2026-09-28T17:43:04.640188+00:00",
+  "legacy_summary": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_5d94285cfbd51973/evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+    "sha256": "3becdb47e459f288fe872550623baf9bf7bec361f4ff4710fcc54a172635614b",
+    "role": "Read-only historical summary; old PASS and numerical tolerances are not V2 validation."
+  },
+  "applicability_and_limits": "Private legacy_final_snapshot contains the prior AZ9 molecular calculation only; it supports feasibility for that identity and method, not a validated ten-compound relationship. Source SI TableS12 is all-ten author computational evidence but has explicit formula inconsistencies. Source SI TableS1 is the reusable experimental activity column. TableS13 contains model-derived physicochemical estimates, not measured permeability. These sources are distinct from independently validated V2 analyses.",
+  "existing_files": [
+    {
+      "path": "docs/verification/all_verified_tasks/group_4.md",
+      "sha256": "1b41d489e58a588fc5d172d231281d1cf4bdda83b1aea970da0417b6a228fc2f",
+      "bytes": 45187,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/finalize_author_descriptors_20260914.py",
+      "sha256": "65a1e4dbf6318c1135a02a0cf65fc78402e88c3a73a9bae9addf806b297275d1",
+      "bytes": 15089,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_01_optfreq_hpc20/input.com",
+      "sha256": "06d71a47e69cda89a5a519add4bfd9831fbb1b0298202234575be86d533690d2",
+      "bytes": 2723,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_01_optfreq_hpc20/source_input.com",
+      "sha256": "c5d964b8307dc697b3337d3915db75e03c5f273f2a446178db82e88f7b08dc4f",
+      "bytes": 2721,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_01_optfreq_hpc20/stdout.log",
+      "sha256": "01989837496231d4f3fcfafc403fba1ac7dd48cd05ce37c5fedd02d0a3efbb24",
+      "bytes": 43282787,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_02_optfreq_larger_basis_sp_hpc20_p3/input.com",
+      "sha256": "3a62a64b75faae3eeab1d19e637603f51ce643391dd0e5168efefc155ea6ae41",
+      "bytes": 2727,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_02_optfreq_larger_basis_sp_hpc20_p3/stdout.log",
+      "sha256": "bf4df892e4246a48712818839c7d67c04c96f710b4e762c5395da5bc904b0fed",
+      "bytes": 42737187,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_03_optfreq_larger_basis_sp_hpc20_p6/input.com",
+      "sha256": "73430649528adff104c5a540612985dba8d3ccfea4af7ef17fdaf46eb33ca258",
+      "bytes": 2728,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_03_optfreq_larger_basis_sp_hpc20_p6/stdout.log",
+      "sha256": "7e6ee20a842bd6b819ad2a9b0a340168a3360ba76e976997c23160089e763b14",
+      "bytes": 43405213,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_04_optfreq_larger_basis_sp_hpc20_p6/input.com",
+      "sha256": "496929c1e84ae5b5704bdd0c72261e97f615527088dfdabfd4ce75fbdba050b0",
+      "bytes": 2734,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_04_optfreq_larger_basis_sp_hpc20_p6/stdout.log",
+      "sha256": "891ba4bb43e71599fa3fc8542572ca7cf9d2c67244c530477f875e35f3eda945",
+      "bytes": 43311810,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_05_optfreq_larger_basis_sp_hpc20_p6/input.com",
+      "sha256": "7eecc5031dd01f04429ddc70e7dbe5032791de357b10189d9b3309425fc1fd94",
+      "bytes": 2719,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_05_optfreq_larger_basis_sp_hpc20_p6/stdout.log",
+      "sha256": "0ce703e27092b8f8cee96e7883e4ecc33eb972d6ea21de14e9f0eee83630d8dd",
+      "bytes": 43669507,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_06_optfreq_larger_basis_sp_hpc20_p6/input.com",
+      "sha256": "27a45ba58346a36171fd498faa7cbb6b450eee501c06a43e3cbc17181e126a4e",
+      "bytes": 2712,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/hpc_runs/az9_tfd_basin_06_optfreq_larger_basis_sp_hpc20_p6/stdout.log",
+      "sha256": "498ffccbb95cef3226530d5bf6103006b0e2de43a68cefacfce20d9d446e0946",
+      "bytes": 43499309,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/native_workspace_batch/outputs/execution_jobs/job_03d6a2def6f24a09be35908207102514/input.com",
+      "sha256": "fe0dd8a99ccf9d6b5f929e88a269789ad203d4cba82db6d0e56e63b27fe4a826",
+      "bytes": 2726,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/native_workspace_batch/outputs/execution_jobs/job_03d6a2def6f24a09be35908207102514/stdout.log",
+      "sha256": "dcdbcc5ad8eb592e2c4a1b79f06df801626270df2abe92cb848e42fb85ec8655",
+      "bytes": 43182181,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/native_workspace_batch/outputs/execution_jobs/job_641925d42de64bb9b98c1d9a7fbea070/input.com",
+      "sha256": "979d63e744da8d4b614f9d0a74eb57c8728f30aa5442991ad28a6ba777b637eb",
+      "bytes": 2726,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/native_workspace_batch/outputs/execution_jobs/job_641925d42de64bb9b98c1d9a7fbea070/stdout.log",
+      "sha256": "d3b48d6af56155ac7076ede2cd9a968dcf85953c2d175eef5965ac0ffd2971ed",
+      "bytes": 43004467,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/native_workspace_batch/outputs/execution_jobs/job_d00eed6e3253451dae3ff6e77d29a36a/input.com",
+      "sha256": "005d5fa335b081525ab76aa96d4a2aec29b6663b38b9311606c48ee491bc5dd9",
+      "bytes": 2725,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/native_workspace_batch/outputs/execution_jobs/job_d00eed6e3253451dae3ff6e77d29a36a/stdout.log",
+      "sha256": "77d3187fa002fb805eb68704b60057e2f63eaaedf5c5ebb8280b02e9118ba779",
+      "bytes": 44479182,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/provenance/author_descriptor_closure_20260914.json",
+      "sha256": "cef4d7e702d90b296572793e9a390274b8131ce28f0c5f22028aa0ba019f675c",
+      "bytes": 66036,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/provenance/cluster_az9_tfd_ensemble.py",
+      "sha256": "cb49e897d9ccba720726b76ece559a8993a7e984b04a3ab40dacd5c4c383ce64",
+      "bytes": 7260,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/provenance/evaluation_task_qualification.json",
+      "sha256": "38bca65bee5122f81702e4409d55df77e8f03fe0d855d35898b40a99c08fee85",
+      "bytes": 12113,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/provenance/generate_az9_conformer_ensemble.py",
+      "sha256": "bda127de8e828ff71f4c3dd60fd6ca2a78c0791af595392db52c3fdaacccb47a",
+      "bytes": 8055,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/provenance/prepare_az9_dft_specs.py",
+      "sha256": "f4cc08263db256775d20e685bb518bf76c53feb6ff7c6d365d2e5ef595eb6c0f",
+      "bytes": 2647,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/report/results.json",
+      "sha256": "575e929d54ac96ded50a177c85d56c9dc6484491301698eecc428ad089f4f37a",
+      "bytes": 8243,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_4/paper_5d94285cfbd51973/verification_report.md",
+      "sha256": "90f5c32eb0849ba85423d52b94d5409211cbed77979f76bb2fd3478dfcdd1d08",
+      "bytes": 9813,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    }
+  ],
+  "unresolved_historical_links": [],
+  "boundary": "The locator/hash audit establishes bytes and existence only. It does not re-run chemistry or certify every historical file. Source paper, historical calculation and synthetic development fixtures remain distinct; no synthetic fixture appears in this inventory.",
+  "new_scientific_calculations_performed": false
+}

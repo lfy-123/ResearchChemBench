@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "rules": [
+    {
+      "rule_id": "r_process",
+      "reference_id": "kp_process",
+      "type": "semantic",
+      "expected": "Identity and local-minimum validation are explicitly evidenced for both environments.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.validation",
+          "$.structure_check.identity_confirmed",
+          "$.gas_phase.validation_evidence",
+          "$.chloroform.validation_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_gap",
+      "reference_id": "kp_gap",
+      "type": "numeric",
+      "target": 3.04,
+      "unit": "eV",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.chloroform.gap_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "The gas-phase and CHCl3 frontier-orbital gaps are computed and quantitatively compared with the stated optical-gap reference. Evaluate the actual differences; agreement is not presumed or required to be exact.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

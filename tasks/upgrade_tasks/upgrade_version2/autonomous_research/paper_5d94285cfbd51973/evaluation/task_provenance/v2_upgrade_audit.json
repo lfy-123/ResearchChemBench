@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "task_type": "autonomous_research",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T16:59:17.488392+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_5d94285cfbd51973.json",
+  "plan_sha256": "c5fd9749818536ea01c227a3bf211e08bd7c19afdf022ee286addc389bf44ca7",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_5d94285cfbd51973",
+  "v1_package_content_sha256": "2cc1f8b626f2903cd4f55320d1fe1be1fda6495bc6527d1ea0ac91ef5a4cc07f",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "a1108b84eee1ee9705ccc5862d1c19df5b6867b2f8efe6a5ffa47244545a071c",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_5d94285cfbd51973/documents/main.pdf",
+      "sha256": "9a4125a542a33af7128c39ebcf9df93cbe82923038415ed18e81bc77ca65e1a2",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sections_figures_tables": "PDF pp2–3 synthesis/assay and SAR; pp4–7 DFT/frontier/MEP interpretation and its biological claims."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_5d94285cfbd51973/documents/supplementary_001.pdf",
+      "sha256": "9c09e4819df88ab73a3551dca09e2c5b390e7a783dac0df4f633e06e5e227f0e",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "sections_figures_tables": "PDF pp3–7 identities; p31 TableS1 exact C.albicans column; pp31–40 source gas-phase coordinates; p41 TableS12 all-ten descriptors and printed formulas; p42 TableS13 calculated physicochemical properties."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_all_ten_descriptors_with_formula_issues_and_legacy_AZ9_only_reference_pending",
+  "scope_changes": [
+    "Remove mandatory two-feature electronic model, fixed baseline features, ridge hyperparameter, LOOCV and permutation counts.",
+    "Remove predefined ordinal bins and derived endpoint intervals; retain printed MIC values and finite-resolution limitations.",
+    "Correct false implication that the authors studied onlyAZ9 and explicitly audit source descriptor formulas."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:04.640188+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

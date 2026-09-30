@@ -4,7 +4,7 @@ Independently plan and execute calculations that test the authors' qualitative h
 
 # Public inputs and scientific boundaries
 
-The sole molecular input is `data/inputs/cy2_s0.xyz`, the 120-atom Cy2 cation S0 Cartesian geometry extracted from SI Section 5. The XYZ comment records the charge (+1), singlet starting multiplicity (1), and omission of iodide counterions. The research object is this same Cy2 connectivity and protonation state; do not add counterions or alter connectivity. Chloroform is the solvent boundary, represented by a defensible continuum or explicit-solvent model. The measured quantities are S1, T1 and T2 vertical excitation energies from S0, and the T1 adiabatic energy relative to S0, all in eV. You may choose software, functional, basis, solvation treatment and convergence settings, but report them.
+The sole molecular input is `data/inputs/cy2_s0.xyz`, the 62-atom Cy2 cation S0 Cartesian geometry extracted from SI Section 5. The XYZ comment records the charge (+1), singlet starting multiplicity (1), and omission of iodide counterions. The research object is this same Cy2 connectivity and protonation state; do not add counterions or alter connectivity. Chloroform is the solvent boundary, represented by a defensible continuum or explicit-solvent model. The measured quantities are S1, T1 and T2 vertical excitation energies from S0, and the T1 adiabatic energy relative to S0, all in eV. You may choose software, functional, basis, solvation treatment and convergence settings, but report them.
 
 # Required scientific validation/investigation
 

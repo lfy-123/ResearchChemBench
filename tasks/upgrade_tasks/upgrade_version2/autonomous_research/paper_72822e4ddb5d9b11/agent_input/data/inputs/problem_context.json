@@ -1,0 +1,15 @@
+{
+  "problem": "What electronic-state and metal–ligand bonding description is supported for the supplied nickel carbaporphyrin complex, and how securely can it be distinguished from competing descriptions?",
+  "facts": [
+    "The molecule contains a fused carbaporphyrin framework, one Ni, two axial chloride ligands and a meso carbonyl.",
+    "The supplied adjacency is reconstructed from the source geometry to retain chemical identity while withholding target-state geometry; bond orders/electron distribution remain part of the electronic description."
+  ],
+  "scope": "Study the complete neutral C87H72Cl2N2NiO complex4. Atom identities and connectivity, including two axial chloride ligands, are supplied without an electronic-state assignment or optimized endpoint. The research question concerns molecular electronic state and bonding; catalytic water-reactivity pathways and rates are outside scope.",
+  "data_files": [
+    "complex4_identity.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "No target electronic populations, source optimized coordinates or energy rankings are public. Structures must be built from the complete adjacency and chemistry."
+  ]
+}

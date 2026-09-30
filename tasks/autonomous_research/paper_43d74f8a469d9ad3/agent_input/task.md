@@ -4,7 +4,7 @@ Determine the ground-state electronic torsion-energy profile of organoboron este
 
 # Public inputs and scientific boundaries
 
-Use the pinned Cambridge Structural Database record CCDC 2441197 in `data/inputs/ccdc_record.json` to obtain one complete molecule of compound 1. Preserve its connectivity, stereochemistry, neutral charge and singlet state; document any deterministic hydrogen completion. The scanned coordinate is the B–ipso-carbon bond to the 3,5-dimethylphenyl ring, with a fixed ordered four-atom dihedral and atom IDs retained at every point. The requested observable is the ground-state electronic energy relative to the lowest point, in kJ/mol, at angles 0, 15, ..., 345 degrees. This is an isolated-molecule rigid-rotor electronic-energy model: do not interpret it as a solvent free energy, rate, photobleaching quantum yield, or excited-state surface.
+Use the supplied immutable `data/inputs/ccdc_2441197.cif` and the accompanying `data/inputs/ccdc_record.json` to obtain one complete molecule of compound 1. The CCDC record number is provenance only; CCDC database retrieval is not required or scored. Preserve the CIF connectivity, stereochemistry, neutral charge and singlet state; document any deterministic hydrogen completion. The scanned coordinate is the B–ipso-carbon bond to the 3,5-dimethylphenyl ring, with a fixed ordered four-atom dihedral and atom IDs retained at every point. The requested observable is the ground-state electronic energy relative to the lowest point, in kJ/mol, at angles 0, 15, ..., 345 degrees. This is an isolated-molecule rigid-rotor electronic-energy model: do not interpret it as a solvent free energy, rate, photobleaching quantum yield, or excited-state surface.
 
 # Required scientific validation/investigation
 

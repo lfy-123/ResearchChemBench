@@ -1,0 +1,135 @@
+{
+  "paper_id": "paper_f9d09d28c7d9adaa",
+  "rules": [
+    {
+      "rule_id": "r_pr_process",
+      "type": "condition",
+      "expected": "Four per-compound convergence and provenance records are present and scientifically credible. Use the latest explicitly identified valid endpoint records for the current four-compound scope; historical BLOCKED/PASS prose alone is not current execution evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].id",
+          "$.compounds[*].status",
+          "$.compounds[*].convergence",
+          "$.compounds[*].method"
+        ],
+        "comparison": "expert validation per explicitly identified compound"
+      },
+      "reference_id": "kp_pr_process_convergence"
+    },
+    {
+      "rule_id": "r_pr_alpha3",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].dihedrals.alpha3"
+        ],
+        "comparison": "absolute difference after matching the explicit compound id"
+      },
+      "reference_id": "kp_pr_angle_alpha3",
+      "expected": "Reported dihedral values are documented with explicit atom definitions and compared against the source where applicable."
+    },
+    {
+      "rule_id": "r_pr_beta1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].dihedrals.beta1"
+        ],
+        "comparison": "absolute difference for the explicitly identified MeACFy and TfACFy records"
+      },
+      "reference_id": "kp_pr_angle_beta1",
+      "expected": "Use both specified least-squares planes, normalized normals, acos(abs(dot)) and 0–90 degrees, with output atom mapping and plane residuals. Compare to the source with the disclosed operational-definition boundary. No beta1 is required for MeAC or TfAC; a four-anchor torsion is not this observation."
+    },
+    {
+      "rule_id": "r_pr_orbital",
+      "type": "semantic",
+      "expected": "Evaluate mapped fragment localization separately for each compound, including the source distinction between Me and CF3 members. Do not demand core/bridge dominance for all four. FMO is supporting evidence and cannot establish the S1 CT/LE decomposition; no numerical axis metric is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].id",
+          "$.compounds[*].orbital_localization"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_orbitals"
+    },
+    {
+      "rule_id": "r_pr_s1",
+      "reference_id": "kp_pr_s1",
+      "type": "semantic",
+      "expected": "Identify the lowest singlet on the selected S0 geometry for every compound using actual root/spin evidence and report energy and oscillator strength. Inspect quantitative source deviations and method/conformer comparability; a bright higher root is not S1.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].id",
+          "$.compounds[*].excited_state"
+        ],
+        "comparison": "expert comparison of matched compound, geometry, state and raw evidence"
+      }
+    },
+    {
+      "rule_id": "r_pr_nto",
+      "reference_id": "kp_pr_nto",
+      "type": "semantic",
+      "expected": "All four S1 NTO records must be linked to the same TD root and geometry, with pair weights, orbital artifacts and mapped hole/electron interpretation. Neither ground-state HOMO/LUMO nor a verbal HLCT label substitutes for NTO evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].id",
+          "$.compounds[*].excited_state.nto"
+        ],
+        "comparison": "expert comparison of matched compound, geometry, state and raw evidence"
+      }
+    },
+    {
+      "rule_id": "r_pr_ifct",
+      "reference_id": "kp_pr_ifct",
+      "type": "semantic",
+      "expected": "Assess all four numeric decompositions with the three public fragments including H, the stated population partition, a complete directed matrix and consistent normalization. Quantify deviations from the source. Source trends are larger CT for CF3 and slightly larger LE for Fy, but small differences require uncertainty context. Same-level local verification recovers those trends with CT 36.990, 51.745, 36.492, 49.955%, not exact source percentages: no narrow quantitative acceptance tolerance has been established. A qualitative match alone is not exact quantitative reproduction, and claimed source numbers without raw analysis are unsupported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].id",
+          "$.compounds[*].excited_state.ifct"
+        ],
+        "comparison": "expert comparison of matched compound, geometry, state and raw evidence"
+      }
+    },
+    {
+      "rule_id": "r_pr_final",
+      "type": "semantic",
+      "expected": "A four-molecule, same-S1 TD/NTO/IFCT comparison quantifies LE/CT mixing and both Me/CF3 and AC/ACFy substitution effects, supported by mapped ground-state geometry and orbitals. The conclusion must follow the actual quantitative results and distinguish source agreement, deviations and method-sensitive small trends; it does not prove device efficiency or RISC kinetics. Ground-state-only completion cannot satisfy this revised result. A bounded failure documents missing observables; it does not fulfil them.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.compounds[*].excited_state",
+          "$.comparisons",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_paper_reproduction_final"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

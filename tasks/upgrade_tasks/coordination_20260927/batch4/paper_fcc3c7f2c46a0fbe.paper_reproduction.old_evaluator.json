@@ -1,0 +1,188 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_fcc3c7f2c46a0fbe",
+    "items": [
+      {
+        "key_point_id": "p1",
+        "key_point_type": "process",
+        "statement": "The submission performs a converged geometry optimization of the uniquely defined neutral singlet 4b and preserves atom identity.",
+        "expected_result": "A converged optimized structure with explicit method and coordinates/equivalent artifact, or a truthful bounded-failure report with attempted inputs and diagnostics.",
+        "evidence_ids": [
+          "ev_doc_ca374b59f1ae_000398_9737daa0de07"
+        ],
+        "expected": "The submission performs a converged geometry optimization of the uniquely defined neutral singlet 4b and preserves atom identity."
+      },
+      {
+        "key_point_id": "p2",
+        "key_point_type": "process",
+        "statement": "The optimized structure is validated by harmonic frequencies as a true minimum.",
+        "expected_result": "Frequency calculation performed and minimum classified, or an honestly documented bounded failure with diagnostics.",
+        "evidence_ids": [
+          "ev_doc_ca374b59f1ae_000384_0ec54e303463"
+        ],
+        "expected": "The optimized structure is validated by harmonic frequencies as a true minimum."
+      },
+      {
+        "key_point_id": "p3",
+        "key_point_type": "result",
+        "statement": "Compare every named bond, angle and signed periodic torsion with XRD. The isolated-molecule minimum should reproduce the published DFT geometry, including the main section 3.2 exception that the ethyl group points in the opposite direction. Do not require all signed XRD torsions to be close or minimize their signs independently.",
+        "expected_result": "Complete per-observable values and deviations with aggregate comparison metrics, or a truthful bounded-failure report explaining why comparison could not be completed.",
+        "evidence_ids": [
+          "ev_doc_7d9d8139af59_000211_fcf77b5c1715",
+          "ev_doc_ca374b59f1ae_000403_60a6b484ec20"
+        ],
+        "expected": "Compare every named bond, angle and signed periodic torsion with XRD. The isolated-molecule minimum should reproduce the published DFT geometry, including the main section 3.2 exception that the ethyl group points in the opposite direction. Do not require all signed XRD torsions to be close or minimize their signs independently."
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_fcc3c7f2c46a0fbe",
+    "items": [
+      {
+        "conclusion_id": "c1",
+        "claim_role": "final",
+        "statement": "The validated 4b minimum reproduces the published isolated-molecule geometry: bonds and angles agree closely with XRD, while the ethyl-orientation exception and every signed periodic torsion residual are explicitly retained.",
+        "expected": "The validated 4b minimum reproduces the published isolated-molecule geometry: bonds and angles agree closely with XRD, while the ethyl-orientation exception and every signed periodic torsion residual are explicitly retained.",
+        "supporting_key_point_ids": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "evidence_ids": [
+          "ev_doc_ca374b59f1ae_000403_60a6b484ec20",
+          "ev_doc_ca374b59f1ae_000404_80c951aa599d"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_fcc3c7f2c46a0fbe",
+    "rules": [
+      {
+        "rule_id": "r1",
+        "type": "condition",
+        "condition": "The report selects the complete branch with a converged optimization and method/coordinates, or selects bounded_failure and supplies the required failure diagnostics.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.status",
+            "$.method",
+            "$.optimization"
+          ],
+          "comparison": "presence and expert semantic comparison"
+        },
+        "reference_id": "p1",
+        "expected": "optimization.converged is true and method/coordinates are present Inspect the actual method, converged optimization and coordinates, not only a status string."
+      },
+      {
+        "rule_id": "r2",
+        "type": "condition",
+        "condition": "The complete branch reports frequency validation and minimum status, or the bounded_failure branch honestly documents the failed validation.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.status",
+            "$.frequency_validation"
+          ],
+          "comparison": "presence and expert semantic comparison"
+        },
+        "reference_id": "p2",
+        "expected": "frequency_validation is performed and minimum status is explicitly classified Inspect reported frequency evidence and minimum classification, not only a status string."
+      },
+      {
+        "rule_id": "r3",
+        "type": "semantic",
+        "expected": "Compare every named bond, angle and signed periodic torsion with XRD. The isolated-molecule minimum should reproduce the published DFT geometry, including the main section 3.2 exception that the ethyl group points in the opposite direction. Do not require all signed XRD torsions to be close or minimize their signs independently.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparisons",
+            "$.metrics",
+            "$.optimization"
+          ],
+          "comparison": "presence and expert semantic comparison"
+        },
+        "reference_id": "p3"
+      },
+      {
+        "rule_id": "r4",
+        "type": "semantic",
+        "expected": "The validated 4b minimum reproduces the published isolated-molecule geometry: bonds and angles agree closely with XRD, while the ethyl-orientation exception and every signed periodic torsion residual are explicitly retained. Matching coverage and small numerical residuals are separate checks; high R-squared alone is insufficient.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparisons",
+            "$.metrics",
+            "$.conclusion"
+          ],
+          "comparison": "presence and expert semantic comparison"
+        },
+        "reference_id": "c1"
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_fcc3c7f2c46a0fbe",
+    "items": [
+      {
+        "failure_id": "f1",
+        "condition": "wrong molecular identity, charge, multiplicity or atom mapping",
+        "why_serious": "Invalidates every geometry comparison."
+      },
+      {
+        "failure_id": "f2",
+        "condition": "reports a minimum without frequency evidence or mislabels an imaginary-frequency saddle",
+        "why_serious": "Fails process validation."
+      },
+      {
+        "failure_id": "f3",
+        "condition": "omits named observables or invents reference values",
+        "why_serious": "Prevents fair comparison."
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_fcc3c7f2c46a0fbe",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_ca374b59f1ae_000398_9737daa0de07",
+        "source": "Crystal structure used as starting point; minimized structure adopts same geometry and DFT lengths/angles match.",
+        "document_id": "doc_ca374b59f1ae",
+        "location": "main article p.5, Section 3.2"
+      },
+      {
+        "evidence_id": "ev_doc_ca374b59f1ae_000384_0ec54e303463",
+        "source": "Harmonic wave numbers calculated to confirm real minima.",
+        "document_id": "doc_ca374b59f1ae",
+        "location": "main article p.5, Section 2.7"
+      },
+      {
+        "evidence_id": "ev_doc_7d9d8139af59_000211_fcf77b5c1715",
+        "source": "Selected bond lengths XRD and DFT.",
+        "document_id": "doc_7d9d8139af59",
+        "location": "SI p.30, Table S1"
+      },
+      {
+        "evidence_id": "ev_doc_ca374b59f1ae_000403_60a6b484ec20",
+        "source": "Close calculated/experimental geometry and regression correlations.",
+        "document_id": "doc_ca374b59f1ae",
+        "location": "main article p.5, Section 3.2"
+      },
+      {
+        "evidence_id": "ev_doc_ca374b59f1ae_000404_80c951aa599d",
+        "source": "Nearly coplanar rings and near-perpendicular ethyl torsions.",
+        "document_id": "doc_ca374b59f1ae",
+        "location": "main article p.5, Section 3.2"
+      }
+    ]
+  }
+}

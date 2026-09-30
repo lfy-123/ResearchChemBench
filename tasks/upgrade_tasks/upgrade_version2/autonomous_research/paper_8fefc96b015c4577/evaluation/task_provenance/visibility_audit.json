@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "species_registry.json",
+      "action": "replace with neutral radical and solvent graphs",
+      "reason": "Retain both precise post-addition identities while removing route-labeled bond edits, named target atoms, fixed geometric constraints and inherited coordinate choices."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "No forced ring-size by tether by solvent matrix or predetermined strain decomposition."
+    },
+    {
+      "file": "long_radical.xyz / short_radical.xyz",
+      "action": "private_snapshot_only",
+      "reason": "Source or constructed conformations must not prescribe approach direction or certify a minimum."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

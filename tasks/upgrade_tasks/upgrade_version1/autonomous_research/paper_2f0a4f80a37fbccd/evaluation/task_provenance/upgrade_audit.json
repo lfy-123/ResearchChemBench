@@ -1,0 +1,131 @@
+{
+  "date": "2026-09-27",
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "source_path": "tasks/final_verified_autonomous_research/paper_2f0a4f80a37fbccd",
+  "source_package_manifest_sha256": "214dcfe7a5fb591ec5de66ebd73178e163d61e943edb42753bc25047fae65134",
+  "source_payload_snapshots": {
+    "task_info.json": {
+      "sha256": "742b8becdfe2eaa3434d141a6e3b5d22da66ce314b2aa8f0d95ea2e997024c2c",
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot"
+    },
+    "paper_route.md": {
+      "sha256": "0e8b4ba3c2e158224ec6feffa797172e4c56b37728b3b6b6bc9a878366ab4abe",
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot"
+    },
+    "package_manifest.json": {
+      "sha256": "214dcfe7a5fb591ec5de66ebd73178e163d61e943edb42753bc25047fae65134",
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot"
+    },
+    "evaluation/scoring_rules.json": {
+      "sha256": "ee6cbea379864d960553ed11dcf8d182b416a5fc4d6c18b0d24acefbe302b3d2",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "sha256": "09e75fe5ccb4907d00ada3bb6568b4525e9f0bbcfc2fc603794f6d6ffa47d23a",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot"
+    },
+    "evaluation/reference_key_points.json": {
+      "sha256": "3bfb61f653b6da9000c31152ebaec9de70f152fd31f4f9a88c2d8a431fcd7fac",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot"
+    },
+    "evaluation/critical_failures.json": {
+      "sha256": "a067f8ff625dbece1f1b5021c06be83e98f43614b1cab71ce26ac898002830b0",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot"
+    },
+    "evaluation/evidence_map.json": {
+      "sha256": "b0e95ce7aef9c5bf06d659f94a0cc0c6dc40e2750e1e4b6b80d3fa0e0ca53ca8",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot"
+    },
+    "evaluation/reference_conclusions.json": {
+      "sha256": "1e66c54ebfcf601608a7c3523cce597faeb93487715512564ba721f6286582ac",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot"
+    },
+    "agent_input/submission_schema.json": {
+      "sha256": "c706e6e29233f14d5e153e5fea45afbfcc3044dd715957cfea06a02cf6453e7c",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot"
+    },
+    "agent_input/task.md": {
+      "sha256": "6cee07f35523866981e13114e746d771479a332f5fadc9110d17e16174e876b7",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot"
+    },
+    "agent_input/data/inputs/experimental_xray_ir_boundary.json": {
+      "sha256": "b5b6e9f0776f8f94094b124e2e35e97ca6c270633ba51e8d6d1b23572df9b4ad",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/experimental_xray_ir_boundary.json.snapshot"
+    },
+    "agent_input/data/inputs/complex_specification.json": {
+      "sha256": "e34ce5d708e0576cf80d9cd65f42fd0ba9c9ca5b0d2702ea4622dbbfca5f326c",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/complex_specification.json.snapshot"
+    }
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "new_scientific_calculations_performed": true,
+  "shared_public_data_source": "tasks/final_verified_autonomous_research/paper_2f0a4f80a37fbccd/agent_input/data/inputs",
+  "ar_pr_common": "Identical public object data, submission schema and scientific evaluator; PR adds author rationale/route.",
+  "source_documents": [
+    {
+      "path": "papers/paper_2f0a4f80a37fbccd/documents/main.pdf",
+      "sha256": "76fe828053d735014dabbbcf20749bb2d180992ed7921df2190fc89bacca8438",
+      "pages": 10
+    },
+    {
+      "path": "papers/paper_2f0a4f80a37fbccd/documents/supplementary_001.pdf",
+      "sha256": "539d338737eddb8491b9e78f2202fc83f3495da450c4dd6c0a55c452b3f5c01e",
+      "pages": 34
+    }
+  ],
+  "review_corrections": [
+    {
+      "date": "2026-09-27",
+      "field": "evidence_map.paper_si.pdf_pages_1_based",
+      "old": [
+        1,
+        2
+      ],
+      "new": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        29
+      ],
+      "reason": "Direct target-complex crystallography and IR evidence; no scientific criteria or public instructions changed."
+    }
+  ],
+  "supervisor_contract_repairs": [
+    {
+      "at": "2026-09-27T12:39:08.613791+00:00",
+      "issue": "prelaunch_failure_requires_fake_job",
+      "previous_package_content_sha256": "0d2e13fd3b1728e1ee944a39f1a8fcc574de3081b4e8b53d0e73a43458aac51a",
+      "changes": [
+        "zero-launch diagnostics allowed",
+        "complete requirements preserved"
+      ],
+      "scientific_thresholds_changed": false,
+      "new_scientific_computations": 0
+    }
+  ],
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ],
+  "historical_development_reference_state": {
+    "status": "implemented_pending_expanded_reference",
+    "new_scientific_calculations_performed": false
+  },
+  "scientific_reference_validated": true,
+  "phase1_reference": {
+    "updated_at": "2026-09-28T13:31:58.765605+00:00",
+    "binding_file": "evaluation/phase1_reference_binding.json",
+    "scope": "Applicable bounded V1 scientific matrix, author-informed; not a blind AR run.",
+    "semantic_judge_calibration": "not_performed",
+    "coordinator_final_review": "pending",
+    "historical_package_snapshot": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/history/reference_binding/paper_2f0a4f80a37fbccd/AR/135040a1d7e1f9e1530853158b2d5e7d79fe04a613182900b644acdcce90f0bf"
+  }
+}

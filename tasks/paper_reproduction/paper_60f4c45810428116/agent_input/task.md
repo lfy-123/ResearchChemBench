@@ -4,7 +4,7 @@ Determine the calculated one-electron dissociative reduction potentials, in V ve
 
 # Public inputs and scientific boundaries
 
-`data/inputs/species.json` defines every species by isomeric SMILES, formal charge, multiplicity, and reaction role. 1a is benzyl chloromethyl sulfide, `ClC[S]Cc1ccccc1` interpreted as connectivity `C(Cl)H2-S-CH2-Ph`; 1h is the corresponding `PhS-CH2-S-CH2-Ph` precursor. The products are the carbon-centered neutral radicals plus chloride or benzenethiolate anion for 1a/1h, and Fc/Fc+ are the reference states. THF solution and 298 K are the physical boundary. The task scores potentials versus Fc/Fc+; it does not score a particular geometry, conformer, software, or method. The author's qualitative route is the hypothesis to test, not a required protocol.
+`data/inputs/species.json` defines every species by SMILES, formal charge, multiplicity, reaction role, and (for the metal reference) explicit coordination semantics. 1a is benzyl chloromethyl sulfide, `ClCSCc1ccccc1` interpreted as connectivity `C(Cl)H2-S-CH2-Ph`; 1h is the corresponding `PhS-CH2-S-CH2-Ph` precursor. The products are the carbon-centered neutral radicals plus chloride or benzenethiolate anion for 1a/1h, and Fc/Fc+ are the reference states. Each Fc state is one bis(eta5-cyclopentadienyl)iron sandwich complex, not separated formal fragments; generate its three-dimensional coordination geometry from this identity. THF solution and 298 K are the physical boundary. The task scores potentials versus Fc/Fc+; it does not score a particular geometry, conformer, software, or method. The author's qualitative route is the hypothesis to test, not a required protocol.
 
 # Required scientific validation/investigation
 

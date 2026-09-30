@@ -4,7 +4,7 @@ Independently test the authors' qualitative proposal that oxygen insertion into 
 
 # Public inputs and scientific boundaries
 
-`data/inputs/intermediate_7.xyz` is the 45-atom Cartesian geometry of the neutral quintet reactant minimum. `data/inputs/ts_7_8.xyz` is the 121-atom Cartesian geometry of the neutral quintet candidate transition structure; the first line is the atom count and the second is a comment. `data/inputs/system.json` fixes charge 0, multiplicity 5, temperature, pressure, atom identity and endpoint definition. You may generate conformers or restart geometries, but the scored endpoint calculation must identify which supplied geometry was used and preserve element identities. Do not use the paper, SI, general web or hidden reference values.
+`data/inputs/intermediate_7.xyz` and `data/inputs/ts_7_8.xyz` are the complete 85-atom Cartesian geometries of the neutral quintet reactant minimum and candidate transition structure, respectively; the first line is the atom count and the second is a comment. `data/inputs/system.json` fixes charge 0, multiplicity 5, temperature, pressure, atom identity and endpoint definition. You may generate conformers or restart geometries, but the scored endpoint calculation must identify which supplied geometry was used and preserve element identities. Do not use the paper, SI, general web or hidden reference values.
 
 # Required scientific validation/investigation
 

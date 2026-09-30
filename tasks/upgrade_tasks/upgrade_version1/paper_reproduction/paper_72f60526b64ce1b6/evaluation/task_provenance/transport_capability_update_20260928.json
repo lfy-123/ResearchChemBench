@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-28T13:45:46.883527+00:00",
+  "scope": "V1 factual capability update only; no matrix, scoring weight, submission schema or scientific endpoint changed. Historical source reviews retain their original observation date.",
+  "declaration": {
+    "path": "docs/upgrade_tasks_v2_review_20260928/coordinator_review/transport_catalog_readback.json",
+    "sha256": "1fc095c90f24454214e6ada5f692cbb754502fcfd41c5bb415ac8b90b743a621"
+  },
+  "native_manual": {
+    "path": "chemistry_toolbox/native_software_docs/siesta/TRANSPORT.md",
+    "sha256": "d6a76d31f6a52acb246d3f72090943db10a2a6ce1ec8ca5c9a340b548934052e"
+  },
+  "independent_readback": {
+    "path": "docs/upgrade_tasks_verification/group_6/papers/paper_72f60526b64ce1b6/provenance/transport_capability_reaudit_1300.json",
+    "sha256": "883cabcbb904437437d6840813ff2de70e5773aed8f4fd5c72ba2db0d4728213"
+  },
+  "resolved": "Native siesta and tbtrans 5.4.2 invocation contracts are now declared, including stdin_file and dependencies; integrated TranSIESTA is selected through SolutionMethod transiesta. Scientific lead/device and finite-bias validation remains incomplete.",
+  "remaining": [
+    "No complete mapped allowed electrode/device input chain (pseudopotentials, principal layers, self-energy artifacts and finite-bias restart conventions) has been validated.",
+    "No actual same-junction zero/±V pilot, transport convergence or expanded control reference is available."
+  ],
+  "whole_paper_validated": false,
+  "release_ready": false,
+  "source_endpoint_boundary": "Private source-matched pilot calibrates the toolchain; it is not a blind AR solution or independent public-start construction."
+}

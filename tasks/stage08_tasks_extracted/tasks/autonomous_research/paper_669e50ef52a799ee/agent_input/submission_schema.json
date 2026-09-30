@@ -1,0 +1,490 @@
+{
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "bounded_failure"
+      ]
+    },
+    "system": {
+      "type": "object",
+      "required": [
+        "system_id",
+        "charge",
+        "multiplicity",
+        "connectivity_confirmed"
+      ],
+      "properties": {
+        "system_id": {
+          "type": "string"
+        },
+        "charge": {
+          "type": "number"
+        },
+        "multiplicity": {
+          "type": "integer"
+        },
+        "connectivity_confirmed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "computational_protocol": {
+      "type": "object",
+      "required": [
+        "software",
+        "method",
+        "solvent",
+        "states_requested",
+        "prominence_rule",
+        "states_considered"
+      ],
+      "properties": {
+        "software": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "solvent": {
+          "type": "string"
+        },
+        "states_requested": {
+          "type": "integer"
+        },
+        "prominence_rule": {
+          "type": "string"
+        },
+        "states_considered": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "candidate_coverage": {
+      "type": "object",
+      "required": [
+        "starting_arrangements_generated",
+        "unique_arrangements",
+        "stopping_rule",
+        "coverage_statement",
+        "discarded_structures"
+      ],
+      "properties": {
+        "starting_arrangements_generated": {
+          "type": "integer"
+        },
+        "unique_arrangements": {
+          "type": "integer"
+        },
+        "stopping_rule": {
+          "type": "string"
+        },
+        "coverage_statement": {
+          "type": "string"
+        },
+        "discarded_structures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "structures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "structure_id",
+          "starting_arrangement_provenance",
+          "optimization_status",
+          "minimum_validation",
+          "imaginary_frequency_count",
+          "advanced_to_excited_state"
+        ],
+        "properties": {
+          "structure_id": {
+            "type": "string"
+          },
+          "optimization_status": {
+            "type": "string"
+          },
+          "imaginary_frequency_count": {
+            "type": "integer"
+          },
+          "advanced_to_excited_state": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "starting_arrangement_provenance": {
+            "type": "string"
+          },
+          "minimum_validation": {
+            "type": "string"
+          },
+          "excited_state_provenance": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "bands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "structure_id",
+          "band_id",
+          "state_index",
+          "wavelength_nm",
+          "oscillator_strength",
+          "state_selection_basis"
+        ],
+        "properties": {
+          "structure_id": {
+            "type": "string"
+          },
+          "band_id": {
+            "type": "string"
+          },
+          "wavelength_nm": {
+            "type": "number"
+          },
+          "oscillator_strength": {
+            "type": "number"
+          },
+          "state_selection_basis": {
+            "type": "string"
+          },
+          "state_index": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "required": [
+        "feature_near_310_nm",
+        "transition_evidence",
+        "assignment_confidence"
+      ],
+      "properties": {
+        "feature_near_310_nm": {
+          "type": "string"
+        },
+        "transition_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assignment_confidence": {
+          "type": "string"
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "string"
+    },
+    "failure_reason": {
+      "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": {
+          "const": "completed"
+        }
+      },
+      "required": [
+        "status",
+        "system",
+        "computational_protocol",
+        "candidate_coverage",
+        "structures",
+        "bands",
+        "interpretation",
+        "conclusion",
+        "limitations"
+      ]
+    },
+    {
+      "properties": {
+        "status": {
+          "const": "bounded_failure"
+        }
+      },
+      "required": [
+        "status",
+        "system",
+        "computational_protocol",
+        "candidate_coverage",
+        "structures",
+        "failure_reason",
+        "limitations"
+      ]
+    }
+  ],
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "system_id",
+          "charge",
+          "multiplicity",
+          "connectivity_confirmed"
+        ],
+        "properties": {
+          "system_id": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "number"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "connectivity_confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "computational_protocol": {
+        "type": "object",
+        "required": [
+          "software",
+          "method",
+          "solvent",
+          "states_requested",
+          "prominence_rule",
+          "states_considered"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "states_requested": {
+            "type": "integer"
+          },
+          "prominence_rule": {
+            "type": "string"
+          },
+          "states_considered": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "candidate_coverage": {
+        "type": "object",
+        "required": [
+          "starting_arrangements_generated",
+          "unique_arrangements",
+          "stopping_rule",
+          "coverage_statement",
+          "discarded_structures"
+        ],
+        "properties": {
+          "starting_arrangements_generated": {
+            "type": "integer"
+          },
+          "unique_arrangements": {
+            "type": "integer"
+          },
+          "stopping_rule": {
+            "type": "string"
+          },
+          "coverage_statement": {
+            "type": "string"
+          },
+          "discarded_structures": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "structures": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "structure_id",
+            "starting_arrangement_provenance",
+            "optimization_status",
+            "minimum_validation",
+            "imaginary_frequency_count",
+            "advanced_to_excited_state"
+          ],
+          "properties": {
+            "structure_id": {
+              "type": "string"
+            },
+            "starting_arrangement_provenance": {
+              "type": "string"
+            },
+            "optimization_status": {
+              "type": "string"
+            },
+            "minimum_validation": {
+              "type": "string"
+            },
+            "imaginary_frequency_count": {
+              "type": "integer"
+            },
+            "advanced_to_excited_state": {
+              "type": "boolean"
+            },
+            "excited_state_provenance": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "bands": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "structure_id",
+            "band_id",
+            "state_index",
+            "wavelength_nm",
+            "oscillator_strength",
+            "state_selection_basis"
+          ],
+          "properties": {
+            "structure_id": {
+              "type": "string"
+            },
+            "band_id": {
+              "type": "string"
+            },
+            "state_index": {
+              "type": "integer"
+            },
+            "wavelength_nm": {
+              "type": "number"
+            },
+            "oscillator_strength": {
+              "type": "number"
+            },
+            "state_selection_basis": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "interpretation": {
+        "type": "object",
+        "required": [
+          "feature_near_310_nm",
+          "transition_evidence",
+          "assignment_confidence"
+        ],
+        "properties": {
+          "feature_near_310_nm": {
+            "type": "string"
+          },
+          "transition_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assignment_confidence": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "failure_reason": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status",
+          "system",
+          "computational_protocol",
+          "candidate_coverage",
+          "structures",
+          "bands",
+          "interpretation",
+          "conclusion",
+          "limitations"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "status",
+          "system",
+          "computational_protocol",
+          "candidate_coverage",
+          "structures",
+          "failure_reason",
+          "limitations"
+        ]
+      }
+    ]
+  }
+}

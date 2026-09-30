@@ -141,6 +141,59 @@
                 },
                 "settings": {
                   "type": "string"
+                },
+                "crystal_model": {
+                  "type": "string"
+                },
+                "boundary_sensitivity": {
+                  "type": "string"
+                },
+                "crystal_pairs": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "pair_id",
+                      "cif_file",
+                      "central_molecule",
+                      "neighbour_molecule",
+                      "symmetry_operation",
+                      "cell_translation",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "pair_id": {
+                        "type": "string"
+                      },
+                      "cif_file": {
+                        "type": "string"
+                      },
+                      "central_molecule": {
+                        "type": "string"
+                      },
+                      "neighbour_molecule": {
+                        "type": "string"
+                      },
+                      "symmetry_operation": {
+                        "type": "string"
+                      },
+                      "cell_translation": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 1
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -348,6 +401,42 @@
         "properties": {
           "status": {
             "const": "bounded_failure"
+          }
+        }
+      }
+    ],
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "isomers": {
+              "items": {
+                "properties": {
+                  "nci": {
+                    "required": [
+                      "crystal_model",
+                      "boundary_sensitivity",
+                      "crystal_pairs"
+                    ],
+                    "properties": {
+                      "crystal_pairs": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

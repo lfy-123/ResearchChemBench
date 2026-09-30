@@ -1,1 +1,45 @@
-{"paper_id": "paper_f9d09d28c7d9adaa", "items": [{"key_point_id": "kp_pr_process_convergence", "key_point_type": "process", "statement": "Each submitted molecular optimization is converged or transparently reported as bounded failure, with charge/multiplicity and atom-index provenance recorded.", "expected_result": "Four traceable per-molecule convergence records and validation evidence.", "evidence_ids": ["ev_doc_539505645b47_000178_642424ea9cff"], "expected": "Four traceable per-molecule convergence records and validation evidence."}, {"key_point_id": "kp_pr_angle_alpha3", "key_point_type": "result", "statement": "The \u03b13 donor-acridine/\u03c0-bridge dihedral magnitudes are approximately 89.17\u00b0, 87.11\u00b0, 87.11\u00b0 and 88.70\u00b0 for MeAC, TfAC, MeACFy and TfACFy.", "expected_result": "Values close to the reported four-molecule sequence, with explicit atom definitions.", "evidence_ids": ["ev_doc_539505645b47_000045_07848638b61c"], "expected": "Values close to the reported four-molecule sequence, with explicit atom definitions."}, {"key_point_id": "kp_pr_angle_beta1", "key_point_type": "result", "statement": "The \u03b21 fluorene-related dihedral magnitudes are approximately 87.11\u00b0 for MeACFy and 88.02\u00b0 for TfACFy.", "expected_result": "Values close to the reported pair, or an evidence-backed limitation if \u03b21 is not applicable.", "evidence_ids": ["ev_doc_539505645b47_000045_07848638b61c"], "expected": "Values close to the reported pair, or an evidence-backed limitation if \u03b21 is not applicable."}, {"key_point_id": "kp_pr_orbitals", "key_point_type": "result", "statement": "HOMO density is mainly on acridine, while LUMO density is mainly on phenanthrimidazole and \u03c0 bridges; CF3 shifts LUMO toward the short axis.", "expected_result": "Named-fragment orbital localization consistent with this pattern.", "evidence_ids": ["ev_doc_539505645b47_000046_cc9e54afbd63"], "expected": "Named-fragment orbital localization consistent with this pattern."}]}
+{
+  "paper_id": "paper_f9d09d28c7d9adaa",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_convergence",
+      "key_point_type": "process",
+      "statement": "Each submitted molecular optimization is converged or transparently reported as bounded failure, with charge/multiplicity and atom-index provenance recorded.",
+      "expected_result": "Four traceable per-molecule convergence records and validation evidence.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000178_642424ea9cff"
+      ],
+      "expected": "Four traceable per-molecule convergence records and validation evidence."
+    },
+    {
+      "key_point_id": "kp_pr_angle_alpha3",
+      "key_point_type": "result",
+      "statement": "The α3 donor-acridine/π-bridge dihedral magnitudes are approximately 89.17°, 87.11°, 87.11° and 88.70° for MeAC, TfAC, MeACFy and TfACFy.",
+      "expected_result": "Values close to the reported four-molecule sequence, with explicit atom definitions.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000045_07848638b61c"
+      ],
+      "expected": "Values close to the reported four-molecule sequence, with explicit atom definitions."
+    },
+    {
+      "key_point_id": "kp_pr_angle_beta1",
+      "key_point_type": "result",
+      "statement": "The β1 fluorene-related dihedral magnitudes are approximately 87.11° for MeACFy and 88.02° for TfACFy.",
+      "expected_result": "Compare the reproducibly defined spiro-junction interplanar angles to the reported pair. Identify both ring atom sets and the angle convention; the source does not supply atom quadruplets. An unrelated four-anchor torsion must not be passed off as the same angle. β1 is not applicable to MeAC and TfAC.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000045_07848638b61c"
+      ],
+      "expected": "Nearly orthogonal spiro-junction planes for MeACFy and TfACFy, with explicit atom sets, source comparison and any convention limitation; not applicable for the non-spiro pair."
+    },
+    {
+      "key_point_id": "kp_pr_orbitals",
+      "key_point_type": "result",
+      "statement": "HOMO density is mainly on the acridine-type donor for all four compounds. The source specifically identifies the phenanthrimidazole/π-bridge LUMO pattern in MeAC and MeACFy, whereas TfAC and TfACFy shift LUMO density toward the CF3-substituted short-axis aryl system (main pp.2–3 and Fig.2). Do not impose methyl-like core/bridge dominance on the CF3 pair.",
+      "expected_result": "Report named-fragment HOMO/LUMO localization for every compound, distinguishing acridine, π-bridge, phenanthrimidazole core, short-axis aryl/substituent and fluorene where present. Compare the molecule-specific patterns to the source and disclose partition limitations. A quantitative Cartesian-axis projection is not required; fragment populations are not such a projection.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000046_cc9e54afbd63"
+      ],
+      "expected": "Donor-dominated HOMOs and molecule-specific acceptor-side LUMO localization consistent with main pp.2–3/Fig.2; do not hide CF3 short-aryl density by assigning it to an undefined core."
+    }
+  ]
+}

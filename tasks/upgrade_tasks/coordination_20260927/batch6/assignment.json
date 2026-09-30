@@ -1,0 +1,71 @@
+{
+  "batch": {
+    "number": 6,
+    "name": "核心阻塞解除后再议",
+    "reason": "当前先准备缺失输入或有效方法；三篇仍在正常 final 内，不能与 hold 混为一类。",
+    "papers": [
+      "paper_5ea491c741fbd8d4",
+      "paper_72f60526b64ce1b6",
+      "paper_c7217910ecbee1d9"
+    ]
+  },
+  "records": [
+    {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "孤立分子轨道不能检验实际晶体接触贡献",
+      "minimum": "真实对称近邻二聚的接触面积与作用能排序及交叉解释",
+      "software": "Gaussian/ORCA；Psi4 SAPT可选",
+      "gate": "暂缓：缺源 CIF/正确晶胞近邻；checkCIF 报告不能替代结构，任意二聚无效",
+      "feasibility": "H",
+      "batch": 6,
+      "first_version_spec": {
+        "matrix": "必须从真实源 CIF 及对称操作提取近邻二聚，以接触面积/类型和同几何作用能比较；当前先准备结构来源。",
+        "accept": "核对晶胞、占位/无序和近邻计量，面积排名与能量排名分别验收。checkCIF 不是坐标文件，任意摆放二聚不能回答晶体接触科学问题。",
+        "optional": "缺 CIF 时不发布该升级，不能用示意模型替代并保留原主张。",
+        "pilot": "解除条件：取得可核验 CIF并重建正确近邻，完成至少一个代表二聚的能量/接触参考。"
+      }
+    },
+    {
+      "paper_id": "paper_72f60526b64ce1b6",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "孤立偶极不是分子结整流",
+      "minimum": "A–D 桥结构在相同 Au 接触下的正负偏压输运与接触扰动",
+      "software": "SIESTA/TranSIESTA/TBtrans完整链",
+      "gate": "暂缓：已装程序不等于允许且可审查的 NEGF 链；先跑通一个结的 ±V 与收敛",
+      "feasibility": "H",
+      "batch": 6,
+      "first_version_spec": {
+        "matrix": "A–D 桥结构在一致 Au 接触下比较 ±V 输运与接触/方向控制；先做一个结的允许调用工作流。",
+        "accept": "需要完整 SIESTA/TranSIESTA/TBtrans 输入链、零/非零偏压、T(E,V)/I(V)、接触和数值收敛，单分子偶极不可替代整流。",
+        "optional": "接入未核验时不发布输运升级，也不绕过工具允许范围调用子程序。",
+        "pilot": "解除条件：允许的 NEGF 链和一个结的正负偏压收敛实际跑通；安装二进制不算解除。"
+      }
+    },
+    {
+      "paper_id": "paper_c7217910ecbee1d9",
+      "origin": "final",
+      "current_class": "A",
+      "action": "upgrade",
+      "target": "B",
+      "weakness": "固定簇 AEA 缺少配体接受/极化区分",
+      "minimum": "完整 PAl12 核的配体和冻结几何控制，比较中性/阴离子",
+      "software": "Gaussian/ORCA＋波函数分析",
+      "gate": "暂缓：正式 SI 已有，但完整簇有效极小值仍未落实；重构簇不能替换原对象",
+      "feasibility": "H",
+      "batch": 6,
+      "first_version_spec": {
+        "matrix": "完整 PAl₁₂ 核及 n=0/1/2 配体，中性/阴离子独立优化，固定核几何/完全松弛配对；正式 SI 已存在。",
+        "accept": "保留核身份和合理最低态，区分 VEA、AEA、ZPE；附加电子密度与核/配体电荷交叉分析。重构 xTB 簇的约7.731 eV不能替代完整簇3.93 eV问题。",
+        "optional": "完整簇有效端点前不展开全系列，不以强约束保核宣称其自发稳定。",
+        "pilot": "解除条件：一个原定义完整簇的中性/阴离子 DFT 极小值和可重复 AEA成立；缺口已不是 SI 文件缺失。"
+      }
+    }
+  ]
+}

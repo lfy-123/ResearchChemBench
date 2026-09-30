@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_a3968806251093cd",
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_2d756ad0ed72_000066_d7f5216731d0",
+      "source": "Supplementary Information, Table-S 1, page 8: comparison of 13 SCXRD/theoretical bond lengths."
+    },
+    {
+      "evidence_id": "ev_doc_2d756ad0ed72_000072_8698fc6e9da7",
+      "source": "Supplementary Information, Table-S 2, page 9: comparison of SCXRD/theoretical bond angles."
+    },
+    {
+      "evidence_id": "ev_doc_2d756ad0ed72_000076_096ec81ee6fc",
+      "source": "Supplementary Information, Table-S 3, page 10: comparison of SCXRD/theoretical torsion angles."
+    },
+    {
+      "evidence_id": "ev_doc_6fa279192fe2_000064_6865e8763f76",
+      "source": "Main PDF section 2.4, pages 3–4: B3LYP and CAM-B3LYP with 6-311+G(d,p), gas phase. The exact author input and software defaults are not recovered; private verification records actual G16 C.01 settings."
+    },
+    {
+      "evidence_id": "ev_doc_6fa279192fe2_000153_20c82d2580d2",
+      "source": "Main paper, page 11: geometry comparison conclusion and interpretation boundary."
+    },
+    {
+      "evidence_id": "ev_doc_6fa279192fe2_000295_ea60f916c7bf",
+      "source": "Main paper conclusion evidence: source-indexed conclusion statement for geometry-method comparison."
+    },
+    {
+      "evidence_id": "ev_doc_2d756ad0ed72_000017_413de112a333",
+      "source": "Supplementary Information, mass-spectrum entry: molecular formula C20H17ClN6OS."
+    },
+    {
+      "evidence_id": "ev_a396_identity_cif",
+      "source": "Main PDF Fig.3/section 3.2; SI identity data; evaluator-private source_data/CCDC_2266402.cif. Correct source-labeled graph, P-1 inversion relation and E-imine/N5-H identity. E is an identity constraint, not a provided optimized torsion. Experimental geometry CSV is unchanged."
+    },
+    {
+      "evidence_id": "ev_a396_correct_object_computations",
+      "source": "docs/verification/group_2/paper_a3968806251093cd/provenance/cif_hold_acceptance_20260921/PRIMARY_CIF_RESULTS.json and SECONDARY_SI_RESULTS.json with linked raw Gaussian inputs/outputs. Both correct-object branches have two minima and 47 rows/model. Source-CIF branch has uniform CAM preference; alternate branch has mixed preference. Current-protocol re-extraction is archived in evaluation/task_provenance/repair_validation_20260923.json. Old positional-isomer runs do not count."
+    },
+    {
+      "evidence_id": "ev_a396_comparison_protocol",
+      "source": "User-approved benchmark convention implemented in agent_input/data/inputs/geometry_comparison.json (a396_geometry_comparison_v2): 13/23/11 unique rows, circular torsions with whole-vector inversion equivalence, per-kind MAE/RMSE and six-metric dominance/mixed/tie comparison. This convention is benchmark-authored, NOT a method or statistic attributed to the paper. SI Table S2's repeated C6-N1-C7 counts once. No SI numerical DFT target or mandatory winner is introduced."
+    }
+  ]
+}

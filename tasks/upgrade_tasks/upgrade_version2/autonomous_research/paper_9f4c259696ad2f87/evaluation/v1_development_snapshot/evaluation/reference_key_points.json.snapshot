@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PXX1 C43H28O3 and PXX2 C50H30O4, neutral singlets; acid is neutral B(C6F5)3. Each PXX has 0, 1 and 2 acid units; PXX1 has one carbonyl, so its second acid explores the available ether/carbonyl-site competition as a new candidate, not an asserted second independent ketone. PXX2 has two carbonyls. All whole complexes are neutral singlets. CH2Cl2 is the shared primary medium. Compare sequential acid association reactions, never bare total energies of different acid counts. Use 298.15 K and 1 M as explicit development thermochemistry conventions; no equilibrium population is inferred without concentration evidence.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PXX1 C43H28O3 and PXX2 C50H30O4, neutral singlets; acid is neutral B(C6F5)3. Each PXX has 0, 1 and 2 acid units; PXX1 has one carbonyl, so its second acid explores the available ether/carbonyl-site competition as a new candidate, not an asserted second independent ketone. PXX2 has two carbonyls. All whole complexes are neutral singlets. CH2Cl2 is the shared primary medium. Compare sequential acid association reactions, never bare total energies of different acid counts. Use 298.15 K and 1 M as explicit development thermochemistry conventions; no equilibrium population is inferred without concentration evidence.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_stoichiometric_series",
+      "statement": "Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Core rows: PXX1_acid0, PXX1_acid1, PXX1_acid2, PXX2_acid0, PXX2_acid1, PXX2_acid2. Recompute G_Eh, excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Require actual conformer/site attempts, stoichiometric identities and matched transition densities for every acid count; evidenced dissociation/collapse is reportable. Core rows: PXX1_acid0, PXX1_acid1, PXX1_acid2, PXX2_acid0, PXX2_acid1, PXX2_acid2. Recompute G_Eh, excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_balanced_binding",
+      "statement": "Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Core rows: PXX1_step1, PXX1_step2, PXX2_step1, PXX2_step2. Recompute delta_G_kJ_mol, interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Recompute PXX.acid_n minus PXX.acid_(n-1) minus free acid with common thermochemistry and 1 M correction. Demonstrate composition balance and conformer effects. Core rows: PXX1_step1, PXX1_step2, PXX2_step1, PXX2_step2. Recompute delta_G_kJ_mol, interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_geometry_and_spectrum",
+      "statement": "Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Core rows: PXX1_acid_removed, PXX2_acid_removed, titration_discrimination. Recompute excitation_change_eV, oscillator_strength_change, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Remove acid at the same PXX geometry and compare independently relaxed PXX; compare observed trend without forcing unique occupancy from similar spectra. Preserve digitization/concentration limits. Core rows: PXX1_acid_removed, PXX2_acid_removed, titration_discrimination. Recompute excitation_change_eV, oscillator_strength_change, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

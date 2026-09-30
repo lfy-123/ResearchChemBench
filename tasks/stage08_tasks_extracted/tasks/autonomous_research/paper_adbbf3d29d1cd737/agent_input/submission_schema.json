@@ -1,0 +1,159 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/methods_and_validation.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "system_identity": {
+        "type": "object",
+        "required": [
+          "system_id",
+          "atom_count",
+          "charge",
+          "multiplicity",
+          "atom_order_verified"
+        ]
+      },
+      "phases": {
+        "type": "object",
+        "required": [
+          "gas",
+          "aqueous"
+        ],
+        "properties": {
+          "gas": {
+            "oneOf": [{"$ref": "#/$defs/phase"}, {"$ref": "#/$defs/failed_phase"}]
+          },
+          "aqueous": {
+            "oneOf": [{"$ref": "#/$defs/phase"}, {"$ref": "#/$defs/failed_phase"}]
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "directions",
+          "evidence_summary"
+        ]
+      },
+      "interpretation": {
+        "type": "string"
+      },
+      "validation": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "check",
+            "outcome",
+            "evidence"
+          ]
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": ["attempted", "missing", "reason"],
+        "properties": {
+          "attempted": {
+            "type": "array"
+          },
+          "missing": {
+            "type": "array"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "_contract_note": {
+        "type": "string",
+        "description": "The complete and bounded_failure outcomes below are mutually exclusive."
+      }
+    },
+    "oneOf": [
+      {"properties": {"status": {"const": "complete"}}, "required": ["status", "system_identity", "phases", "comparison", "interpretation", "validation", "limitations"]},
+      {"properties": {"status": {"const": "bounded_failure"}}, "required": ["status", "system_identity", "phases", "validation", "limitations", "failure"]}
+    ],
+    "$defs": {
+      "phase": {
+        "type": "object",
+        "required": [
+          "method",
+          "observables",
+          "oxygen_mulliken_charges",
+          "converged"
+        ],
+        "properties": {
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model",
+              "solvation"
+            ]
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "dipole_debye",
+              "homo_au",
+              "lumo_au",
+              "gap_ev",
+              "ionization_potential_ev",
+              "electron_affinity_ev",
+              "electronegativity_ev",
+              "electrochemical_potential_ev",
+              "hardness_ev",
+              "softness_ev_inv",
+              "electrophilicity_ev"
+            ],
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "oxygen_mulliken_charges": {
+            "type": "object",
+            "required": [
+              "row_1",
+              "row_4",
+              "row_6"
+            ],
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "converged": {
+            "type": "boolean"
+          }
+        }
+      }
+      ,"failed_phase": {
+        "type": "object",
+        "required": ["status", "attempted", "missing", "reason"],
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "attempted": {"type": "array", "items": {"type": "string"}},
+          "missing": {"type": "array", "items": {"type": "string"}},
+          "reason": {"type": "string"}
+        }
+      }
+    }
+  }
+}

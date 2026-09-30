@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "result",
+      "statement": "Authenticated crystal and valid mapped neighbor identities",
+      "expected": "Verify source CIF bytes, identity, cell, symmetry, occupancy/disorder and exact E-isomer mapping. Reconstruct every submitted pair and multiplicity; arbitrary placements and checkCIF screenshots fail this endpoint. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_contacts",
+      "key_point_type": "result",
+      "statement": "Actual molecule-resolved contact areas and neighbor coverage",
+      "expected": "Review surface generation and partition tables and mesh convergence; recompute pair and atom-type areas with normalization. Cover all primary neighbors; area counts and unallocated global fingerprint percentages are insufficient. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_energies",
+      "key_point_type": "result",
+      "statement": "Frozen-geometry interaction energies with consistent BSSE control",
+      "expected": "Recompute raw/CP energies from actual dimer/own/ghost monomer logs at identical crystal geometry. All fragments are neutral singlets; do not mix relaxed monomers or thermal terms. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_ranking",
+      "key_point_type": "result",
+      "statement": "Area, shortest-contact and energy ranking comparison",
+      "expected": "Recalculate signed pair differences, ties and multiplicity convention. Preserve discordant and indistinguishable outcomes; do not assign pair energies to individual atom-contact types or call the finite sum a lattice energy. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "key_point_type": "result",
+      "statement": "Falsifiable interpretation and quantitative robustness",
+      "expected": "Confirm required cutoff coverage plus one actual energy/geometry perturbation. Numerical or surface uncertainty must support the reported relation; no narrative-only control. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    }
+  ]
+}

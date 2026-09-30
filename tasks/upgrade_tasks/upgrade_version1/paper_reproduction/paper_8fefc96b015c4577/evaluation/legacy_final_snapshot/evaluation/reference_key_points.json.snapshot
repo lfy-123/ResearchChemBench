@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "items": [
+    {
+      "key_point_id": "kp_proc_freq",
+      "key_point_type": "process",
+      "statement": "The submitted workflow classifies intermediate B as a minimum and TS2 and TS2′ as first-order saddle points using harmonic frequencies.",
+      "expected": "Frequency evidence establishes zero imaginary modes for B and one relevant imaginary mode for each of TS2 and TS2′. Credit only states actually validated; reporting failure does not validate a missing state.",
+      "evidence_ids": [
+        "ev_doc_422576b7b3b3_000577_4746997818db"
+      ]
+    },
+    {
+      "key_point_id": "kp_proc_trace",
+      "key_point_type": "process",
+      "statement": "The barrier comparison uses a common B reference and traceable, consistently defined Gibbs free energies.",
+      "expected": "Map each saddle by molecular connectivity and forming-bond/negative-mode evidence: benzyl-tethered aryl closure corresponds to private TS2, arenesulfonyl aryl closure to private TS2-prime. Never map by closest energy or by arbitrary candidate number. Common-reference energies and all optimized identities are traceable.",
+      "evidence_ids": [
+        "ev_doc_422576b7b3b3_000577_4746997818db",
+        "ev_doc_422576b7b3b3_000579_3e8cba83b532"
+      ]
+    },
+    {
+      "key_point_id": "kp_res_barriers",
+      "key_point_type": "result",
+      "statement": "The calculated barriers reproduce the source comparison for TS2 and TS2′ relative to B.",
+      "expected": "Both chemically identified saddle barriers are calculated from consistent Gibbs energies relative to B, with units and traceable calculation evidence, and agree with the private targets within the stated tolerances.",
+      "evidence_ids": [
+        "ev_doc_246beabe1bcd_000065_684791812c3a",
+        "ev_doc_246beabe1bcd_000067_1ad6eebbdf00"
+      ]
+    },
+    {
+      "key_point_id": "kp_res_difference",
+      "key_point_type": "result",
+      "statement": "The two cyclization barriers are separated substantially, with TS2 lower than TS2′ in the source model.",
+      "expected": "Correctly mapped benzyl-tethered aryl closure has the lower common-reference barrier than arenesulfonyl aryl closure; both values and their subtraction are supported by validated saddles.",
+      "evidence_ids": [
+        "ev_doc_246beabe1bcd_000067_1ad6eebbdf00",
+        "ev_doc_246beabe1bcd_000069_4fd85eceb252"
+      ]
+    }
+  ]
+}

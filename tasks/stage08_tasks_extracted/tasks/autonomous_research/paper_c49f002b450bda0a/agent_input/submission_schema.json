@@ -1,0 +1,76 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["status", "model", "search_protocol", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "resource_limited"]},
+      "model": {
+        "type": "object", "additionalProperties": false,
+        "required": ["software", "geometry_method", "energy_method", "solvation", "temperature_K", "standard_state", "thermal_treatment"],
+        "properties": {
+          "software": {"type": "string", "minLength": 1}, "geometry_method": {"type": "string", "minLength": 1},
+          "energy_method": {"type": "string", "minLength": 1}, "solvation": {"type": "string", "minLength": 1},
+          "temperature_K": {"type": "number"}, "standard_state": {"type": "string", "minLength": 1},
+          "thermal_treatment": {"type": "string", "minLength": 1}
+        }
+      },
+      "search_protocol": {
+        "type": "object", "additionalProperties": false,
+        "required": ["generator", "deduplication_rule", "advancement_rule", "stereochemistry_check", "stopping_rule"],
+        "properties": {
+          "generator": {"type": "string", "minLength": 1}, "deduplication_rule": {"type": "string", "minLength": 1},
+          "advancement_rule": {"type": "string", "minLength": 1}, "stereochemistry_check": {"type": "string", "minLength": 1},
+          "stopping_rule": {"type": "string", "minLength": 1}
+        }
+      },
+      "isomers": {"$ref": "#/$defs/isomer_set"},
+      "ordering": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"type": "string", "enum": ["RR", "SS", "SR", "RS"]}},
+      "inferred_grouping": {"type": "string", "minLength": 1},
+      "alternative_groupings_considered": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+      "symmetry_assessment": {"type": "string", "minLength": 1},
+      "sensitivity_assessment": {"type": "string", "minLength": 1},
+      "conclusion": {"type": "string", "minLength": 1},
+      "partial_results": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/partial_isomer"}},
+      "unresolved_requirements": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+      "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+    },
+    "oneOf": [
+      {"properties": {"status": {"enum": ["complete"]}}, "required": ["isomers", "ordering", "inferred_grouping", "alternative_groupings_considered", "symmetry_assessment", "sensitivity_assessment", "conclusion"]},
+      {"properties": {"status": {"enum": ["resource_limited"]}}, "required": ["partial_results", "unresolved_requirements", "conclusion"]}
+    ],
+    "$defs": {
+      "isomer_result": {
+        "type": "object", "additionalProperties": false,
+        "required": ["configuration", "generated_count", "deduplicated_count", "advanced_count", "advanced_candidates", "validated_minimum_count", "lowest_relative_free_energy_kcal_mol", "imaginary_frequency_count", "selected_structure_id", "validation_summary"],
+        "properties": {
+          "configuration": {"type": "string", "minLength": 2}, "generated_count": {"type": "integer", "minimum": 1},
+          "deduplicated_count": {"type": "integer", "minimum": 1}, "advanced_count": {"type": "integer", "minimum": 1},
+          "advanced_candidates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/advanced_candidate"}},
+          "validated_minimum_count": {"type": "integer", "minimum": 1}, "lowest_relative_free_energy_kcal_mol": {"type": "number"},
+          "imaginary_frequency_count": {"type": "integer", "minimum": 0}, "selected_structure_id": {"type": "string", "minLength": 1},
+          "validation_summary": {"type": "string", "minLength": 1}
+        }
+      },
+      "isomer_set": {
+        "type": "object", "additionalProperties": false, "required": ["RR", "SS", "SR", "RS"],
+        "properties": {"RR": {"$ref": "#/$defs/isomer_result"}, "SS": {"$ref": "#/$defs/isomer_result"}, "SR": {"$ref": "#/$defs/isomer_result"}, "RS": {"$ref": "#/$defs/isomer_result"}}
+      },
+      "advanced_candidate": {
+        "type": "object", "additionalProperties": false,
+        "required": ["candidate_id", "validation_summary"],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "validation_summary": {"type": "string", "minLength": 1}
+        }
+      },
+      "partial_isomer": {
+        "type": "object", "additionalProperties": false, "required": ["isomer_id", "work_completed", "validation_state"],
+        "properties": {"isomer_id": {"type": "string", "enum": ["RR", "SS", "SR", "RS"]}, "work_completed": {"type": "string", "minLength": 1}, "validation_state": {"type": "string", "minLength": 1}, "relative_free_energy_kcal_mol": {"type": "number"}}
+      }
+    }
+  }
+}

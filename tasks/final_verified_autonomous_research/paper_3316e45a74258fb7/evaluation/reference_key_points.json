@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_opt",
+      "key_point_type": "process",
+      "statement": "The submission establishes a valid stationary or converged S0 geometry for the specified neutral TD-2T object and provides provenance for the selected conformer.",
+      "evidence_ids": [
+        "ev_doc_6975943bb119_000068_5b32f2868dd3"
+      ],
+      "expected": "A reproducible geometry-validation record tied to TD-2T and charge 0/multiplicity 1."
+    },
+    {
+      "key_point_id": "kp_ar_process_states",
+      "key_point_type": "process",
+      "statement": "S1 and T1 are identified on the validated structure with explicit state-assignment and unit evidence.",
+      "evidence_ids": [
+        "ev_doc_6975943bb119_000076_e603cd6c1353"
+      ],
+      "expected": "Both requested states are attempted and assignment/open-shell treatment is documented."
+    },
+    {
+      "key_point_id": "kp_ar_result_gap",
+      "key_point_type": "result",
+      "statement": "The computed TD-2T singlet-triplet gap is a numerical electronic-structure result reported with its calculation evidence.",
+      "evidence_ids": [
+        "ev_doc_6975943bb119_000107_7247d55a5967"
+      ],
+      "expected": "A numerical ΔE_ST in eV derived from the submitted S1 and T1 energies."
+    },
+    {
+      "key_point_id": "kp_ar_result_character",
+      "key_point_type": "result",
+      "statement": "The submission infers state character from its own orbital/NTO or equivalent evidence and bounds the mechanistic interpretation.",
+      "evidence_ids": [
+        "ev_doc_6975943bb119_000082_3d4fae2d7f3f"
+      ],
+      "expected": "Evidence and interpretation are explicitly separated."
+    }
+  ]
+}

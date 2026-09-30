@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of charge-driven structural changes in phosphonate-borane models",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The endpoints are fixed, while the Agent must choose and justify a search/validation strategy and derive an explanation without an author-route hint."
+  ],
+  "paper": {
+    "title": "Dealkylation as a Strategy to Synthesize Unconventional Lithium Salts from ortho-Phenyl-phosphonate-boranes",
+    "doi": "10.1021/acs.inorgchem.5c05101",
+    "journal": "Inorganic Chemistry",
+    "publication_date": "2026-01-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Independent topology-generated, unoptimized neutral and anion XYZ starters with charge, multiplicity and atom mapping; author endpoints are evaluator-private."
+    },
+    {
+      "path": "data/inputs/experimental_crystal_boundary.json",
+      "description": "crystal distances"
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated investigation and conclusion."
+    }
+  ]
+}

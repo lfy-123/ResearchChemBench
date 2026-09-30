@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_ddf161258a0d214b",
+  "items": [
+    {
+      "key_point_id": "ar_process_opt",
+      "key_point_type": "process",
+      "statement": "The submitted work validates a converged starting/endpoint geometry and reports its charge and multiplicity.",
+      "evidence_ids": [
+        "ev_doc_e12101de5dab_000015_aff58a223051",
+        "ev_doc_adade75b464d_000086_00521aea7243"
+      ],
+      "expected": "The supplied complex is treated as a neutral singlet and convergence is documented."
+    },
+    {
+      "key_point_id": "ar_process_ts",
+      "key_point_type": "process",
+      "statement": "The claimed transition state is validated by a single reaction-coordinate imaginary mode and connectivity evidence.",
+      "evidence_ids": [
+        "ev_doc_adade75b464d_000406_5a9affb019e0"
+      ],
+      "expected": "Exactly one relevant imaginary frequency and a connected C-H cleavage/B-H formation pathway are reported."
+    },
+    {
+      "key_point_id": "ar_result_barrier",
+      "key_point_type": "result",
+      "statement": "The methane activation pathway has a reported free-energy barrier.",
+      "unit": "kcal/mol",
+      "evidence_ids": [
+        "ev_doc_adade75b464d_000406_5a9affb019e0"
+      ],
+      "expected": 21.62
+    },
+    {
+      "key_point_id": "ar_result_thermo",
+      "key_point_type": "result",
+      "statement": "The post-transition-state B-H-forming product side is thermodynamically favorable.",
+      "evidence_ids": [
+        "ev_doc_adade75b464d_000406_5a9affb019e0"
+      ],
+      "expected": "favorable/exergonic post-TS direction"
+    }
+  ]
+}

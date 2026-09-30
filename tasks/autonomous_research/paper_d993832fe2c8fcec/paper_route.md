@@ -23,8 +23,12 @@ The authors use the absence of imaginary frequencies as the local-minimum check.
 
 ## 5. Private reference results
 
-For 2d, Table 1 reports conformer type II, DFT φ1−2−3−4 = 177.9° and φ2−3−4−5 = 59.7°; the corresponding X-ray values are 179.0° and 57.3°. The SI reports E(RM062X) = −916.122625 hartree and dipole moment 1.835001 D for the optimized gas-phase structure. The paper describes the DFT and X-ray structures as nearly superimposable and attributes the conformation to an ortho-hydroxy/iminyl-nitrogen hydrogen bond.
+For 2d, Table 1 reports conformer type II, DFT φ1−2−3−4 = 179.0° and φ2−3−4−5 = 57.3° (inside parentheses); the corresponding X-ray values are 177.9° and 59.7°. The SI reports E(RM062X) = −916.122625 hartree and dipole moment 1.835001 D for the optimized gas-phase structure. The paper describes the DFT and X-ray structures as nearly superimposable and attributes the conformation to an ortho-hydroxy/iminyl-nitrogen hydrogen bond.
 
 ## 6. Limitations and interpretation boundaries
 
 The reported calculation is a gas-phase molecular calculation at one model-chemistry level; it is not a crystal-packing or solution free-energy calculation. A reproduced energy is meaningful only with the same charge, multiplicity, molecular identity and stated method convention. Agreement with an X-ray geometry does not establish a complete conformational free-energy surface or biological activity.
+
+## Source transcription corrections
+
+Source correction 2026-09-15: Fig. 1 numbers aryl ipso C–imine C–imine N–C(alpha)–naphthyl ipso C as 1–5. Table 1 explicitly assigns parenthesized values to DFT, not X-ray. The original public /C=N\C SMILES encoded Z; /C=N/C encodes the requested E isomer. Old near-zero imine-torsion calculations are wrong-isomer controls, not validations of E-2d. Signed-dihedral versus unsigned supplementary-angle convention for the second published torsion remains explicit and must be resolved before qualification; do not silently fold a value to force a pass.

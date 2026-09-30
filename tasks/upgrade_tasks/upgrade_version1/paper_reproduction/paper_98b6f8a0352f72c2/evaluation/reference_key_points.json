@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_98b6f8a0352f72c2",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Select real members12a (NMe2, C24H19N3) and12d (NEt2, C26H23N3), neutral singlets, in CHCl3 and EtOAc. Each requires S0 preparation, vertical TD at S0, tracked relaxed S1 and vertical emission at S1; report the adiabatic energy separately. Use the mapped phenyl-phenazine single-bond torsion as common intervention. Calculate experimental kr=Phi/tau only if both measured values refer to the same conditions; 1/tau alone is total decay, not radiative rate.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Select real members12a (NMe2, C24H19N3) and12d (NEt2, C26H23N3), neutral singlets, in CHCl3 and EtOAc. Each requires S0 preparation, vertical TD at S0, tracked relaxed S1 and vertical emission at S1; report the adiabatic energy separately. Use the mapped phenyl-phenazine single-bond torsion as common intervention. Calculate experimental kr=Phi/tau only if both measured values refer to the same conditions; 1/tau alone is total decay, not radiative rate.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_solvent_series",
+      "statement": "Save S0/S1 outputs, geometry and NTO evidence with solvent response convention; never equate absorption oscillator strength with measured radiative yield. Core rows: 12a_CHCl3, 12a_EtOAc, 12d_CHCl3, 12d_EtOAc. Recompute absorption_eV, emission_eV, adiabatic_eV, oscillator_strength, transition_dipole_D, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Save S0/S1 outputs, geometry and NTO evidence with solvent response convention; never equate absorption oscillator strength with measured radiative yield. Core rows: 12a_CHCl3, 12a_EtOAc, 12d_CHCl3, 12d_EtOAc. Recompute absorption_eV, emission_eV, adiabatic_eV, oscillator_strength, transition_dipole_D, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_common_torsion",
+      "statement": "Freeze identical mapped phenyl-phenazine angle, compare released structures and track state; distinguish ground/excited geometry relaxation. Core rows: 12a_CHCl3, 12a_EtOAc, 12d_CHCl3, 12d_EtOAc. Recompute torsion_degree, absorption_eV, emission_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Freeze identical mapped phenyl-phenazine angle, compare released structures and track state; distinguish ground/excited geometry relaxation. Core rows: 12a_CHCl3, 12a_EtOAc, 12d_CHCl3, 12d_EtOAc. Recompute torsion_degree, absorption_eV, emission_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_rates_and_robustness",
+      "statement": "State refractive-index/local-field/degeneracy convention and formula, and whether an experimental Phi/tau comparison is available. Do not invent missing quantum yields or treat SI theoretical lifetimes as measurements. Core rows: radiative_convention, substitution_vs_solvent, state_sensitivity. Recompute theoretical_radiative_rate_s1, rate_uncertainty_s1, excitation_change_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "State refractive-index/local-field/degeneracy convention and formula, and whether an experimental Phi/tau comparison is available. Do not invent missing quantum yields or treat SI theoretical lifetimes as measurements. Core rows: radiative_convention, substitution_vs_solvent, state_sensitivity. Recompute theoretical_radiative_rate_s1, rate_uncertainty_s1, excitation_change_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

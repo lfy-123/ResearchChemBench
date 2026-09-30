@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_f171fa1f83158f7c",
+  "task_type": "autonomous_research",
+  "title": "Autonomous ECD-based stereochemical investigation of clathriamine A",
+  "category": "excited-state spectroscopy",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate and discriminate stereochemical hypotheses, generate/validate conformer and mirror-image candidates, justify coverage and stopping, and test sensitivity."
+  ],
+  "paper": {
+    "title": "Clathriamine A, an Antibacterial Dimeric Araiosamine Homologue from a Marine Sponge Clathria (Thalysias) sp.",
+    "doi": "10.1021/acs.joc.5c02852",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-02-17"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two XYZ starting geometries and measured ECD sign anchors."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Hypothesis search, validated ECD predictions, comparison and conclusion."
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "systems",
+      "derived",
+      "conclusion"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "derived": {
+            "required": [
+              "delta_delta_G_kJ_mol",
+              "population_ratio_2_over_1"
+            ],
+            "properties": {
+              "delta_delta_G_kJ_mol": {
+                "type": "number"
+              },
+              "population_ratio_2_over_1": {
+                "type": "number"
+              }
+            }
+          },
+          "systems": {
+            "items": {
+              "properties": {
+                "gibbs_free_energy_hartree": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_details"
+        ]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure",
+          "solvent",
+          "temperature_K",
+          "standard_state"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "electronic_structure": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "standard_state": {
+            "type": "string"
+          }
+        }
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "input_file",
+            "charge",
+            "multiplicity",
+            "optimization_evidence",
+            "minimum_status",
+            "frequency_validation"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "enum": [
+                "1",
+                "2"
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "enum": [
+                "data/inputs/complex_1.xyz",
+                "data/inputs/complex_2.xyz"
+              ]
+            },
+            "charge": {
+              "type": "integer",
+              "const": 0
+            },
+            "multiplicity": {
+              "type": "integer",
+              "const": 1
+            },
+            "optimization_evidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minimum_status": {
+              "type": "string",
+              "enum": [
+                "minimum",
+                "not_established",
+                "failed"
+              ]
+            },
+            "frequency_validation": {
+              "type": "object",
+              "required": [
+                "imaginary_frequency_count",
+                "evidence"
+              ],
+              "properties": {
+                "imaginary_frequency_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "evidence": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "gibbs_free_energy_hartree": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      "derived": {
+        "type": "object",
+        "required": [
+          "equation",
+          "gas_constant"
+        ],
+        "properties": {
+          "delta_delta_G_kJ_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "population_ratio_2_over_1": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "equation": {
+            "type": "string"
+          },
+          "gas_constant": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure_details": {
+        "type": "string"
+      }
+    }
+  }
+}

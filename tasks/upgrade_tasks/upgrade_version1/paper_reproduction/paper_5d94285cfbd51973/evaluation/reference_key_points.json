@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_descriptor_series",
+      "key_point_type": "result",
+      "statement": "Compute the same isolated-molecule electronic descriptors for all ten systems using a shared method, validated conformer choice and minimum checks. Retain comparable sampling across members. Verify substituted ring positions and report simple RDKit descriptors independently; do not reinterpret Koopmans descriptors as measured IP/EA.",
+      "expected": "Compute the same isolated-molecule electronic descriptors for all ten systems using a shared method, validated conformer choice and minimum checks. Retain comparable sampling across members. Verify substituted ring positions and report simple RDKit descriptors independently; do not reinterpret Koopmans descriptors as measured IP/EA.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_out_of_fold",
+      "key_point_type": "result",
+      "statement": "For each AZ member retain nine training IDs, train-only preprocessing, coefficients and three predictions. Use exactly the frozen features and fixed regularization, no post-hoc feature selection or dropping outliers. Recompute MAE in ordinal bins and compare the electronic model with physicochemical and mean baselines.",
+      "expected": "For each AZ member retain nine training IDs, train-only preprocessing, coefficients and three predictions. Use exactly the frozen features and fixed regularization, no post-hoc feature selection or dropping outliers. Recompute MAE in ordinal bins and compare the electronic model with physicochemical and mean baselines.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_null_and_resolution",
+      "key_point_type": "result",
+      "statement": "Permute labels and rerun the entire frozen fold procedure; submit all scores and seed. Test dilution/endpoint uncertainty and leave-one-member influence without claiming validation from an in-sample correlation. A null result or baseline dominance is scientifically acceptable.",
+      "expected": "Permute labels and rerun the entire frozen fold procedure; submit all scores and seed. Test dilution/endpoint uncertainty and leave-one-member influence without claiming validation from an in-sample correlation. A null result or baseline dominance is scientifically acceptable.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

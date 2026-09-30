@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_rearrangement_paths",
+      "statement": "Both original and matched geometric-control paths, allowing evidenced collapse of the control.",
+      "expected": "Both original and matched geometric-control paths, allowing evidenced collapse of the control. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_preorganization",
+      "statement": "Quantify geometric preparation, distinguish constraints from free stationary points.",
+      "expected": "Quantify geometric preparation, distinguish constraints from free stationary points. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_channel_response",
+      "statement": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence.",
+      "expected": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

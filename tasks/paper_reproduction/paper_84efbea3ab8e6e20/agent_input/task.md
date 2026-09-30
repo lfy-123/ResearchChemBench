@@ -4,7 +4,7 @@ Determine how moving one pinacol boronate ester (Bpin) substituent among the 1-,
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/molecules.json`. The three uniquely named neutral singlet molecules are CZ1B = 1-(4,4,5,5-tetramethyl-1,3,2-dioxaborolan-2-yl)-9H-carbazole, CZ2B = the corresponding 2-substituted isomer, and CZ4B = the corresponding 4-substituted isomer; each is C18H20BNO2, charge 0, multiplicity 1, with no stereochemical specification. Computation is on isolated molecules; PVA (0.5 wt% guest loading) is an experimental boundary only. Do not use the paper or SI as an Agent input. Choose and document a reproducible geometry source/model, and do not treat an explicit PVA calculation as required.
+Use `data/inputs/molecules.json`. The three uniquely named neutral singlet molecules are CZ1B = 1-(4,4,5,5-tetramethyl-1,3,2-dioxaborolan-2-yl)-9H-carbazole, CZ2B = the corresponding 2-substituted isomer, and CZ4B = the corresponding 4-substituted isomer; each is C18H20BNO2, charge 0, multiplicity 1, with no stereochemical specification. The listed CCDC identifiers are provenance metadata only: no CIF is supplied or required, and CCDC database retrieval is not required or scored. Generate molecular geometries from the explicit names and positional identities. Computation is on isolated molecules; PVA (0.5 wt% guest loading) is an experimental boundary only. Do not use the paper or SI as an Agent input. Choose and document a reproducible geometry source/model, and do not treat an explicit PVA calculation as required.
 
 # Required scientific validation/investigation
 

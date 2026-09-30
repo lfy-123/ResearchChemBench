@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "title": "Matched pyrazolone spectra and cross-observable tautomer discrimination",
+  "status": "implemented_pending_expanded_reference",
+  "packages": [
+    {
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_9ec8c4761c4f171b",
+      "task_type": "autonomous_research",
+      "package_content_sha256": "f333dc77ade526c9ee9fa554cf596b71f230a6a9abfc00c2cd8d2dea2a487a33"
+    },
+    {
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_9ec8c4761c4f171b",
+      "task_type": "paper_reproduction",
+      "package_content_sha256": "7b20ac6334561a04af91f2fa03dee3b864bf80e6199d66c58cf3427e43b324e5"
+    }
+  ],
+  "new_reference_gaps": "All correct matched-series references inDMF, alternative7a spectral/thermochemical panels and media-specific shielding calibration remain uncalculated.",
+  "blockers": [],
+  "source_review": {
+    "paper_main": "Pair definitions, Scheme4, NMR/IR diagnostic ranges and Table2 numerical absorption data inspected.",
+    "paper_si": "TD tables/tautomer plots and side-by-side gas/CHCl3 coordinate blocks inspected; source terminal geometries are private. Correct compound7a spectra are on154–157, not113–116; p155 NH14.07ppm/CDCl3 inspected visually."
+  },
+  "source_corrections": [
+    "Correct paired N–Ph series replaces erroneous NH/Ph confounded comparison.",
+    "Absorption media CHCl3/DMF and NMR media CDCl3/DMSO-d6 are distinguished."
+  ],
+  "check_summary": "Package-specific checks pending final batch regression; no scientific validation claimed."
+}

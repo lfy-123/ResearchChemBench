@@ -1,0 +1,122 @@
+{
+  "paper_id": "paper_589f72ac15eb7acd",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_plan",
+      "type": "semantic",
+      "expected": "independent reproducible plan with finite coverage and stopping",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.plan",
+          "$.coverage"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "per-system state validation and bounded-failure distinction",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3a",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.C1",
+          "$.method",
+          "$.gaps_kj_mol",
+          "$.partial_gaps_kj_mol"
+        ],
+        "comparison": "expert scientific comparison against source sign/object and internally supported result"
+      },
+      "expected": "Per-state energies, spin/identity evidence, correct units and the E_HS minus E_LS sign convention support each reported gap. Compare defensible methods on their own evidence; no exact source value is compulsory across methods."
+    },
+    {
+      "rule_id": "ar_r3b",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.C2",
+          "$.method",
+          "$.gaps_kj_mol",
+          "$.partial_gaps_kj_mol"
+        ],
+        "comparison": "expert scientific comparison against source sign/object and internally supported result"
+      },
+      "expected": "Per-state energies, spin/identity evidence, correct units and the E_HS minus E_LS sign convention support each reported gap. Compare defensible methods on their own evidence; no exact source value is compulsory across methods."
+    },
+    {
+      "rule_id": "ar_r3c",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.C3",
+          "$.method",
+          "$.gaps_kj_mol",
+          "$.partial_gaps_kj_mol"
+        ],
+        "comparison": "expert scientific comparison against source sign/object and internally supported result"
+      },
+      "expected": "Per-state energies, spin/identity evidence, correct units and the E_HS minus E_LS sign convention support each reported gap. Compare defensible methods on their own evidence; no exact source value is compulsory across methods."
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_limit",
+      "type": "semantic",
+      "expected": "The observable is an isolated electronic energy gap. Reject an actual substitution of crystal free energy or transition temperature; no generic uncertainty/limitation statement is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "Assess the three supported gaps and their within-method ordering, or an evidence-supported lack of robust ordering. The author trend is context, not a mandatory outcome across methods; no credit is awarded for unsupported values or scope errors.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

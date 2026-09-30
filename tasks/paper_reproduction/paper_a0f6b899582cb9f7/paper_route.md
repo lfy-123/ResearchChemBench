@@ -27,3 +27,7 @@ For M3, Table S1 reports Qxx = -83.67 D, Qyy = -103.14 D and Qzz = -108.35 D. Th
 ## 6. Limitations and interpretation boundaries
 
 Quadrupole components depend on origin, axis convention and electronic-structure model; the evaluator therefore requires the submitted frame and convention, and scores the stacking-axis assignment rather than treating arbitrary Cartesian Qzz as equivalent. An isolated-molecule calculation does not establish a solid-state interaction energy or device efficiency. The paper itself contains a software inconsistency (Gaussian 09 in the characterization paragraph and Gaussian 03 in the dedicated DFT subsection); the reproduction task exposes only the qualitative route and leaves software/model choice to the Agent.
+
+## 2026-09-15 dimensional clarification
+
+The SI Table S1 prints [Debye] for quadrupoles. This is dimensionally incomplete: the Gaussian raw electric quadrupole (second moment) is in Debye angstrom, whereas the dipole is in Debye. Evaluator tensor fields and unit labels now explicitly use Debye angstrom; source numeric targets and tolerances are unchanged. Use the full raw tensor rotated into the declared molecular frame, not the traceless tensor. The stacking direction is the molecular-plane normal. This is a unit-label clarification, not a conversion, rescaling or fitted shift of computed values.

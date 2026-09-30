@@ -1,0 +1,162 @@
+{
+  "paper_id": "paper_1255ed42fa7e12ff",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "type": "condition",
+      "expected": "For each retained compound, both endpoints are minima and the TS has exactly one intended proton-transfer imaginary mode on the stated S1 surface; inspect raw evidence and electronic-state identity, not merely a nonempty declaration. Failed rows do not claim these results.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[*].validation",
+          "$.results[*].evidence",
+          "$.methods"
+        ],
+        "comparison": "expert"
+      },
+      "reference_id": "p1"
+    },
+    {
+      "rule_id": "r2",
+      "type": "condition",
+      "expected": "Each retained TS has bidirectional IRC or an explicitly documented equivalent path-following test to the assigned S1 enol/keto endpoints; retain atom and electronic-state identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[*].validation.connectivity"
+        ],
+        "comparison": "expert"
+      },
+      "reference_id": "p2"
+    },
+    {
+      "rule_id": "r3_O",
+      "type": "numeric",
+      "target": 13.54,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[0].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "p3",
+      "expected": "Validate identity 8QBDY-O, S1 pathway, units and comparable thermochemical/solvent convention. Compare the barrier with the unchanged target and tolerance."
+    },
+    {
+      "rule_id": "r3_S",
+      "type": "numeric",
+      "target": 7.81,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[1].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "p3",
+      "expected": "Validate identity 8QBDY-S, S1 pathway, units and comparable thermochemical/solvent convention. Compare the barrier with the unchanged target and tolerance."
+    },
+    {
+      "rule_id": "r3_Se",
+      "type": "numeric",
+      "target": 6.89,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[2].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "p3",
+      "expected": "Validate identity 8QBDY-Se, S1 pathway, units and comparable thermochemical/solvent convention. Compare the barrier with the unchanged target and tolerance."
+    },
+    {
+      "rule_id": "r4_O",
+      "type": "numeric",
+      "target": 739.0,
+      "unit": "s^-1",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[0].rate_s_inv"
+        ],
+        "comparison": "absolute difference of log10 rates"
+      },
+      "reference_id": "p4",
+      "expected": "Validate identity 8QBDY-O, S1 pathway, units and comparable thermochemical/solvent convention. Require positive k; compare abs(log10(k_submitted) - log10(k_reference)) <= 0.25, not an absolute rate tolerance of 0.25 s^-1. Check k=(kBT/h) exp(-DeltaG/(RT)) with the matching barrier at 298.15 K."
+    },
+    {
+      "rule_id": "r4_S",
+      "type": "numeric",
+      "target": 11700000.0,
+      "unit": "s^-1",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[1].rate_s_inv"
+        ],
+        "comparison": "absolute difference of log10 rates"
+      },
+      "reference_id": "p4",
+      "expected": "Validate identity 8QBDY-S, S1 pathway, units and comparable thermochemical/solvent convention. Require positive k; compare abs(log10(k_submitted) - log10(k_reference)) <= 0.25, not an absolute rate tolerance of 0.25 s^-1. Check k=(kBT/h) exp(-DeltaG/(RT)) with the matching barrier at 298.15 K."
+    },
+    {
+      "rule_id": "r4_Se",
+      "type": "numeric",
+      "target": 55300000.0,
+      "unit": "s^-1",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[2].rate_s_inv"
+        ],
+        "comparison": "absolute difference of log10 rates"
+      },
+      "reference_id": "p4",
+      "expected": "Validate identity 8QBDY-Se, S1 pathway, units and comparable thermochemical/solvent convention. Require positive k; compare abs(log10(k_submitted) - log10(k_reference)) <= 0.25, not an absolute rate tolerance of 0.25 s^-1. Check k=(kBT/h) exp(-DeltaG/(RT)) with the matching barrier at 298.15 K."
+    },
+    {
+      "rule_id": "r5",
+      "type": "ordering",
+      "expected": "O>S>Se barriers and O<S<Se rates",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert"
+      },
+      "reference_id": "c1"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

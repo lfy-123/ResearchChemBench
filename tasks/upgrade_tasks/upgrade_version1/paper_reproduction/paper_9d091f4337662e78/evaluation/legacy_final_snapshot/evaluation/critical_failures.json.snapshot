@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "items": [
+    {
+      "failure_id": "pr_cf1",
+      "condition": "Molecular graph, atom mapping, charge, multiplicity or stereochemical identity is changed or guessed. Legitimate geometry optimization and an honestly reported basin change are not failures by themselves.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "pr_cf2",
+      "condition": "A main numerical result lacks per-conformer validation, or the primary populations are not normalized over the three required distinct conformer identities.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "pr_cf3",
+      "condition": "The excluded thirteen SI conformers are presented as analyzed or the bounded result is claimed to represent the full ensemble.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "pr_duplicate_endpoint",
+      "condition": "Complete three-conformer populations are claimed using duplicate, missing or chemically ambiguous final endpoints, or endpoint identity is assigned by target-energy proximity.",
+      "severity": "scientifically serious"
+    }
+  ]
+}

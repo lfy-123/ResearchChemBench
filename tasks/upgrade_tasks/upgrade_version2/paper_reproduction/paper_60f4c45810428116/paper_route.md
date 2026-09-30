@@ -1,0 +1,7 @@
+# Private source-route and V2 scope record
+
+The authors use rapid reductive lithiation and MeOH quenching, interpret the time/temperature yield band as competition between active-species generation and decomposition, and plot23 gridded observations by a2D linear RBF interpolation with smoothing0.2 and extrapolation of the two clogged positions (main pp3–4; SI pp5–6). They do not report the old benchmark's five-pool rate model or independently calibrated rate constants. The return-to-starting-material quench discussion on main p5 concerns1h with an SPh leaving group, not1a with chloride. Reproduce/audit the disclosed grid/interpolation rationale and distinguish an empirical surface from kinetic evidence. Source redox calculations (SIp19) use Gaussian16 B3LYP-D3/6-311+G(d,p), SMD THF with a ferrocene reference; they are auxiliary evidence rather than a kinetic-network specification. New fitting or identifiability analyses are additional work, not reported source results.
+
+The shared scientific question is: What kinetic information about the transformation of benzyl chloromethyl sulfide 1a can be established from the measured residence-time/temperature grid, and which mechanistic or rate claims are not identifiable from those observations?
+
+AR does not receive this metadata route through materialize_agent_files. The actual process rubric differs by mode under open_research. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

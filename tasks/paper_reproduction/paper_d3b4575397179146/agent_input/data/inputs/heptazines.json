@@ -1,9 +1,38 @@
 {
   "systems": [
-    {"id":"dFHeptZ","name":"2,5,8-tris(2,4-difluorophenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene","formula":"C24H10F6N7","smiles":"n1c(-c2cc(F)cc(F)c2)nc(-c2cc(F)cc(F)c2)nc(-c2cc(F)cc(F)c2)n1","charge":0,"multiplicity":1},
-    {"id":"dClHeptZ","name":"2,5,8-tris(2,4-dichlorophenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene","formula":"C24H10Cl6N7","smiles":"n1c(-c2cc(Cl)cc(Cl)c2)nc(-c2cc(Cl)cc(Cl)c2)nc(-c2cc(Cl)cc(Cl)c2)n1","charge":0,"multiplicity":1},
-    {"id":"dOMeHeptZ","name":"2,5,8-tris(2,4-dimethoxyphenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene","formula":"C30H28N7O6","smiles":"n1c(-c2cc(OC)cc(OC)c2)nc(-c2cc(OC)cc(OC)c2)nc(-c2cc(OC)cc(OC)c2)n1","charge":0,"multiplicity":1},
-    {"id":"dMeHeptZ","name":"2,5,8-tris(2,4-dimethylphenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene","formula":"C30H28N7","smiles":"n1c(-c2cc(C)cc(C)c2)nc(-c2cc(C)cc(C)c2)nc(-c2cc(C)cc(C)c2)n1","charge":0,"multiplicity":1}
+    {
+      "id": "dFHeptZ",
+      "name": "2,5,8-tris(2,4-difluorophenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene",
+      "formula": "C24H9F6N7",
+      "smiles": "Fc1ccc(C2=NC3=NC(c4ccc(F)cc4F)=NC4=NC(c5ccc(F)cc5F)=NC(=N2)N34)c(F)c1",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "dClHeptZ",
+      "name": "2,5,8-tris(2,4-dichlorophenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene",
+      "formula": "C24H9Cl6N7",
+      "smiles": "Clc1ccc(C2=NC3=NC(c4ccc(Cl)cc4Cl)=NC4=NC(c5ccc(Cl)cc5Cl)=NC(=N2)N34)c(Cl)c1",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "dOMeHeptZ",
+      "name": "2,5,8-tris(2,4-dimethoxyphenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene",
+      "formula": "C30H27N7O6",
+      "smiles": "COc1ccc(C2=NC3=NC(c4ccc(OC)cc4OC)=NC4=NC(c5ccc(OC)cc5OC)=NC(=N2)N34)c(OC)c1",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "dMeHeptZ",
+      "name": "2,5,8-tris(2,4-dimethylphenyl)-1,3,3a1,4,6,7,9-heptaazaphenalene",
+      "formula": "C30H27N7",
+      "smiles": "Cc1ccc(C2=NC3=NC(c4ccc(C)cc4C)=NC4=NC(c5ccc(C)cc5C)=NC(=N2)N34)c(C)c1",
+      "charge": 0,
+      "multiplicity": 1
+    }
   ],
-  "solvent":"acetonitrile (implicit solvent model or stated alternative)","scope":"isolated molecules; vertical singlet excitations; no solid-state or reaction claims"
+  "solvent": "acetonitrile (implicit solvent model or stated alternative)",
+  "scope": "isolated molecules; vertical singlet excitations; no solid-state or reaction claims"
 }

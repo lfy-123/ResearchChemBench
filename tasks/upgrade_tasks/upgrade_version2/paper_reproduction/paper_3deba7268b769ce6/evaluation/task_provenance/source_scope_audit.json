@@ -1,0 +1,53 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_3deba7268b769ce6/documents/main.pdf",
+      "sha256": "eebb2e959d968083e791e2ac19995200be51c821cdfe0ae30ecd75c64b5d6472",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        5
+      ],
+      "sections_figures_tables": "PDF p2 structures, in-situ generation and stability discussion; p3 Fig.2 spectra/limited solvent interpretation; p5 experimental preparation and separate geometry/TD computational levels."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_3deba7268b769ce6/documents/supplementary_001.pdf",
+      "sha256": "2627a34461502ae5fe699c00912eca71ff17f9b55fda53d322910ba210d51761",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        5
+      ],
+      "sections_figures_tables": "PDF p5 TableS2 lists lower-energy band energies, including toluene,ethyl acetate,methanol. This table is distinct from the higher-energy band in TableS1."
+    }
+  ],
+  "source_scope": "Two of the source phenolate dyes and three actual measured solvent conditions. This bounded subset asks for a molecular interpretation, without importing the full19-solvent regression or constructing a mandatory microsolvation experiment.",
+  "objective_source_mapping": {
+    "main": "PDF p2 structures, in-situ generation and stability discussion; p3 Fig.2 spectra/limited solvent interpretation; p5 experimental preparation and separate geometry/TD computational levels.",
+    "si": "PDF p5 TableS2 lists lower-energy band energies, including toluene,ethyl acetate,methanol. This table is distinct from the higher-energy band in TableS1."
+  },
+  "facts_and_constraints": [
+    "Dyes are generated immediately before UV/Vis measurements by adding5µL of1mol/L tetrabutylammonium hydroxide in methanol to the precursor solution.",
+    "The source reports no detectable spectral change after5min in the methanol-to-2-propanol region; dye3 in ethyl acetate undergoes complete photodegradation within10s after generation.",
+    "The source recorded rapid spectra despite stability limits; raw time-dependent concentration/spectral traces are not provided here."
+  ],
+  "identity_provenance": "Main Scheme1/Fig.1 and synthesis pp2,5 define dye3 from nitrothiophene precursor10 and dye4 from nitrophenyl precursor13. Mapped phenolate graphs preserve the source E-imine configuration and distinct elemental formulas. No solvent-cluster candidate or optimized geometry is supplied.",
+  "decisions_open": [
+    "Choose a representation of the actual solution and the electronic observables needed to interpret the band response.",
+    "Identify and test the material weaknesses of an explanation without a provided mechanism menu.",
+    "Determine how sample stability, solvent sampling and computational approximations limit attribution."
+  ],
+  "removed_v1_requirements": [
+    "Remove prescribed dielectric/hydrogen-bond/state-switch candidate menu and one-MeOH remote/contact control.",
+    "Remove methanol holdout and fixed spectrum matrix/method; preserve all measured values openly.",
+    "Replace experimental counterion-free implication with explicit base preparation and bare-anion modeling distinction."
+  ],
+  "out_of_scope": "The complete dye3 and dye4 graphs retain the E imine and phenolate charge−1, singlet reference state. Dye3 contains a nitrothiophene terminus, whereas dye4 contains a nitrophenyl terminus; their formulas differ. The experiments generate the anions in situ with tetrabutylammonium hydroxide in methanol. A bare-anion model excludes experimental components by approximation; the actual solution is not declared counterion-free. Study the lower-energy band in the three supplied solvents. Broader solvent inversion thresholds, device behaviour and full photodegradation kinetics are outside the required scope.",
+  "feasibility": "Complete phenolate graphs and actual observations support a bounded molecular investigation with source ORCA continuum optimization/TD as one feasible route. Toolbox ORCA/Gaussian and Python analysis availability must be checked at execution. Future references should first reconcile source model/solvent/state correspondence and raw legacy artifacts before filling any chosen scientific gap. No new calculation was run here.",
+  "limitations": "Raw stability kinetics, individual spectral errors and exact experimental mixture composition are unavailable; counterion/added-methanol effects are not calibrated. Three solvents cannot identify the full source regression or inversion curve. Open-route scientific/semantic calibration and runtime isolation remain pending.",
+  "source_scope_verified": true,
+  "review_type": "Local relevant primary-text/figure review with explicit page mapping; no new scientific calculation."
+}

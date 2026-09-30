@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_d2d08c91f34da1cb",
+  "items": [
+    {
+      "key_point_id": "pr_process_geometry",
+      "key_point_type": "process",
+      "statement": "The submission attempts state-appropriate converged structures for both explicit S0 and S1 starting geometries and documents charge 0/singlet treatment.",
+      "evidence_ids": [
+        "ev_doc_6d7fadd76fad_000005_4875bb836ad8",
+        "ev_doc_6d7fadd76fad_000012_ff481dd8ea3c",
+        "ev_doc_cf03f6a65a59_000145_58cc334ae615"
+      ],
+      "expected": "Both states are attempted with explicit convergence or a scientifically justified bounded failure."
+    },
+    {
+      "key_point_id": "pr_process_frequency_validation",
+      "key_point_type": "process",
+      "statement": "The submission calculates harmonic frequencies, reports imaginary modes, restricts analysis to 0–125 cm−1, and defines reproducible state-matched comparison pairs.",
+      "evidence_ids": [
+        "ev_doc_cf03f6a65a59_000145_58cc334ae615",
+        "ev_doc_cf03f6a65a59_000235_8f2bf02a2177"
+      ],
+      "expected": "Frequency extraction, imaginary-mode reporting, windowing and matching are explicit and auditable."
+    },
+    {
+      "key_point_id": "pr_result_numeric_agreement",
+      "key_point_type": "result",
+      "statement": "The paper's calculated frequencies closely reproduce the observed low-frequency SLT frequencies where observations exist.",
+      "evidence_ids": [
+        "ev_doc_cf03f6a65a59_000266_0c5117ec02e5",
+        "ev_doc_cf03f6a65a59_000235_8f2bf02a2177"
+      ],
+      "expected": "The reported comparison supports small deviations and explicitly retains missing S0 observations for modes 7 and 12."
+    },
+    {
+      "key_point_id": "pr_result_state_shifts",
+      "key_point_type": "result",
+      "statement": "Test the source trend of xanthene-associated redshifts and carboxyphenyl-associated blueshifts after physical displacement matching; this is not a universal rule for every numbered or mixed mode.",
+      "evidence_ids": [
+        "ev_doc_cf03f6a65a59_000235_8f2bf02a2177"
+      ],
+      "expected": "Evidence-based finite trends, with supported exceptions, mode exchanges, mixed character and near-zero changes explicitly retained. Correct exceptions must not be marked wrong solely for violating the generalization. Frequency shifts refer to physically matched displacements, not integer labels. Mixed modes and supported exceptions are valid; no universal red/blue direction or strict maximum error below 3 cm-1 is implied."
+    }
+  ]
+}

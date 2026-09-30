@@ -18,8 +18,9 @@ from ..provenance.results import write_workspace_results
 from ..provenance.trace import load_tool_trace, process_metrics
 from ..settings import JUDGE_MODEL_NAME, OPENCODE_MODEL
 from .progress import LiveProgressReporter
-
-TERMINAL_EXECUTION_JOB_STATES = {"success", "failed", "timeout", "cancelled"}
+from .recovery import ControllerLock, RunRecoveryError
+from chemistry_toolbox.mcp.job_manager import JobManager
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES as TERMINAL_EXECUTION_JOB_STATES, ACTIVE_STATES, validate_state
 
 
 class RunLifecycleMixin:
@@ -36,6 +37,10 @@ class RunLifecycleMixin:
             "task_type": self.task_type,
             "run_id": self.run_id,
             "timestamp": self.timestamp,
+            "attempt_id": self.attempt_id,
+            "first_started_at": self.first_started_at,
+            "deadline_at": self.deadline_at,
+            "provider_session_id": self._resume_session_id,
             "status": status,
             "workspace": str(self.workspace),
             "agent_key": self.agent_key,
@@ -47,6 +52,10 @@ class RunLifecycleMixin:
             ),
             "configured_judge_model": JUDGE_MODEL_NAME,
             "tool_discovery_mode": self.tool_discovery_mode,
+            "model_wait_strategy": self.model_wait_strategy,
+            "feedback_schema_version": self.feedback_schema_version,
+            "native_input_validation_policy": self.native_input_validation_policy,
+            "archive_policy": self.archive_policy,
             "query": self.task_text,
             "category": self.task_info.get("category", ""),
             "task_type": self.task_package.task_type,
@@ -84,14 +93,42 @@ class RunLifecycleMixin:
             },
             "live_progress_path": "_live_progress.log",
         }
+        if self.agent.get("kind") == "external":
+            meta.update(agent_kind="external", agent_protocol="rcb-agent-request-v1",
+                        execution_backend=self.agent["execution_backend"],
+                        model_budget_enforcement=self.agent["model_budget_enforcement"])
+        if self._task_source is not None:
+            meta["task_source"] = self._task_source
         if extra:
             meta.update(extra)
+        if self.recovery_enabled:
+            from .codex_history import history_metadata
+            from .recovery import runner_store
+            meta.update(history_metadata(runner_store(self)))
         self.meta_path.write_text(
             json.dumps(meta, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
 
+    def _finalize_evidence(self, status, metadata):
+        """Audit failure never changes the actual execution outcome."""
+        from ..provenance.evidence_archive import build_run_index, audit_directory
+        from ..provenance.progress_snapshot import write_progress_snapshot
+        if self.archive_policy == "indexed":
+            try:
+                index = build_run_index(self.workspace, output_dir=audit_directory(self.workspace))
+                metadata["archive"] = index["verification"]
+            except Exception as exc:
+                metadata["archive"] = {"state": "archive_incomplete", "error": str(exc)}
+            self._write_meta(status, metadata)
+            self._persist_run_manifest(run_state=status, **metadata)
+        write_progress_snapshot(self, force=True)
+
     def _detect_model(self) -> str:
+        if self.agent.get("kind") == "external":
+            from ..provenance.agent_events import load_agent_events
+            return ", ".join(sorted({e["model"] for e in load_agent_events(self.workspace)
+                                     if isinstance(e.get("model"), str) and e["model"]}))
         if not self.output_path.exists():
             return ""
         for line in self.output_path.read_text(encoding="utf-8", errors="replace").splitlines()[:100]:
@@ -116,6 +153,16 @@ class RunLifecycleMixin:
 
     def _terminate_process_tree(self, *, force: bool = False) -> None:
         if self.process is None:
+            return
+        if self.recovery_enabled:
+            from .recovery import runner_store
+            from chemistry_toolbox.src.recovery_io import signal_identity, token_processes
+            identity = runner_store(self).get_record("agent", "identity", {})
+            sig = signal.SIGKILL if force else signal.SIGTERM
+            signal_identity(identity, sig)
+            if identity.get("agent_token"):
+                for child in token_processes(identity["agent_token"], variable="RCB_AGENT_RUN_TOKEN"):
+                    signal_identity(child, sig)
             return
         if os.name == "posix" and self.process_group_id is not None:
             try:
@@ -157,6 +204,10 @@ class RunLifecycleMixin:
         the immutable execution-job directory are the ownership boundary.
         """
 
+        if self.agent.get("kind") == "external":
+            from ..agent_plugins.external import finalize_external_jobs
+            return finalize_external_jobs(self, reason=reason, grace_seconds=grace_seconds)
+
         root = self.workspace / "outputs" / "execution_jobs"
         summary: dict[str, Any] = {
             "reason": reason,
@@ -189,6 +240,11 @@ class RunLifecycleMixin:
                 continue
             job_id = str(status.get("job_id") or status_path.parent.name)
             state = str(status.get("status") or "unknown")
+            try:
+                validate_state(state)
+            except ValueError as exc:
+                summary["errors"].append({"job_id": job_id, "stage": "state_validation", "error": str(exc)})
+                continue
             if state in TERMINAL_EXECUTION_JOB_STATES:
                 summary["already_terminal_jobs"] += 1
                 continue
@@ -386,11 +442,52 @@ class RunLifecycleMixin:
             stop_event.wait(0.2)
 
     def run(self) -> dict[str, Any]:
+        if self.recovery_enabled:
+            from .recovery_lifecycle import run_managed
+            return run_managed(self)
         if not self.workspace.exists():
             self.setup_workspace()
+        if self._restored:
+            self._recovery_reconciliation = JobManager(
+                self.workspace, run_id=self.run_id
+            ).reconcile()
+            if self._recovery_reconciliation["summary"]["needs_reconciliation"]:
+                self._write_meta(
+                    "recovery_blocked",
+                    {"recovery_reconciliation": self._recovery_reconciliation},
+                )
+                self._persist_run_manifest(
+                    run_state="recovery_blocked",
+                    recovery_reconciliation=self._recovery_reconciliation,
+                )
+                raise RunRecoveryError(
+                    "one or more execution jobs require reconciliation before Agent resume"
+                )
+        run_timeout_seconds = self.remaining_run_timeout_seconds()
         argv = self.build_agent_argv()
-        self._write_meta("running", {"agent_command": self.command_preview()})
+        self._controller_lock = ControllerLock(self.workspace / "recovery" / "controller.lock")
+        self._controller_lock.acquire()
+        self._write_meta(
+            "running",
+            {
+                "agent_command": self.command_preview(),
+                "attempt_id": self.attempt_id,
+                "provider_session_id": self._resume_session_id,
+                "recovery_reconciliation": self._recovery_reconciliation,
+                "run_timeout_seconds": run_timeout_seconds,
+            },
+        )
+        self._persist_run_manifest(
+            run_state="running",
+            attempt_id=self.attempt_id,
+            provider_session_id=self._resume_session_id,
+            recovery_reconciliation=self._recovery_reconciliation,
+        )
         env = self._agent_environment()
+        if self.agent.get("kind") == "external":
+            from .recovery import runner_store
+            from chemistry_toolbox.src.recovery_io import process_identity
+            runner_store(self).put_record("controller", "identity", process_identity(os.getpid()))
         started = time.monotonic()
         termination = "process_exit"
         exit_code = -1
@@ -447,6 +544,8 @@ class RunLifecycleMixin:
                 start_new_session=(os.name == "posix"),
             )
             self.process_group_id = self.process.pid if os.name == "posix" else None
+            if self.agent.get("kind") == "external":
+                runner_store(self).put_record("agent", "identity", process_identity(self.process.pid))
             assert self.process.stdout is not None
             line_queue: queue.Queue[str | None] = queue.Queue()
 
@@ -460,9 +559,21 @@ class RunLifecycleMixin:
             reader.start()
             stream_done = False
             process_exit_cleanup_started = False
-            with self.output_path.open("w", encoding="utf-8") as output:
+            with self.output_path.open(
+                "a" if self._restored else "w", encoding="utf-8"
+            ) as output:
                 while not stream_done:
-                    if time.monotonic() - started > self.timeout_seconds:
+                    from ..provenance.progress_snapshot import write_progress_snapshot
+                    write_progress_snapshot(self)
+                    if self.agent.get("kind") == "external":
+                        from .recovery import runner_store
+                        control = runner_store(self).get_record("control", "current", {})
+                        if control.get("command") == "cancel":
+                            self.request_stop()
+                        if self._stop_requested:
+                            termination = "stopped"
+                            break
+                    if time.monotonic() - started > run_timeout_seconds:
                         termination = "timeout"
                         self._terminate_process_tree()
                         break
@@ -476,7 +587,7 @@ class RunLifecycleMixin:
                                 # Some Agent CLIs can exit before their MCP
                                 # descendants. Those descendants inherit stdout
                                 # and otherwise keep this reader open forever.
-                                self._terminate_process_tree()
+                                self._terminate_process_tree(force=self.agent.get("kind") == "external")
                                 process_exit_cleanup_started = True
                         continue
                     if line is None:
@@ -491,6 +602,10 @@ class RunLifecycleMixin:
             except subprocess.TimeoutExpired:
                 self._terminate_process_tree(force=True)
                 exit_code = self.process.wait()
+            if self.agent.get("kind") == "external":
+                # The wrapper owns its ordinary process group. Children that
+                # ignore SIGTERM must not outlive a completed/terminated run.
+                self._terminate_process_tree(force=True)
             if self._stop_requested:
                 termination = "stopped"
             if termination in {"timeout", "stopped"}:
@@ -525,42 +640,120 @@ class RunLifecycleMixin:
                 },
             )
             write_workspace_results(self.workspace)
+            self._finalize_evidence("failed", {})
             reporter.emit("RUN_ERROR", error=f"{type(exc).__name__}: {exc}")
             reporter.close()
             raise
         finally:
             duration = round(time.monotonic() - started, 3)
+            self.capture_provider_session_id()
+            self._persist_run_manifest(
+                run_state="failed" if self.agent.get("kind") == "external" and termination == "runner_error" else "attempt_finished",
+                attempt_id=self.attempt_id,
+                provider_session_id=self._resume_session_id,
+                attempt_duration_seconds=duration,
+            )
+            if self._controller_lock is not None:
+                self._controller_lock.release()
+                self._controller_lock = None
 
         trace_stop.set()
         trace_thread.join(timeout=2)
 
-        report_path = self.workspace / "report" / "report.md"
-        report_exists = report_path.is_file() and bool(
-            report_path.read_text(encoding="utf-8", errors="replace").strip()
+        execution_reconciliation = JobManager(
+            self.workspace, run_id=self.run_id
+        ).reconcile()
+        if self.agent.get("kind") == "external":
+            background_job_cleanup = self._cancel_workspace_execution_jobs(reason=termination)
+            execution_reconciliation = background_job_cleanup["initial_reconciliation"]
+        active_job_results = [
+            item
+            for item in execution_reconciliation.get("results", [])
+            if item.get("state") in ACTIVE_STATES
+        ]
+        blocked_job_results = [
+            item
+            for item in execution_reconciliation.get("results", [])
+            if item.get("state") == "needs_reconciliation"
+        ]
+        if active_job_results and self.agent.get("kind") != "external":
+            manager = JobManager(self.workspace, run_id=self.run_id)
+            for item in active_job_results:
+                record = next(
+                    (
+                        row
+                        for row in manager.store.list_jobs()
+                        if row["entity_id"] == item["entity_id"]
+                    ),
+                    None,
+                )
+                if record is not None:
+                    manager.cancel_entity(
+                        str(record["entity_id"]),
+                        str(record.get("entity_type") or "job"),
+                    )
+        from .output_contract import validate_submission
+        submission_validation = validate_submission(self)
+        external_validation = None
+        if self.agent.get("kind") == "external":
+            from ..agent_plugins.protocol import validate_external_request
+            external_validation = validate_external_request(self)
+        deliverables = submission_validation["checked_files"]
+        report_exists = any(v["file"] == "report/report.md" and v["satisfied"] for v in deliverables)
+        completed = (
+            exit_code == 0
+            and termination == "process_exit"
+            and not active_job_results
+            and not blocked_job_results
+            and submission_validation["valid"]
+            and (external_validation is None or external_validation["valid"])
         )
-        completed = exit_code == 0 and report_exists and termination == "process_exit"
+        if self.agent.get("kind") == "external":
+            cleanup_summary = background_job_cleanup["final_reconciliation"]["summary"]
+            completed = completed and not background_job_cleanup["errors"] and not (
+                cleanup_summary["active"] or cleanup_summary["needs_reconciliation"]
+            )
         status = "completed" if completed else "failed"
         events = load_tool_trace(self.workspace)
         try:
             model_io = export_model_io_trace(self.workspace)
         except Exception as exc:
             model_io = {"error": f"{type(exc).__name__}: {exc}"}
+        from ..provenance.execution_audit import execution_submission_audit
         metadata = {
             "exit_code": exit_code,
             "termination": termination,
             "duration_seconds": duration,
             "model": self._detect_model(),
             "report_exists": report_exists,
-            "required_deliverable_status": self._required_deliverable_status(),
+            "required_deliverable_status": deliverables,
+            "submission_validation": submission_validation,
+            "submission_findings": submission_validation["errors"],
+            "execution_reconciliation": execution_reconciliation,
+            "execution_submission_audit": execution_submission_audit(
+                self.workspace, JobManager(self.workspace, run_id=self.run_id).store
+            ),
+            "active_jobs_at_finalize": active_job_results,
+            "blocked_jobs_at_finalize": blocked_job_results,
             "model_io_trace": model_io,
             **process_metrics(events, workspace=self.workspace),
         }
         if background_job_cleanup is not None:
             metadata["background_job_cleanup"] = background_job_cleanup
+        if external_validation is not None:
+            metadata["external_protocol_validation"] = external_validation
         if opencode_database_sync is not None:
             metadata["opencode_database_sync"] = opencode_database_sync
         self._write_meta(status, metadata)
+        self._persist_run_manifest(
+            run_state=status,
+            attempt_id=self.attempt_id,
+            provider_session_id=self._resume_session_id,
+            termination=termination,
+            exit_code=exit_code,
+        )
         write_workspace_results(self.workspace)
+        self._finalize_evidence(status, metadata)
         reporter.emit(
             "RUN_END",
             status=status,

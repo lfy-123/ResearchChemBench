@@ -1,0 +1,24 @@
+{
+  "compound_id": "dye-3-phenolate",
+  "constitution": "E-imine of 4-aminophenol and 4-(5-nitrothiophen-2-yl)benzaldehyde; connectivity is authoritative in dye3_phenolate.smiles",
+  "formal_charge": -1,
+  "multiplicity": 1,
+  "solvent": {
+    "name": "dichloromethane",
+    "representation": "implicit continuum",
+    "dielectric_constant": 9.08,
+    "refractive_index": 1.424
+  },
+  "endpoint_definition": "lowest-energy visible singlet excitation from the optimized ground-state minimum",
+  "energy_unit": "kcal/mol",
+  "visible_state_selection": {
+    "wavelength_window_nm": [
+      400,
+      700
+    ],
+    "endpoints_inclusive": true,
+    "selection": "Lowest excitation energy among singlet roots inside the window; report lower roots and electronic assignment evidence. Do not select by largest oscillator strength or target proximity.",
+    "definition_source": "Operational benchmark comparison window, not an author-reported numerical target.",
+    "no_in_window_root": "Report computed roots and a partial/failure outcome; do not substitute an out-of-window root as the primary result."
+  }
+}

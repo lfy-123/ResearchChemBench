@@ -1,0 +1,2289 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_72f60526b64ce1b6"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "prerequisite_checks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "gate_id": {
+              "enum": [
+                "allowed_negf_chain",
+                "validated_lead_device_inputs",
+                "converged_zero_plus_minus_pilot"
+              ]
+            },
+            "status": {
+              "enum": [
+                "closed",
+                "open"
+              ]
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            },
+            "finding": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "gate_id",
+            "status",
+            "evidence_files",
+            "finding"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "system_id": {
+              "enum": [
+                "AD",
+                "ApiD",
+                "AsigmaD"
+              ]
+            },
+            "method_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "converged",
+                "failed",
+                "not_run"
+              ]
+            },
+            "charge": {
+              "enum": [
+                0
+              ]
+            },
+            "multiplicity": {
+              "enum": [
+                1
+              ]
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "log_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "atom_map_file": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "identity_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "scf_convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "geometry_or_boundary_check": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "state_check": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "identity_check",
+                "scf_convergence",
+                "geometry_or_boundary_check",
+                "state_check"
+              ],
+              "additionalProperties": false
+            },
+            "electronic_Eh": {
+              "type": "number"
+            },
+            "kind": {
+              "enum": [
+                "isolated",
+                "electrode",
+                "device",
+                "transport",
+                "failed"
+              ]
+            },
+            "bias_V": {
+              "enum": [
+                -0.5,
+                0.0,
+                0.5
+              ]
+            },
+            "device_id": {
+              "enum": [
+                "AD_base",
+                "ApiD_base",
+                "AsigmaD_base",
+                "AD_reversed",
+                "AD_left_gap_plus_0p2A"
+              ]
+            },
+            "native_chain_manifest": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            }
+          },
+          "required": [
+            "record_id",
+            "system_id",
+            "method_id",
+            "status",
+            "charge",
+            "multiplicity",
+            "input_file",
+            "log_file",
+            "geometry_file",
+            "atom_map_file",
+            "evidence_files",
+            "validation",
+            "kind"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "device",
+                      "transport"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "properties": {},
+                "required": [
+                  "bias_V",
+                  "device_id",
+                  "native_chain_manifest"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_settings_file": {
+            "type": "string",
+            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "definitions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "software_versions",
+          "numerical_settings_file",
+          "environment",
+          "definitions"
+        ],
+        "additionalProperties": false
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "isolated": {
+            "type": "object",
+            "properties": {
+              "AD": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "formula": {
+                    "const": "C10H8N2S2"
+                  },
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  },
+                  "dipole_vector_D": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "dipole_magnitude_D": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "geometry_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  }
+                },
+                "required": [
+                  "job_id",
+                  "formula",
+                  "charge",
+                  "multiplicity",
+                  "dipole_vector_D",
+                  "dipole_magnitude_D",
+                  "geometry_file"
+                ],
+                "additionalProperties": false
+              },
+              "ApiD": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "formula": {
+                    "const": "C12H10N2S2"
+                  },
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  },
+                  "dipole_vector_D": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "dipole_magnitude_D": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "geometry_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  }
+                },
+                "required": [
+                  "job_id",
+                  "formula",
+                  "charge",
+                  "multiplicity",
+                  "dipole_vector_D",
+                  "dipole_magnitude_D",
+                  "geometry_file"
+                ],
+                "additionalProperties": false
+              },
+              "AsigmaD": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "formula": {
+                    "const": "C12H12N2S2"
+                  },
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  },
+                  "dipole_vector_D": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "dipole_magnitude_D": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "geometry_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  }
+                },
+                "required": [
+                  "job_id",
+                  "formula",
+                  "charge",
+                  "multiplicity",
+                  "dipole_vector_D",
+                  "dipole_magnitude_D",
+                  "geometry_file"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "AD",
+              "ApiD",
+              "AsigmaD"
+            ],
+            "additionalProperties": false
+          },
+          "devices": {
+            "type": "object",
+            "properties": {
+              "AD_base": {
+                "type": "object",
+                "properties": {
+                  "system_id": {
+                    "const": "AD"
+                  },
+                  "full_device_formula": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "net_excess_charge": {
+                    "const": 0
+                  },
+                  "spin_mode": {
+                    "const": "unpolarized"
+                  },
+                  "electronic_temperature_K": {
+                    "const": 300
+                  },
+                  "model_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "cell_vectors_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "electrode_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "pseudopotential_hashes_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "Au_S_distances_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bias_points": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "bias_V": {
+                          "enum": [
+                            -0.5,
+                            0.0,
+                            0.5
+                          ]
+                        },
+                        "job_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "mu_L_eV": {
+                          "type": "number"
+                        },
+                        "mu_R_eV": {
+                          "type": "number"
+                        },
+                        "current_A": {
+                          "type": "number"
+                        },
+                        "current_uncertainty_A": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "T_E_V_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "potential_profile_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "integration_grid_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "self_consistent": {
+                          "const": true
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "bias_V",
+                        "job_id",
+                        "mu_L_eV",
+                        "mu_R_eV",
+                        "current_A",
+                        "current_uncertainty_A",
+                        "T_E_V_file",
+                        "potential_profile_file",
+                        "integration_grid_file",
+                        "self_consistent",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": -0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.0
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "rectification": {
+                    "type": "object",
+                    "properties": {
+                      "definition": {
+                        "const": "abs(I(+0.5V))/abs(I(-0.5V))"
+                      },
+                      "value": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "lower_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "upper_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "denominator_resolved": {
+                        "type": "boolean"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "definition",
+                      "value",
+                      "lower_bound",
+                      "upper_bound",
+                      "denominator_resolved",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "system_id",
+                  "full_device_formula",
+                  "net_excess_charge",
+                  "spin_mode",
+                  "electronic_temperature_K",
+                  "model_file",
+                  "cell_vectors_A",
+                  "electrode_map_file",
+                  "pseudopotential_hashes_file",
+                  "Au_S_distances_A",
+                  "bias_points",
+                  "rectification",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "ApiD_base": {
+                "type": "object",
+                "properties": {
+                  "system_id": {
+                    "const": "ApiD"
+                  },
+                  "full_device_formula": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "net_excess_charge": {
+                    "const": 0
+                  },
+                  "spin_mode": {
+                    "const": "unpolarized"
+                  },
+                  "electronic_temperature_K": {
+                    "const": 300
+                  },
+                  "model_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "cell_vectors_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "electrode_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "pseudopotential_hashes_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "Au_S_distances_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bias_points": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "bias_V": {
+                          "enum": [
+                            -0.5,
+                            0.0,
+                            0.5
+                          ]
+                        },
+                        "job_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "mu_L_eV": {
+                          "type": "number"
+                        },
+                        "mu_R_eV": {
+                          "type": "number"
+                        },
+                        "current_A": {
+                          "type": "number"
+                        },
+                        "current_uncertainty_A": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "T_E_V_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "potential_profile_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "integration_grid_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "self_consistent": {
+                          "const": true
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "bias_V",
+                        "job_id",
+                        "mu_L_eV",
+                        "mu_R_eV",
+                        "current_A",
+                        "current_uncertainty_A",
+                        "T_E_V_file",
+                        "potential_profile_file",
+                        "integration_grid_file",
+                        "self_consistent",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": -0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.0
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "rectification": {
+                    "type": "object",
+                    "properties": {
+                      "definition": {
+                        "const": "abs(I(+0.5V))/abs(I(-0.5V))"
+                      },
+                      "value": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "lower_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "upper_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "denominator_resolved": {
+                        "type": "boolean"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "definition",
+                      "value",
+                      "lower_bound",
+                      "upper_bound",
+                      "denominator_resolved",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "system_id",
+                  "full_device_formula",
+                  "net_excess_charge",
+                  "spin_mode",
+                  "electronic_temperature_K",
+                  "model_file",
+                  "cell_vectors_A",
+                  "electrode_map_file",
+                  "pseudopotential_hashes_file",
+                  "Au_S_distances_A",
+                  "bias_points",
+                  "rectification",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "AsigmaD_base": {
+                "type": "object",
+                "properties": {
+                  "system_id": {
+                    "const": "AsigmaD"
+                  },
+                  "full_device_formula": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "net_excess_charge": {
+                    "const": 0
+                  },
+                  "spin_mode": {
+                    "const": "unpolarized"
+                  },
+                  "electronic_temperature_K": {
+                    "const": 300
+                  },
+                  "model_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "cell_vectors_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "electrode_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "pseudopotential_hashes_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "Au_S_distances_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bias_points": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "bias_V": {
+                          "enum": [
+                            -0.5,
+                            0.0,
+                            0.5
+                          ]
+                        },
+                        "job_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "mu_L_eV": {
+                          "type": "number"
+                        },
+                        "mu_R_eV": {
+                          "type": "number"
+                        },
+                        "current_A": {
+                          "type": "number"
+                        },
+                        "current_uncertainty_A": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "T_E_V_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "potential_profile_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "integration_grid_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "self_consistent": {
+                          "const": true
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "bias_V",
+                        "job_id",
+                        "mu_L_eV",
+                        "mu_R_eV",
+                        "current_A",
+                        "current_uncertainty_A",
+                        "T_E_V_file",
+                        "potential_profile_file",
+                        "integration_grid_file",
+                        "self_consistent",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": -0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.0
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "rectification": {
+                    "type": "object",
+                    "properties": {
+                      "definition": {
+                        "const": "abs(I(+0.5V))/abs(I(-0.5V))"
+                      },
+                      "value": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "lower_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "upper_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "denominator_resolved": {
+                        "type": "boolean"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "definition",
+                      "value",
+                      "lower_bound",
+                      "upper_bound",
+                      "denominator_resolved",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "system_id",
+                  "full_device_formula",
+                  "net_excess_charge",
+                  "spin_mode",
+                  "electronic_temperature_K",
+                  "model_file",
+                  "cell_vectors_A",
+                  "electrode_map_file",
+                  "pseudopotential_hashes_file",
+                  "Au_S_distances_A",
+                  "bias_points",
+                  "rectification",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "AD_reversed": {
+                "type": "object",
+                "properties": {
+                  "system_id": {
+                    "const": "AD"
+                  },
+                  "full_device_formula": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "net_excess_charge": {
+                    "const": 0
+                  },
+                  "spin_mode": {
+                    "const": "unpolarized"
+                  },
+                  "electronic_temperature_K": {
+                    "const": 300
+                  },
+                  "model_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "cell_vectors_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "electrode_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "pseudopotential_hashes_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "Au_S_distances_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bias_points": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "bias_V": {
+                          "enum": [
+                            -0.5,
+                            0.0,
+                            0.5
+                          ]
+                        },
+                        "job_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "mu_L_eV": {
+                          "type": "number"
+                        },
+                        "mu_R_eV": {
+                          "type": "number"
+                        },
+                        "current_A": {
+                          "type": "number"
+                        },
+                        "current_uncertainty_A": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "T_E_V_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "potential_profile_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "integration_grid_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "self_consistent": {
+                          "const": true
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "bias_V",
+                        "job_id",
+                        "mu_L_eV",
+                        "mu_R_eV",
+                        "current_A",
+                        "current_uncertainty_A",
+                        "T_E_V_file",
+                        "potential_profile_file",
+                        "integration_grid_file",
+                        "self_consistent",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": -0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.0
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "rectification": {
+                    "type": "object",
+                    "properties": {
+                      "definition": {
+                        "const": "abs(I(+0.5V))/abs(I(-0.5V))"
+                      },
+                      "value": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "lower_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "upper_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "denominator_resolved": {
+                        "type": "boolean"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "definition",
+                      "value",
+                      "lower_bound",
+                      "upper_bound",
+                      "denominator_resolved",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "system_id",
+                  "full_device_formula",
+                  "net_excess_charge",
+                  "spin_mode",
+                  "electronic_temperature_K",
+                  "model_file",
+                  "cell_vectors_A",
+                  "electrode_map_file",
+                  "pseudopotential_hashes_file",
+                  "Au_S_distances_A",
+                  "bias_points",
+                  "rectification",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "AD_left_gap_plus_0p2A": {
+                "type": "object",
+                "properties": {
+                  "system_id": {
+                    "const": "AD"
+                  },
+                  "full_device_formula": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "net_excess_charge": {
+                    "const": 0
+                  },
+                  "spin_mode": {
+                    "const": "unpolarized"
+                  },
+                  "electronic_temperature_K": {
+                    "const": 300
+                  },
+                  "model_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "cell_vectors_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "electrode_map_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "pseudopotential_hashes_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "Au_S_distances_A": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "bias_points": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "bias_V": {
+                          "enum": [
+                            -0.5,
+                            0.0,
+                            0.5
+                          ]
+                        },
+                        "job_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "mu_L_eV": {
+                          "type": "number"
+                        },
+                        "mu_R_eV": {
+                          "type": "number"
+                        },
+                        "current_A": {
+                          "type": "number"
+                        },
+                        "current_uncertainty_A": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "T_E_V_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "potential_profile_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "integration_grid_file": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "self_consistent": {
+                          "const": true
+                        },
+                        "evidence_files": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                          },
+                          "minItems": 1
+                        }
+                      },
+                      "required": [
+                        "bias_V",
+                        "job_id",
+                        "mu_L_eV",
+                        "mu_R_eV",
+                        "current_A",
+                        "current_uncertainty_A",
+                        "T_E_V_file",
+                        "potential_profile_file",
+                        "integration_grid_file",
+                        "self_consistent",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": -0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.0
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "bias_V": {
+                              "const": 0.5
+                            }
+                          },
+                          "required": [
+                            "bias_V"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "rectification": {
+                    "type": "object",
+                    "properties": {
+                      "definition": {
+                        "const": "abs(I(+0.5V))/abs(I(-0.5V))"
+                      },
+                      "value": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "lower_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "upper_bound": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "denominator_resolved": {
+                        "type": "boolean"
+                      },
+                      "interpretation": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "definition",
+                      "value",
+                      "lower_bound",
+                      "upper_bound",
+                      "denominator_resolved",
+                      "interpretation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "system_id",
+                  "full_device_formula",
+                  "net_excess_charge",
+                  "spin_mode",
+                  "electronic_temperature_K",
+                  "model_file",
+                  "cell_vectors_A",
+                  "electrode_map_file",
+                  "pseudopotential_hashes_file",
+                  "Au_S_distances_A",
+                  "bias_points",
+                  "rectification",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "AD_base",
+              "ApiD_base",
+              "AsigmaD_base",
+              "AD_reversed",
+              "AD_left_gap_plus_0p2A"
+            ],
+            "additionalProperties": false
+          },
+          "comparisons": {
+            "type": "object",
+            "properties": {
+              "bridge": {
+                "type": "object",
+                "properties": {
+                  "comparison_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "AD_R": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "ApiD_R": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "AsigmaD_R": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "dipole_vs_rectification": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "transmission_window_evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "comparison_id",
+                  "AD_R",
+                  "ApiD_R",
+                  "AsigmaD_R",
+                  "dipole_vs_rectification",
+                  "transmission_window_evidence"
+                ],
+                "additionalProperties": false
+              },
+              "direction": {
+                "type": "object",
+                "properties": {
+                  "comparison_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "base_config": {
+                    "const": "AD_base"
+                  },
+                  "control_config": {
+                    "const": "AD_reversed"
+                  },
+                  "delta_Iplus_A": {
+                    "type": "number"
+                  },
+                  "delta_Iminus_A": {
+                    "type": "number"
+                  },
+                  "axis_mapping_file": {
+                    "type": "string",
+                    "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                  },
+                  "assessment": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "comparison_id",
+                  "base_config",
+                  "control_config",
+                  "delta_Iplus_A",
+                  "delta_Iminus_A",
+                  "axis_mapping_file",
+                  "assessment"
+                ],
+                "additionalProperties": false
+              },
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "comparison_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "base_config": {
+                    "const": "AD_base"
+                  },
+                  "control_config": {
+                    "const": "AD_left_gap_plus_0p2A"
+                  },
+                  "left_displacement_A": {
+                    "const": 0.2
+                  },
+                  "delta_Iplus_A": {
+                    "type": "number"
+                  },
+                  "delta_Iminus_A": {
+                    "type": "number"
+                  },
+                  "assessment": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "comparison_id",
+                  "base_config",
+                  "control_config",
+                  "left_displacement_A",
+                  "delta_Iplus_A",
+                  "delta_Iminus_A",
+                  "assessment"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "bridge",
+              "direction",
+              "contact"
+            ],
+            "additionalProperties": false
+          },
+          "numerical_checks": {
+            "type": "object",
+            "properties": {
+              "k_energy_check_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "screening_check_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "zero_bias_current_check_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "lead_matching_check_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "integration_reproduction_file": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              }
+            },
+            "required": [
+              "k_energy_check_file",
+              "screening_check_file",
+              "zero_bias_current_check_file",
+              "lead_matching_check_file",
+              "integration_reproduction_file"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "isolated",
+          "devices",
+          "comparisons",
+          "numerical_checks"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "counterprediction": {
+              "type": "string",
+              "minLength": 1
+            },
+            "comparison_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "indistinguishable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim",
+            "counterprediction",
+            "comparison_ids",
+            "outcome",
+            "reason",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "factor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "perturbed_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "observable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "difference": {
+              "type": "number"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "factor",
+            "baseline_record_ids",
+            "perturbed_record_ids",
+            "observable",
+            "unit",
+            "baseline_value",
+            "perturbed_value",
+            "difference",
+            "uncertainty_basis",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "incomplete"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "comparison_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "outcome",
+          "claim",
+          "comparison_ids",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "artifact_index": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "role": {
+              "enum": [
+                "input",
+                "log",
+                "geometry",
+                "mapping",
+                "density",
+                "table",
+                "diagnostic",
+                "script",
+                "restart"
+              ]
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "role"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "resource_record": {
+        "type": "object",
+        "properties": {
+          "engine_launches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_launches": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "engine_wall_hours_sum": {
+            "type": "number",
+            "minimum": 0
+          },
+          "elapsed_wall_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_launches",
+          "failed_launches",
+          "allocated_core_hours",
+          "engine_wall_hours_sum",
+          "elapsed_wall_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "release_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "diagnostic_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "release_conditions",
+          "diagnostic_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "status",
+      "prerequisite_checks",
+      "calculation_records",
+      "conclusion",
+      "artifact_index",
+      "resource_record"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "complete"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "prerequisite_checks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "gate_id": {
+                    "enum": [
+                      "allowed_negf_chain",
+                      "validated_lead_device_inputs",
+                      "converged_zero_plus_minus_pilot"
+                    ]
+                  },
+                  "status": {
+                    "enum": [
+                      "closed",
+                      "open"
+                    ]
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                    },
+                    "minItems": 1
+                  },
+                  "finding": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "gate_id",
+                  "status",
+                  "evidence_files",
+                  "finding"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "allOf": [
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "allowed_negf_chain"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "validated_lead_device_inputs"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "gate_id": {
+                        "const": "converged_zero_plus_minus_pilot"
+                      },
+                      "status": {
+                        "const": "closed"
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?:\\./)?(?:outputs|report)/(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+                        },
+                        "minItems": 1
+                      },
+                      "finding": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "gate_id",
+                      "status",
+                      "evidence_files",
+                      "finding"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              ]
+            },
+            "artifact_index": {
+              "minItems": 1
+            },
+            "resource_record": {
+              "properties": {
+                "engine_launches": {
+                  "minimum": 1
+                }
+              }
+            },
+            "calculation_records": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "status": {
+                    "const": "converged"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "conclusion": {
+              "properties": {
+                "outcome": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            }
+          },
+          "required": [
+            "methods",
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "partial",
+                "bounded_failure"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "outcome": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          },
+          "required": [
+            "failure_report"
+          ]
+        }
+      }
+    ]
+  }
+}

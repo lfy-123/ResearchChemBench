@@ -1,0 +1,217 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "items": [
+    {
+      "path": "docs/verification/group_2/paper_8fefc96b015c4577/provenance/source_zero_closure_20260923/INDEPENDENT_RESULTS.json",
+      "sha256": "f2e1e8e9864c9fde8ea69a79168cbee3387680fe94a1998085daa870c5ef4c60",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/verification/group_2/paper_8fefc96b015c4577/provenance/source_zero_closure_20260923/autonomous_research/report/results.json",
+      "sha256": "793e54cdbb621d90b9363e1b653af4013ae52cb29bd73e68d21c2eebb4145a8a",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_8fefc96b015c4577",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_8fefc96b015c4577",
+          "package_content_sha256": "6f526eb9ddd73c2c9c197b915c40b745875ecba43478e954c6cff302ba2bc8f1",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_8fefc96b015c4577/package_manifest.json",
+            "sha256": "7db370c130a61ba22f3e4a0cb31ba679b70fd378a6edb6347a7bcd4ceabf3c13"
+          },
+          "payload_entries_checked": 35,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_8fefc96b015c4577",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_8fefc96b015c4577",
+          "package_content_sha256": "f760709bdd5b1ebe5300cba1b36a4f276de06da686dcd964c3cb5b255d19fb5b",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_8fefc96b015c4577/package_manifest.json",
+            "sha256": "af8f81cd5bbf46ca132f43079373a9fd69f79d07cca138ab2bcd661b2d09148f"
+          },
+          "payload_entries_checked": 35,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_8fefc96b015c4577",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "短链DMSO三驻点原生日志与映射已核验；相对B两势垒13.2530/19.2570 kcal/mol，连接待验证；DCE先导a01被平台中断，checkpoint零原子不可用；保持科学方法/精度，从原几何用默认初始Hessian恢复a02。",
+        "unfinished_validation": "2链长×2溶剂×2通道及双端点、多构象、匹配形变/长链小差异敏感性。",
+        "input_and_reference_gaps": [
+          "短链DMSO驻点已核验但连通不足；DCE原始checkpoint零原子，已按原几何恢复排队。",
+          "2链长×2溶剂×2通道、端点、形变和长链小差异控制未完成。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/legacy/short_dmso_deep_audit.json",
+            "sha256": "5ea25985ca865a4b9f2506adf383f7ff5671637205a79b43a045729b0f977f6b"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/provenance/short_DCE_preparation.json",
+            "sha256": "4ffb3395809bd936270f981a71ff5b88f07e0929398f2422b5c2d50ce003dd47"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/report/progress_report.md",
+          "sha256": "e5642ad1d6d8bb4531167791f1c4e4752cca6a2c18246c5dccd6b89ca3ba38f2"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/report/progress_evaluator_mapping.json",
+          "sha256": "39fdf781b8f12a8b9b823fd09462f3428675d71786abc8da52fe7281969e8a5f"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/short_DCE_b_optfreq.com",
+            "sha256": "08148b506d5eebff5c3f0b2ccedb4317fb4917aa08a9b08317535aeeaf1d8de3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/short_DCE_b_optfreq_recovery_a02.com",
+            "sha256": "e55e9640a195d73fc14ed0ce9eafcee186fa59cc23cdbebac60d409a5fa8c159"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/short_DCE_ts_alkyl_aryl_optfreq.com",
+            "sha256": "03fc1f25fbd01ad612e1a0b06e4ac884a783d7b3f9b4b6afb91504830df5d455"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/short_DCE_ts_sulfonyl_aryl_optfreq.com",
+            "sha256": "c48c682d7e357452f63a36bf4fe2a6994ea93a7aeed589a96c998c960db42f27"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/ts_alkyl_aryl_dmso_irc_forward.com",
+            "sha256": "451441bdddee8ed6a2004766be659d818d7651c00f2e45e519fafd36fc35412f"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/ts_alkyl_aryl_dmso_irc_reverse.com",
+            "sha256": "3c7a7f94d0de706f747698ca9e503e369e28dae95f8e875b9209f9e0bb4bae2b"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/ts_sulfonyl_aryl_dmso_irc_forward.com",
+            "sha256": "cf2e54af9a995ccc6075418390e009e5e9294bb27368d41a61e2d24986622d76"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/inputs/ts_sulfonyl_aryl_dmso_irc_reverse.com",
+            "sha256": "0443f7843c6a66c69ad4ec8b5f72f178e4a6fd95ff3cad5bc0a42cdfb8e05146"
+          }
+        ],
+        "active_jobs": [
+          {
+            "paper_id": "paper_8fefc96b015c4577",
+            "case_id": "short_DCE_b_optfreq",
+            "attempt": "a02",
+            "job_id": "hpc-job-facb4c9e-5316-4720-bbe6-039499c97fa8",
+            "job_name": "rcb-upg-g4-8fefc96b-short_DCE_b_optfreq-a02-e55e9640",
+            "status": "queueing",
+            "platform_status": "QUEUEING",
+            "last_polled_at": "2026-09-28T15:05:42.628639+00:00",
+            "submitted_at": "2026-09-28T09:25:50.085634+00:00",
+            "cpus": 20,
+            "memory_gib": 100,
+            "priority": 3,
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02",
+            "input_sha256": "e55e9640a195d73fc14ed0ce9eafcee186fa59cc23cdbebac60d409a5fa8c159",
+            "backend": "hpc",
+            "disposition": "preserve_existing_job_no_cancel_no_resubmit",
+            "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02",
+            "native_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/gaussian.log",
+            "checkpoint": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/job.chk",
+            "native_return_code_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/native-return-code.txt",
+            "handoff_files": [
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/submission.json",
+                "sha256": "0ce93bfe7af0bebaca890321f6ec211e2a28393b40ede6de1f0028c58a8fb8f5"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/input.com",
+                "sha256": "e55e9640a195d73fc14ed0ce9eafcee186fa59cc23cdbebac60d409a5fa8c159"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/run.sh",
+                "sha256": "63f9b04bc6ab9ad9fad832b306a7255ad0fc8f0cd24ffc8f291e7b482ccfd190"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/outputs/short_DCE_b_optfreq/a02/latest_monitor.json",
+                "sha256": "312f4f139d987a763f29c567501747b0aa3299fc75d086e0f813a256dc5c13c7"
+              }
+            ],
+            "native_log_bytes_at_handoff": 0
+          }
+        ],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/task_snapshot/frozen_binding.json",
+          "sha256": "8080786ee52ca4c61cd300363341e9f79c49c295d5b9e0f7c33e94afe3c01380"
+        }
+      },
+      "model_and_method_scope": "Short-tether DMSO source-like 53-atom neutral-doublet B/TS model audit at B3LYP-D3/def2-TZVPP SMD, 298.15 K/1 atm; DCE work contains failed/checkpoint diagnostics and preparations.",
+      "allowed_use": "Reuse graph-isomorphic short-DMSO stationary results only after remapping to V2 objects; local heights are relative to B, not to a different profile zero. Preserve DCE failure as failure.",
+      "not_supported": "No completed short/long matched-solvent kinetics or fully connected competing pathways. Source tether comparison also changes DMSO to DCE, so chain-length causality is not isolated.",
+      "scope": "Reuse graph-isomorphic short-DMSO stationary results only after remapping to V2 objects; local heights are relative to B, not to a different profile zero. Preserve DCE failure as failure.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/legacy/short_dmso_deep_audit.json",
+      "sha256": "5ea25985ca865a4b9f2506adf383f7ff5671637205a79b43a045729b0f977f6b",
+      "frozen_sha256": "5ea25985ca865a4b9f2506adf383f7ff5671637205a79b43a045729b0f977f6b",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Short-tether DMSO source-like 53-atom neutral-doublet B/TS model audit at B3LYP-D3/def2-TZVPP SMD, 298.15 K/1 atm; DCE work contains failed/checkpoint diagnostics and preparations.",
+      "scope": "Reuse graph-isomorphic short-DMSO stationary results only after remapping to V2 objects; local heights are relative to B, not to a different profile zero. Preserve DCE failure as failure.",
+      "not_supported": "No completed short/long matched-solvent kinetics or fully connected competing pathways. Source tether comparison also changes DMSO to DCE, so chain-length causality is not isolated.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_8fefc96b015c4577/provenance/short_DCE_preparation.json",
+      "sha256": "4ffb3395809bd936270f981a71ff5b88f07e0929398f2422b5c2d50ce003dd47",
+      "frozen_sha256": "4ffb3395809bd936270f981a71ff5b88f07e0929398f2422b5c2d50ce003dd47",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Short-tether DMSO source-like 53-atom neutral-doublet B/TS model audit at B3LYP-D3/def2-TZVPP SMD, 298.15 K/1 atm; DCE work contains failed/checkpoint diagnostics and preparations.",
+      "scope": "Reuse graph-isomorphic short-DMSO stationary results only after remapping to V2 objects; local heights are relative to B, not to a different profile zero. Preserve DCE failure as failure.",
+      "not_supported": "No completed short/long matched-solvent kinetics or fully connected competing pathways. Source tether comparison also changes DMSO to DCE, so chain-length causality is not isolated.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "Both radical constitutions and the authors stationary-point method are explicitly available; their 53/56-atom molecular representations are within the existing Gaussian/ORCA-style local pathway capabilities, subject to actual runtime availability. Existing source/legacy structures or energies can support only the corresponding model, method and energy reference. Prior artificial control matrices are not validated scientific references. This authoring phase performs graph and contract checks only.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Short-tether DMSO source-like 53-atom neutral-doublet B/TS model audit at B3LYP-D3/def2-TZVPP SMD, 298.15 K/1 atm; DCE work contains failed/checkpoint diagnostics and preparations.",
+    "allowed": "Reuse graph-isomorphic short-DMSO stationary results only after remapping to V2 objects; local heights are relative to B, not to a different profile zero. Preserve DCE failure as failure.",
+    "not_supported": "No completed short/long matched-solvent kinetics or fully connected competing pathways. Source tether comparison also changes DMSO to DCE, so chain-length causality is not isolated."
+  },
+  "new_scientific_calculations_performed": false
+}

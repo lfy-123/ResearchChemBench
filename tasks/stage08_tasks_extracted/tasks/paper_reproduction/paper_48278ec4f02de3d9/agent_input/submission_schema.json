@@ -1,0 +1,259 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "candidates",
+      "energy_profile",
+      "conclusion",
+      "limitations",
+      "methods",
+      "search_coverage",
+      "stopping_rule",
+      "failed_searches",
+      "completion_statement"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "mechanism_class",
+            "state_type",
+            "structure_reference",
+            "validation",
+            "search_status",
+            "attempted_structure_references"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "mechanism_class": {
+              "type": "string",
+              "enum": [
+                "VCP_coordination_opening",
+                "keto_coordination",
+                "classical_C=O_insertion",
+                "allylic_Rh_metallo_ene",
+                "oxidative_cyclization",
+                "CO_assisted_cyclization",
+                "beta_hydride_or_ligand_exchange",
+                "other_bounded_competitor"
+              ]
+            },
+            "state_type": {
+              "type": "string"
+            },
+            "structure_reference": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "frequency_evidence",
+                "connection_evidence",
+                "validation_status",
+                "validation_scope"
+              ],
+              "properties": {
+                "frequency_evidence": {
+                  "type": "string"
+                },
+                "connection_evidence": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string"
+                },
+                "validation_scope": {
+                  "type": "string"
+                }
+              }
+            },
+            "search_status": {
+              "type": "string",
+              "enum": [
+                "validated",
+                "failed_search",
+                "incomplete_bounded"
+              ]
+            },
+            "attempted_structure_references": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "energy_profile": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "mechanism_class",
+            "object_role",
+            "relative_gibbs_kcal_mol",
+            "reference_state",
+            "barrier_kcal_mol",
+            "barrier_definition"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "relative_gibbs_kcal_mol": {
+              "type": "number"
+            },
+            "reference_state": {
+              "type": "string"
+            },
+            "barrier_kcal_mol": {
+              "type": "number"
+            },
+            "mechanism_class": {
+              "type": "string"
+            },
+            "object_role": {
+              "type": "string"
+            },
+            "barrier_definition": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "mechanism_statement",
+          "kinetic_statement",
+          "supporting_candidate_ids"
+        ],
+        "properties": {
+          "mechanism_statement": {
+            "type": "string"
+          },
+          "kinetic_statement": {
+            "type": "string"
+          },
+          "supporting_candidate_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        }
+      },
+      "methods": {
+        "type": "object",
+        "required": [
+          "electronic_structure",
+          "optimization_frequency",
+          "thermal_standard_state",
+          "solvation_or_environment"
+        ],
+        "properties": {
+          "electronic_structure": {
+            "type": "string"
+          },
+          "optimization_frequency": {
+            "type": "string"
+          },
+          "thermal_standard_state": {
+            "type": "string"
+          },
+          "solvation_or_environment": {
+            "type": "string"
+          }
+        }
+      },
+      "search_coverage": {
+        "type": "array",
+        "minItems": 5,
+        "items": {
+          "type": "object",
+          "required": [
+            "mechanism_class",
+            "generation_strategy",
+            "attempted_count",
+            "outcome"
+          ],
+          "properties": {
+            "mechanism_class": {
+              "type": "string"
+            },
+            "generation_strategy": {
+              "type": "string"
+            },
+            "attempted_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "outcome": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "stopping_rule": {
+        "type": "string"
+      },
+      "failed_searches": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "mechanism_class",
+            "attempted_structure_references",
+            "limitation"
+          ],
+          "properties": {
+            "mechanism_class": {
+              "type": "string"
+            },
+            "attempted_structure_references": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "limitation": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "completion_statement": {
+        "type": "string"
+      }
+    }
+  }
+}

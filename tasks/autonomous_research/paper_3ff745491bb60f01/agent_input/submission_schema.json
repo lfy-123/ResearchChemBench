@@ -7,7 +7,8 @@
     "type": "object",
     "oneOf": [
       {"required": ["status", "provenance", "structures", "comparison", "conclusion", "limitations"], "properties": {"status": {"const": "complete"}, "structures": {"items": {"required": ["homo_eV", "lumo_eV", "gap_eV"]}}, "comparison": {"required": ["difference_eV", "direction", "paired_interpretation"]}}},
-      {"required": ["status", "provenance", "structures", "comparison", "conclusion", "limitations"], "properties": {"status": {"const": "bounded_failure"}, "structures": {"items": {"required": ["failure_stage", "diagnostics"]}}, "comparison": {"required": ["comparison_status", "explanation"]}}}
+      {"required": ["status", "provenance", "structures", "comparison", "conclusion", "limitations"], "properties": {"status": {"const": "bounded_failure"}, "structures": {"items": {"required": ["failure_stage", "diagnostics"]}}, "comparison": {"required": ["comparison_status", "explanation"]}}},
+      {"required": ["status", "provenance", "structures", "comparison", "conclusion", "limitations"], "properties": {"status": {"const": "bounded_consistency"}, "structures": {"items": {"required": ["homo_eV", "lumo_eV", "gap_eV"]}}, "comparison": {"required": ["difference_eV", "direction", "paired_interpretation", "comparison_status", "explanation"]}}}
     ],
     "properties": {
       "status": {

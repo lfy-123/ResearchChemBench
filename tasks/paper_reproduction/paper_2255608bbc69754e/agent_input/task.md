@@ -4,7 +4,7 @@ Determine the relative Gibbs free-energy profile for the supplied neutral-single
 
 # Public inputs and scientific boundaries
 
-The only molecular structure input is `data/inputs/cal-1.xyz`: 52 atoms, neutral charge, singlet multiplicity, Cartesian coordinates in Å. Treat atom identities and coordinates as fixed; do not infer omitted stereochemistry or change protonation. The common reference pool is cal-1 + 2 mCPBA + HOAc + H2O + HO−. The research object is the isolated molecular model in implicit aqueous environment; enzyme protein, explicit solvent and QM/MM effects are outside scope. Report Gibbs energies relative to the common pool in kcal/mol at approximately 298 K. The author hypothesis is qualitative only; no paper numerical profile or selected transition-state structure is supplied.
+The only molecular structure input is `data/inputs/cal-1.xyz`: the 27-atom neutral-singlet SI cal-1 model, with Cartesian coordinates in Å. Treat atom identities and coordinates as fixed; do not infer omitted stereochemistry or change protonation. The common reference pool is cal-1 + 2 mCPBA + HOAc + H2O + HO−. The research object is the isolated molecular model in implicit aqueous environment; enzyme protein, explicit solvent and QM/MM effects are outside scope. Report Gibbs energies relative to the common pool in kcal/mol at approximately 298 K. The corrected task input is the SI structure printed on page 73, not the legacy 52-atom malformed concatenation.
 
 # Required scientific validation/investigation
 

@@ -1,0 +1,18 @@
+{
+  "problem": "How does the donor substitution pattern affect the molecular excited-state behavior of TD-2T, CD-2T and TD-2C, and which aspects of their differing optical response can be supported by molecular evidence?",
+  "facts": [
+    "In toluene the reported absorption-band maxima are 503,531,534 nm and PL maxima 603,616,621 nm for TD-2T,CD-2T,TD-2C respectively.",
+    "These are source measurements, not predictions of any specified molecular electronic-structure model. Error bars are not supplied in the source summary."
+  ],
+  "scope": "Use the complete neutral molecular graphs TD-2T (C72H49N7), CD-2T (C72H47N7) and TD-2C (C72H45N7). Solution optical observations are supplied as empirical context with conditions; electronic-state assignments and explanations are to be established. The task does not ask for OLED efficiency or a solid-film orientation prediction.",
+  "data_files": [
+    "CD_2T_identity.json",
+    "TD_2C_identity.json",
+    "TD_2T_identity.json",
+    "solution_observations.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "The public graphs do not specify equilibrated conformations or excited-state ordering. Solution peak summaries lack raw spectra and reported error bars."
+  ]
+}

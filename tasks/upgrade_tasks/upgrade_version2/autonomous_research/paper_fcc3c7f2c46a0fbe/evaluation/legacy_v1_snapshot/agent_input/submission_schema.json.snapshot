@@ -1,0 +1,1912 @@
+{
+  "contract_version": 1,
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_fcc3c7f2c46a0fbe"
+      },
+      "schema_version": {
+        "const": "batch4.expanded.v1"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "object",
+            "properties": {
+              "software": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual software/version"
+              },
+              "electronic_structure": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Functional, basis/ECP and dispersion"
+              },
+              "solvent": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Medium and explicit microsolvation"
+              },
+              "temperature_K": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "standard_state": {
+                "enum": [
+                  "solute_1M_gas_1atm",
+                  "all_1M",
+                  "all_1atm"
+                ]
+              },
+              "energy_definition": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Composite formula and thermal correction convention"
+              },
+              "state_protocol": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Electronic states and convergence"
+              },
+              "numerical_settings": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual grids/convergence"
+              }
+            },
+            "required": [
+              "software",
+              "electronic_structure",
+              "solvent",
+              "temperature_K",
+              "standard_state",
+              "energy_definition",
+              "state_protocol",
+              "numerical_settings"
+            ],
+            "additionalProperties": false
+          },
+          "sensitivity": {
+            "type": "object",
+            "properties": {
+              "software": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual software/version"
+              },
+              "electronic_structure": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Functional, basis/ECP and dispersion"
+              },
+              "solvent": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Medium and explicit microsolvation"
+              },
+              "temperature_K": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "standard_state": {
+                "enum": [
+                  "solute_1M_gas_1atm",
+                  "all_1M",
+                  "all_1atm"
+                ]
+              },
+              "energy_definition": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Composite formula and thermal correction convention"
+              },
+              "state_protocol": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Electronic states and convergence"
+              },
+              "numerical_settings": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual grids/convergence"
+              }
+            },
+            "required": [
+              "software",
+              "electronic_structure",
+              "solvent",
+              "temperature_K",
+              "standard_state",
+              "energy_definition",
+              "state_protocol",
+              "numerical_settings"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Unique actual calculation/analysis ID"
+            },
+            "job_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Actual execution identifier"
+            },
+            "system_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Registry or fully specified generated candidate"
+            },
+            "charge": {
+              "type": "integer",
+              "minimum": -3,
+              "maximum": 3
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "method_key": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Named method"
+            },
+            "kind": {
+              "enum": [
+                "minimum",
+                "transition_state",
+                "single_point",
+                "constrained_diagnostic",
+                "excited_state",
+                "kinetic_analysis",
+                "failed"
+              ]
+            },
+            "log_file": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "atom_mapping_file": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            },
+            "energies": {
+              "type": "object",
+              "properties": {
+                "electronic_Eh": {
+                  "type": "number"
+                },
+                "thermal_G_correction_Eh": {
+                  "type": "number"
+                },
+                "G_Eh": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "electronic_Eh"
+              ],
+              "additionalProperties": false
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "imaginary_frequencies_cm1": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "stationarity_or_state_evidence_file": {
+                  "type": "string",
+                  "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                }
+              },
+              "required": [
+                "converged",
+                "imaginary_frequencies_cm1",
+                "stationarity_or_state_evidence_file"
+              ],
+              "additionalProperties": false
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Actual failure and remedies"
+            }
+          },
+          "required": [
+            "record_id",
+            "job_id",
+            "system_id",
+            "charge",
+            "multiplicity",
+            "method_key",
+            "kind",
+            "log_file",
+            "input_file"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "minimum",
+                      "transition_state"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "energies": {
+                    "required": [
+                      "electronic_Eh",
+                      "thermal_G_correction_Eh",
+                      "G_Eh"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "minimum",
+                      "transition_state",
+                      "single_point",
+                      "constrained_diagnostic",
+                      "excited_state"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "atom_mapping_file",
+                  "energies",
+                  "validation"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "thermochemical_cycles": {
+            "type": "object",
+            "properties": {
+              "4b": {
+                "type": "object",
+                "properties": {
+                  "donor_atom_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "AH_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral singlet"
+                  },
+                  "A_radical_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral doublet"
+                  },
+                  "A_anion_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Anion singlet"
+                  },
+                  "AH_radical_cation_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Cation doublet"
+                  },
+                  "HAT_E_kcal_mol": {
+                    "type": "number"
+                  },
+                  "HAT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_after_SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "ET_after_PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "cycle_closure_residual_kcal_mol": {
+                    "type": "number"
+                  },
+                  "reference_ledger_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  }
+                },
+                "required": [
+                  "donor_atom_ids",
+                  "AH_record",
+                  "A_radical_record",
+                  "A_anion_record",
+                  "AH_radical_cation_record",
+                  "HAT_E_kcal_mol",
+                  "HAT_G_kcal_mol",
+                  "SET_G_kcal_mol",
+                  "PT_after_SET_G_kcal_mol",
+                  "PT_G_kcal_mol",
+                  "ET_after_PT_G_kcal_mol",
+                  "cycle_closure_residual_kcal_mol",
+                  "reference_ledger_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "4c": {
+                "type": "object",
+                "properties": {
+                  "donor_atom_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "AH_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral singlet"
+                  },
+                  "A_radical_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral doublet"
+                  },
+                  "A_anion_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Anion singlet"
+                  },
+                  "AH_radical_cation_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Cation doublet"
+                  },
+                  "HAT_E_kcal_mol": {
+                    "type": "number"
+                  },
+                  "HAT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_after_SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "ET_after_PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "cycle_closure_residual_kcal_mol": {
+                    "type": "number"
+                  },
+                  "reference_ledger_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  }
+                },
+                "required": [
+                  "donor_atom_ids",
+                  "AH_record",
+                  "A_radical_record",
+                  "A_anion_record",
+                  "AH_radical_cation_record",
+                  "HAT_E_kcal_mol",
+                  "HAT_G_kcal_mol",
+                  "SET_G_kcal_mol",
+                  "PT_after_SET_G_kcal_mol",
+                  "PT_G_kcal_mol",
+                  "ET_after_PT_G_kcal_mol",
+                  "cycle_closure_residual_kcal_mol",
+                  "reference_ledger_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "4h": {
+                "type": "object",
+                "properties": {
+                  "donor_atom_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "AH_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral singlet"
+                  },
+                  "A_radical_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral doublet"
+                  },
+                  "A_anion_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Anion singlet"
+                  },
+                  "AH_radical_cation_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Cation doublet"
+                  },
+                  "HAT_E_kcal_mol": {
+                    "type": "number"
+                  },
+                  "HAT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_after_SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "ET_after_PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "cycle_closure_residual_kcal_mol": {
+                    "type": "number"
+                  },
+                  "reference_ledger_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  }
+                },
+                "required": [
+                  "donor_atom_ids",
+                  "AH_record",
+                  "A_radical_record",
+                  "A_anion_record",
+                  "AH_radical_cation_record",
+                  "HAT_E_kcal_mol",
+                  "HAT_G_kcal_mol",
+                  "SET_G_kcal_mol",
+                  "PT_after_SET_G_kcal_mol",
+                  "PT_G_kcal_mol",
+                  "ET_after_PT_G_kcal_mol",
+                  "cycle_closure_residual_kcal_mol",
+                  "reference_ledger_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "4i": {
+                "type": "object",
+                "properties": {
+                  "donor_atom_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "AH_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral singlet"
+                  },
+                  "A_radical_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Neutral doublet"
+                  },
+                  "A_anion_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Anion singlet"
+                  },
+                  "AH_radical_cation_record": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Cation doublet"
+                  },
+                  "HAT_E_kcal_mol": {
+                    "type": "number"
+                  },
+                  "HAT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_after_SET_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "ET_after_PT_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "cycle_closure_residual_kcal_mol": {
+                    "type": "number"
+                  },
+                  "reference_ledger_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  }
+                },
+                "required": [
+                  "donor_atom_ids",
+                  "AH_record",
+                  "A_radical_record",
+                  "A_anion_record",
+                  "AH_radical_cation_record",
+                  "HAT_E_kcal_mol",
+                  "HAT_G_kcal_mol",
+                  "SET_G_kcal_mol",
+                  "PT_after_SET_G_kcal_mol",
+                  "PT_G_kcal_mol",
+                  "ET_after_PT_G_kcal_mol",
+                  "cycle_closure_residual_kcal_mol",
+                  "reference_ledger_file",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "4b",
+              "4c",
+              "4h",
+              "4i"
+            ],
+            "additionalProperties": false
+          },
+          "decisive_local_paths": {
+            "type": "object",
+            "properties": {
+              "4c_HAT": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "validated_path",
+                      "evidenced_collapse",
+                      "evidenced_no_distinct_saddle"
+                    ]
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Independent candidate identifier"
+                    }
+                  },
+                  "reactant_record_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                    }
+                  },
+                  "product_record_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                    }
+                  },
+                  "atom_mapping_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "reaction_balance_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "search_log": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "local_reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Immediate precursor with spectator species"
+                  },
+                  "common_reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Same stoichiometric separated reactants/chemical potentials"
+                  },
+                  "electronic_barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "gibbs_barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "preorganization_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "temperature_K": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "solute_standard_state": {
+                    "enum": [
+                      "1M",
+                      "1atm"
+                    ]
+                  },
+                  "endpoint_forward_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "endpoint_reverse_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  },
+                  "saddle_record_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Validated saddle record"
+                  },
+                  "imaginary_frequency_cm1": {
+                    "type": "number",
+                    "exclusiveMaximum": 0
+                  },
+                  "mode_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "forming_bonds": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                      "type": "array",
+                      "minItems": 2,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "maxItems": 2
+                    }
+                  },
+                  "breaking_bonds": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                      "type": "array",
+                      "minItems": 2,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "maxItems": 2
+                    }
+                  },
+                  "non_saddle_evidence": {
+                    "type": "object",
+                    "properties": {
+                      "sampled_coordinate_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "endpoint_mapping_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "stationarity_assessment": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Why a saddle is not retained"
+                      },
+                      "scope_of_exclusion": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Only observed search/model boundary"
+                      }
+                    },
+                    "required": [
+                      "sampled_coordinate_file",
+                      "endpoint_mapping_file",
+                      "stationarity_assessment",
+                      "scope_of_exclusion"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "candidate_ids",
+                  "reactant_record_ids",
+                  "product_record_ids",
+                  "atom_mapping_file",
+                  "reaction_balance_file",
+                  "search_log",
+                  "local_reference",
+                  "common_reference",
+                  "temperature_K",
+                  "solute_standard_state",
+                  "endpoint_forward_file",
+                  "endpoint_reverse_file",
+                  "evidence_files",
+                  "forming_bonds",
+                  "breaking_bonds"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "validated_path"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "saddle_record_id",
+                        "imaginary_frequency_cm1",
+                        "mode_file",
+                        "electronic_barrier_kcal_mol",
+                        "gibbs_barrier_kcal_mol",
+                        "preorganization_G_kcal_mol"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            "evidenced_collapse",
+                            "evidenced_no_distinct_saddle"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "non_saddle_evidence"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "4h_HAT": {
+                "type": "object",
+                "properties": {
+                  "outcome": {
+                    "enum": [
+                      "validated_path",
+                      "evidenced_collapse",
+                      "evidenced_no_distinct_saddle"
+                    ]
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Independent candidate identifier"
+                    }
+                  },
+                  "reactant_record_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                    }
+                  },
+                  "product_record_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                    }
+                  },
+                  "atom_mapping_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "reaction_balance_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "search_log": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "local_reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Immediate precursor with spectator species"
+                  },
+                  "common_reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Same stoichiometric separated reactants/chemical potentials"
+                  },
+                  "electronic_barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "gibbs_barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "preorganization_G_kcal_mol": {
+                    "type": "number"
+                  },
+                  "temperature_K": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "solute_standard_state": {
+                    "enum": [
+                      "1M",
+                      "1atm"
+                    ]
+                  },
+                  "endpoint_forward_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "endpoint_reverse_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  },
+                  "saddle_record_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Validated saddle record"
+                  },
+                  "imaginary_frequency_cm1": {
+                    "type": "number",
+                    "exclusiveMaximum": 0
+                  },
+                  "mode_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                  },
+                  "forming_bonds": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                      "type": "array",
+                      "minItems": 2,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "maxItems": 2
+                    }
+                  },
+                  "breaking_bonds": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items": {
+                      "type": "array",
+                      "minItems": 2,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "maxItems": 2
+                    }
+                  },
+                  "non_saddle_evidence": {
+                    "type": "object",
+                    "properties": {
+                      "sampled_coordinate_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "endpoint_mapping_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "stationarity_assessment": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Why a saddle is not retained"
+                      },
+                      "scope_of_exclusion": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Only observed search/model boundary"
+                      }
+                    },
+                    "required": [
+                      "sampled_coordinate_file",
+                      "endpoint_mapping_file",
+                      "stationarity_assessment",
+                      "scope_of_exclusion"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "candidate_ids",
+                  "reactant_record_ids",
+                  "product_record_ids",
+                  "atom_mapping_file",
+                  "reaction_balance_file",
+                  "search_log",
+                  "local_reference",
+                  "common_reference",
+                  "temperature_K",
+                  "solute_standard_state",
+                  "endpoint_forward_file",
+                  "endpoint_reverse_file",
+                  "evidence_files",
+                  "forming_bonds",
+                  "breaking_bonds"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "const": "validated_path"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "saddle_record_id",
+                        "imaginary_frequency_cm1",
+                        "mode_file",
+                        "electronic_barrier_kcal_mol",
+                        "gibbs_barrier_kcal_mol",
+                        "preorganization_G_kcal_mol"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            "evidenced_collapse",
+                            "evidenced_no_distinct_saddle"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "non_saddle_evidence"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "required": [
+              "4c_HAT",
+              "4h_HAT"
+            ],
+            "additionalProperties": false
+          },
+          "activity_boundary": {
+            "type": "object",
+            "properties": {
+              "observations_used": {
+                "type": "array",
+                "minItems": 4,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "SI TableS5 ID"
+                }
+              },
+              "mechanism_assessment": {
+                "type": "object",
+                "properties": {
+                  "HAT": {
+                    "enum": [
+                      "supported",
+                      "refuted",
+                      "not_distinguishable"
+                    ]
+                  },
+                  "SET_PT": {
+                    "enum": [
+                      "supported",
+                      "refuted",
+                      "not_distinguishable"
+                    ]
+                  },
+                  "SPLET": {
+                    "enum": [
+                      "supported",
+                      "refuted",
+                      "not_distinguishable"
+                    ]
+                  }
+                },
+                "required": [
+                  "HAT",
+                  "SET_PT",
+                  "SPLET"
+                ],
+                "additionalProperties": false
+              },
+              "comparison": {
+                "type": "object",
+                "properties": {
+                  "comparison_outcome": {
+                    "enum": [
+                      "numeric_difference",
+                      "same_basin_after_evidenced_collapse"
+                    ]
+                  },
+                  "left_record_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                    }
+                  },
+                  "right_record_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                    }
+                  },
+                  "left_value": {
+                    "type": "number"
+                  },
+                  "right_value": {
+                    "type": "number"
+                  },
+                  "right_minus_left": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Explicit unit"
+                  },
+                  "reference_definition": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Same composition, state, medium and thermochemical zero"
+                  },
+                  "uncertainty_basis": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Actual convergence/conformer/method evidence; no invented tolerance"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                    }
+                  },
+                  "collapse_identity": {
+                    "type": "object",
+                    "properties": {
+                      "independent_search_records": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Independent actual search ID"
+                        }
+                      },
+                      "retained_basin_record_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+                        }
+                      },
+                      "mapped_structure_comparison_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "complete_search_profiles_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "convergence_and_stationarity_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                      },
+                      "no_missing_core_control": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "independent_search_records",
+                      "retained_basin_record_ids",
+                      "mapped_structure_comparison_file",
+                      "complete_search_profiles_file",
+                      "convergence_and_stationarity_file",
+                      "no_missing_core_control"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "comparison_outcome",
+                  "left_record_ids",
+                  "right_record_ids",
+                  "reference_definition",
+                  "uncertainty_basis",
+                  "evidence_files"
+                ],
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "comparison_outcome": {
+                          "const": "numeric_difference"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "left_value",
+                        "right_value",
+                        "right_minus_left",
+                        "unit"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "comparison_outcome": {
+                          "const": "same_basin_after_evidenced_collapse"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "collapse_identity"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "censoring_record": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Insoluble and unmeasured are not zero activity"
+              },
+              "evidence_files": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+                }
+              }
+            },
+            "required": [
+              "observations_used",
+              "mechanism_assessment",
+              "comparison",
+              "censoring_record",
+              "evidence_files"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "thermochemical_cycles",
+          "decisive_local_paths",
+          "activity_boundary"
+        ],
+        "additionalProperties": false
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Hypothesis ID"
+            },
+            "claim": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Falsifiable proposition"
+            },
+            "discriminating_control": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Actual control that could refute it"
+            },
+            "assessment": {
+              "enum": [
+                "supported",
+                "refuted",
+                "not_distinguishable"
+              ]
+            },
+            "record_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+              }
+            },
+            "evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "claim",
+            "discriminating_control",
+            "assessment",
+            "record_ids",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "sensitivity": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "factor": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Actual changed method, conformer, coordinate or reference"
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "difference": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Explicit unit"
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+              }
+            },
+            "alternative_record_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Actual calculation record ID; IDs must resolve to successful jobs when supporting numerical results."
+              }
+            },
+            "uncertainty_interpretation": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Bound from actual comparisons; not missing jobs"
+            },
+            "evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+              }
+            }
+          },
+          "required": [
+            "factor",
+            "baseline_value",
+            "alternative_value",
+            "difference",
+            "unit",
+            "baseline_record_ids",
+            "alternative_record_ids",
+            "uncertainty_interpretation",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "assessment": {
+            "enum": [
+              "supported",
+              "refuted",
+              "not_distinguishable",
+              "incomplete"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Evidence-bound scientific conclusion"
+          },
+          "supported_scope": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Local model only"
+          },
+          "limits": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unresolved mechanisms/uncertainty"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            }
+          }
+        },
+        "required": [
+          "assessment",
+          "statement",
+          "supported_scope",
+          "limits",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+        }
+      },
+      "resource_usage": {
+        "type": "object",
+        "properties": {
+          "scientific_engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "successful_jobs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_jobs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "restart_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "allocated_cores": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "summed_job_wall_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "elapsed_calendar_hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "accounting_file": {
+            "type": "string",
+            "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+          }
+        },
+        "required": [
+          "scientific_engine_starts",
+          "successful_jobs",
+          "failed_jobs",
+          "restart_count",
+          "allocated_cores",
+          "summed_job_wall_hours",
+          "cpu_core_hours",
+          "elapsed_calendar_hours",
+          "accounting_file"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Scope actually attempted"
+          },
+          "cause": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Observed issue"
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Required missing endpoint"
+            }
+          },
+          "diagnostic_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*[\\r\\n])(?:\\./)?(outputs|data|code)/(?!/)(?!\\.\\.(?:/|$))(?!.*?/\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9_./+\\-]+$"
+            }
+          },
+          "stage": {
+            "enum": [
+              "pre_engine",
+              "engine_or_analysis"
+            ]
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "cause",
+          "missing_endpoints",
+          "diagnostic_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "schema_version",
+      "status",
+      "methods",
+      "calculation_records",
+      "conclusion",
+      "evidence_files",
+      "resource_usage"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "methods": {
+              "required": [
+                "primary",
+                "sensitivity"
+              ]
+            },
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "minimum",
+                      "transition_state",
+                      "single_point",
+                      "constrained_diagnostic",
+                      "excited_state",
+                      "kinetic_analysis"
+                    ]
+                  }
+                }
+              },
+              "minItems": 1
+            },
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "not_distinguishable"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "assessment": {
+                  "const": "incomplete"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            },
+            "calculation_records": {
+              "maxItems": 0
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            },
+            "methods": {
+              "maxProperties": 0
+            },
+            "calculation_records": {
+              "maxItems": 0
+            },
+            "failure_report": {
+              "required": [
+                "stage"
+              ],
+              "properties": {
+                "stage": {
+                  "const": "pre_engine"
+                }
+              }
+            },
+            "resource_usage": {
+              "properties": {
+                "scientific_engine_starts": {
+                  "const": 0
+                },
+                "successful_jobs": {
+                  "const": 0
+                },
+                "failed_jobs": {
+                  "const": 0
+                },
+                "restart_count": {
+                  "const": 0
+                },
+                "allocated_cores": {
+                  "const": 0
+                },
+                "summed_job_wall_hours": {
+                  "const": 0
+                },
+                "cpu_core_hours": {
+                  "const": 0
+                }
+              }
+            }
+          },
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "results"
+                ]
+              },
+              {
+                "required": [
+                  "hypotheses"
+                ]
+              },
+              {
+                "required": [
+                  "sensitivity"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "calculation_records": {
+              "minItems": 1
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "methods": {
+              "required": [
+                "primary"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "failure_report": {
+              "required": [
+                "stage"
+              ],
+              "properties": {
+                "stage": {
+                  "const": "pre_engine"
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            },
+            "methods": {
+              "maxProperties": 0
+            },
+            "calculation_records": {
+              "maxItems": 0
+            },
+            "failure_report": {
+              "required": [
+                "stage"
+              ],
+              "properties": {
+                "stage": {
+                  "const": "pre_engine"
+                }
+              }
+            },
+            "resource_usage": {
+              "properties": {
+                "scientific_engine_starts": {
+                  "const": 0
+                },
+                "successful_jobs": {
+                  "const": 0
+                },
+                "failed_jobs": {
+                  "const": 0
+                },
+                "restart_count": {
+                  "const": 0
+                },
+                "allocated_cores": {
+                  "const": 0
+                },
+                "summed_job_wall_hours": {
+                  "const": 0
+                },
+                "cpu_core_hours": {
+                  "const": 0
+                }
+              }
+            }
+          },
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "results"
+                ]
+              },
+              {
+                "required": [
+                  "hypotheses"
+                ]
+              },
+              {
+                "required": [
+                  "sensitivity"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "validation_boundary": "Format only. Real evidence and scientific adjudication are separate. Bounded failure, including a documented zero-launch pre-engine gate, is not scientific completion."
+}

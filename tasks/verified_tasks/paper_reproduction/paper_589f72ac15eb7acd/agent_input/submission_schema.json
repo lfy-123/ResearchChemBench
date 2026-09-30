@@ -1,0 +1,643 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "systems",
+      "coverage",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ],
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "method": {
+        "type": "object"
+      },
+      "systems": {
+        "type": "object",
+        "required": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "properties": {
+          "C1": {
+            "$ref": "#/$defs/system"
+          },
+          "C2": {
+            "$ref": "#/$defs/system"
+          },
+          "C3": {
+            "$ref": "#/$defs/system"
+          }
+        }
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "declared_search_budget",
+          "deduplication_criterion",
+          "advancement_criterion",
+          "coverage_exhausted",
+          "stopping_condition"
+        ],
+        "properties": {
+          "declared_search_budget": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "deduplication_criterion": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "advancement_criterion": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "coverage_exhausted": {
+            "type": "boolean"
+          },
+          "stopping_condition": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "uncertainty": {
+        "type": "string",
+        "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+      },
+      "gaps_kj_mol": {
+        "type": "object",
+        "required": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "properties": {
+          "C1": {
+            "type": "number"
+          },
+          "C2": {
+            "type": "number"
+          },
+          "C3": {
+            "type": "number"
+          }
+        }
+      },
+      "ordering_assessment": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "partial_gaps_kj_mol": {
+        "type": "object",
+        "required": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "properties": {
+          "C1": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "C2": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "C3": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "unresolved_states": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "available_comparison": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "Optional additional or unsuccessful trials, separate from primary results."
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "systems": {
+            "properties": {
+              "C1": {
+                "properties": {
+                  "HS": {
+                    "properties": {
+                      "outcome": {
+                        "const": "selected"
+                      }
+                    }
+                  },
+                  "LS": {
+                    "properties": {
+                      "outcome": {
+                        "const": "selected"
+                      }
+                    }
+                  }
+                }
+              },
+              "C2": {
+                "properties": {
+                  "HS": {
+                    "properties": {
+                      "outcome": {
+                        "const": "selected"
+                      }
+                    }
+                  },
+                  "LS": {
+                    "properties": {
+                      "outcome": {
+                        "const": "selected"
+                      }
+                    }
+                  }
+                }
+              },
+              "C3": {
+                "properties": {
+                  "HS": {
+                    "properties": {
+                      "outcome": {
+                        "const": "selected"
+                      }
+                    }
+                  },
+                  "LS": {
+                    "properties": {
+                      "outcome": {
+                        "const": "selected"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model_chemistry",
+              "state_preparation",
+              "conformer_strategy",
+              "electronic_energy_units",
+              "gap_definition",
+              "unit_conversion",
+              "justification"
+            ],
+            "properties": {
+              "software": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "model_chemistry": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "state_preparation": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "conformer_strategy": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "electronic_energy_units": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "gap_definition": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "unit_conversion": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "justification": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        "required": [
+          "gaps_kj_mol",
+          "ordering_assessment"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "unresolved_states": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        "required": [
+          "partial_gaps_kj_mol",
+          "unresolved_states",
+          "available_comparison"
+        ]
+      }
+    ],
+    "$defs": {
+      "system": {
+        "type": "object",
+        "required": [
+          "HS",
+          "LS"
+        ],
+        "properties": {
+          "HS": {
+            "type": "object",
+            "required": [
+              "outcome"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "selected",
+                  "not_selected"
+                ],
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "energy_hartree": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "geometry_file": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "frequency_validation": {
+                "type": [
+                  "string",
+                  "object",
+                  "null"
+                ]
+              },
+              "convergence": {
+                "type": [
+                  "boolean",
+                  "string",
+                  "null"
+                ]
+              },
+              "diagnostics": {
+                "type": [
+                  "string",
+                  "array",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": true,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "outcome": {
+                      "const": "selected"
+                    }
+                  },
+                  "required": [
+                    "outcome"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "outcome": {
+                      "const": "selected"
+                    },
+                    "charge": {
+                      "const": 0
+                    },
+                    "multiplicity": {
+                      "const": 5
+                    },
+                    "energy_hartree": {
+                      "type": "number"
+                    },
+                    "geometry_file": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "frequency_validation": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        {
+                          "type": "object",
+                          "minProperties": 1
+                        }
+                      ]
+                    },
+                    "convergence": {
+                      "oneOf": [
+                        {
+                          "const": true
+                        },
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "outcome",
+                    "charge",
+                    "multiplicity",
+                    "energy_hartree",
+                    "geometry_file",
+                    "frequency_validation",
+                    "convergence"
+                  ],
+                  "anyOf": [
+                    {
+                      "required": [
+                        "diagnostics"
+                      ],
+                      "properties": {
+                        "diagnostics": {
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            {
+                              "type": "array",
+                              "minItems": 1
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "required": [
+                        "spin_diagnostics"
+                      ],
+                      "properties": {
+                        "spin_diagnostics": {
+                          "type": "object",
+                          "minProperties": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "LS": {
+            "type": "object",
+            "required": [
+              "outcome"
+            ],
+            "properties": {
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "selected",
+                  "not_selected"
+                ],
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "energy_hartree": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "geometry_file": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "frequency_validation": {
+                "type": [
+                  "string",
+                  "object",
+                  "null"
+                ]
+              },
+              "convergence": {
+                "type": [
+                  "boolean",
+                  "string",
+                  "null"
+                ]
+              },
+              "diagnostics": {
+                "type": [
+                  "string",
+                  "array",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": true,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "outcome": {
+                      "const": "selected"
+                    }
+                  },
+                  "required": [
+                    "outcome"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "outcome": {
+                      "const": "selected"
+                    },
+                    "charge": {
+                      "const": 0
+                    },
+                    "multiplicity": {
+                      "const": 1
+                    },
+                    "energy_hartree": {
+                      "type": "number"
+                    },
+                    "geometry_file": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "frequency_validation": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        {
+                          "type": "object",
+                          "minProperties": 1
+                        }
+                      ]
+                    },
+                    "convergence": {
+                      "oneOf": [
+                        {
+                          "const": true
+                        },
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "outcome",
+                    "charge",
+                    "multiplicity",
+                    "energy_hartree",
+                    "geometry_file",
+                    "frequency_validation",
+                    "convergence"
+                  ],
+                  "anyOf": [
+                    {
+                      "required": [
+                        "diagnostics"
+                      ],
+                      "properties": {
+                        "diagnostics": {
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            {
+                              "type": "array",
+                              "minItems": 1
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "required": [
+                        "spin_diagnostics"
+                      ],
+                      "properties": {
+                        "spin_diagnostics": {
+                          "type": "object",
+                          "minProperties": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

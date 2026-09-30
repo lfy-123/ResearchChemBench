@@ -1,0 +1,202 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_60f4c45810428116",
+    "items": [
+      {
+        "key_point_id": "kp_pr_process",
+        "key_point_type": "process",
+        "statement": "All named neutral, radical, anion, and Fc/Fc+ states are optimized and validated with correct charge, multiplicity, stoichiometry, THF boundary, and a consistent one-electron reference convention.",
+        "expected": "The submission documents minima validation and consistent thermochemical treatment for both dissociative reductions and the Fc/Fc+ reference.",
+        "evidence_ids": [
+          "ev_si_method",
+          "ev_si_structures"
+        ]
+      },
+      {
+        "key_point_id": "kp_pr_1a",
+        "key_point_type": "result",
+        "statement": "The dissociative reduction potential of 1a is reproduced.",
+        "expected": "1a: -1.75 V versus Fc/Fc+.",
+        "evidence_ids": [
+          "ev_si_table_s10",
+          "ev_main_claim"
+        ]
+      },
+      {
+        "key_point_id": "kp_pr_1h",
+        "key_point_type": "result",
+        "statement": "The dissociative reduction potential of 1h is reproduced.",
+        "expected": "1h: -2.81 V versus Fc/Fc+.",
+        "evidence_ids": [
+          "ev_si_table_s10",
+          "ev_main_claim"
+        ]
+      },
+      {
+        "key_point_id": "kp_pr_order",
+        "key_point_type": "result",
+        "statement": "The two substrates are correctly ordered by reduction potential.",
+        "expected": "1h is 1.06 V more negative than 1a; 1a is easier to reduce within this model.",
+        "evidence_ids": [
+          "ev_si_table_s10"
+        ]
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_60f4c45810428116",
+    "items": [
+      {
+        "conclusion_id": "c_pr_final",
+        "claim_role": "final",
+        "statement": "The defined THF/Fc thermochemical comparison gives a substantially less negative dissociative reduction potential for substrate 1a than for 1h, using correct reaction stoichiometry and the primary electrode scale.",
+        "expected": "The defined THF/Fc thermochemical comparison gives a substantially less negative dissociative reduction potential for substrate 1a than for 1h, using correct reaction stoichiometry and the primary electrode scale.",
+        "supporting_key_point_ids": [
+          "kp_pr_process",
+          "kp_pr_1a",
+          "kp_pr_1h",
+          "kp_pr_order"
+        ],
+        "evidence_ids": [
+          "ev_main_claim",
+          "ev_si_table_s10"
+        ]
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_60f4c45810428116",
+    "rules": [
+      {
+        "rule_id": "r_pr_process",
+        "reference_id": "kp_pr_process",
+        "type": "semantic",
+        "expected": "State-specific validation covers charges, multiplicities, stoichiometry, minima, conformer coverage, THF thermochemistry, and Fc/Fc+ convention.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.validation.state_checks",
+            "$.validation.conformer_coverage",
+            "$.validation.minimum_validation",
+            "$.method.reference_construction"
+          ],
+          "comparison": "expert semantic comparison of per-state validation evidence"
+        }
+      },
+      {
+        "rule_id": "r_pr_1a",
+        "reference_id": "kp_pr_1a",
+        "type": "numeric",
+        "target": -1.75,
+        "unit": "V vs Fc/Fc+",
+        "tolerance": 0.2,
+        "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.reaction_1a.potential_V_vs_Fc"
+          ],
+          "comparison": "absolute difference for reaction_1a only when applicable"
+        }
+      },
+      {
+        "rule_id": "r_pr_1h",
+        "reference_id": "kp_pr_1h",
+        "type": "numeric",
+        "target": -2.81,
+        "unit": "V vs Fc/Fc+",
+        "tolerance": 0.2,
+        "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.reaction_1h.potential_V_vs_Fc"
+          ],
+          "comparison": "absolute difference for reaction_1h only when applicable"
+        }
+      },
+      {
+        "rule_id": "r_pr_order",
+        "reference_id": "kp_pr_order",
+        "type": "ordering",
+        "expected": "reaction_1a potential is greater (less negative) than reaction_1h, with a difference near 1.06 V",
+        "applicability": "Scientific comparison credit requires both calculated outcomes. Failure records remain valid but do not earn credit for missing potentials.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparison.ordering",
+            "$.comparison.difference_V"
+          ],
+          "comparison": "ordering and quantitative consistency when applicable"
+        }
+      },
+      {
+        "rule_id": "r_pr_final",
+        "reference_id": "c_pr_final",
+        "type": "semantic",
+        "expected": "The defined THF/Fc thermochemical comparison gives a substantially less negative dissociative reduction potential for substrate 1a than for 1h, using correct reaction stoichiometry and the primary electrode scale.",
+        "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.comparison.conclusion"
+          ],
+          "comparison": "expert comparison of the computed reaction potentials and their thermodynamic definitions"
+        }
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_60f4c45810428116",
+    "items": [
+      {
+        "failure_id": "cf_pr_wrong_reaction",
+        "condition": "A submitted potential is for an intact radical anion or another redox couple instead of the defined dissociative products."
+      },
+      {
+        "failure_id": "cf_pr_state_error",
+        "condition": "Charges, multiplicities, atoms, or leaving fragments are inconsistent with the public species definitions."
+      },
+      {
+        "failure_id": "cf_pr_reference_error",
+        "condition": "Potentials are not reported versus Fc/Fc+ or use an undisclosed/inconsistent sign or reference convention."
+      },
+      {
+        "failure_id": "cf_pr_unvalidated",
+        "condition": "Numeric results are asserted without state-specific minimum/thermochemistry validation or a truthful bounded-failure report."
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_60f4c45810428116",
+    "evidence": [
+      {
+        "evidence_id": "ev_si_method",
+        "source": "Current-paper Supporting Information, page 19, DFT calculation of redox potential; evidence ev_doc_1953ff03f3f7_000311_acb3e8728e2c through ev_doc_1953ff03f3f7_000313_459ed7808bc0."
+      },
+      {
+        "evidence_id": "ev_si_structures",
+        "source": "Current-paper Supporting Information, Tables S7, S8, S11, S12, S15 and S16 (pages 19-25), optimized state structures; indexed evidence includes ev_doc_1953ff03f3f7_000316_7288090c2774, ev_doc_1953ff03f3f7_000317_0c298e97fea8, ev_doc_1953ff03f3f7_000326_2be82e1d0d12 and ev_doc_1953ff03f3f7_000332_183b99513533."
+      },
+      {
+        "evidence_id": "ev_si_table_s10",
+        "source": "Current-paper Supporting Information, Table S10, page 22: dissociative reaction free energies and potentials versus Fc/Fc+; evidence ev_doc_1953ff03f3f7_000373_744bfc6bd086."
+      },
+      {
+        "evidence_id": "ev_main_claim",
+        "source": "Current paper, Results and Discussion, paragraph reporting calculated potentials of -2.81 V for 1h and -1.75 V for 1a and interpreting the SPh leaving group; evidence ev_doc_c82216b39878_000075_f019c4363e2c."
+      }
+    ]
+  }
+}

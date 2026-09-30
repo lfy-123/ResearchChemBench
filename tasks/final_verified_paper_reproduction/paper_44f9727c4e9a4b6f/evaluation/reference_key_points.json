@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_44f9727c4e9a4b6f",
+  "items": [
+    {
+      "key_point_id": "kp_process_minimum",
+      "key_point_type": "process",
+      "statement": "The submitted optimized 1H structure is validated as a stationary minimum by a vibrational calculation (or an explicitly justified equivalent) and reports the full frequency evidence.",
+      "expected": "A converged minimum validation with zero imaginary frequencies for the reported optimized low-spin structure.",
+      "evidence_ids": [
+        "ev_doc_3df505570ad9_000160_4caa0c140517"
+      ]
+    },
+    {
+      "key_point_id": "kp_process_spin",
+      "key_point_type": "process",
+      "statement": "The Agent performs and documents a physically comparable high-spin versus antiferromagnetic broken-symmetry comparison for the named 1H system.",
+      "expected": "Both energies, structures/state labels, sign convention, and convergence evidence are reported; the broken-symmetry state is lower in energy.",
+      "evidence_ids": [
+        "ev_doc_3df505570ad9_000160_4caa0c140517"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_distance",
+      "key_point_type": "result",
+      "statement": "The optimized Fe1···Fe2 distance for 1H is reproduced.",
+      "expected": "Approximately 3.086 Å, with the source table reporting 3.086 Å for the calculated 1H structure.",
+      "evidence_ids": [
+        "ev_doc_166224a0fb1a_000961_4c88aa39a4b8",
+        "ev_doc_166224a0fb1a_000962_af5a5e645726"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_mossbauer",
+      "key_point_type": "result",
+      "statement": "Site-resolved calculated Mössbauer isomer shifts are reported for Fe1 and Fe2.",
+      "expected": "Both sites are approximately 0.52 mm s−1 in the source calculation, with the two site values identified separately.",
+      "evidence_ids": [
+        "ev_doc_166224a0fb1a_000961_4c88aa39a4b8",
+        "ev_doc_166224a0fb1a_000962_af5a5e645726",
+        "ev_doc_3df505570ad9_000167_4a4201add61d"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_ar_opt",
+      "type": "condition",
+      "expected": "validated stationary/converged TD-2T S0 geometry with provenance",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structure.object_id",
+          "$.structure.geometry_source",
+          "$.structure.conformer_coverage",
+          "$.optimization.validation_evidence"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_process_opt"
+    },
+    {
+      "rule_id": "r_ar_states",
+      "type": "condition",
+      "expected": "S1/T1 assignment and units are evidenced",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excited_states.state_assignment_evidence"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_process_states"
+    },
+    {
+      "rule_id": "r_ar_gap",
+      "type": "numeric",
+      "target": 0.34,
+      "unit": "eV",
+      "tolerance": 0.1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.gap.delta_est_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_ar_result_gap"
+    },
+    {
+      "rule_id": "r_ar_char",
+      "type": "semantic",
+      "expected": "diagnostic evidence supports a bounded interpretation of state character",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.state_character"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_result_character"
+    },
+    {
+      "rule_id": "r_ar_con",
+      "type": "semantic",
+      "expected": "final conclusion is bounded to isolated-molecule evidence and limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_ar_final"
+    }
+  ],
+  "paper_id": "paper_3316e45a74258fb7"
+}

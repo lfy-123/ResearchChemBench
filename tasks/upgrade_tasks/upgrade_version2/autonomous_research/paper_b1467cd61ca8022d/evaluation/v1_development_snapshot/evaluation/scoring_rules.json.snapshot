@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PM COCCC, BM COCCCC, TFPM COCCC(F)(F)F and TFBM COCCCC(F)(F)F; all solvent molecules neutral singlets. Li+ is singlet; FSI- is F-S(=O)2-N(-)-S(=O)2-F, singlet. Core clusters contain exactly one Li+, one FSI- and one solvent (total charge0 singlet). Compare O-facing, O/F-contact where F exists, and FSI-dominated orientations at identical composition. No 2 M bulk interpretation follows from this finite-cluster design.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PM COCCC, BM COCCCC, TFPM COCCC(F)(F)F and TFBM COCCCC(F)(F)F; all solvent molecules neutral singlets. Li+ is singlet; FSI- is F-S(=O)2-N(-)-S(=O)2-F, singlet. Core clusters contain exactly one Li+, one FSI- and one solvent (total charge0 singlet). Compare O-facing, O/F-contact where F exists, and FSI-dominated orientations at identical composition. No 2 M bulk interpretation follows from this finite-cluster design."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_cluster_orientations",
+      "reference_id": "kp_cluster_orientations",
+      "type": "semantic",
+      "expected": "For nonfluorinated solvents any F contact is to FSI and must be labeled. Fluorinated candidates include attempted bidentate and O-only starts; retain real collapse evidence. Core rows: PM_solvent_contact, PM_anion_contact, BM_solvent_contact, BM_anion_contact, TFPM_solvent_contact, TFPM_anion_contact, TFBM_solvent_contact, TFBM_anion_contact. Recompute electronic_Eh, Li_O_A, Li_F_nearest_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.cluster_orientations",
+          "$.calculation_records"
+        ],
+        "comparison": "For nonfluorinated solvents any F contact is to FSI and must be labeled. Fluorinated candidates include attempted bidentate and O-only starts; retain real collapse evidence. Core rows: PM_solvent_contact, PM_anion_contact, BM_solvent_contact, BM_anion_contact, TFPM_solvent_contact, TFPM_anion_contact, TFBM_solvent_contact, TFBM_anion_contact. Recompute electronic_Eh, Li_O_A, Li_F_nearest_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_fragment_controls",
+      "reference_id": "kp_fragment_controls",
+      "type": "semantic",
+      "expected": "Compute common-fragment interaction/distortion and state explicitly surface/isodensity/gauge for ESP. A gas-phase ion-solvent Eb and neutral salt-cluster interaction are separate quantities. Core rows: PM, BM, TFPM, TFBM. Recompute binding_kJ_mol, interaction_kJ_mol, distortion_kJ_mol, dipole_D, ESP_O_eV, RESP_O_e from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.fragment_controls",
+          "$.calculation_records"
+        ],
+        "comparison": "Compute common-fragment interaction/distortion and state explicitly surface/isodensity/gauge for ESP. A gas-phase ion-solvent Eb and neutral salt-cluster interaction are separate quantities. Core rows: PM, BM, TFPM, TFBM. Recompute binding_kJ_mol, interaction_kJ_mol, distortion_kJ_mol, dipole_D, ESP_O_eV, RESP_O_e from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_descriptor_test",
+      "reference_id": "kp_descriptor_test",
+      "type": "semantic",
+      "expected": "Test a descriptor prediction against actual coordination and anion intervention, not a restatement of source ordering. Do not infer conductivity/SEI or bulk RDF. Core rows: O_F_contrast, anion_competition, method_sensitivity. Recompute paired_energy_change_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.descriptor_test",
+          "$.calculation_records"
+        ],
+        "comparison": "Test a descriptor prediction against actual coordination and anion intervention, not a restatement of source ordering. Do not infer conductivity/SEI or bulk RDF. Core rows: O_F_contrast, anion_competition, method_sensitivity. Recompute paired_energy_change_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. 2 M molecular dynamics, RDF/CN, conductivity and battery performance are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. 2 M molecular dynamics, RDF/CN, conductivity and battery performance are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use PM COCCC, BM COCCCC, TFPM COCCC(F)(F)F and TFBM COCCCC(F)(F)F; all solvent molecules neutral singlets. Li+ is singlet; FSI- is F-S(=O)2-N(-)-S(=O)2-F, singlet. Core clusters contain exactly one Li+, one FSI- and one solvent (total charge0 singlet). Compare O-facing, O/F-contact where F exists, and FSI-dominated orientations at identical composition. No 2 M bulk interpretation follows from this finite-cluster design.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "cluster_orientations",
+      "max_score": 20,
+      "description": "For nonfluorinated solvents any F contact is to FSI and must be labeled. Fluorinated candidates include attempted bidentate and O-only starts; retain real collapse evidence. Core rows: PM_solvent_contact, PM_anion_contact, BM_solvent_contact, BM_anion_contact, TFPM_solvent_contact, TFPM_anion_contact, TFBM_solvent_contact, TFBM_anion_contact. Recompute electronic_Eh, Li_O_A, Li_F_nearest_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_cluster_orientations"
+      ]
+    },
+    {
+      "id": "fragment_controls",
+      "max_score": 25,
+      "description": "Compute common-fragment interaction/distortion and state explicitly surface/isodensity/gauge for ESP. A gas-phase ion-solvent Eb and neutral salt-cluster interaction are separate quantities. Core rows: PM, BM, TFPM, TFBM. Recompute binding_kJ_mol, interaction_kJ_mol, distortion_kJ_mol, dipole_D, ESP_O_eV, RESP_O_e from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_fragment_controls"
+      ]
+    },
+    {
+      "id": "descriptor_test",
+      "max_score": 20,
+      "description": "Test a descriptor prediction against actual coordination and anion intervention, not a restatement of source ordering. Do not infer conductivity/SEI or bulk RDF. Core rows: O_F_contrast, anion_competition, method_sensitivity. Recompute paired_energy_change_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_descriptor_test"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. 2 M molecular dynamics, RDF/CN, conductivity and battery performance are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

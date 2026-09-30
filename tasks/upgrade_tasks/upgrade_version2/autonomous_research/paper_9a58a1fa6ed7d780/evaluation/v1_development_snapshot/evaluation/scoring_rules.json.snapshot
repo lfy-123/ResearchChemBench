@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. BN-AkFlu 5a is C22H14B2N2 (40 atoms in the supplied actual graph), not the H15 typo in an old route. CC-AkFlu 5b is C26H14, 40 atoms, from SI Table S22. Both are neutral singlets in gas phase. Use each relaxed geometry and cross-evaluate on a common mapped heavy-atom scaffold; replacing B/N by C is a chemical intervention with changed nuclear charges. Track physical states via NTO/density overlap, not root numbers alone; retain six vertical roots and descriptors for the first four source baseline roots.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. BN-AkFlu 5a is C22H14B2N2 (40 atoms in the supplied actual graph), not the H15 typo in an old route. CC-AkFlu 5b is C26H14, 40 atoms, from SI Table S22. Both are neutral singlets in gas phase. Use each relaxed geometry and cross-evaluate on a common mapped heavy-atom scaffold; replacing B/N by C is a chemical intervention with changed nuclear charges. Track physical states via NTO/density overlap, not root numbers alone; retain six vertical roots and descriptors for the first four source baseline roots."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_relaxed_states",
+      "reference_id": "kp_relaxed_states",
+      "type": "semantic",
+      "expected": "Preserve full S1-S6 table and S1-S4 density-analysis raw data. Sr is integral sqrt(rho_h*rho_e) over space for normalized densities; D is centroid separation. Core rows: BN_relaxed, CC_relaxed. Recompute matched_excitation_eV, oscillator_strength, D_A, Sr from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxed_states",
+          "$.calculation_records"
+        ],
+        "comparison": "Preserve full S1-S6 table and S1-S4 density-analysis raw data. Sr is integral sqrt(rho_h*rho_e) over space for normalized densities; D is centroid separation. Core rows: BN_relaxed, CC_relaxed. Recompute matched_excitation_eV, oscillator_strength, D_A, Sr from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_common_scaffold",
+      "reference_id": "kp_common_scaffold",
+      "type": "semantic",
+      "expected": "Map the common framework and show both cross geometries. Frozen points are not optimized minima. Use NTO/transition-density mapping to avoid claiming a root switch as a direct chemical shift. Core rows: BN_on_CC, CC_on_BN. Recompute matched_excitation_eV, oscillator_strength, D_A, Sr from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.common_scaffold",
+          "$.calculation_records"
+        ],
+        "comparison": "Map the common framework and show both cross geometries. Frozen points are not optimized minima. Use NTO/transition-density mapping to avoid claiming a root switch as a direct chemical shift. Core rows: BN_on_CC, CC_on_BN. Recompute matched_excitation_eV, oscillator_strength, D_A, Sr from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_attribution",
+      "reference_id": "kp_attribution",
+      "type": "semantic",
+      "expected": "Recalculate paired changes and analysis-grid/amplitude sensitivity independently of excitation-energy convergence. Accept a mixed or unresolved BN effect if all controls are computed. Core rows: chemical_effect, geometry_effect, analysis_convergence. Recompute excitation_change_eV, D_change_A, Sr_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.attribution",
+          "$.calculation_records"
+        ],
+        "comparison": "Recalculate paired changes and analysis-grid/amplitude sensitivity independently of excitation-energy convergence. Accept a mixed or unresolved BN effect if all controls are computed. Core rows: chemical_effect, geometry_effect, analysis_convergence. Recompute excitation_change_eV, D_change_A, Sr_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. New-molecule screening, quantum yield, charge mobility and bulk packing claims are excluded.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. New-molecule screening, quantum yield, charge mobility and bulk packing claims are excluded."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. BN-AkFlu 5a is C22H14B2N2 (40 atoms in the supplied actual graph), not the H15 typo in an old route. CC-AkFlu 5b is C26H14, 40 atoms, from SI Table S22. Both are neutral singlets in gas phase. Use each relaxed geometry and cross-evaluate on a common mapped heavy-atom scaffold; replacing B/N by C is a chemical intervention with changed nuclear charges. Track physical states via NTO/density overlap, not root numbers alone; retain six vertical roots and descriptors for the first four source baseline roots.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "relaxed_states",
+      "max_score": 20,
+      "description": "Preserve full S1-S6 table and S1-S4 density-analysis raw data. Sr is integral sqrt(rho_h*rho_e) over space for normalized densities; D is centroid separation. Core rows: BN_relaxed, CC_relaxed. Recompute matched_excitation_eV, oscillator_strength, D_A, Sr from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_relaxed_states"
+      ]
+    },
+    {
+      "id": "common_scaffold",
+      "max_score": 25,
+      "description": "Map the common framework and show both cross geometries. Frozen points are not optimized minima. Use NTO/transition-density mapping to avoid claiming a root switch as a direct chemical shift. Core rows: BN_on_CC, CC_on_BN. Recompute matched_excitation_eV, oscillator_strength, D_A, Sr from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_common_scaffold"
+      ]
+    },
+    {
+      "id": "attribution",
+      "max_score": 20,
+      "description": "Recalculate paired changes and analysis-grid/amplitude sensitivity independently of excitation-energy convergence. Accept a mixed or unresolved BN effect if all controls are computed. Core rows: chemical_effect, geometry_effect, analysis_convergence. Recompute excitation_change_eV, D_change_A, Sr_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_attribution"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. New-molecule screening, quantum yield, charge mobility and bulk packing claims are excluded.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_reference_verified_phase1",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "The finite matrix has author-informed native references and observed numerical controls. See verified_computation_reference.md; source Sr disagreement remains explicit. Scientific credit still requires raw evidence, not schema success or source-value matching.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

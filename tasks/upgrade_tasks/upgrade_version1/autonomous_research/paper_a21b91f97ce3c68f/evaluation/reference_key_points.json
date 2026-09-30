@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use full tri-n-butyltin substituents on the mapped thp pair 6, 1,3-dioxan-2-yl pair 7 and 1,3-dithian-5-yl pair 13. Generate both axial and equatorial SnBu3 chair arrangements for each ring; map the same Sn, ring carbon and all three butyl alpha-carbons using supplied IDs. Couplings concern the three Sn–C_butyl bonds, with isotope signs retained. Ring nomenclature alone does not establish the chair orientation. Signed J_total(119Sn,13C)=J_FC+J_SD+J_PSO+J_DSO in Hz, for each mapped Sn–C_butyl bond; arithmetic mean over three bonds. Report raw unscaled J and the exact Hamiltonian/basis. An empirical scale or a relativistic change cannot share an uncalibrated narrow tolerance. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_pair_matrix",
+      "statement": "Three full axial/equatorial signed-coupling pairs",
+      "expected": "Inspect chair assignments, complete Sn–Bu identity, isotope convention and all four terms. Compare actual components and orbital localization; do not use absolute J or a single averaged scalar.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_geometric_interventions",
+      "statement": "Orthogonal distance and torsion interventions",
+      "expected": "Verify held constraints from real geometries and calculate actual decomposed J at each. Baseline can be reused when identical. Effects must be compared within a fixed Hamiltonian; a frozen geometry needs no borrowed thermal correction.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_mechanism_test",
+      "statement": "Hyperconjugation sufficiency and sulfur exception",
+      "expected": "Test the proposed orbital explanation against both ordinary pairs and the sulfur challenge using controlled changes. A correlation at relaxed geometries does not prove sufficiency; retain a negative or unresolved mechanism outcome when supported.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject methyl replacement for Bu, wrong ring substitution, unsigned/absolute or empirically rescaled-only J, missing FC/SD/PSO/DSO, or treating different relativistic Hamiltonians as identical references. An unlicensed NBO dependency is not presumed available.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

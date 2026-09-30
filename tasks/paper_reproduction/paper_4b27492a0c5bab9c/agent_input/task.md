@@ -1,6 +1,6 @@
 # Scientific objective
 
-Determine, for neutral singlet diethyl (diazo(phenyl)methyl)phosphonate (1a), the activation Gibbs free energy for direct anodic oxidation with prompt loss of N2 and compare it with an alternative oxidation event in which N2 remains attached while the radical-cation-like state develops. The authors qualitatively propose direct anodic oxidation to a carbon radical cation, followed by bromide capture and hydrogen-atom transfer; independently test this proposed route and the competing N2-retention explanation. Report barriers for the two explicitly named events in kcal/mol, their ordering and difference, and the chemical identity of each validated saddle point.
+Determine, for neutral singlet dimethyl (diazo(phenyl)methyl)phosphonate (1a), the activation Gibbs free energy for direct anodic oxidation with prompt loss of N2 and compare it with an alternative oxidation event in which N2 remains attached while the radical-cation-like state develops. The authors qualitatively propose direct anodic oxidation to a carbon radical cation, followed by bromide capture and hydrogen-atom transfer; independently test this proposed route and the competing N2-retention explanation. Report barriers for the two explicitly named events in kcal/mol, their ordering and difference, and the chemical identity of each validated saddle point.
 
 # Public inputs and scientific boundaries
 
@@ -13,3 +13,14 @@ Plan and execute an independent calculation. Generate a finite, chemically justi
 # Deliverables
 
 Submit `report/results.json` conforming to `submission_schema.json`. Include the protocol, all candidate identities and validation evidence, the two event-specific outcomes, the identity of the candidate supporting each outcome (or null when unresolved), barriers in kcal/mol when available, and an explicit ordering and barrier difference when both are available (otherwise null with an explanation). A bounded-failure branch is acceptable only with truthful per-event status and documented limitation; do not invent a numeric value for an unvalidated event.
+
+## Input correction and task readiness (v2, 2026-09-25)
+
+The molecular identity has been corrected to the neutral dimethyl compound
+C9H11N2O3P in `data/inputs/compound_1a.json`. Do not substitute the former
+diethyl input or reuse its calculations as this molecule's results. The
+overall two-event scientific objective has not been reduced. The package is
+not yet qualified for numerical evaluation: reconciliation of the competing
+event's chemical boundary, charge/spin and common oxidation-energy reference
+remains incomplete. Do not invent these missing definitions or report an
+unvalidated saddle as a quantitative result.

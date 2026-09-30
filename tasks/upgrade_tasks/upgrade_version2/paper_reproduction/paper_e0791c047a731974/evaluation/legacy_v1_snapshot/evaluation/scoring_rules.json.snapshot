@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_e0791c047a731974",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use complete supplied mapped graphs, monocationic sensitizers with omitted iodide counterions, and separate neutral rubrene. The sensitizers differ in backbone and substituents as well as heavy atoms; they are not an isostructural I-to-Se substitution series. Use common chloroform continuum conditions and explicit heavy-element relativistic/basis definitions. Use Cy2_planar_control.json for exact bridge atom IDs and signed dihedrals. Matched vertical gaps and SOC are evaluated at each S0 geometry. For energy transfer use consistent adiabatic excitation energies: delta_TTET=E_T1(rubrene)-E_T1(sensitizer); negative is energetically downhill. Rubrene annihilation balance=2E_T1(rubrene)-E_S1(rubrene); nonnegative is an energetic prerequisite. These are not rates or quantum yields. Reject wrong cation/counterion model, scalar-relativistic energy mistaken for SOC, Cy2 used as the annihilator instead of rubrene, mixed vertical/adiabatic references, or full efficiency/position-only causation from non-isostructural compounds.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use complete supplied mapped graphs, monocationic sensitizers with omitted iodide counterions, and separate neutral rubrene. The sensitizers differ in backbone and substituents as well as heavy atoms; they are not an isostructural I-to-Se substitution series. Use common chloroform continuum conditions and explicit heavy-element relativistic/basis definitions. Use Cy2_planar_control.json for exact bridge atom IDs and signed dihedrals. Matched vertical gaps and SOC are evaluated at each S0 geometry. For energy transfer use consistent adiabatic excitation energies: delta_TTET=E_T1(rubrene)-E_T1(sensitizer); negative is energetically downhill. Rubrene annihilation balance=2E_T1(rubrene)-E_S1(rubrene); nonnegative is an energetic prerequisite. These are not rates or quantum yields. Reject wrong cation/counterion model, scalar-relativistic energy mistaken for SOC, Cy2 used as the annihilator instead of rubrene, mixed vertical/adiabatic references, or full efficiency/position-only causation from non-isostructural compounds."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_sensitizer_states",
+      "reference_id": "kp_sensitizer_states",
+      "type": "semantic",
+      "expected": "Check complete graphs, cation charge and hole/electron localization on heavy atoms. Compare physically matched states; chemistry differences forbid attributing all changes exclusively to atom mass or position.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.sensitizer_states",
+          "$.calculation_records"
+        ],
+        "comparison": "Check complete graphs, cation charge and hole/electron localization on heavy atoms. Compare physically matched states; chemistry differences forbid attributing all changes exclusively to atom mass or position."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_rubrene_energy_cycle",
+      "reference_id": "kp_rubrene_energy_cycle",
+      "type": "semantic",
+      "expected": "Recompute rubrene and donor adiabatic energies under matching conditions. Do not subtract vertical donor states from adiabatic acceptor states or use different solvent corrections silently.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.rubrene_energy_cycle",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute rubrene and donor adiabatic energies under matching conditions. Do not subtract vertical donor states from adiabatic acceptor states or use different solvent corrections silently."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_geometry_and_method_test",
+      "reference_id": "kp_geometry_and_method_test",
+      "type": "semantic",
+      "expected": "Verify real SOC vectors, supported heavy-element operators, frozen geometry and state density overlap. More SOC or favorable TTET energetics does not by itself demonstrate a faster ISC/transfer process.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.geometry_and_method_test",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify real SOC vectors, supported heavy-element operators, frozen geometry and state density overlap. More SOC or favorable TTET energetics does not by itself demonstrate a faster ISC/transfer process."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject wrong cation/counterion model, scalar-relativistic energy mistaken for SOC, Cy2 used as the annihilator instead of rubrene, mixed vertical/adiabatic references, or full efficiency/position-only causation from non-isostructural compounds.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject wrong cation/counterion model, scalar-relativistic energy mistaken for SOC, Cy2 used as the annihilator instead of rubrene, mixed vertical/adiabatic references, or full efficiency/position-only causation from non-isostructural compounds."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Compare actual state character and SOC in the three sensitizers and determine whether a consistently defined rubrene energy-transfer cycle supports their proposed sensitization role. Reject wrong cation/counterion model, scalar-relativistic energy mistaken for SOC, Cy2 used as the annihilator instead of rubrene, mixed vertical/adiabatic references, or full efficiency/position-only causation from non-isostructural compounds. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Compare actual state character and SOC in the three sensitizers and determine whether a consistently defined rubrene energy-transfer cycle supports their proposed sensitization role. Reject wrong cation/counterion model, scalar-relativistic energy mistaken for SOC, Cy2 used as the annihilator instead of rubrene, mixed vertical/adiabatic references, or full efficiency/position-only causation from non-isostructural compounds. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "sensitizer_states",
+      "max_score": 25,
+      "description": "Three sensitizer low-state windows and actual SOC",
+      "rule_ids": [
+        "rule_sensitizer_states"
+      ]
+    },
+    {
+      "id": "rubrene_energy_cycle",
+      "max_score": 25,
+      "description": "Independent acceptor energies and closed transfer/annihilation comparison",
+      "rule_ids": [
+        "rule_rubrene_energy_cycle"
+      ]
+    },
+    {
+      "id": "geometry_and_method_test",
+      "max_score": 15,
+      "description": "Geometry versus heavy-atom coupling and method robustness",
+      "rule_ids": [
+        "rule_geometry_and_method_test"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Three sensitizer low-state windows and actual SOC",
+      "Independent acceptor energies and closed transfer/annihilation comparison",
+      "Geometry versus heavy-atom coupling and method robustness",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

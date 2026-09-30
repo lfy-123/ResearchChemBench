@@ -1,0 +1,1390 @@
+# 当前权威状态（2026-09-23）
+
+当前限定科学目标已有完整真实验证，经本轮复核后按用户授权从 HOLD 移入 final。四个正文/SI 对应的中性单重态分子均完成 B3LYP/6-31G(d,p) Opt/Freq；匹配的 singlet/triplet TDDFT 各覆盖 10 个根。由同一父几何、同一 spin/root 映射的原始 X/Y 或 NTO/IFCT 数据补齐了 Ph-T4、Na-T4、An-T3、Py-T3，并与四个 S1 一起完成八个同态空间分析。S1−T1 分别为 0.8840、0.8865、1.3485、1.0904 eV，An-mP 最大；同态分析支持任务所要求的定性 HLCT/高三重态能量相容性判断，Na-T4 的 LE 主导例外也被保留。当前证据为 `docs/verification/group_3/paper_b5c446c7067dd511/provenance/task_feasibility_closeout_20260921/report/results.json`、`methods_and_validation.md` 和 `acceptance_mapping.json`。
+
+这证明的是当前任务合同中的定性科学子目标：不宣称 SI 中所有片段 CT 百分比已逐数复现，不宣称 RISC 速率、SOC 或完整实验机制已计算。reference 是 evaluator-private 记录，不会复制到 `agent_input`。下方 2026-09-18 的“缺同态证据”只作为历史状态保留，不能覆盖本段当前闭环。
+
+---
+
+# Verified computation reference — paper_b5c446c7067dd511 (autonomous_research)
+
+> Evaluator-private provenance archive, not the primary evaluator. It records evidence-backed historical calculations and their limits; scoring remains based on the task's intermediate key points and final conclusions. This file is not copied to `agent_input`.
+
+## 当前有效计算链补充及迁移复核
+
+2026-09-23 已重读 12 份 Gaussian 原始日志：四份 Opt/Freq 各含两个正常结束标记，四份单重态及四份三重态 TD 输出各含十个激发根；验收映射中的 45 个证据路径均存在。两模式各 4 个关键点、1 个最终结论和 5 条规则对应当前能量及同态空间证据。按用户授权移入 final；任务指令、公开输入和五个 evaluator 文件未作修改。
+
+1. 由四个正确连接图的中性单重态气相模型执行 B3LYP/6-31G(d,p) Opt/Freq，分别取得 174、192、210、216 个正频率，共 792 个；留存父几何及波函数。
+2. 在各自同一 S0 几何计算完整 TDDFT 的 S1–S10、T1–T10，共 80 个态。对 S1 与 T1 作差，并从完整态表选取 S1 下方最高三重态 Ph-T4、Na-T4、An-T3、Py-T3。
+3. 将每个所选态绑定到 molecule/spin/root/父几何，从完整 X/Y 做 NTO/IFCT；以官方 Multiwfn 原始输出和独立数组分析交叉检查归一化、片段转移矩阵和前六组 NTO。四个 S1 加四个 Tn 构成八个同态证据，不能用不同态的 LE、CT 图拼接代替。
+4. 将能量排序、同态 LE/CT 共存和高三重态能量可接近性对应到现有关键点与结论。结果仅支持能量/态性质判断，不声称已算出 RISC 速率。
+
+| 分子 | S1 / eV | T1 / eV | S1−T1 / eV | Tn | Tn−S1 / eV | S1 CT / % | Tn CT / % |
+|---|---:|---:|---:|---|---:|---:|---:|
+| Ph-mP | 3.5185 | 2.6345 | 0.8840 | T4 | −0.0936 | 56.745 | 48.385 |
+| Na-mP | 3.4546 | 2.5681 | 0.8865 | T4 | −0.1170 | 62.690 | 9.476 |
+| An-mP | 3.1095 | 1.7610 | 1.3485 | T3 | −0.0342 | 39.467 | 46.645 |
+| Py-mP | 3.1274 | 2.0370 | 1.0904 | T3 | −0.1121 | 60.208 | 42.409 |
+
+Na-T4 偏 LE；Na-T5 位于 S1 上方 0.0653 eV，比 T4 的绝对能差更小，不能把所选 T4 说成绝对最近态。Na-T4 CT=9.476% 与 SI 的 22.25% 未数值复现，当前评分没有 CT 百分比硬阈值；这不否定当前定性科学子目标，但不能宣称 SI 全部数字复现。公开 AR 给出完整系统名称/连接描述，PR 另含连通性 SMILES；两者均不含计算能量或优化坐标。以下所有 2026-09-18 状态与旧证据仅供追溯，以本节及 2026-09-21 closeout 为当前判断。
+
+## Historical evidence status — NOT_RELEASE_READY (2026-09-18, superseded)
+
+The archived author-level geometries, S1/T1 energies and S1/T1 NTO analyses remain real calculations. However, CT-like S1 and LE-like T1 are properties of different states, not evidence for mixed LE/CT character within the same state. The nearby higher-triplet energy list establishes proximity, not the spatial character of those Tn states. The present task requires matched state-resolved evidence, including relevant nearby Tn; this requirement has not been demoted to optional or replaced by an SOC/RISC-rate task.
+
+Stored triplet_td10 checkpoints/formatted checkpoints and logs exist under `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian` and `native_workspace`, along with S1/T1 NTO postprocessing artifacts. Their existence is not itself a completed same-state Tn analysis. First recover the molecule/spin/root mapping and a valid transition-density, NTO, IFCT or equivalent spatial analysis from the archived data. No such new postprocessing result or new TD calculation is claimed in this revision. The historical PASS and mixed-state interpretation below do not close this specific evidence gap; original group records remain unchanged.
+
+## Status
+
+Historical status below describes the archived group calculation; it is not a new run from any modified public starter.
+
+- Computation-chain status: **EVIDENCE_COMPLETE**
+- Group result status: `success` (SUCCESS_EVIDENCE_CANDIDATE)
+- Verification-report terminal status: `PASS` (SUCCESS_EVIDENCE_CANDIDATE)
+- Applicability to current final package: **NOT_VERIFIED_FOR_FULL_CURRENT_TARGET**
+- Applicability note: See the current evidence correction above; historical execution success is not full target validation.
+
+Verification-report status history (explicit terminal-status statements):
+
+| line | status | statement |
+|---:|---|---|
+| 90 | `PASS` | 论文复现结论： **PASS**（结构化结果对象已满足本篇定义的终态科学闸门；详细数值与原始证据见 report/results.json、artifacts/gaussian/ 和 provenance/。） |
+
+The last explicit terminal statement is used as the report status. Earlier BLOCKED/CONDITIONAL snapshots remain historical evidence and are not by themselves a conflict with a later PASS.
+
+## Source identity
+
+- Paper: Study on optical properties of phenanthroimidazole-based HLCT emitters with extended conjugation
+- DOI: `10.1016/j.molstruc.2025.144503`
+- Task package: `tasks/final_verified_autonomous_research/paper_b5c446c7067dd511`
+- Verification group: `docs/verification/group_3/paper_b5c446c7067dd511`
+- Paper documents: `papers/paper_b5c446c7067dd511`
+- Input identity audit: **MATCHED** (title_match=True, doi_match=True)
+
+## Successful calculation chain
+
+The structured excerpt below is derived from `report/results.json`. Entries whose status/outcome indicates failure, retry, interruption, queueing, or unresolved work were omitted. Large arrays are represented by a bounded success-only excerpt.
+
+```json
+{
+  "conclusion": "Across all four fixed neutral singlets, the strict author-level calculations reproduce the source-supported gap pattern (An-mP has the largest S1−T1 gap) and provide NTO/transition-state diagnostics consistent with mixed LE/CT character. Higher triplet roots near S1 make a hot-triplet access pathway energetically consistent within the isolated-molecule model; this does not establish an SOC-mediated rate or the complete experimental mechanism.",
+  "hypotheses": [
+    {
+      "basis": "All four strict S1 NTO pairs are spatially separated by the reported centroid diagnostic while compact T1 pairs retain local-excitation character; no single diagnostic is treated as a fragment CT percentage.",
+      "id": "mixed_LE_CT",
+      "status": "supported"
+    },
+    {
+      "basis": "The S1 centroid separations and donor/bridge-to-acceptor transition configurations are inconsistent with a purely local-only assignment, subject to the isolated-molecule and threshold limitations.",
+      "id": "pure_LE_only",
+      "status": "disfavored"
+    },
+    {
+      "basis": "For each molecule, at least one Tn (n>1) is within 0.30 eV of S1; this is an energetic accessibility screen, not an SOC/rate calculation.",
+      "id": "higher_triplet_hot_access",
+      "status": "supported_as_energy_consistency"
+    }
+  ],
+  "limitations": "Gas-phase isolated single conformer; NTO centroid separation is a transparent spatial screen and not the SI fragment CT/LE percentage; no explicit SOC, nonadiabatic dynamics, aggregate/solid-state effects or experimental photophysical rate is computed.",
+  "methods": {
+    "excited_state_method": "B3LYP/6-31G(d,p) TD=(Singlets,NStates=10) and TD=(Triplets,NStates=10), Pop=(NTO,SaveNTO,Full), NoSymm",
+    "geometry_method": "B3LYP/6-31G(d,p) Opt/Freq",
+    "nto_postprocessing": "Matched strict TD checkpoints rerun with Density=(Check,Transition=1), Pop=(NTO,SaveNTO,Minimal); HOMO/LUMO of the saved NTO checkpoint converted to cubes and centroid-separated.",
+    "software": "Gaussian 16 C.01; cclib parser; Gaussian formchk/cubegen"
+  },
+  "molecules": [
+    {
+      "charge": 0,
+      "convergence_evidence": "Strict B3LYP/6-31G(d,p) parent Opt/Freq normal termination with zero imaginary modes; matched singlet/triplet NStates=10 TD jobs normal termination.",
+      "delta_s1_t1": 0.8839999999999999,
+      "formula": "C34H24N2",
+      "higher_triplet_proximity": [
+        {
+          "delta_from_S1_eV": -0.18820000000000014,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.3303,
+          "state": 3
+        },
+        {
+          "delta_from_S1_eV": -0.0935999999999999,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.4249,
+          "state": 4
+        },
+        {
+          "delta_from_S1_eV": 0.09580000000000011,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.6143,
+          "state": 5
+        },
+        {
+          "delta_from_S1_eV": 0.12380000000000013,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.6423,
+          "state": 6
+        },
+        {
+          "delta_from_S1_eV": 0.29400000000000004,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.8125,
+          "state": 7
+        }
+      ],
+      "hot_channel_assessment": "higher triplet roots within 0.30 eV of S1 provide an energetically accessible hot-triplet channel in this isolated-molecule calculation",
+      "id": "Ph-mP",
+      "multiplicity": 1,
+      "state_character": {
+        "diagnostic_scope": "Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage.",
+        "interpretation": "S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary.",
+        "mixed_LE_CT_support": true,
+        "s1_nto": {
+          "case": "Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded",
+          "centroid_separation_angstrom": 3.076793603789489,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        },
+        "t1_nto": {
+          "case": "Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded",
+          "centroid_separation_angstrom": 0.9894639177188358,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        }
+      },
+      "states": [
+        {
+          "energy_eV": 3.5185,
+          "label": "S1",
+          "oscillator_strength": 0.8089,
+          "spin": "singlet"
+        },
+        {
+          "energy_eV": 2.6345,
+          "label": "T1",
+          "spin": "triplet"
+        }
+      ],
+      "structure_evidence": "artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz",
+      "validation_evidence": [
+        "artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log",
+        "artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log"
+      ],
+      "validation_status": "validated"
+    },
+    {
+      "charge": 0,
+      "convergence_evidence": "Strict B3LYP/6-31G(d,p) parent Opt/Freq normal termination with zero imaginary modes; matched singlet/triplet NStates=10 TD jobs normal termination.",
+      "delta_s1_t1": 0.8865000000000003,
+      "formula": "C38H26N2",
+      "higher_triplet_proximity": [
+        {
+          "delta_from_S1_eV": -0.11699999999999999,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.3376,
+          "state": 4
+        },
+        {
+          "delta_from_S1_eV": 0.06529999999999969,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.5199,
+          "state": 5
+        },
+        {
+          "delta_from_S1_eV": 0.1854,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.64,
+          "state": 6
+        },
+        {
+          "delta_from_S1_eV": 0.24429999999999996,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.6989,
+          "state": 7
+        }
+      ],
+      "hot_channel_assessment": "higher triplet roots within 0.30 eV of S1 provide an energetically accessible hot-triplet channel in this isolated-molecule calculation",
+      "id": "Na-mP",
+      "multiplicity": 1,
+      "state_character": {
+        "diagnostic_scope": "Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage.",
+        "interpretation": "S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary.",
+        "mixed_LE_CT_support": true,
+        "s1_nto": {
+          "case": "Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded",
+          "centroid_separation_angstrom": 4.462856401608949,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        },
+        "t1_nto": {
+          "case": "Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded",
+          "centroid_separation_angstrom": 0.3915016260533715,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        }
+      },
+      "states": [
+        {
+          "energy_eV": 3.4546,
+          "label": "S1",
+          "oscillator_strength": 0.7048,
+          "spin": "singlet"
+        },
+        {
+          "energy_eV": 2.5681,
+          "label": "T1",
+          "spin": "triplet"
+        }
+      ],
+      "structure_evidence": "artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz",
+      "validation_evidence": [
+        "artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log"
+      ],
+      "validation_status": "validated"
+    },
+    {
+      "charge": 0,
+      "convergence_evidence": "Strict B3LYP/6-31G(d,p) parent Opt/Freq normal termination with zero imaginary modes; matched singlet/triplet NStates=10 TD jobs normal termination.",
+      "delta_s1_t1": 1.3485000000000003,
+      "formula": "C42H28N2",
+      "higher_triplet_proximity": [
+        {
+          "delta_from_S1_eV": -0.03420000000000023,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.0753,
+          "state": 3
+        },
+        {
+          "delta_from_S1_eV": 0.12440000000000007,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.2339,
+          "state": 4
+        },
+        {
+          "delta_from_S1_eV": 0.16979999999999995,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.2793,
+          "state": 5
+        },
+        {
+          "delta_from_S1_eV": 0.23619999999999974,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.3457,
+          "state": 6
+        }
+      ],
+      "hot_channel_assessment": "higher triplet roots within 0.30 eV of S1 provide an energetically accessible hot-triplet channel in this isolated-molecule calculation",
+      "id": "An-mP",
+      "multiplicity": 1,
+      "state_character": {
+        "diagnostic_scope": "Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage.",
+        "interpretation": "S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary.",
+        "mixed_LE_CT_support": true,
+        "s1_nto": {
+          "case": "An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded",
+          "centroid_separation_angstrom": 4.087597891576569,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        },
+        "t1_nto": {
+          "case": "An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded",
+          "centroid_separation_angstrom": 0.028040721200519016,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        }
+      },
+      "states": [
+        {
+          "energy_eV": 3.1095,
+          "label": "S1",
+          "oscillator_strength": 0.2203,
+          "spin": "singlet"
+        },
+        {
+          "energy_eV": 1.761,
+          "label": "T1",
+          "spin": "triplet"
+        }
+      ],
+      "structure_evidence": "artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz",
+      "validation_evidence": [
+        "artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log"
+      ],
+      "validation_status": "validated"
+    },
+    {
+      "charge": 0,
+      "convergence_evidence": "Strict B3LYP/6-31G(d,p) parent Opt/Freq normal termination with zero imaginary modes; matched singlet/triplet NStates=10 TD jobs normal termination.",
+      "delta_s1_t1": 1.0904000000000003,
+      "formula": "C44H28N2",
+      "higher_triplet_proximity": [
+        {
+          "delta_from_S1_eV": -0.11210000000000031,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.0153,
+          "state": 3
+        },
+        {
+          "delta_from_S1_eV": 0.20669999999999966,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.3341,
+          "state": 4
+        },
+        {
+          "delta_from_S1_eV": 0.2365999999999997,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.364,
+          "state": 5
+        },
+        {
+          "delta_from_S1_eV": 0.2519999999999998,
+          "dominant_configuration": "<nested value omitted>",
+          "energy_eV": 3.3794,
+          "state": 6
+        }
+      ],
+      "hot_channel_assessment": "higher triplet roots within 0.30 eV of S1 provide an energetically accessible hot-triplet channel in this isolated-molecule calculation",
+      "id": "Py-mP",
+      "multiplicity": 1,
+      "state_character": {
+        "diagnostic_scope": "Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage.",
+        "interpretation": "S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary.",
+        "mixed_LE_CT_support": true,
+        "s1_nto": {
+          "case": "Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded",
+          "centroid_separation_angstrom": 6.1778683645965105,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        },
+        "t1_nto": {
+          "case": "Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded",
+          "centroid_separation_angstrom": 0.03621405917242666,
+          "electron_centroid_angstrom": "<nested value omitted>",
+          "evidence": "<nested value omitted>",
+          "hole_centroid_angstrom": "<nested value omitted>",
+          "interpretive_rule": "S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."
+        }
+      },
+      "states": [
+        {
+          "energy_eV": 3.1274,
+          "label": "S1",
+          "oscillator_strength": 0.6775,
+          "spin": "singlet"
+        },
+        {
+          "energy_eV": 2.037,
+          "label": "T1",
+          "spin": "triplet"
+        }
+      ],
+      "structure_evidence": "artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz",
+      "validation_evidence": [
+        "artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log",
+        "artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log",
+        "artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log"
+      ],
+      "validation_status": "validated"
+    }
+  ],
+  "status": "success"
+}
+```
+
+Paper/SI document hashes:
+
+- `papers/paper_b5c446c7067dd511/documents/main.pdf` — SHA-256 `e14eba4b6b741eec2e479177d88173fd688caa63c7a5f9bce461d441b7f5e09d` (declared_match=True)
+- `papers/paper_b5c446c7067dd511/documents/supplementary_001.pdf` — SHA-256 `d8ea0572e3bcb3543cfcba2de0e31c9a4001e9f72925f9adf5caf7d0454238f0` (declared_match=True)
+
+Report evidence lines retained:
+
+- | case | job ID | status | wall-clock s | CPU/memory | normal termination | optimization | imaginary modes |
+
+## Provenance anchors for the retained chain
+
+- Successful status/output inventory entries: **200**
+- Concrete input anchor present: **True**
+- Concrete output/log anchor present: **True**
+
+The following paths are existing files under the historical group record and are hashed for traceability. Failed or explicitly retry-status, migration-interrupted, queued, and running execution directories are excluded; a retry-labelled directory is retained when its status and return code show successful completion.
+
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/status.json` — successful status record; SHA-256 `fbf4cabde7faa3c4ebf38a8a30a49c3a2373b1116f078b94543bfc79668803b2`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `37088223618d6116243a31005721619ac459cb155e345e14f117e4efa17a54bb`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/formchk.log` — successful execution artifact; SHA-256 `71e3782096b5d630f6a9f7eb3b47b226b88b6cc7e4e2ed12782e58b77bfbb0a7`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/input.com` — successful execution artifact; SHA-256 `e1b2d842c9d1518a9c614c86e2cfdc80ec460958acfa98b7cce11540db155c14`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/parsed_observables.json` — successful execution artifact; SHA-256 `8cd99c430a143ca58da55622384556052bede2f3f7041583f5691e16a6f62160`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — successful status record; SHA-256 `cf33a135dce21fb9d5da012815dc09bf4534ba12e52bfdd4c0724d7006dce5f8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `74dfe12eb08352700926383101d02bbe765576d798135a6de451688bae884759`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `8137cd87ae6ee5929a57b2df59ccfe3e5302492eaf476b3c0a37ee0f69cbc5be`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `563f48f8840535e3d01b0e735de20fba5b9816dfa87eeb6e8c35d9faa4985109`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `6a219236e8d313f37e78d7b9d203b7bcf603cf6f1e97d59b1627eb6ff6a97944`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — successful status record; SHA-256 `bc080efbadfb852d98ef6579c07f8abfe7a0375e501318d86c8c3e372b4175bc`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `60c54b7601579a6367b3f268a1e5a9395fdbb2a90e34f7ef00e70f719d500c96`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `cae9b4712751b3aa1c44bb08cc9468026888426f877977117b15b95cffdf9d35`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `f13ceb2fee9e693ff7b3babc836815a48123762dbde624eb350160a51b71ddab`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `0618f311c12d0d5cd8c513929d7ee2eda39662fdaf0e4f7e23796cebf5617f67`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — successful status record; SHA-256 `6ce4b4bf32bd18ff43b8f9bf2418e8320cef77d2d3d49e03849c6068bffcf533`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz` — successful execution artifact; SHA-256 `4628830453b6ef2c8bdcd9e5937312726574d7c68f7153e57405669e6aa27eeb`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json` — successful execution artifact; SHA-256 `dbd3fd0c1b9481365ddbdb87cb4f48329e96154199d9a76cdc15e38255118c2a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log` — successful execution artifact; SHA-256 `c5396210396e03551627a6ecb50accf0050e3ab1ba6a8a2d81862c3c4a080101`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com` — successful execution artifact; SHA-256 `51156cb7928f27ce2680bf3d6ef864a8884698e99121c438d74943b96d1e0607`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — successful status record; SHA-256 `2ff0fd12870d6046ed136cff859ea8634c6ff8fd62275865c167be50d4ee66ab`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `ef5fdb4a3ac1f82532f1348781debd3f1ce416c6035c64e93eaec7c5505a5f08`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json` — successful execution artifact; SHA-256 `d520bc0e4f43370d22b637af3786173ca09baeed7bad19fa08f2fd07c41436dd`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `36f89dceeab8706095d09d78674f5e05138fb0cff92fb22ed8c8634499a3093f`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com` — successful execution artifact; SHA-256 `00a77bff6ae7406881301e06c24071c22e735719642d35c3a4315606b22368f4`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/status.json` — successful status record; SHA-256 `255e077275257b06949a13c451000543e257c6e73906819a52292edd21ca528a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `5a6235af83f63fbf938c981f7131e4b763d38ebce32ef11f6f259449d1049cad`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/formchk.log` — successful execution artifact; SHA-256 `448cc6e6bee4e611931f224861c95d9c615fae4808d880c123b1fee82d2252d4`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/input.com` — successful execution artifact; SHA-256 `e1b2d842c9d1518a9c614c86e2cfdc80ec460958acfa98b7cce11540db155c14`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/parsed_observables.json` — successful execution artifact; SHA-256 `803730ded53cfbce56198440175da2e0132774be2061ca9c07c39b2cd84f5939`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/status.json` — successful status record; SHA-256 `5db15c254c43956593b096c4fedbbb146cd69970637c82a70c69058359f9e8c6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/An_mP_b3lyp_opt_freq_optimized.xyz` — successful execution artifact; SHA-256 `6bfd76368d36b58c9cfd12e882df86b10ea89def10d184c148ebde810ee8905c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/collection.json` — successful execution artifact; SHA-256 `dd3811cfec08d8290f97a72e202db11a9037b1b77208693dcee9e831becec168`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/formchk.log` — successful execution artifact; SHA-256 `ef64c6299d793f3b1584e22e50f2b3f6dc0acfabef04f69c87b815e35e60573c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/input.com` — successful execution artifact; SHA-256 `e1f9f0c7e773aa7a0637969c6825a3737a1468fa7e427c5bbff2c386dc72f029`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/status.json` — successful status record; SHA-256 `715e6ca82d6d11959cac017c6b6ace5024ca25848866ddb329e9e03776b81333`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/An_mP_b3lyp_opt_freq_unbounded_recovery96g_optimized.xyz` — successful execution artifact; SHA-256 `4048d15c0095bf4266d93dff2673d637e13b002c8206a869ea5fae64ddb48cc3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/collection.json` — successful execution artifact; SHA-256 `5aefe5ead9e4455c07bc95d52c74c402500cb6491e3ee7654392685f7a3744b4`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/formchk.log` — successful execution artifact; SHA-256 `17d385735be2f9f2c7bf7cbff6c95b59350b05d711eb67dbc3ae7c9fb86bd901`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/input.com` — successful execution artifact; SHA-256 `87e3babf217855d7d447e6d303b9524657ddbf34d765f77da7cf8963dc4dfe5a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/status.json` — successful status record; SHA-256 `5286909262982fbec96fbd6291cd76112b02358edc7a11c9c3ac032e9b1b1b67`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/An_td10_optimized.xyz` — successful execution artifact; SHA-256 `ea301496f614b18393450bda5b7b54da2bdfe68ba2137e2f28acf5c52a18c61a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/collection.json` — successful execution artifact; SHA-256 `d014e6abd1b8ecd1703d214cc3f68dd5a4b90e154ec3a8875db96c7b2cb03b6b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/formchk.log` — successful execution artifact; SHA-256 `d9b8f46308dfdf4babf3725a4addda2e57c2aee9715d2905dbb3b0b740e9ccd3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/input.com` — successful execution artifact; SHA-256 `693e9fd34bfa0a9b5da64a356e980c10d9479790f93733baa68e43c0fb93bf54`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/status.json` — successful status record; SHA-256 `23d4ac5b720e7056ec0182abe2c2cec50f50a7c613eb54bb5ef1e3f6d608d926`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/An_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `ea7db14d9a03a0e6928547f0903de676d77c11d592268afce0cb87feb327e86f`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/collection.json` — successful execution artifact; SHA-256 `c651d049319319018505165fa7ce3f41187ca4894d75a64497c0ff4012458881`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `2668faff62b6b891f4462301e6beb52232e740fc2b86cafb4a5ba4ce6f24e1a3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/input.com` — successful execution artifact; SHA-256 `d5b72647e5a07e97618d5cefd0ad0d9330d93a78a2fe883fd766df215e7b4dd8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/status.json` — successful status record; SHA-256 `96d675be31a924678819952f51e85d706d0dfd1df7907904eaaff03ec64415b3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `0c1c87632a7934eb60d43ea7865a338b0749c2434b65a45eb29341fafbd04b8a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/formchk.log` — successful execution artifact; SHA-256 `da77861fae56c0dcd6990b9bd99adfd937a59e49a5b205cc1daa4caa5e119de6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/input.com` — successful execution artifact; SHA-256 `814d190072299cfc76de4f944befccef262dcdfb3737a11eef452054393719c6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/parsed_observables.json` — successful execution artifact; SHA-256 `c86f68ddd4249e7aec6e80d60bb812a71143d7c7830537e462c5b5e380fd6165`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — successful status record; SHA-256 `f7d469ba981c79cba994a84c0323646c273444e3c3b27d35bbd890d305b8fcf1`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `e7ab252cd70c96cd573170ced2d432862e7802822f128d0ebd5d890da8cd0543`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `f0001829615460f8c55fe204c21ea46580b2b8e594dfcc64ead93df7a4db1e53`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `1211e33a04817192865d25f418c2133a6f5c778f180c9100a87ab96b6c64be7b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `625efbf641009a7db894fbe3357b5722ea1512b011c4ba2125a4b88afc281149`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — successful status record; SHA-256 `25ab237342398750968fff2c92ec07d645eb4c81ecc8a8a5c5e9318a2e82663b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `e4fe27c433bdbee75f78fbecaf58e4844aec8f7f66cd450ea506b9d8e956c17c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `ec8a0ea80f86c82bcc65ca456666147a58d940af3197f3a354dd12d4bd5ef1b3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `83bf849c25fca5044f4a293df30d4f3be9f6f4d9aeb8e258ba42c34d8a5e2357`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `4b31c5e7bc23dd2a66434cdb100a130e7b75bbbe737cad4d80f4722df51a5cc8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — successful status record; SHA-256 `4954347cbdea849fb1c033ab78b0b02d488bf17e65a767f904de1ee3c751cd1f`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz` — successful execution artifact; SHA-256 `1eae719bf7f5445c065a768308079f9c3b9c6f99f956472bee626fff852923a7`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json` — successful execution artifact; SHA-256 `d1e40de8ef5abe773805996153d42ead4449667dcfdb30ddb496a2040d9aad09`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log` — successful execution artifact; SHA-256 `1f4178b62b09f4ab613f46c09dc37aff1ccfc0af576d25ea3f47fa454e9ecb84`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com` — successful execution artifact; SHA-256 `20265c73b55104c0fb1b915047879aac1c06d0ba82b71a1f69f1254d94facd4e`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — successful status record; SHA-256 `4d9e9bcc52f85765d501a03ce63b65abc7fdfb2f64b86853bc998f1a70a8dd93`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `b27daaae5b60697c60ea14d6cbbb6929bad820f1da32fbaccd0960e6664eabff`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json` — successful execution artifact; SHA-256 `792aa74618ab91c87fdc6d3581ba0591656b68586565d3e99e575519d4f7c050`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `af48ef2e2bff92dffa05b1de6cc5daf41107f4bf983a09f766c2b41aa2d8e5a8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com` — successful execution artifact; SHA-256 `386a5527b491f7b4c7c0f6e451b18adca7c9704541e1686c5dbcb167122c8d90`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/status.json` — successful status record; SHA-256 `24a36103c6ee5b5e0b3fe5702e6a201e9efefe0bfccd448d6f54799b22af757d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `0c1c87632a7934eb60d43ea7865a338b0749c2434b65a45eb29341fafbd04b8a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/formchk.log` — successful execution artifact; SHA-256 `813ef026cee66254ffc12b84d59e7b2e5b4fce30c5e84b813ba3c28f946942fd`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/input.com` — successful execution artifact; SHA-256 `814d190072299cfc76de4f944befccef262dcdfb3737a11eef452054393719c6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/parsed_observables.json` — successful execution artifact; SHA-256 `49b4f73dd7c3d61e1c229e6b02eba4890667faae3deb3a7830a335377a69af32`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/status.json` — successful status record; SHA-256 `b211dcc86dae1a7cb6f9c24afb8bc3402fe117792040758a887cca930c3f421f`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/Na_mP_b3lyp_opt_freq_optimized.xyz` — successful execution artifact; SHA-256 `dc9b567b74287c26985594eea561f51114c6ba4da99551f8caccd96a033682c0`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/collection.json` — successful execution artifact; SHA-256 `c141264eac1a80ffb9e30495e38eb383e5bcc026b40d7c6d4524d4717b4d1be2`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/formchk.log` — successful execution artifact; SHA-256 `3e9b00b2d3c2d4c495161bf2ebd0ece458261c36785d65707778127a0bf76df1`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/input.com` — successful execution artifact; SHA-256 `4b470e418e41b58e47ffc1f9d669aaccc4808e1bfd1a3f71586fe21f33453491`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/status.json` — successful status record; SHA-256 `c4b8948a1ca727f2c5d8082ccdbbd3014c7aa2c2a15a85069f814cf5e22acce6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/Na_mP_b3lyp_opt_freq_unbounded_recovery96g_optimized.xyz` — successful execution artifact; SHA-256 `86367e12567aa095b65c5ff0a67e37eb1fd24e58d8c9c125fd46ea749acbca3b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/collection.json` — successful execution artifact; SHA-256 `79ff5dcfcf30270797c1485e9e381afed0bfd8b49d460363c76452d3c875b9c8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/formchk.log` — successful execution artifact; SHA-256 `e76078fb4caaacd7e235cd0230fa1815662d2838dbf4ac75627a048eedb42cef`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/input.com` — successful execution artifact; SHA-256 `3ffe697d181f6c808f6e8b7b04c9f40f6256f6ae0a278046ec25ca515d432489`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/status.json` — successful status record; SHA-256 `0682da0456dc52507eabb1e8f2a1f4f7f765927ad5d5628bdec08ba755742980`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/Na_td10_optimized.xyz` — successful execution artifact; SHA-256 `d8fa235e98434756a995e2bcea03aedd3204efa0cd0dd172025abfb3cc336bd4`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/collection.json` — successful execution artifact; SHA-256 `47a33fabfcf49109074ab24792dfa7cadc1ae1c9a731426bbd9db07f782e9374`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/formchk.log` — successful execution artifact; SHA-256 `3c50e941448d2d3d507c33f15518d3cb4240a8db741e3ef4a9476f97c0211417`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/input.com` — successful execution artifact; SHA-256 `1c9415e6fa2d396c44e7242c77d9cde0d5828ece4080a9e79de95215d52b5d11`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/status.json` — successful status record; SHA-256 `128cbf4b26edc9b79394c74a70f47499e1aabc1cf3886f4970c0a9c5d82bd01a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/Na_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `2e3d62af51ba651d200e386e8264055342a13c39f441ab95798244ffbed6c4b8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/collection.json` — successful execution artifact; SHA-256 `a89369c7ac9aa67a69241100935e6b440878f4130950f83aa5bb5c1baadc0c4b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `905b57a44136ccdfd04e373465ce64850a8adab6e06f5d901ce15f806a894108`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/input.com` — successful execution artifact; SHA-256 `ec4dff22f71692f70b96b55d5e9995319be2321fac233ff365c340c283a528c6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/status.json` — successful status record; SHA-256 `c8beb8f304fed2db48986c2cba6e4e6c8099382f1355adf1925470539b2e63ff`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `669ed6f4513a7745394237a86bd2eabad9e4252e58c697c58d0eac3e658addc9`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/formchk.log` — successful execution artifact; SHA-256 `c2bf0ddd36155eb46660b80d4783dec7f04bd6b44f73c5b6d00938a0d9d74bf3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/input.com` — successful execution artifact; SHA-256 `21c2b3c6ad9168f5a3c62aaaf696e72251315164a5424cea142cbfa32d8a9453`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/parsed_observables.json` — successful execution artifact; SHA-256 `57402221922b3f7e15c47ad47665ed5fbc54d7adee8eba006ff6d26db0a0fc6e`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — successful status record; SHA-256 `58318e157bfa21d37b0d34a17eabf4254feaebdce7c26fdcfe0246c2f6c88324`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `34166fea299bd34bcdbffd421e57b766e2006b80092815bf76562cde01e76b4a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `33cfdeadb82c909af04651405d7d895ff8a293c519ec69dec53b4f25e034c4da`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `c1e7fbdfa86d59257788fb37e01a9ae9da6488b30046c9d5fe330c48a391145c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `f59ece2da84227e3b41c5a77f51f25106969632c56d52ea18958cad22baca052`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — successful status record; SHA-256 `64dc8352e841b1359323fb9f950b33b22cd5f64656a09420806adf91f6bb42b9`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `557c8f2e0bc7a357d9ecd985977a5db71d4ce84adbc85951ca21463e65c53ef7`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `eff5d2f9e878513743b63d93a47535ac42a961b1282928cab242eddc4715250c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `63f8b769dff931fb909668c7e7f2420cbbd31933f1dd9c5cc4b31f260489238d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `77fb60eff00791a4014397791bbac9949f1fe4ce3e0e4b771df02205a07dd7d9`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — successful status record; SHA-256 `09658a03da13c278d46fba335ada06a09acd314256bfe4f39aa1813e086d88c8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz` — successful execution artifact; SHA-256 `077990b91ebf098368fe6b58e19c6af278e408fcfec535eb423a067950d352f8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json` — successful execution artifact; SHA-256 `90798969c6862882c3d40347f11b417e20026c3a5c983f82dd25cbdb82d91ee1`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/cubegen_nto_fchk.log` — successful execution artifact; SHA-256 `6205a072b685ea4b5ac5bb745b27cea1a05e8264f0bb3d407275d79d2e66d504`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/cubegen_nto_test.log` — successful execution artifact; SHA-256 `539663156642eeaa8c4e0978bab0212910007d8596477349a9fa6e168117c319`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — successful status record; SHA-256 `3f9260be3e29c0519b3694064abb49df3654d56197444a18e0ad800808edaaf6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `01adb9705bc4a977067d5cf100af5cc496077a3fc9abebf5fc1e469d5fc5fcb9`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json` — successful execution artifact; SHA-256 `a920bd1f346420e393e93da8baebde76727ed022ce516447369b081f18533942`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `85e55a948d43909273059081d6adc9bab41a4f0910f476b1cc61fc296d5ed74a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com` — successful execution artifact; SHA-256 `f5f50711aa2c0a1c1907a3905302292c40a9907cbc48c385b315c8a8645f3268`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/status.json` — successful status record; SHA-256 `1d2e9d8110717aff7c6532c299235aee733d29fc0b847a467512f4e3130227a6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `739dc6d7faa263391083aab6659d9c73edb31a65c6c654e2930ce7b7d5953dfe`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/formchk.log` — successful execution artifact; SHA-256 `25f49324ffb67d992ca9267140206d4333ae79b796e12eafbf464650b4628881`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/input.com` — successful execution artifact; SHA-256 `7441deba5dda3a9ce35b8155c0cdf1a66d96a1aae6c3e0e07f8a85c078bd2e02`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/parsed_observables.json` — successful execution artifact; SHA-256 `dedd0375aeaf410cfcb34f95b2e6003d2bfa55dc0461254cf77fbbfe1ba44cec`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/status.json` — successful status record; SHA-256 `e7085091acf7d33522d20424d95e3a1a9212e23ef0d5f3c3ce9506df4e55d44e`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/Ph_mP_b3lyp_opt_freq_optimized.xyz` — successful execution artifact; SHA-256 `9cac60393be7edd0696303163a39d964845b4a2e6cfdf6c9dc54d63f5e16b6f4`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/collection.json` — successful execution artifact; SHA-256 `5a6841af881a86a881f2d99c56a2471aeb1bc5d605ccaac9033fb7ed687dc692`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/formchk.log` — successful execution artifact; SHA-256 `520e59b82742afa9e5f78288f59e9403f0f24b6398296034aab897df86d43bff`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/input.com` — successful execution artifact; SHA-256 `6ccf1191fa041c3f5c01951d2733ab9db3102c631ae92b293f93945bef8b3e7b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/status.json` — successful status record; SHA-256 `e302363afd02404525f7849137e23a2d833f7698526005f75f31b5beab735431`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/Ph_td10_optimized.xyz` — successful execution artifact; SHA-256 `4f6c220895fce24194c81d06637fe8d7e8b2d34632d1349b641babc7cb007c3b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/collection.json` — successful execution artifact; SHA-256 `b2b4cd4b97b828e4a0925a4e2cc3f8d5d1d714d3968466f4248d48972dae9c4c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/formchk.log` — successful execution artifact; SHA-256 `be3804305fbfdf5e5cf4d87a23846081415f66f33f0bc71a8f3acf72c002ba53`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/input.com` — successful execution artifact; SHA-256 `ac8398b29f2159d41b7624bd5ffba83483e19ed9a4d04ef95be76b9da5c91985`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/status.json` — successful status record; SHA-256 `771e5ed524c26a4bdca4308355c6ea8655beff269ccd2b602d738a3a5cbf9e52`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/Ph_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `1baa2d0ede632447cb05ec64034a46b9ab6fb2131607195ba114f989fdd0019a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/collection.json` — successful execution artifact; SHA-256 `620d306d574af7713fec8255085df2b740031b4ac80b585c03dd651d530a61cd`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `31cf5ba010b4378741275b0779e28797f8fd165f86b4e538f0a155d1eb69aa2c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/input.com` — successful execution artifact; SHA-256 `4b8fc586800642a09fe480bd3918a06e56ff0f8cfc0402e45dc5e8debb6959fe`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/status.json` — successful status record; SHA-256 `6efbc22e1cbaadc0d06da999cafb51c974ee2c612f49fb5db5a338a2b5f78949`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `d8338e928a1cf8742a6c3a580c4c40caf7a893bebbdde5af9d869901e64f9f56`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/formchk.log` — successful execution artifact; SHA-256 `d7fcc2b152a5366d38633f3446a74944b65c2c706b7ffedb288c973586ef0096`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/input.com` — successful execution artifact; SHA-256 `05be873a7e53c2369740a310fb7e47d7a67e7ea74e33ab225f2aca01a247cd93`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/parsed_observables.json` — successful execution artifact; SHA-256 `b559561092b5036c38a997ffc497f2afc6da3e931a9e60f7c5879f04fd343fc4`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — successful status record; SHA-256 `6e60c9805aa71bbea914485e955c55b7d9e5aa152b78a084305a91b92641397d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `3e11f7e7d6e23299dacaa34dc6d66961252c1cf78f178165473955a1d7bddd83`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `cbaf2c3453e0d0dd11883524c78d6f057e92f33ebe9f6b91a93b80678740f940`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `06186b2382b2851ace68250f4c5ccd9b696379815d3a4a717742d1dbf899740c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `601ee34937097e760b7ff5c26f1336fbc880d246a82967a7a39fbceda8c2c12d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — successful status record; SHA-256 `ca7ec0b9dc8b5be8c6dbdbeeb6dc318f9a9ba40d8cb7fcf9fa71665ffd2eee7c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json` — successful execution artifact; SHA-256 `237bad560a434856cdf6214e7d888caa8a7577987377496d1290450f5ed25c79`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log` — successful execution artifact; SHA-256 `08a16b2c77f787f921e38c2bf78316f52abc83c588c1fecb108cd1914c9c1d58`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log` — successful execution artifact; SHA-256 `78703f37aebd92a293ee17ccef8be80ef108c277c4766f11d15c723ccfa6772c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log` — successful execution artifact; SHA-256 `3b47bde58b315ce913518c0c5672479a215ca5ab62b9e858477a943000cdab82`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — successful status record; SHA-256 `559f5cdeb5b8539b2bd43a25335abea196cbbe80c4798e0f5d84f4bb3bc72f99`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz` — successful execution artifact; SHA-256 `c99d2373c7c2795c00c6a60181a80fd6ea4e92665693f588830cc2993ce7f602`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json` — successful execution artifact; SHA-256 `5736681f6fd48f2667a6aa50683d4f9f3f35ca64cfd436c8dadb4b68e95075ca`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log` — successful execution artifact; SHA-256 `6f9cb5a4f0ba6a00266a4b6c32114a9a07067c884497921a439b565ef137c21d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com` — successful execution artifact; SHA-256 `55b4eaf21e7e73fa186f4b12038d492022735d008111ddae2c5a7b9063dce461`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — successful status record; SHA-256 `abeed83ff6abc6785d96df127da685ecab67f2902a047fa21d399e270d82b1c0`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `fd270f5a31d04ecea89e0e3f9215f660deb2a85b73bf94cb661c1ba94c7fe3f7`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json` — successful execution artifact; SHA-256 `15bc7c031ac800d2cc536298146d46b663f11e7c52ff0e2e9f88087b0c8e4a8d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `73ffbb83ab67c413504ce6ee286639f4d1c3defd081106120a48b87125641ac5`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com` — successful execution artifact; SHA-256 `bb998a40ccf02760af3c4cc4fec35e52b8a51c62b767eac21018c1f6f6c30864`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/status.json` — successful status record; SHA-256 `021aed77f92142c01c4c3c655da736c9c2b0af6fd17c8817bb3184fa82f71e30`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — successful execution artifact; SHA-256 `d8338e928a1cf8742a6c3a580c4c40caf7a893bebbdde5af9d869901e64f9f56`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/formchk.log` — successful execution artifact; SHA-256 `3019303e4a7d235ccaf2beadd9cc6a0d3b52c3de695d7bf25e5c6a743fb2daf2`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/input.com` — successful execution artifact; SHA-256 `05be873a7e53c2369740a310fb7e47d7a67e7ea74e33ab225f2aca01a247cd93`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/parsed_observables.json` — successful execution artifact; SHA-256 `fba0973dc3c626cac126c1099feba000f731769b5e81818c3686ec7d080b8771`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/status.json` — successful status record; SHA-256 `53bc6a03aedb18d5a74f70fa03fcacae3cb59d94e290c7416ab11d644769e9fe`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/Py_mP_b3lyp_opt_freq_optimized.xyz` — successful execution artifact; SHA-256 `bdffb62f425ea3df9159987fe03115b391d0d5557a1a43d0c3e9e0cc47eb3e83`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/collection.json` — successful execution artifact; SHA-256 `37f8ff2ebe6a30eefb71c3bedb5e0dc0495baa8b3dfee6dd1ed8726f11c2a54a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/formchk.log` — successful execution artifact; SHA-256 `9d5cae01e625e37f15bfac110509780734e5118350f31bc22321c3823e747d0e`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/input.com` — successful execution artifact; SHA-256 `b54bb6091bc3671c7db7caaff1143ea87306380cbbe716c776c458eb2f9e7145`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/status.json` — successful status record; SHA-256 `b97ae6137ae3027e1b58984449ef9d6b92d2caccb4849439f64391bcdb790fa2`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g_optimized.xyz` — successful execution artifact; SHA-256 `8963f8664285cec639b2294443f3d686be21b18a7764e52411d539f4f5065091`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/collection.json` — successful execution artifact; SHA-256 `15f5781583daf4b131a3c8dba1e1f91645e6c75db50c07757d074908b6410ed2`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/formchk.log` — successful execution artifact; SHA-256 `c3c99a700286f85f6833b0cd7f9f75e2629f6783462e4afc68e3c12e2100a501`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/input.com` — successful execution artifact; SHA-256 `bf456cb8433debc08124186d054beca335533c4ac8bebc80565bd3d3384100b5`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/status.json` — successful status record; SHA-256 `cb4cd9f0d6e9fb8a855428ff97f13af23a7134e8e2a86969d2fa5d08bb0e4b7d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/Py_td10_optimized.xyz` — successful execution artifact; SHA-256 `3485e0dd3ad9aca52bce060bdd529b087867fd54ef48a9929facbfc345b66525`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/collection.json` — successful execution artifact; SHA-256 `42736277b5d6b28242497bbff9f1607abfaa24a198b8ab199b28e760b4aaff62`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/formchk.log` — successful execution artifact; SHA-256 `6d4a1ceeb1b43fe72b64e725a0af9565cfab2cf9971f414f68a402a7bd4eed15`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/input.com` — successful execution artifact; SHA-256 `5dec824dfc906f62fa40fb2c078afab1b695680a01c1079596b9d1b949978c32`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/status.json` — successful status record; SHA-256 `974e33c3de61b97d7d6010b74f3213769ef9142c2e01f2c342b4a02c0f048f98`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/Py_triplet_td10_optimized.xyz` — successful execution artifact; SHA-256 `3a07b9bc96da1cac508a684568e53ea6ecc865a841754abfb008b6cc3b33416f`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/collection.json` — successful execution artifact; SHA-256 `b1a747c96673c3c7dbb635660893329f28bdefe2321c37b836f003af237ff5c9`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/formchk.log` — successful execution artifact; SHA-256 `da456dafae94ed0fb6887579a1d0d59ab88ff77f2fd29204252b77c591c30821`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/input.com` — successful execution artifact; SHA-256 `f8becfe2081856a2b8997f03b775bc6c3578a5595b2b540134ea7b1536c00e16`
+- `docs/verification/group_3/paper_b5c446c7067dd511/native_workspace/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/outputs/execution_jobs/job_1027882383284406a96c8f0832bc6567/status.json` — successful status record; SHA-256 `cf33a135dce21fb9d5da012815dc09bf4534ba12e52bfdd4c0724d7006dce5f8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/native_workspace/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/outputs/execution_jobs/job_1027882383284406a96c8f0832bc6567/collection.json` — successful execution artifact; SHA-256 `74dfe12eb08352700926383101d02bbe765576d798135a6de451688bae884759`
+- `docs/verification/group_3/paper_b5c446c7067dd511/native_workspace/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/outputs/execution_jobs/job_1027882383284406a96c8f0832bc6567/input.com` — successful execution artifact; SHA-256 `4131d221684a052eeabc789bd4dfe3b79176aa8c136d57a4a107f07fbf36e43f`
+- `docs/verification/group_3/paper_b5c446c7067dd511/native_workspace/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/outputs/execution_jobs/job_1027882383284406a96c8f0832bc6567/request.json` — successful execution artifact; SHA-256 `29885aa08f5db6fdf7bf677148f11838c6c095d7aec1e0c9e378e6d9792b887b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/native_workspace/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/outputs/execution_jobs/job_1027882383284406a96c8f0832bc6567/stderr.log` — successful execution artifact; SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+
+## Ordered successful execution steps
+
+Steps are ordered by the recorded `submitted_at`/`started_at` timestamps. Only status records with successful completion and non-failure status are retained, including successful jobs stored under a retry-labelled path; if the historical records do not contain timestamps, lexical path order is used and this limitation remains explicit.
+
+1. `artifacts/gaussian/Ph_mP_b3lyp_opt_freq/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_mP_b3lyp_opt_freq; submitted_at=2026-08-29T16:05:09.828128+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/Ph_mP_b3lyp_opt_freq.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/Ph_mP_b3lyp_opt_freq.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/Ph_mP_b3lyp_opt_freq_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_opt_freq/stderr.log`
+2. `artifacts/gaussian/Na_mP_b3lyp_opt_freq/status.json` — label=group_3 paper_b5c446c7067dd511 Na_mP_b3lyp_opt_freq; submitted_at=2026-08-29T16:05:10.620842+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/Na_mP_b3lyp_opt_freq.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/Na_mP_b3lyp_opt_freq.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/Na_mP_b3lyp_opt_freq_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq/stderr.log`
+3. `artifacts/gaussian/An_mP_b3lyp_opt_freq/status.json` — label=group_3 paper_b5c446c7067dd511 An_mP_b3lyp_opt_freq; submitted_at=2026-08-29T16:05:11.491057+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/An_mP_b3lyp_opt_freq.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/An_mP_b3lyp_opt_freq.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/An_mP_b3lyp_opt_freq_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq/stderr.log`
+4. `artifacts/gaussian/Py_mP_b3lyp_opt_freq/status.json` — label=group_3 paper_b5c446c7067dd511 Py_mP_b3lyp_opt_freq; submitted_at=2026-08-29T16:05:12.408788+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/Py_mP_b3lyp_opt_freq.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/Py_mP_b3lyp_opt_freq.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/Py_mP_b3lyp_opt_freq_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq/stderr.log`
+5. `artifacts/gaussian/Ph_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_td10; submitted_at=2026-08-30T13:46:30.523866+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD(NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/Ph_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/Ph_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/Ph_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_td10/stderr.log`
+6. `artifacts/gaussian/Ph_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_triplet_td10; submitted_at=2026-08-30T13:46:35.826407+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/Ph_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/Ph_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/Ph_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_triplet_td10/stderr.log`
+7. `artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/status.json` — label=group_3 paper_b5c446c7067dd511 Na_mP_b3lyp_opt_freq_unbounded_recovery96g; submitted_at=2026-08-31T08:20:54.956410+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/Na_mP_b3lyp_opt_freq_unbounded_recovery96g.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/Na_mP_b3lyp_opt_freq_unbounded_recovery96g.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/Na_mP_b3lyp_opt_freq_unbounded_recovery96g_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_opt_freq_unbounded_recovery96g/stderr.log`
+8. `artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/status.json` — label=group_3 paper_b5c446c7067dd511 An_mP_b3lyp_opt_freq_unbounded_recovery96g; submitted_at=2026-08-31T08:30:29.266125+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/An_mP_b3lyp_opt_freq_unbounded_recovery96g.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/An_mP_b3lyp_opt_freq_unbounded_recovery96g.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/An_mP_b3lyp_opt_freq_unbounded_recovery96g_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_opt_freq_unbounded_recovery96g/stderr.log`
+9. `artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/status.json` — label=group_3 paper_b5c446c7067dd511 Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g; submitted_at=2026-09-01T11:24:08.138571+00:00; software=gaussian; intent=optimization_frequency; route=#p B3LYP/6-31G(d) Opt Freq Int=UltraFine NoSymm Pop=Full; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_opt_freq_disk_recovery2_unbounded32g/stderr.log`
+10. `artifacts/gaussian/Na_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Na_td10; submitted_at=2026-09-03T16:55:10.961067+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD(NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/Na_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/Na_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/Na_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_td10/stderr.log`
+11. `artifacts/gaussian/Na_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Na_triplet_td10; submitted_at=2026-09-03T16:55:12.308285+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/Na_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/Na_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/Na_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_triplet_td10/stderr.log`
+12. `artifacts/gaussian/An_td10/status.json` — label=group_3 paper_b5c446c7067dd511 An_td10; submitted_at=2026-09-03T16:55:13.630587+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD(NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/An_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/An_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/An_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_td10/stderr.log`
+13. `artifacts/gaussian/An_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 An_triplet_td10; submitted_at=2026-09-03T16:55:14.935363+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/An_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/An_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/An_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_triplet_td10/stderr.log`
+14. `artifacts/gaussian/Py_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Py_td10; submitted_at=2026-09-03T16:55:16.209048+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD(NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/Py_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/Py_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/Py_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_td10/stderr.log`
+15. `artifacts/gaussian/Py_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Py_triplet_td10; submitted_at=2026-09-03T16:55:17.454741+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=Full NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/Py_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/Py_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/Py_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_triplet_td10/stderr.log`
+16. `artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10; submitted_at=2026-09-03T21:04:43.660885+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Singlets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/cubegen_nto_fchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/cubegen_nto_test.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com`
+17. `artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10; submitted_at=2026-09-03T21:04:45.091291+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stderr.log`
+18. `artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10; submitted_at=2026-09-03T21:04:46.158738+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Singlets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stderr.log`
+19. `artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10; submitted_at=2026-09-03T21:04:47.426042+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stderr.log`
+20. `artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — label=group_3 paper_b5c446c7067dd511 An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10; submitted_at=2026-09-03T21:04:48.922216+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Singlets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stderr.log`
+21. `artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10; submitted_at=2026-09-03T21:04:50.135833+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stderr.log`
+22. `artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10; submitted_at=2026-09-03T21:04:51.533673+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Singlets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stderr.log`
+23. `artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/status.json` — label=group_3 paper_b5c446c7067dd511 Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10; submitted_at=2026-09-03T21:04:52.825964+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) TD=(Triplets,NStates=10) Pop=(NTO,SaveNTO,Full) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stderr.log`
+24. `artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded; submitted_at=2026-09-04T03:11:54.196754+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube`
+25. `artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded; submitted_at=2026-09-04T03:11:56.418139+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube`
+26. `artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded; submitted_at=2026-09-04T03:11:58.723922+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube`
+27. `artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded; submitted_at=2026-09-04T03:12:01.157700+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube`
+28. `artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded; submitted_at=2026-09-04T03:12:03.978517+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube`
+29. `artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded; submitted_at=2026-09-04T03:12:06.584399+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube`
+30. `artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded; submitted_at=2026-09-04T03:12:09.213957+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube`
+31. `artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/status.json` — label=group_3 paper_b5c446c7067dd511 Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded; submitted_at=2026-09-04T03:12:11.953145+00:00; software=gaussian; intent=single_point; route=#p B3LYP/6-31G(d,p) Geom=AllCheck ChkBas Guess=(Read,Only) Density=(Check,Transition=1) Pop=(NTO,SaveNTO,Minimal) NoSymm; command=g16 < input.com
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/collection.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_homo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/cubegen_lumo.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube`
+32. `artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/status.json` — label=hpc-job-fb778444-5285-407e-a01b-ad941b746feb
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/stdout.log`
+33. `artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/status.json` — label=hpc-job-16613559-311e-4a9b-99a7-814a73671c24
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log`
+34. `artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/status.json` — label=hpc-job-73f4dd35-cb15-4581-84d3-3822ecadd3b4
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/stdout.log`
+35. `artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/status.json` — label=hpc-job-bcf0fdb4-75ad-42d0-8ec5-c83f96f16f40
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log`
+36. `artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/status.json` — label=hpc-job-2e701fde-f94a-44a9-8aaf-b9424dfef8f3
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log`
+37. `artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/status.json` — label=hpc-job-1803e192-7a63-428a-81fb-dae0a66529fc
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_memory1g_p3_r1/stdout.log`
+38. `artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/status.json` — label=hpc-job-c4be1d6e-1f0f-46bf-816b-1ff77512cfb7
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/stdout.log`
+39. `artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/status.json` — label=hpc-job-7ad102d5-732d-46d3-a4c0-9381010eacb4
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3.fchk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/formchk.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/parsed_observables.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log`
+40. `provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/status.json` — label=provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/source_input.com`
+41. `provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/status.json` — label=provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/source_input.com`
+42. `provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/status.json` — label=provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p6/1/source_input.com`
+43. `provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/status.json` — label=provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/source_input.com`
+44. `provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/status.json` — label=provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/1/source_input.com`
+45. `provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/status.json` — label=provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Ph_mP_b3lyp_memory1g_p3_r1/1/source_input.com`
+46. `provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/status.json` — label=provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry1_p3_auto_retry1_p3/1/source_input.com`
+47. `provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/status.json` — label=provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/status.json
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3.chk`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/exit_code`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/gaussian.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/hpc_stdout.log`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/input.com`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/resource_adjustment.json`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/sha256sums.txt`
+   - output: `docs/verification/group_3/paper_b5c446c7067dd511/provenance/qzcli_hpc/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/1/source_input.com`
+
+## Evaluator alignment
+
+- Key-point IDs: `kp_ar_process_identity, kp_ar_process_coverage, kp_ar_gap_pattern, kp_ar_character`
+- Conclusion IDs: `c_ar_final, c_ar_limits`
+- Scoring-rule IDs: `r_ar_identity, r_ar_coverage, r_ar_gap, r_ar_character, r_ar_final, r_ar_limits`
+- Bound result-field status: **PRESENT**
+- Missing bound fields in the archived group result: `none detected`
+- Fields in an inapplicable submission-schema branch (expected for this result status): `none detected`
+- Submission-schema branch selected for the archived result: `None`
+- Verification-report status: `PASS` (SUCCESS_EVIDENCE_CANDIDATE); any result/report disagreement requires manual semantic review.
+
+This field check is structural only. Semantic evaluator agreement is accepted only where the group report and actual result evidence explicitly support it; evaluator target values were never used to fill missing outputs.
+
+Evaluator rule units/tolerances and result correspondence:
+
+- rule `r_ar_identity` → reference `kp_ar_process_identity`; type=semantic; unit=not recorded; tolerance=not recorded; comparison=expert semantic comparison; evaluator_target_present=False
+- rule `r_ar_coverage` → reference `kp_ar_process_coverage`; type=semantic; unit=not recorded; tolerance=not recorded; comparison=expert semantic comparison; evaluator_target_present=False
+- rule `r_ar_gap` → reference `kp_ar_gap_pattern`; type=semantic; unit=not recorded; tolerance=not recorded; comparison=expert comparison of validated per-molecule gaps, with explicit bounded-failure branch; evaluator_target_present=False
+- rule `r_ar_character` → reference `kp_ar_character`; type=semantic; unit=not recorded; tolerance=not recorded; comparison=expert semantic comparison; evaluator_target_present=False
+- rule `r_ar_final` → reference `c_ar_final`; type=semantic; unit=not recorded; tolerance=not recorded; comparison=expert semantic comparison; evaluator_target_present=False
+- rule `r_ar_limits` → reference `c_ar_limits`; type=semantic; unit=not recorded; tolerance=not recorded; comparison=expert semantic comparison; evaluator_target_present=False
+
+Actual result scalars selected by evaluator bindings:
+
+These values are flattened from the archived group result (not copied from evaluator targets). Failure/retry metadata and large coordinate arrays are omitted; the paths preserve where each reported value came from.
+
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].id` = `"Ph-mP"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].validation_status` = `"validated"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].formula` = `"C34H24N2"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].charge` = `0`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].multiplicity` = `1`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[0].label` = `"S1"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[0].spin` = `"singlet"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[0].energy_eV` = `3.5185`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[0].oscillator_strength` = `0.8089`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[1].label` = `"T1"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[1].spin` = `"triplet"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].states[1].energy_eV` = `2.6345`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].delta_s1_t1` = `0.8839999999999999`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].validation_evidence[0]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].validation_evidence[1]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].validation_evidence[2]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.diagnostic_scope` = `"Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.case` = `"Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.hole_centroid_angstrom[0]` = `0.9304338333745426`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.hole_centroid_angstrom[1]` = `0.28507321122176693`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.hole_centroid_angstrom[2]` = `-2.135862814560315`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.electron_centroid_angstrom[0]` = `-0.09544522050069901`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.electron_centroid_angstrom[1]` = `1.1939787973181808`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.electron_centroid_angstrom[2]` = `0.6187917341449638`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.centroid_separation_angstrom` = `3.076793603789489`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.interpretive_rule` = `"S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.evidence[0]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.s1_nto.evidence[1]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.case` = `"Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.hole_centroid_angstrom[0]` = `0.6337396310632298`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.hole_centroid_angstrom[1]` = `0.42045708910685087`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.hole_centroid_angstrom[2]` = `-1.4340661356039397`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.electron_centroid_angstrom[0]` = `0.20632094598096623`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.electron_centroid_angstrom[1]` = `0.4820076197744878`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.electron_centroid_angstrom[2]` = `-0.5438056993918231`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.centroid_separation_angstrom` = `0.9894639177188358`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.interpretive_rule` = `"S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.evidence[0]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.t1_nto.evidence[1]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.mixed_LE_CT_support` = `true`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].state_character.interpretation` = `"S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].convergence_evidence` = `"Strict B3LYP/6-31G(d,p) parent Opt/Freq normal termination with zero imaginary modes; matched singlet/triplet NStates=10 TD jobs normal termination."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].structure_evidence` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].state` = `3`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].energy_eV` = `3.3303`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].delta_from_S1_eV` = `-0.18820000000000014`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].from_orbital` = `121`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].to_orbital` = `123`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].coefficient` = `0.57164`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[0].dominant_configuration[0].weight` = `0.32677228960000004`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].state` = `4`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].energy_eV` = `3.4249`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].delta_from_S1_eV` = `-0.0935999999999999`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].from_orbital` = `119`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].to_orbital` = `122`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].coefficient` = `0.31209`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[1].dominant_configuration[0].weight` = `0.09740016809999999`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].state` = `5`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].energy_eV` = `3.6143`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].delta_from_S1_eV` = `0.09580000000000011`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].from_orbital` = `121`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].to_orbital` = `124`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].coefficient` = `0.24664`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[2].dominant_configuration[0].weight` = `0.0608312896`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].state` = `6`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].energy_eV` = `3.6423`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].delta_from_S1_eV` = `0.12380000000000013`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].from_orbital` = `115`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].to_orbital` = `124`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].coefficient` = `0.27483`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[3].dominant_configuration[0].weight` = `0.0755315289`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].state` = `7`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].energy_eV` = `3.8125`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].delta_from_S1_eV` = `0.29400000000000004`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].from_orbital` = `120`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].to_orbital` = `122`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].coefficient` = `0.43144`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].higher_triplet_proximity[4].dominant_configuration[0].weight` = `0.1861404736`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[0].hot_channel_assessment` = `"higher triplet roots within 0.30 eV of S1 provide an energetically accessible hot-triplet channel in this isolated-molecule calculation"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].id` = `"Na-mP"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].validation_status` = `"validated"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].formula` = `"C38H26N2"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].charge` = `0`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].multiplicity` = `1`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[0].label` = `"S1"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[0].spin` = `"singlet"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[0].energy_eV` = `3.4546`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[0].oscillator_strength` = `0.7048`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[1].label` = `"T1"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[1].spin` = `"triplet"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].states[1].energy_eV` = `2.5681`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].delta_s1_t1` = `0.8865000000000003`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].validation_evidence[0]` = `"artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].validation_evidence[1]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].validation_evidence[2]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.diagnostic_scope` = `"Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.case` = `"Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.hole_centroid_angstrom[0]` = `-0.03132944053428793`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.hole_centroid_angstrom[1]` = `-1.915847777172295`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.hole_centroid_angstrom[2]` = `1.2052337123665182`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.electron_centroid_angstrom[0]` = `1.5137035388250737`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.electron_centroid_angstrom[1]` = `1.8997127282226374`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.electron_centroid_angstrom[2]` = `-0.5185581497050828`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.centroid_separation_angstrom` = `4.462856401608949`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.interpretive_rule` = `"S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.evidence[0]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.s1_nto.evidence[1]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.case` = `"Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.hole_centroid_angstrom[0]` = `2.2309328725356803`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.hole_centroid_angstrom[1]` = `3.7011840010889974`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.hole_centroid_angstrom[2]` = `-1.203744099926054`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.electron_centroid_angstrom[0]` = `2.3595431927353583`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.electron_centroid_angstrom[1]` = `4.030823029860859`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.electron_centroid_angstrom[2]` = `-1.371288182038535`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.centroid_separation_angstrom` = `0.3915016260533715`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.interpretive_rule` = `"S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.evidence[0]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.t1_nto.evidence[1]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.mixed_LE_CT_support` = `true`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].state_character.interpretation` = `"S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].convergence_evidence` = `"Strict B3LYP/6-31G(d,p) parent Opt/Freq normal termination with zero imaginary modes; matched singlet/triplet NStates=10 TD jobs normal termination."`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].structure_evidence` = `"artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].state` = `4`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].energy_eV` = `3.3376`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].delta_from_S1_eV` = `-0.11699999999999999`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].from_orbital` = `134`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].to_orbital` = `137`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].coefficient` = `0.5645`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[0].dominant_configuration[0].weight` = `0.31866025`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].state` = `5`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].energy_eV` = `3.5199`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].delta_from_S1_eV` = `0.06529999999999969`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].from_orbital` = `132`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].from_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].direction` = `"->"`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].to_orbital` = `137`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].to_spin` = `null`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].coefficient` = `0.3348`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[1].dominant_configuration[0].weight` = `0.11209103999999999`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[2].state` = `6`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[2].energy_eV` = `3.64`
+- rule `r_ar_identity` / reference `kp_ar_process_identity` / field `$.molecules` / result path `$.molecules[1].higher_triplet_proximity[2].delta_from_S1_eV` = `0.1854`
+- rule `r_ar_coverage` / reference `kp_ar_process_coverage` / field `$.status` / result path `$.status` = `"success"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[0].id` = `"mixed_LE_CT"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[0].status` = `"supported"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[0].basis` = `"All four strict S1 NTO pairs are spatially separated by the reported centroid diagnostic while compact T1 pairs retain local-excitation character; no single diagnostic is treated as a fragment CT percentage."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[1].id` = `"pure_LE_only"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[1].status` = `"disfavored"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[1].basis` = `"The S1 centroid separations and donor/bridge-to-acceptor transition configurations are inconsistent with a purely local-only assignment, subject to the isolated-molecule and threshold limitations."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[2].id` = `"higher_triplet_hot_access"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[2].status` = `"supported_as_energy_consistency"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.hypotheses` / result path `$.hypotheses[2].basis` = `"For each molecule, at least one Tn (n>1) is within 0.30 eV of S1; this is an energetic accessibility screen, not an SOC/rate calculation."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.diagnostic_scope` = `"Saved S1/T1 NTO pair generated from the strict 6-31G(d,p) TD checkpoints; centroid distances are a spatial diagnostic, not a fragment CT percentage."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.case` = `"Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[0]` = `0.9304338333745426`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[1]` = `0.28507321122176693`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[2]` = `-2.135862814560315`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[0]` = `-0.09544522050069901`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[1]` = `1.1939787973181808`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[2]` = `0.6187917341449638`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.centroid_separation_angstrom` = `3.076793603789489`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.interpretive_rule` = `"S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.evidence[0]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.evidence[1]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.case` = `"Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[0]` = `0.6337396310632298`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[1]` = `0.42045708910685087`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[2]` = `-1.4340661356039397`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[0]` = `0.20632094598096623`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[1]` = `0.4820076197744878`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[2]` = `-0.5438056993918231`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.centroid_separation_angstrom` = `0.9894639177188358`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.interpretive_rule` = `"S1 separation >=2.0 Å is a transparent CT-like spatial-separation screen; T1 separation is reported without a universal LE/CT cutoff."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.evidence[0]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.evidence[1]` = `"artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.mixed_LE_CT_support` = `true`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.interpretation` = `"S1 has spatially separated hole/electron densities consistent with a CT-like component, while T1 remains more compact; together with the shared pi-system this supports a mixed LE/CT description within the disclosed screening boundary."`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.case` = `"Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[0]` = `-0.03132944053428793`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[1]` = `-1.915847777172295`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[2]` = `1.2052337123665182`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[0]` = `1.5137035388250737`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[1]` = `1.8997127282226374`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[2]` = `-0.5185581497050828`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.centroid_separation_angstrom` = `4.462856401608949`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.evidence[0]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.evidence[1]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.case` = `"Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[0]` = `2.2309328725356803`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[1]` = `3.7011840010889974`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[2]` = `-1.203744099926054`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[0]` = `2.3595431927353583`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[1]` = `4.030823029860859`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[2]` = `-1.371288182038535`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.centroid_separation_angstrom` = `0.3915016260533715`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.evidence[0]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.evidence[1]` = `"artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.case` = `"An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[0]` = `-0.6952138932814474`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[1]` = `1.713622822924018`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[2]` = `-0.2961370739747486`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[0]` = `-4.069763903832662`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[1]` = `3.987030559013329`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[2]` = `-0.6866316514009646`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.centroid_separation_angstrom` = `4.087597891576569`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.evidence[0]` = `"artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.evidence[1]` = `"artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.case` = `"An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[0]` = `-4.3111451014949775`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[1]` = `4.191765022322182`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.hole_centroid_angstrom[2]` = `-0.7021457668713924`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[0]` = `-4.3362811046156935`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[1]` = `4.199995381058827`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.electron_centroid_angstrom[2]` = `-0.7114583705688943`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.centroid_separation_angstrom` = `0.028040721200519016`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.evidence[0]` = `"artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.t1_nto.evidence[1]` = `"artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.case` = `"Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded"`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[0]` = `1.6102228267385081`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[1]` = `0.5622548337774593`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.hole_centroid_angstrom[2]` = `0.8643731283392603`
+- rule `r_ar_character` / reference `kp_ar_character` / field `$.molecules[].state_character` / result path `$.molecules[].state_character.s1_nto.electron_centroid_angstrom[0]` = `-2.4324646737025755`
+- rule `r_ar_final` / reference `c_ar_final` / field `$.conclusion` / result path `$.conclusion` = `"Across all four fixed neutral singlets, the strict author-level calculations reproduce the source-supported gap pattern (An-mP has the largest S1−T1 gap) and provide NTO/transition-state diagnostics consistent with mixed LE/CT character...."`
+- rule `r_ar_limits` / reference `c_ar_limits` / field `$.limitations` / result path `$.limitations` = `"Gas-phase isolated single conformer; NTO centroid separation is a transparent spatial screen and not the SI fragment CT/LE percentage; no explicit SOC, nonadiabatic dynamics, aggregate/solid-state effects or experimental photophysical ra..."`
+
+## Historical final-assembly review flag
+
+- Previous assembly decision: **EQUIVALENT_SAFE**
+- Previous review reason: Only wording/heading/schema-reference normalization; no input/evaluator semantic change.
+- Files changed in that review: `agent_input/task.md, package_manifest.json`
+- Files deleted in that review: `none recorded`
+
+This historical flag is retained as a review trail. It is not silently converted to a current PASS; current input/evaluator checks and any required replay remain authoritative.
+
+## Agent-visible input identity and boundaries
+
+Only files under `agent_input/data` are listed here. Hashes establish the exact public input snapshot used by the final package; boundary fields are copied only when explicitly present in the input payload or XYZ comment. Missing fields are reported as not recorded rather than inferred.
+
+Declared public data:
+
+- `data/inputs` — Source-defined molecular identities, charge, multiplicity and fragment boundary.
+
+Public input files and hashes:
+
+- `agent_input/data/inputs/molecular_identities.json` — SHA-256 `47349e37a86e852df6c3c1be11ed7a3398e86c972f83ca417c520ef8f8d7fe78`; size=1696 bytes; explicit_boundary_fields={"$.molecules[0].formula": "C34H24N2", "$.molecules[1].formula": "C38H26N2", "$.molecules[2].formula": "C42H28N2", "$.molecules[3].formula": "C44H28N2", "$.state_boundary.charge": 0, "$.state_boundary.multiplicity": 1}
+
+## Input and visibility audit
+
+- Declared data missing: `none`
+- JSON/XYZ parse errors: `none`
+- XYZ rows with non-element labels: `none`
+- Absolute agent references: `none`
+- Potential high-risk data markers: `none detected`
+- Exact evaluator-target/expected literals in agent-visible files: `none detected`
+- SI provenance markers requiring semantic review: `none`
+
+## Evidence files
+
+- `docs/verification/group_3/paper_b5c446c7067dd511/verification_report.md` — verification record; SHA-256 `d7049b6ab9d941028f4fd76a05d340e0ebd8e24907d56e6537e6ab176c0cddcf`
+- `docs/verification/group_3/paper_b5c446c7067dd511/report/results.json` — verification record; SHA-256 `8b72beb20cb4d08394f8149c96c99309b95810fa40e245066352b01ba0954ab3`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `b8732ffac99a6e8c36f145a7d8c9886d53c420aac742ff0b1e3a9fbf70d6c0a8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `b168b3c6d07ebb3e9493d1f59e8eb2fbd04bab8fd340cb03a57d1a180b5fc171`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `b95455fb7184caa9b3548ef461c0cb134fee22dce37d20d798d08da77d530f0a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `21cacccc287e05fcbfe00c448f6cf68304f33d4f0de8c8c80a052572db833cba`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log` — referenced successful evidence; SHA-256 `e7f0ec53d19fd8bc7912af5aecd1752bbf8d4fdedb331b02b845337b01376463`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log` — referenced successful evidence; SHA-256 `82faeda26a48b2b1139cf2a84f360994d97137d81b061a03627d9460715e8940`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/An_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — referenced successful evidence; SHA-256 `5a6235af83f63fbf938c981f7131e4b763d38ebce32ef11f6f259449d1049cad`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/An_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log` — referenced successful evidence; SHA-256 `c8f09d2f497fd64b67afc6c1ba2fbe6ebd3ad517b2f338a92f4465b38a7ac6e6`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `68e91170dff206936c79ea6b7c60d03b9f6ee11a885dda2ea526a6fb4b23dd23`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `8ff214baf4585c1429991418aa04c7801003847e39a4174e770d496c4232b1ea`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `52ad40df7b09ca2b1cc823a5d943cf95404fd36dccf48b9f97e9fd3ffe385072`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `eac85fe0e2b1b02123995a76429b2e64772fea3ffbaf032c0f722ecc378e012b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log` — referenced successful evidence; SHA-256 `95148e6842f81830eac398ce8f3477c7267390cab3143d5b337cb89af3dcfdff`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log` — referenced successful evidence; SHA-256 `12fccf4cce03be98a5c0b4cd021ca4ced8ebcab6f0639bc50772740b837ddaea`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Na_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — referenced successful evidence; SHA-256 `0c1c87632a7934eb60d43ea7865a338b0749c2434b65a45eb29341fafbd04b8a`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Na_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log` — referenced successful evidence; SHA-256 `35e77f05dbcc8520b6b14bf202ba10f5b303aaa4c6838dceeb0d82e48b0a1f72`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — referenced successful evidence; SHA-256 `669ed6f4513a7745394237a86bd2eabad9e4252e58c697c58d0eac3e658addc9`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_p3_auto_retry3_p3/stdout.log` — referenced successful evidence; SHA-256 `1e6e87d6839f17cefcbcda5aa68c90d28ac72450260b9ca962055b2b144fef5c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `3904d1e30c8694fd5e7e8c65b42610f93085bbb679693de0728890ebf9ecd6e0`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `83b4265515d03199a8c2fc425c46a04eb7e3f3b60dd9bee49d81a901e9f6a4f2`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `4aa10548b7d8e86ea219094d357f195120e13aac0d329c8b90f22f01a1864e43`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `06441a64482c0e005d9d45b25d6fbb8f13b9cb7746f4a5611500a7486c6766f8`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log` — referenced successful evidence; SHA-256 `24c68cd90054319e9668d9d4771700b59e4db4bafd167628164909f59840d379`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Ph_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log` — referenced successful evidence; SHA-256 `63c9bb9d82e0eab8be7d0bef40dc4375b0a41d452266ea5a5d56dc5717e516f1`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `05a058d82fa0425ad5d64d0a6b5fd20fe10016fb66e628d44e0e0f86bfdaceca`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_s1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `e8bc88f0407d731051a5fc09789878d4b6f084a83d2797ea5199f7f26d33ff7e`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_homo.cube` — referenced successful evidence; SHA-256 `81399eaa0eb244bef0074c1c33de41d4be25a96d54dc83aa3b0c51c6bfe17948`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_t1_nto_post_unbounded/nto_lumo.cube` — referenced successful evidence; SHA-256 `0245fc30fe55d9c643bffd3c52fb0a87d4606033bb56d9eab172aa7f2e2c338b`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_td10/stdout.log` — referenced successful evidence; SHA-256 `d466cd7591c914f0f245c5acd4fb4de8ffe41c7af23c50589232a3cfbb62c28c`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_triplet_td10/stdout.log` — referenced successful evidence; SHA-256 `7feef6530e251f94de2c9c207e021ac734c009c2a5b6a9387b07331ca30fc06d`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/Py_mP_b3lyp_631gdp_opt_freq_hpc20_p3_optimized.xyz` — referenced successful evidence; SHA-256 `d8338e928a1cf8742a6c3a580c4c40caf7a893bebbdde5af9d869901e64f9f56`
+- `docs/verification/group_3/paper_b5c446c7067dd511/artifacts/gaussian/Py_mP_b3lyp_memory1g_p3_r1_auto_retry1_p3/stdout.log` — referenced successful evidence; SHA-256 `439a87c471f51371511febee9ddd36e1cb7df5329a6f3d02eaf30602c1173930`
+
+## Exclusion policy
+
+Failed or explicitly retry-status, migration-interrupted, queued/running, and evaluator-target-only entries were omitted; a retry-labelled path with an explicit successful terminal status is retained, while omitted entries are not evidence of a successful computation.
+
+The successful chain archives author-route verification, which may use evaluator-private author endpoints or TS guesses. It does not prove independent discovery from public inputs. A changed public starter alone is not a task/evaluator mismatch under the accepted verification policy; new chemistry, scoring targets or missing essential inputs still require separate review.

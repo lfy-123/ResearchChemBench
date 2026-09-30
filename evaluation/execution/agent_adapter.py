@@ -22,6 +22,32 @@ from ..settings import (
 
 
 class AgentAdapterMixin:
+    def capture_provider_event(self, line: str) -> dict:
+        try:
+            event = json.loads(line)
+        except (ValueError, TypeError):
+            return {}
+        if not isinstance(event, dict): return {}
+        if self.agent.get("kind") == "external":
+            from ..agent_plugins.protocol import normalize_external_event
+            return normalize_external_event(event, run_id=self.run_id) or {}
+        if event.get("type") == "thread.started":
+            value = event.get("thread_id")
+            if isinstance(value, str) and value:
+                if self._resume_session_id and value != self._resume_session_id:
+                    from .recovery import RunRecoveryError
+                    raise RunRecoveryError("provider_resumed_a_different_session")
+                self._resume_session_id = value
+                if self.recovery_enabled:
+                    self._persist_run_manifest(run_state="running", provider_session_id=value)
+        return event
+
+    def capture_provider_session_id(self) -> str | None:
+        if self.output_path.is_file():
+            for line in self.output_path.read_text(encoding="utf-8", errors="replace").splitlines():
+                self.capture_provider_event(line)
+        return self._resume_session_id
+
     def _runtime_pythonpath(self) -> str:
         values = [str(PROJECT_ROOT)]
         existing = os.environ.get("PYTHONPATH", "")
@@ -70,6 +96,20 @@ class AgentAdapterMixin:
                 self.job_failure_tail_chars
             ),
         }
+        if self.recovery_enabled or self.agent.get("kind") == "external":
+            values["RESEARCHCHEMBENCH_RECOVERY_ENABLED"] = "1"
+        # Omit the new variable for restored legacy manifests to preserve their
+        # frozen MCP configuration hash; legacy is the toolbox's default.
+        if self.electronic_state_policy != "legacy":
+            values["RESEARCHCHEMBENCH_ELECTRONIC_STATE_POLICY"] = self.electronic_state_policy
+        if self.recovery_enabled or self.agent.get("kind") == "external":
+            values["RCB_AGENT_RUN_TOKEN"] = hashlib.sha256((str(self.workspace.resolve()) + self.run_id).encode()).hexdigest()
+            values["RESEARCHCHEMBENCH_RUN_DEADLINE"] = str(self.deadline_at or "")
+            from chemistry_toolbox.src.recovery_io import control_directory
+            import socket
+            values["RESEARCHCHEMBENCH_GLOBAL_RESOURCE_ALLOCATION_ROOT"] = os.environ.get(
+                "RESEARCHCHEMBENCH_GLOBAL_RESOURCE_ALLOCATION_ROOT",
+                str(control_directory(self.workspace, self.run_id).parent / ("host_" + socket.gethostname())))
         if self.execution_mode == "distributed":
             for name in (
                 "RCB_DISTRIBUTED_TRANSPORT",
@@ -86,6 +126,12 @@ class AgentAdapterMixin:
                     values[name] = os.environ[name]
         if extra:
             values.update(extra)
+        if self.feedback_schema_version != 1:
+            values["RESEARCHCHEMBENCH_FEEDBACK_SCHEMA_VERSION"] = str(self.feedback_schema_version)
+        if self.native_input_validation_policy != "legacy":
+            values["RESEARCHCHEMBENCH_NATIVE_INPUT_VALIDATION_POLICY"] = self.native_input_validation_policy
+        if self.model_wait_strategy == "host_event_wait":
+            values["RESEARCHCHEMBENCH_JOB_WAIT_MODE"] = "event"
         return values
 
     def _mcp_server_specs(self) -> list[dict[str, Any]]:
@@ -95,16 +141,50 @@ class AgentAdapterMixin:
             item["environment"] = self._mcp_environment(
                 dict(spec.get("environment") or {})
             )
+            if self.agent.get("kind") == "codex":
+                # The evaluator authorizes its own scoped toolbox for unattended
+                # runs. Codex's global `never` policy otherwise rejects MCP
+                # calls that would ask for approval. Include this server policy
+                # in the frozen MCP hash so restore cannot silently change it.
+                item["default_tools_approval_mode"] = "approve"
             values.append(item)
+        if self.model_wait_strategy == "host_event_wait":
+            original = values[0]
+            original["disabled_tools"] = ["wait_execution_jobs", "wait_execution_events"]
+            wait_spec = {**original, "name": "chemistry_wait", "command": [*original["command"], "--wait-only"]}
+            wait_spec.pop("disabled_tools", None)
+            values.append(wait_spec)
         return values
 
     def _agent_environment(self) -> dict[str, str]:
         """Build child environment without exposing benchmark judge credentials."""
 
+        if self.agent.get("kind") == "external":
+            from ..agent_plugins.external import build_external_environment
+            return build_external_environment(self, self.agent)
         env = os.environ.copy()
         env.pop("JUDGE_API_KEY", None)
         env.update(self._mcp_environment())
         env["PYTHONUNBUFFERED"] = "1"
+        # Git discovery must stop at the run workspace, also on session resume.
+        # This is a discovery boundary, not a filesystem access sandbox.
+        ceilings = [value for value in env.get("GIT_CEILING_DIRECTORIES", "").split(os.pathsep) if value]
+        env["GIT_CEILING_DIRECTORIES"] = os.pathsep.join(dict.fromkeys(
+            [*ceilings, str(self.workspace.resolve()), str(self.workspace.resolve().parent)]))
+        for key in ("GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES"):
+            env.pop(key, None)
+        if self.agent.get("kind") == "codex":
+            # Keep provider session records inside the run so an exact resume
+            # cannot accidentally select an operator's unrelated ~/.codex
+            # conversation. Authentication/model overrides are still supplied
+            # by the configured adapter and are never written to the manifest.
+            from .codex_history import session_home
+            from .recovery import runner_store
+            codex_home = session_home(runner_store(self))
+            codex_home.mkdir(parents=True, exist_ok=True)
+            env["CODEX_HOME"] = str(codex_home.resolve())
+            if os.environ.get("RCB_CODEX_API_KEY"):
+                env["RCB_CODEX_API_KEY"] = os.environ["RCB_CODEX_API_KEY"]
         if self.agent.get("kind") == "opencode":
             runtime_root = Path(
                 os.environ.get(
@@ -248,6 +328,9 @@ class AgentAdapterMixin:
 
     def build_agent_argv(self) -> list[str]:
         kind = self.agent.get("kind")
+        if kind == "external":
+            from ..agent_plugins.external import build_external_argv
+            return build_external_argv(self.agent, self.workspace / "_agent_protocol/request.json")
         executable = self.agent.get("executable", "")
         prompt = self.instructions_path.read_text(encoding="utf-8")
         server_specs = self._mcp_server_specs()
@@ -267,19 +350,47 @@ class AgentAdapterMixin:
             argv = [
                 executable,
                 "exec",
-                "--ignore-user-config",
-                "--skip-git-repo-check",
-                "-C",
-                str(self.workspace.resolve()),
-                "--sandbox",
-                "workspace-write",
-                "--json",
-                "--output-last-message",
-                str(self.final_message_path.resolve()),
             ]
+            if self._resume_session_id:
+                # Codex's resume command accepts an explicit session ID.  Do
+                # not use --last: the benchmark must never resume an operator's
+                # unrelated conversation.
+                argv.append("resume")
+                argv.append(str(self._resume_session_id))
+            argv.extend(["--ignore-user-config", "--skip-git-repo-check", "--json"])
+            settings = {
+                "model": self.codex_model, "model_reasoning_effort": self.codex_reasoning_effort,
+                "model_provider": "rcb", "model_providers.rcb.name": "ResearchChemBench",
+                "model_providers.rcb.base_url": self.codex_base_url,
+                "model_providers.rcb.env_key": "RCB_CODEX_API_KEY",
+                "model_providers.rcb.wire_api": "responses",
+                "sandbox_mode": "workspace-write", "approval_policy": "never",
+                "sandbox_workspace_write.network_access": True,
+            }
+            if self.model_wait_strategy == "host_event_wait":
+                settings["features.code_mode.direct_only_tool_namespaces"] = ["mcp__chemistry_wait"]
+            for name, value in settings.items():
+                argv.extend(["-c", name + "=" + json.dumps(value)])
+            if not self._resume_session_id:
+                argv.extend(
+                    [
+                        "-C",
+                        str(self.workspace.resolve()),
+                        "--sandbox",
+                        "workspace-write",
+                    ]
+                )
+            argv.extend(
+                [
+                    "--output-last-message",
+                    str(self.final_message_path.resolve()),
+                ]
+            )
             for spec in server_specs:
                 name = spec["name"]
                 command = spec["command"]
+                if spec.get("disabled_tools"):
+                    argv.extend(["-c", f"mcp_servers.{name}.disabled_tools=" + json.dumps(spec["disabled_tools"])])
                 argv.extend(
                     [
                         "-c",
@@ -288,6 +399,9 @@ class AgentAdapterMixin:
                         f"mcp_servers.{name}.args={json.dumps(command[1:])}",
                         "-c",
                         f"mcp_servers.{name}.required=true",
+                        "-c",
+                        f"mcp_servers.{name}.default_tools_approval_mode="
+                        + self._toml_string(spec["default_tools_approval_mode"]),
                         "-c",
                         f"mcp_servers.{name}.startup_timeout_sec=60",
                         "-c",
@@ -304,7 +418,7 @@ class AgentAdapterMixin:
                             f"mcp_servers.{name}.env.{key}={self._toml_string(value)}",
                         ]
                     )
-            argv.append(prompt)
+            argv.append((self._recovery_notice or "Continue the original run.") if self._resume_session_id else prompt)
             return argv
 
         if kind == "claude":

@@ -8,10 +8,10 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 
 | 层级 | 默认值 | 脚本参数 | 智能体能否修改 |
 |---|---:|---|---|
-| 快速/数据 Action | 240秒 | `--fast-action-timeout-seconds` | 否 |
-| 计算 Action、native job、analysis program | 10800秒 | `--compute-action-timeout-seconds` | 否 |
-| MCP单次工具调用 | 14000秒 | `--mcp-tool-timeout-seconds` | 否 |
-| 单个Agent任务总时间 | 14400秒 | `--timeout-seconds` | 否 |
+| 快速/数据 Action | 86400秒（24小时） | `--fast-action-timeout-seconds` | 否 |
+| 计算 Action、native job、analysis program | 86400秒（24小时） | `--compute-action-timeout-seconds` | 否 |
+| MCP单次工具调用 | 86700秒 | `--mcp-tool-timeout-seconds` | 否 |
+| 单个Agent任务总时间 | 90000秒 | `--timeout-seconds` | 否 |
 
 计算类包括ORCA、Gaussian、CREST、xTB、VASP、QE、GPAW、结构优化、频率、TS、IRC、反应路径、电子密度、热化学、native software job和Agent编写的analysis program。
 
@@ -22,13 +22,13 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 推荐保持：
 
 ```text
-快速Action timeout < 计算Action timeout < MCP timeout < Agent任务总timeout
+快速Action timeout <= 计算Action timeout < MCP timeout < Agent任务总timeout
 ```
 
 默认关系为：
 
 ```text
-240 < 10800 < 14000 < 14400
+86400 = 86400 < 86700 < 90000
 ```
 
 `submit_evaluation.sh` 会检查：
@@ -36,7 +36,7 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 - 快速Action timeout不能超过计算Action timeout；
 - MCP timeout必须大于计算Action timeout和作业等待心跳时间。
 
-10800秒只是计算类默认值，不是硬上限。人工可以通过脚本增大或减小它；相应地必须把MCP和Agent总timeout设置得更长。
+86400秒是所有 Action/作业的默认 walltime 上限。人工可以通过脚本覆盖；相应地必须保证 MCP 和 Agent 总 timeout 更长。Gaussian 原生作业仍可由评估器通过无界软件策略明确设为无 walltime 截断。
 
 ### native/analysis作业的稳定等待
 
@@ -64,7 +64,7 @@ timeout 是评测环境统一规定的资源预算，不再由智能体设置。
 ```bash
 bash scripts/submit_evaluation.sh submit \
   --job-event-settle-seconds 90 \
-  --mcp-tool-timeout-seconds 14000 \
+  --mcp-tool-timeout-seconds 86700 \
   Task_A
 ```
 
@@ -370,10 +370,10 @@ bash scripts/submit_evaluation.sh submit \
 
 ```bash
 bash scripts/submit_evaluation.sh submit \
-  --fast-action-timeout-seconds 60 \
-  --compute-action-timeout-seconds 10800 \
-  --mcp-tool-timeout-seconds 14000 \
-  --timeout-seconds 14400 \
+  --fast-action-timeout-seconds 86400 \
+  --compute-action-timeout-seconds 86400 \
+  --mcp-tool-timeout-seconds 86700 \
+  --timeout-seconds 90000 \
   Task_A
 ```
 
@@ -431,10 +431,10 @@ bash scripts/submit_evaluation.sh submit \
 | `--agent NAME` | `opencode` | Agent框架预设 |
 | `--model MODEL` | `deepseek-v4-flash` | 执行任务的模型 |
 | `--judge-model MODEL` | 与Agent模型相同 | Judge模型 |
-| `--timeout-seconds N` | `14400` | 每个Agent任务的总walltime |
-| `--compute-action-timeout-seconds N` | `10800` | 所有计算Action和计算作业的固定timeout |
-| `--fast-action-timeout-seconds N` | `240` | 所有快速/数据Action的固定timeout |
-| `--mcp-tool-timeout-seconds N` | `14000` | MCP客户端等待单次工具调用的最长时间 |
+| `--timeout-seconds N` | `90000` | 每个Agent任务的总walltime |
+| `--compute-action-timeout-seconds N` | `86400` | 所有计算Action和计算作业的固定walltime |
+| `--fast-action-timeout-seconds N` | `86400` | 所有快速/数据Action的固定walltime |
+| `--mcp-tool-timeout-seconds N` | `86700` | MCP客户端等待单次工具调用的最长时间 |
 | `--available-cpu-cores N` | `48` | 每个任务的CPU核数预算 |
 | `--available-memory-mb N` | `204800` | 每个任务的内存预算，单位MiB |
 | `--available-gpu-count N` | `0` | 每个任务的GPU数量预算 |
@@ -530,7 +530,7 @@ workspaces/submissions/<UTC>/
 
 ## 7. 常见问题
 
-### timeout设置为10800秒，简单Action会等待10800秒吗？
+### timeout设置为86400秒，简单Action会等待86400秒吗？
 
 不会。timeout是上限，不是固定执行时间。10秒完成的Action仍会在10秒左右返回。
 
@@ -542,9 +542,9 @@ timeout属于benchmark资源预算。统一设置可以保证不同模型处在�
 
 不能。错误输入、SCF不收敛、错误方法或软件故障仍可能失败。较大timeout只避免正常长计算被过早终止。
 
-### 为什么数据Action不也设置为7200秒？
+### 数据Action是否也是24小时walltime？
 
-正常数据请求不会因为60秒上限而变慢；如果远程服务卡死，短timeout可以避免一次网络请求占据整个评测任务。
+是。所有公开Action的评估器walltime默认统一为86400秒。数据后端内部的网络连接/读取超时仍保持较短，它们是外部服务故障保护，不是Action的`walltime_seconds`。
 
 ### 如何查看某次运行实际使用的策略？
 

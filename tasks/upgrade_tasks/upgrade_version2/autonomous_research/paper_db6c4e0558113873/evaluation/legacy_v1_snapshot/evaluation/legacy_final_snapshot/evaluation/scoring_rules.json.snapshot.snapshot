@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "rules": [
+    {
+      "rule_id": "r_proc",
+      "reference_id": "kp_proc_minima",
+      "type": "condition",
+      "expected": "Both named states have explicit minimum validation and C2-C3-C4 atom mapping.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].outcome",
+          "$.states[*].evidence"
+        ],
+        "comparison": "expert check of both named state records"
+      }
+    },
+    {
+      "rule_id": "r_energy",
+      "reference_id": "kp_energy",
+      "type": "numeric",
+      "target": 2.3,
+      "unit": "kcal/mol",
+      "tolerance": 1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.delta_g_kcal_mol"
+        ],
+        "comparison": "absolute difference; sign anti minus syn"
+      }
+    },
+    {
+      "rule_id": "r_angle_syn",
+      "reference_id": "kp_angle",
+      "type": "numeric",
+      "target": 123.7,
+      "unit": "degrees",
+      "tolerance": 3,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].angle_deg"
+        ],
+        "comparison": "object-identified comparison for syn_syn_Cu_Int_I_6b"
+      }
+    },
+    {
+      "rule_id": "r_angle_anti",
+      "reference_id": "kp_angle",
+      "type": "numeric",
+      "target": 129.7,
+      "unit": "degrees",
+      "tolerance": 3,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].angle_deg"
+        ],
+        "comparison": "object-identified comparison for syn_anti_Cu_Int_I_6b"
+      }
+    },
+    {
+      "rule_id": "r_conc_stability",
+      "reference_id": "c_final_stability",
+      "type": "semantic",
+      "expected": "The comparable solution-phase Gibbs energies give syn_syn lower than syn_anti by about 2.3 kcal/mol under the specified primary protocol.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_conc_distortion",
+      "reference_id": "c_final_distortion",
+      "type": "semantic",
+      "expected": "The mapped C2-C3-C4 angle is wider in syn_anti, and the actual geometry comparison supports the angular-distortion interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -13,3 +13,5 @@ Choose and justify a reproducible electronic-structure route, optimize the molec
 # Deliverables
 
 Write `report/results.json` following `submission_schema.json`. Include method, software, coordinates or a coordinate-file path, convergence evidence, frequencies/minimum status, all per-observable comparisons, aggregate metrics, and a conclusion tied to the qualitative author hypothesis. If computation fails, use the schema's failure branch and provide diagnostics rather than fabricated values.
+
+Source clarification (main section 3.2; SI Table S3): compare all named observables, retaining signed periodic torsion residuals and the published opposite ethyl orientation. Do not claim that every signed torsion is close to XRD or choose a separate sign for each torsion.

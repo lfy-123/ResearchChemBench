@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_fragment_identity",
+      "reference_id": "kp_fragment_identity",
+      "type": "semantic",
+      "expected": "Check source topology, formula, substituent positions, N-alkyl groups and actual charge/state against artifacts. Verify each reported property belongs to that object and condition. Truncating an ethyl to methyl or silently changing EPI1/EPI2 invalidates dependent conclusions. Conformer IDs must not be confused with distinct chemical species.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.systems",
+          "$.methods",
+          "$.records"
+        ],
+        "comparison": "Check source topology, formula, substituent positions, N-alkyl groups and actual charge/state against artifacts. Verify each reported property belongs to that object and condition. Truncating an ethyl to methyl or silently changing EPI1/EPI2 invalidates dependent conclusions. Conformer IDs must not be confused with distinct chemical species."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_polarity_findings",
+      "reference_id": "kp_polarity_findings",
+      "type": "semantic",
+      "expected": "Recompute the chosen polarity quantity from native outputs/analysis, checking units, definitions and method appropriateness. Accept a suitable alternative to mu or <mu²> when its relation to the stated question is justified. A single evaluated geometry earns only its demonstrated scope; publication dipoles, attractive ESP pictures or unverified statements alone earn no numerical finding credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.records",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Recompute the chosen polarity quantity from native outputs/analysis, checking units, definitions and method appropriateness. Accept a suitable alternative to mu or <mu²> when its relation to the stated question is justified. A single evaluated geometry earns only its demonstrated scope; publication dipoles, attractive ESP pictures or unverified statements alone earn no numerical finding credit."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_explanation_and_generality",
+      "reference_id": "kp_explanation_and_generality",
+      "type": "semantic",
+      "expected": "Assess whether the chosen evidence distinguishes the claimed source of the molecular difference and tests any asserted generality. If claiming a hydrogen-bond cause, inspect actual geometry/electronic or spectroscopic evidence and pertinent competing changes; no specific OH rotation or frozen backbone is mandatory. If a conformational counterexample invalidates a universal claim, reward it in proportion to verified scope. Neither lower polarity nor any named mechanism is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.results",
+          "$.claims",
+          "$.research_log"
+        ],
+        "comparison": "Assess whether the chosen evidence distinguishes the claimed source of the molecular difference and tests any asserted generality. If claiming a hydrogen-bond cause, inspect actual geometry/electronic or spectroscopic evidence and pertinent competing changes; no specific OH rotation or frozen backbone is mandatory. If a conformational counterexample invalidates a universal claim, reward it in proportion to verified scope. Neither lower polarity nor any named mechanism is required."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_statistical_and_physical_validity",
+      "reference_id": "kp_statistical_and_physical_validity",
+      "type": "semantic",
+      "expected": "Check stationary-point/curvature evidence where minima are claimed. For population claims inspect distinct basins, energy/free-energy conventions, temperature, weights and uncertainty; repeated collapsed searches are not degeneracy. Do not equate <|mu|> with <mu²> or average lab-frame dipoles as an isotropic bulk response. For non-ensemble claims require the alternative relevant uncertainty evidence, not unused ensemble tests. Do not score a fixed arbitrary conformer number or low-frequency recipe.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Check stationary-point/curvature evidence where minima are claimed. For population claims inspect distinct basins, energy/free-energy conventions, temperature, weights and uncertainty; repeated collapsed searches are not degeneracy. Do not equate <|mu|> with <mu²> or average lab-frame dipoles as an isotropic bulk response. For non-ensemble claims require the alternative relevant uncertainty evidence, not unused ensemble tests. Do not score a fixed arbitrary conformer number or low-frequency recipe."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether a polarity difference exists under the investigated conditions and give its sign, scope and supported explanation without preselecting a decrease. Full credit may follow a robust increase, conformation-dependent effect or demonstrated unresolved result. Require claims tied to actual evidence; a missing search is not established non-identifiability. Keep isolated-fragment findings distinct from causal proof or numerical prediction of bulk resin dielectric constant. Partial evidence earns bounded credit, not universal conclusions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.limitations",
+          "$.results",
+          "$.missing_work"
+        ],
+        "comparison": "Determine whether a polarity difference exists under the investigated conditions and give its sign, scope and supported explanation without preselecting a decrease. Full credit may follow a robust increase, conformation-dependent effect or demonstrated unresolved result. Require claims tied to actual evidence; a missing search is not established non-identifiability. Keep isolated-fragment findings distinct from causal proof or numerical prediction of bulk resin dielectric constant. Partial evidence earns bounded credit, not universal conclusions."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "fragment_identity",
+      "max_score": 15,
+      "description": "Correct full model identities and comparably defined molecular observables. Check source topology, formula, substituent positions, N-alkyl groups and actual charge/state against artifacts. Verify each reported property belongs to that object and condition. Truncating an ethyl to methyl or silently changing EPI1/EPI2 invalidates dependent conclusions. Conformer IDs must not be confused with distinct chemical species.",
+      "rule_ids": [
+        "rule_fragment_identity"
+      ]
+    },
+    {
+      "id": "polarity_findings",
+      "max_score": 30,
+      "description": "Reproducible polarity findings rather than copied source dipoles. Recompute the chosen polarity quantity from native outputs/analysis, checking units, definitions and method appropriateness. Accept a suitable alternative to mu or <mu²> when its relation to the stated question is justified. A single evaluated geometry earns only its demonstrated scope; publication dipoles, attractive ESP pictures or unverified statements alone earn no numerical finding credit.",
+      "rule_ids": [
+        "rule_polarity_findings"
+      ]
+    },
+    {
+      "id": "explanation_and_generality",
+      "max_score": 25,
+      "description": "Evidence that establishes the explanation and conditions of the substitution effect. Assess whether the chosen evidence distinguishes the claimed source of the molecular difference and tests any asserted generality. If claiming a hydrogen-bond cause, inspect actual geometry/electronic or spectroscopic evidence and pertinent competing changes; no specific OH rotation or frozen backbone is mandatory. If a conformational counterexample invalidates a universal claim, reward it in proportion to verified scope. Neither lower polarity nor any named mechanism is required.",
+      "rule_ids": [
+        "rule_explanation_and_generality"
+      ]
+    },
+    {
+      "id": "statistical_and_physical_validity",
+      "max_score": 20,
+      "description": "Reliability sufficient for single-structure or population claims. Check stationary-point/curvature evidence where minima are claimed. For population claims inspect distinct basins, energy/free-energy conventions, temperature, weights and uncertainty; repeated collapsed searches are not degeneracy. Do not equate <|mu|> with <mu²> or average lab-frame dipoles as an isotropic bulk response. For non-ensemble claims require the alternative relevant uncertainty evidence, not unused ensemble tests. Do not score a fixed arbitrary conformer number or low-frequency recipe.",
+      "rule_ids": [
+        "rule_statistical_and_physical_validity"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 10,
+      "description": "Determine whether a polarity difference exists under the investigated conditions and give its sign, scope and supported explanation without preselecting a decrease. Full credit may follow a robust increase, conformation-dependent effect or demonstrated unresolved result. Require claims tied to actual evidence; a missing search is not established non-identifiability. Keep isolated-fragment findings distinct from causal proof or numerical prediction of bulk resin dielectric constant. Partial evidence earns bounded credit, not universal conclusions.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_development_with_bounded_V1_reuse_not_V2_scientific_acceptance",
+  "scoring_notes": [
+    "Apply each criterion to demonstrated evidence: zero for unsupported assertions; partial credit proportional to valid, relevant findings; full credit requires its entire evidential purpose, not completion of a reference workflow.",
+    "Negative, alternative and demonstrated non-identifiable answers can earn full applicable credit; claimed failure or uncertainty alone cannot. Do not renormalize away missing work.",
+    "Conditional examples are validity requirements only if that observable or causal claim is made. Source numerical targets are not universal tolerances.",
+    "Scientific semantics, alternative-route calibration, blind AR trials and execution isolation remain pending. Synthetic fixture success is not science.",
+    "The process axis is the actually loaded shared open_research AR/PR rubric, not an extra package-local rubric."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "states": {
+    "neutral.xyz": {
+      "mapped_smiles": "[c:1]12[c:3]([c:6]([H:9])[c:2]([H:10])[c:5]([H:8])[c:4]1[H:7])[B-:21]([C:24]([H:25])([H:26])[H:27])([C:28]([H:29])([H:30])[H:31])[O:12][P+:11]2([O:13][C:18]([H:19])([H:20])[H:23])[O:14][C:15]([H:16])([H:17])[H:22]",
+      "formula": "C10H16BO3P",
+      "atom_count": 31,
+      "charge": 0,
+      "multiplicity": 1,
+      "atom_map_ids": {"P": 11, "O1": 12, "O2": 13, "O3": 14, "B": 21}
+    },
+    "anion.xyz": {
+      "mapped_smiles": "[c:1]12[c:3]([c:6]([H:9])[c:2]([H:10])[c:5]([H:8])[c:4]1[H:7])[B-:18]([C:20]([H:21])([H:22])[H:23])([C:24]([H:25])([H:26])[H:27])[O:12][P+:11]2([O:13][C:15]([H:16])([H:17])[H:19])[O-:14]",
+      "formula": "C9H13BO3P",
+      "atom_count": 27,
+      "charge": -1,
+      "multiplicity": 1,
+      "atom_map_ids": {"P": 11, "O1": 12, "O2": 13, "O3": 14, "B": 18}
+    }
+  },
+  "description": "Topology and atom-map identity only. Both public XYZ files are independently embedded, unoptimized starters. No SI endpoint coordinates, energy values, distance values or ranking are included."
+}

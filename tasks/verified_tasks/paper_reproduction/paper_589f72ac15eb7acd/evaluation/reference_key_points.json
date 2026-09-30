@@ -1,0 +1,47 @@
+{
+  "paper_id": "paper_589f72ac15eb7acd",
+  "items": [
+    {
+      "key_point_id": "pr_process_states",
+      "key_point_type": "process",
+      "statement": "The submission constructs the three named neutral Fe(II) complexes with both intended HS and LS states and preserves donor/atom identity.",
+      "expected": "C1, C2 and C3 each have an explicitly identified HS multiplicity-5 and LS multiplicity-1 calculation with intact LPh-TDA/pseudohalide connectivity.",
+      "evidence_ids": [
+        "ev_doc_679baf8443de_000039_793ae5f9f5cd",
+        "ev_doc_679baf8443de_000040_23c73bab565a"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_validation",
+      "key_point_type": "process",
+      "statement": "The submitted state energies are supported by optimization and state-validation diagnostics plus explicit coverage/stopping information.",
+      "expected": "Stationarity or bounded failure, spin diagnostics, method/unit/sign audit, starts and rejected candidates are reported for every named complex.",
+      "evidence_ids": [
+        "ev_doc_679baf8443de_000281_cc01c838ec1c",
+        "ev_doc_679baf8443de_000285_b217744e379b",
+        "ev_doc_679baf8443de_000415_7c539b6cff4d"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_values",
+      "key_point_type": "result",
+      "statement": "The calculation provides supported isolated electronic HS-minus-LS gaps for each fixed complex.",
+      "expected": "Per-state energies, spin/identity evidence, correct units and the E_HS minus E_LS sign convention support each reported gap. Compare defensible methods on their own evidence; no exact source value is compulsory across methods.",
+      "evidence_ids": [
+        "ev_doc_679baf8443de_000309_4c894fb63a96",
+        "ev_doc_679baf8443de_000315_bc862471148c",
+        "ev_doc_679baf8443de_000318_49cb396fb8c2"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_order",
+      "key_point_type": "result",
+      "statement": "The series follows the reported relative ligand-field trend.",
+      "expected": "Evaluate whether the validated within-method gaps support the source trend C3 > C2 > C1 or a scientifically supported alternative; agreement is not compulsory across freely chosen methods.",
+      "evidence_ids": [
+        "ev_doc_679baf8443de_000310_4baa59f16651",
+        "ev_doc_679baf8443de_000311_51ab8ccdd0fd"
+      ]
+    }
+  ]
+}

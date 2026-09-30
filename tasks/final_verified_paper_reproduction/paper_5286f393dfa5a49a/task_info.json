@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "task_type": "paper_reproduction",
+  "title": "Independent conformer thermochemistry test for di-ClPDI-Ph",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Three fixed large-molecule geometries require independently executed wB97M-V/def2-TZVP/SMD(DCM) single points, numerical validation and finite-set interpretation; optimizations are optional separate sensitivity calculations."
+  ],
+  "paper": {
+    "title": "Chiroπ-Extended Helitwistacene: Resolving the Planarity-Helicity Dilemma for Broadband Circularly Polarized Light Detection",
+    "doi": "10.1002/anie.202525044",
+    "journal": "Angewandte Chemie International Edition",
+    "publication_date": "2026-01-14"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Three labeled fixed 138-atom XYZ geometries for neutral singlet di-ClPDI-Ph; structure discovery is not scored."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated relative-energy results, provenance, conclusion and limitations."
+    }
+  ]
+}

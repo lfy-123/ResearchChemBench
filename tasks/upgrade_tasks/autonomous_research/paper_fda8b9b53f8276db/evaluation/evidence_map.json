@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "evidence": [
+    {
+      "evidence_id": "source_main_si",
+      "source": [
+        {
+          "path": "papers/paper_fda8b9b53f8276db/documents/main.pdf",
+          "sha256": "0afa69242ab928c082802d029d66eaa4c3c58cea7f791438d64de1c7f88de8d1",
+          "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+          "role": "source_original_scope_not_expanded_reference"
+        },
+        {
+          "path": "papers/paper_fda8b9b53f8276db/documents/supplementary_001.pdf",
+          "sha256": "13ace6b2daec90e737a69c21f21a4af2d7cab7a54b967859e270ca1147c496de",
+          "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+          "role": "source_original_scope_not_expanded_reference"
+        }
+      ],
+      "description": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+      "scope": "Original publication facts and method only. Source optimized endpoints remain private; no expanded validation claimed."
+    },
+    {
+      "evidence_id": "benchmark_design",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "new_benchmark_control_design"
+      },
+      "description": "Determine whether local bond residuals and cis/trans preference are attributable to torsional conformation or medium, keeping the original six-bond cis validation separate from thermochemistry.",
+      "scope": "Expanded controls pending scientific reference calculation."
+    }
+  ]
+}

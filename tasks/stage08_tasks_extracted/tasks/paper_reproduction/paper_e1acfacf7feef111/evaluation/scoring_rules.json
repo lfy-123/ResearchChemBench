@@ -1,0 +1,11 @@
+{
+  "paper_id": "paper_e1acfacf7feef111",
+  "rules": [
+    {"rule_id":"pr_rule_minimum","reference_id":"pr_process_minimum","type":"condition","expected":"completed reports document convergence, completed frequencies and imaginary-frequency handling; bounded failures document the failed condition and attempted work","binding":{"artifact_paths":["report/results.json"],"fields":["$.provenance"],"comparison":"expert process verification"}},
+    {"rule_id":"pr_rule_modes","reference_id":"pr_process_assignment","type":"condition","expected":"completed reports contain six distinct atom-based mode assignments; bounded failures explain incomplete assignment","binding":{"artifact_paths":["report/results.json"],"fields":["$.frequency_assignments[]"],"comparison":"expert process verification"}},
+    {"rule_id":"pr_rule_dist","reference_id":"pr_result_geometry","type":"numeric","target":0.0,"unit":"angstrom","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparisons.distance_mae_angstrom"],"comparison":"absolute difference when completed"}},
+    {"rule_id":"pr_rule_ang","reference_id":"pr_result_geometry","type":"numeric","target":0.0,"unit":"degree","tolerance":10.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparisons.angle_mae_degree"],"comparison":"absolute difference when completed"}},
+    {"rule_id":"pr_rule_freq","reference_id":"pr_result_vibrations","type":"numeric","target":0.0,"unit":"cm-1","tolerance":30.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparisons.frequency_rmsd_cm-1"],"comparison":"absolute difference when completed"}},
+    {"rule_id":"pr_rule_conclusion","reference_id":"pr_final_local_validation","type":"semantic","expected":"scope-limited conclusion supported by submitted validation or bounded failure","binding":{"artifact_paths":["report/results.json"],"fields":["$.conclusion"],"comparison":"expert semantic comparison"}}
+  ]
+}

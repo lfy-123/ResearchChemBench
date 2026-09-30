@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_0de37d01e35c27df",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_states",
+      "key_point_type": "process",
+      "statement": "The submission independently constructs and validates both the neutral singlet and radical-cation doublet of the supplied norDTCO system, preserving sulfur atoms 16 and 17.",
+      "expected_result": "Both states are explicitly identified with charge/multiplicity and convergence or stationary-point diagnostics; S16/S17 identity is retained.",
+      "evidence_ids": [
+        "ev_doc_487ba5831e78_000068_87cbbeac1582",
+        "ev_doc_fd980bebc5ed_000065_fdec778b2423",
+        "ev_doc_fd980bebc5ed_000074_0d3cd827aa28"
+      ],
+      "expected": "The submission independently constructs and validates both the neutral singlet and radical-cation doublet of the supplied norDTCO system, preserving sulfur atoms 16 and 17."
+    },
+    {
+      "key_point_id": "kp_pr_process_validation",
+      "key_point_type": "process",
+      "statement": "The selected structures are validated as converged stationary points or the submission transparently reports bounded failure and diagnostics.",
+      "expected_result": "Validation evidence is supplied for each selected state; a successful neutral minimum has no imaginary modes.",
+      "evidence_ids": [
+        "ev_doc_487ba5831e78_000068_87cbbeac1582"
+      ],
+      "expected": "The selected structures are validated as converged stationary points or the submission transparently reports bounded failure and diagnostics."
+    },
+    {
+      "key_point_id": "kp_pr_result_distances",
+      "key_point_type": "result",
+      "statement": "The two sulfur distances and their signed oxidation-induced change are reported from the same atom pair.",
+      "expected_result": "Neutral S–S distance is approximately 4.056 Å, radical-cation S–S distance approximately 3.983 Å, and radical-cation minus neutral change approximately −0.073 Å, subject to method/reporting uncertainty.",
+      "evidence_ids": [
+        "ev_doc_487ba5831e78_000082_c1b2e1700640",
+        "ev_doc_487ba5831e78_000095_3f203c1146eb"
+      ],
+      "expected": "The two sulfur distances and their signed oxidation-induced change are reported from the same atom pair."
+    }
+  ]
+}

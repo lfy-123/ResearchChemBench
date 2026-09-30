@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_cb92011f2b8c04bf",
+  "task_type": "paper_reproduction",
+  "title": "Independent spin-localization test for syringol phenoxy radical",
+  "category": "electron_density_topology_bonding",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The radical and measured sites are fixed, but the agent must independently select and validate an open-shell electronic-structure/population-analysis route.",
+    "The result requires interpreting a site ordering while tracking symmetry-equivalent C2/C6 atoms and method dependence."
+  ],
+  "paper": {
+    "title": "d5gc05304h 2408..2421 ++",
+    "doi": "10.1039/d5gc05304h",
+    "journal": "Green Chemistry",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ for the 20-atom neutral doublet syringol phenoxy radical with explicit atom map in the file comment and task."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated method, four site spin populations, ordering, conclusion and bounded-failure fields."
+    }
+  ]
+}

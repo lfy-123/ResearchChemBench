@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. M3 is neutral singlet 2,5-di(thiophen-2-yl)pyrazine C12H8N2S2. Use the independently reviewed builder-defined finite graphs PM6_BDD_T2_Me (C20H12O2S4), BTP_eC9_core_Me (C22H14N4S5), and BTP_eC9_full_pi_Me (C48H18F4N8O2S5), all neutral singlets. Their atom-indexed bonds and exact cut/cap boundaries are supplied in objects.json and fragment_models/. BTP core atoms 1–31 map identically into the larger model; added/removed caps and hydrogens must be explicitly mapped in paired comparisons. These are bounded source-grounded models, not recovered author coordinates or complete PM6/BTP-eC9 materials. No arbitrary fragment replacement is authorized.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. M3 is neutral singlet 2,5-di(thiophen-2-yl)pyrazine C12H8N2S2. Use the independently reviewed builder-defined finite graphs PM6_BDD_T2_Me (C20H12O2S4), BTP_eC9_core_Me (C22H14N4S5), and BTP_eC9_full_pi_Me (C48H18F4N8O2S5), all neutral singlets. Their atom-indexed bonds and exact cut/cap boundaries are supplied in objects.json and fragment_models/. BTP core atoms 1–31 map identically into the larger model; added/removed caps and hydrogens must be explicitly mapped in paired comparisons. These are bounded source-grounded models, not recovered author coordinates or complete PM6/BTP-eC9 materials. No arbitrary fragment replacement is authorized."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_contact_models",
+      "reference_id": "kp_contact_models",
+      "type": "semantic",
+      "expected": "Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Core rows: PM6_face, PM6_edge, BTP_core_face, BTP_core_edge. Recompute interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.contact_models",
+          "$.calculation_records"
+        ],
+        "comparison": "Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Core rows: PM6_face, PM6_edge, BTP_core_face, BTP_core_edge. Recompute interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_decomposition",
+      "reference_id": "kp_decomposition",
+      "type": "semantic",
+      "expected": "Use a single justified decomposition and identical fragmentation; terms are model-dependent, not unique causal observables. Recompute total and residual terms. Core rows: PM6_pair, BTP_pair. Recompute electrostatic_kJ_mol, dispersion_kJ_mol, exchange_kJ_mol, induction_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.decomposition",
+          "$.calculation_records"
+        ],
+        "comparison": "Use a single justified decomposition and identical fragmentation; terms are model-dependent, not unique causal observables. Recompute total and residual terms. Core rows: PM6_pair, BTP_pair. Recompute electrostatic_kJ_mol, dispersion_kJ_mol, exchange_kJ_mol, induction_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_truncation_and_tensor",
+      "reference_id": "kp_truncation_and_tensor",
+      "type": "semantic",
+      "expected": "At least one actual larger-fragment pair is core. Report all six independent tensor components with origin/axes; Qzz alone cannot prove dual binding or PCE. Core rows: larger_fragment, M3_tensor. Recompute primary_interaction_kJ_mol, control_interaction_kJ_mol, quadrupole_zz_eA2 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit. For the isolated M3_tensor row, primary_interaction_kJ_mol and control_interaction_kJ_mol are null with metric_applicability_reason because no partner is present. The full quadrupole tensor, declared origin/axes and numeric quadrupole_zz_eA2 remain mandatory. The larger_fragment row still requires both real interaction energies, a mapped larger-fragment pair and the shared M3 tensor; null cannot waive that truncation comparison. The reviewed finite fragment identities remain mandatory; the truncation-pair calculation cannot be waived.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.truncation_and_tensor",
+          "$.calculation_records"
+        ],
+        "comparison": "At least one actual larger-fragment pair is core. Report all six independent tensor components with origin/axes; Qzz alone cannot prove dual binding or PCE. Core rows: larger_fragment, M3_tensor. Recompute primary_interaction_kJ_mol, control_interaction_kJ_mol, quadrupole_zz_eA2 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit. For the isolated M3_tensor row, primary_interaction_kJ_mol and control_interaction_kJ_mol are null with metric_applicability_reason because no partner is present. The full quadrupole tensor, declared origin/axes and numeric quadrupole_zz_eA2 remain mandatory. The larger_fragment row still requires both real interaction energies, a mapped larger-fragment pair and the shared M3 tensor; null cannot waive that truncation comparison. The reviewed finite fragment identities remain mandatory; the truncation-pair calculation cannot be waived."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Bulk blend morphology and device simulations are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Bulk blend morphology and device simulations are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. M3 is neutral singlet 2,5-di(thiophen-2-yl)pyrazine C12H8N2S2. Use the independently reviewed builder-defined finite graphs PM6_BDD_T2_Me (C20H12O2S4), BTP_eC9_core_Me (C22H14N4S5), and BTP_eC9_full_pi_Me (C48H18F4N8O2S5), all neutral singlets. Their atom-indexed bonds and exact cut/cap boundaries are supplied in objects.json and fragment_models/. BTP core atoms 1–31 map identically into the larger model; added/removed caps and hydrogens must be explicitly mapped in paired comparisons. These are bounded source-grounded models, not recovered author coordinates or complete PM6/BTP-eC9 materials. No arbitrary fragment replacement is authorized.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "contact_models",
+      "max_score": 20,
+      "description": "Each pair requires complete graph, contact map and several starting orientations at fixed composition; compare released versus frozen fragments. Core rows: PM6_face, PM6_edge, BTP_core_face, BTP_core_edge. Recompute interaction_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_contact_models"
+      ]
+    },
+    {
+      "id": "decomposition",
+      "max_score": 25,
+      "description": "Use a single justified decomposition and identical fragmentation; terms are model-dependent, not unique causal observables. Recompute total and residual terms. Core rows: PM6_pair, BTP_pair. Recompute electrostatic_kJ_mol, dispersion_kJ_mol, exchange_kJ_mol, induction_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_decomposition"
+      ]
+    },
+    {
+      "id": "truncation_and_tensor",
+      "max_score": 20,
+      "description": "At least one actual larger-fragment pair is core. Report all six independent tensor components with origin/axes; Qzz alone cannot prove dual binding or PCE. Core rows: larger_fragment, M3_tensor. Recompute primary_interaction_kJ_mol, control_interaction_kJ_mol, quadrupole_zz_eA2 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_truncation_and_tensor"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Bulk blend morphology and device simulations are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "calibration_pending",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

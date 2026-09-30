@@ -1,0 +1,484 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "input_provenance",
+      "protocols_or_candidates",
+      "selected_result",
+      "frequency_validation",
+      "bond_comparison",
+      "conclusion",
+      "completion",
+      "artifacts"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "name",
+          "formula",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "number"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "input_provenance": {
+        "type": "object",
+        "required": [
+          "database",
+          "record_id",
+          "record_doi",
+          "retrieval_date",
+          "component_selection",
+          "source_file"
+        ],
+        "properties": {
+          "database": {
+            "type": "string"
+          },
+          "record_id": {
+            "type": "string"
+          },
+          "record_doi": {
+            "type": "string"
+          },
+          "retrieval_date": {
+            "type": "string"
+          },
+          "component_selection": {
+            "type": "string"
+          },
+          "source_file": {
+            "type": "string"
+          }
+        }
+      },
+      "protocols_or_candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "description",
+            "outcome",
+            "validation_context"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "validation_context": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "selected_result": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "required": [
+          "candidate_id",
+          "protocol",
+          "optimized_structure_file",
+          "coordinates_units",
+          "atom_mapping_file",
+          "conformer"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "object",
+            "required": [
+              "software",
+              "method",
+              "basis_or_pseudopotential",
+              "environment",
+              "convergence",
+              "rationale"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string"
+              },
+              "basis_or_pseudopotential": {
+                "type": "string"
+              },
+              "environment": {
+                "type": "string"
+              },
+              "convergence": {
+                "type": "string"
+              },
+              "rationale": {
+                "type": "string"
+              }
+            }
+          },
+          "optimized_structure_file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "coordinates_units": {
+            "type": "string"
+          },
+          "atom_mapping_file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "conformer": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "assignment",
+              "atom_indices",
+              "signed_dihedral_deg",
+              "evidence"
+            ],
+            "properties": {
+              "assignment": {
+                "type": "string"
+              },
+              "atom_indices": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "signed_dihedral_deg": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "description": "Classify the N1-C1-C2-N2 cis orientation using mapped atoms and coordinates; mirror-related torsional signs are equivalent. Missing geometry is an incomplete result."
+          }
+        }
+      },
+      "frequency_validation": {
+        "type": "object",
+        "required": [
+          "performed",
+          "outcome",
+          "imaginary_mode_count",
+          "frequencies_units",
+          "frequency_file",
+          "diagnostics"
+        ],
+        "properties": {
+          "performed": {
+            "type": "boolean"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "imaginary_mode_count": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "frequencies_units": {
+            "type": "string"
+          },
+          "frequency_file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "diagnostics": {
+            "type": "string"
+          }
+        }
+      },
+      "bond_comparison": {
+        "type": "object",
+        "required": [
+          "performed",
+          "bond_table_file",
+          "bond_count",
+          "bonds",
+          "rmse",
+          "rmse_units",
+          "r2_reported",
+          "metrics_method"
+        ],
+        "properties": {
+          "performed": {
+            "type": "boolean"
+          },
+          "bond_table_file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bond_count": {
+            "type": "integer"
+          },
+          "bonds": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "bond_id",
+                "crystal_endpoints",
+                "optimized_endpoints",
+                "crystal_length",
+                "optimized_length",
+                "units"
+              ],
+              "properties": {
+                "bond_id": {
+                  "type": "string"
+                },
+                "crystal_endpoints": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "optimized_endpoints": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "crystal_length": {
+                  "type": "number"
+                },
+                "optimized_length": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "units": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "rmse": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "rmse_units": {
+            "type": "string"
+          },
+          "r2_reported": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "metrics_method": {
+            "type": "string"
+          }
+        },
+        "description": "Primary statistic: the six labelled experimental pairs in experimental_bonds.json, measured on the reported cis geometry."
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "completion": {
+        "type": "object",
+        "required": [
+          "criterion_met",
+          "coverage"
+        ],
+        "properties": {
+          "criterion_met": {
+            "type": "boolean"
+          },
+          "stopping_reason": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          },
+          "coverage": {
+            "type": "string"
+          }
+        }
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "artifacts": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ],
+      "properties": {
+        "completion": {
+          "properties": {
+            "criterion_met": {
+              "const": false
+            }
+          }
+        }
+      }
+    },
+    "else": {
+      "properties": {
+        "selected_result": {
+          "type": "object",
+          "properties": {
+            "optimized_structure_file": {
+              "type": "string"
+            },
+            "atom_mapping_file": {
+              "type": "string"
+            },
+            "conformer": {
+              "type": "object",
+              "properties": {
+                "atom_indices": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "frequency_validation": {
+          "properties": {
+            "imaginary_mode_count": {
+              "type": "number"
+            },
+            "frequency_file": {
+              "type": "string"
+            }
+          }
+        },
+        "bond_comparison": {
+          "properties": {
+            "bond_table_file": {
+              "type": "string"
+            },
+            "bonds": {
+              "items": {
+                "properties": {
+                  "optimized_length": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "rmse": {
+              "type": "number"
+            }
+          }
+        },
+        "completion": {
+          "properties": {
+            "criterion_met": {
+              "const": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

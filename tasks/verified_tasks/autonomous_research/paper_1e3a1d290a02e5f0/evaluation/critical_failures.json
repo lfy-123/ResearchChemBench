@@ -1,0 +1,23 @@
+{
+  "paper_id": "paper_1e3a1d290a02e5f0",
+  "items": [
+    {
+      "failure_id": "ar_cf_identity",
+      "condition": "The calculation changes the supplied connectivity, charge, multiplicity or molecule identity.",
+      "severity": "critical",
+      "expected_action": "Invalidate the affected result."
+    },
+    {
+      "failure_id": "ar_cf_validation",
+      "condition": "A reported property lacks a minimum validation or uses an unreported imaginary-mode structure.",
+      "severity": "critical",
+      "expected_action": "Invalidate or explicitly mark the affected result as bounded failure."
+    },
+    {
+      "failure_id": "ar_cf_overclaim",
+      "condition": "The report presents isolated-molecule observables as direct proof of crystal mobility, interface adsorption or device PCE.",
+      "severity": "critical",
+      "expected_action": "Reject the overextended conclusion."
+    }
+  ]
+}

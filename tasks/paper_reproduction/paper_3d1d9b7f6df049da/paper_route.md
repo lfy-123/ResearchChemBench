@@ -21,7 +21,7 @@ Inspect Y2 participation and distinguish lateral transverse from longitudinal st
 
 ## 5. Private reference results
 
-Ih 49.9,54.9,65.2; D5h 67.4,81.9,90.2,93.8 cm-1.
+Ih 49.9,54.9,65.2,68.9; D5h 67.4,81.9,90.2,93.8 cm-1. Both are four-mode sets: main PDF p8 and SI Table S3a/S3b (PDF pp21-22). The old Ih list omitted 68.9 and its key point approximated the first frequency as 48 rather than 49.9; the numeric target field also incorrectly repeated the tolerance as 12.0. These source-transcription errors were corrected on 2026-09-18, retaining the 12 cm-1 tolerance, public geometry, scientific objective and schema. No EPR/g/hyperfine tensor production is required by this fixed-geometry vibrational subtask.
 
 ## 6. Limitations and interpretation boundaries
 

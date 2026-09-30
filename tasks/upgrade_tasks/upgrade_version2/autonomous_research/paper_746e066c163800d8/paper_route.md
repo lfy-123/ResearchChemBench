@@ -1,0 +1,7 @@
+# V2 paper route and provenance
+
+The authors use B3LYP/6-31G(d) unconstrained ground-state optimization with frequency checks, followed by CAM-B3LYP/6-31+G(d) response calculations; SI TableS9 compares BHandHLYP and M06-2X for selected compounds. Main equations15–18 relate complete tensors to isotropic HRS, DR and dipolar/octupolar components. The source investigates where π extension changes nonlinear response across a larger designed family; it does not establish that every extension must increase the static response. The previous benchmark’s paired five-torsion +20° control and analytic/finite-field calibration are later investigations, not the author protocol. Limit reproduction to the four identities and static observable here.
+
+Existing author-informed artifacts at docs/upgrade_tasks_verification/group_2/papers/paper_746e066c163800d8/report/results.json (SHA256403269cce7be0b59a86da0e068103d0aca2209930530eb1a9c22612eb6a2f891), report/report.md, analysis/, outputs/ and structures/ establish a feasible source-method four-member static response route, response reconstruction and limited numerical controls. Additional +20° intervention and NTO/finite-field checks are conditional evidence, not V2 completion requirements. V1 verified_computation_reference.md is preserved in private snapshots; its historical pass is not a V2 score.
+
+AR is not instructed to follow this private author route. This file is package metadata, not an exported agent input. The active public task and V2 rubric supersede all archived V1 requirements.

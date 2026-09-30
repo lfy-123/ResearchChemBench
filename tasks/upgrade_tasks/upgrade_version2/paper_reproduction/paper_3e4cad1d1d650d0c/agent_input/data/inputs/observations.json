@@ -1,0 +1,35 @@
+{
+  "provenance": "Main PDF p4 Table 1; p5 Figure 3; SI PDF p23",
+  "medium": "dry DMSO",
+  "donors": [
+    {
+      "id": "donor_1a",
+      "crossing_nm": 517,
+      "printed_Eox_V_vs_SCE": -0.61
+    },
+    {
+      "id": "donor_1e",
+      "crossing_nm": 511,
+      "printed_Eox_V_vs_SCE": -0.32
+    }
+  ],
+  "acceptor": {
+    "id": "aryl_chloride",
+    "reported_reduction_potential_V_vs_SCE": -2.91,
+    "qualification": "Source-reported reduction condition; a reversible equilibrium couple is not established here."
+  },
+  "quenching": {
+    "donor": "donor_1a",
+    "quencher": "aryl_chloride",
+    "donor_concentration_M": 5e-05,
+    "base": "1.3 equivalents KOtBu",
+    "preparation": "nitrogen-filled glove box",
+    "excitation_nm": 373,
+    "monitored_emission_nm": 547,
+    "intensity_Stern_Volmer_slope_M_inverse": 86540,
+    "lifetime_observation": "The lifetime ratio is essentially independent of quencher concentration over the plotted domain.",
+    "source_figure": "quenching_figure3.png",
+    "raw_individual_points_and_instrument_errors": "unavailable"
+  },
+  "electrode_ambiguity": "SI p23 converts Ag/AgCl to SCE by −0.05 V in the reported conditions; main prose has a different reference label. Preserve the ambiguity in quantitative claims."
+}

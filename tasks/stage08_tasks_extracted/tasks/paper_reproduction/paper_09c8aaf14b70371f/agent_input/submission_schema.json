@@ -1,0 +1,39 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["status", "method", "coverage", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["success", "bounded_failure"]},
+      "method": {"type": "object", "required": ["software", "electronic_structure_method", "basis_or_representation", "solvent_model", "energy_definition", "convergence_settings"], "properties": {"software":{"type":"string"},"electronic_structure_method":{"type":"string"},"basis_or_representation":{"type":"string"},"solvent_model":{"type":"string"},"energy_definition":{"type":"string"},"convergence_settings":{"type":"string"}}},
+      "coverage": {"type": "object", "required": ["endpoint_conformers", "coordinate_range_deg", "coordinate_sampling_rule", "candidate_ts_count", "deduplication", "stopping_rule"], "properties": {"endpoint_conformers":{"type":"integer","minimum":0},"coordinate_range_deg":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"number"}},"coordinate_sampling_rule":{"type":"string"},"candidate_ts_count":{"type":"integer","minimum":0},"deduplication":{"type":"string"},"stopping_rule":{"type":"string"}}},
+      "conclusion": {"type": "string"},
+      "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+      "gas_barrier_eV": {"type": "number"},
+      "acetonitrile_barrier_eV": {"type": "number"},
+      "gas_Z_relative_energy_eV": {"type": "number"},
+      "acetonitrile_Z_relative_energy_eV": {"type": "number"},
+      "gas_selected_candidate_id": {"type": "string"},
+      "acetonitrile_selected_candidate_id": {"type": "string"},
+      "gas_E_dihedral_deg": {"type": "number"}, "gas_TS_dihedral_deg": {"type": "number"}, "gas_Z_dihedral_deg": {"type": "number"},
+      "acetonitrile_E_dihedral_deg": {"type": "number"}, "acetonitrile_TS_dihedral_deg": {"type": "number"}, "acetonitrile_Z_dihedral_deg": {"type": "number"},
+      "ts_validation_summary": {"type": "object", "required": ["gas_phase", "acetonitrile_pcm"], "properties": {"gas_phase": {"type": "object", "required": ["candidate_id", "imaginary_frequency_count", "mode_character", "connection_test"], "properties": {"candidate_id": {"type": "string"}, "imaginary_frequency_count": {"type": "integer", "minimum": 0}, "mode_character": {"type": "string"}, "connection_test": {"type": "string"}}}, "acetonitrile_pcm": {"type": "object", "required": ["candidate_id", "imaginary_frequency_count", "mode_character", "connection_test"], "properties": {"candidate_id": {"type": "string"}, "imaginary_frequency_count": {"type": "integer", "minimum": 0}, "mode_character": {"type": "string"}, "connection_test": {"type": "string"}}}}},
+      "environments": {"type": "object", "properties": {
+        "gas_phase": {"$ref":"#/$defs/environment"},
+        "acetonitrile_pcm": {"$ref":"#/$defs/environment"}
+      }},
+      "failure": {"type":"object","properties":{"failed_scope":{"type":"string"},"reason":{"type":"string"},"attempted_candidates":{"type":"array","items":{"$ref":"#/$defs/candidate"}},"partial_results":{"type":"array","minItems":1,"items":{"type":"object","required":["environment","observable","value_or_finding"],"properties":{"environment":{"type":"string"},"observable":{"type":"string"},"value_or_finding":{"type":["number","string"]},"unit":{"type":"string"}}}}}}
+    },
+    "$defs": {
+      "candidate": {"type":"object","required":["candidate_id","environment","relative_energy_eV","dihedral_deg","structure","validation"],"properties":{"candidate_id":{"type":"string"},"environment":{"type":"string"},"relative_energy_eV":{"type":"number"},"dihedral_deg":{"type":"number"},"structure":{"type":"string"},"validation":{"type":"object","required":["converged","imaginary_frequency_count","mode_character","connection_test"],"properties":{"converged":{"type":"boolean"},"imaginary_frequency_count":{"type":"integer","minimum":0},"mode_character":{"type":"string"},"connection_test":{"type":"string"}}}}},
+      "stationary_point": {"type":"object","required":["relative_energy_eV","dihedral_deg","structure"],"properties":{"relative_energy_eV":{"type":"number"},"dihedral_deg":{"type":"number"},"structure":{"type":"string","description":"Coordinates or an unambiguous structure artifact reference retaining atom maps."}}},
+      "environment": {"type":"object","required":["E","Z","TS","barrier_eV","ts_validation","ts_candidates"],"properties":{"E":{"$ref":"#/$defs/stationary_point"},"Z":{"$ref":"#/$defs/stationary_point"},"TS":{"$ref":"#/$defs/stationary_point"},"barrier_eV":{"type":"number"},"ts_validation":{"type":"object","required":["imaginary_frequency_count","imaginary_frequency_cm-1","mode_character","connection_test"],"properties":{"imaginary_frequency_count":{"type":"integer","minimum":0},"imaginary_frequency_cm-1":{"type":"number"},"mode_character":{"type":"string"},"connection_test":{"type":"string"}}},"ts_candidates":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/candidate"}}}}
+    },
+    "oneOf": [
+      {"required":["environments","gas_barrier_eV","acetonitrile_barrier_eV","gas_Z_relative_energy_eV","acetonitrile_Z_relative_energy_eV","gas_selected_candidate_id","acetonitrile_selected_candidate_id","ts_validation_summary","gas_E_dihedral_deg","gas_TS_dihedral_deg","gas_Z_dihedral_deg","acetonitrile_E_dihedral_deg","acetonitrile_TS_dihedral_deg","acetonitrile_Z_dihedral_deg"],"properties":{"status":{"const":"success"},"environments":{"required":["gas_phase","acetonitrile_pcm"]}}},
+      {"required":["failure"],"properties":{"status":{"const":"bounded_failure"},"failure":{"required":["failed_scope","reason","attempted_candidates","partial_results"]}}}
+    ]
+  }
+}

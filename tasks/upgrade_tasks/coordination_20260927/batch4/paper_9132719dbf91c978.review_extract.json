@@ -1,0 +1,51 @@
+{
+  "source_links": [
+    "../../../papers/paper_9132719dbf91c978/documents/main.pdf#page=1",
+    "../../../papers/paper_9132719dbf91c978/documents/main.pdf#page=4",
+    "../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf#page=10",
+    "../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf#page=11",
+    "../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf#page=12",
+    "../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf",
+    "../../../papers/paper_9132719dbf91c978/documents/main.pdf"
+  ],
+  "source_evidence_section": "## 2. 正文、SI 与可检验问题\n\n| 来源 | 主要依据 | 推断边界 |\n| --- | --- | --- |\n| 正文 PDF p4 | TEMPO、光开关、同位素与 H₂ 检测等实验；含硅 Pd 氢化物与自由基路线 | 抑制剂和同位素结果是约束，不是唯一完整机制证明 |\n| SI PDF p10 | PBE0-D3BJ/def2-SVP 几何/频率与 MN15/def2-TZVP、SMD(DMAc) 单点组合 | 同一几何电子能修正与低层热修正分开核算 |\n| SI PDF pp11–12 | 作者比较含硅自由基与直接 Pd SET 等路线，末端消除约 0.9 kcal/mol | 一个末端低障碍不能证明前面全部步骤可达或该步控制速率 |\n| 实验 KIE 与标记 | 正文讨论约 1.8/1.4 等 KIE 及 PhSiD₃ 标记 | 不把这些值直接等同于末端 H₂ 消除的计算 KIE |\n\n[正文 PDF p4](../../../papers/paper_9132719dbf91c978/documents/main.pdf#page=4) [SI PDF p10](../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf#page=10) [SI PDF p11](../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf#page=11) [SI PDF p12](../../../papers/paper_9132719dbf91c978/documents/supplementary_001.pdf#page=12)\n\n",
+  "head": "# paper_9132719dbf91c978：科学目标分类与升级方案\n\n## 2026-09-27：首版实施规格与批次\n\n**当前分类：A；首版方向：B。** **安排：第 4 批：局部竞争路径与动力学。**\n**实施状态：有条件：先补本篇前提。** 本节是对早期较宽方案的首版收束；以下对象与判据属于待实现的新设计，本轮新增科学计算为 0。\n\n**最低计算范围。** 原 Pd 二氢化物→结合 η²-H₂→分离 H₂/再配位有限步骤，实际溶剂、浓度和气体标准态明确，保留局部和全局零点。\n\n**实际验收证据与判断。** 交付 H–H 形成 TS/端点、结合 H₂ 与解离/再生能量和对应自由能；1 atm 的 −1.76058 与全溶质 1 M 的 +0.133748 kcal/mol 属不同约定，不能合并。\n\n**先导与启动条件。** 先校准 H₂ 化学势和一个解离/再配位端点；小成键势垒不直接推出放氢自发或快速。\n\n**软件范围。** Gaussian/ORCA＋TS/IRC＋构象分析。源路线用于开发可核验参考；其他方法必须支持同一物理量并完成等价性校准。软件安装、旧题 PASS 均不能代替本节新增参考。\n\n**可选扩展及停止边界。** 完整光催化回路、精确周转频率不加入。\n\n**给实施 agent 的完成顺序。** 先冻结对象/原子映射、介质/温度、观测公式及主方法；完成上面的最关键控制试算后，实际跑全最低矩阵，校准误差与容差，再同步 AR/PR 的科学要求和 evaluator。缺少必需计算属于未完成；完成对照后得到有证据的否定或不可区分属于可接受科学结论。下文旧扩展不能自动加入首版硬评分。\n\n**交接入口：** [共用实施规范](upgrade_implementation_guide_20260927.md) · [全部批次与复核结论](upgrade_guidance_review_20260927.md)。各篇正文/SI及原始证据链接保留在后文；正式发布前仍需新增参考和独立试运行。\n",
+  "source_task": {
+    "autonomous_research": {
+      "task": "# Scientific objective\n\nDetermine the Gibbs free-energy barrier for terminal H2 reductive elimination from the specified neutral singlet palladium dihydride INT-G, and assess the implication for the terminal catalyst-regeneration step.\n\n# Public inputs and scientific boundaries\n\n`data/inputs/int_g.xyz` defines the complete 77-atom C39H34OP2Pd reactant, charge 0, multiplicity 1, with two terminal hydrides. Construct the transition structure and H2/Pd(0) endpoint yourself. The primary observable is G(TS) − G(INT-G), in kcal/mol, for implicit N,N-dimethylacetamide (DMAc), with consistent harmonic corrections at 298.15 K and 1 atm. State the geometry/frequency and solution-energy protocols and any composite-energy convention. The supplied reactant is not a TS or separated product; a bound H2 intermediate must not be mislabeled as separated H2. Methods may be chosen and disclosed; other environments are additional controls. No paper, SI, evaluator, historical verification archive or general-web lookup is an agent input.\n\n# Required scientific validation/investigation\n\nValidate the INT-G minimum, locate the H2-elimination saddle and establish one relevant imaginary mode. Provide IRC, mode-following, relaxed-scan or justified equivalent evidence connecting the reactant and H2/Pd(0) sides; identify any additional release step after a bound H2 state. Preserve ligand identity and atom balance. Record materially relevant attempts and traceable energies. Additional search is allowed without a fixed number of rounds.\n\n# Deliverables\n\nSubmit `report/results.json`. `success` requires stationary-point evidence, a numerical barrier with reference state and units, and connection evidence. Use `bounded_failure` with `failure_report.reason`, `attempted_search` and `available_diagnostics` when incomplete; unavailable success-only values can be omitted. Report genuine partial results without claiming the final result was obtained.\n",
+      "files": [
+        "task_info.json",
+        "paper_route.md",
+        "package_manifest.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/verified_computation_reference.md",
+        "evaluation/reference_key_points.json",
+        "evaluation/critical_failures.json",
+        "evaluation/evidence_map.json",
+        "evaluation/reference_conclusions.json",
+        "agent_input/submission_schema.json",
+        "agent_input/task.md",
+        "agent_input/data/inputs/int_g.xyz",
+        "evaluation/task_provenance/maintenance_audit.md"
+      ]
+    },
+    "paper_reproduction": {
+      "task": "# Scientific objective\n\nDetermine the Gibbs free-energy barrier for terminal H2 reductive elimination from the specified neutral singlet palladium dihydride INT-G, and assess the implication for the terminal catalyst-regeneration step.\n\n# Author-provided scientific guidance\n\nThe authors investigate a palladium-mediated pathway and test H2 loss from INT-G as the terminal regeneration step. Construct and validate that channel; do not assume its barrier.\n\n# Public inputs and scientific boundaries\n\n`data/inputs/int_g.xyz` defines the complete 77-atom C39H34OP2Pd reactant, charge 0, multiplicity 1, with two terminal hydrides. Construct the transition structure and H2/Pd(0) endpoint yourself. The primary observable is G(TS) − G(INT-G), in kcal/mol, for implicit N,N-dimethylacetamide (DMAc), with consistent harmonic corrections at 298.15 K and 1 atm. State the geometry/frequency and solution-energy protocols and any composite-energy convention. The supplied reactant is not a TS or separated product; a bound H2 intermediate must not be mislabeled as separated H2. Methods may be chosen and disclosed; other environments are additional controls. No paper, SI, evaluator, historical verification archive or general-web lookup is an agent input.\n\n# Required scientific validation/investigation\n\nValidate the INT-G minimum, locate the H2-elimination saddle and establish one relevant imaginary mode. Provide IRC, mode-following, relaxed-scan or justified equivalent evidence connecting the reactant and H2/Pd(0) sides; identify any additional release step after a bound H2 state. Preserve ligand identity and atom balance. Record materially relevant attempts and traceable energies. Additional search is allowed without a fixed number of rounds.\n\n# Deliverables\n\nSubmit `report/results.json`. `success` requires stationary-point evidence, a numerical barrier with reference state and units, and connection evidence. Use `bounded_failure` with `failure_report.reason`, `attempted_search` and `available_diagnostics` when incomplete; unavailable success-only values can be omitted. Report genuine partial results without claiming the final result was obtained.\n",
+      "files": [
+        "task_info.json",
+        "paper_route.md",
+        "package_manifest.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/verified_computation_reference.md",
+        "evaluation/reference_key_points.json",
+        "evaluation/critical_failures.json",
+        "evaluation/evidence_map.json",
+        "evaluation/reference_conclusions.json",
+        "agent_input/submission_schema.json",
+        "agent_input/task.md",
+        "agent_input/data/inputs/int_g.xyz",
+        "evaluation/task_provenance/maintenance_audit.md"
+      ]
+    }
+  }
+}

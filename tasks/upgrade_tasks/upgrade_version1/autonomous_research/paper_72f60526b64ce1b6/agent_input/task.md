@@ -1,0 +1,19 @@
+# Scientific objective
+
+Test whether isolated molecular polarity predicts rectification across the no-bridge, ethene-bridge and ethane-bridge Group A donor–acceptor molecules. Separate bridge-dependent transmission from orientation and Au-contact effects using genuine self-consistent positive/negative-bias transport.
+
+# Public inputs and scientific boundaries
+
+Use `systems.json` for the three full mapped molecular graphs and `controls.json` for five device configurations and biases −0.5, 0 and +0.5 V. All isolated thiols are neutral singlets; Au-bound structures remove exactly mapped H21 and H22 and preserve both sulfur atoms. Devices use unpolarized, net-neutral-excess open boundaries rather than an assigned isolated-molecule −2 charge. Report the actual Au and molecular inventory and all reservoir conventions. Molecular uniform-field response and gas-phase dipoles are not junction currents. Group B is optional. Source atom coordinates were inspected privately to resolve stoichiometry but are not supplied as author-optimized answer geometries.
+
+This development package remains incomplete (needs_work). Read `data/inputs/development_gate.json`. Expanded numerical references and acceptance intervals have not been calibrated. Do not launch the full matrix until its prerequisites are actually closed. An evidence-backed diagnosis is a valid incomplete submission, not a successful result. Use only supplied public identities and observations; the paper, SI, author endpoint coordinates, private snapshots and evaluator are not authorized research inputs.
+
+# Required scientific validation/investigation
+
+First validate the allowed native NEGF chain for one mapped AD_base junction at zero and both nonzero biases, with explicit lead/electrode inputs, Hamiltonian/self-energy dependencies and TBtrans current/transmission artifacts. Full studies wait for this gate. Then compute zero-field vector dipoles for all three isolated molecules, and T(E,V), potential drop and I(V) for all five configurations at all three biases. Reintegrate I=(2e/h) integral T(E,V)[f_L−f_R]dE for the unpolarized spin-degenerate convention and check bias/energy units. Define R=|I(+0.5)|/|I(−0.5)| without silently inverting it. If the denominator is unresolved relative to the measured current floor, report bounds and evidence, not a huge asserted ratio. Compare all three bridge types and separately quantify AD reversal and unilateral contact changes. Validate lead matching, zero-bias current and tighter k/quadrature plus screening-layer sensitivity. Support or reject a dipole proxy only within this matched Au model.
+
+Test at least two distinguishable explanations with the required numerical comparisons. Support, refutation and evidence-sufficient indistinguishability are equally acceptable; missing core controls are incomplete. Quantify one decisive sensitivity using both baseline and perturbed results. Optional extensions are not scored requirements.
+
+# Deliverables
+
+Submit `report/results.json` and readable `report/report.md`, following `submission_schema.json` and `submission_guide.md`. Include actual job inputs, raw outputs, mapped geometries, analysis tables/scripts and an artifact index with SHA-256 hashes. References must resolve to submitted files under `outputs/` or `report/`. Preserve failed attempts and distinguish constraints from free minima. Record actual engine launches, failures, engine wall time and allocated CPU core-hours; do not count analysis work units as launches. A `bounded_failure` or `partial` submission identifies missing endpoints and evidence without fabricating unavailable numbers. Scientific completion requires the entire core comparison and valid underlying evidence.

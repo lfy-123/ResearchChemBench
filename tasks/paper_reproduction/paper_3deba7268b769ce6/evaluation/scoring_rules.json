@@ -1,1 +1,68 @@
-{"paper_id":"paper_3deba7268b769ce6","rules":[{"rule_id":"r_pr_minimum","reference_id":"kp_pr_minimum","type":"semantic","expected":"Minimum validation is documented for the submitted optimized structure before excitation interpretation.","binding":{"artifact_paths":["report/results.json"],"fields":["$.minimum_validation.evidence"],"comparison":"expert semantic comparison"}},{"rule_id":"r_pr_ct","reference_id":"kp_pr_ct_analysis","type":"semantic","expected":"The selected transition's evidence supports phenolate donor and nitroaryl acceptor character, with any disagreement clearly reported.","binding":{"artifact_paths":["report/results.json"],"fields":["$.transition.character","$.transition.evidence"],"comparison":"expert semantic comparison"}},{"rule_id":"r_pr_energy","reference_id":"kp_pr_energy","type":"numeric","target":59.44,"unit":"kcal/mol","tolerance":3.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.transition.energy_kcal_mol"],"comparison":"absolute difference"}},{"rule_id":"r_pr_conclusion","reference_id":"con_pr_final","type":"semantic","expected":"A final, limitation-aware conclusion integrates validated minimum, selected visible transition, energy, and CT assignment.","binding":{"artifact_paths":["report/results.json"],"fields":["$.conclusion"],"comparison":"expert semantic comparison"}}]}
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "rules": [
+    {
+      "rule_id": "r_pr_minimum",
+      "reference_id": "kp_pr_minimum",
+      "type": "semantic",
+      "expected": "Minimum validation is documented for the submitted optimized structure before excitation interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum_validation.evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_ct",
+      "reference_id": "kp_pr_ct_analysis",
+      "type": "semantic",
+      "expected": "The selected transition's evidence supports phenolate donor and nitroaryl acceptor character, with any disagreement clearly reported. Bind donor/acceptor/bridge character to the same selected transition and declared spatial partition. Bridge delocalization does not imply an unreported acceptor percentage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transition.character",
+          "$.transition.evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_energy",
+      "reference_id": "kp_pr_energy",
+      "type": "numeric",
+      "target": 59.44,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transition.energy_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "reference_id": "con_pr_final",
+      "type": "semantic",
+      "expected": "A final, limitation-aware conclusion integrates validated minimum, selected visible transition, energy, and CT assignment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

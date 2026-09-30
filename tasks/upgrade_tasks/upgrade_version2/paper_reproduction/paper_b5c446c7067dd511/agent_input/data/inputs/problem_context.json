@@ -1,0 +1,18 @@
+{
+  "problem": "Which excited-state relaxation pathways are supported by molecular electronic evidence for the four supplied emitters, and how does aromatic substitution affect that assessment?",
+  "facts": [
+    "The four supplied molecules differ in their appended aromatic group; their graphs include the phenanthrimidazole framework and methylphenyl substituent.",
+    "The source solution optical measurements used THF at 1e-5 mol/L; this condition is measurement context, not a prescribed computational solvent."
+  ],
+  "scope": "Study neutral Ph-mP (C34H24N2), Na-mP (C38H26N2), An-mP (C42H28N2) and Py-mP (C44H28N2) as defined by the complete atom-mapped graphs. Delimit the geometry, medium and electronic approximation of each result. Any extrapolation from isolated molecules to solution or devices requires separate evidence.",
+  "data_files": [
+    "An-mP_identity.json",
+    "Na-mP_identity.json",
+    "Ph-mP_identity.json",
+    "Py-mP_identity.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "No measured pathway rate or universal state-character metric is supplied. Native SOC availability and conventions must be checked for the chosen implementation."
+  ]
+}

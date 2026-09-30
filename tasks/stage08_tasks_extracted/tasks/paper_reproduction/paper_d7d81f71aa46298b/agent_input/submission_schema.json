@@ -1,0 +1,148 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "protocol",
+      "system",
+      "candidates",
+      "comparison",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "protocol": {
+        "type": "object",
+        "required": [
+          "methods",
+          "temperature_K",
+          "pressure_atm"
+        ],
+        "properties": {
+          "methods": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "pressure_atm": {
+            "type": "number"
+          }
+        }
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "force_site_indices"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "force_site_indices": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "regime",
+            "reactant",
+            "product",
+            "charge",
+            "multiplicity",
+            "validation",
+            "barrier_kJ_mol"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "regime": {
+              "type": "string"
+            },
+            "reactant": {
+              "type": "string"
+            },
+            "product": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "imaginary_frequency_count",
+                "connectivity_test"
+              ],
+              "properties": {
+                "imaginary_frequency_count": {
+                  "type": "integer"
+                },
+                "connectivity_test": {
+                  "type": "string"
+                }
+              }
+            },
+            "barrier_kJ_mol": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "force_HAT_barrier_kJ_mol",
+          "thermal_barrier_kJ_mol",
+          "statement"
+        ],
+        "properties": {
+          "force_HAT_barrier_kJ_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "thermal_barrier_kJ_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "statement": {
+            "type": "string"
+          }
+        }
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

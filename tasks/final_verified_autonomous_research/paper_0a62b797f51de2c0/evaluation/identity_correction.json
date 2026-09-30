@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "correction_type": "source_identity_mapping",
+  "status": "confirmed",
+  "basis": [
+    "The file labelled M-Th-1CN contains C6Br2N2S (two cyano nitrogens).",
+    "The file labelled M-Th-2CN contains C5HBr2NS (one cyano nitrogen).",
+    "The same swap is present in the author-route 1CN/2CN filenames."
+  ],
+  "mapping": [
+    {
+      "source_label": "M-Th-0CN",
+      "chemical_identity": "M-Th-0CN",
+      "formula": "C4H2Br2S",
+      "cyano_count": 0
+    },
+    {
+      "source_label": "M-Th-1CN",
+      "chemical_identity": "M-Th-2CN",
+      "formula": "C6Br2N2S",
+      "cyano_count": 2
+    },
+    {
+      "source_label": "M-Th-2CN",
+      "chemical_identity": "M-Th-1CN",
+      "formula": "C5HBr2NS",
+      "cyano_count": 1
+    },
+    {
+      "source_label": "author_M_Th_1CN",
+      "chemical_identity": "M-Th-2CN",
+      "formula": "C6Br2N2S",
+      "cyano_count": 2
+    },
+    {
+      "source_label": "author_M_Th_2CN",
+      "chemical_identity": "M-Th-1CN",
+      "formula": "C5HBr2NS",
+      "cyano_count": 1
+    }
+  ],
+  "policy": {
+    "raw_artifacts": "preserved",
+    "paths_and_job_ids": "preserved",
+    "quantum_calculation": "not rerun",
+    "interpretation": "all identity-dependent values are read using chemical_identity, not the historical source_label"
+  },
+  "paper_reference": {
+    "source": "SI PDF p.11, Fig. S11; methods p.6; main PDF p.5",
+    "chemical_identity_order": [
+      "M-Th-0CN",
+      "M-Th-1CN",
+      "M-Th-2CN"
+    ],
+    "dipoles_debye": [
+      0.5921,
+      4.1644,
+      6.6147
+    ],
+    "origin": "paper figure, distinct from local author-route and low-basis verification"
+  }
+}

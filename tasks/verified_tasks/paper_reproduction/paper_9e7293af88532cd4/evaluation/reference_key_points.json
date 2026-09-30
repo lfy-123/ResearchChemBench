@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_9e7293af88532cd4",
+  "items": [
+    {
+      "key_point_id": "pr_process_endpoints",
+      "key_point_type": "process",
+      "statement": "All four source-defined structures are validated while retaining original complex1 and complex3 records.",
+      "expected": "reactant_1, product_3, im5 and water are charge0/singlet, optimized minima with complete positive frequencies and identity evidence.",
+      "evidence_ids": [
+        "ev_doc_78639d795f95_000432_845d4deb3817"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_thermo",
+      "key_point_type": "process",
+      "statement": "Final water binding is atom balanced; the source arithmetic and consistent standard states are separated.",
+      "expected": "All four thermochemical conventions are reproducible; 1-to-3 bare subtraction is explicitly rejected.",
+      "evidence_ids": [
+        "ev_doc_78639d795f95_000132_271170f29982",
+        "ev_doc_78639d795f95_000139_c7df02bc914e"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_delta",
+      "key_point_type": "result",
+      "statement": "The SI S7 +1.6 kcal/mol value belongs to Im5 + H2O -> product3 using its stated raw-G minus RTln55.34 recipe.",
+      "expected": "Compare the source-recipe association field with unchanged1.6±8.0kcal/mol; report the consistent standard-state values separately.",
+      "evidence_ids": [
+        "ev_si_s7_water_association_20260926"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_route",
+      "key_point_type": "result",
+      "statement": "The qualitative author hypothesis is tested without presenting it as proven by endpoint thermochemistry alone.",
+      "expected": "Diagnostic evidence is separated from inference and the computed diagnostic supports the claimed interpretation.",
+      "evidence_ids": [
+        "ev_doc_b38e9ca4555a_000867_4a67261ed89d"
+      ]
+    }
+  ]
+}

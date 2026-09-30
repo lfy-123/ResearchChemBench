@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_0de37d01e35c27df",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the exact mapped norDTCO C10H14S2 graph already supplied, with S16/S17, and source DTCO (1,5-dithiacyclooctane C6H12S2) as the rigidity control. Each neutral is charge 0 singlet and radical cation charge +1 doublet. Compare each at its own relaxed backbone and vertically on the other oxidation-state geometry in gas phase. A geometric S...S contact is not a covalent edge in the starting neutral graph.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the exact mapped norDTCO C10H14S2 graph already supplied, with S16/S17, and source DTCO (1,5-dithiacyclooctane C6H12S2) as the rigidity control. Each neutral is charge 0 singlet and radical cation charge +1 doublet. Compare each at its own relaxed backbone and vertically on the other oxidation-state geometry in gas phase. A geometric S...S contact is not a covalent edge in the starting neutral graph."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_oxidation_pairs",
+      "reference_id": "kp_oxidation_pairs",
+      "type": "semantic",
+      "expected": "Require valid structures, unrestricted spin diagnostic, natural/SOMO occupations and density/bond analysis. Bond order definition must be consistent across both topologies. Core rows: nor_neutral, nor_cation, DTCO_neutral, DTCO_cation. Recompute SS_distance_A, electronic_Eh, spin_S_total, bond_order from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.oxidation_pairs",
+          "$.calculation_records"
+        ],
+        "comparison": "Require valid structures, unrestricted spin diagnostic, natural/SOMO occupations and density/bond analysis. Bond order definition must be consistent across both topologies. Core rows: nor_neutral, nor_cation, DTCO_neutral, DTCO_cation. Recompute SS_distance_A, electronic_Eh, spin_S_total, bond_order from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_vertical_geometry",
+      "reference_id": "kp_vertical_geometry",
+      "type": "semantic",
+      "expected": "Pair fixed backbone and relaxed state evidence to separate mechanical contraction from electronic bonding. Retain same atom map. Core rows: nor_cation_on_neutral, nor_neutral_on_cation, DTCO_cation_on_neutral, DTCO_neutral_on_cation. Recompute SS_distance_A, electronic_Eh, bond_order, antibonding_occupation from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.vertical_geometry",
+          "$.calculation_records"
+        ],
+        "comparison": "Pair fixed backbone and relaxed state evidence to separate mechanical contraction from electronic bonding. Retain same atom map. Core rows: nor_cation_on_neutral, nor_neutral_on_cation, DTCO_cation_on_neutral, DTCO_neutral_on_cation. Recompute SS_distance_A, electronic_Eh, bond_order, antibonding_occupation from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_bonding_interpretation",
+      "reference_id": "kp_bonding_interpretation",
+      "type": "semantic",
+      "expected": "Compare contraction against orbital occupation/spin localization and independent density evidence. A short distance without electronic support weakens the hypothesis; ring opening must have a new topology ID. Core rows: rigidity_contrast, analysis_sensitivity. Recompute contraction_difference_A, bond_order_change, occupation_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.bonding_interpretation",
+          "$.calculation_records"
+        ],
+        "comparison": "Compare contraction against orbital occupation/spin localization and independent density evidence. A short distance without electronic support weakens the hypothesis; ring opening must have a new topology ID. Core rows: rigidity_contrast, analysis_sensitivity. Recompute contraction_difference_A, bond_order_change, occupation_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Dication chemistry, full aryl series and electrochemical reversibility are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Dication chemistry, full aryl series and electrochemical reversibility are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the exact mapped norDTCO C10H14S2 graph already supplied, with S16/S17, and source DTCO (1,5-dithiacyclooctane C6H12S2) as the rigidity control. Each neutral is charge 0 singlet and radical cation charge +1 doublet. Compare each at its own relaxed backbone and vertically on the other oxidation-state geometry in gas phase. A geometric S...S contact is not a covalent edge in the starting neutral graph.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "oxidation_pairs",
+      "max_score": 20,
+      "description": "Require valid structures, unrestricted spin diagnostic, natural/SOMO occupations and density/bond analysis. Bond order definition must be consistent across both topologies. Core rows: nor_neutral, nor_cation, DTCO_neutral, DTCO_cation. Recompute SS_distance_A, electronic_Eh, spin_S_total, bond_order from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_oxidation_pairs"
+      ]
+    },
+    {
+      "id": "vertical_geometry",
+      "max_score": 25,
+      "description": "Pair fixed backbone and relaxed state evidence to separate mechanical contraction from electronic bonding. Retain same atom map. Core rows: nor_cation_on_neutral, nor_neutral_on_cation, DTCO_cation_on_neutral, DTCO_neutral_on_cation. Recompute SS_distance_A, electronic_Eh, bond_order, antibonding_occupation from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_vertical_geometry"
+      ]
+    },
+    {
+      "id": "bonding_interpretation",
+      "max_score": 20,
+      "description": "Compare contraction against orbital occupation/spin localization and independent density evidence. A short distance without electronic support weakens the hypothesis; ring opening must have a new topology ID. Core rows: rigidity_contrast, analysis_sensitivity. Recompute contraction_difference_A, bond_order_change, occupation_change from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_bonding_interpretation"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Dication chemistry, full aryl series and electrochemical reversibility are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_reference_verified_phase1",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Finite V1 matrix now has author-informed native evidence; see verified_computation_reference.md. Scientific acceptance still requires raw-artifact review; schema/runtime success and matching the source claim alone are insufficient.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

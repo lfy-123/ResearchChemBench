@@ -1,0 +1,93 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "rules": [
+    {
+      "rule_id": "r_ar_process",
+      "reference_id": "kp_ar_process",
+      "type": "semantic",
+      "expected": "The independent workflow verifies charges, multiplicities, fragment balances, minima, conformer coverage, THF treatment, and Fc/Fc+ sign/reference consistency.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.state_checks",
+          "$.validation.conformer_coverage",
+          "$.validation.minimum_validation",
+          "$.method.reference_construction"
+        ],
+        "comparison": "expert semantic comparison of object-specific validation evidence"
+      }
+    },
+    {
+      "rule_id": "r_ar_1a",
+      "reference_id": "kp_ar_1a",
+      "type": "numeric",
+      "target": -1.75,
+      "unit": "V vs Fc/Fc+",
+      "tolerance": 0.2,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.reaction_1a.potential_V_vs_Fc"
+        ],
+        "comparison": "absolute difference for reaction_1a only when applicable"
+      }
+    },
+    {
+      "rule_id": "r_ar_1h",
+      "reference_id": "kp_ar_1h",
+      "type": "numeric",
+      "target": -2.81,
+      "unit": "V vs Fc/Fc+",
+      "tolerance": 0.2,
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.reaction_1h.potential_V_vs_Fc"
+        ],
+        "comparison": "absolute difference for reaction_1h only when applicable"
+      }
+    },
+    {
+      "rule_id": "r_ar_order",
+      "reference_id": "kp_ar_order",
+      "type": "ordering",
+      "expected": "reaction_1a is less negative than reaction_1h by about 1.06 V",
+      "applicability": "Scientific comparison credit requires both calculated outcomes. Failure records remain valid but do not earn credit for missing potentials.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.ordering",
+          "$.comparison.difference_V"
+        ],
+        "comparison": "ordering and quantitative consistency when applicable"
+      }
+    },
+    {
+      "rule_id": "r_ar_final",
+      "reference_id": "c_ar_final",
+      "type": "semantic",
+      "expected": "The defined THF/Fc thermochemical comparison gives a substantially less negative dissociative reduction potential for substrate 1a than for 1h, using correct reaction stoichiometry and the primary electrode scale.",
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.conclusion"
+        ],
+        "comparison": "expert semantic comparison with interpretation boundary and outcome branch"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

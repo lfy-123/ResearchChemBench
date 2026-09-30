@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "items": [
+    {
+      "key_point_id": "pr_process_identity",
+      "key_point_type": "process",
+      "statement": "The submission preserves the three specified monomer connectivities and neutral singlet state while documenting a reproducible optimization and observable calculation.",
+      "expected": "All three IDs are present with matching structures, charge 0, multiplicity 1, method metadata, and molecule-specific validation records.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000108_1209164c6485",
+        "ev_doc_47250c8470bc_000109_7388b4d4ed62",
+        "ev_doc_6a6661d37024_000123_571920e2cd0b"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_esp",
+      "key_point_type": "process",
+      "statement": "ESP asymmetry is defined consistently enough to compare the three monomers and its spatial interpretation is tied to named molecular regions.",
+      "expected": "The report gives units and a reproducible extrema/surface/grid convention and identifies thiophene-side positive and cyano-side negative regions when supported by the calculated maps.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000168_413265c0a85d"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_trend",
+      "key_point_type": "result",
+      "statement": "Cyano substitution increases monomer dipole/polarization across the 0CN to 2CN series.",
+      "expected": "The reported comparison supports an increasing dipole or, if not monotonic numerically, explains the discrepancy with uncertainty and coverage rather than asserting unsupported agreement.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000168_413265c0a85d",
+        "ev_doc_6a6661d37024_000153_af50646314fa"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_pattern",
+      "key_point_type": "result",
+      "statement": "The source MESP comparison identifies a more positive thiophene-side and more negative cyano-side potential in cyano-substituted members, interpreted from consistently defined signed potential maps.",
+      "expected": "Evaluate the actual signed potential regions and the stated surface/grid convention. Chemical donor/acceptor terminology or electron density is not an ESP sign. Retain evidence-backed method-dependent departures rather than forcing unsupported agreement.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000168_413265c0a85d"
+      ]
+    }
+  ]
+}

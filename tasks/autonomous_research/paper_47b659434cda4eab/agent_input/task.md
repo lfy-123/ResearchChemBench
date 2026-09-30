@@ -4,7 +4,7 @@ Independently determine how carbon-chain length changes the stability and prefer
 
 # Public inputs and scientific boundaries
 
-The public system is the six saturated, linear alkyl carbocations in the JSON file. Each record gives a unique connectivity, alpha/beta position, carbon count, charge +1 and doublet multiplicity. The measured quantities are optimized-minimum status, transition-state and intermediate energies on a clearly stated common reference, imaginary-frequency diagnostics, and IRC or an equivalently justified connectivity validation. The computational boundary is the molecular model selected by the Agent; state solvent, thermal and electronic-energy conventions. No author route, paper hypothesis, expected direction, ranking or numerical answer is supplied.
+The public system is the six saturated, linear alkyl carbocations in the JSON file. Each record gives a unique connectivity, alpha/beta position, carbon count, charge +1 and singlet multiplicity 1 (the supplied SMILES are even-electron closed-shell models). The measured quantities are optimized-minimum status, transition-state and intermediate energies on a clearly stated common reference, imaginary-frequency diagnostics, and IRC or an equivalently justified connectivity validation. The computational boundary is the molecular model selected by the Agent; state solvent, thermal and electronic-energy conventions. No author route, paper hypothesis, expected direction, ranking or numerical answer is supplied.
 
 # Required scientific validation/investigation
 
@@ -13,3 +13,9 @@ Propose a finite candidate-generation rule before searching, enumerate and dedup
 # Deliverables
 
 Submit `report/results.json` conforming to the schema. Include the candidate-generation rule, all attempted candidates and validation status, comparable energies/barriers with units and reference definition, competing hypotheses and evidence-weighted discrimination, and a conclusion. A bounded-failure or inconclusive result is valid only if the search, validation and limitations are fully documented.
+
+
+
+
+
+The source SI phrase '+1/doublet' is retained as a documented discrepancy; calculate the supplied even-electron models in the electron-compatible singlet state and explain the impact.

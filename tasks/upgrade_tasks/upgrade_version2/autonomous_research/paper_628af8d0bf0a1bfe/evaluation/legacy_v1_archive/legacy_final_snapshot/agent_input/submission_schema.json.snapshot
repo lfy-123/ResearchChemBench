@@ -1,0 +1,345 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "systems",
+          "hypotheses",
+          "comparison",
+          "sensitivity",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "systems": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "system_id",
+                    "geometry_status",
+                    "frequency_status",
+                    "probe_definition",
+                    "ring_values",
+                    "mean_nics_ppm",
+                    "evidence"
+                  ],
+                  "properties": {
+                    "system_id": {
+                      "enum": [
+                        "4a",
+                        "4c"
+                      ]
+                    },
+                    "geometry_status": {
+                      "type": "string"
+                    },
+                    "frequency_status": {
+                      "type": "string"
+                    },
+                    "probe_definition": {
+                      "type": "string"
+                    },
+                    "ring_values": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "ring_id",
+                          "nics_ppm"
+                        ],
+                        "properties": {
+                          "ring_id": {
+                            "type": "string"
+                          },
+                          "nics_ppm": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "mean_nics_ppm": {
+                      "type": "number"
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "system_id",
+                    "geometry_status",
+                    "frequency_status",
+                    "failure_step",
+                    "attempted_route",
+                    "evidence"
+                  ],
+                  "properties": {
+                    "system_id": {
+                      "enum": [
+                        "4a",
+                        "4c"
+                      ]
+                    },
+                    "geometry_status": {
+                      "type": "string"
+                    },
+                    "frequency_status": {
+                      "type": "string"
+                    },
+                    "failure_step": {
+                      "type": "string"
+                    },
+                    "attempted_route": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "limitation": {
+                      "type": "string",
+                      "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+                    }
+                  },
+                  "not": {
+                    "required": [
+                      "ring_values",
+                      "mean_nics_ppm"
+                    ]
+                  }
+                }
+              ]
+            },
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "system_id"
+                  ],
+                  "properties": {
+                    "system_id": {
+                      "const": "4a"
+                    }
+                  }
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "system_id"
+                  ],
+                  "properties": {
+                    "system_id": {
+                      "const": "4c"
+                    }
+                  }
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "system_id": {
+                      "const": "4a"
+                    }
+                  },
+                  "required": [
+                    "system_id"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "system_id": {
+                      "const": "4c"
+                    }
+                  },
+                  "required": [
+                    "system_id"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ],
+            "maxItems": 2
+          },
+          "hypotheses": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "hypothesis",
+                "evidence_for_or_against"
+              ],
+              "properties": {
+                "hypothesis": {
+                  "type": "string"
+                },
+                "evidence_for_or_against": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "comparison": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "ordering",
+                  "difference_ppm",
+                  "statement"
+                ],
+                "properties": {
+                  "ordering": {
+                    "type": "string"
+                  },
+                  "difference_ppm": {
+                    "type": "number"
+                  },
+                  "statement": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "ordering",
+                  "statement"
+                ],
+                "properties": {
+                  "ordering": {
+                    "type": "string"
+                  },
+                  "statement": {
+                    "type": "string"
+                  }
+                },
+                "not": {
+                  "required": [
+                    "difference_ppm"
+                  ]
+                }
+              }
+            ]
+          },
+          "sensitivity": {
+            "type": "object",
+            "required": [
+              "performed",
+              "details"
+            ],
+            "properties": {
+              "performed": {
+                "type": "boolean"
+              },
+              "details": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "complete"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "systems": {
+                  "items": {
+                    "required": [
+                      "ring_values",
+                      "mean_nics_ppm",
+                      "evidence"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

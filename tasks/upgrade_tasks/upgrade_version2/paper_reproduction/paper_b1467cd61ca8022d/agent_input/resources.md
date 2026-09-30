@@ -1,0 +1,5 @@
+# Available resources and access boundary
+
+The ResearchChem toolbox exposes managed Scientific/Data Actions, reviewed software-native execution and agent-authored Python in selected chemistry runtimes. Its checked native guide covers Gaussian 16/formchk, ORCA and Psi4; these are available execution interfaces, not required methods or a guarantee that every module is provisioned in a particular run. Query the actual runtime capabilities and resource limits before choosing work. Resource allocation and stopping decisions are yours; report measured use. No fixed CPU-hour quota or free access to external paid services is implied here.
+
+Use only this task's materialized public inputs and the execution/data resources made available by the evaluator. Private references, source-paper answer tables, prior task snapshots and the other mode's guidance are not authorized inputs. Public experimental observations are available for retrospective explanation, not blind held-out prediction. File export alone is not an access-control guarantee; the evaluator must supply an isolated run boundary.

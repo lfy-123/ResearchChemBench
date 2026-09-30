@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the complete C48H26F12N14 host: E and Z each free (charge 0, singlet) and with one chloride (charge -1, singlet), plus Cl- (singlet). Ac means acetone, not acetonitrile. Primary solution boundary: acetone, 298.15 K, 1 M standard state; convert any 1 atm RRHO terms explicitly. Sum over distinct validated conformers within each E/Z family, not between photostationary E and Z populations. TBA+ is a counterion context; an explicit TBACl sensitivity must use balanced composition. A second host is a separately chosen optional transfer check.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the complete C48H26F12N14 host: E and Z each free (charge 0, singlet) and with one chloride (charge -1, singlet), plus Cl- (singlet). Ac means acetone, not acetonitrile. Primary solution boundary: acetone, 298.15 K, 1 M standard state; convert any 1 atm RRHO terms explicitly. Sum over distinct validated conformers within each E/Z family, not between photostationary E and Z populations. TBA+ is a counterion context; an explicit TBACl sensitivity must use balanced composition. A second host is a separately chosen optional transfer check."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_species_ensembles",
+      "reference_id": "kp_species_ensembles",
+      "type": "semantic",
+      "expected": "Validate minima and conformer coverage for all four chemical states; isolate electronic, ZPE, thermal and concentration corrections. Include conformer weights and all attempted structures in raw tables. Core rows: E_free, E_bound, Z_free, Z_bound, chloride. Recompute electronic_energy_Eh, ZPE_Eh, thermal_correction_Eh, G_1M_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.species_ensembles",
+          "$.calculation_records"
+        ],
+        "comparison": "Validate minima and conformer coverage for all four chemical states; isolate electronic, ZPE, thermal and concentration corrections. Include conformer weights and all attempted structures in raw tables. Core rows: E_free, E_bound, Z_free, Z_bound, chloride. Recompute electronic_energy_Eh, ZPE_Eh, thermal_correction_Eh, G_1M_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_binding_cycle",
+      "reference_id": "kp_binding_cycle",
+      "type": "semantic",
+      "expected": "Recompute G(host.Cl)-G(host)-G(Cl) for each family and DeltaDeltaG=DeltaGbind(Z)-DeltaGbind(E). Report interaction and distortion with compatible fragment geometry and BSSE conventions. Core rows: E_bind, Z_bind, Z_minus_E. Recompute delta_G_kJ_mol, delta_E_kJ_mol, conformational_cost_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.binding_cycle",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute G(host.Cl)-G(host)-G(Cl) for each family and DeltaDeltaG=DeltaGbind(Z)-DeltaGbind(E). Report interaction and distortion with compatible fragment geometry and BSSE conventions. Core rows: E_bind, Z_bind, Z_minus_E. Recompute delta_G_kJ_mol, delta_E_kJ_mol, conformational_cost_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_intervention",
+      "reference_id": "kp_intervention",
+      "type": "semantic",
+      "expected": "At least one frozen/relaxed host contrast and one actual solvent/counterion sensitivity must challenge the interpretation. Do not use PSS as Boltzmann population. Core rows: frozen_host, solvent_or_ion_pair. Recompute primary_contrast_kJ_mol, control_contrast_kJ_mol, change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.intervention",
+          "$.calculation_records"
+        ],
+        "comparison": "At least one frozen/relaxed host contrast and one actual solvent/counterion sensitivity must challenge the interpretation. Do not use PSS as Boltzmann population. Core rows: frozen_host, solvent_or_ion_pair. Recompute primary_contrast_kJ_mol, control_contrast_kJ_mol, change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Complete titration fitting, exact PSS composition and device switching efficiency are optional and unscored.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Complete titration fitting, exact PSS composition and device switching efficiency are optional and unscored."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the complete C48H26F12N14 host: E and Z each free (charge 0, singlet) and with one chloride (charge -1, singlet), plus Cl- (singlet). Ac means acetone, not acetonitrile. Primary solution boundary: acetone, 298.15 K, 1 M standard state; convert any 1 atm RRHO terms explicitly. Sum over distinct validated conformers within each E/Z family, not between photostationary E and Z populations. TBA+ is a counterion context; an explicit TBACl sensitivity must use balanced composition. A second host is a separately chosen optional transfer check.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "species_ensembles",
+      "max_score": 20,
+      "description": "Validate minima and conformer coverage for all four chemical states; isolate electronic, ZPE, thermal and concentration corrections. Include conformer weights and all attempted structures in raw tables. Core rows: E_free, E_bound, Z_free, Z_bound, chloride. Recompute electronic_energy_Eh, ZPE_Eh, thermal_correction_Eh, G_1M_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_species_ensembles"
+      ]
+    },
+    {
+      "id": "binding_cycle",
+      "max_score": 25,
+      "description": "Recompute G(host.Cl)-G(host)-G(Cl) for each family and DeltaDeltaG=DeltaGbind(Z)-DeltaGbind(E). Report interaction and distortion with compatible fragment geometry and BSSE conventions. Core rows: E_bind, Z_bind, Z_minus_E. Recompute delta_G_kJ_mol, delta_E_kJ_mol, conformational_cost_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_binding_cycle"
+      ]
+    },
+    {
+      "id": "intervention",
+      "max_score": 20,
+      "description": "At least one frozen/relaxed host contrast and one actual solvent/counterion sensitivity must challenge the interpretation. Do not use PSS as Boltzmann population. Core rows: frozen_host, solvent_or_ion_pair. Recompute primary_contrast_kJ_mol, control_contrast_kJ_mol, change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_intervention"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Complete titration fitting, exact PSS composition and device switching efficiency are optional and unscored.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

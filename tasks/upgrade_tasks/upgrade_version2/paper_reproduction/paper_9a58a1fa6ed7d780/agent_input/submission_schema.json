@@ -1,0 +1,1049 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "schema_version": "open_research.batch3.v2",
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "paper_id": {
+        "const": "paper_9a58a1fa6ed7d780"
+      },
+      "schema_version": {
+        "const": "open_research.batch3.v2"
+      },
+      "status": {
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure",
+          "input_blocked"
+        ]
+      },
+      "research_question": {
+        "type": "string",
+        "minLength": 1
+      },
+      "models": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "source_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "identity_file": {
+              "type": "string",
+              "pattern": "^(outputs|structures|analysis|logs)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)[A-Za-z0-9_.\\-/]+$"
+            },
+            "derivation_and_mapping": {
+              "type": "string",
+              "minLength": 1
+            },
+            "conditions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "id",
+            "source_ids",
+            "formula",
+            "charge",
+            "multiplicity",
+            "identity_file",
+            "derivation_and_mapping",
+            "conditions",
+            "assumptions"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "operations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "model_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "parameters_file": {
+              "type": "string",
+              "pattern": "^(outputs|structures|analysis|logs)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)[A-Za-z0-9_.\\-/]+$"
+            },
+            "execution_record": {
+              "type": "string",
+              "pattern": "^(outputs|structures|analysis|logs)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)[A-Za-z0-9_.\\-/]+$"
+            },
+            "status": {
+              "enum": [
+                "successful",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "failure_diagnosis": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "model_ids",
+            "purpose",
+            "method",
+            "parameters_file",
+            "execution_record",
+            "status",
+            "artifact_ids"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "failed",
+                      "cancelled"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_diagnosis"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "artifacts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^(outputs|structures|analysis|logs)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)[A-Za-z0-9_.\\-/]+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "role": {
+              "enum": [
+                "input",
+                "raw_output",
+                "structure",
+                "analysis",
+                "execution_log",
+                "other"
+              ]
+            },
+            "origin": {
+              "enum": [
+                "generated_in_this_run",
+                "provided_public_input"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "path",
+            "sha256",
+            "role",
+            "origin",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "quantity_kind": {
+              "enum": [
+                "energy",
+                "excitation_energy",
+                "wavelength",
+                "length",
+                "angle",
+                "rate",
+                "time",
+                "frequency",
+                "charge",
+                "dimensionless",
+                "binding_constant",
+                "temperature",
+                "concentration",
+                "other"
+              ]
+            },
+            "value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "model_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "operation_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "state_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reference_definition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "conditions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uncertainty": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "enum": [
+                    "estimated",
+                    "not_estimated"
+                  ]
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "unit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "basis_and_limitations": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "status",
+                "basis_and_limitations"
+              ],
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "const": "estimated"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "value",
+                      "unit"
+                    ]
+                  }
+                }
+              ]
+            },
+            "artifact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "extraction_locator": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "quantity",
+            "quantity_kind",
+            "value",
+            "unit",
+            "model_ids",
+            "operation_ids",
+            "state_definition",
+            "reference_definition",
+            "conditions",
+            "uncertainty",
+            "artifact_ids",
+            "extraction_locator"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "energy"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "Eh",
+                      "eV",
+                      "kJ/mol",
+                      "kcal/mol"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "excitation_energy"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "eV",
+                      "cm^-1"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "wavelength"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "nm"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "length"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "angstrom",
+                      "nm",
+                      "bohr"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "angle"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "degree",
+                      "radian"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "rate"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "s^-1"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "time"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "s",
+                      "ns",
+                      "ps",
+                      "fs"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "frequency"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "cm^-1",
+                      "Hz"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "charge"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "e"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "dimensionless"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "1"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "binding_constant"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "M^-1",
+                      "1"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "temperature"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "K"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "quantity_kind": {
+                    "const": "concentration"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "unit": {
+                    "enum": [
+                      "M"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "proposed",
+                "retained",
+                "revised",
+                "withdrawn",
+                "unresolved"
+              ]
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 0
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "proposition",
+            "status",
+            "claim_ids",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "decisions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "purpose_or_prediction": {
+              "type": "string",
+              "minLength": 1
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_after_action": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 0
+            },
+            "revision_or_continuation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "execution_record": {
+              "type": "string",
+              "pattern": "^(outputs|structures|analysis|logs)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)[A-Za-z0-9_.\\-/]+$"
+            }
+          },
+          "required": [
+            "id",
+            "purpose_or_prediction",
+            "action",
+            "evidence_after_action",
+            "revision_or_continuation",
+            "execution_record"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "claims": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "statement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved"
+              ]
+            },
+            "result_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "inference": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "limitations": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "statement",
+            "outcome",
+            "result_ids",
+            "inference",
+            "scope",
+            "limitations"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "validations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "procedure": {
+              "type": "string",
+              "minLength": 1
+            },
+            "result_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+              },
+              "minItems": 1
+            },
+            "outcome": {
+              "enum": [
+                "supports_validity",
+                "limits_claim",
+                "invalidates_claim",
+                "unresolved"
+              ]
+            },
+            "explanation": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "claim_ids",
+            "question",
+            "procedure",
+            "result_ids",
+            "outcome",
+            "explanation"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 0
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "coverage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+            },
+            "minItems": 0
+          },
+          "unresolved": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "limits": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "answer",
+          "coverage",
+          "claim_ids",
+          "unresolved",
+          "limits"
+        ],
+        "additionalProperties": false
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "engine_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "failed_starts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_time_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "measurement_basis": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "engine_starts",
+          "failed_starts",
+          "wall_time_hours",
+          "core_hours",
+          "measurement_basis"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "cause": {
+            "type": "string",
+            "minLength": 1
+          },
+          "affected_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_files": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(outputs|structures|analysis|logs)/(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)[A-Za-z0-9_.\\-/]+$"
+            },
+            "minItems": 1
+          },
+          "recovery_or_release_conditions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "cause",
+          "affected_scope",
+          "evidence_files",
+          "recovery_or_release_conditions"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "paper_id",
+      "schema_version",
+      "status",
+      "research_question",
+      "models",
+      "operations",
+      "artifacts",
+      "results",
+      "hypotheses",
+      "decisions",
+      "claims",
+      "validations",
+      "conclusion",
+      "resources"
+    ],
+    "additionalProperties": false,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "models": {
+              "minItems": 1
+            },
+            "results": {
+              "minItems": 1
+            },
+            "decisions": {
+              "minItems": 1
+            },
+            "claims": {
+              "minItems": 1
+            },
+            "validations": {
+              "minItems": 1
+            },
+            "operations": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "status": {
+                    "const": "successful"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            },
+            "artifacts": {
+              "minItems": 1,
+              "contains": {
+                "properties": {
+                  "origin": {
+                    "const": "generated_in_this_run"
+                  }
+                },
+                "required": [
+                  "origin"
+                ]
+              }
+            },
+            "conclusion": {
+              "properties": {
+                "claim_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "enum": [
+                "bounded_failure",
+                "input_blocked"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ]
+        }
+      }
+    ]
+  },
+  "completion_boundary": "Format validity does not certify scientific completion. An evidenced unresolved answer may be complete if the research question is adequately addressed; failed or absent work is partial or diagnostic. No prescribed hypothesis count, model list, control axis or fixed research matrix.",
+  "development_status": "content_developed_reference_and_judge_calibration_pending"
+}

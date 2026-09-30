@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_ae62f86035f43274",
+  "task_type": "autonomous_research",
+  "title": "Autonomous discovery of Cu2In2Te2 cluster structures and properties",
+  "category": "computational chemistry / cluster DFT",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate a broad but bounded structural search without an author candidate or route hint.",
+    "It must justify coverage, discriminate plausible minima and quantify method and convergence limitations."
+  ],
+  "paper": {
+    "title": "Structural evolution and stabilities of (CuIn)nTe2 and ((CuIn)nTe2)− (n = 1–8) clusters via DFT study",
+    "doi": "10.1039/d6ra00246c",
+    "journal": "RSC Advances",
+    "publication_date": "2026-01-28"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Fixed six-atom Cu2In2Te2 composition, charge states 0 and -1, multiplicity and isolated-vacuum boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated candidate structures, energies, observables, method metadata, evidence and conclusion."
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "objects",
+      "comparison",
+      "protocol",
+      "coverage"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "objects": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "configuration",
+            "free_energy_kcal_mol"
+          ],
+          "oneOf": [
+            {
+              "required": [
+                "connectivity_verified",
+                "minimum_validation"
+              ]
+            },
+            {
+              "required": [
+                "failure_reason"
+              ]
+            }
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "configuration": {
+              "type": "string",
+              "enum": [
+                "Z",
+                "E"
+              ]
+            },
+            "connectivity_verified": {
+              "type": "boolean"
+            },
+            "minimum_validation": {
+              "type": "object",
+              "required": [
+                "vibrational_analysis",
+                "imaginary_frequency_count"
+              ],
+              "properties": {
+                "vibrational_analysis": {
+                  "type": "boolean"
+                },
+                "imaginary_frequency_count": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "free_energy_kcal_mol": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "failure_reason": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "delta_G_E_minus_Z_kcal_mol",
+          "favored_object",
+          "basis"
+        ],
+        "properties": {
+          "delta_G_E_minus_Z_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "favored_object": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "3aa_Z",
+              "3aa_E",
+              null
+            ]
+          },
+          "basis": {
+            "type": "string"
+          }
+        }
+      },
+      "protocol": {
+        "type": "object",
+        "required": [
+          "method",
+          "temperature_K",
+          "solvent_or_environment",
+          "energy_convention",
+          "rationale"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "solvent_or_environment": {
+            "type": "string"
+          },
+          "energy_convention": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          }
+        }
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "conformer_count_by_object",
+          "deduplication_and_stopping"
+        ],
+        "properties": {
+          "conformer_count_by_object": {
+            "type": "object"
+          },
+          "deduplication_and_stopping": {
+            "type": "string",
+            "description": "Describe structural deduplication. A separate search-stopping explanation is not required."
+          }
+        }
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    }
+  }
+}

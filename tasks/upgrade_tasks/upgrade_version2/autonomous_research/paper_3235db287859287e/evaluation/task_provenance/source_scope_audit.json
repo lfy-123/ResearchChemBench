@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_3235db287859287e",
+  "source_documents": [
+    {
+      "path": "papers/paper_3235db287859287e/documents/main.pdf",
+      "sha256": "2e417419fc4e482fb87a3a8545ab10eba95d2cbff12baa254e30fbbe3cef1925",
+      "page_count": 14,
+      "pdf_pages_1_based": [
+        5,
+        6,
+        7
+      ],
+      "material_type": "primary_article",
+      "reviewed_for_V2": true
+    },
+    {
+      "path": "papers/paper_3235db287859287e/documents/supplementary_001.pdf",
+      "sha256": "4946aeb29d0288c3c0e7b788fe6bd3c51c121b1463b4353ad3a764d10ca53341",
+      "page_count": 123,
+      "pdf_pages_1_based": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "material_type": "formal_supporting_information",
+      "reviewed_for_V2": true
+    }
+  ],
+  "scope": {
+    "problem": "What molecular account of the conversion of 1a and 2a into the observed sulfoxide is justified by the supplied experimental evidence, and which mechanistic conclusions remain unresolved?",
+    "scope": "The source 1a/2a reaction in MeCN with KI at room temperature is the target. Investigate the local bond and atom reorganization relevant to the observed product. Electrode transport, a full substrate scope and exact isolated yield are outside the task. Chemical structures generated to explain this same reaction are within scope; no mechanism or number of alternatives is prescribed.",
+    "facts": "The experiment combines 1.0 mmol each of methyl 2-(hydroxy(phenyl)methyl)acrylate (1a) and benzenethiol (2a), 5 mL 0.1 M KI in MeCN, platinum plates, 10 mA, N2 and 5 h at room temperature. Product constitution is methyl 3-phenyl-2-((phenylsulfinyl)methyl)acrylate. The observed constitution and isotope/trapping outcomes in observations.json are facts to explain, not blind prediction targets. Temperature, standard states and electrical reservoirs in any calculation must be explicitly related to these conditions; the data do not specify electrode potentials.",
+    "claim_source_map": [
+      {
+        "claim": "Identity, solvent, current and experimental loading",
+        "source": "main PDFp7 sections4.2–4.3"
+      },
+      {
+        "claim": "Trapping, isotope and protection facts",
+        "source": "main PDFp5 Scheme3; SI PDFpp94–99"
+      },
+      {
+        "claim": "Author local mechanism and product energetics",
+        "source": "main PDFpp5–6; SI PDF pp100–101",
+        "visibility": "PR/private"
+      },
+      {
+        "claim": "Method uncertainty and restricted local scale",
+        "source": "SI PDFp100; historical source_graph_spin_audit.json"
+      }
+    ],
+    "material_exception": "No material-label exception identified for the reviewed source documents."
+  },
+  "constraint_source_mapping": [
+    {
+      "claim": "Identity, solvent, current and experimental loading",
+      "source": "main PDFp7 sections4.2–4.3"
+    },
+    {
+      "claim": "Trapping, isotope and protection facts",
+      "source": "main PDFp5 Scheme3; SI PDFpp94–99"
+    },
+    {
+      "claim": "Author local mechanism and product energetics",
+      "source": "main PDFpp5–6; SI PDF pp100–101",
+      "visibility": "PR/private"
+    },
+    {
+      "claim": "Method uncertainty and restricted local scale",
+      "source": "SI PDFp100; historical source_graph_spin_audit.json"
+    }
+  ],
+  "constructed_vs_source": "Any molecular model choice is agent-defined; supplied experimental identities and observations are not a pathway answer. V1 constructed controls are retained only in private snapshots unless individually justified in this plan.",
+  "limits": [
+    "Independent local mechanism evidence under a declared method and chemical inventory.",
+    "Numerical uncertainty and semantic judge calibration for non-author explanations.",
+    "Runtime isolation of source PDFs, PR guidance and private references beyond file export."
+  ]
+}

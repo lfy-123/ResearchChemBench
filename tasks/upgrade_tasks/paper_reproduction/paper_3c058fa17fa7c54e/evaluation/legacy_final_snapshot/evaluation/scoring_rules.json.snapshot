@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "rules": [
+    {
+      "rule_id": "r_geometry",
+      "reference_id": "kp_geometry",
+      "type": "semantic",
+      "expected": "Auditable geometry identity, convergence and stationary point evidence for both named systems.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].geometry",
+          "$.systems[*].validation"
+        ],
+        "comparison": "expert process validation"
+      }
+    },
+    {
+      "rule_id": "r_states",
+      "reference_id": "kp_states",
+      "type": "semantic",
+      "expected": "Explicit lowest-state assignment and provenance for both systems.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].validation"
+        ],
+        "comparison": "expert process validation"
+      }
+    },
+    {
+      "rule_id": "r_energies",
+      "reference_id": "kp_energies",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "expert scientific comparison of explicit lowest-state energies and signed gaps against Figure 2"
+      },
+      "expected": "For both systems, assess the explicit lowest singlet and triplet energies and signed gaps under the public vertical-energy convention. Use the spin-labelled values in main Figure 2, not the reversed An-sigma-Ph prose pair. Establish method/state comparability from raw outputs; do not automatically reorder states by numerical magnitude. A truthful bounded failure is a diagnostic record, not a substitute for an unavailable scientific energy result."
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "The required S1 and T1 energies in eV support explicit per-system evaluation of both TTA energetic conditions, 2*T1>S1 and S1-T1>0.5 eV.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].inequality_assessment",
+          "$.conclusion",
+          "$.sensitivity",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

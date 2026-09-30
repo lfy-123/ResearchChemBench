@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "B",
+  "new_class": "加强B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_3316e45a74258fb7",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_3316e45a74258fb7"
+  },
+  "new_reference_gaps": [
+    "No new fixed-torsion, conformer, SOC or adiabatic reference matrix has been calculated.",
+    "Resolve basis shorthand explicitly and calibrate CT-state/method uncertainty."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "2fc5cd8c6f6f32e662e5d85dd68224dbacc6b53e7bfbeaed3de64f858e340e30",
+    "paper_reproduction": "15268fc3136bf8ee3bd5d123239336ce840842ca55edcf8d035e4f506c228918"
+  },
+  "source_review": "paper_reviews/paper_3316e45a74258fb7.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_3316e45a74258fb7",
+      "package_content_sha256": "ee99c52d191c2023dc91fea1bcad3f2c3375ea026491bdcd6ea6f2726dda6e80"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_3316e45a74258fb7",
+      "package_content_sha256": "5ea47892715a58024921cde1af70fe706b6c88e31afa2574a8a2f57bd7685cf0"
+    }
+  },
+  "result_panels": [
+    "vertical_matrix",
+    "relaxation_matrix",
+    "causal_comparison"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_3316e45a74258fb7/documents/main.pdf",
+      "sha256": "0061ebb5bb7ee96d72e00f384ab0f89006a46759102ba391287f86108303c5a9",
+      "pages": [
+        2,
+        3,
+        4
+      ],
+      "total_pages": 7
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_3316e45a74258fb7.publisher_si.docx",
+      "sha256": "68ab54b52aaf11ee797b532d7460dcef01195e48d43dc9abf1897f82b7cbe2e1",
+      "sections": "Relevant methods, experimental observations and identity blocks; see source review."
+    },
+    {
+      "path": "docs/evalution/update/paper_3316e45a74258fb7.md",
+      "sha256": "772ed0b4575bfc6fa8445f4ca061792aca23fb4b67fc89e41f64f53148ba079e",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_3316e45a74258fb7/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_3316e45a74258fb7/evaluation/reference_validation_plan.md"
+  }
+}

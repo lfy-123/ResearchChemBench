@@ -1,0 +1,179 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: `data/inputs/systems.json` defines the full neutral singlet molecules 4a (C36H14F12S2) and 4c (C34H22O2S2). Preserve both full substituents and the fused core. Map the two five-carbon pentalene rings; do not substitute the sulfur-containing or benzene rings.\n\nDefine a least-squares plane through the central pentalene carbon atoms, a consistently oriented unit normal n, and a centroid for each five-carbon ring. At signed distance h, the probe is centroid + h*n. The observable is NICS_nn(h) = −n^T sigma(h) n in ppm, using the full shielding tensor and one coordinate frame. A laboratory 'zz' entry is valid only if that axis is demonstrably aligned to n. Include both ± sides at |h| = 1.0, 1.7 and 2.3 angstrom; retain both ring values and side differences. The legacy positive-side 1.7-angstrom ring mean is a separate source-comparable observable, not the entire study.\n\nThe primary boundary is the isolated gas-phase singlet. Compare relaxed cores and a declared common fixed-core control (or reciprocal core-geometry swaps) while allowing a consistent treatment of peripheral coordinates. Frozen-core controls are not unconstrained minima. Record a reproducible bond-length-alternation descriptor with the exact bonds and sign convention; it complements, but does not automatically prove, a magnetic aromaticity assignment. Current-density/ACID/GIMIC calculations, excited states and crystal packing are optional extensions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods"
+        ],
+        "comparison": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: `data/inputs/systems.json` defines the full neutral singlet molecules 4a (C36H14F12S2) and 4c (C34H22O2S2). Preserve both full substituents and the fused core. Map the two five-carbon pentalene rings; do not substitute the sulfur-containing or benzene rings.\n\nDefine a least-squares plane through the central pentalene carbon atoms, a consistently oriented unit normal n, and a centroid for each five-carbon ring. At signed distance h, the probe is centroid + h*n. The observable is NICS_nn(h) = −n^T sigma(h) n in ppm, using the full shielding tensor and one coordinate frame. A laboratory 'zz' entry is valid only if that axis is demonstrably aligned to n. Include both ± sides at |h| = 1.0, 1.7 and 2.3 angstrom; retain both ring values and side differences. The legacy positive-side 1.7-angstrom ring mean is a separate source-comparable observable, not the entire study.\n\nThe primary boundary is the isolated gas-phase singlet. Compare relaxed cores and a declared common fixed-core control (or reciprocal core-geometry swaps) while allowing a consistent treatment of peripheral coordinates. Frozen-core controls are not unconstrained minima. Record a reproducible bond-length-alternation descriptor with the exact bonds and sign convention; it complements, but does not automatically prove, a magnetic aromaticity assignment. Current-density/ACID/GIMIC calculations, excited states and crystal packing are optional extensions."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_geometries",
+      "reference_id": "kp_geometries",
+      "type": "semantic",
+      "expected": "Verify the complete molecules and carbon-ring identities, genuine relaxed minima, preserved constraints and declared bond-length-alternation formula. Cover 4a and 4c, each relaxed and common-core controlled (reciprocal swaps are allowed with multiple labeled fixed-core records). Map the eight fused-core carbon atoms and each five-carbon ring. Define which bond lengths enter BLA and check them from XYZ. Verify the declared common core or reciprocal mapping actually holds; only peripheral relaxation cannot be described as an entirely fixed-geometry electronic effect. Recompute derived quantities from raw evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.geometries",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify the complete molecules and carbon-ring identities, genuine relaxed minima, preserved constraints and declared bond-length-alternation formula. Cover 4a and 4c, each relaxed and common-core controlled (reciprocal swaps are allowed with multiple labeled fixed-core records). Map the eight fused-core carbon atoms and each five-carbon ring. Define which bond lengths enter BLA and check them from XYZ. Verify the declared common core or reciprocal mapping actually holds; only peripheral relaxation cannot be described as an entirely fixed-geometry electronic effect. Recompute derived quantities from raw evidence."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_probe_results",
+      "reference_id": "kp_probe_results",
+      "type": "semantic",
+      "expected": "Recompute probe positions and −n^T sigma n; cover both molecules and relaxed/fixed-core conditions with no forced symmetry or laboratory-axis shortcut. For every required molecule/condition and both rings cover h=-2.3,-1.7,-1.0,+1.0,+1.7,+2.3 angstrom. Verify n is normalized, probe=centroid+h*n in the same frame, and NICS=-sum_i,j n_i*sigma_ij*n_j. The 3x3 tensor is in ppm; verify actual ghost coordinates/output. A global zz element without rotation, forced ring equality or omission of the negative side fails the affected endpoint. Duplicate rows cannot replace missing probes. Recompute derived quantities from raw evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.probe_results",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute probe positions and −n^T sigma n; cover both molecules and relaxed/fixed-core conditions with no forced symmetry or laboratory-axis shortcut. For every required molecule/condition and both rings cover h=-2.3,-1.7,-1.0,+1.0,+1.7,+2.3 angstrom. Verify n is normalized, probe=centroid+h*n in the same frame, and NICS=-sum_i,j n_i*sigma_ij*n_j. The 3x3 tensor is in ppm; verify actual ghost coordinates/output. A global zz element without rotation, forced ring equality or omission of the negative side fails the affected endpoint. Duplicate rows cannot replace missing probes. Recompute derived quantities from raw evidence."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_causal_comparison",
+      "reference_id": "kp_causal_comparison",
+      "type": "semantic",
+      "expected": "Inspect actual control contrasts and BLA evidence, residual confounds and numerical sensitivity. Do not count two old 1.7-angstrom scalars plus speculative prose as a controlled attribution. At every matched ring/height compute Delta_relaxed=NICS_4a,relaxed-NICS_4c,relaxed; Delta_fixed=NICS_4a,fixed-NICS_4c,fixed; geometry contribution=Delta_relaxed-Delta_fixed. Reciprocal swaps must identify both reference cores. Compare side/height dependence and BLA without forcing universal antiaromaticity from a scalar. Reference +23.6/+19.2 are context for a like-defined baseline, not all control outcomes. Recompute derived quantities from raw evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.causal_comparison",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect actual control contrasts and BLA evidence, residual confounds and numerical sensitivity. Do not count two old 1.7-angstrom scalars plus speculative prose as a controlled attribution. At every matched ring/height compute Delta_relaxed=NICS_4a,relaxed-NICS_4c,relaxed; Delta_fixed=NICS_4a,fixed-NICS_4c,fixed; geometry contribution=Delta_relaxed-Delta_fixed. Reciprocal swaps must identify both reference cores. Compare side/height dependence and BLA without forcing universal antiaromaticity from a scalar. Reference +23.6/+19.2 are context for a like-defined baseline, not all control outcomes. Recompute derived quantities from raw evidence."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Using the wrong ring, replacing NICS by a charge, copying laboratory zz without the coordinate transform, forcing ring/side equality, or declaring constrained controls to be equilibrium minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Using the wrong ring, replacing NICS by a charge, copying laboratory zz without the coordinate transform, forcing ring/side equality, or declaring constrained controls to be equilibrium minima."
+      },
+      "evidence_policy": "Follow the report links into raw logs and scientific artifacts. Missing raw evidence cannot be replaced by expected values or declarations. Cross-check IDs, formulas, units and arithmetic."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "The conclusion follows the complete same-object control matrix, evaluated hypotheses and demonstrated sensitivity. Accept support, refutation or bounded ambiguity when justified by real results; do not force the author claim. A missing expanded calculation is a missing endpoint, not computed ambiguity. Numerical publication anchors apply only to like-defined source baselines and never substitute for new reference calculations. Avoid these scientific errors: Using the wrong ring, replacing NICS by a charge, copying laboratory zz without the coordinate transform, forcing ring/side equality, or declaring constrained controls to be equilibrium minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "The conclusion follows the complete same-object control matrix, evaluated hypotheses and demonstrated sensitivity. Accept support, refutation or bounded ambiguity when justified by real results; do not force the author claim. A missing expanded calculation is a missing endpoint, not computed ambiguity. Numerical publication anchors apply only to like-defined source baselines and never substitute for new reference calculations. Avoid these scientific errors: Using the wrong ring, replacing NICS by a charge, copying laboratory zz without the coordinate transform, forcing ring/side equality, or declaring constrained controls to be equilibrium minima."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: `data/inputs/systems.json` defines the full neutral singlet molecules 4a (C36H14F12S2) and 4c (C34H22O2S2). Preserve both full substituents and the fused core. Map the two five-carbon pentalene rings; do not substitute the sulfur-containing or benzene rings.\n\nDefine a least-squares plane through the central pentalene carbon atoms, a consistently oriented unit normal n, and a centroid for each five-carbon ring. At signed distance h, the probe is centroid + h*n. The observable is NICS_nn(h) = −n^T sigma(h) n in ppm, using the full shielding tensor and one coordinate frame. A laboratory 'zz' entry is valid only if that axis is demonstrably aligned to n. Include both ± sides at |h| = 1.0, 1.7 and 2.3 angstrom; retain both ring values and side differences. The legacy positive-side 1.7-angstrom ring mean is a separate source-comparable observable, not the entire study.\n\nThe primary boundary is the isolated gas-phase singlet. Compare relaxed cores and a declared common fixed-core control (or reciprocal core-geometry swaps) while allowing a consistent treatment of peripheral coordinates. Frozen-core controls are not unconstrained minima. Record a reproducible bond-length-alternation descriptor with the exact bonds and sign convention; it complements, but does not automatically prove, a magnetic aromaticity assignment. Current-density/ACID/GIMIC calculations, excited states and crystal packing are optional extensions.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "geometries",
+      "max_score": 20,
+      "description": "Verify the complete molecules and carbon-ring identities, genuine relaxed minima, preserved constraints and declared bond-length-alternation formula.",
+      "rule_ids": [
+        "rule_geometries"
+      ]
+    },
+    {
+      "id": "probe_results",
+      "max_score": 25,
+      "description": "Recompute probe positions and −n^T sigma n; cover both molecules and relaxed/fixed-core conditions with no forced symmetry or laboratory-axis shortcut.",
+      "rule_ids": [
+        "rule_probe_results"
+      ]
+    },
+    {
+      "id": "causal_comparison",
+      "max_score": 20,
+      "description": "Inspect actual control contrasts and BLA evidence, residual confounds and numerical sensitivity. Do not count two old 1.7-angstrom scalars plus speculative prose as a controlled attribution.",
+      "rule_ids": [
+        "rule_causal_comparison"
+      ]
+    },
+    {
+      "id": "hypothesis_testing",
+      "max_score": 15,
+      "description": "Real discriminating controls and quantitative robustness determine which explanations survive.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "scientific_conclusion",
+      "max_score": 10,
+      "description": "Bounded, reproducible conclusion supported by the expanded results.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "scoring_notes": [
+    "This is a developmental scientific rubric, not certification of an upgraded task PASS. Do not publish benchmark scores as calibrated until reference_validation_plan.md is completed.",
+    "Award each item according to demonstrated correct coverage of the named endpoint. Missing new controls receive no credit for that endpoint; an old baseline plus a prose explanation cannot receive full credit.",
+    "Reference numerical values from the paper or archived old run are context, not calibrated targets for a new matrix. Do not invent a universal tolerance or a required winner.",
+    "Real negative outcomes may earn the relevant scientific credit. Invalid objects, unsupported basin absence, fabricated data or mismatched evidence invalidate dependent claims. Do not treat an honest bounded failure as fabrication."
+  ],
+  "phase1_reference": {
+    "binding_file": "evaluation/phase1_reference_binding.json",
+    "verification_type": "author_informed_reference_not_blind_AR",
+    "semantic_judge_calibration": "not_performed",
+    "coordinator_final_review": "pending"
+  }
+}

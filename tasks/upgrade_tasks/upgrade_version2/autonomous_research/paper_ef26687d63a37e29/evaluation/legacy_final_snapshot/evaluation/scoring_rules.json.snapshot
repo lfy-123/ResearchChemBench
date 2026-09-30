@@ -1,0 +1,106 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_ar_minima",
+      "type": "condition",
+      "expected": "Each species has species-specific stationary-point validation and a structure artifact, or exact bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].imaginary_frequency_count",
+          "$.species[*].structure_file",
+          "$.species[*].status"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_process_minima"
+    },
+    {
+      "rule_id": "r_ar_provenance",
+      "type": "semantic",
+      "expected": "Atom identity and charge-analysis provenance are explicit and retained across species.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.mapping_notes",
+          "$.method.charge_analysis",
+          "$.species[*].charges[*].atom_index"
+        ],
+        "comparison": "expert semantic comparison The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+      },
+      "reference_id": "kp_ar_process_provenance"
+    },
+    {
+      "rule_id": "r_ar_geometry",
+      "type": "semantic",
+      "expected": "The report gives explicit atom-indexed contact measurements and distinguishes the contact patterns of PO and PA. Use public input-map O49/P46 and the graph-derived N-ethyl alpha/beta H sets, preserving renumbering. On each optimized species use the same designated oxygen for the three primary distances; match each reported contact-H ADCH value to that selected H. The optional summary must agree with species.distances.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].distances",
+          "$.contact_summary",
+          "$.method.mapping_notes"
+        ],
+        "comparison": "expert scientific comparison The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+      },
+      "reference_id": "kp_ar_geometry"
+    },
+    {
+      "rule_id": "r_ar_charges",
+      "type": "semantic",
+      "expected": "ADCH charge redistribution involving P and αH/βH is reported with signs, species, and provenance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].charges",
+          "$.method.charge_analysis",
+          "$.species[*].distances",
+          "$.method.mapping_notes"
+        ],
+        "comparison": "expert scientific comparison Report all N-ethyl alphaH/betaH ADCH charges with atom mappings. Highlighted contact-H values must use the same nearest H atoms selected by the public O49 distance rule on that species; no hidden source-selected H is required. The free species has no O contact selection. Preserve signed per-site values; any means are auxiliary, not replacements for individual sites."
+      },
+      "reference_id": "kp_ar_charges"
+    },
+    {
+      "rule_id": "r_ar_mep",
+      "type": "semantic",
+      "expected": "MEP observation and interpretation are separated and tied to a species and artifact.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].mep_observation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_mep"
+    },
+    {
+      "rule_id": "r_ar_final",
+      "type": "semantic",
+      "expected": "The calculated contact geometries, mapped ADCH charges and signed MEP provide an integrated assessment of phosphorus-centred noncovalent interactions with the specified oxygen-containing environments, using the established contact aggregation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.mechanistic_claim",
+          "$.conclusion.supporting_observations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_ar_final"
+    }
+  ],
+  "paper_id": "paper_ef26687d63a37e29",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

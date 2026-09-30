@@ -1,1 +1,87 @@
-{"paper_id": "paper_9e7293af88532cd4", "rules": [{"rule_id": "ar_r1", "type": "condition", "expected": "Both endpoint records are present with charge 0, multiplicity 1, convergence and validation evidence.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.endpoints"], "comparison": "expert condition check"}, "reference_id": "ar_process_endpoints"}, {"rule_id": "ar_r2", "type": "condition", "expected": "Method and thermochemical convention are disclosed and the signed difference is reproducible.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.method", "$.delta_g_product_minus_reactant_kcal_mol"], "comparison": "expert condition check"}, "reference_id": "ar_process_thermo"}, {"rule_id": "ar_r3", "type": "numeric", "target": 1.6, "unit": "kcal/mol", "tolerance": 8.0, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.delta_g_product_minus_reactant_kcal_mol"], "comparison": "absolute difference"}, "reference_id": "ar_result_delta"}, {"rule_id": "ar_r4", "type": "semantic", "expected": "independent diagnostic and interpretation distinguish evidence from unsupported unique pathway claims", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.diagnostic", "$.interpretation", "$.limitations"], "comparison": "expert semantic comparison"}, "reference_id": "ar_result_interpretation"}, {"rule_id": "ar_c1", "type": "semantic", "expected": "limited thermodynamic conclusion without claiming a unique pathway or oxidation state", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.conclusion", "$.limitations"], "comparison": "expert semantic comparison"}, "reference_id": "ar_final"}]}
+{
+  "paper_id": "paper_9e7293af88532cd4",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "condition",
+      "expected": "All four named neutral-singlet structures have distinct records, converged optimization, complete positive frequencies, and identity validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_process_endpoints"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "condition",
+      "expected": "Atom-balanced Im5 + H2O -> product3; raw 1atm, source-recipe, explicit 1M and bulk-water conventions are reproducible and differentiated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.thermochemistry",
+          "$.delta_g_water_binding_source_recipe_kcal_mol"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_process_thermo"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "numeric",
+      "target": 1.6,
+      "unit": "kcal/mol",
+      "tolerance": 8.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.delta_g_water_binding_source_recipe_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_result_delta"
+    },
+    {
+      "rule_id": "ar_r4",
+      "type": "semantic",
+      "expected": "independent diagnostic and interpretation distinguish evidence from unsupported unique pathway claims",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.diagnostic",
+          "$.interpretation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_interpretation"
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "limited thermodynamic conclusion without claiming a unique pathway or oxidation state",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final"
+    }
+  ]
+}

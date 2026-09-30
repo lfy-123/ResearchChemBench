@@ -1,0 +1,140 @@
+{
+  "paper_id": "paper_98b6f8a0352f72c2",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "semantic",
+      "expected": "System identity, charge, multiplicity, solvent and optimization convergence are explicitly and correctly documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.calculation.geometry_convergence"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_1"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "semantic",
+      "expected": "S1 selection and an object-bound independent validation are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.calculation.state_selection",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_2"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "numeric",
+      "target": 3.65,
+      "unit": "eV",
+      "tolerance": 0.2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.s1_energy_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": {
+        "field": "$.status",
+        "equals": "complete"
+      },
+      "reference_id": "ar_result_1"
+    },
+    {
+      "rule_id": "ar_r4",
+      "type": "numeric",
+      "target": 0.64,
+      "unit": "dimensionless",
+      "tolerance": 0.1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.s1_oscillator_strength"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": {
+        "field": "$.status",
+        "equals": "complete"
+      },
+      "reference_id": "ar_result_2"
+    },
+    {
+      "rule_id": "ar_r5",
+      "type": "numeric",
+      "target": 2.7,
+      "unit": "ns",
+      "tolerance": 0.6,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.radiative_lifetime_ns"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": {
+        "field": "$.status",
+        "equals": "complete"
+      },
+      "reference_id": "ar_result_3"
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "The final conclusion reports all three observables near the reference and states sensitivity/limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.text",
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": {
+        "field": "$.status",
+        "equals": "complete"
+      },
+      "reference_id": "ar_final_1"
+    },
+    {
+      "rule_id": "ar_c2",
+      "type": "semantic",
+      "expected": "The conclusion addresses charge-transfer character and phenazine delocalization as a qualitative, validated interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.transition_character",
+          "$.conclusion.text"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_2",
+      "applicability": {
+        "field": "$.status",
+        "equals": "complete"
+      }
+    }
+  ]
+}

@@ -20,7 +20,7 @@
     {
       "rule_id": "r_pr_mapping",
       "type": "semantic",
-      "expected": "Atom-indexed distances use explicit per-species identities and \u03b1H/\u03b2H definitions.",
+      "expected": "Atom-indexed distances use explicit per-species identities and αH/βH definitions.",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -34,43 +34,9 @@
       "reference_id": "kp_pr_process_mapping"
     },
     {
-      "rule_id": "r_pr_distances",
-      "type": "numeric",
-      "target": 2.44,
-      "unit": "angstrom",
-      "tolerance": 0.25,
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.species[*].distances[*].value_angstrom"
-        ],
-        "comparison": "absolute difference for reported contacts; assess all named contacts"
-      },
-      "reference_id": "kp_pr_distances"
-    },
-    {
-      "rule_id": "r_pr_charge",
-      "type": "numeric",
-      "target": 0.074,
-      "unit": "e",
-      "tolerance": 0.03,
-      "binding": {
-        "artifact_paths": [
-          "report/results.json"
-        ],
-        "fields": [
-          "$.species[*].charges[*].value_e"
-        ],
-        "comparison": "absolute difference for reported P charge comparison and semantic consistency of other charges"
-      },
-      "reference_id": "kp_pr_charge"
-    },
-    {
       "rule_id": "r_pr_mep",
       "type": "semantic",
-      "expected": "MEP observations address phosphonium electron density and carboxylate nucleophilic character with explicit scope.",
+      "expected": "Signed MEP observations address the positive phosphorus-containing region and negative carboxylate region with explicit artifacts and scope; distinguish electrostatic potential from electron density and note the source's blue-region wording limitation.",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -113,6 +79,175 @@
         "comparison": "expert semantic comparison"
       },
       "reference_id": "con_pr_limits"
+    },
+    {
+      "rule_id": "r_pr_po_OP",
+      "type": "numeric",
+      "reference_id": "kp_pr_distances",
+      "target": 1.828,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contact_summary.PO.O_P_A"
+        ],
+        "comparison": "absolute difference; explicitly named species/contact; Figure 6 source target"
+      }
+    },
+    {
+      "rule_id": "r_pr_po_OalphaH",
+      "type": "numeric",
+      "reference_id": "kp_pr_distances",
+      "target": 2.124,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contact_summary.PO.O_alphaH_A"
+        ],
+        "comparison": "absolute difference; explicitly named species/contact; Figure 6 source target"
+      }
+    },
+    {
+      "rule_id": "r_pr_po_ObetaH",
+      "type": "numeric",
+      "reference_id": "kp_pr_distances",
+      "target": 2.437,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contact_summary.PO.O_betaH_A"
+        ],
+        "comparison": "absolute difference; explicitly named species/contact; Figure 6 source target"
+      }
+    },
+    {
+      "rule_id": "r_pr_pa_OP",
+      "type": "numeric",
+      "reference_id": "kp_pr_distances",
+      "target": 2.651,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contact_summary.PA.O_P_A"
+        ],
+        "comparison": "absolute difference; explicitly named species/contact; Figure 6 source target"
+      }
+    },
+    {
+      "rule_id": "r_pr_pa_OalphaH",
+      "type": "numeric",
+      "reference_id": "kp_pr_distances",
+      "target": 2.312,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contact_summary.PA.O_alphaH_A"
+        ],
+        "comparison": "absolute difference; explicitly named species/contact; Figure 6 source target"
+      }
+    },
+    {
+      "rule_id": "r_pr_pa_ObetaH",
+      "type": "numeric",
+      "reference_id": "kp_pr_distances",
+      "target": 2.363,
+      "unit": "angstrom",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.contact_summary.PA.O_betaH_A"
+        ],
+        "comparison": "absolute difference; explicitly named species/contact; Figure 6 source target"
+      }
+    },
+    {
+      "rule_id": "r_pr_P_charge_free",
+      "type": "numeric",
+      "reference_id": "kp_pr_charge",
+      "target": -0.018,
+      "unit": "e",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.charge_summary.free.P_e"
+        ],
+        "comparison": "absolute difference of absolute P ADCH charge; not alpha-H"
+      }
+    },
+    {
+      "rule_id": "r_pr_P_charge_PO",
+      "type": "numeric",
+      "reference_id": "kp_pr_charge",
+      "target": 0.447,
+      "unit": "e",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.charge_summary.PO.P_e"
+        ],
+        "comparison": "absolute difference of absolute P ADCH charge; not alpha-H"
+      }
+    },
+    {
+      "rule_id": "r_pr_P_charge_PA",
+      "type": "numeric",
+      "reference_id": "kp_pr_charge",
+      "target": 0.455,
+      "unit": "e",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.charge_summary.PA.P_e"
+        ],
+        "comparison": "absolute difference of absolute P ADCH charge; not alpha-H"
+      }
+    },
+    {
+      "rule_id": "r_pr_H_charge",
+      "type": "semantic",
+      "reference_id": "kp_pr_charge",
+      "expected": "All N-ethyl alpha/ beta H charges and source-selected contact-H values are atom-mapped; report the redistribution and asymmetry rather than applying one number to all sites.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].charges",
+          "$.charge_summary"
+        ],
+        "comparison": "expert semantic comparison"
+      }
     }
   ],
   "paper_id": "paper_ef26687d63a37e29"

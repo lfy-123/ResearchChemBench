@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "workflow",
+      "validation",
+      "interpretation"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "compound_id",
+          "formula",
+          "charge",
+          "multiplicity",
+          "connectivity_smiles"
+        ],
+        "properties": {
+          "compound_id": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "connectivity_smiles": {
+            "type": "string"
+          }
+        }
+      },
+      "workflow": {
+        "type": "object",
+        "required": [
+          "geometry",
+          "excited_state",
+          "hole_electron_analysis"
+        ],
+        "properties": {
+          "geometry": {
+            "type": "object",
+            "required": [
+              "method",
+              "converged"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "converged": {
+                "type": "boolean"
+              },
+              "frequency_check": {
+                "type": "string"
+              },
+              "conformer_selection": {
+                "type": "string"
+              }
+            }
+          },
+          "excited_state": {
+            "type": "object",
+            "required": [
+              "method",
+              "state_label",
+              "state_characterization",
+              "completed"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "state_label": {
+                "type": "string"
+              },
+              "state_characterization": {
+                "type": "string"
+              },
+              "completed": {
+                "type": "boolean"
+              },
+              "solvent_model": {
+                "type": "string"
+              }
+            }
+          },
+          "hole_electron_analysis": {
+            "type": "object",
+            "required": [
+              "method",
+              "same_excitation_as_state",
+              "completed"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "same_excitation_as_state": {
+                "type": "boolean"
+              },
+              "completed": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "identity_verified",
+          "geometry_converged",
+          "state_verified",
+          "analysis_verified",
+          "evidence"
+        ],
+        "properties": {
+          "identity_verified": {
+            "type": "boolean"
+          },
+          "geometry_converged": {
+            "type": "boolean"
+          },
+          "state_verified": {
+            "type": "boolean"
+          },
+          "analysis_verified": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "d_index_angstrom",
+          "finite_positive",
+          "uncertainty_or_sensitivity"
+        ],
+        "properties": {
+          "d_index_angstrom": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "finite_positive": {
+            "const": true
+          },
+          "uncertainty_or_sensitivity": {
+            "type": "string"
+          }
+        }
+      },
+      "interpretation": {
+        "type": "object",
+        "required": [
+          "conclusion",
+          "scope"
+        ],
+        "properties": {
+          "conclusion": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          }
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "failed_stage",
+          "reason",
+          "completed_evidence",
+          "next_requirement"
+        ],
+        "properties": {
+          "failed_stage": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "completed_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "next_requirement": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status",
+          "result"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "status",
+          "failure"
+        ]
+      }
+    ]
+  }
+}

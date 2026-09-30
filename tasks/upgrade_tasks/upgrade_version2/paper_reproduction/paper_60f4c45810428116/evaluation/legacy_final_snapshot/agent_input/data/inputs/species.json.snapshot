@@ -1,0 +1,103 @@
+{
+  "system": "Two explicitly defined organosulfur chloromethyl precursors and their dissociative one-electron products, with a ferrocene reference couple.",
+  "solvent": "tetrahydrofuran",
+  "temperature_K": 298.15,
+  "species": [
+    {
+      "id": "precursor_1a",
+      "label": "1a",
+      "smiles": "ClCSCc1ccccc1",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "role": "neutral precursor"
+    },
+    {
+      "id": "radical_fragment_1a",
+      "label": "1a carbon fragment",
+      "smiles": "[CH2]SCc1ccccc1",
+      "formal_charge": 0,
+      "multiplicity": 2,
+      "role": "neutral carbon-centered radical after C-Cl cleavage"
+    },
+    {
+      "id": "chloride",
+      "label": "chloride",
+      "smiles": "[Cl-]",
+      "formal_charge": -1,
+      "multiplicity": 1,
+      "role": "anionic leaving fragment"
+    },
+    {
+      "id": "precursor_1h",
+      "label": "1h",
+      "smiles": "c1ccccc1SCSCc1ccccc1",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "role": "neutral precursor"
+    },
+    {
+      "id": "radical_fragment_1h",
+      "label": "1h carbon fragment",
+      "smiles": "[CH2]SCc1ccccc1",
+      "formal_charge": 0,
+      "multiplicity": 2,
+      "role": "neutral carbon-centered radical after C-S cleavage"
+    },
+    {
+      "id": "benzenethiolate",
+      "label": "benzenethiolate",
+      "smiles": "c1ccccc1[S-]",
+      "formal_charge": -1,
+      "multiplicity": 1,
+      "role": "anionic leaving fragment"
+    },
+    {
+      "id": "ferrocene",
+      "label": "ferrocene",
+      "smiles": "[Fe+2].[cH-]1cccc1.[cH-]1cccc1",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "role": "reference reduced state",
+      "formula": "C10H10Fe",
+      "representation": "Formal Fe and two C5H5- rings encode composition, not 3D coordinates or metal-carbon bond order; construct bis(eta5-cyclopentadienyl) coordination for an optional calculation."
+    },
+    {
+      "id": "ferrocenium",
+      "label": "ferrocenium",
+      "smiles": "[Fe+3].[cH-]1cccc1.[cH-]1cccc1",
+      "formal_charge": 1,
+      "multiplicity": 2,
+      "role": "reference oxidized state",
+      "formula": "C10H10Fe",
+      "representation": "Formal Fe and two C5H5- rings encode composition, not 3D coordinates or metal-carbon bond order; construct bis(eta5-cyclopentadienyl) coordination for an optional calculation."
+    }
+  ],
+  "reactions": [
+    {
+      "id": "reaction_1a",
+      "substrate": "precursor_1a",
+      "products": [
+        "radical_fragment_1a",
+        "chloride"
+      ],
+      "electrons": 1,
+      "electrode_system": "ferrocene/ferrocenium"
+    },
+    {
+      "id": "reaction_1h",
+      "substrate": "precursor_1h",
+      "products": [
+        "radical_fragment_1h",
+        "benzenethiolate"
+      ],
+      "electrons": 1,
+      "electrode_system": "ferrocene/ferrocenium"
+    }
+  ],
+  "primary_reference": {
+    "couple": "Fc+/Fc",
+    "absolute_potential_V": 5.36,
+    "temperature_K": 298.15,
+    "computed_couple": "optional supplementary comparison"
+  }
+}

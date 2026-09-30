@@ -1,0 +1,25 @@
+# Scientific objective
+
+Determine, independently, how replacing O by S and Se changes the excited-state intramolecular proton-transfer (ESIPT) kinetics of the three explicitly named neutral 8QBDY-X molecules. For each molecule, calculate the S1 enol→keto activation free energy ΔG‡ (kcal mol−1) and the conventional transition-state-theory rate constant k at 298.15 K (s−1).
+
+# Author-provided scientific guidance
+
+The author hypothesis supplied for this reproduction task is that heavier chalcogens facilitate the same intramolecular X-H→quinoline-N proton-transfer route; test that hypothesis rather than assuming it is correct.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `data/inputs/8QBDY-O-enol-S1.xyz`, `8QBDY-S-enol-S1.xyz`, and `8QBDY-Se-enol-S1.xyz`. Each is a 37-atom neutral enol starting geometry in the first singlet excited state; element symbols and Cartesian coordinates are the complete molecular identity. Use the X-H donor bond (X = O, S, or Se) and the quinoline ring nitrogen that accepts that proton as the ESIPT endpoints. The target is the lowest defensible connected S1 enol-to-keto pathway found from each named starting structure, with isolated-molecule or explicitly stated solvent treatment. Report the electronic-structure method, basis, state treatment, charge/multiplicity, solvent model, thermochemical convention and temperature. Do not use the source paper, SI, general web or hidden reference values.
+
+Numerical comparison context: the reference S1 calculation uses TD-ωB97X-D/6-311G(d,p), CPCM acetonitrile and harmonic 298.15 K thermochemistry. This specifies the solvent and numerical comparison context without supplying a saddle, pathway ranking or barrier. The stated freedom to use a defensible alternative method or environment remains; report those results under their own conventions for scientific comparability review, rather than silently comparing different physical conditions as identical.
+
+# Required scientific validation/investigation
+
+For each named molecule, optimize or otherwise establish the S1 enol and keto endpoints and locate a candidate first-order saddle on the proton-transfer pathway. Confirm each endpoint as a minimum (no imaginary harmonic frequencies) and each TS as having exactly one imaginary frequency dominated by X-H/N proton motion. Use an IRC or an equivalently explicit bidirectional connectivity test to show the TS connects the enol and keto endpoints. Deduplicate repeated solutions by molecular identity and geometry/pathway, retain the best validated candidate, and state any failed or incomplete search. The calculation is complete when all three molecules have either a validated pathway with both requested observables or a documented bounded failure; stop after the stated search strategy has been exhausted and no new validated pathway is found, and report achieved coverage.
+
+Use exactly three primary rows in `results` in the explicit order 8QBDY-O, 8QBDY-S, 8QBDY-Se. Keep repeated trials in `attempts`. A row marked `validated` requires numeric ΔG‡, a positive k, endpoint/TS identifiers and nonempty validation evidence. A failed/partial row must identify the attempted molecule and reason, set unavailable observables to null and may omit unavailable endpoint/TS/validation objects. Conventional TST means k=(kB T/h) exp(−ΔG‡/(R T)) at 298.15 K with consistent energy units; this derived rate is not an independently fitted quantity.
+
+Generic limitations or uncertainty prose is optional and unscored. Keep the required scientific identities, computed evidence, coverage and actual failure diagnostics. Additional scientifically motivated calculations are allowed and should be separated from the primary results; optional work not performed needs no disclaimer.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. For each named molecule, provide an unambiguous identity (including the corresponding public XYZ), status, units, ΔG‡ and k when obtained, endpoint and TS identifiers, frequency/connectivity evidence, an auditable evidence list, and a bounded search record. A bounded failure or partial result must use the corresponding status and null unavailable observables, with a reason and attempted-search record rather than fabricated numbers. Include enough commands, output filenames or inline evidence references for independent audit. The conclusion must state the O/S/Se barrier and rate ordering only if supported by the reported results.

@@ -1,0 +1,298 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "search",
+      "sites",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "search": {
+        "type": "object",
+        "required": [
+          "generation_rule",
+          "deduplication_rule",
+          "candidates_attempted",
+          "stopping_reason",
+          "coverage"
+        ],
+        "properties": {
+          "generation_rule": {
+            "type": "string"
+          },
+          "deduplication_rule": {
+            "type": "string"
+          },
+          "candidates_attempted": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "site",
+                "structure_path",
+                "validation",
+                "notes"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "site": {
+                  "type": "string",
+                  "enum": [
+                    "1,4",
+                    "1,2"
+                  ]
+                },
+                "structure_path": {
+                  "type": "string"
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "converged",
+                    "imaginary_frequency_count",
+                    "connectivity_evidence"
+                  ],
+                  "properties": {
+                    "converged": {
+                      "type": "boolean"
+                    },
+                    "imaginary_frequency_count": {
+                      "type": "integer"
+                    },
+                    "connectivity_evidence": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "stopping_reason": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string"
+          }
+        }
+      },
+      "sites": {
+        "type": "object",
+        "required": [
+          "one_four",
+          "one_two"
+        ],
+        "properties": {
+          "one_four": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "site",
+                  "result_status",
+                  "barrier_kcal_mol",
+                  "ts_structure_path",
+                  "frequency_evidence",
+                  "connectivity_evidence"
+                ],
+                "properties": {
+                  "site": {
+                    "type": "string",
+                    "const": "1,4"
+                  },
+                  "result_status": {
+                    "type": "string",
+                    "const": "validated"
+                  },
+                  "frequency_evidence": {
+                    "type": "string"
+                  },
+                  "connectivity_evidence": {
+                    "type": "string"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "ts_structure_path": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "site",
+                  "result_status",
+                  "barrier_kcal_mol",
+                  "ts_structure_path",
+                  "frequency_evidence",
+                  "connectivity_evidence"
+                ],
+                "properties": {
+                  "site": {
+                    "type": "string",
+                    "const": "1,4"
+                  },
+                  "result_status": {
+                    "type": "string",
+                    "const": "not_validated"
+                  },
+                  "frequency_evidence": {
+                    "type": "string"
+                  },
+                  "connectivity_evidence": {
+                    "type": "string"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "null"
+                  },
+                  "ts_structure_path": {
+                    "type": "null"
+                  }
+                }
+              }
+            ]
+          },
+          "one_two": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "site",
+                  "result_status",
+                  "barrier_kcal_mol",
+                  "ts_structure_path",
+                  "frequency_evidence",
+                  "connectivity_evidence"
+                ],
+                "properties": {
+                  "site": {
+                    "type": "string",
+                    "const": "1,2"
+                  },
+                  "result_status": {
+                    "type": "string",
+                    "const": "validated"
+                  },
+                  "frequency_evidence": {
+                    "type": "string"
+                  },
+                  "connectivity_evidence": {
+                    "type": "string"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "ts_structure_path": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "site",
+                  "result_status",
+                  "barrier_kcal_mol",
+                  "ts_structure_path",
+                  "frequency_evidence",
+                  "connectivity_evidence"
+                ],
+                "properties": {
+                  "site": {
+                    "type": "string",
+                    "const": "1,2"
+                  },
+                  "result_status": {
+                    "type": "string",
+                    "const": "not_validated"
+                  },
+                  "frequency_evidence": {
+                    "type": "string"
+                  },
+                  "connectivity_evidence": {
+                    "type": "string"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "null"
+                  },
+                  "ts_structure_path": {
+                    "type": "null"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    },
+    "definitions": {
+      "site_result": {
+        "type": "object",
+        "required": [
+          "site",
+          "result_status",
+          "barrier_kcal_mol",
+          "ts_structure_path",
+          "frequency_evidence",
+          "connectivity_evidence"
+        ],
+        "properties": {
+          "site": {
+            "type": "string"
+          },
+          "result_status": {
+            "type": "string",
+            "enum": [
+              "validated",
+              "not_validated"
+            ]
+          },
+          "barrier_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ts_structure_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "frequency_evidence": {
+            "type": "string"
+          },
+          "connectivity_evidence": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -28,3 +28,7 @@ The source reports a 7.3 kcal/mol activation barrier for ts2, an 11.2 kcal/mol b
 ## 6. Limitations and interpretation boundaries
 
 These values are model- and protocol-dependent free energies, not direct experimental observables. The task evaluates whether an independent computational investigation identifies and validates the competing anomeric transition states and reproduces the source-supported qualitative and quantitative comparison. Alternative defensible methods must report their model, convergence, stationary-point validation and uncertainty; failure to reproduce the exact author protocol is not itself a scientific failure.
+
+## 2026-09-19 source-input correction
+
+Data S1 restores full 22c (49 atoms), Ni(0)L (45 atoms), int1 (60 atoms; neutral Ni(I)/imide doublet) and R (31 atoms; neutral monoradical doublet). The scored addition system is the composition-balanced int1 + R (91 atoms), not the previously corrupted 45/29/51-atom files. Main Figure 6B labels the post-addition state int2T and then int2S; the source-supported triplet addition branch is being tested with the full Data S1 TS models. This branch assignment is an explicit inference, not a recovered author input file. The high-level phrase B3LYP-M06 is unresolved; no guessed functional or low-level energy difference is certified as a final Gibbs barrier. No target, reference number or tolerance was changed.

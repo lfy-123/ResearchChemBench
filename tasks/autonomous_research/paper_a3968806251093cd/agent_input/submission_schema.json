@@ -1,1 +1,262 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","result_schema":{"type":"object","required":["status","models","mapping","observables","metrics","conclusion","limitations"],"properties":{"status":{"type":"string","enum":["complete","bounded_failure"]},"models":{"type":"array","minItems":2,"items":{"type":"object","required":["name","method","coordinates","converged","stationary","identity_validation","stationarity_evidence","rationale"],"properties":{"name":{"type":"string"},"method":{"type":"string"},"coordinates":{"type":"string"},"converged":{"type":"boolean"},"stationary":{"type":"boolean"},"identity_validation":{"type":"string"},"stationarity_evidence":{"type":"string"},"rationale":{"type":"string"}}}},"mapping":{"type":"object","required":["label_to_atom","mapping_basis"],"properties":{"label_to_atom":{"type":"object"},"mapping_basis":{"type":"string"}}},"observables":{"type":"array","minItems":1,"items":{"oneOf":[{"type":"object","required":["model","selector","kind","value","unit","reference_comparison"],"properties":{"model":{"type":"string"},"selector":{"type":"string"},"kind":{"type":"string"},"value":{"type":"number"},"unit":{"type":"string"},"reference_comparison":{"type":"string"}}},{"type":"object","required":["model","selector","kind","failure","unit"],"properties":{"model":{"type":"string"},"selector":{"type":"string"},"kind":{"type":"string"},"failure":{"type":"string"},"unit":{"type":"string"}}}]}},"metrics":{"type":"array","minItems":1,"items":{"type":"object","required":["model","observable_kind","mae","rmse","n_rows","torsion_error_convention"],"properties":{"model":{"type":"string"},"observable_kind":{"type":"string"},"mae":{"type":"number"},"rmse":{"type":"number"},"n_rows":{"type":"integer"},"torsion_error_convention":{"type":"string"}}}},"conclusion":{"type":"string"},"limitations":{"type":"string"}}}}
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "models",
+      "mapping",
+      "observables",
+      "metrics",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "models": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "method",
+            "coordinates",
+            "converged",
+            "stationary",
+            "identity_validation",
+            "stationarity_evidence",
+            "rationale"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "string"
+            },
+            "converged": {
+              "type": "boolean"
+            },
+            "stationary": {
+              "type": "boolean"
+            },
+            "identity_validation": {
+              "type": "string"
+            },
+            "stationarity_evidence": {
+              "type": "string"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "mapping": {
+        "type": "object",
+        "required": [
+          "label_to_atom",
+          "mapping_basis"
+        ],
+        "properties": {
+          "label_to_atom": {
+            "type": "object"
+          },
+          "mapping_basis": {
+            "type": "string"
+          }
+        }
+      },
+      "observables": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "model",
+                "selector",
+                "kind",
+                "value",
+                "unit",
+                "reference_comparison"
+              ],
+              "properties": {
+                "model": {
+                  "type": "string"
+                },
+                "selector": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "reference_comparison": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "model",
+                "selector",
+                "kind",
+                "failure",
+                "unit"
+              ],
+              "properties": {
+                "model": {
+                  "type": "string"
+                },
+                "selector": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "failure": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "metrics": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "required": [
+            "model",
+            "observable_kind",
+            "mae",
+            "rmse",
+            "n_rows",
+            "torsion_error_convention"
+          ],
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "observable_kind": {
+              "type": "string"
+            },
+            "mae": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "rmse": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "n_rows": {
+              "type": "integer"
+            },
+            "torsion_error_convention": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "failure_reason": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "observables": {
+              "minItems": 94
+            },
+            "metrics": {
+              "minItems": 6,
+              "items": {
+                "properties": {
+                  "mae": {
+                    "type": "number"
+                  },
+                  "rmse": {
+                    "type": "number"
+                  },
+                  "n_rows": {
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "models": {
+              "items": {
+                "properties": {
+                  "converged": {
+                    "const": true
+                  },
+                  "stationary": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_reason"
+          ]
+        }
+      }
+    ]
+  }
+}

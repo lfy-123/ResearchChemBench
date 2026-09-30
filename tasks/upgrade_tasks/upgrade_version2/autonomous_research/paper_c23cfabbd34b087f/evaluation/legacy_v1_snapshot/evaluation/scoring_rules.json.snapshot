@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use four supplied mapped graph models with source truncation: long alkoxy chains are OMe and the label TIPS denotes the source C#C-SiH3 computational substitute, not full Si(iPr)3. Generate independent coordinates. 1M and 2M differ by C2H2; compare spin/optical observables, never their bare total energies. Oxidized 2M-prime is a different compound and outside this matrix. Use common_scaffold_mapping.json for the exact 54/56 retained-heavy atom pair maps; shared-scaffold coordinates must be copied from the computed reference, not independently fitted. Within each fixed composition report E(T)-E(CS) on shared CS geometry and separately at state-relaxed geometries. BS energies are determinant energies with S2/occupations, not a spin-pure singlet unless an explicitly justified projection is supplied. Across topologies compare like-defined gaps and state descriptors, not total E. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use four supplied mapped graph models with source truncation: long alkoxy chains are OMe and the label TIPS denotes the source C#C-SiH3 computational substitute, not full Si(iPr)3. Generate independent coordinates. 1M and 2M differ by C2H2; compare spin/optical observables, never their bare total energies. Oxidized 2M-prime is a different compound and outside this matrix. Use common_scaffold_mapping.json for the exact 54/56 retained-heavy atom pair maps; shared-scaffold coordinates must be copied from the computed reference, not independently fitted. Within each fixed composition report E(T)-E(CS) on shared CS geometry and separately at state-relaxed geometries. BS energies are determinant energies with S2/occupations, not a spin-pure singlet unless an explicitly justified projection is supplied. Across topologies compare like-defined gaps and state descriptors, not total E. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_relaxed_series",
+      "reference_id": "kp_relaxed_series",
+      "type": "semantic",
+      "expected": "Verify source model graphs, H counts and neutral spin spaces; inspect stability/occupation and TD evidence. The former 1M-TIPS geometry was not a new minimum validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxed_series",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify source model graphs, H counts and neutral spin spaces; inspect stability/occupation and TD evidence. The former 1M-TIPS geometry was not a new minimum validation."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_frozen_scaffold",
+      "reference_id": "kp_frozen_scaffold",
+      "type": "semantic",
+      "expected": "Check exact retained common scaffold coordinates and fragment valence; compare effects within each topology first. Frozen BS collapse is documented in its record, not a fabricated distinct solution.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.frozen_scaffold",
+          "$.calculation_records"
+        ],
+        "comparison": "Check exact retained common scaffold coordinates and fragment valence; compare effects within each topology first. Frozen BS collapse is documented in its record, not a fabricated distinct solution."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_calibrated_interpretation",
+      "reference_id": "kp_calibrated_interpretation",
+      "type": "semantic",
+      "expected": "Cross-check occupations, spin gaps and optical state character against an independent electronic model. An unrestricted instability or large oscillator strength does not alone prove a diradical assignment or experimental spectrum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.calibrated_interpretation",
+          "$.calculation_records"
+        ],
+        "comparison": "Cross-check occupations, spin gaps and optical state character against an independent electronic model. An unrestricted instability or large oscillator strength does not alone prove a diradical assignment or experimental spectrum."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine how backbone topology and substituent changes affect open-shell character and low-energy optical states, separating relaxation and electronic effects with matched scaffolds and spin diagnostics. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine how backbone topology and substituent changes affect open-shell character and low-energy optical states, separating relaxation and electronic effects with matched scaffolds and spin diagnostics. Reject confusing full TIPS with SiH3 truncation, using oxidized 2M-prime as a conformer, raw cross-formula total-energy rankings, unvalidated BS minima or unsupported TD certainty under strong multireference character. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "relaxed_series",
+      "max_score": 25,
+      "description": "Four matched electronic-state and optical panels",
+      "rule_ids": [
+        "rule_relaxed_series"
+      ]
+    },
+    {
+      "id": "frozen_scaffold",
+      "max_score": 25,
+      "description": "Within-topology frozen-scaffold substituent controls",
+      "rule_ids": [
+        "rule_frozen_scaffold"
+      ]
+    },
+    {
+      "id": "calibrated_interpretation",
+      "max_score": 15,
+      "description": "Independent spin calibration and topology/substitution discrimination",
+      "rule_ids": [
+        "rule_calibrated_interpretation"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Four matched electronic-state and optical panels",
+      "Within-topology frozen-scaffold substituent controls",
+      "Independent spin calibration and topology/substitution discrimination",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

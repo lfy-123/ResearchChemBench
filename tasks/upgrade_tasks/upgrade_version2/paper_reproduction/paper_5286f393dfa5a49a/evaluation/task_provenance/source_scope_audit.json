@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_5286f393dfa5a49a/documents/main.pdf",
+      "sha256": "5a66fa0198121ae0667252defdc0916a09d0a76ab7f4b664848c9361e8087d4d",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3
+      ],
+      "sections_figures_tables": "PDF p2 molecular synthesis, UV-visible/CD observations and source calculations; p3 Figure1a–d identities and experimental spectra, Figure1e–g source calculations/interpretation kept private or PR-only."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_5286f393dfa5a49a/documents/supplementary_001.pdf",
+      "sha256": "c82dd9a778b5e845a4ed4ff2d2141653e79fb530488318a03c6b661ad6062156",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        7,
+        11,
+        12,
+        13
+      ],
+      "sections_figures_tables": "PDF p7 separate conformational and TDDFT-CD protocols; p11 FigureS5 HPLC and NMR ratio; pp12–13 FiguresS6/S7 distinguish observed temperature-dependent resonances from computed barriers and structural assignments."
+    }
+  ],
+  "source_scope": "The molecular photophysical/chiroptical subproblem in the source monomer/dimer study. The task explains supplied solution observations for the actual four molecular identities; neither trimer design nor periodic photodetector performance is required.",
+  "objective_source_mapping": {
+    "main": "PDF p2 molecular synthesis, UV-visible/CD observations and source calculations; p3 Figure1a–d identities and experimental spectra, Figure1e–g source calculations/interpretation kept private or PR-only.",
+    "si": "PDF p7 separate conformational and TDDFT-CD protocols; p11 FigureS5 HPLC and NMR ratio; pp12–13 FiguresS6/S7 distinguish observed temperature-dependent resonances from computed barriers and structural assignments."
+  },
+  "facts_and_constraints": [
+    "R/S labels describe the chiral 1-phenylethyl substituents used in synthesis, not a supplied backbone assignment.",
+    "The fused dimer and monomer have different stoichiometries and connections. Differences in their total electronic energies are not optical transition energies or a balanced association energy.",
+    "Experimental optical observations and ancillary chromatography/NMR conditions are provided in solution_observations.json. No measured conformer free energies or calibrated molecular spectral tolerance is supplied."
+  ],
+  "identity_provenance": "Main Figure1a and SI synthesis/full-side-chain coordinate records establish chlorinated PDI monomer and fused-dimer connections with 1-phenylethyl R/S substituents. These mapped molecular graphs preserve the substituent stereocentres but provide no optimized geometry, backbone helicity or conformer weights.",
+  "decisions_open": [
+    "Choose relevant molecular configurations and any defensible representation or population treatment.",
+    "Choose how to explain the absorption/CD changes and evidence that could refute or revise that explanation.",
+    "Decide which structural or environmental uncertainties affect the inferred chiroptical response and whether existing observations resolve them."
+  ],
+  "removed_v1_requirements": [
+    "Remove fixed M-family backbone, specified side-chain ensemble size and prescribed cut/cap coupling control.",
+    "Remove mandatory mirror-calibration job and nominated transition/dipole mechanism from AR inputs and active requirements.",
+    "Keep the known side-chain absolute configurations and real solution observations; release backbone assignments rather than deleting necessary experimental facts."
+  ],
+  "out_of_scope": "Study the four supplied complete neutral singlet molecular identities and their molecular optical response in dichloromethane. Side-chain stereochemistry is a known synthetic identity; backbone helicity, relevant conformations, populations and transition assignments are to be investigated. The supplied graphs do not prescribe a three-dimensional backbone. Ancillary HPLC/NMR observations retain their own experimental media and do not establish a dichloromethane equilibrium distribution. A reduced model requires an explicit relationship to the full molecular identity and a justification adequate for its claim. Periodic crystals, charge transport, photocurrent dissymmetry and device efficiency are outside the required molecular question.",
+  "feasibility": "The source explicitly carries out molecular ORCA optimization, single-point and TDDFT-CD computations for the full systems. Complete source-connected graphs are available here, so input identity is not blocked. Future reference review can first reparse existing full-side-chain inputs and TD outputs where actually available; then assess the chosen molecular route. The 138-atom dimer requires a realistic runtime allocation, which has not been measured for V2. Any reduced model must demonstrate its relevance rather than inherit validity from size reduction.",
+  "limitations": "Only summarized measured spectra and ancillary observations are public; no false pointwise raw spectrum or error bar is supplied. Full solution conformational/population and alternate-route optical references remain pending. Source crystal configuration does not establish the solution ensemble. Semantic judge calibration, independent scientific validation and filesystem isolation remain pending.",
+  "source_scope_verified": true,
+  "review_type": "Local relevant primary-text/figure review with explicit page mapping; no new scientific calculation."
+}

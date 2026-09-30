@@ -1,0 +1,94 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "hypotheses",
+      "outcome",
+      "provenance"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "hypotheses": {
+        "type": "array"
+      },
+      "outcome": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "outcome_type",
+              "candidates",
+              "per_size",
+              "conclusion"
+            ],
+            "properties": {
+              "outcome_type": {
+                "const": "validated_conclusion"
+              },
+              "candidates": {
+                "type": "array"
+              },
+              "per_size": {
+                "type": "array"
+              },
+              "conclusion": {
+                "type": "object"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "outcome_type",
+              "failure_report",
+              "coverage_attempted"
+            ],
+            "properties": {
+              "outcome_type": {
+                "const": "bounded_failure"
+              },
+              "failure_report": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "n",
+                    "stage",
+                    "reason"
+                  ]
+                }
+              },
+              "coverage_attempted": {
+                "type": "string"
+              },
+              "conclusion_scope": {
+                "type": "string",
+                "description": "Optional commentary; not an independent scoring requirement."
+              }
+            }
+          }
+        ]
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "provenance": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

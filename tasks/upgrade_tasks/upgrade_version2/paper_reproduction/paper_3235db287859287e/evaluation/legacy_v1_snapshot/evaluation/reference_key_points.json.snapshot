@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_3235db287859287e",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use methyl 2-(hydroxy(phenyl)methyl)acrylate 1a and benzenethiol 2a, not benzylthiol. The local reaction uses MeCN, 298.15 K and a declared 1 M solution convention. Experimental context is 1 mmol of each substrate, 5 mL 0.1 M KI, Pt electrodes, 10 mA, room temperature, N2 (main PDF p7). Compare a finite radical/ionic and substrate-O/water-O candidate space. Reservoir species are I−/I radical, H2O, H+/electron with explicitly matched electron/proton chemical potentials; the electrochemical cell is not modeled. The unlabelled product constitution is a comparison endpoint, not an energetic winner. Isotope observations are public constraints, not blind predictions.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_paths",
+      "statement": "Two chemically different, connected local oxygen-transfer routes with common reservoir bookkeeping.",
+      "expected": "Two chemically different, connected local oxygen-transfer routes with common reservoir bookkeeping. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_oxygen_tests",
+      "statement": "Atom-source predictions and computed protection perturbation, bound to actual paths.",
+      "expected": "Atom-source predictions and computed protection perturbation, bound to actual paths. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_path_comparison",
+      "statement": "Compare reference-corrected barriers, not merely E/Z product G.",
+      "expected": "Compare reference-corrected barriers, not merely E/Z product G. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong sulfur reagent; unbalanced electron/proton or labelled O bookkeeping; E/Z stability asserted as oxygen-transfer mechanism; monotonic scan asserted as barrierless free energy.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

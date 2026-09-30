@@ -1,0 +1,153 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "charge_transfer",
+      "method",
+      "coverage",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "systems": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "system_id",
+            "status",
+            "adsorption_energy_eV",
+            "reference_energies",
+            "validation",
+            "candidates"
+          ],
+          "properties": {
+            "system_id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "adsorption_energy_eV": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "reference_energies": {
+              "type": "object"
+            },
+            "validation": {
+              "type": "object"
+            },
+            "candidates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "identity",
+                  "status"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "identity": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "charge_transfer": {
+        "type": "object",
+        "required": [
+          "status",
+          "value_e"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "value_e": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "sign_convention": {
+            "type": "string"
+          },
+          "partition": {
+            "type": "string"
+          },
+          "uncertainty_e": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software_or_code",
+          "model",
+          "convergence"
+        ],
+        "properties": {
+          "software_or_code": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "convergence": {
+            "type": "string"
+          }
+        }
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "candidate_generation",
+          "deduplication",
+          "stopping_condition",
+          "limitations"
+        ],
+        "properties": {
+          "candidate_generation": {
+            "type": "string"
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "stopping_condition": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    }
+  }
+}

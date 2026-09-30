@@ -1,0 +1,34 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Compare complete source silylenes 1, V-prime and carbonyl analogue 4 with H2. All isolated reactants and the closed-shell activation surface are neutral singlets. Main Scheme2 p2 defines 4 as the six-membered lactam analogue of 1: replace the C(Me)2 adjacent to N with C=O while retaining N-phenyl and both SiMe3 groups. Species_registry.json gives the graph; no TS is supplied. Use benzene, 298 K, 1 atm for source-comparable G, and separated silylene+H2 as the common zero for each system. Do not subtract unlike full-system total energies across different formulas.",
+  "panels": {
+    "activation_paths": {
+      "requirement": "Three actual H2 activation pathways with shared separated-reactant conventions.",
+      "required_cells": [
+        "1",
+        "V_prime",
+        "4"
+      ]
+    },
+    "matched_coordinate_decomposition": {
+      "requirement": "Matched H–H coordinate strain and interaction terms with closure residuals.",
+      "required_cells": [
+        "1",
+        "V_prime",
+        "4"
+      ]
+    },
+    "causal_comparison": {
+      "requirement": "Compare signed barriers and decomposition trends; isolated Si descriptors cannot establish causation.",
+      "required_cells": [
+        "4_minus_1",
+        "V_prime_minus_1"
+      ]
+    }
+  },
+  "optional_not_required": "乙炔所有 TS、氨硼烷/CO₂ 全催化网络不强制。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

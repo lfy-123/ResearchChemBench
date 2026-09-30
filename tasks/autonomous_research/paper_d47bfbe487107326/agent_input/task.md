@@ -1,6 +1,6 @@
 # Scientific objective
 
-For the two explicitly defined isolated organic molecules AQ and EQ, independently determine whether their electronic structures differ in a way that is relevant to low-energy intersystem crossing. Calculate and compare the first singlet–triplet gap ΔE_ST = E(T1) − E(S1), HOMO–LUMO gaps, dipole moments, and frontier-orbital localization, then state what those calculations do and do not support. Formulate your own physical explanation from the computed evidence; no author route or preferred mechanism is supplied.
+For the two explicitly defined isolated organic molecules AQ and EQ, independently determine whether their electronic structures differ in a way that is relevant to low-energy intersystem crossing. Calculate and compare the first singlet–triplet gap ΔE_ST = E(S1) − E(T1), HOMO–LUMO gaps, dipole moments, and frontier-orbital localization, then state what those calculations do and do not support. Formulate your own physical explanation from the computed evidence; no author route or preferred mechanism is supplied.
 
 # Public inputs and scientific boundaries
 

@@ -1,0 +1,9 @@
+{
+  "paper_id": "paper_c1323a2dc523c154",
+  "items": [
+    {"key_point_id": "pr_kp1", "key_point_type": "process", "statement": "The submitted calculation validates the neutral singlet Pd2Cl6 geometry and preserves system identity before interpreting XES.", "expected": "A geometry validation is documented and Pd–Pd plus six nearest Pd–Cl distances are reported for the spectrum geometry; the calculation uses charge 0 and multiplicity 1.", "evidence_ids": ["e_si_input", "e_si_xyz"]},
+    {"key_point_id": "pr_kp2", "key_point_type": "process", "statement": "The spectrum has transition-level provenance and reproducible broadening.", "expected": "Individual transition energies, intensities and orbital character are retained, and the submitted curve is regenerated from them using a declared broadening treatment; raw and aligned energies remain distinguishable.", "evidence_ids": ["e_si_input", "e_methods", "e_postprocess"]},
+    {"key_point_id": "pr_kp3", "key_point_type": "result", "statement": "Pd2Cl6 has a broad, intense lower-energy shoulder centered near 3170 eV after defensible alignment.", "expected": "A distinct lower-energy shoulder is present with center approximately 3170 eV and is broader/more intense than a single weak satellite interpretation would imply.", "evidence_ids": ["e_pd2cl6_claim", "e_figure6"]},
+    {"key_point_id": "pr_kp4", "key_point_type": "result", "statement": "The shoulder is composed of several intense transitions with substantial Pd d contribution and Pd–Cl/Cl-valence involvement.", "expected": "Multiple supporting transition IDs span roughly 3167–3171 eV after alignment and their orbital evidence supports several Pd–Cl interactions rather than one isolated transition.", "evidence_ids": ["e_pd2cl6_claim", "e_si_orbitals"]}
+  ]
+}

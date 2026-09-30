@@ -1,0 +1,136 @@
+{
+  "atom_indexing": "one-based per-reference XYZ row; the two reference orders differ",
+  "atom_count": 68,
+  "charge": 0,
+  "multiplicity": 4,
+  "model": "L10-supported Fe hydride plus 4-phenyl-1-butyne; disilane is reaction context, not an extra constituent of these 68-atom insertion models",
+  "reactant_role": "given coordinated reactants, not target transition states",
+  "references": {
+    "INT2A-quartet": {
+      "file": "INT2A_quartet.xyz",
+      "Fe": 36,
+      "hydride_H": 37,
+      "terminal_alkyne_C": 49,
+      "terminal_alkyne_H": 50,
+      "substituted_alkyne_C": 51,
+      "substituent_CH2": 52,
+      "N_donor_plane": [
+        5,
+        14,
+        21
+      ],
+      "tert_butyl_quaternary_C": 23
+    },
+    "INT2B-quartet": {
+      "file": "INT2B_quartet.xyz",
+      "Fe": 22,
+      "hydride_H": 23,
+      "terminal_alkyne_C": 35,
+      "terminal_alkyne_H": 36,
+      "substituted_alkyne_C": 37,
+      "substituent_CH2": 38,
+      "N_donor_plane": [
+        5,
+        14,
+        20
+      ],
+      "tert_butyl_quaternary_C": 55
+    }
+  },
+  "channels": [
+    {
+      "label": "TS3A-quartet",
+      "reference": "INT2A-quartet",
+      "approach_face": "same ligand face as the alkyne in INT2A_quartet.xyz",
+      "hydride_transfer_to": "terminal_alkyne_C",
+      "alkenyl_Fe_bond_to": "substituted_alkyne_C",
+      "bond_changes_in_reference_atom_ids": {
+        "break": [
+          [
+            36,
+            37
+          ]
+        ],
+        "form": [
+          [
+            37,
+            49
+          ]
+        ]
+      },
+      "bond_order_change": "alkyne C#C to alkenyl C=C; eta2 alkyne coordination becomes Fe-C to the non-hydrogenated carbon",
+      "required_mapping": "Use this reference XYZ order for your generated candidates, or provide explicit source-to-output atom mapping. Channel labels refer to chemistry/face, not which output energy is obtained."
+    },
+    {
+      "label": "TS3B-quartet",
+      "reference": "INT2A-quartet",
+      "approach_face": "same ligand face as the alkyne in INT2A_quartet.xyz",
+      "hydride_transfer_to": "substituted_alkyne_C",
+      "alkenyl_Fe_bond_to": "terminal_alkyne_C",
+      "bond_changes_in_reference_atom_ids": {
+        "break": [
+          [
+            36,
+            37
+          ]
+        ],
+        "form": [
+          [
+            37,
+            51
+          ]
+        ]
+      },
+      "bond_order_change": "alkyne C#C to alkenyl C=C; eta2 alkyne coordination becomes Fe-C to the non-hydrogenated carbon",
+      "required_mapping": "Use this reference XYZ order for your generated candidates, or provide explicit source-to-output atom mapping. Channel labels refer to chemistry/face, not which output energy is obtained."
+    },
+    {
+      "label": "TS3C-quartet",
+      "reference": "INT2B-quartet",
+      "approach_face": "same ligand face as the alkyne in INT2B_quartet.xyz",
+      "hydride_transfer_to": "terminal_alkyne_C",
+      "alkenyl_Fe_bond_to": "substituted_alkyne_C",
+      "bond_changes_in_reference_atom_ids": {
+        "break": [
+          [
+            22,
+            23
+          ]
+        ],
+        "form": [
+          [
+            23,
+            35
+          ]
+        ]
+      },
+      "bond_order_change": "alkyne C#C to alkenyl C=C; eta2 alkyne coordination becomes Fe-C to the non-hydrogenated carbon",
+      "required_mapping": "Use this reference XYZ order for your generated candidates, or provide explicit source-to-output atom mapping. Channel labels refer to chemistry/face, not which output energy is obtained."
+    },
+    {
+      "label": "TS3D-quartet",
+      "reference": "INT2B-quartet",
+      "approach_face": "same ligand face as the alkyne in INT2B_quartet.xyz",
+      "hydride_transfer_to": "substituted_alkyne_C",
+      "alkenyl_Fe_bond_to": "terminal_alkyne_C",
+      "bond_changes_in_reference_atom_ids": {
+        "break": [
+          [
+            22,
+            23
+          ]
+        ],
+        "form": [
+          [
+            23,
+            37
+          ]
+        ]
+      },
+      "bond_order_change": "alkyne C#C to alkenyl C=C; eta2 alkyne coordination becomes Fe-C to the non-hydrogenated carbon",
+      "required_mapping": "Use this reference XYZ order for your generated candidates, or provide explicit source-to-output atom mapping. Channel labels refer to chemistry/face, not which output energy is obtained."
+    }
+  ],
+  "face_definition": "Keep the ligand stereochemistry of each reference. The two supplied reactants encode the upper/lower ligand faces. To explore the other regiochannel on the same face, reorient the alkyne within that face; no author TS distance, torsion or product geometry is supplied. A face can be tracked by the signed scalar product of alkyne-midpoint minus Fe with the normal of the ordered N_donor_plane; report atom mapping and any change during refinement.",
+  "geometry_requirements": "Generate TS guesses independently from reactants and these proposed bond changes, then optimize and validate. No forming/breaking bond lengths or angles are prescribed."
+}

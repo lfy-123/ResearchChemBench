@@ -1,0 +1,356 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "method",
+      "structures",
+      "barrier"
+    ],
+    "properties": {
+      "status": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "reference_structure",
+          "target_structure"
+        ],
+        "properties": {
+          "charge": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "multiplicity": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "reference_structure": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "target_structure": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure",
+          "solvent",
+          "temperature_K",
+          "barrier_equation"
+        ],
+        "properties": {
+          "software": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "electronic_structure": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "solvent": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "temperature_K": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "barrier_equation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "electrochemical_reference": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "structures": {
+        "type": "object",
+        "required": [
+          "reference",
+          "target"
+        ],
+        "properties": {
+          "reference": {
+            "type": "object",
+            "required": [
+              "optimized",
+              "imaginary_frequency_count",
+              "evidence"
+            ],
+            "properties": {
+              "optimized": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "imaginary_frequency_count": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "evidence": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "target": {
+            "type": "object",
+            "required": [
+              "optimized",
+              "imaginary_frequency_count",
+              "evidence"
+            ],
+            "properties": {
+              "optimized": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "imaginary_frequency_count": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "evidence": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "barrier": {
+        "type": "object",
+        "required": [
+          "value_kcal_mol",
+          "evidence",
+          "mode_assignment"
+        ],
+        "properties": {
+          "value_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "evidence": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mode_assignment": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "limitations": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "diagnostics",
+          "attempted_steps"
+        ],
+        "properties": {
+          "diagnostics": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "attempted_steps": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "completed"
+          },
+          "barrier": {
+            "properties": {
+              "value_kcal_mol": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mode_assignment": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "structures": {
+            "properties": {
+              "reference": {
+                "properties": {
+                  "optimized": {
+                    "const": true
+                  },
+                  "imaginary_frequency_count": {
+                    "const": 0
+                  },
+                  "evidence": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "target": {
+                "properties": {
+                  "optimized": {
+                    "const": true
+                  },
+                  "imaginary_frequency_count": {
+                    "const": 1
+                  },
+                  "evidence": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "system": {
+            "properties": {
+              "charge": {
+                "const": 1
+              },
+              "multiplicity": {
+                "const": 1
+              },
+              "reference_structure": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target_structure": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "method": {
+            "properties": {
+              "software": {
+                "type": "string",
+                "minLength": 1
+              },
+              "electronic_structure": {
+                "type": "string",
+                "minLength": 1
+              },
+              "solvent": {
+                "type": "string",
+                "minLength": 1
+              },
+              "barrier_equation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "temperature_K": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        },
+        "required": [
+          "structures",
+          "barrier"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure": {
+            "properties": {
+              "diagnostics": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attempted_steps": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "required": [
+          "failure"
+        ]
+      }
+    ]
+  }
+}

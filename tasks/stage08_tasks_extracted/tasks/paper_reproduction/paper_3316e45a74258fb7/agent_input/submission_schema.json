@@ -1,0 +1,128 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "structure",
+      "optimization",
+      "excited_states",
+      "gap",
+      "oscillator_strength",
+      "state_character",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "structure": {
+        "type": "object",
+        "required": [
+          "object_id",
+          "geometry_source",
+          "conformer_coverage"
+        ],
+        "properties": {
+          "object_id": {
+            "type": "string"
+          },
+          "geometry_source": {
+            "type": "string"
+          },
+          "conformer_coverage": {
+            "type": "string"
+          }
+        }
+      },
+      "optimization": {
+        "type": "object",
+        "required": [
+          "performed",
+          "validation_evidence"
+        ],
+        "properties": {
+          "performed": {
+            "type": "boolean"
+          },
+          "validation_evidence": {
+            "type": "string"
+          },
+          "failure_reason": {
+            "type": "string"
+          }
+        }
+      },
+      "excited_states": {
+        "type": "object",
+        "required": ["state_assignment_evidence"],
+        "oneOf": [
+          {"required": ["s1_energy_eV", "t1_energy_eV"]},
+          {"required": ["failure_reason"]}
+        ],
+        "properties": {
+          "s1_energy_eV": {
+            "type": "number"
+          },
+          "t1_energy_eV": {
+            "type": "number"
+          },
+          "state_assignment_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "gap": {
+        "type": "object",
+        "required": ["calculation"],
+        "oneOf": [
+          {"required": ["delta_est_eV"]},
+          {"required": ["failure_reason"]}
+        ],
+        "properties": {
+          "delta_est_eV": {
+            "type": "number"
+          },
+          "calculation": {
+            "type": "string"
+          },
+          "failure_reason": {
+            "type": "string"
+          }
+        }
+      },
+      "oscillator_strength": {
+        "type": "object",
+        "required": [
+          "status",
+          "evidence"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "state_character": {
+        "type": "string"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

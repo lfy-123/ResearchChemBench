@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "Ph-mP": {
+      "formula": "C34H24N2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "molecular_identities.json"
+    },
+    "Na-mP": {
+      "formula": "C38H26N2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "molecular_identities.json"
+    },
+    "An-mP": {
+      "formula": "C42H28N2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "molecular_identities.json"
+    },
+    "Py-mP": {
+      "formula": "C44H28N2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "molecular_identities.json"
+    }
+  },
+  "identity_files": [
+    "An-mP_identity.json",
+    "Na-mP_identity.json",
+    "Ph-mP_identity.json",
+    "Py-mP_identity.json",
+    "molecular_identities.json"
+  ],
+  "control_definitions": {
+    "window": "Start at least five singlets and five triplets; enlarge to ten of each for representatives and further if the selected state lies at the boundary. Compare a common energy window containing S1 and neighboring candidate triplets.",
+    "geometry": "For Ph-mP and An-mP freeze the terminal-aromatic/phenylene linking torsion at 45 degrees, relax other S0 coordinates, and repeat the state/SOC window. Define the four mapped torsion atoms. Use the four explicit benchmark atom IDs in each terminal_bridge_control; their ordering defines the signed +45-degree target.",
+    "series": "After representative calibration, compute the relaxed-geometry state/SOC window for Na-mP and Py-mP using the same protocol.",
+    "competition": "For every candidate high-triplet channel report at least the two neighboring triplets and their character; near degeneracy or alternative localization may change the inference."
+  },
+  "observable_definition": "For a matched physical Tn, delta_STn=E(S1;R_S0)-E(Tn;R_S0). Report SOC norms in cm^-1 and neighboring Tn±1 spacings at the same geometry and Hamiltonian. Energy/SOC support necessary channel prerequisites; neither is an absolute RISC rate or quantum yield.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "series_states",
+      "description": "Four-member matched state windows with high-state SOC"
+    },
+    {
+      "id": "representative_controls",
+      "description": "Representative root-window and geometry interventions"
+    },
+    {
+      "id": "channel_competition",
+      "description": "Competing high-state channels and bounded inference"
+    }
+  ],
+  "optional_not_scored": "Nonadiabatic dynamics, absolute RISC rates and quantum efficiencies are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

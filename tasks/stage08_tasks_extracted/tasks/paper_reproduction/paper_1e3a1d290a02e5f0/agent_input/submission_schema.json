@@ -1,0 +1,28 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["results", "conclusion", "limitations"],
+    "properties": {
+      "results": {
+        "type": "array", "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": ["molecule_id", "identity", "method"],
+          "properties": {
+            "molecule_id": {"type": "string"},
+            "identity": {"type": "object", "required": ["systematic_name", "formula", "charge", "multiplicity"], "properties": {"systematic_name": {"type": "string"}, "formula": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}}},
+            "method": {"type": "object", "required": ["software", "functional", "basis", "convergence_settings", "conformer_handling", "lambda_definition", "energy_states", "approach_justification"], "properties": {"software": {"type": "string"}, "functional": {"type": "string"}, "basis": {"type": "string"}, "convergence_settings": {"type": "string"}, "conformer_handling": {"type": "string"}, "lambda_definition": {"type": "string"}, "energy_states": {"type": "string"}, "approach_justification": {"type": "string"}}},
+            "status": {"type": "string", "enum": ["validated", "bounded_failure"]}
+          },
+          "oneOf": [
+            {"required": ["status", "geometry", "validation", "homo_eV", "lumo_eV", "lambda_h_eV"], "properties": {"status": {"const": "validated"}, "geometry": {"type": "object", "required": ["file", "atom_count", "connectivity_preserved"], "properties": {"file": {"type": "string"}, "atom_count": {"type": "integer"}, "connectivity_preserved": {"type": "boolean"}}}, "validation": {"type": "object", "required": ["minimum_test", "imaginary_modes", "status"], "properties": {"minimum_test": {"type": "string"}, "imaginary_modes": {"type": "integer"}, "status": {"type": "string"}}}, "homo_eV": {"type": "number"}, "lumo_eV": {"type": "number"}, "lambda_h_eV": {"type": "number"}}},
+            {"required": ["status", "failure_reason", "attempted_methods"], "properties": {"status": {"const": "bounded_failure"}, "failure_reason": {"type": "string"}, "attempted_methods": {"type": "string"}}}
+          ]
+        }
+      },
+      "conclusion": {"type": "string"}, "limitations": {"type": "string"}
+    }
+  }
+}

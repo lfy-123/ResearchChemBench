@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "B2_bulk": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "note": "Neutral periodic Ni/Al model; report magnetic initialization/moments separately."
+    },
+    "B2_vacancy": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    },
+    "B2_surface": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    },
+    "L12_Ni3Al": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    },
+    "fcc_Ni": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    },
+    "fcc_Al": {
+      "formula": "",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    }
+  },
+  "identity_files": [
+    "benchmark_B2_start.extxyz",
+    "benchmark_L12_start.extxyz",
+    "beta_nial_b2_primitive.poscar",
+    "lattice_and_surface_definition.json",
+    "system_definition.json"
+  ],
+  "control_definitions": {
+    "bulk": "Optimize B2/fcc reservoirs and calculate both vacancies in 2x2x2 and 3x3x3 supercells with matched reciprocal density.",
+    "surface": "For each of Ni-terminated(100), Al-terminated(100), mixed(110), compare species exchanges with central layers and vacancy/adatom transfer cycles. Record layer identities and all atom counts.",
+    "convergence": "Use 7- and 9-layer slabs and 15/20 angstrom vacuum starts; these define checks, not promised convergence. Converge representative slab k mesh/energy cutoff.",
+    "phase": "Calculate relaxed L12 Ni3Al and the common-reservoir grand potential. Check elemental precipitation constraints; if Ni3Al changes the allowed equilibrium reservoir window, report B2 metastability rather than silently using inconsistent equilibrium chemical potentials.",
+    "surface_symmetry": "For nonstoichiometric terminations include chemical-potential terms and surface multiplicity; a two-face asymmetric slab energy is not a single termination energy."
+  },
+  "observable_definition": "Ni-rich mu_Ni=E(fcc Ni)/atom and mu_Al=E(B2 NiAl)/formula_unit-mu_Ni. E_vac(X)=E(defect)-E(pristine)+mu_X. Atom-conserving E_seg=E(exchanged slab)-E(clean slab). Balanced transfer E_tr(X)=E(bulk V_X)+E(slab+X)-E(bulk)-E(slab). Ni3Al grand potential per formula unit=E(L12 Ni3Al)-3mu_Ni-mu_Al. Use the same converged Hamiltonian/reservoirs throughout.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "bulk_vacancies",
+      "description": "Two vacancies with explicit reservoirs and supercell control"
+    },
+    {
+      "id": "surface_cycles",
+      "description": "Three terminations with exchange and balanced transfer controls"
+    },
+    {
+      "id": "phase_and_convergence",
+      "description": "Ni3Al competitor and converged, bounded mechanism inference"
+    }
+  ],
+  "optional_not_scored": "NEB barriers, coherent Ni3Al/B2 interfaces, finite-temperature precipitation kinetics and spectroscopy are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

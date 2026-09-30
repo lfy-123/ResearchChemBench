@@ -1,1 +1,269 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","result_schema":{"oneOf":[{"type":"object","required":["status","system","state","fragments","validation","observables","comparison","conclusion","limitations"],"properties":{"status":{"const":"complete"},"system":{"type":"object","required":["pdb_id","chains","atom_mapping"],"properties":{"pdb_id":{"const":"3I40"},"chains":{"type":"array","minItems":2},"atom_mapping":{"type":"string","minLength":1}},"additionalProperties":false},"state":{"type":"object","required":["charge","multiplicity","method","geometry_provenance"],"additionalProperties":false},"fragments":{"type":"array","minItems":1,"items":{"type":"object","required":["id","center","radius_angstrom","included_atom_count","cap_policy","geometry_provenance","status"],"additionalProperties":false}},"validation":{"type":"object","required":["checks","coverage","stopping","disulfide_pairs","glu17a_arg22b"],"properties":{"checks":{"type":"array","minItems":1},"coverage":{"type":"object","required":["criterion","evaluated_atom_pairs","uncomputed_pairs"]},"stopping":{"type":"string","minLength":1},"disulfide_pairs":{"type":"array","minItems":3},"glu17a_arg22b":{"type":"object","required":["radius_cases","interpretation"]}},"additionalProperties":false},"observables":{"type":"object","required":["ami_definition","fmi_definition","matrix_artifacts","metrics"],"additionalProperties":false},"comparison":{"type":"object","required":["reference_description","method","result"],"additionalProperties":false},"conclusion":{"type":"object","required":["locality","disulfides","radius_sensitivity","text"],"additionalProperties":false},"limitations":{"type":"array","items":{"type":"string"}}},"additionalProperties":false},{"type":"object","required":["status","system","state","fragments","validation","observables","failure_report","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"system":{"type":"object","required":["pdb_id","chains","atom_mapping"]},"state":{"type":"object","required":["charge","multiplicity","method","geometry_provenance"]},"fragments":{"type":"array","minItems":1},"validation":{"type":"object","required":["checks","coverage","stopping","disulfide_pairs","glu17a_arg22b"]},"observables":{"type":"object","required":["ami_definition","fmi_definition","matrix_artifacts","metrics"]},"failure_report":{"type":"object","required":["completed_artifacts","missing_endpoint","reason"]},"conclusion":{"type":"object","required":["locality","disulfides","radius_sensitivity","text"]},"limitations":{"type":"array","items":{"type":"string"}}},"additionalProperties":false}]}}
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "state",
+          "fragments",
+          "validation",
+          "observables",
+          "comparison",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "pdb_id",
+              "chains",
+              "atom_mapping"
+            ],
+            "properties": {
+              "pdb_id": {
+                "const": "3I40"
+              },
+              "chains": {
+                "type": "array",
+                "minItems": 2
+              },
+              "atom_mapping": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "state": {
+            "type": "object",
+            "required": [
+              "charge",
+              "multiplicity",
+              "method",
+              "geometry_provenance"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "charge": {},
+              "multiplicity": {},
+              "method": {},
+              "geometry_provenance": {}
+            }
+          },
+          "fragments": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "center",
+                "radius_angstrom",
+                "included_atom_count",
+                "cap_policy",
+                "geometry_provenance",
+                "status"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {},
+                "center": {},
+                "radius_angstrom": {},
+                "included_atom_count": {},
+                "cap_policy": {},
+                "geometry_provenance": {},
+                "status": {}
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "checks",
+              "coverage",
+              "stopping",
+              "disulfide_pairs",
+              "glu17a_arg22b"
+            ],
+            "properties": {
+              "checks": {
+                "type": "array",
+                "minItems": 1
+              },
+              "coverage": {
+                "type": "object",
+                "required": [
+                  "criterion",
+                  "evaluated_atom_pairs",
+                  "uncomputed_pairs"
+                ]
+              },
+              "stopping": {
+                "type": "string",
+                "minLength": 1
+              },
+              "disulfide_pairs": {
+                "type": "array",
+                "minItems": 3
+              },
+              "glu17a_arg22b": {
+                "type": "object",
+                "required": [
+                  "radius_cases",
+                  "interpretation"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "ami_definition",
+              "fmi_definition",
+              "matrix_artifacts",
+              "metrics"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "ami_definition": {},
+              "fmi_definition": {},
+              "matrix_artifacts": {},
+              "metrics": {}
+            }
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "reference_description",
+              "method",
+              "result"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "reference_description": {},
+              "method": {},
+              "result": {}
+            }
+          },
+          "conclusion": {
+            "type": "object",
+            "required": [
+              "locality",
+              "disulfides",
+              "radius_sensitivity",
+              "text"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "locality": {},
+              "disulfides": {},
+              "radius_sensitivity": {},
+              "text": {}
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "state",
+          "fragments",
+          "validation",
+          "observables",
+          "failure_report",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "pdb_id",
+              "chains",
+              "atom_mapping"
+            ]
+          },
+          "state": {
+            "type": "object",
+            "required": [
+              "charge",
+              "multiplicity",
+              "method",
+              "geometry_provenance"
+            ]
+          },
+          "fragments": {
+            "type": "array",
+            "minItems": 1
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "checks",
+              "coverage",
+              "stopping",
+              "disulfide_pairs",
+              "glu17a_arg22b"
+            ]
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "ami_definition",
+              "fmi_definition",
+              "matrix_artifacts",
+              "metrics"
+            ]
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "completed_artifacts",
+              "missing_endpoint",
+              "reason"
+            ]
+          },
+          "conclusion": {
+            "type": "object",
+            "required": [
+              "locality",
+              "disulfides",
+              "radius_sensitivity",
+              "text"
+            ]
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  }
+}

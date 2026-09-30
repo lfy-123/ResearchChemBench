@@ -23,6 +23,30 @@ from chemistry_toolbox.mcp.discovery_models import (
 )
 
 
+def test_result_pages_never_advance_past_undelivered_events(tmp_path, monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_WORKSPACE", str(tmp_path))
+    monkeypatch.setenv("RESEARCHCHEM_MCP_WORKSPACE", str(tmp_path))
+    ids=[]
+    for batch_index in range(2):
+        batch="batch_"+str(batch_index)*32;ids.append(batch)
+        directory=tmp_path/"outputs"/"action_batches"/batch;directory.mkdir(parents=True)
+        events=[{"sequence":i+1,"type":"item_finished","item_id":str(i),"status":"failed"} for i in range(32)]
+        items=[{"item_id":str(i),"status":"failed","result":{"status":"failed","error":{"code":"fixture"}}} for i in range(32)]
+        (directory/"status.json").write_text(json.dumps({"batch_id":batch,"status":"failed","last_sequence":32,"events":events,"items":items}))
+    clock=[0]
+    def read(cursors):
+        return _read_events(ExecutionEventWaitRequest(batch_ids=ids,after_sequences=cursors),
+            policy={"settle_seconds":1,"max_batch_seconds":2,"heartbeat_seconds":3,"poll_interval_seconds":1,"failure_tail_chars":100},
+            monotonic_fn=lambda:clock[0],sleep_fn=lambda n:clock.__setitem__(0,clock[0]+n))
+    first=read({})
+    assert first["return_reason"]=="result_page" and len(first["newly_terminal_items"])==32
+    assert first["next_sequences"]=={ids[0]:32,ids[1]:0}
+    assert first["remaining_batch_ids"]==[ids[1]]
+    second=read(first["next_sequences"])
+    assert len(second["newly_terminal_items"])==32
+    assert second["next_sequences"]=={ids[0]:32,ids[1]:32}
+
+
 def _request_record(batch_id: str) -> dict:
     resources = [("large", 4, 8000), ("small", 1, 2000), ("medium", 2, 4000)]
     return {

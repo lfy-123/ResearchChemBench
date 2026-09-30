@@ -1,0 +1,40 @@
+{
+  "database": "CCDC",
+  "record_id": "2433822",
+  "record_doi": "10.5517/ccdc.csd.cc2mpldb",
+  "compound_label": "1",
+  "input_cif": "data/inputs/ccdc_2433822.cif",
+  "purpose": "Public starting crystal structure for 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline",
+  "input_rule": "Read the supplied immutable CIF directly; CCDC database retrieval is not required or scored. Verify archive ID, formula, elements, occupancy and cell; select the molecular component labelled compound 1, preserve deposited atom identities and stereochemical/connectivity information, do not edit the raw CIF, and do not use paper/SI optimized coordinates as input.",
+  "charge": 0,
+  "multiplicity": 1,
+  "comparison_bonds": [
+    [
+      "C1",
+      "C2"
+    ],
+    [
+      "C2",
+      "C3"
+    ],
+    [
+      "N1",
+      "C1"
+    ],
+    [
+      "N2",
+      "C2"
+    ],
+    [
+      "N3",
+      "C3"
+    ],
+    [
+      "C1",
+      "C10"
+    ]
+  ],
+  "comparison_rule": "Use these six pairs, each once. The primary experimental lengths are supplied in experimental_bonds.json at the published precision; independently calculate optimized distances from your mapped cis geometry.",
+  "experimental_bond_file": "data/inputs/experimental_bonds.json",
+  "target_conformer": "The cis local-minimum conformer about the pyridine-quinoxaline C1-C2 bond: pyridyl N1 and adjacent quinoxaline N2 on the same side. Document the mapped N1-C1-C2-N2 torsion. This does not designate the global lowest-energy conformer."
+}

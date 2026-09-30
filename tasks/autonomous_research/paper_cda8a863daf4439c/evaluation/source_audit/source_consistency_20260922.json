@@ -1,0 +1,94 @@
+{
+  "at": "2026-09-22T06:40:00.390310+00:00",
+  "paper_id": "paper_cda8a863daf4439c",
+  "source_table_coefficients": {
+    "0ML": {
+      "acid_Volmer": [
+        0.1045,
+        0.6964,
+        0.4246
+      ],
+      "acid_Heyrovsky": [
+        0.02059,
+        0.2312,
+        0.7954
+      ],
+      "alkaline_Volmer": [
+        0.2413,
+        0.9848,
+        1.6345
+      ],
+      "alkaline_Heyrovsky": [
+        -0.0895,
+        0.4505,
+        1.4667
+      ]
+    },
+    "HML": {
+      "acid_Volmer": [
+        0.0591,
+        0.5438,
+        0.8846
+      ],
+      "acid_Heyrovsky": [
+        -0.1901,
+        0.1308,
+        0.2508
+      ],
+      "alkaline_Volmer": [
+        -0.0471,
+        0.7342,
+        2.2125
+      ],
+      "alkaline_Heyrovsky": [
+        0.0491,
+        0.5883,
+        1.0554
+      ]
+    }
+  },
+  "table_reference_barriers_eV": {
+    "0ML": {
+      "acid_Volmer": 0.4246,
+      "acid_Heyrovsky": 0.7954,
+      "alkaline_Volmer": 0.9856883988,
+      "alkaline_Heyrovsky": 1.033523298
+    },
+    "HML": {
+      "acid_Volmer": 0.8846,
+      "acid_Heyrovsky": 0.2508,
+      "alkaline_Volmer": 1.5739156004,
+      "alkaline_Heyrovsky": 0.6029639515999998
+    }
+  },
+  "high_minus_low_coverage_barriers_eV": {
+    "acid_Volmer": 0.4600000000000001,
+    "acid_Heyrovsky": -0.5446,
+    "alkaline_Volmer": 0.5882272015999999,
+    "alkaline_Heyrovsky": -0.43055934640000015
+  },
+  "source_observation": "SI Tables6/7 increase Volmer but DECREASE Heyrovsky barriers at the stated Fig2 potentials. Main prose and current evaluator claim both increase. Inspect Figure2 before correcting the evaluator.",
+  "potential_reference_conflict": {
+    "main_page7_SHE_eV": 4.43,
+    "SI_Table3_example": {
+      "Wf_eV": 4.5367,
+      "printed_U_V": 0.2067,
+      "implied_Wf_minus_U_eV": 4.33
+    },
+    "SI_Table4_example": {
+      "Wf_eV": 4.0759,
+      "printed_U_V": -0.3541,
+      "implied_Wf_minus_U_eV": 4.43
+    },
+    "action": "Do not fit mixed potential conventions silently. Preserve work-function and printed-potential columns and use documented conversions explicitly."
+  },
+  "dE_label_resolution": "The author dE coordinate labels match Delta-q electron offsets in SI Table3/4, not voltages. Match each species and composition separately.",
+  "new_DFT_results": false,
+  "paper_verification_passed": false,
+  "task_modified": false,
+  "artifacts": {
+    "runs/hold_verification/group_6/paper_cda8a863daf4439c/20260922_source_closure/41467_2025_67493_MOESM1_ESM.pdf": "36c2759f20172907c1db2c3381a5bb3c0e47efa9e748febf8e9bbcf807f696b6",
+    "papers/paper_cda8a863daf4439c/documents/main.pdf": "dd9945e7d6631e5c38592578e2a344387d1dc4e8d24bd4e402acdcc6fba309a6"
+  },
+  "duration_seconds": 0.7752391006797552
+}

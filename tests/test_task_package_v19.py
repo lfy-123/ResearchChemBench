@@ -175,7 +175,9 @@ def test_v19_runtime_and_scoring_adapter_use_two_field_identity(tmp_path: Path, 
         live_progress=False,
     )
     result = runner.run()
-    assert result["status"] == "completed"
+    # The mock only writes report.md; required structured results are absent.
+    assert result["status"] == "failed"
+    assert any(item["file"] == "report/results.json" for item in result["submission_findings"])
     assert result["paper_id"] == "paper_fixture"
     assert result["task_type"] == "paper_reproduction"
     assert not (runner.workspace / "evaluation").exists()
@@ -184,6 +186,32 @@ def test_v19_runtime_and_scoring_adapter_use_two_field_identity(tmp_path: Path, 
     )
     assert runtime.task_type == "paper_reproduction"
     assert runtime.ground_truth["expected_result"]["key_points"]
+
+
+def test_runner_manifest_restores_same_run_without_new_workspace(tmp_path: Path, monkeypatch):
+    task_root = tmp_path / "tasks"
+    package(task_root)
+    monkeypatch.setattr("evaluation.repository.TASK_ROOTS", (task_root,))
+    monkeypatch.setenv("RCB_MOCK_DISCONNECT_ONCE", "1")
+    runner = TaskRunner("paper_fixture", task_type="autonomous_research", agent_key="mock", workspace_root=tmp_path / "workspaces",
+                        timeout_seconds=120, live_progress=False, recovery_enabled=True,
+                        available_cpu_cores=1, available_memory_mb=512)
+    result = runner.run()
+    assert result["status"] == "suspended_infrastructure"
+    from evaluation.execution.recovery import runner_store
+    manifest = runner_store(runner).get_record("run", "manifest")
+    restored = TaskRunner.restore(runner.run_id, recovery_root=tmp_path / "workspaces")
+    assert restored.run_id == runner.run_id
+    assert restored.workspace == runner.workspace
+    assert restored._resume_session_id == manifest["provider_session_id"]
+    assert restored.deadline_at == manifest["deadline_at"]
+    (runner.workspace / "report" / "results.json").write_text('{"barrier": 0, "conclusion": "mock"}')
+    result = restored.run()
+    assert result["status"] == "completed"
+    assert result["usage"] == {"input_tokens": 12, "output_tokens": 5, "turns": 2}
+    assert len(result["attempts"]) == 2
+    assert all(Path(item["log_path"]).is_file() for item in result["attempts"])
+    assert runner_store(runner).get_record("run", "manifest")["provider_session_id"] == manifest["provider_session_id"]
 
 
 def test_eval_config_requires_paper_id_and_task_type(monkeypatch):

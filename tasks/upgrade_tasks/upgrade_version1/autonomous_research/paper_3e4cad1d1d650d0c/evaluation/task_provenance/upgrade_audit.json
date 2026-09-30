@@ -1,0 +1,113 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "task_type": "autonomous_research",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_autonomous_research/paper_3e4cad1d1d650d0c",
+  "source_manifest_sha256": "e28c8ac7836d692421f69855db12b2235c81e0ce987a19ff399b80b7b8425ceb",
+  "source_package_content_sha256": "d8d7803e737e2d24e3edba56ae002dba0abf35ffee073fbd022380fb36a7cdbc",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/system.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/system.json.snapshot",
+      "sha256": "63a681d9f7f1f8a13b3e62007f13ab5bfc2c0128fc1898d734605eef677c2883"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "6a039e97451808eaec9dcc5f4b5bdc8d342cd05e0400f0884efbc494ee7f0d38"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "a3bf579aceca1aa8e22472c52399acc4d28d3799fec1489c74f075699dc346d8"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "ac10ce9ab8222533720d387de58276d109d4d649e729361f4b7aed3fd8e6a118"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "e4d1fc5929ec9acec8a98ace67fb505b361daa02e67bfdc53bc415c96f5b64e3"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "205806d06bc7d3331b8817a407a8af99ebb4d5b05b3e76a2f4cdb8503e3b44b0"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "59bacf4a5351937749c8c96730a7687560d089967b79603fce7d87838a0a3016"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "41a1495c7cb18748214a90881bffebd789fd9b7da79c92f5c9d767653565b9da"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "8824ee445e33da1212a147a460abfbbfc9898bd121c7e255fb49b068b554f9b8"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "e28c8ac7836d692421f69855db12b2235c81e0ce987a19ff399b80b7b8425ceb"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "4ccf20e61df92d1b0d41a8c8b7224fd9c2a04bef0c157729672f315351d034e4"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "a0a87a05b49b15ac3fd063024b60454e5f8c742ef113ffe8825249ff539ca2ee"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_3e4cad1d1d650d0c/documents/supplementary_001.pdf",
+      "sha256": "674c2d21b7a260c23cc55a07bb394e8e67f19d18ddf217229fe5080352fe8810",
+      "pages": 106
+    },
+    {
+      "path": "papers/paper_3e4cad1d1d650d0c/documents/main.pdf",
+      "sha256": "ea79927bb71341d55d64f9a60c4ef6d5904528fc3f91a1ef221313c29e171094",
+      "pages": 11
+    },
+    {
+      "path": "docs/evalution/update/paper_3e4cad1d1d650d0c.md",
+      "sha256": "c7045b3b1ccbcc859b862eb34d520fc9c7902c55423c1d8644afbd9512fd1b6c"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "expanded_core_reference_scientifically_validated",
+  "new_scientific_calculations_performed": true,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "Do not transfer the source-specific -0.05 V electrode conversion to other conditions.",
+    "The original experimental Figure3 crop is public. The contract separates a plot-resolution upper bound from unavailable numerical lifetime measurements; justified qualitative-only challenge is admissible."
+  ],
+  "new_reference_gaps": "No unperformed public core endpoint. Absolute electrochemical and irreversible-potential uncertainties remain uncalibrated and explicitly limit interpretation; no acceptance tolerance is asserted.",
+  "blockers": [],
+  "optional_not_required": "Complete C–Cl dissociation, substrate yields and the full catalytic cycle are outside this version.",
+  "authoring_status_before_phase1": "implemented_pending_expanded_reference",
+  "phase1_verification": {
+    "owner": "upgrade_tasks_verification/group_2",
+    "verified_at": "2026-09-28T04:45:25.129739+00:00",
+    "previous_package_content_sha256": "1a67d29e41f84736ced81a57e016c3c0f172aee8c311090dd10fdcedc9d118e2",
+    "new_engine_launches": 6,
+    "reused_minima": 2,
+    "new_hpc_attempts": 7,
+    "core_complete": true,
+    "total_external_uncertainty_calibrated": false,
+    "report": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/report/report.md",
+    "LLM_judge_run": false,
+    "verification_type": "Author-informed raw-evidence reference validation; no blind AR run or remote LLM judge.",
+    "metadata_clarified_at": "2026-09-28T06:37:33.565512+00:00"
+  },
+  "historical_new_reference_gaps": "Optimized doublet radicals, common free-energy cycle, diffuse-basis/solvation sensitivity and an uncertainty-calibrated driving-force panel remain uncalculated.",
+  "historical_authoring_new_scientific_calculations_performed": false
+}

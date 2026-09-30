@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_2c439196c2f349c9",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use the source INP solution concentrations 0.25, 0.50 and 1.0 mM, CW 532 nm, 1 mm cell, with 50 mW temporal SSPM and power scans up to 150 mW. These are solution conditions; do not pool the separate 0.4 mm PMMA film. Source experimental solvent and beam/thermal quantities must be carried from a verified data table; no aqueous solvent is inferred from the dye name. The old isolated-molecule frontier gap is optional background only. fig10_measured_markers.csv supplies 27 visually digitized discrete temporal markers, with pixel coordinates and provenance in fig10_digitization_provenance.json. Its +/-4 pixel reading bounds are digitization uncertainty only; measurement uncertainty remains unknown. These rows are not fitted-curve samples and do not resolve the missing power/Z-scan/calibration input gate. All three physical models share the same measured observation rows, concentration/path-length/absorption/beam definitions and measurement uncertainty. Fit data and held-out conditions are disjoint; no synthetic or interpolated points count as measurements. Reject synthetic measurement tables, arbitrary three-curve fitting, inference of bulk n2 from a HOMO-LUMO gap, pooling film and solution, or declaring unique electronic fractions without parameter identifiability.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_observations",
+      "statement": "Verified observation and physical-parameter table",
+      "expected": "Verify points against source plot pixels/raw measurements and uncertainty. Do not count resampling or fitted curves as additional observations. Check intensity I0=2P/(pi w0^2) only when that beam-waist convention is appropriate and traceable.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_model_comparison",
+      "statement": "Same-data constrained comparison of three physical models",
+      "expected": "Inspect executable equations and fitted outputs; check consistent shared parameters, residual weighting, data splits and degrees of freedom. Per-curve unconstrained constants cannot establish a thermal/electronic decomposition.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_identifiability",
+      "statement": "Identifiability, history dependence and held-out prediction",
+      "expected": "Read parameter profile and held-out residuals. A finite accepted interval must derive from real noisy data and constraints, not a point fit. Allow evidence-backed non-identifiability, but missing measurements are incomplete.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject synthetic measurement tables, arbitrary three-curve fitting, inference of bulk n2 from a HOMO-LUMO gap, pooling film and solution, or declaring unique electronic fractions without parameter identifiability.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

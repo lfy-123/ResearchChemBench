@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "rules": [
+    {
+      "rule_id": "r_pr_process_geometry",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structure",
+          "$.validation.geometry_converged",
+          "$.validation.evidence"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "expected": "Correct compound identity, neutral singlet state, and reproducible geometry/state validation.",
+      "type": "semantic",
+      "reference_id": "kp_pr_process_geometry"
+    },
+    {
+      "rule_id": "r_pr_process_excitation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excitations",
+          "$.selected_excitation"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "expected": "Explicit singlet list and evidence-based selected-state identity. Retain the declared physical state selection and verify wavelength/energy consistency for that same transition. Avoid choosing a root by proximity to a hidden number.",
+      "type": "semantic",
+      "reference_id": "kp_pr_process_excitation"
+    },
+    {
+      "rule_id": "r_pr_gap",
+      "target": 4.3,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.orbital_properties.gap.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "kp_pr_gap"
+    },
+    {
+      "rule_id": "r_pr_excitation",
+      "target": 3.8591,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_excitation.energy.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "kp_pr_excitation"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "The neutral singlet 2a calculation reproduces the required frontier gap and low-lying singlet excitation observables and explains the electronic origin using its transition and orbital evidence. The orbital gap and selected excitation are different observables; agreement does not establish solid-state properties or unrequested NICS.",
+      "type": "semantic",
+      "reference_id": "con_pr_final"
+    },
+    {
+      "rule_id": "r_pr_interpretation",
+      "type": "semantic",
+      "reference_id": "kp_pr_interpretation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "The electronic-origin interpretation is supported by the computed transition analysis."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

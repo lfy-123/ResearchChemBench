@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["status", "search_plan", "molecules", "hypotheses", "conclusion"],
+  "properties": {
+    "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+    "search_plan": {"type": "object", "required": ["candidate_generation", "deduplication", "stopping", "coverage", "state_selection_rule"], "properties": {"candidate_generation": {"type": "string"}, "deduplication": {"type": "string"}, "stopping": {"type": "string"}, "coverage": {"type": "string"}, "state_selection_rule": {"type": "string"}}},
+    "molecules": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["id", "geometry_validation", "outcome"], "properties": {"id": {"type": "string"}, "geometry_validation": {"type": "object", "required": ["converged", "evidence"], "properties": {"converged": {"type": "boolean"}, "evidence": {"type": "string"}}}, "outcome": {"type": "string", "enum": ["success", "failure"]}, "s1_energy_eV": {"type": "number"}, "triplet_states": {"type": "array"}, "soc_pairs": {"type": "array"}, "state_character": {"type": "string"}, "failure_context": {"type": "string"}}, "oneOf": [{"required": ["s1_energy_eV", "triplet_states", "soc_pairs", "state_character"], "properties": {"outcome": {"const": "success"}}}, {"required": ["failure_context"], "properties": {"outcome": {"const": "failure"}}}]}},
+    "hypotheses": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["id", "statement", "evidence", "verdict"], "properties": {"id": {"type": "string"}, "statement": {"type": "string"}, "evidence": {"type": "string"}, "verdict": {"type": "string"}}}},
+    "conclusion": {"type": "object", "required": ["lifetime_comparison", "interpretation", "limitations"], "properties": {"lifetime_comparison": {"type": "string"}, "interpretation": {"type": "string"}, "limitations": {"type": "string"}}}
+  },
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json"
+}

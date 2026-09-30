@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_6f9a36fff6964313",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Freeze only the CO2-cycloaddition stage, specifically the KI-promoted opening of styrene oxide. Compare full [TMTFABA]OTf and [PTMA]OTf with identical styrene oxide, K+I−, one explicit H2O and spectator CO2. Primary medium MeCN continuum, 353.15 K/1 M; source mixture is 3mL MeCN/612µL H2O, CO2 2MPa (main Table2). Every cluster is neutral singlet; keep OTf and KI inventories. Use terminal-carbon iodide attack as the matched elementary step and benzylic attack as a finite alternative in each model. CO2 insertion/epoxidation/full turnover are outside this first-version step. Preorganization controls relocate the same cationic catalyst at fixed composition; they are constrained diagnostics.",
+  "panels": {
+    "ring_opening_paths": {
+      "requirement": "Matched real ring-opening competition in one chosen stage.",
+      "required_cells": [
+        "bifunctional_terminal",
+        "bifunctional_benzylic",
+        "monofunctional_terminal",
+        "monofunctional_benzylic"
+      ]
+    },
+    "preorganization": {
+      "requirement": "Separate organization from local activation; fixed geometry is not a free minimum.",
+      "required_cells": [
+        "bifunctional",
+        "monofunctional"
+      ]
+    },
+    "synergy_comparison": {
+      "requirement": "Actual catalyst intervention and numerical uncertainty; no forced positive synergy.",
+      "required_cells": [
+        "comparison_outcome",
+        "left_record_ids",
+        "right_record_ids",
+        "reference_definition",
+        "uncertainty_basis",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "另一反应阶段、完整催化循环不加入；阶段选择须先写进任务版本。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

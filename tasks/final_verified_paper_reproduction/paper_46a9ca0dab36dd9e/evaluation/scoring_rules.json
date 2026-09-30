@@ -1,0 +1,107 @@
+{
+  "paper_id": "paper_46a9ca0dab36dd9e",
+  "rules": [
+    {
+      "rule_id": "pr_r_system",
+      "reference_id": "pr_process_system",
+      "type": "condition",
+      "expected": "reported charge is 0, multiplicity is 6, and geometry provenance is explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system.charge",
+          "$.system.multiplicity",
+          "$.system.geometry_source"
+        ],
+        "comparison": "expert check Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%."
+      }
+    },
+    {
+      "rule_id": "pr_r_states",
+      "reference_id": "pr_process_states",
+      "type": "semantic",
+      "expected": "state coverage and a traceable selection rationale are reported Recompute highest-f selection within the documented covered low-lying sextet manifold, retaining the three largest f values and any mixing/degeneracy evidence. Do not impose an extra fixed root count or software index.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.state_selection",
+          "$.ifct",
+          "$.ifct_records"
+        ],
+        "comparison": "expert semantic comparison Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%."
+      }
+    },
+    {
+      "rule_id": "pr_r_ifct",
+      "reference_id": "pr_process_ifct",
+      "type": "semantic",
+      "expected": "fragment definitions and sensitivity evidence are explicit The primary state and all-channel-normalized Cl/Fe/TEA+ matrix must correspond to the same physical transition and geometry. Do not borrow LMCT or MLCT from an auxiliary root.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.fragment_definition",
+          "$.validation.sensitivity_check",
+          "$.ifct_records[*].state_id",
+          "$.ifct_records[*].fragment_definition"
+        ],
+        "comparison": "expert semantic comparison Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%."
+      }
+    },
+    {
+      "rule_id": "pr_r_lmct",
+      "reference_id": "pr_result_lmct",
+      "type": "numeric",
+      "target": 62.4,
+      "unit": "percent",
+      "tolerance": 10,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ifct.lmct_percent"
+        ],
+        "comparison": "absolute difference Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%."
+      }
+    },
+    {
+      "rule_id": "pr_r_mlct",
+      "reference_id": "pr_result_mlct",
+      "type": "numeric",
+      "target": 4.3,
+      "unit": "percent",
+      "tolerance": 5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ifct.mlct_percent"
+        ],
+        "comparison": "absolute difference Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%."
+      }
+    },
+    {
+      "rule_id": "pr_r_final",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "The highest-oscillator-strength physical state in the computed low-lying sextet set is identified reproducibly. Its consistently normalized Cl/Fe/TEA+ IFCT analysis supports the dominant LMCT assignment. Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Compare only the highest-f physical state in the covered low-lying sextet manifold, using implicit MeCN and the declared Cl/Fe/TEA+ Mulliken-like IFCT partition with all-channel normalization. State numbering is not invariant. Other schemes/states are sensitivity, not the same gold. Do not choose a state by closeness to 62.4/4.3%."
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

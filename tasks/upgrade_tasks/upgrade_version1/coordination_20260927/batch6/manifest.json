@@ -1,0 +1,167 @@
+{
+  "date": "2026-09-27",
+  "batch": 6,
+  "scope": "Only assigned three normal-final papers; no hold papers.",
+  "development_packages_completed": 6,
+  "papers_completed_as_development": 3,
+  "scientifically_released_papers": 0,
+  "status": "development_complete_expanded_reference_pending",
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_launches": 0,
+  "short_work_performed": [
+    "RDKit graph/formula/mapping checks",
+    "SI coordinate-block atom-count checks",
+    "Recomputed historical endpoint P-Al distances",
+    "Read raw historical ORCA convergence messages"
+  ],
+  "validation": {
+    "path": "validation_report.json",
+    "sha256": "35f2e3369b091a2e82c5dafa6c627a1d8c670c1b83ae09074381499007b40afa",
+    "checks": 355,
+    "status": "passed",
+    "repository": {
+      "requested_roots": [
+        "tasks/upgrade_tasks"
+      ],
+      "scoped_official_discovery": "assigned six packages; ordinary validators preserved"
+    }
+  },
+  "records": [
+    {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "blocked",
+      "implementation_status": "implemented_pending_expanded_reference",
+      "release_ready": false,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_5ea491c741fbd8d4",
+          "package_content_sha256": "6faaabf8855493ea6c4a0a41258af0f80231038762a0f3875d3824b65b81f93a",
+          "package_validation": "passed"
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_5ea491c741fbd8d4",
+          "package_content_sha256": "2d7ad730e715fc62c923f560ade77af92e37b0d78bb55e2def0810f325d3c2d1",
+          "package_validation": "passed"
+        }
+      ],
+      "reference_gaps": [
+        "Authenticated CCDC 2445596 CIF and complete fractional atom/occupancy/symmetry data are not available.",
+        "Correct symmetry-inequivalent neighbor inventory and graph mapping cannot be generated without that CIF.",
+        "No representative pair area/interaction-energy pilot or full expanded references exist."
+      ],
+      "release_conditions": [
+        "Obtain the actual deposition through a permitted CCDC/publisher access route, hash it, check DOI/deposition/formula/cell and inspect disorder/occupancy/quality alerts. A downloaded checkCIF or HTML page is not sufficient.",
+        "Rebuild full molecules and neighbors, establish a bijective label map and normalize H consistently; review symmetry/multiplicity against source packing.",
+        "Demonstrate one real pair with converged surface area and frozen-geometry CP energies through Gaussian/ORCA or an equivalent calibrated method.",
+        "Complete all primary pairs plus the specified cutoff and decisive sensitivity controls; freeze numerical intervals from actual evidence; then review release readiness and run independent AR/PR checks."
+      ],
+      "source_review": "source_review/paper_5ea491c741fbd8d4_review.json",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "official_package_validation": "passed",
+        "runtime_evaluator": "passed",
+        "scientific_weights": 100,
+        "AR_PR_scientific_parity": "passed",
+        "public_materialization_no_private_files": "passed",
+        "source_snapshot_and_hash": "passed",
+        "synthetic_output_contract_regression": "passed",
+        "scientific_reference_validation": "not_performed_blocked"
+      }
+    },
+    {
+      "paper_id": "paper_72f60526b64ce1b6",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "blocked",
+      "implementation_status": "implemented_pending_expanded_reference",
+      "release_ready": false,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_72f60526b64ce1b6",
+          "package_content_sha256": "67ca10985de7c52fe2a1dabfe4b051ab58a59d4c08db7fb7e23604e864516ec5",
+          "package_validation": "passed"
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_72f60526b64ce1b6",
+          "package_content_sha256": "c37e9272c4c8f24395348a96ce3b335b9005d5d10600240232bc83dc28e2d4dd",
+          "package_validation": "passed"
+        }
+      ],
+      "reference_gaps": [
+        "Only siesta is declared in native_software_guides and runtime command lists; no reviewed TranSIESTA/TBtrans end-to-end invocation contract was found.",
+        "No complete mapped allowed electrode/device input chain (pseudopotentials, principal layers, self-energy artifacts and finite-bias restart conventions) has been validated.",
+        "No actual same-junction zero/±V pilot, transport convergence or expanded control reference is available."
+      ],
+      "release_conditions": [
+        "Have the tool owner expose and review a complete SIESTA/TranSIESTA/TBtrans dependency chain with exact allowed executables and raw-output capture. Do not modify common configuration in this batch or bypass it with subprocesses.",
+        "Translate the mapped identities into explicitly recorded Au(111) lead/central-region cells, anchoring and atom ordering. Use source SI privately for atom-count/geometry auditing; independently build public starts. Validate pseudopotential/basis compatibility and electrostatic lead matching.",
+        "Execute one AD_base zero/−0.5/+0.5-V pilot with actual self-consistent outputs, transmission integration and k/energy/screening convergence. Installed binaries or zero-bias molecular jobs do not close the gate.",
+        "Only then run all three bridges, AD reversal and unilateral contact perturbation; measure noise and sensitivity, calibrate common AR/PR evaluation and review release readiness."
+      ],
+      "source_review": "source_review/paper_72f60526b64ce1b6_review.json",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "official_package_validation": "passed",
+        "runtime_evaluator": "passed",
+        "scientific_weights": 100,
+        "AR_PR_scientific_parity": "passed",
+        "public_materialization_no_private_files": "passed",
+        "source_snapshot_and_hash": "passed",
+        "synthetic_output_contract_regression": "passed",
+        "scientific_reference_validation": "not_performed_blocked"
+      }
+    },
+    {
+      "paper_id": "paper_c7217910ecbee1d9",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "implementation_status": "implemented_pending_expanded_reference",
+      "release_ready": false,
+      "packages": [
+        {
+          "mode": "autonomous_research",
+          "path": "tasks/upgrade_tasks/autonomous_research/paper_c7217910ecbee1d9",
+          "package_content_sha256": "0168d2310a295f5a1a301d5b6d2def0084560a6dccc94a99e80b6660dd1e3057",
+          "package_validation": "passed"
+        },
+        {
+          "mode": "paper_reproduction",
+          "path": "tasks/upgrade_tasks/paper_reproduction/paper_c7217910ecbee1d9",
+          "package_content_sha256": "9e7a2cfeb8c98df9d2b2961d51c4b2d65d8cf59f7040d96acde3a30e734b1a04",
+          "package_validation": "passed"
+        }
+      ],
+      "reference_gaps": [
+        "The expanded n0/n1/n2 free, common-core constrained and vertical matrix remains incomplete.",
+        "Same-geometry added-electron density, normalization/grid controls and diffuse-basis/state sensitivity remain unvalidated.",
+        "Expanded uncertainty references and independent mode trials have not been calibrated; historical local minima do not prove a global minimum or superatomic shell character."
+      ],
+      "release_conditions": [
+        "Developers may reuse the independently audited historical n2 free-minimum pair after checking raw hashes, native-to-public atom mapping, charge/spin and ligand attachment. Preserve failed and detached candidates. Evaluated agents must still establish their own authorized evidence.",
+        "Complete the missing n2 vertical-anion and same-geometry density pilot, with normalization/grid and diffuse-basis/state sensitivity; do not repeat equivalent Opt/Freq work merely because a later run failed.",
+        "Build and validate mapped n0/n1 free endpoints and the shared bare-neutral-core constrained series, then complete signed comparisons and independently calibrate uncertainty from actual method/numerical controls."
+      ],
+      "source_review": "source_review/paper_c7217910ecbee1d9_review.json",
+      "new_scientific_calculations_performed": false
+    }
+  ],
+  "entry_points": {
+    "report": "REPORT.md",
+    "status": "STATUS.md",
+    "source_reviews": "source_review/",
+    "checker": "check_batch.py",
+    "builder": "build_batch.py + specs.py",
+    "source_audit": "review_sources.py"
+  },
+  "constraints": "No final/hold/original tasks/papers/verification/source guidance/common maintenance writes, no commit/reset/checkout; no child agents or quantum/HPC/paid service launches.",
+  "supervisor_updated_at": "2026-09-27T14:32:30.373240+00:00",
+  "supervisor_correction": "Corrected omitted historical intact n2 Gaussian Opt/Freq evidence, raw hashes and native/public graph mapping; expanded matrix/schema/rubric weights and all scientific controls unchanged. Remap historical prerequisite and provenance only; vertical/density/diffuse/free/fixed-core controls still pending. Private energies are not AR targets.",
+  "supervisor_latest_repair": "docs/upgrade_tasks_verification/supervisor/benign_path_repair.json"
+}

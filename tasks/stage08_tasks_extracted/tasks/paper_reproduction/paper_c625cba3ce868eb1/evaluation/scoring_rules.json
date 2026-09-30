@@ -1,0 +1,100 @@
+{
+  "paper_id": "paper_c625cba3ce868eb1",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_minima",
+      "type": "semantic",
+      "expected": "Both molecule validation records are present, scientifically relevant, and consistent with the claimed state.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_charges",
+      "type": "semantic",
+      "expected": "A common charge definition and explicit atom-indexed alkene assignments are reported for both molecules.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_4_polarized",
+      "type": "semantic",
+      "expected": "The hydroperoxide-proximal alkene carbon in 4 is reported as more negative than the other alkene carbon.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_result_7_symmetric",
+      "type": "semantic",
+      "expected": "The two alkene sites in 7 are reported as comparatively electronically similar within the stated method/scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_result_limit",
+      "type": "semantic",
+      "expected": "The submission limits interpretation to reactant-state evidence and does not claim charges alone prove a unique mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r6",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "Final conclusion integrates validated calculations, the 4/7 contrast, and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.coverage",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

@@ -1,0 +1,485 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "verified_at": "2026-09-28T04:45:25.129739+00:00",
+  "reference_scope": "All public core endpoints and required sensitivity/challenge; individual local minima, not exhaustive ensemble",
+  "source_submission": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/report/results.json",
+  "source_submission_sha256": "84bf365fd1e7d49e9837eb500d20900948bbb04702c74bb35a1771f4af22fd75",
+  "recompute_script": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/analysis/recompute.py",
+  "recompute_sha256": "8c0cd7e7328dc719b4217270661564858773f3d7e62aa03f2e62178693d4b747",
+  "computed": {
+    "cycles": {
+      "RRHO": {
+        "delta_deltaG_ox_eV": 0.14585303027838778,
+        "Eox_V_SCE": {
+          "1a": -0.61,
+          "1e": -0.4641469697216122
+        },
+        "E00_eV": {
+          "1a": 2.3981469709864602,
+          "1e": 2.4263052524461837
+        },
+        "Eox_star_V_SCE": {
+          "1a": -3.00814697098646,
+          "1e": -2.890452222167796
+        },
+        "deltaG_ET_eV": {
+          "1a": -0.09814697098645997,
+          "1e": 0.019547777832204183
+        }
+      },
+      "molecular_50": {
+        "delta_deltaG_ox_eV": 0.14510842382768,
+        "Eox_V_SCE": {
+          "1a": -0.61,
+          "1e": -0.46489157617232
+        },
+        "E00_eV": {
+          "1a": 2.3981469709864602,
+          "1e": 2.4263052524461837
+        },
+        "Eox_star_V_SCE": {
+          "1a": -3.00814697098646,
+          "1e": -2.8911968286185035
+        },
+        "deltaG_ET_eV": {
+          "1a": -0.09814697098645997,
+          "1e": 0.018803171381496675
+        }
+      },
+      "molecular_100": {
+        "delta_deltaG_ox_eV": 0.1443316477704167,
+        "Eox_V_SCE": {
+          "1a": -0.61,
+          "1e": -0.46566835222958325
+        },
+        "E00_eV": {
+          "1a": 2.3981469709864602,
+          "1e": 2.4263052524461837
+        },
+        "Eox_star_V_SCE": {
+          "1a": -3.00814697098646,
+          "1e": -2.891973604675767
+        },
+        "deltaG_ET_eV": {
+          "1a": -0.09814697098645997,
+          "1e": 0.018026395324233224
+        }
+      },
+      "fixed1e-44_50": {
+        "delta_deltaG_ox_eV": 0.14510400067228496,
+        "Eox_V_SCE": {
+          "1a": -0.61,
+          "1e": -0.464895999327715
+        },
+        "E00_eV": {
+          "1a": 2.3981469709864602,
+          "1e": 2.4263052524461837
+        },
+        "Eox_star_V_SCE": {
+          "1a": -3.00814697098646,
+          "1e": -2.8912012517738988
+        },
+        "deltaG_ET_eV": {
+          "1a": -0.09814697098645997,
+          "1e": 0.01879874822610139
+        }
+      },
+      "fixed1e-44_100": {
+        "delta_deltaG_ox_eV": 0.1443272265051969,
+        "Eox_V_SCE": {
+          "1a": -0.61,
+          "1e": -0.46567277349480307
+        },
+        "E00_eV": {
+          "1a": 2.3981469709864602,
+          "1e": 2.4263052524461837
+        },
+        "Eox_star_V_SCE": {
+          "1a": -3.00814697098646,
+          "1e": -2.8919780259409866
+        },
+        "deltaG_ET_eV": {
+          "1a": -0.09814697098645997,
+          "1e": 0.018021974059013512
+        }
+      },
+      "diffuse_composite_RRHO": {
+        "delta_deltaG_ox_eV": 0.1508019106760001,
+        "Eox_V_SCE": {
+          "1a": -0.61,
+          "1e": -0.45919808932399986
+        },
+        "E00_eV": {
+          "1a": 2.3981469709864602,
+          "1e": 2.4263052524461837
+        },
+        "Eox_star_V_SCE": {
+          "1a": -3.00814697098646,
+          "1e": -2.8855033417701836
+        },
+        "deltaG_ET_eV": {
+          "1a": -0.09814697098645997,
+          "1e": 0.024496658229816504
+        }
+      }
+    },
+    "native_minima": {
+      "1a_anion": {
+        "E_hartree": -731.699962923,
+        "G_RRHO_hartree": -731.482427,
+        "minimum_frequency_cm-1": 65.2426,
+        "optimization_completion_reason": "Optimization completed.",
+        "S2_before": null,
+        "S2_after": null
+      },
+      "1e_anion": {
+        "E_hartree": -1068.77322293,
+        "G_RRHO_hartree": -1068.557595,
+        "minimum_frequency_cm-1": 11.2594,
+        "optimization_completion_reason": "Optimization completed.",
+        "S2_before": null,
+        "S2_after": null
+      },
+      "1a_radical": {
+        "E_hartree": -731.56993226,
+        "G_RRHO_hartree": -731.351981,
+        "minimum_frequency_cm-1": 62.9116,
+        "optimization_completion_reason": "Optimization completed.",
+        "S2_before": 0.7965,
+        "S2_after": 0.7521
+      },
+      "1e_radical": {
+        "E_hartree": -1068.6377454,
+        "G_RRHO_hartree": -1068.421789,
+        "minimum_frequency_cm-1": 14.214,
+        "optimization_completion_reason": "Optimization completed on the basis of negligible forces.",
+        "S2_before": 0.7975,
+        "S2_after": 0.7521
+      }
+    },
+    "all_numeric_crosschecks_passed": true,
+    "published_1e_Eox_V_SCE": -0.32,
+    "1e_model_minus_source_V": -0.14414696972161217,
+    "total_uncertainty_calibrated": false,
+    "quenching_dynamic_ratio_10uM": 1.8654000000000002,
+    "graphic_ratio_envelopes": {
+      "3": 0.012121212121212121,
+      "5": 0.020202020202020204,
+      "7": 0.028282828282828285
+    },
+    "graphic_fractional_lifetime_bounds": {
+      "3": {
+        "ratio_deviation_bound": 0.012121212121212121,
+        "fractional_lifetime_bound": 0.012269938650306749
+      },
+      "5": {
+        "ratio_deviation_bound": 0.020202020202020204,
+        "fractional_lifetime_bound": 0.02061855670103093
+      },
+      "7": {
+        "ratio_deviation_bound": 0.028282828282828285,
+        "fractional_lifetime_bound": 0.029106029106029108
+      }
+    },
+    "red_row_pixel_counts": [
+      {
+        "y": 282,
+        "red_pixels": 0
+      },
+      {
+        "y": 283,
+        "red_pixels": 0
+      },
+      {
+        "y": 284,
+        "red_pixels": 0
+      },
+      {
+        "y": 285,
+        "red_pixels": 3
+      },
+      {
+        "y": 286,
+        "red_pixels": 19
+      },
+      {
+        "y": 287,
+        "red_pixels": 32
+      },
+      {
+        "y": 288,
+        "red_pixels": 40
+      },
+      {
+        "y": 289,
+        "red_pixels": 294
+      },
+      {
+        "y": 290,
+        "red_pixels": 150
+      },
+      {
+        "y": 291,
+        "red_pixels": 34
+      },
+      {
+        "y": 292,
+        "red_pixels": 15
+      },
+      {
+        "y": 293,
+        "red_pixels": 4
+      },
+      {
+        "y": 294,
+        "red_pixels": 0
+      },
+      {
+        "y": 295,
+        "red_pixels": 0
+      },
+      {
+        "y": 296,
+        "red_pixels": 0
+      }
+    ],
+    "freeze_hashes_and_results_verified": true,
+    "plot_pixels_recomputed": true
+  },
+  "resources": {
+    "new_attempts": [
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1a_radical_source_optfreq",
+        "input_sha256": "aa65c2c28a893851678c3eeab977572817db5915e126609e7f20a26f334c2049",
+        "job_id": "hpc-job-f67c1315-5b37-4049-93c2-b66a752ee4ef",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T13:03:35.205972+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_radical_source_optfreq/attempt_001",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "native_exit_code": "127",
+        "reconciled_at": "2026-09-27T14:19:48.503370+00:00",
+        "engine_launched": false,
+        "wall_seconds": null,
+        "allocated_core_hours": null,
+        "measured_cpu_hours": null
+      },
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1a_radical_source_optfreq",
+        "attempt": "attempt_002",
+        "input_sha256": "aa65c2c28a893851678c3eeab977572817db5915e126609e7f20a26f334c2049",
+        "job_id": "hpc-job-5604e29f-4bb4-44ca-b934-45625e9c57c7",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T13:43:45.084893+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_radical_source_optfreq/attempt_002",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "native_exit_code": "0",
+        "reconciled_at": "2026-09-27T14:19:48.503370+00:00",
+        "engine_launched": true,
+        "wall_seconds": 1114.582,
+        "user_seconds": 18324.879,
+        "system_seconds": 218.031,
+        "allocated_core_hours": 6.192122222222223,
+        "measured_cpu_hours": 5.150808333333333
+      },
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1e_radical_source_optfreq",
+        "attempt": "attempt_001",
+        "input_sha256": "d871aa69922af2c801f554dc6e947c1601d6c4b86eff6158e4481cb18759298c",
+        "job_id": "hpc-job-972940dc-3c16-4579-86b9-015610befb7a",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T14:22:39.500455+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1e_radical_source_optfreq/attempt_001",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "reconciled_at": "2026-09-27T15:10:28.176956+00:00",
+        "native_exit_code": "0",
+        "engine_launched": true,
+        "wall_seconds": 1375.622,
+        "user_seconds": 26608.665,
+        "system_seconds": 118.909,
+        "allocated_core_hours": 7.642344444444445,
+        "measured_cpu_hours": 7.424326111111111
+      },
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1a_anion_diffuse_sp",
+        "attempt": "attempt_001",
+        "input_sha256": "943ab4aa4cdb8b8b1b19a9022fd883bec818ecb17828ae83c91307c6a7030127",
+        "job_id": "hpc-job-eb49c17c-c81c-4095-a2c6-6ae656ca518e",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T14:23:55.713605+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_anion_diffuse_sp/attempt_001",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "reconciled_at": "2026-09-27T14:47:58.135447+00:00",
+        "native_exit_code": "0",
+        "engine_launched": true,
+        "wall_seconds": 420.68,
+        "user_seconds": 8281.569,
+        "system_seconds": 12.416,
+        "allocated_core_hours": 2.337111111111111,
+        "measured_cpu_hours": 2.303884722222222
+      },
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1e_anion_diffuse_sp",
+        "attempt": "attempt_001",
+        "input_sha256": "7241a5256ccd5e268808234fbfcd1268e1d7afb6c75483f0a3bc097823222eac",
+        "job_id": "hpc-job-c10fe4b6-293c-441d-92ce-47f1de915800",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T14:47:09.161869+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1e_anion_diffuse_sp/attempt_001",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "reconciled_at": "2026-09-27T15:10:28.176956+00:00",
+        "native_exit_code": "0",
+        "engine_launched": true,
+        "wall_seconds": 444.776,
+        "user_seconds": 8712.051,
+        "system_seconds": 25.564,
+        "allocated_core_hours": 2.4709777777777777,
+        "measured_cpu_hours": 2.427115277777778
+      },
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1a_radical_diffuse_sp",
+        "attempt": "attempt_001",
+        "input_sha256": "296cb33cb100724cf65bc1186771acc908564c14b51ed5527062a37dad97e6ee",
+        "job_id": "hpc-job-0c71839d-6940-4cd7-a312-ce61c4eaef60",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T14:58:14.175254+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_radical_diffuse_sp/attempt_001",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "reconciled_at": "2026-09-27T15:14:14.808326+00:00",
+        "native_exit_code": "0",
+        "engine_launched": true,
+        "wall_seconds": 401.001,
+        "user_seconds": 7835.331,
+        "system_seconds": 9.165,
+        "allocated_core_hours": 2.227783333333333,
+        "measured_cpu_hours": 2.1790266666666667
+      },
+      {
+        "resource_type": "hpc",
+        "paper_id": "paper_3e4cad1d1d650d0c",
+        "scientific_case_id": "1e_radical_diffuse_sp",
+        "attempt": "attempt_001",
+        "input_sha256": "b15423e332af1c3bcb68a5d859b43d5bbf453ac00c3f28135661bd9fd91805d0",
+        "job_id": "hpc-job-3c361b37-1898-4752-85db-cbea47a0a4d5",
+        "threads": 20,
+        "memory_gib": 100,
+        "status": "terminal_released",
+        "submitted_at": "2026-09-27T15:06:57.126988+00:00",
+        "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1e_radical_diffuse_sp/attempt_001",
+        "compute_group": "lcg-d4b51af1-2168-4ee2-920f-4fc50e2aeb69",
+        "priority": 3,
+        "platform_status": "SUCCEEDED",
+        "reconciled_at": "2026-09-28T04:13:51.011433+00:00",
+        "native_exit_code": "0",
+        "engine_launched": true,
+        "wall_seconds": 487.67,
+        "user_seconds": 9578.684,
+        "system_seconds": 28.796,
+        "allocated_core_hours": 2.709277777777778,
+        "measured_cpu_hours": 2.668744444444444
+      }
+    ],
+    "legacy_reused_attempts": [
+      {
+        "system": "1a_anion",
+        "job_id": "job_aaaa1b7f21df4d4ca2065f76d6973e60",
+        "engine_launches": 1,
+        "duration_seconds": 59363.643327,
+        "allocated_cores": 6,
+        "allocated_core_hours": 98.939405545,
+        "measured_cpu_hours": 3.7100948369444446
+      },
+      {
+        "system": "1e_anion",
+        "job_id": "job_e1cd29c9de08415c9ddb640e1c9ca07d",
+        "engine_launches": 1,
+        "duration_seconds": 86771.642078,
+        "allocated_cores": 6,
+        "allocated_core_hours": 144.61940346333333,
+        "measured_cpu_hours": 6.538496145833334
+      }
+    ],
+    "new_engine_launches": 6,
+    "new_wall_seconds_sum": 4244.331,
+    "new_measured_cpu_hours": 22.153905555555554,
+    "new_allocated_core_hours": 23.579616666666666,
+    "legacy_saved_allocated_core_hours": 243.55880900833333,
+    "legacy_saved_wall_seconds": 146135.285405,
+    "note": "New wrapper failure before g16 launch counted as attempt not engine call; its application duration unmeasured. Historical saved cost is actual old run, not a prediction of new HPC speed. Wall seconds summed across parallel attempts, not calendar makespan. Peak RSS unmeasured on new HPC; 80GB input and100GiB reservation are limits, not usage."
+  },
+  "raw_files": [
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/legacy_reused/1a_anion/stdout.log",
+      "sha256": "a20b55a351627d4de11d5e94c0b6f92638ddfcf25dbb1db03bc20e747bdf3234"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/legacy_reused/1e_anion/stdout.log",
+      "sha256": "4d752a964b264c76378e52640688e965e6a7b59a7d9522160f71ef4430fb7118"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_radical_source_optfreq/attempt_002/stdout.log",
+      "sha256": "ba29c904994b18702007752dd24b0659d3bbb805a493e5579155f1d8f5c28ae3"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1e_radical_source_optfreq/attempt_001/stdout.log",
+      "sha256": "67f11c54e0975da5bb453ce3ae567360f70758e94d297f89640fd70811e4f00a"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_anion_diffuse_sp/attempt_001/stdout.log",
+      "sha256": "b1ae967f159a30c39da9b8db8452d653fa36c7a1413d458bbff6681918891a1d"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1e_anion_diffuse_sp/attempt_001/stdout.log",
+      "sha256": "fd57d9ed7aa603d6d7e05895900b3c94199d5b7d2e769273e3d71755ba151c99"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1a_radical_diffuse_sp/attempt_001/stdout.log",
+      "sha256": "53d71e917da41ddca9a73432cc8684c30b124abd649169ed4856d9e1b8be1d63"
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_2/papers/paper_3e4cad1d1d650d0c/outputs/1e_radical_diffuse_sp/attempt_001/stdout.log",
+      "sha256": "27d0289d5a81c5611d7e65d25ad8ae9d502e069b7af0e9ec5ae05c1e835b5b7d"
+    }
+  ],
+  "warnings": [
+    "1e radical uses native negligible-force convergence, not all-four Tight criteria; full positive Hessian independently checked.",
+    "No external numerical acceptance bands calibrated; 1e source residual ~-0.144V and electrode ambiguity limit near-threshold ET interpretation.",
+    "Plot bound is raster resolution only, not raw lifetime observations or instrument uncertainty.",
+    "No remote LLM judge invoked."
+  ]
+}

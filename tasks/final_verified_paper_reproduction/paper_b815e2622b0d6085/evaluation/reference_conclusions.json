@@ -1,0 +1,35 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "items": [
+    {
+      "conclusion_id": "c_pr_final_gap",
+      "claim_role": "final",
+      "statement": "The source supports a lower I endpoint for the Pb-framework-related scalar-relativistic electronic interband gap, not necessarily for the fundamental gap or a proven optical onset.",
+      "expected": "Conclude from validated, physically assigned framework results and separately report fundamental behavior. Do not award numerical/physical success from a guessed band or a well-described bounded failure; coverage limits must narrow claims.",
+      "supporting_key_point_ids": [
+        "kp_pr_process_identity",
+        "kp_pr_process_validation",
+        "kp_pr_gap_values",
+        "kp_pr_trend"
+      ],
+      "evidence_ids": [
+        "ev_doc_bb6e4f756d2c_000145_b18a4cc481f7",
+        "ev_doc_bb6e4f756d2c_000156_c29e5b98f41a",
+        "ev_approved_band_observables_20260914"
+      ]
+    },
+    {
+      "conclusion_id": "c_pr_limitations",
+      "claim_role": "limitation",
+      "statement": "Any SOC estimate based on reduced model cells is an approximate trend correction and must be distinguished from a direct parent-cell SOC calculation.",
+      "expected": "Keep no-SOC primary energies separate from optional direct-parent SOC and reduced-model estimates. Orbital projections establish character, not optical allowedness; that requires matrix-element or explicit symmetry/selection-rule evidence. State finite-k coverage and assignment ambiguity; no extra optical or SOC calculation is mandatory.",
+      "supporting_key_point_ids": [
+        "kp_pr_process_validation"
+      ],
+      "evidence_ids": [
+        "ev_doc_bb6e4f756d2c_000156_c29e5b98f41a",
+        "ev_approved_band_observables_20260914"
+      ]
+    }
+  ]
+}

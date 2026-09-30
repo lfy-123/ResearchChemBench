@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_ca7d01cfbc90780c",
+  "task_type": "autonomous_research",
+  "title": "Independent discovery and MD test of A36–ATM binding stability",
+  "category": "molecular dynamics",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must search and discriminate multiple plausible active-site poses and justify coverage before a long explicit-solvent trajectory."
+  ],
+  "paper": {
+    "title": "Rational Design of Novel pyrazolo[4,3-c]quinoline Derivatives as Potent, Selective, and Orally Bioavailable ATM Inhibitors with Promising In Vivo Efficacy",
+    "doi": "10.1021/acs.jmedchem.5c03290",
+    "journal": "Journal of Medicinal Chemistry",
+    "publication_date": "2026-02-11"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Pinned RCSB/PubChem retrieval instructions and A36/ATM system boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured search, protocol, validation, observables and independent conclusion."
+    },
+    {
+      "path": "report/methods.md",
+      "description": "Reproducible methods and analysis narrative."
+    }
+  ]
+}

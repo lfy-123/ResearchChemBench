@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Retain all four anthracenecarboxylate bridges and two axial ligands. Use neutral isolated dimers, singlet/BS and triplet states. Label Cu_A/Cu_B, bridge_i/C_carboxyl/O_A/O_B (i=1..4), axial_A/N and axial_B/N. Bind each carboxylate O_A to Cu_A and O_B to Cu_B; each pyridine N binds its respective Cu. Preserve the same ligand atom mapping across H, para-CH3 and para-OCH3 replacements. Do not treat a closed-shell singlet as the open-shell reference by default. J=E_S-E_T in cm^-1, equivalent to H=-J S1.S2 for two S=1/2 sites; P_T(300 K)=100*3*exp[J/(0.69503476*300)]/(1+3*exp[J/(0.69503476*300)]). Project BS energies with documented <S^2>; no silent J versus 2J conversion. Reject incorrect paddlewheel stoichiometry, wrong J sign/factor, missing triplet degeneracy, unprojected differently contaminated BS energy differences, or declaring material thermochromism from the isolated dimer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Retain all four anthracenecarboxylate bridges and two axial ligands. Use neutral isolated dimers, singlet/BS and triplet states. Label Cu_A/Cu_B, bridge_i/C_carboxyl/O_A/O_B (i=1..4), axial_A/N and axial_B/N. Bind each carboxylate O_A to Cu_A and O_B to Cu_B; each pyridine N binds its respective Cu. Preserve the same ligand atom mapping across H, para-CH3 and para-OCH3 replacements. Do not treat a closed-shell singlet as the open-shell reference by default. J=E_S-E_T in cm^-1, equivalent to H=-J S1.S2 for two S=1/2 sites; P_T(300 K)=100*3*exp[J/(0.69503476*300)]/(1+3*exp[J/(0.69503476*300)]). Project BS energies with documented <S^2>; no silent J versus 2J conversion. Reject incorrect paddlewheel stoichiometry, wrong J sign/factor, missing triplet degeneracy, unprojected differently contaminated BS energy differences, or declaring material thermochromism from the isolated dimer."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_exchange_matrix",
+      "reference_id": "kp_exchange_matrix",
+      "type": "semantic",
+      "expected": "Resolve six correct matched geometries and associated triplet and singlet/BS outputs. Recompute projection, J and P_T using degeneracy 3. Check S2, Cu2O8 mapping and local spin distributions. Compare common-core versus relaxed substitution differences; multiple spin contaminations cannot be treated as the same unprojected gap.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.exchange_matrix",
+          "$.calculation_records"
+        ],
+        "comparison": "Resolve six correct matched geometries and associated triplet and singlet/BS outputs. Recompute projection, J and P_T using degeneracy 3. Check S2, Cu2O8 mapping and local spin distributions. Compare common-core versus relaxed substitution differences; multiple spin contaminations cannot be treated as the same unprojected gap."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_spin_calibration",
+      "reference_id": "kp_spin_calibration",
+      "type": "semantic",
+      "expected": "Inspect actual higher-level output, state/root identities, occupations and active-space completeness. CASSCF(2,2) is a starting calibration, not a guaranteed converged correlation reference. Do not claim the paper-specific PySCF-forge implementation exists without evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.spin_calibration",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect actual higher-level output, state/root identities, occupations and active-space completeness. CASSCF(2,2) is a starting calibration, not a guaranteed converged correlation reference. Do not claim the paper-specific PySCF-forge implementation exists without evidence."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_effect_comparison",
+      "reference_id": "kp_effect_comparison",
+      "type": "semantic",
+      "expected": "Differences derive from the named exchange matrix. Uncertainty includes method/projection and geometry sensitivity. Accept ties or reversals when supported; do not force a few-cm^-1 ordering despite larger uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.effect_comparison",
+          "$.calculation_records"
+        ],
+        "comparison": "Differences derive from the named exchange matrix. Uncertainty includes method/projection and geometry sensitivity. Accept ties or reversals when supported; do not force a few-cm^-1 ordering despite larger uncertainty."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject incorrect paddlewheel stoichiometry, wrong J sign/factor, missing triplet degeneracy, unprojected differently contaminated BS energy differences, or declaring material thermochromism from the isolated dimer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject incorrect paddlewheel stoichiometry, wrong J sign/factor, missing triplet degeneracy, unprojected differently contaminated BS energy differences, or declaring material thermochromism from the isolated dimer."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether axial-pyridine substitution changes exchange primarily through electronic effects or core geometry, and whether the H/Me/OMe ranking survives the uncertainty of the spin treatment. Reject incorrect paddlewheel stoichiometry, wrong J sign/factor, missing triplet degeneracy, unprojected differently contaminated BS energy differences, or declaring material thermochromism from the isolated dimer. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether axial-pyridine substitution changes exchange primarily through electronic effects or core geometry, and whether the H/Me/OMe ranking survives the uncertainty of the spin treatment. Reject incorrect paddlewheel stoichiometry, wrong J sign/factor, missing triplet degeneracy, unprojected differently contaminated BS energy differences, or declaring material thermochromism from the isolated dimer. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "exchange_matrix",
+      "max_score": 25,
+      "description": "Three-member relaxed/common-core exchange matrix",
+      "rule_ids": [
+        "rule_exchange_matrix"
+      ]
+    },
+    {
+      "id": "spin_calibration",
+      "max_score": 25,
+      "description": "Representative spin-model calibration",
+      "rule_ids": [
+        "rule_spin_calibration"
+      ]
+    },
+    {
+      "id": "effect_comparison",
+      "max_score": 15,
+      "description": "Quantified electronic/geometric effects and unresolved rankings",
+      "rule_ids": [
+        "rule_effect_comparison"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Three-member relaxed/common-core exchange matrix",
+      "Representative spin-model calibration",
+      "Quantified electronic/geometric effects and unresolved rankings",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

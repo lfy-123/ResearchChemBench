@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {"required": ["status", "models", "method", "energies", "direction", "conclusion", "limitations"], "properties": {"status": {"const": "completed"}}},
+      {"required": ["status", "models", "method", "limitations", "failure_diagnostics"], "properties": {"status": {"const": "bounded_failure"}}}
+    ],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+      "models": {
+        "type": "object", "required": ["experimental", "comparison", "mapping_evidence"],
+        "properties": {
+          "experimental": {"type": "object", "required": ["record_id", "net_count", "cell", "identity_verified"], "properties": {"record_id": {"type": "string"}, "net_count": {"type": "integer"}, "cell": {"type": "string"}, "identity_verified": {"type": "boolean"}}},
+          "comparison": {"type": "object", "required": ["construction", "net_count", "identity_verified"], "properties": {"construction": {"type": "string"}, "net_count": {"type": "integer"}, "identity_verified": {"type": "boolean"}}},
+          "mapping_evidence": {"type": "string"}
+        }
+      },
+      "method": {"type": "object", "required": ["software_or_code", "model_description", "fixed_cell", "convergence_evidence"], "properties": {"software_or_code": {"type": "string"}, "model_description": {"type": "string"}, "fixed_cell": {"type": "boolean"}, "convergence_evidence": {"type": "string"}}},
+      "energies": {"type": "object", "required": ["experimental_raw", "comparison_raw", "experimental_per_net", "comparison_per_net", "difference_per_net", "unit", "normalization"], "properties": {"experimental_raw": {"anyOf": [{"type": "number"}, {"type": "null"}]}, "comparison_raw": {"anyOf": [{"type": "number"}, {"type": "null"}]}, "experimental_per_net": {"anyOf": [{"type": "number"}, {"type": "null"}]}, "comparison_per_net": {"anyOf": [{"type": "number"}, {"type": "null"}]}, "difference_per_net": {"anyOf": [{"type": "number"}, {"type": "null"}]}, "unit": {"type": "string"}, "normalization": {"type": "string"}}},
+      "direction": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+      "conclusion": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+      "limitations": {"type": "string"},
+      "failure_diagnostics": {"type": "string"}
+    }
+  }
+}

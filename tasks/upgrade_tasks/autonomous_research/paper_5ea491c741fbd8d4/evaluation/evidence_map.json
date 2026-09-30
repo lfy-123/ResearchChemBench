@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "evidence": [
+    {
+      "evidence_id": "paper_main",
+      "source": {
+        "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+        "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+        "read_scope": "PDF pp2–4 (methods, Table 1, packing), p6 (fingerprints/shape plots)."
+      },
+      "scope": "Personally read main PDF pp2–4 and visually checked p6. Table 1 identifies CCDC 2445596, P21/c, Z=4 and the cell; section 3.2 gives a symmetry-coded ring contact. These measurements do not determine all atomic positions or molecular neighbors."
+    },
+    {
+      "evidence_id": "paper_si",
+      "source": {
+        "path": "papers/paper_5ea491c741fbd8d4/documents/supplementary_001.pdf",
+        "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+        "read_scope": "All four pages: checkCIF metadata, 3 C and 6 G alerts, ellipsoid illustration; not coordinates."
+      },
+      "scope": "Personally read SI pp1–4: it is a checkCIF/PLATON report, with 0 A/B alerts, 3 C and 6 G alerts. It contains neither the full fractional-coordinate loop nor a recoverable source CIF. CCDC access returned an HTML validation/CAPTCHA page, not a CIF. Local CIF search yielded no authenticated 2445596 object."
+    },
+    {
+      "evidence_id": "extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "benchmark_design_not_reference_result"
+      },
+      "scope": "Expanded controls and definitions; not claimed to be author calculations."
+    },
+    {
+      "evidence_id": "readiness_review",
+      "source": {
+        "path": "evaluation/task_provenance/source_review.json"
+      },
+      "scope": "Local/public prerequisite investigation and historical failure evidence; not a new PASS."
+    }
+  ]
+}

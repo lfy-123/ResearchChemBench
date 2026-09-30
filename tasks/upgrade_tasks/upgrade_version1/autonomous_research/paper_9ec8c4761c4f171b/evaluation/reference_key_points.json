@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_matched_absorption",
+      "key_point_type": "result",
+      "statement": "Validate paired identities; compute corresponding TD bright states and spectra in both solvents with a common broadening. Report CF3 and aryl-extension effects separately. Keep KS gap, excitation energy, spectral maximum and absorption edge as distinct observables.",
+      "expected": "Validate paired identities; compute corresponding TD bright states and spectra in both solvents with a common broadening. Report CF3 and aryl-extension effects separately. Keep KS gap, excitation energy, spectral maximum and absorption edge as distinct observables.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_species_crosscheck",
+      "key_point_type": "result",
+      "statement": "Attempt all four7a forms with mobile-proton mapping. Validate surviving minima, record collapse, and obtain same-species spectra plus NMR/IR functional-group diagnostics. Use the correct experimental medium and one shielding reference; an absent band must be marked and explained rather than fabricated as an observed peak. Deduplicate collapsed tautomer endpoints.",
+      "expected": "Attempt all four7a forms with mobile-proton mapping. Validate surviving minima, record collapse, and obtain same-species spectra plus NMR/IR functional-group diagnostics. Use the correct experimental medium and one shielding reference; an absent band must be marked and explained rather than fabricated as an observed peak. Deduplicate collapsed tautomer endpoints.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_solvent_species_attribution",
+      "key_point_type": "result",
+      "statement": "Decompose7a CHCl3→DMF shift into fixed-species and redistribution contributions using normalized same-molecule free-energy weights. Check whether optical and NMR/IR evidence support one species model jointly. Unsupported redistribution or an indistinguishable support set must remain explicit.",
+      "expected": "Decompose7a CHCl3→DMF shift into fixed-species and redistribution contributions using normalized same-molecule free-energy weights. Check whether optical and NMR/IR evidence support one species model jointly. Unsupported redistribution or an indistinguishable support set must remain explicit.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

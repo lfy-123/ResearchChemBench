@@ -1,17 +1,19 @@
 {
-  "generated_at": "2026-08-08T05:27:51.947700+00:00",
+  "generated_at": "2026-09-04T04:14:19.180537+00:00",
   "project_root": ".",
   "model_cache_root": ".model_cache",
   "software_cache_root": ".software_cache",
   "summary": {
-    "total": 58,
+    "total": 59,
     "counts": {
-      "configured": 57,
+      "configured": 55,
+      "not_found": 1,
+      "partial": 2,
       "specification": 1
     },
-    "configured": 57,
+    "configured": 55,
     "manual_or_review": 0,
-    "complete_for_inventory": 58
+    "complete_for_inventory": 56
   },
   "runtime_probes": {
     "workflows": {
@@ -32,8 +34,8 @@
           "version": "0.1.5"
         },
         "cclib": {
-          "available": true,
-          "version": "1.8.1"
+          "available": false,
+          "error": "module import timed out after 30s"
         },
         "jobflow": {
           "available": true,
@@ -62,7 +64,7 @@
       },
       "commands": {
         "qcengine": ".envs/general-modern-openmpi5/bin/qcengine",
-        "verdi": ".envs/general-modern-openmpi5/bin/verdi"
+        "verdi": "chemistry_toolbox/environment/shims/verdi"
       },
       "smokes": {},
       "conda_packages": [
@@ -87,7 +89,7 @@
       "python_required": false,
       "modules": {},
       "commands": {
-        "censo": ".envs/kinetics-legacy/bin/censo"
+        "censo": "chemistry_toolbox/environment/shims/censo"
       },
       "smokes": {
         "1": {
@@ -120,6 +122,7 @@
       "python_required": false,
       "modules": {},
       "commands": {
+        "fcclasses3": "docs/verification/group_1/software_install_audit/fcclasses3-3.0.4/install/bin/fcclasses3",
         "orca": ".software_cache/installations/orca/6.1.1/orca"
       },
       "smokes": {},
@@ -409,7 +412,7 @@
       "group": "profiles",
       "conda_name": "researchchem-acpype",
       "environment": ".envs/molecular-simulation-openff",
-      "python": ".envs/molecular-simulation-openff/bin/python",
+      "python": ".software_cache/installations/acpype/2023.10.27/deps/bin/python",
       "python_exists": true,
       "python_required": true,
       "modules": {
@@ -423,9 +426,9 @@
         }
       },
       "commands": {
-        "acpype": ".envs/molecular-simulation-openff/bin/acpype",
-        "antechamber": ".envs/molecular-simulation-openff/bin/antechamber",
-        "obabel": ".envs/molecular-simulation-openff/bin/obabel"
+        "acpype": ".software_cache/installations/acpype/2023.10.27/python/bin/acpype",
+        "antechamber": ".software_cache/installations/acpype/2023.10.27/python/acpype/amber_linux/bin/antechamber",
+        "obabel": ".software_cache/installations/acpype/2023.10.27/deps/bin/obabel"
       },
       "smokes": {
         "1": {
@@ -439,16 +442,8 @@
           "output_tail": "Open Babel 3.1.0 -- Nov 30 2023 -- 20:44:30\n"
         }
       },
-      "conda_packages": [
-        "ambertools=26.0",
-        "openbabel=3.1.1",
-        "pydantic",
-        "pyyaml",
-        "python-dotenv"
-      ],
-      "pip_packages": [
-        "acpype==2023.10.27"
-      ],
+      "conda_packages": [],
+      "pip_packages": [],
       "cache_paths": [
         ".software_cache/installations/acpype/2023.10.27"
       ],
@@ -1148,8 +1143,8 @@
       "python_required": true,
       "modules": {
         "arkane": {
-          "available": true,
-          "version": null
+          "available": false,
+          "error": "module import timed out after 30s"
         },
         "rmgpy": {
           "available": true,
@@ -1274,7 +1269,7 @@
         "1": {
           "success": true,
           "returncode": 0,
-          "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Aug  8, 2026, at 05:27.\n\n"
+          "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Sep  4, 2026, at 04:13.\n\n"
         }
       },
       "conda_packages": [
@@ -1510,7 +1505,7 @@
         }
       },
       "commands": {
-        "theodore": ".envs/general-modern-openmpi5/bin/theodore"
+        "theodore": "chemistry_toolbox/environment/shims/theodore"
       },
       "smokes": {},
       "conda_packages": [
@@ -1541,7 +1536,7 @@
         "1": {
           "success": true,
           "returncode": 0,
-          "output_tail": "ral-modern-openmpi5/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/\nInfo) Email questions and bug reports to vmd@ks.uiuc.edu\nInfo) Please include this reference in published work using VMD:\nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual\nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF\nInfo) Free system memory: 415GB (82%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) .envs/general-modern-openmpi5/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
+          "output_tail": "ral-modern-openmpi5/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/\nInfo) Email questions and bug reports to vmd@ks.uiuc.edu\nInfo) Please include this reference in published work using VMD:\nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual\nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF\nInfo) Free system memory: 396GB (78%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) .envs/general-modern-openmpi5/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
         }
       },
       "conda_packages": [
@@ -1576,7 +1571,7 @@
         ".software_cache/installations/vesta/3.90.5a",
         ".software_cache/installations/vesta/deps"
       ],
-      "notes": "Dynamic libraries resolve and bounded Xvfb startup passes. Interactive rendering still depends on a host display/OpenGL stack."
+      "notes": "Headless startup passes. Interactive GUI rendering additionally requires the host GTK3, Wayland/X11, GBM, EGL, and OpenGL stack."
     },
     "core": {
       "name": "core",
@@ -1615,8 +1610,8 @@
           "version": "0.6.0"
         },
         "nequip": {
-          "available": true,
-          "version": "0.19.0"
+          "available": false,
+          "error": "module import timed out after 30s"
         },
         "torch": {
           "available": true,
@@ -1855,13 +1850,13 @@
         ],
         "pip_packages": []
       },
-      "status": "configured",
+      "status": "not_found",
       "verification": {
         "python_exists": true,
         "modules": {
           "cclib": {
-            "available": true,
-            "version": "1.8.1"
+            "available": false,
+            "error": "module import timed out after 30s"
           }
         },
         "commands": {},
@@ -2046,7 +2041,7 @@
           }
         },
         "commands": {
-          "verdi": ".envs/general-modern-openmpi5/bin/verdi"
+          "verdi": "chemistry_toolbox/environment/shims/verdi"
         },
         "cache_paths": {
           ".software_cache/state/aiida": {
@@ -2181,7 +2176,7 @@
         "python_exists": true,
         "modules": {},
         "commands": {
-          "censo": ".envs/kinetics-legacy/bin/censo"
+          "censo": "chemistry_toolbox/environment/shims/censo"
         },
         "cache_paths": {
           ".software_cache/state/censo/home/.censo2rc": {
@@ -2830,17 +2825,9 @@
         "name": "acpype",
         "conda_name": "researchchem-acpype",
         "path": ".envs/molecular-simulation-openff",
-        "python": ".envs/molecular-simulation-openff/bin/python",
-        "conda_packages": [
-          "ambertools=26.0",
-          "openbabel=3.1.1",
-          "pydantic",
-          "pyyaml",
-          "python-dotenv"
-        ],
-        "pip_packages": [
-          "acpype==2023.10.27"
-        ]
+        "python": ".software_cache/installations/acpype/2023.10.27/deps/bin/python",
+        "conda_packages": [],
+        "pip_packages": []
       },
       "status": "configured",
       "verification": {
@@ -2856,9 +2843,9 @@
           }
         },
         "commands": {
-          "acpype": ".envs/molecular-simulation-openff/bin/acpype",
-          "obabel": ".envs/molecular-simulation-openff/bin/obabel",
-          "antechamber": ".envs/molecular-simulation-openff/bin/antechamber"
+          "acpype": ".software_cache/installations/acpype/2023.10.27/python/bin/acpype",
+          "obabel": ".software_cache/installations/acpype/2023.10.27/deps/bin/obabel",
+          "antechamber": ".software_cache/installations/acpype/2023.10.27/python/acpype/amber_linux/bin/antechamber"
         },
         "cache_paths": {
           ".software_cache/installations/acpype/2023.10.27": {
@@ -4179,13 +4166,13 @@
           "numdifftools==0.9.42"
         ]
       },
-      "status": "configured",
+      "status": "partial",
       "verification": {
         "python_exists": true,
         "modules": {
           "arkane": {
-            "available": true,
-            "version": null
+            "available": false,
+            "error": "module import timed out after 30s"
           }
         },
         "commands": {
@@ -4396,7 +4383,7 @@
           "1": {
             "success": true,
             "returncode": 0,
-            "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Aug  8, 2026, at 05:27.\n\n"
+            "output_tail": "\n\n          MOPAC Job: \"water.mop\" ended normally on Sep  4, 2026, at 04:13.\n\n"
           }
         }
       }
@@ -4747,9 +4734,58 @@
           }
         },
         "commands": {
-          "theodore": ".envs/general-modern-openmpi5/bin/theodore"
+          "theodore": "chemistry_toolbox/environment/shims/theodore"
         },
         "cache_paths": {},
+        "runtime_smokes": {}
+      }
+    },
+    {
+      "name": "FCclasses3",
+      "category": "Excited States, Spectroscopy, and Visualization",
+      "kind": "executable",
+      "status_policy": "probe",
+      "environment": "quantum",
+      "modules": [],
+      "commands": [
+        "fcclasses3"
+      ],
+      "cache_paths": [
+        "docs/verification/group_1/software_install_audit/fcclasses3-3.0.4"
+      ],
+      "license": "GPL-3.0",
+      "public_adapter": "runtime_only",
+      "role": "Vibronic electronic spectra and non-radiative-rate calculations from explicit state, dipole, and vibrational inputs.",
+      "notes": "User-supplied FCclasses3 3.0.4 source tarball was built in an isolated verification directory. The native layer exposes the exact executable and leaves property, model, coordinate, temperature, broadening, and all upstream files explicit; it does not create a paper-specific rate workflow or substitute missing data.",
+      "official_url": "http://www.iccom.cnr.it/en/fcclasses/",
+      "environment_detail": {
+        "name": "quantum",
+        "conda_name": "researchchem-quantum",
+        "path": ".envs/general-modern-openmpi5",
+        "python": ".envs/general-modern-openmpi5/bin/python",
+        "conda_packages": [
+          "ase",
+          "openbabel"
+        ],
+        "pip_packages": [
+          "pyscf",
+          "tblite==0.4.0",
+          "mace-torch==0.3.16"
+        ]
+      },
+      "status": "configured",
+      "verification": {
+        "python_exists": true,
+        "modules": {},
+        "commands": {
+          "fcclasses3": "docs/verification/group_1/software_install_audit/fcclasses3-3.0.4/install/bin/fcclasses3"
+        },
+        "cache_paths": {
+          "docs/verification/group_1/software_install_audit/fcclasses3-3.0.4": {
+            "exists": true,
+            "path": "docs/verification/group_1/software_install_audit/fcclasses3-3.0.4"
+          }
+        },
         "runtime_smokes": {}
       }
     },
@@ -4790,7 +4826,7 @@
           "1": {
             "success": true,
             "returncode": 0,
-            "output_tail": "ral-modern-openmpi5/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/\nInfo) Email questions and bug reports to vmd@ks.uiuc.edu\nInfo) Please include this reference in published work using VMD:\nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual\nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF\nInfo) Free system memory: 415GB (82%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) .envs/general-modern-openmpi5/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
+            "output_tail": "ral-modern-openmpi5/lib/vmd/vmd_LINUXAMD64)\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) http://www.ks.uiuc.edu/Research/vmd/\nInfo) Email questions and bug reports to vmd@ks.uiuc.edu\nInfo) Please include this reference in published work using VMD:\nInfo)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual\nInfo)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.\nInfo) -------------------------------------------------------------\nInfo) Multithreading available, 64 CPUs detected.\nInfo)   CPU features: SSE2 AVX AVX2 FMA KNL:AVX-512F+CD+ER+PF\nInfo) Free system memory: 396GB (78%)\nInfo) No CUDA accelerator devices available.\nInfo) Dynamically loaded 2 plugins in directory:\nInfo) .envs/general-modern-openmpi5/lib/vmd/plugins/LINUXAMD64/molfile\nInfo) VMD for LINUXAMD64, version 1.9.3 (November 30, 2016)\nInfo) Exiting normally.\n"
           }
         }
       }
@@ -4928,13 +4964,13 @@
           "nequip-allegro==0.8.3"
         ]
       },
-      "status": "configured",
+      "status": "partial",
       "verification": {
         "python_exists": true,
         "modules": {
           "nequip": {
-            "available": true,
-            "version": "0.19.0"
+            "available": false,
+            "error": "module import timed out after 30s"
           },
           "torch": {
             "available": true,

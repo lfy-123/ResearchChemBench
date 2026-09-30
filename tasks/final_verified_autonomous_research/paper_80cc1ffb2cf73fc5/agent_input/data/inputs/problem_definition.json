@@ -1,0 +1,30 @@
+{
+  "system": "Z1 mHBDI anion (27 atoms; the supplied Cartesian structure) and its neutral radical core obtained by electron detachment without changing nuclear connectivity",
+  "anion_charge": -1,
+  "anion_multiplicity": 1,
+  "neutral_charge": 0,
+  "neutral_multiplicity": 2,
+  "initial_state": "anion S0",
+  "final_state": "neutral radical D0",
+  "experimental_window_cm_minus_1": [
+    19400,
+    20100
+  ],
+  "observed_physical_channels": [
+    "dipole-bound states below the detachment threshold",
+    "dipole-resonance states above the detachment threshold"
+  ],
+  "required_units": {
+    "frequency": "cm^-1",
+    "energy": "cm^-1",
+    "geometry": "Angstrom"
+  },
+  "experimental_data": "experimental_spectrum.csv",
+  "experimental_metadata": "experimental_spectrum_metadata.json",
+  "relative_alignment": {
+    "experimental_origin_cm_minus_1": 19444,
+    "calculated_origin": "own calculated 0-0 transition",
+    "fixed_author_calculated_shift": null,
+    "scope": "Z1-only; relative spacings/features, not absolute detachment accuracy or multi-isomer fitting"
+  }
+}

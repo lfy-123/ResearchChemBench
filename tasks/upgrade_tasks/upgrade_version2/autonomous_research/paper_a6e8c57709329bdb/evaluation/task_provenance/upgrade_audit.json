@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "task_type": "autonomous_research",
+  "version": 2,
+  "old_class": {
+    "old": "A",
+    "v1": "B"
+  },
+  "autonomy": "source_bounded_open_research_C",
+  "status": "content_developed_input_blocked",
+  "baseline_package": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_a6e8c57709329bdb",
+  "baseline_package_content_sha256": "4803fa314d6adaa04d53a24c0c872e965081f202bf78b3baf2f027e5832db569",
+  "baseline_manifest_sha256": "c38d651c8562448a1274980b6eb176c976bdd1d358596e36854f496d1f945a7b",
+  "baseline_snapshot": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/_backup_metadata/snapshot_manifest.json",
+    "sha256": "6aec7a6cf2b705fb9700e949fb90323c4f972ee954ca16979b7c7a3082152915",
+    "inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666"
+  },
+  "plan": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/plans/paper_a6e8c57709329bdb.json",
+  "plan_sha256": "0668a4a17b2598568370f13bf6b66370691a72474cbfc46d79da90959f350f83",
+  "plan_created_before_copy": true,
+  "public_changes": [
+    "Keep full HL identity and the actual qualitative optical observations, with unresolved sensing conditions explicitly listed.",
+    "Remove fixed Fe/Co binding/proton-exchange/TD grids and do not invent a sensing salt, water fraction or proton reservoir to populate them.",
+    "Retain blocked scientific deployment and evidence-bearing partial/diagnostic submission; a conditional model cannot silently clear the source-input blocker."
+  ],
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "scientifically_validated": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "blockers": [
+    {
+      "kind": "input_definition",
+      "status": "blocked",
+      "missing": [
+        "Fe and Co sensing salt/counterion identities",
+        "proton reservoir or defined pH convention in DMF",
+        "water fraction and solution speciation needed for quantitative selectivity"
+      ],
+      "release_condition": "Obtain source-supported solution definitions or coordinator-approved scientifically limited replacement target; inspect identities and evidence before release. Conditional-model output alone is insufficient.",
+      "agent_fault": false
+    }
+  ],
+  "created_at_utc": "2026-09-28T16:59:08.032074+00:00",
+  "blocked": true,
+  "deployment_eligibility": "do_not_launch_or_score_as_complete_experimental_selectivity_task",
+  "offline_existing_output_observation_at_utc": "2026-09-28T17:32:55.512824+00:00"
+}

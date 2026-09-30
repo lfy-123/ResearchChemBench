@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_585288a5a5265d55",
+  "task_type": "autonomous_research",
+  "title": "Autonomous gas-phase geometry investigation of Ph-BODIPY",
+  "category": "quantum chemistry / molecular structure",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The endpoint is fixed but the agent must independently choose a conformer/method scope, discriminate candidates, validate minima and justify stopping and coverage.",
+    "The indexed molecular connectivity provides no starting coordinates, so constructing and deduplicating a chemically sensible finite starting ensemble is part of the exploration."
+  ],
+  "paper": {
+    "title": "Precise molecular structure of meso‑phenyl-BODIPY in the gas phase",
+    "doi": "10.1016/j.molstruc.2025.144659",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-02-25"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Answer-neutral indexed connectivity and composition for neutral-singlet Ph-BODIPY; no coordinates or reference geometry."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Outcome-branch report containing candidate evidence and, on success, validated indexed coordinates and observables."
+    }
+  ]
+}

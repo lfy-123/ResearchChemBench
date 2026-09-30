@@ -1,0 +1,123 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/methods.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "molecules",
+      "validation",
+      "ordering",
+      "conclusion",
+      "coverage",
+      "completion_status"
+    ],
+    "properties": {
+      "molecules": {
+        "type": "array",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "charge",
+            "multiplicity"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer",
+              "const": 0
+            },
+            "multiplicity": {
+              "type": "integer",
+              "const": 1
+            }
+          },
+          "oneOf": [
+            {
+              "required": [
+                "status",
+                "homo_eV",
+                "lumo_eV",
+                "units",
+                "validation_evidence"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "validated"
+                  ]
+                },
+                "homo_eV": {
+                  "type": "number"
+                },
+                "lumo_eV": {
+                  "type": "number"
+                },
+                "units": {
+                  "type": "string",
+                  "enum": [
+                    "eV"
+                  ]
+                },
+                "validation_evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "required": [
+                "status",
+                "failure_reason"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "bounded_failure"
+                  ]
+                },
+                "failure_reason": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "validation": {
+        "type": "string"
+      },
+      "ordering": {
+        "type": "string"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "completion_status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "stopping_rule": {
+        "type": "string",
+        "description": "Optional commentary; not an independent scoring requirement."
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ Determine the free-energy barrier for reductive elimination of H2 from the uniqu
 
 # Public inputs and scientific boundaries
 
-The only molecular input is `data/inputs/int_g.xyz`: 73 atoms, Cartesian coordinates in Angstrom, neutral charge (0), singlet multiplicity (1), and the identity INT-G as the Pd complex containing two terminal hydrides. The measured quantity is the activation free energy ΔG‡ for the channel INT-G → H2 + the corresponding Pd(0) complex, in kcal/mol. You may generate endpoint structures and conformers, but do not treat an unconnected or chemically different channel as the requested endpoint. Do not use the paper, SI or general web.
+The only molecular input is `data/inputs/int_g.xyz`: 77 atoms, Cartesian coordinates in Angstrom, neutral charge (0), singlet multiplicity (1), and the identity INT-G as the Pd complex containing two terminal hydrides. The measured quantity is the activation free energy ΔG‡ for the channel INT-G → H2 + the corresponding Pd(0) complex, in kcal/mol. You may generate endpoint structures and conformers, but do not treat an unconnected or chemically different channel as the requested endpoint. Do not use the paper, SI or general web.
 
 # Required scientific validation/investigation
 

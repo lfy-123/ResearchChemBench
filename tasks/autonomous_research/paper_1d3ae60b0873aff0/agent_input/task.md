@@ -4,7 +4,7 @@ Determine, from independent computation on the supplied Fe(III)Cl@TCPP cluster, 
 
 # Public inputs and scientific boundaries
 
-`data/inputs/feiii_cl_tcpp.xyz` is the 86-atom Fe(III)Cl@TCPP Cartesian model from SI Table S14, with fixed atom order, neutral charge and multiplicity 6. The boundary is the isolated cluster, excluding periodic-MOF and solvent effects. The measurement boundary is ligand 1H/13C MAS NMR site shifts and Fe coordination distances; their numerical observations are withheld. Evaluate and identify the three aromatic proton environments (beta, meta, ortho) and eight carbon environments (alpha, beta, meso, ipso, ortho, meta, para, carboxylate carbon) using an explicit atom/site mapping.
+`data/inputs/feiii_cl_tcpp.xyz` is the 86-atom Fe(III)Cl@TCPP Cartesian model from SI Table S14, with fixed atom order, charge -4 and multiplicity 6. The boundary is the isolated cluster, excluding periodic-MOF and solvent effects. The measurement boundary is ligand 1H/13C MAS NMR site shifts and Fe coordination distances; their numerical observations are withheld. Evaluate and identify the three aromatic proton environments (beta, meta, ortho) and eight carbon environments (alpha, beta, meso, ipso, ortho, meta, para, carboxylate carbon) using an explicit atom/site mapping.
 
 # Required scientific validation/investigation
 

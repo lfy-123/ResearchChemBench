@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_b33676a2051f5e91",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_search",
+      "type": "condition",
+      "expected": "Candidate hypotheses, atom mapping and actual candidate coverage are reported. Different starting distances or QST2 guesses for the same mapped bond are not chemically distinct scission hypotheses. Record the actual discriminating evidence for each channel; one useful calculation may legitimately support multiple stated hypotheses.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search"
+        ],
+        "comparison": "expert comparison The AR objective remains open-channel within the declared finite search: a different validated channel is not automatically wrong for differing from the author. Evaluate identity, atom/spin balance, TS connection, common free-energy convention and comparative evidence; no claim of global optimality follows from the single historical source channel."
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "condition",
+      "expected": "Each advanced channel includes frequency and connection validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels[*].frequency_validation",
+          "$.channels[*].connection_validation"
+        ],
+        "comparison": "candidate-level expert comparison The AR objective remains open-channel within the declared finite search: a different validated channel is not automatically wrong for differing from the author. Evaluate identity, atom/spin balance, TS connection, common free-energy convention and comparative evidence; no claim of global optimality follows from the single historical source channel.",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_channel",
+      "type": "semantic",
+      "expected": "Selected channel is explicitly identified with atom-balanced products and comparative rationale.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.selected_channel",
+          "$.conclusion.rationale",
+          "$.channels[*].channel_id",
+          "$.channels[*].products",
+          "$.channels[*].atom_mapping"
+        ],
+        "comparison": "candidate-level expert semantic comparison The AR objective remains open-channel within the declared finite search: a different validated channel is not automatically wrong for differing from the author. Evaluate identity, atom/spin balance, TS connection, common free-energy convention and comparative evidence; no claim of global optimality follows from the single historical source channel.",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_barrier",
+      "type": "numeric",
+      "target": 9.07,
+      "unit": "kcal/mol",
+      "tolerance": 2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.barrier_kcal_mol"
+        ],
+        "comparison": "Apply 9.07 +/- 2 kcal/mol ONLY to an atom-balanced, frequency/path-validated acetophenone + ethyl radical channel, verified by mapped product connectivity and cleavage, not a channel label alone. For a different valid beta-scission channel this numeric reference is inapplicable, not a numerical failure: judge its result from the actual mapped TS/reactant energies, thermal convention, connection evidence and within-scope comparison, without inventing a new reference barrier. A coincidentally matching number for the wrong channel is not evidence for the source channel. This is an expert rule, not an implemented JSON predicate.",
+        "applies_when": {
+          "field": "$.status",
+          "equals": "validated_result"
+        }
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "The beta-scission analysis establishes a chemically valid product channel, relevant transition state and local connection, and an activation barrier on a consistent free-energy scale. The source-supported channel is acetophenone plus ethyl. In AR, the previously accepted alternative validated channel is judged from atom/spin balance, connection and comparative evidence, not rejected merely for differing from the source.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.failure"
+        ],
+        "comparison": "outcome-branch expert semantic comparison The AR objective remains open-channel within the declared finite search: a different validated channel is not automatically wrong for differing from the author. Evaluate identity, atom/spin balance, TS connection, common free-energy convention and comparative evidence; no claim of global optimality follows from the single historical source channel."
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

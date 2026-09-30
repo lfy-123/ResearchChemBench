@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_basins",
+      "reference_id": "kp_basins",
+      "type": "semantic",
+      "expected": "Attempt all three initial basins for both molecules in vacuum and methanol with dispersion on/off. Validate each retained minimum, deduplicate merged endpoints, and report E/G/weights on one convention. A documented collapse is admissible and must not create duplicated statistical weight.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.basins",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Attempt all three initial basins for both molecules in vacuum and methanol with dispersion on/off. Validate each retained minimum, deduplicate merged endpoints, and report E/G/weights on one convention. A documented collapse is admissible and must not create duplicated statistical weight. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_interventions",
+      "reference_id": "kp_interventions",
+      "type": "semantic",
+      "expected": "Supply matched D3 on/off single points and separately relaxed contrasts. Define the mapped PAH C-H donor and S=O acceptor; document the restrained contact-disfavoring control and its strain/nonadditivity. Do not assign constrained points equilibrium G or isolate a hydrogen-bond energy by assumption.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.interventions",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Supply matched D3 on/off single points and separately relaxed contrasts. Define the mapped PAH C-H donor and S=O acceptor; document the restrained contact-disfavoring control and its strain/nonadditivity. Do not assign constrained points equilibrium G or isolate a hydrogen-bond energy by assumption. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_thermochemical_robustness",
+      "reference_id": "kp_thermochemical_robustness",
+      "type": "semantic",
+      "expected": "Reconstruct ΔG from ΔE and thermal terms; test low-frequency treatment and methanol effects. Check whether nominal mirror-like V basins are numerically or entropically distinct at the resolution achieved. Reward a supported near-degeneracy rather than a forced ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.thermochemical_robustness",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Reconstruct ΔG from ΔE and thermal terms; test low-frequency treatment and methanol effects. Check whether nominal mirror-like V basins are numerically or entropically distinct at the resolution achieved. Reward a supported near-degeneracy rather than a forced ordering. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Separate electronic contact/dispersion evidence from entropy and solvent contributions without assuming every initialized basin survives. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Separate electronic contact/dispersion evidence from entropy and solvent contributions without assuming every initialized basin survives. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "basins",
+      "max_score": 25,
+      "description": "Attempt all three initial basins for both molecules in vacuum and methanol with dispersion on/off. Validate each retained minimum, deduplicate merged endpoints, and report E/G/weights on one convention. A documented collapse is admissible and must not create duplicated statistical weight.",
+      "rule_ids": [
+        "r_basins"
+      ]
+    },
+    {
+      "id": "interventions",
+      "max_score": 20,
+      "description": "Supply matched D3 on/off single points and separately relaxed contrasts. Define the mapped PAH C-H donor and S=O acceptor; document the restrained contact-disfavoring control and its strain/nonadditivity. Do not assign constrained points equilibrium G or isolate a hydrogen-bond energy by assumption.",
+      "rule_ids": [
+        "r_interventions"
+      ]
+    },
+    {
+      "id": "thermochemical_robustness",
+      "max_score": 20,
+      "description": "Reconstruct ΔG from ΔE and thermal terms; test low-frequency treatment and methanol effects. Check whether nominal mirror-like V basins are numerically or entropically distinct at the resolution achieved. Reward a supported near-degeneracy rather than a forced ordering.",
+      "rule_ids": [
+        "r_thermochemical_robustness"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Separate electronic contact/dispersion evidence from entropy and solvent contributions without assuming every initialized basin survives. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "paper_id": "paper_1e3a1d290a02e5f0",
+  "rules": [
+    {
+      "rule_id": "ar_r_identity",
+      "reference_id": "ar_process_identity",
+      "type": "semantic",
+      "expected": "All three supplied identities and electronic states are preserved with minimum validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[*].molecule_id",
+          "$.results[*].identity",
+          "$.results[*].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r_method",
+      "reference_id": "ar_process_reproducibility",
+      "type": "semantic",
+      "expected": "The report documents model, convergence and a reproducible λh energy cycle.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[*].molecule_id",
+          "$.results[*].method",
+          "$.results[*].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r_homo",
+      "reference_id": "ar_homo",
+      "type": "numeric",
+      "target": -5.12,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[0].homo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY1 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_homo2",
+      "reference_id": "ar_homo",
+      "type": "numeric",
+      "target": -5.17,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[1].homo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY2 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_homo3",
+      "reference_id": "ar_homo",
+      "type": "numeric",
+      "target": -5.18,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[2].homo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY3 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_lumo",
+      "reference_id": "ar_lumo",
+      "type": "numeric",
+      "target": -1.88,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[0].lumo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY1 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_lumo2",
+      "reference_id": "ar_lumo",
+      "type": "numeric",
+      "target": -2.19,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[1].lumo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY2 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_lumo3",
+      "reference_id": "ar_lumo",
+      "type": "numeric",
+      "target": -2.18,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[2].lumo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY3 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_lambda",
+      "reference_id": "ar_lambda",
+      "type": "numeric",
+      "target": 0.191,
+      "unit": "eV",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[0].lambda_h_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY1 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_lambda2",
+      "reference_id": "ar_lambda",
+      "type": "numeric",
+      "target": 0.186,
+      "unit": "eV",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[1].lambda_h_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY2 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_lambda3",
+      "reference_id": "ar_lambda",
+      "type": "numeric",
+      "target": 0.189,
+      "unit": "eV",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results[2].lambda_h_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "Only the validated JY3 row in the public canonical order is eligible; retain molecular identity, units, definition and raw computational support. Source value is method dependent; incompatible methods/definitions require scientific review, not automatic equivalence."
+    },
+    {
+      "rule_id": "ar_r_final",
+      "reference_id": "ar_final_trend",
+      "type": "semantic",
+      "expected": "The final claim states deeper HOMO with fluorination, minimum λh for JY2, and isolated-molecule scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "notes": "Scientific-result scoring only. Ordinary limitations/uncertainty prose is optional and unscored. Preserve all required identity, state, convergence, frequency/path, energy-definition and evidence checks. Score actual supported components; honest partial/failed submissions are valid but earn no unavailable result credit. Failed optional attempts do not invalidate completed primary work. Numeric screening alone does not validate chemistry or protocol comparability."
+}

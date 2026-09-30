@@ -1,0 +1,12 @@
+{
+  "paper_id": "paper_c1323a2dc523c154",
+  "rules": [
+    {"rule_id": "pr_r1", "reference_id": "pr_kp1", "type": "semantic", "expected": "neutral singlet Pd2Cl6 identity is maintained and geometry validation reports Pd–Pd and six nearest Pd–Cl distances", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.system", "$.geometry_validation"], "comparison": "expert semantic and structural consistency comparison"}},
+    {"rule_id": "pr_r2", "reference_id": "pr_kp2", "type": "semantic", "expected": "transition-level raw/aligned energies, intensities, orbital character, and reproducible broadening are provided", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.spectrum"], "comparison": "expert semantic comparison of provenance and reproducibility"}},
+    {"rule_id": "pr_r3", "reference_id": "pr_kp3", "type": "semantic", "expected": "a distinct broad, intense lower-energy shoulder is reported near 3170 eV after a disclosed alignment", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.spectrum", "$.conclusion"], "comparison": "expert feature-level comparison"}},
+    {"rule_id": "pr_r4", "reference_id": "pr_kp4", "type": "semantic", "expected": "multiple identified transitions support the shoulder and show substantial Pd d plus chloride-valence/Pd–Cl interaction character", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.spectrum"], "comparison": "expert item-resolved semantic comparison using supporting transition IDs"}},
+    {"rule_id": "pr_r5", "reference_id": "pr_c1", "type": "condition", "expected": "hypothesis verdict is supported by the reported shoulder and its multiple-transition Pd–Cl assignment", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.hypothesis_verdict", "$.conclusion"], "comparison": "logical consistency with submitted evidence"}},
+    {"rule_id": "pr_r6", "reference_id": "pr_c2", "type": "semantic", "expected": "calculation reproduces the defining principal and shoulder features without overstating absolute line-shape accuracy", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.spectrum", "$.conclusion"], "comparison": "expert semantic comparison"}},
+    {"rule_id": "pr_r7", "reference_id": "pr_c3", "type": "semantic", "expected": "limitations address broadening, alignment and model sensitivity", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.sensitivity_test", "$.limitations"], "comparison": "expert semantic comparison"}}
+  ]
+}

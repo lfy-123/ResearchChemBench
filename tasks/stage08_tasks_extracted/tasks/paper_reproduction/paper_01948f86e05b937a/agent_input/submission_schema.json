@@ -1,0 +1,630 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "candidates",
+      "events",
+      "profile",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "partial_bounded_failure"
+        ]
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "event",
+            "status",
+            "identity",
+            "starting_geometry",
+            "computational_method",
+            "disposition",
+            "validation"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "event": {
+              "type": "string",
+              "enum": [
+                "alpha_oxidative_addition",
+                "beta_oxidative_addition",
+                "alpha_reductive_elimination",
+                "beta_reductive_elimination"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "validated",
+                "failed",
+                "not_advanced"
+              ]
+            },
+            "identity": {
+              "type": "object",
+              "required": [
+                "structure_source",
+                "atom_mapping",
+                "event_definition"
+              ],
+              "properties": {
+                "structure_source": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "atom_mapping": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "event_definition": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "starting_geometry": {
+              "type": "string",
+              "minLength": 1
+            },
+            "computational_method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "disposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "optimization",
+                "frequency_count",
+                "imaginary_mode_assignment",
+                "connection_evidence",
+                "evidence_location"
+              ],
+              "properties": {
+                "optimization": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "frequency_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "imaginary_mode_assignment": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "connection_evidence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_location": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "events": {
+        "type": "object",
+        "required": [
+          "alpha_oxidative_addition",
+          "beta_oxidative_addition",
+          "alpha_reductive_elimination",
+          "beta_reductive_elimination"
+        ],
+        "properties": {
+          "alpha_oxidative_addition": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "barrier_kcal_mol",
+                  "candidate_ids",
+                  "validation_summary"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "validated"
+                    ]
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "validation_summary": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "candidate_ids",
+                  "failure_causes",
+                  "coverage",
+                  "next_step"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "bounded_failure"
+                    ]
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "failure_causes": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "coverage": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "next_step": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "beta_oxidative_addition": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "barrier_kcal_mol",
+                  "candidate_ids",
+                  "validation_summary"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "validated"
+                    ]
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "validation_summary": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "candidate_ids",
+                  "failure_causes",
+                  "coverage",
+                  "next_step"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "bounded_failure"
+                    ]
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "failure_causes": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "coverage": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "next_step": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "alpha_reductive_elimination": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "barrier_kcal_mol",
+                  "candidate_ids",
+                  "validation_summary"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "validated"
+                    ]
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "validation_summary": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "candidate_ids",
+                  "failure_causes",
+                  "coverage",
+                  "next_step"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "bounded_failure"
+                    ]
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "failure_causes": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "coverage": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "next_step": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "beta_reductive_elimination": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "barrier_kcal_mol",
+                  "candidate_ids",
+                  "validation_summary"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "validated"
+                    ]
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "validation_summary": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "status",
+                  "candidate_ids",
+                  "failure_causes",
+                  "coverage",
+                  "next_step"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "bounded_failure"
+                    ]
+                  },
+                  "candidate_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "failure_causes": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "coverage": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "next_step": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "profile": {
+        "type": "object",
+        "required": [
+          "reference_state",
+          "electronic_energy_method",
+          "thermal_correction",
+          "temperature_k",
+          "solvation_treatment",
+          "standard_state",
+          "concentration_treatment",
+          "ion_pair_treatment",
+          "barrier_unit",
+          "coverage",
+          "barrier_ordering"
+        ],
+        "properties": {
+          "reference_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "electronic_energy_method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "thermal_correction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "temperature_k": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "solvation_treatment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "standard_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "concentration_treatment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ion_pair_treatment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "barrier_unit": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "barrier_ordering": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "mechanistic_claim",
+          "selectivity_claim",
+          "evidential_basis",
+          "scope"
+        ],
+        "properties": {
+          "mechanistic_claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "selectivity_claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidential_basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "limitations": {
+        "type": "object",
+        "required": [
+          "search_limitations",
+          "method_limitations",
+          "ion_pair_and_solvation_limitations",
+          "next_step"
+        ],
+        "properties": {
+          "search_limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method_limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ion_pair_and_solvation_limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "next_step": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "definitions": {
+      "event_outcome": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "barrier_kcal_mol",
+              "candidate_ids",
+              "validation_summary"
+            ],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "validated"
+                ]
+              },
+              "barrier_kcal_mol": {
+                "type": "number"
+              },
+              "candidate_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "validation_summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "candidate_ids",
+              "failure_causes",
+              "coverage",
+              "next_step"
+            ],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "bounded_failure"
+                ]
+              },
+              "candidate_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "failure_causes": {
+                "type": "string",
+                "minLength": 1
+              },
+              "coverage": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_step": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "semantic",
+      "expected": "Per-object frequency classification is present and chemically interpretable.",
+      "reference_id": "pr_process_freq",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].validation.frequency"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "semantic",
+      "expected": "Per-object connectivity validation is present or bounded failure is honestly documented.",
+      "reference_id": "pr_process_irc",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].validation.connectivity"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "semantic",
+      "expected": "The object identified as L12 methyl-versus-methylene reports a computed ratio consistent with the source value 1.69 (within the stated uncertainty), while all six ligand/site objects retain explicit identity.",
+      "reference_id": "pr_barriers",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].ratio"
+        ],
+        "comparison": "expert semantic comparison of object_id, ligand, site and reported ratio"
+      }
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "Validated quantitative results support the ligand-dependent selectivity interpretation and mention the L12 ratio.",
+      "reference_id": "pr_final_selectivity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_c2",
+      "type": "semantic",
+      "expected": "Model and coverage limitations are disclosed.",
+      "reference_id": "pr_limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "paper_id": "paper_a3aca8a17ca674f9"
+}

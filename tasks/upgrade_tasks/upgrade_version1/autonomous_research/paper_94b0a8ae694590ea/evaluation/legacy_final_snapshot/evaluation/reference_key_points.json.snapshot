@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "items": [
+    {
+      "key_point_id": "kp_process_identity",
+      "key_point_type": "process",
+      "statement": "All three supplied XYZ identities are addressed as neutral singlets.",
+      "expected_result": "Each molecule is individually identified with charge 0 and multiplicity 1, or has a per-molecule bounded failure.",
+      "evidence_ids": [
+        "ev_doc_74272d4b6bd7_000107_bc7a97560de3",
+        "ev_doc_74272d4b6bd7_000110_d44ea4b5a461"
+      ],
+      "expected": "Each molecule is individually identified with charge 0 and multiplicity 1, or has a per-molecule bounded failure."
+    },
+    {
+      "key_point_id": "kp_process_validation",
+      "key_point_type": "process",
+      "statement": "The workflow records method/state and convergence or validation evidence.",
+      "expected_result": "Per-molecule calculation and computed coverage evidence are reproducible.",
+      "evidence_ids": [
+        "ev_doc_2d4c711e9554_000134_79264b09e072",
+        "ev_doc_2d4c711e9554_000162_0a3743430518"
+      ],
+      "expected": "Per-molecule calculation and computed coverage evidence are reproducible."
+    },
+    {
+      "key_point_id": "kp_result_levels",
+      "key_point_type": "result",
+      "statement": "Frontier-level pairs are reported in eV.",
+      "expected_result": "HOMO -5.04/-5.00/-4.99 and LUMO -2.14/-2.08/-1.65 eV for 2BT-TTA/2BF-TTA/2(C8Ph)-TTA, within reasonable method-comparison tolerance.",
+      "evidence_ids": [
+        "ev_doc_2d4c711e9554_000155_782f5937103b",
+        "ev_doc_2d4c711e9554_000164_a19fc3681a67"
+      ],
+      "expected": "HOMO -5.04/-5.00/-4.99 and LUMO -2.14/-2.08/-1.65 eV for 2BT-TTA/2BF-TTA/2(C8Ph)-TTA, within reasonable method-comparison tolerance."
+    },
+    {
+      "key_point_id": "kp_result_ordering",
+      "key_point_type": "result",
+      "statement": "The relative ordering and interpretation are bounded.",
+      "expected_result": "2(C8Ph)-TTA is highest in both HOMO and LUMO; isolated orbitals support only qualitative alignment interpretation.",
+      "evidence_ids": [
+        "ev_doc_2d4c711e9554_000177_8f4b74c184a8",
+        "ev_doc_2d4c711e9554_000509_949fb2b6c546"
+      ],
+      "expected": "2(C8Ph)-TTA is highest in both HOMO and LUMO; isolated orbitals support only qualitative alignment interpretation."
+    }
+  ]
+}

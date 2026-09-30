@@ -1,0 +1,279 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "structure",
+      "method",
+      "orbital_properties",
+      "excitations",
+      "selected_excitation",
+      "validation",
+      "interpretation"
+    ],
+    "properties": {
+      "structure": {
+        "type": "object",
+        "required": [
+          "system_id",
+          "formula",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "system_id": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "ground_state",
+          "excited_state",
+          "geometry_protocol"
+        ]
+      },
+      "orbital_properties": {
+        "type": "object",
+        "required": [
+          "homo",
+          "lumo",
+          "gap"
+        ],
+        "properties": {
+          "gap": {
+            "type": "object",
+            "required": [
+              "value",
+              "unit"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "excitations": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "required": [
+            "state_label",
+            "multiplicity",
+            "energy",
+            "wavelength",
+            "oscillator_strength",
+            "contributions"
+          ]
+        }
+      },
+      "selected_excitation": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "required": [
+          "state_label",
+          "multiplicity",
+          "energy",
+          "wavelength",
+          "oscillator_strength",
+          "contributions",
+          "selection_basis"
+        ],
+        "properties": {
+          "energy": {
+            "type": "object",
+            "required": [
+              "value",
+              "unit"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          },
+          "wavelength": {
+            "type": "object",
+            "required": [
+              "value",
+              "unit"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          },
+          "contributions": {
+            "type": "array"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "geometry_converged",
+          "electronic_state_check",
+          "sensitivity_check",
+          "evidence"
+        ],
+        "properties": {
+          "geometry_converged": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 0
+          }
+        }
+      },
+      "interpretation": {
+        "type": "object",
+        "required": [
+          "conclusion"
+        ],
+        "properties": {
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "status": {
+        "type": "string"
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ]
+    },
+    "else": {
+      "properties": {
+        "orbital_properties": {
+          "properties": {
+            "gap": {
+              "properties": {
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "selected_excitation": {
+          "type": "object",
+          "properties": {
+            "energy": {
+              "properties": {
+                "value": {
+                  "type": "number"
+                }
+              }
+            },
+            "wavelength": {
+              "properties": {
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "excitations": {
+          "minItems": 1
+        },
+        "validation": {
+          "properties": {
+            "evidence": {
+              "minItems": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

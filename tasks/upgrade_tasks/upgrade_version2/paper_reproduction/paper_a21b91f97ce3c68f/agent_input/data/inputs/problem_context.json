@@ -1,0 +1,17 @@
+{
+  "problem": "How does molecular conformation affect one-bond 119Sn–13C coupling in the three supplied stannyl heterocycles, and what evidence explains any differences between the scaffolds?",
+  "facts": [
+    "Each structure retains all three n-butyl chains attached to Sn; the identity file maps Sn and each bonded carbon.",
+    "Conformational energies, populations and couplings are unknown task outputs."
+  ],
+  "scope": "Study complete neutral SnBu3 derivatives6(C17H36OSn),7(C16H34O2Sn) and13(C16H34S2Sn). Supplied graphs distinguish the ring carbon from the three butyl carbons bonded to Sn. Investigate conformation-dependent one-bond coupling with a declared isotope/sign/reference convention. The question is not a survey of every source scaffold.",
+  "data_files": [
+    "pair_13_identity.json",
+    "pair_6_identity.json",
+    "pair_7_identity.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "Coupling calculations require a suitable heavy-element basis/response implementation; availability of a particular NBO version is not assumed. No source conformer endpoint or reference coupling is a public solution."
+  ]
+}

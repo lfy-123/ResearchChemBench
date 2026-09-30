@@ -1,0 +1,383 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "conformers",
+      "method",
+      "normalization",
+      "most_populated_conformer",
+      "conclusion",
+      "initial_attempts"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "partial"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "description",
+          "temperature_K",
+          "phase"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "phase": {
+            "type": "string"
+          }
+        }
+      },
+      "most_populated_conformer": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "conformers": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "status",
+            "minimum_validation",
+            "initial_ids",
+            "endpoint_evidence"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Unique final endpoint ID; not an assumed source identity inherited from the input filename."
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "success",
+                "failed"
+              ]
+            },
+            "minimum_validation": {
+              "type": "object",
+              "required": [
+                "passed",
+                "evidence"
+              ],
+              "properties": {
+                "passed": {
+                  "type": "boolean"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            "relative_gibbs_kcal_mol": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "population_percent": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only for a complete three-distinct-conformer ensemble; null when full-subset coverage is unresolved."
+            },
+            "failure_reason": {
+              "type": "string"
+            },
+            "initial_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "1-1",
+                  "1-2",
+                  "1-3"
+                ]
+              }
+            },
+            "endpoint_evidence": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "geometry_file": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "atom_mapping": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "distinguishing_features": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "geometry_file",
+                "atom_mapping",
+                "distinguishing_features"
+              ]
+            }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "status": {
+                  "const": "success"
+                },
+                "relative_gibbs_kcal_mol": {
+                  "type": "number"
+                },
+                "population_percent": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "endpoint_evidence": {
+                  "type": "object"
+                },
+                "minimum_validation": {
+                  "properties": {
+                    "passed": {
+                      "const": true
+                    }
+                  }
+                }
+              },
+              "required": [
+                "relative_gibbs_kcal_mol",
+                "population_percent"
+              ]
+            },
+            {
+              "properties": {
+                "status": {
+                  "const": "failed"
+                },
+                "relative_gibbs_kcal_mol": {
+                  "type": "null"
+                },
+                "population_percent": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "relative_gibbs_kcal_mol",
+                "population_percent",
+                "failure_reason"
+              ]
+            }
+          ]
+        },
+        "uniqueItems": true,
+        "description": "One record per distinct endpoint, not per input. Geometry/mapping establish identity; renaming cannot make duplicate structures distinct."
+      },
+      "normalization": {
+        "type": "object",
+        "required": [
+          "population_sum_percent",
+          "scope",
+          "formula"
+        ],
+        "properties": {
+          "population_sum_percent": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "scope": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "initial_attempts": {
+        "type": "array",
+        "minItems": 3,
+        "description": "Audit all three initial classes; attempts may share a final endpoint.",
+        "items": {
+          "type": "object",
+          "required": [
+            "initial_id",
+            "endpoint_ids",
+            "outcome"
+          ],
+          "properties": {
+            "initial_id": {
+              "type": "string",
+              "enum": [
+                "1-1",
+                "1-2",
+                "1-3"
+              ]
+            },
+            "endpoint_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "outcome": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "allOf": [
+          {
+            "contains": {
+              "properties": {
+                "initial_id": {
+                  "const": "1-1"
+                }
+              },
+              "required": [
+                "initial_id"
+              ]
+            }
+          },
+          {
+            "contains": {
+              "properties": {
+                "initial_id": {
+                  "const": "1-2"
+                }
+              },
+              "required": [
+                "initial_id"
+              ]
+            }
+          },
+          {
+            "contains": {
+              "properties": {
+                "initial_id": {
+                  "const": "1-3"
+                }
+              },
+              "required": [
+                "initial_id"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "conformers": {
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "properties": {
+                  "status": {
+                    "const": "success"
+                  },
+                  "population_percent": {
+                    "type": "number"
+                  },
+                  "relative_gibbs_kcal_mol": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "most_populated_conformer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "normalization": {
+              "properties": {
+                "population_sum_percent": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "most_populated_conformer": {
+              "type": "null"
+            },
+            "conformers": {
+              "items": {
+                "properties": {
+                  "population_percent": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "normalization": {
+              "properties": {
+                "population_sum_percent": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "rules": [
+    {
+      "rule_id": "r_ar_identity",
+      "reference_id": "kp_ar_process_identity",
+      "type": "semantic",
+      "expected": "All four fixed systems and neutral singlet boundary are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.molecules"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_coverage",
+      "reference_id": "kp_ar_process_coverage",
+      "type": "semantic",
+      "expected": "The four-system state identities, calculation coverage and validation evidence are reproducible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods_and_validation.md"
+        ],
+        "fields": [
+          "$.status",
+          "$.molecules"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_gap",
+      "reference_id": "kp_ar_gap_pattern",
+      "type": "semantic",
+      "expected": "For each molecule with a validated result, the reported S1/T1 gaps support the source-supported relative pattern; bounded failures are explicitly identified and not scored as numerical results.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules"
+        ],
+        "comparison": "expert comparison of validated per-molecule gaps, with explicit bounded-failure branch"
+      }
+    },
+    {
+      "rule_id": "r_ar_character",
+      "reference_id": "kp_ar_character",
+      "type": "semantic",
+      "expected": "Alternative state-character explanations are considered and the selected mixed-character interpretation is supported by bound diagnostics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.molecules[*].state_character"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_final",
+      "reference_id": "c_ar_final",
+      "type": "semantic",
+      "expected": "The four molecular systems have the required low-singlet and nearby-triplet energies and same-state LE/CT diagnostics. State-resolved spatial evidence, not cross-state juxtaposition alone, supports the mixed-character and higher-triplet-access interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

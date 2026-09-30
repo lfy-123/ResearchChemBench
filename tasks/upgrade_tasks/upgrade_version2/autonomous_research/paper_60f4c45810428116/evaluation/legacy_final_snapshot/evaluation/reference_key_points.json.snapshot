@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process",
+      "key_point_type": "process",
+      "statement": "The independent calculation validates every named state and the Fc/Fc+ thermochemical convention.",
+      "expected": "Correct charges, multiplicities, fragment balances, minima checks, THF treatment, conformer coverage, and reference sign are documented for both reactions.",
+      "evidence_ids": [
+        "ev_si_method",
+        "ev_si_structures"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_1a",
+      "key_point_type": "result",
+      "statement": "The calculated 1a potential agrees with the current-paper reference.",
+      "expected": "1a: -1.75 V versus Fc/Fc+.",
+      "evidence_ids": [
+        "ev_si_table_s10"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_1h",
+      "key_point_type": "result",
+      "statement": "The calculated 1h potential agrees with the current-paper reference.",
+      "expected": "1h: -2.81 V versus Fc/Fc+.",
+      "evidence_ids": [
+        "ev_si_table_s10"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_order",
+      "key_point_type": "result",
+      "statement": "The independent comparison identifies the relative ease of reduction.",
+      "expected": "1a has the less negative potential; 1h is lower by 1.06 V.",
+      "evidence_ids": [
+        "ev_si_table_s10"
+      ]
+    }
+  ]
+}

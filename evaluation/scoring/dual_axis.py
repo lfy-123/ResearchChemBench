@@ -6,6 +6,8 @@ from copy import deepcopy
 from typing import Any
 
 DUAL_AXIS_POLICY_ID = "dual_axis_100.v1"
+RESULTS_POLICY_ID = "dual_axis_100.scientific_results.v1"
+OPEN_RESEARCH_POLICY_ID = "dual_axis_100.open_research.v1"
 
 DUAL_AXIS_POLICY: dict[str, Any] = {
     "policy_id": DUAL_AXIS_POLICY_ID,
@@ -106,15 +108,74 @@ _REPRODUCTION_PROCESS_RUBRIC: list[dict[str, Any]] = [
 ]
 
 
-def process_rubric(*, reproduction: bool) -> list[dict[str, Any]]:
+def process_rubric(
+    *, reproduction: bool, scientific_results: bool = False, open_research: bool = False
+) -> list[dict[str, Any]]:
     """Return an independent copy of the shared 100-point process rubric."""
 
-    return deepcopy(
+    if scientific_results and open_research:
+        raise ValueError("Select only one versioned scoring policy")
+    rubric = deepcopy(
         _REPRODUCTION_PROCESS_RUBRIC if reproduction else _AUTONOMOUS_PROCESS_RUBRIC
     )
+    if scientific_results:
+        # Preserve IDs and weights; opt in only through the authored package.
+        rubric[0]["description"] = (
+            "Interprets the supplied route, required observables and scientific dependencies, and plans their computation."
+            if reproduction else
+            "Independently designs a chemically appropriate route and candidate comparisons to obtain the requested observables."
+        )
+        rubric[3]["description"] = (
+            "Checks the required convergence, identities, state or stationary-point validity, numerical controls and comparisons using actual evidence."
+        )
+        rubric[-1]["description"] = (
+            "Links computed claims to managed artifacts and reports reproducible identities, parameters, units and observed failures."
+        )
+    if open_research:
+        descriptions = (
+            [
+                "Interprets the disclosed source protocol and its ambiguities within the scientific question; plans reproducible execution and appropriate validation.",
+                "Preserves disclosed chemical identities, conditions and protocol definitions; justifies controlled substitutions and distinguishes them from faithful reproduction.",
+                "Generates relevant evidence through managed execution, preserving identities, parameters and artifacts across stages; unrelated successful calls earn no endpoint credit.",
+                "Checks scientific validity and uncertainty appropriate to the claims, diagnoses discrepancies with the paper, and distinguishes recomputation from author assertions.",
+                "Responds appropriately to observed failures or inconclusive results and records controlled recovery; a successful run need not manufacture failures.",
+                "Allocates resources and validation effort according to the reproduction objective and evidence; neither a larger job count nor gratuitous reruns earn credit.",
+                "Provides an auditable protocol and artifact trail, separates source results from recomputation, and reports material deviations with reproducible evidence.",
+            ] if reproduction else [
+                "Independently frames a tractable investigation and develops testable hypotheses or models within the given question and source bounds; no prescribed hypothesis list or count is required.",
+                "Selects scientifically appropriate representations, methods and tools, connecting their assumptions and information value to the question; valid alternative routes are accepted.",
+                "Generates relevant evidence through managed execution and preserves identities, parameters and artifacts across stages; unrelated successful calls earn no endpoint credit.",
+                "Designs and interprets evidence capable of distinguishing or falsifying the agent's claims, with proportionate validity checks and uncertainty; no reference experiment matrix is mandatory merely because the author used it.",
+                "Uses observed results, failures and uncertainty to revise or retain the investigation rationally; actual traces support claimed adaptation, and a successful run need not manufacture failure or revision.",
+                "Chooses useful investigations under the budget and stops or redirects when justified by evidence; do not reward hypothesis count, calculation count, verbosity or apparent novelty.",
+                "Links claims and meaningful research decisions to actual artifacts and execution records; distinguish prior plans from retrospective interpretation without requesting private internal reasoning.",
+            ]
+        )
+        for criterion, description in zip(rubric, descriptions):
+            criterion["description"] = description
+    return rubric
 
 
-def dual_axis_policy() -> dict[str, Any]:
+def dual_axis_policy(
+    *, scientific_results: bool = False, open_research: bool = False
+) -> dict[str, Any]:
     """Return an independent copy of the standard multiplicative policy."""
 
-    return deepcopy(DUAL_AXIS_POLICY)
+    if scientific_results and open_research:
+        raise ValueError("Select only one versioned scoring policy")
+    policy = deepcopy(DUAL_AXIS_POLICY)
+    if scientific_results:
+        policy.update(
+            policy_id=RESULTS_POLICY_ID,
+            enforce_evidence_score_consistency=True,
+            generic_commentary_scored=False,
+        )
+    if open_research:
+        policy.update(
+            policy_id=OPEN_RESEARCH_POLICY_ID,
+            enforce_evidence_score_consistency=True,
+            generic_commentary_scored=False,
+            author_agreement_required=False,
+            reference_route_required_for_autonomous_research=False,
+        )
+    return policy

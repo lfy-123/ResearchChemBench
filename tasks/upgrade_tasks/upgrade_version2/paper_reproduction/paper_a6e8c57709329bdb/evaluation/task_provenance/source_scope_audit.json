@@ -1,0 +1,247 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "source_documents": [
+    {
+      "path": "papers/paper_a6e8c57709329bdb/documents/main.pdf",
+      "sha256": "5a566dd113353d03624849466569e890d4212bc2e0a7298ec2bcb77e7cbef2a1",
+      "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p5 明确后续光谱用DMF，pp6–7传感；SI p19 FigS20仅可能结合模式，不补足实际传感盐、质子库和水含量。Mn–L合成用盐不能冒充Fe/Co传感盐。",
+      "actual_read_pages_and_sections": "Main pp2,4–8; optical medium p5, Fe sensing/absent Fe crystal and Fig4 p6, DFT p7; SI p19 FigS20 possible binding and Mn bond table."
+    },
+    {
+      "path": "papers/paper_a6e8c57709329bdb/documents/supplementary_001.pdf",
+      "sha256": "dcb7c395f4cad30dbeae17d62a11bdf820207bf7d8b83b8866def961e7322f60",
+      "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p5 明确后续光谱用DMF，pp6–7传感；SI p19 FigS20仅可能结合模式，不补足实际传感盐、质子库和水含量。Mn–L合成用盐不能冒充Fe/Co传感盐。",
+      "actual_read_pages_and_sections": "Main pp2,4–8; optical medium p5, Fe sensing/absent Fe crystal and Fig4 p6, DFT p7; SI p19 FigS20 possible binding and Mn bond table."
+    }
+  ],
+  "source_question": "The source reports fluorescence changes of the complete HL ligand on adding Fe(III), with a smaller Co(II) response, in DMF. This task concerns the molecular basis and identifiable limits of that response; the source Mn–L crystal is a different chemical system.",
+  "task_question": "What molecular account of the reported HL response to Fe(III), relative to the free ligand and the Co(II) observation, can the available evidence support? Establish which conclusions are conditional on unresolved solution composition and which are identifiable without assuming the missing conditions.",
+  "scope_mappings": [
+    {
+      "element": "HL identity and DMF photophysics",
+      "source": "main pp2,4–6; SI ligand spectroscopy/structure figures",
+      "classification": "experimental starting identity and observations"
+    },
+    {
+      "element": "Fe/Co response and unresolved chemical conditions",
+      "source": "main p6 Fig4, ESI discussion; SI p19 FigS20",
+      "classification": "observed response plus explicitly incomplete solution definition"
+    },
+    {
+      "element": "HL and Mn computations",
+      "source": "main pp7–8 theoretical section; SI FigsS15–S19",
+      "classification": "PR/private author baseline, not Fe/Co reference"
+    }
+  ],
+  "public_facts_and_constraints": "The supplied graph defines neutral singlet HL, C20H22N4O6, with its two E imine identities and phenolic hydrogens. The source measurements use DMF near ambient conditions. Fe is added as Fe(III) and the comparison metal as Co(II); the actual sensing salts/counterions, proton reservoir and water content are not established in the available source. There is no experimentally solved Fe–HL crystal structure. Those unknowns are not permission to assign a unique solution complex. Any derived model must state all atoms, charge, spin, protonation, solvent and counterion assumptions. This package remains input-blocked for complete experimental selectivity evaluation; diagnostic and conditional partial work can be recorded.",
+  "agent_decisions": [
+    "Decide which molecular questions can be investigated without unavailable solution composition and which must remain unresolved.",
+    "Choose explicit conditional models, state treatment, methods and informative tests; distinguish an assumption from an identified experimental species.",
+    "Assess what information would separate compatible accounts and what missing source facts are needed for experimental inference."
+  ],
+  "source_exceptions": [],
+  "builder_model_disclosures": [],
+  "old_scope_corrections": [
+    "Keep full HL identity and the actual qualitative optical observations, with unresolved sensing conditions explicitly listed.",
+    "Remove fixed Fe/Co binding/proton-exchange/TD grids and do not invent a sensing salt, water fraction or proton reservoir to populate them.",
+    "Retain blocked scientific deployment and evidence-bearing partial/diagnostic submission; a conditional model cannot silently clear the source-input blocker."
+  ],
+  "feasibility_evidence": {
+    "source_freeze": {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_3/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "393ef0676047c72d24d249a13e6fbdcc47f954dec7e5276a6269e1ba84e353bf"
+    },
+    "frozen_V1_packages": {
+      "autonomous_research": "4803fa314d6adaa04d53a24c0c872e965081f202bf78b3baf2f027e5832db569",
+      "paper_reproduction": "4d23df6628b39205c183cdfb1ac1f4a1b5d81e25bd2e394fbf1495651da048bf"
+    },
+    "reported_scientific_status": "needs_work",
+    "scope": "冻结记录有HL/Fe/DMF六重态条件模型在途；它不是未知实验盐条件的恢复，也不解除现版blocked。",
+    "unfinished": [
+      "完整HL/Fe/DMF六重态条件模型优化仍运行；其余Fe/Co自旋、DMF/质子参照及SI双核/互变异构对照未完成。未知盐条件不能代替可行条件模型验证。"
+    ],
+    "artifacts": [
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/a9b3efd1f2431aae_results.json.snapshot",
+        "sha256": "a9b3efd1f2431aae550f319f5bc5bb767f04c09adc88b6f1a2345619f5e514d4",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/report/results.json",
+        "previous_recorded_sha256": "a9b3efd1f2431aae550f319f5bc5bb767f04c09adc88b6f1a2345619f5e514d4",
+        "bytes": 4544,
+        "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/7c2755aa20b5ff64_report.md.snapshot",
+        "sha256": "7c2755aa20b5ff641562d02a77322d99e306b93354007f7129bd68381c19ab3a",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/report/report.md",
+        "previous_recorded_sha256": "7c2755aa20b5ff641562d02a77322d99e306b93354007f7129bd68381c19ab3a",
+        "bytes": 3625,
+        "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/4163fdc0d50c8bab_status.json.snapshot",
+        "sha256": "4163fdc0d50c8babeff93eb2f02e1708bf8132124515e3d632eb38ec91827f28",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/status.json",
+        "previous_recorded_sha256": "4163fdc0d50c8babeff93eb2f02e1708bf8132124515e3d632eb38ec91827f28",
+        "bytes": 552,
+        "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/0e22ba8fdcfe5b81_stdout.log.snapshot",
+        "sha256": "0e22ba8fdcfe5b81ad53422956d418d4e2744833f7199bf897a701503c112723",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/analysis/conditional_DMF_builder_a1/stdout.log",
+        "previous_recorded_sha256": "0e22ba8fdcfe5b81ad53422956d418d4e2744833f7199bf897a701503c112723",
+        "bytes": 813,
+        "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/07d6a61d9b0c436d_stdout.log.snapshot",
+        "sha256": "07d6a61d9b0c436d0a0b24095b49a4622fff34e46aca85cc96e8d90532fd64c6",
+        "role": "existing_raw_log_inspect_before_reuse",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/outputs/Fe_HL_DMF3_m6_B3LYPD3BJ_def2SVP_DMF_optfreq_pilot_a1/stdout.log",
+        "previous_recorded_sha256": "07d6a61d9b0c436d0a0b24095b49a4622fff34e46aca85cc96e8d90532fd64c6",
+        "bytes": 3840993,
+        "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/aff57c977d60df8c_native.log.snapshot",
+        "sha256": "aff57c977d60df8c87973ef3a2bff06c67a7b3a39a3b72d222bfff42ad4e2031",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/outputs/legacy_reuse/hl_orthoOH_paraOMe_B3LYP631Gdp_20260916_hpc_7e97f520/native.log",
+        "bytes": 28852841,
+        "observed_at_utc": "2026-09-28T17:32:55.497572+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      }
+    ],
+    "existing_attempts": [
+      {
+        "case_id": "conditional_DMF_builder_a1",
+        "scientific_identity": "paper_a6e8c57709329bdb|conditional_DMF_builder_a1",
+        "location": "local",
+        "job_id": null,
+        "pid": 2501193,
+        "process_start_ticks": "1483419238",
+        "host": null,
+        "platform_status": null,
+        "state": "completed",
+        "started_at": "2026-09-28T07:09:27.734210+00:00",
+        "last_checked_at": "2026-09-28T15:05:30.284885+00:00",
+        "input": null,
+        "input_sha256": null,
+        "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/analysis/conditional_DMF_builder_a1",
+        "frozen_contract": null,
+        "native_state": {
+          "phase": null,
+          "host": null,
+          "pid": 2501193,
+          "wrapper_pid": null,
+          "started_at": "2026-09-28T07:09:27.734210+00:00",
+          "finished_at": "2026-09-28T07:09:28.652901+00:00",
+          "normal_termination": null,
+          "return_code": 0,
+          "exit_code": null,
+          "scientific_pass": null
+        },
+        "native_state_file": {
+          "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/df5e0552afac68f6_run_status.json.snapshot",
+          "sha256": "df5e0552afac68f64fe31473eec94c39c546d430f1ba04ef281951b25630922b",
+          "bytes": 1679,
+          "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/analysis/conditional_DMF_builder_a1/run_status.json",
+          "previous_recorded_sha256": "df5e0552afac68f64fe31473eec94c39c546d430f1ba04ef281951b25630922b",
+          "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+          "original_is_mutable": true,
+          "hash_changed_since_previous_record": false,
+          "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+        },
+        "ongoing_engine": false,
+        "platform_active": false
+      },
+      {
+        "case_id": "Fe_HL_DMF3_m6_B3LYPD3BJ_def2SVP_DMF_optfreq_pilot_a1",
+        "scientific_identity": "paper_a6e8c57709329bdb|Fe_HL_DMF3_m6_B3LYPD3BJ_def2SVP_DMF_optfreq_pilot_a1",
+        "location": "HPC",
+        "job_id": "hpc-job-223d6d22-9755-4378-af85-1488fb4ec5f9",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": "hpc-job-2235471-cluster-slurmd-0",
+        "platform_status": "RUNNING",
+        "state": "accepted",
+        "started_at": null,
+        "last_checked_at": "2026-09-28T15:05:30.284885+00:00",
+        "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/inputs/Fe_HL_DMF3_m6_B3LYPD3BJ_def2SVP_DMF_optfreq_pilot_a1/input.com",
+        "input_sha256": "d50bc21fe0a1aadba2a6e4f681264e6e8e9fbd46c46273dd2a4cfe75ef9af5f4",
+        "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/outputs/Fe_HL_DMF3_m6_B3LYPD3BJ_def2SVP_DMF_optfreq_pilot_a1",
+        "frozen_contract": "da2c32ae3b9fac6eb592898e4ec91e8b90672449a4ac65732037920edba9bbb7",
+        "native_state": {
+          "phase": "running",
+          "host": "hpc-job-2235471-cluster-slurmd-0",
+          "pid": 192,
+          "wrapper_pid": 190,
+          "started_at": "2026-09-28T07:50:00.400173+00:00",
+          "finished_at": null,
+          "normal_termination": null,
+          "return_code": null,
+          "exit_code": null,
+          "scientific_pass": false
+        },
+        "native_state_file": {
+          "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb/257c6efa06935355_run_status.json.snapshot",
+          "sha256": "257c6efa0693535584d07209d7fc62bc9247305a52955ee272d6963dd20ae61c",
+          "bytes": 2175,
+          "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_a6e8c57709329bdb/outputs/Fe_HL_DMF3_m6_B3LYPD3BJ_def2SVP_DMF_optfreq_pilot_a1/run_status.json",
+          "previous_recorded_sha256": "257c6efa0693535584d07209d7fc62bc9247305a52955ee272d6963dd20ae61c",
+          "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+          "original_is_mutable": true,
+          "hash_changed_since_previous_record": false,
+          "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+        },
+        "ongoing_engine": true,
+        "platform_active": true,
+        "handoff_instruction": "Preserve existing work and output; no resubmission or termination. Subsequent collection requires separate authorized workflow."
+      }
+    ],
+    "new_scientific_jobs_started": 0,
+    "new_scientific_reference_verified": false,
+    "immutable_observation": {
+      "observed_at_utc": "2026-09-28T16:59:07.798134+00:00",
+      "snapshot_root": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_a6e8c57709329bdb",
+      "source_files_read_only": true,
+      "original_attempt_status_fields": "Historical handoff observations at their own recorded times; current copied native status bytes may be later and do not update scientific acceptance.",
+      "current_files_not_assumed_immutable": true,
+      "new_scientific_jobs": 0
+    },
+    "offline_native_inventory_note": "Additional already-existing native output bytes read once and frozen. Historical attempt states retain their original times. No collection controller or chemistry engine started. Old missing mandatory matrices are historical V1 gaps, not V2 route requirements."
+  },
+  "limitations": [
+    "Complete experimental-response evaluation is input-blocked; partial source-bounded studies remain possible.",
+    "No measured Fe/Co kinetic reference or validated solution-species ensemble is supplied.",
+    "Expanded reference, semantic judge and isolated execution remain pending."
+  ],
+  "source_scope_verified": true,
+  "new_scientific_calculations_performed": false
+}

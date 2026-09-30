@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "mode": "PR",
+  "updated_at": "2026-09-28T13:23:37.550124+00:00",
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "previous_reference_stage": "implemented_pending_expanded_reference",
+  "scientific_reference_status": "author_informed_bounded_reference_validated",
+  "semantic_judge_calibration": "not_performed",
+  "blind_AR_trial": "not_performed",
+  "coordinator_final_review": "pending",
+  "accepted_at": "2026-09-28T07:56:34.458347+00:00",
+  "completed_endpoints": [
+    "relaxed_monomers.1a",
+    "relaxed_monomers.1b",
+    "relaxed_monomers.1c",
+    "relaxed_monomers.1d",
+    "common_geometry.1a_common",
+    "common_geometry.1b_common",
+    "common_geometry.1c_common",
+    "common_geometry.1d_common",
+    "spectral_test.electronic_vs_geometry",
+    "spectral_test.independent_trend",
+    "spectral_test.method_sensitivity"
+  ],
+  "limitations": [
+    "Four isolated neutral singlet monomers; no dimer, crystal, white-light color coordinates, yield or radiative/nonradiative kinetics inferred.",
+    "Reference evaluation is source-aware and the1dtransfer test retrospective; never a blind holdout. No individual spectral shift or fitted correction.",
+    "Only8localchelate/F atoms held common; azaarene topologies and remote relaxed geometries differ. Residual contrast is not pure electronic causation.",
+    "Electronic quantities only, no thermal population for constrained structures. Source gas and primarytoluene baselines are distinct.",
+    "X+Y normalized canonical transition densities define NTO/fragmentCT/centroids. Functional dependence of absolute values remains; lowerS1andstronghigherband explicitly separated.",
+    "Unreported experimental uncertainties not invented. Integernm rounding and actual method/linewidth spreads are separately identified and not statistical confidence intervals.",
+    "Retain actual rotation/grid sensitivity and unresolved fine 1c/1d ordering. See outputs/evidence/bf2_quality.json; the nonexistent validation/bf2_quality.json is not evidence."
+  ],
+  "evidence": {
+    "report/scientific_acceptance.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/report/scientific_acceptance.json",
+      "sha256": "bb58b91008c8520c4f9a15d47ace8c32f3f5ee3841656bde42a3c43e8dad0f1e"
+    },
+    "report/results.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/report/results.json",
+      "sha256": "d2f1d44084cce96bcc400b4684b5848b196e06d8a34f58b695da5e24d3a29767"
+    },
+    "report/verification_report.md": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/report/verification_report.md",
+      "sha256": "6462c6e22cc36e1f6cb885b5a84dd829c5afea17a37c9431558d74744bb07326"
+    },
+    "report/validation/contract_checks.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/report/validation/contract_checks.json",
+      "sha256": "5526ab0214289e7a050c0a8052634de68ee85fcfddda7cbd143e5d1b17e587ac"
+    },
+    "report/resource_summary.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/report/resource_summary.json",
+      "sha256": "e80034cd53c40612c275bf3bb0a0e2fd548f316a148a635b54350366121706a9"
+    },
+    "evaluator_mapping.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/evaluator_mapping.json",
+      "sha256": "8a5b7c105733d1c58648a3a03d0f7b2b74f266b78b28135de784c99debcf88a7"
+    },
+    "task_snapshot/manifest.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/task_snapshot/manifest.json",
+      "sha256": "f009cc0553ded7884ae87054b4f18b0c55d868e5fd4c646a6341500221ae7839"
+    }
+  },
+  "raw_artifact_index": {
+    "path": "docs/upgrade_tasks_verification/group_1/papers/paper_2f2aa11ea61a32bb/report/validation/contract_checks.json",
+    "sha256": "5526ab0214289e7a050c0a8052634de68ee85fcfddda7cbd143e5d1b17e587ac"
+  },
+  "validated_scientific_package_hashes": {
+    "AR": "6b43384999a714825cc51892c09853011019f1cbf0c9e87e8003416564b98f00",
+    "PR": "279027840290244156cc4a045ddd861bcc781a3cb39d054d1eca1a6c6dd1ca80"
+  },
+  "package_before_reference_binding_sha256": "279027840290244156cc4a045ddd861bcc781a3cb39d054d1eca1a6c6dd1ca80",
+  "historical_package_snapshot": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/history/reference_binding/paper_2f2aa11ea61a32bb/PR/279027840290244156cc4a045ddd861bcc781a3cb39d054d1eca1a6c6dd1ca80",
+  "change_scope": "Private evidence/provenance metadata and manifest only. Public inputs, schemas, scoring criteria, weights, critical failures, and author route are unchanged.",
+  "current_result_schema_checked": true
+}

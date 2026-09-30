@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.282321+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_9a58a1fa6ed7d780/documents/main.pdf",
+      "sha256": "aeebf1cd58e33932312c18720a87e7fddd1c12d72f39a5afb963baaa5ce4ca92",
+      "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p3 描述 BN-AkFlu/CC 类比物；SI p3 方法和 pp49–51 坐标表。当前完整对象为 BN C22H14B2N2、CC C26H14，共同映射拓扑检查通过。",
+      "actual_read_pages_and_sections": "Main pp2–4 molecular/optical discussion; SI pp3,39,41–43 methods and tables,49–51 coordinate identities."
+    },
+    {
+      "path": "papers/paper_9a58a1fa6ed7d780/documents/supplementary_001.pdf",
+      "sha256": "dcd192b5e3b92b087855114bacea08f5316e4de2d8a105fa4af949b8459531fe",
+      "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p3 描述 BN-AkFlu/CC 类比物；SI p3 方法和 pp49–51 坐标表。当前完整对象为 BN C22H14B2N2、CC C26H14，共同映射拓扑检查通过。",
+      "actual_read_pages_and_sections": "Main pp2–4 molecular/optical discussion; SI pp3,39,41–43 methods and tables,49–51 coordinate identities."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "A state-resolved investigation of both correct 40-atom BN-AkFlu and CC-AkFlu molecules explains a robust spectral contrast without mandatory cross-scaffold coordinates or Sr/D analysis.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Physical state tracking and uncertainty show that a proposed BN-induced difference cannot be distinguished at the chosen resolution, while independently established spectral features are retained.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "The brightest root is called S4 in both molecules because another BN-Flu table used that label, or the BN graph gains the erroneous fifteenth H.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "Computed vertical transition data are valid but the charge-transfer explanation remains untested; spectral results receive only their supported credit.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: How does replacing the specified internal carbon sites by BN units affect the low-energy molecular electronic excitations of BN-AkFlu and CC-AkFlu, and what molecular explanation can be supported? Determine which differences are robust and which depend on the chosen model or state interpretation.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify the two complete40-atom graphs, BN substitution sites, neutral charge and singlet starting states; any derived geometry/state must map to its correct parent. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Separate orbital gaps, vertical excitations and any other observable you calculate. Match physical states using adequate evidence whenever comparing states across molecules or methods; specify descriptor definitions and numerical convergence if such descriptors support the explanation. Test limitations important for the asserted BN effect without a prescribed control axis. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Conclusions cover these finite molecules and their low-energy electronic excitations. A vertical excitation or frontier orbital gap does not determine emission yield, nonradiative rate, solid packing or charge mobility. Do not extrapolate to other BN derivatives or a device. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

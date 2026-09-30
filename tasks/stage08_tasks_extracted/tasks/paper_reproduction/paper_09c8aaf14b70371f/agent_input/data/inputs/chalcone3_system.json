@@ -1,0 +1,14 @@
+{
+  "system_name": "neutral unsubstituted chalcone 3",
+  "formula": "C15H12O",
+  "charge": 0,
+  "multiplicity": 1,
+  "stereoisomers": {
+    "E": "[O:1]=[C:2]([c:3]1[cH:7][cH:8][cH:9][cH:10][cH:11]1)/[CH:4]=[CH:5]/[c:6]1[cH:12][cH:13][cH:14][cH:15][cH:16]1",
+    "Z": "[O:1]=[C:2]([c:3]1[cH:7][cH:8][cH:9][cH:10][cH:11]1)/[CH:4]=[CH:5]\\[c:6]1[cH:12][cH:13][cH:14][cH:15][cH:16]1"
+  },
+  "atom_roles": {"carbonyl_carbon": 2, "alpha_alkene_carbon": 4, "beta_alkene_carbon": 5, "beta_phenyl_ipso_carbon": 6},
+  "coordinate": "dihedral(atom 2, atom 4, atom 5, atom 6)",
+  "environments": [{"id": "gas_phase", "description": "isolated molecule in vacuum"}, {"id": "acetonitrile_pcm", "description": "isolated molecule with implicit continuum acetonitrile"}],
+  "scope": "Generate and optimize structures independently; no paper or SI coordinates are required."
+}

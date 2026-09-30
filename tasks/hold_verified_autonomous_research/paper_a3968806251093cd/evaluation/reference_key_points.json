@@ -1,0 +1,48 @@
+{
+  "paper_id": "paper_a3968806251093cd",
+  "items": [
+    {
+      "key_point_id": "ar_process_identity",
+      "key_point_type": "process",
+      "statement": "The actual calculation represents compound 7a with the correct connectivity, E-imine and N5-H thione identity, neutral charge and singlet multiplicity.",
+      "expected": "Check input and optimized coordinates against molecule.json and the whole-molecule source-label mapping, not just molecular formula. Require C20H17ClN6OS (46 atoms), correct pyrazole substitution, C8 and N4 opposite across C17=N3, and N5-H rather than S-H. Coordinate rows may change if declared consistently; Cl1 and Cl2 are one atom. No author endpoint or SCXRD coordinates are authorized agent inputs.",
+      "evidence_ids": [
+        "ev_doc_2d756ad0ed72_000017_413de112a333",
+        "ev_a396_identity_cif"
+      ]
+    },
+    {
+      "key_point_id": "ar_process_validation",
+      "key_point_type": "process",
+      "statement": "Two genuine independent optimizations yield validated local minima from a declared common starting conformer.",
+      "expected": "At least two scientifically justified, independently selected geometry models; the author functional pair is not mandatory. Inspect starting/final coordinates and raw method, optimization and stationarity artifacts. A normal exit or a claim of convergence alone is insufficient. Frequency/Hessian evidence must support minima (or an explicitly justified equivalent test). The primary starts must be the same independently generated conformer, then optimized separately. Extra starts are optional and not a new required search. Historical author-route verification may use private source-informed starts; it is feasibility evidence, not an agent-input exemption.",
+      "evidence_ids": [
+        "ev_doc_6fa279192fe2_000064_6865e8763f76",
+        "ev_a396_correct_object_computations"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_geometry",
+      "key_point_type": "result",
+      "statement": "Calculated coordinates support every requested observable and correctly reconstructed per-kind errors against the public SCXRD observations.",
+      "expected": "Require 13 unique bonds, 23 unique angles and 11 unique torsions per primary model (94 rows for a pair), with units, fixed selectors and no duplicates. Re-extract from final coordinates and reproduce MAE/RMSE. Follow geometry_comparison.json: raw signed torsions, circular differences, ONE globally selected reference sign over all 11 torsions per model by minimum SSE then MAE/tie rules, both branch summaries retained. No row-wise reflection, label swaps, subset selection or cross-unit aggregate. Reporting agreement tolerances are 1e-6 Angstrom for bonds and 1e-4 degree for angles/torsions; these are arithmetic precision, not hidden DFT targets or a maximum physical error against experiment. Incomplete sets have null full-set metrics and do not earn full-coverage credit.",
+      "evidence_ids": [
+        "ev_doc_2d756ad0ed72_000066_d7f5216731d0",
+        "ev_doc_2d756ad0ed72_000072_8698fc6e9da7",
+        "ev_doc_2d756ad0ed72_000076_096ec81ee6fc",
+        "ev_a396_comparison_protocol"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_comparison",
+      "key_point_type": "result",
+      "statement": "The primary-pair comparison is the one supported by the six separately computed MAE/RMSE metrics.",
+      "expected": "Check each kind's two metric preferences and the structured overall comparison under the public numerical tie tolerance. Uniform dominance requires no worse metric and at least one better metric; crossing preferences yield mixed; all ties yield indistinguishable_on_reported_metrics. Missing or invalid required data yield unresolved_incomplete, not mixed. A full valid comparison may support any of the three complete outcomes without a predetermined winning method. Different optimized basins must not be represented as pure functional-only effects. A generic limitations paragraph is neither required nor scored.",
+      "evidence_ids": [
+        "ev_doc_6fa279192fe2_000295_ea60f916c7bf",
+        "ev_a396_correct_object_computations",
+        "ev_a396_comparison_protocol"
+      ]
+    }
+  ]
+}

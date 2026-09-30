@@ -1,0 +1,83 @@
+{
+  "rules": [
+    {
+      "rule_id": "rule_ground_process",
+      "type": "condition",
+      "expected": "minimum_verified is true and frequencies contain stationarity evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ground_state.minimum_verified",
+          "$.ground_state.frequencies"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "kp_ground_minimum"
+    },
+    {
+      "rule_id": "rule_excited_process",
+      "type": "condition",
+      "expected": "S1 and S1\u2192S0 are assigned and both dipoles plus their angle have units and provenance",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excited_state"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "kp_excited_state_dipoles"
+    },
+    {
+      "rule_id": "rule_glum_numeric",
+      "type": "numeric",
+      "target": 0.0071,
+      "unit": "dimensionless",
+      "tolerance": 0.001,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excited_state.glum.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_glum_value"
+    },
+    {
+      "rule_id": "rule_final_claim",
+      "type": "semantic",
+      "expected": "the validated calculation supports comparatively strong CPL potential for C[2]BNDI within the model scope",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "conclusion_cpl_promise"
+    },
+    {
+      "rule_id": "rule_limitation",
+      "type": "semantic",
+      "expected": "the conclusion is explicitly bounded to the methyl-truncated computational model",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "conclusion_limitations"
+    }
+  ],
+  "paper_id": "paper_099881ef1691d3d3"
+}

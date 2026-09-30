@@ -1,0 +1,45 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "evidence": [
+    {
+      "evidence_id": "source_documents",
+      "source": [
+        {
+          "path": "papers/paper_988bc12ae3768679/documents/main.pdf",
+          "sha256": "8ee6c2620ae4107f7fd8043982eb478ffa01714734e69416a7b186e9ff32e189",
+          "pages": [
+            5,
+            6
+          ],
+          "total_pages": 10
+        },
+        {
+          "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_988bc12ae3768679.publisher_si.docx",
+          "sha256": "b3633cc3dbdbae1fe21da6413596b8434189d1a6f4b55dafeeaa6975bc3acedf",
+          "sections": "Relevant methods, experimental observations and identity blocks; see source review."
+        },
+        {
+          "path": "docs/evalution/update/paper_988bc12ae3768679.md",
+          "sha256": "0cf06e863dd9879e56ea469cba86d0efe3e4166dee1f0865e05d4448bb793609",
+          "role": "First-version specification, not scientific evidence"
+        }
+      ],
+      "context": "Read main computational methods p3, Table1, halochromic/NMR discussion pp4–6 and official SI acid/neutral/base NMR and coordinate blocks. Extracted only the neutral C30H20N6O4 graph. Source aqueous absorption and DMSO NMR require distinct solution models. Formal SI Table S2 resolves exact experimental assignments; no expanded spectral/cycle reference exists. Formal SI Table S2 directly resolves the columns: experimental neutral 6.80, base 6.10, acid 6.95 ppm; calculated 6.95/6.35/7.98 are private reference values. Added a valence-checked neutral lactam-to-lactim seed by moving mapped H8 from N11 to O9 and swapping N11-C6/C6-O9 bond orders. This is a candidate-generation intervention, not a new chemical result. Explicit failed/collapsed branches do not require fictional free energies.",
+      "scope": "Source identities, methods and observations; author conclusions remain hypotheses for the expanded comparison."
+    },
+    {
+      "evidence_id": "extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md"
+      },
+      "scope": "Benchmark-authored controls; new numerical references and error calibration pending."
+    },
+    {
+      "evidence_id": "legacy",
+      "source": {
+        "path": "evaluation/legacy_final_snapshot"
+      },
+      "scope": "Historical payload only. Old outputs/PASS certify no expanded endpoint."
+    }
+  ]
+}

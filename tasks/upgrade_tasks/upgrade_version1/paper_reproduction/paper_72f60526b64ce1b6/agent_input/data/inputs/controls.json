@@ -1,0 +1,39 @@
+{
+  "core_molecules": [
+    "AD",
+    "ApiD",
+    "AsigmaD"
+  ],
+  "core_configs": [
+    "AD_base",
+    "ApiD_base",
+    "AsigmaD_base",
+    "AD_reversed",
+    "AD_left_gap_plus_0p2A"
+  ],
+  "biases_V": [
+    -0.5,
+    0.0,
+    0.5
+  ],
+  "bias_definition": "V=(mu_L-mu_R)/e, mu_L=Ef+eV/2, mu_R=Ef-eV/2. Fixed laboratory left/right labels.",
+  "temperature_K": 300,
+  "origin": "Benchmark bounded controls, not claimed source calculations or calibrated tolerances.",
+  "base_geometry": "Au(111), common 3x3 transverse surface repeat and four Au layers on each side of the central region. Build the same registry and equivalent terminal S contact sites for all three molecular graphs. Declare all cell vectors, electrode repeats, frozen/relaxed layers and transport axis before computation. Authentic source optimized junctions are not public starts.",
+  "required_geometry_design_records": [
+    "Au lattice parameter and source/relaxed derivation",
+    "transverse/longitudinal vectors and screening convergence",
+    "S-site registry and left/right distances",
+    "exact Au count, graph atom maps and removed thiol H maps",
+    "principal-layer atom ordering and electrode/central-region partition"
+  ],
+  "reversal": "Reverse the AD molecular donor/acceptor direction while retaining laboratory electrodes, contact registry, proton removal and |V|. Match Au-S distances; log unavoidable geometric differences rather than attributing them purely to polarity.",
+  "contact_perturbation": "At AD_base fixed molecular internal geometry, displace the complete left electrode/contact block by 0.2 angstrom away from the left sulfur along the transport axis; keep right contact unchanged. Synchronize lead and central-region registration. This is a fixed-geometry intervention, not an unconstrained minimum.",
+  "numerical_sensitivity": "At AD_base compare ±0.5 V currents/transmission with tighter k sampling/energy quadrature and a thicker screening region. Record actual input differences and resulting current floor; no invented universal tolerance.",
+  "gate": "Geometry recipes specify controls but are not validated NEGF input files. Do not call unapproved TranSIESTA/TBtrans binaries. Electrode self-energies, pseudopotentials, lead matching and converged ±V execution must be verified before full matrix.",
+  "optional": [
+    "Group B/2A series",
+    "additional bias magnitudes",
+    "molecular dynamics"
+  ]
+}

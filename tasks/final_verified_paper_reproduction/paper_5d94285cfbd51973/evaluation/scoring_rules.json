@@ -1,0 +1,203 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "rules": [
+    {
+      "rule_id": "pr_r_process",
+      "reference_id": "pr_process",
+      "type": "semantic",
+      "expected": "candidate-specific conformer identities, advancement evidence, and minimum validation are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformer_search.candidates",
+          "$.stationarity.evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_method",
+      "reference_id": "pr_method",
+      "type": "semantic",
+      "expected": "software, electronic-structure method, representation, gas-phase boundary, and scientific justification are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.software",
+          "$.method.electronic_structure_method",
+          "$.method.basis_or_representation",
+          "$.method.phase",
+          "$.method.justification"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_search",
+      "reference_id": "pr_search",
+      "type": "semantic",
+      "expected": "search counts, candidate-specific records, energy span and calculated comparison are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformer_search.generated_count",
+          "$.conformer_search.deduplicated_count",
+          "$.conformer_search.advanced_count",
+          "$.conformer_search.frequency_validated_count",
+          "$.conformer_search.energy_span_kcal_mol",
+          "$.conformer_search.coverage_rationale"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_structure",
+      "reference_id": "pr_structure",
+      "type": "semantic",
+      "expected": "selected XYZ structure and selection basis are supplied and tied to stationarity evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_structure.xyz",
+          "$.selected_structure.selection_basis",
+          "$.stationarity.imaginary_frequency_count",
+          "$.stationarity.evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_sensitivity",
+      "reference_id": "pr_sensitivity",
+      "type": "semantic",
+      "expected": "a motivated sensitivity test reports HOMO, LUMO, gap, and dipole changes with interpretation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.sensitivity.test",
+          "$.sensitivity.delta_homo_ev",
+          "$.sensitivity.delta_lumo_ev",
+          "$.sensitivity.delta_gap_ev",
+          "$.sensitivity.delta_dipole_debye",
+          "$.sensitivity.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_homo",
+      "reference_id": "pr_homo",
+      "type": "numeric",
+      "target": -5.5758,
+      "unit": "eV",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.properties.homo_ev"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_lumo",
+      "reference_id": "pr_lumo",
+      "type": "numeric",
+      "target": -1.1556,
+      "unit": "eV",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.properties.lumo_ev"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_gap",
+      "reference_id": "pr_gap",
+      "type": "numeric",
+      "target": 4.4202,
+      "unit": "eV",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.properties.gap_ev"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_dipole",
+      "reference_id": "pr_dipole",
+      "type": "numeric",
+      "target": 5.847,
+      "unit": "D",
+      "tolerance": 1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.properties.dipole_debye"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r_derived",
+      "reference_id": "pr_derived",
+      "type": "semantic",
+      "expected": "reported IP, EA, hardness, softness, chemical potential, electronegativity, and conventional electrophilicity are numerically consistent with frontier energies, formulas, units, and signs",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.properties.ip_ev",
+          "$.properties.ea_ev",
+          "$.properties.hardness_ev",
+          "$.properties.softness_ev_inverse",
+          "$.properties.chemical_potential_ev",
+          "$.properties.electronegativity_ev",
+          "$.properties.electrophilicity_ev"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r_final",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "The validated low-energy AZ9 geometry yields the required HOMO, LUMO, gap, dipole and derived electronic descriptors with explicit formulas and the required numerical-stability check.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

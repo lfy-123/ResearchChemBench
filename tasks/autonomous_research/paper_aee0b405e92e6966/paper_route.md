@@ -6,7 +6,7 @@ The paper evaluates protonation/deprotonation geometries of near-infrared probes
 
 ## 2. System and model boundary
 
-The benchmark system is neutral, singlet probe A in two tautomeric arrangements. The SI Tables S4 and S6 provide 71-atom Cartesian geometries for A-OH···N and A-NH···O, respectively. The authors treat the isolated molecule with implicit water solvation; no explicit solvent molecules are part of the reported geometry tables.
+The benchmark system is neutral, singlet probe A in two tautomeric arrangements. The SI Tables S4 (pp. 24–25) and S6 (pp. 28–29) each provide 73-atom Cartesian geometries, C35H33N3O2, for A-OH···N and A-NH···O, respectively. The previous extraction omitted the two oxygen rows (16 and 17) from both tables; the public XYZ files now retain all rows in the original SI order. The authors treat the isolated molecule with implicit water solvation; no explicit solvent molecules are part of the reported geometry tables.
 
 ## 3. Authors' implemented computational route
 

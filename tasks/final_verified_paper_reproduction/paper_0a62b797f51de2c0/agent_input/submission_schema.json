@@ -1,0 +1,365 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "molecules": {
+        "type": "array",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "cyano_count",
+            "structure",
+            "method",
+            "validation",
+            "dipole",
+            "esp"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "cyano_count": {
+              "type": "integer"
+            },
+            "structure": {
+              "type": "object",
+              "required": [
+                "smiles"
+              ],
+              "properties": {
+                "smiles": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "method": {
+              "type": "object",
+              "required": [
+                "software",
+                "method",
+                "basis",
+                "charge",
+                "multiplicity",
+                "convergence"
+              ],
+              "properties": {
+                "software": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string"
+                },
+                "basis": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                },
+                "convergence": {
+                  "type": "string"
+                }
+              }
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "identity_checked",
+                "optimization_validated",
+                "conformer_coverage",
+                "notes"
+              ],
+              "properties": {
+                "identity_checked": {
+                  "type": "boolean"
+                },
+                "optimization_validated": {
+                  "type": "boolean"
+                },
+                "conformer_coverage": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            },
+            "dipole": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "required": [
+                    "value",
+                    "unit"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    },
+                    "components": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "failure_reason",
+                    "completed_work"
+                  ],
+                  "properties": {
+                    "failure_reason": {
+                      "type": "string"
+                    },
+                    "completed_work": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            },
+            "esp": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "required": [
+                    "value",
+                    "unit",
+                    "definition",
+                    "positive_region",
+                    "negative_region"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    },
+                    "positive_region": {
+                      "type": "string"
+                    },
+                    "negative_region": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "failure_reason",
+                    "completed_work",
+                    "definition"
+                  ],
+                  "properties": {
+                    "failure_reason": {
+                      "type": "string"
+                    },
+                    "completed_work": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "dipole_ordering",
+          "esp_ordering",
+          "trend_statement"
+        ],
+        "properties": {
+          "dipole_ordering": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "failure_reason",
+                  "completed_work"
+                ],
+                "properties": {
+                  "failure_reason": {
+                    "type": "string"
+                  },
+                  "completed_work": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "esp_ordering": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "object",
+                "required": [
+                  "failure_reason",
+                  "completed_work"
+                ],
+                "properties": {
+                  "failure_reason": {
+                    "type": "string"
+                  },
+                  "completed_work": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "trend_statement": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "polymer_extension": {
+        "type": "object",
+        "required": [
+          "performed",
+          "notes"
+        ],
+        "properties": {
+          "performed": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "molecules",
+          "comparison",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "dipole_ordering",
+              "esp_ordering",
+              "trend_statement"
+            ],
+            "properties": {
+              "dipole_ordering": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "esp_ordering": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "trend_statement": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "molecules",
+          "comparison",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "dipole_ordering",
+              "esp_ordering",
+              "trend_statement"
+            ],
+            "properties": {
+              "dipole_ordering": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "esp_ordering": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "trend_statement": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

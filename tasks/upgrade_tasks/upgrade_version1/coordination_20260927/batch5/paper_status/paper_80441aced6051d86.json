@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "A",
+  "new_class": "B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_80441aced6051d86",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_80441aced6051d86"
+  },
+  "new_reference_gaps": [
+    "No new host/partner-deletion reference or placement/spectral uncertainty is computed.",
+    "TD state windows and dark-state identification need calibration for both bound stoichiometries."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "55411cb85009512c8beeb794f0acf5eff9c7c2278169c9473f969d6da3bc9c66",
+    "paper_reproduction": "e1564097016d2dcdf8a5d71e821a5950e2e36927b3a56dc2fc05d9c1ae06b6bb"
+  },
+  "source_review": "paper_reviews/paper_80441aced6051d86.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_80441aced6051d86",
+      "package_content_sha256": "78169c216bbcab1ea4db33d780ac60c06f38de0895a15e4e1d8f484db8b5023d"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_80441aced6051d86",
+      "package_content_sha256": "db97c0297371e750cda78a139b576e47b33ef7cf37df57353b411385a4fff635"
+    }
+  },
+  "result_panels": [
+    "host_matrix",
+    "coupling_controls",
+    "mechanism_comparison"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_80441aced6051d86/documents/main.pdf",
+      "sha256": "b374267591176e59788c82cdd29c55adb2342d866624e6f30ad6f6cbfebed5ba",
+      "pages": [
+        3,
+        4,
+        5
+      ],
+      "total_pages": 9
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_80441aced6051d86.publisher_si.docx",
+      "sha256": "ea6d654dd5c29fc7a7e246e7508e7114fcaaf4a99f1297997f09a4d82a5b790a",
+      "sections": "Relevant methods, experimental observations and identity blocks; see source review."
+    },
+    {
+      "path": "docs/evalution/update/paper_80441aced6051d86.md",
+      "sha256": "cbd401abf5108bf6cdedfd0fa0c4489f7a759cc54d9ccb51e014b6ce47c597e0",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_80441aced6051d86/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_80441aced6051d86/evaluation/reference_validation_plan.md"
+  }
+}

@@ -1,1 +1,180 @@
-{"paper_id": "paper_8e4994cea4744520", "rules": [{"rule_id": "ar_r_identity", "type": "condition", "expected": "All five named fragment IDs, charge 0, multiplicity 1, and isolated-fragment boundary are present.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results", "$.fragment_results[].fragment_id", "$.fragment_results[].charge", "$.fragment_results[].multiplicity"], "comparison": "expert condition check"}, "reference_id": "ar_kp_process_identity"}, {"rule_id": "ar_r_validation", "type": "condition", "expected": "Every fragment record documents conformers tested and validation status; bounded failures explicitly identify missing evidence.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results[].conformers_tested", "$.fragment_results[].validation_status", "$.fragment_results[].failure_reason"], "comparison": "expert condition check"}, "reference_id": "ar_kp_process_validation"}, {"rule_id": "ar_r_dipoles_frag_4_fluoroaniline", "type": "numeric", "expected": "Numeric dipole matches source target for the bound fragment.", "unit": "Debye", "tolerance": 0.15, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results[].dipole_debye"], "comparison": "absolute difference for frag_4_fluoroaniline"}, "reference_id": "ar_kp_result_dipoles", "target": 3.55}, {"rule_id": "ar_r_dipoles_frag_4_butylaniline", "type": "numeric", "expected": "Numeric dipole matches source target for the bound fragment.", "unit": "Debye", "tolerance": 0.15, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results[].dipole_debye"], "comparison": "absolute difference for frag_4_butylaniline"}, "reference_id": "ar_kp_result_dipoles", "target": 1.76}, {"rule_id": "ar_r_dipoles_frag_bis_4_fluorophenylamine", "type": "numeric", "expected": "Numeric dipole matches source target for the bound fragment.", "unit": "Debye", "tolerance": 0.15, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results[].dipole_debye"], "comparison": "absolute difference for frag_bis_4_fluorophenylamine"}, "reference_id": "ar_kp_result_dipoles", "target": 2.05}, {"rule_id": "ar_r_dipoles_frag_mixed_butyl_fluorophenylamine", "type": "numeric", "expected": "Numeric dipole matches source target for the bound fragment.", "unit": "Debye", "tolerance": 0.15, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results[].dipole_debye"], "comparison": "absolute difference for frag_mixed_butyl_fluorophenylamine"}, "reference_id": "ar_kp_result_dipoles", "target": 2.26}, {"rule_id": "ar_r_dipoles_frag_bis_4_butylphenylamine", "type": "numeric", "expected": "Numeric dipole matches source target for the bound fragment.", "unit": "Debye", "tolerance": 0.15, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.fragment_results[].dipole_debye"], "comparison": "absolute difference for frag_bis_4_butylphenylamine"}, "reference_id": "ar_kp_result_dipoles", "target": 0.68}, {"rule_id": "ar_r_scope", "type": "semantic", "expected": "The conclusion is limited to isolated-fragment polarity and explicitly avoids unsupported solid-state or device claims.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.conclusion", "$.limitations"], "comparison": "expert semantic comparison"}, "reference_id": "ar_c_scope"}, {"rule_id": "ar_r_final", "type": "condition", "expected": "A final conclusion states whether the five dipoles were reproduced and reports aggregate metrics or a bounded failure.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.status", "$.aggregate_metrics", "$.conclusion"], "comparison": "expert condition check"}, "reference_id": "ar_c_final_dipoles"}, {"rule_id": "au_r_extra_conclusion", "reference_id": "ar_kp_result_limit", "type": "semantic", "expected": "The report states the required qualitative interpretation and respects the isolated-fragment scope.", "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.conclusion", "$.limitations"], "comparison": "expert semantic comparison"}}]}
+{
+  "paper_id": "paper_8e4994cea4744520",
+  "rules": [
+    {
+      "rule_id": "ar_r_identity",
+      "type": "condition",
+      "expected": "All five named fragment IDs, charge 0, multiplicity 1, and isolated-fragment boundary are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results",
+          "$.fragment_results[].fragment_id",
+          "$.fragment_results[].charge",
+          "$.fragment_results[].multiplicity"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_kp_process_identity"
+    },
+    {
+      "rule_id": "ar_r_validation",
+      "type": "condition",
+      "expected": "Every fragment record documents conformers tested and validation status; bounded failures explicitly identify missing evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results[].conformers_tested",
+          "$.fragment_results[].validation_status",
+          "$.fragment_results[].failure_reason"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_kp_process_validation"
+    },
+    {
+      "rule_id": "ar_r_dipoles_frag_4_fluoroaniline",
+      "type": "numeric",
+      "expected": "Numeric dipole matches source target for the bound fragment.",
+      "unit": "Debye",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results[].dipole_debye"
+        ],
+        "comparison": "absolute difference for frag_4_fluoroaniline"
+      },
+      "reference_id": "ar_kp_result_dipoles",
+      "target": 3.55
+    },
+    {
+      "rule_id": "ar_r_dipoles_frag_4_butylaniline",
+      "type": "numeric",
+      "expected": "Numeric dipole matches source target for the bound fragment.",
+      "unit": "Debye",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results[].dipole_debye"
+        ],
+        "comparison": "absolute difference for frag_4_butylaniline"
+      },
+      "reference_id": "ar_kp_result_dipoles",
+      "target": 1.76
+    },
+    {
+      "rule_id": "ar_r_dipoles_frag_bis_4_fluorophenylamine",
+      "type": "numeric",
+      "expected": "Numeric dipole matches source target for the bound fragment.",
+      "unit": "Debye",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results[].dipole_debye"
+        ],
+        "comparison": "absolute difference for frag_bis_4_fluorophenylamine"
+      },
+      "reference_id": "ar_kp_result_dipoles",
+      "target": 2.05
+    },
+    {
+      "rule_id": "ar_r_dipoles_frag_mixed_butyl_fluorophenylamine",
+      "type": "numeric",
+      "expected": "Numeric dipole matches source target for the bound fragment.",
+      "unit": "Debye",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results[].dipole_debye"
+        ],
+        "comparison": "absolute difference for frag_mixed_butyl_fluorophenylamine"
+      },
+      "reference_id": "ar_kp_result_dipoles",
+      "target": 2.26
+    },
+    {
+      "rule_id": "ar_r_dipoles_frag_bis_4_butylphenylamine",
+      "type": "numeric",
+      "expected": "Numeric dipole matches source target for the bound fragment.",
+      "unit": "Debye",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.fragment_results[].dipole_debye"
+        ],
+        "comparison": "absolute difference for frag_bis_4_butylphenylamine"
+      },
+      "reference_id": "ar_kp_result_dipoles",
+      "target": 0.68,
+      "source_note": "Source boundary reviewed 2026-09-15: main p3 lists 3.55/1.76 D for the two monoarylamines and 2.05/2.26/0.68 D for the three diarylamines. Thus mixed is highest only within the three-diarylamine subset, not all five. Fig. 1a labels bis(4-butylphenyl)amine 1.76 D, conflicting with main-text 0.68 D. The existing 0.68 D main-text numeric target is retained with this explicit unresolved source conflict; no tolerance or scientific objective is reduced."
+    },
+    {
+      "rule_id": "ar_r_scope",
+      "type": "semantic",
+      "expected": "The conclusion is limited to isolated-fragment polarity and explicitly avoids unsupported solid-state or device claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c_scope"
+    },
+    {
+      "rule_id": "ar_r_final",
+      "type": "condition",
+      "expected": "A final conclusion states whether the five dipoles were reproduced and reports aggregate metrics or a bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.aggregate_metrics",
+          "$.conclusion"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_c_final_dipoles"
+    },
+    {
+      "rule_id": "au_r_extra_conclusion",
+      "reference_id": "ar_kp_result_limit",
+      "type": "semantic",
+      "expected": "The report states the required qualitative interpretation and respects the isolated-fragment scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

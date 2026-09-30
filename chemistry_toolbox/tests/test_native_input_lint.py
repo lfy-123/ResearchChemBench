@@ -21,6 +21,12 @@ EXAMPLES = TOOLBOX_ROOT / "examples" / "native"
 
 @pytest.fixture
 def workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    # These are input-contract tests, not installation probes or calculations.
+    # Keep the real command schema but isolate availability from this machine.
+    from chemistry_toolbox.mcp.open_execution import native_command_guide
+    def available_guide(software_id, executable):
+        return {**native_command_guide(software_id, executable), "resolved_path": "/fixture/native-executable"}
+    monkeypatch.setattr("chemistry_toolbox.mcp.open_execution.native_command_guide", available_guide)
     for name in ("code", "outputs", "report", "tool_logs"):
         (tmp_path / name).mkdir()
     monkeypatch.setenv("RESEARCHCHEM_MCP_WORKSPACE", str(tmp_path))
@@ -77,7 +83,7 @@ def test_reviewed_orca_gaussian_and_crest_examples_pass_lint(workspace: Path) ->
             resource_limits=ResourceLimits(memory_mb=1024, cpu_cores=1),
         )
     )
-    assert result["input_deck_validation"]["lint_profile"] == "orca_high_frequency_v1"
+    assert result["input_deck_validation"]["lint_profile"] == "orca_high_frequency_v2"
     assert result["calculation_intent"] == "single_point"
 
     gaussian = _copy_text(
@@ -109,6 +115,33 @@ def test_reviewed_orca_gaussian_and_crest_examples_pass_lint(workspace: Path) ->
     )
     assert result["input_deck_validation"]["selected_mode"] == "conformer_search"
     assert result["calculation_intent"] == "conformer_search"
+
+
+def test_gaussian_irc_route_is_inferred_as_reaction_path(workspace: Path) -> None:
+    gaussian = _write(
+        workspace,
+        "irc.com",
+        "%NProcShared=1\n"
+        "%Mem=512MB\n"
+        "%Chk=irc.chk\n"
+        "#p B3LYP/6-31G(d) IRC=(Forward,MaxPoints=10)\n\n"
+        "generic IRC fixture\n\n"
+        "0 1\n"
+        "H 0.0 0.0 0.0\n"
+        "H 0.8 0.0 0.0\n\n",
+    )
+    result = validate_native_job(
+        NativeJobRequest(
+            software_id="gaussian",
+            executable="g16",
+            stdin_target="irc.com",
+            staged_inputs=[gaussian],
+            calculation_intent="reaction_path",
+            resource_limits=ResourceLimits(memory_mb=512, cpu_cores=1),
+        )
+    )
+    assert result["status"] == "success"
+    assert result["calculation_intent"] == "reaction_path"
 
 
 def test_vasp_and_lobster_fixed_file_examples_pass_lint(workspace: Path) -> None:

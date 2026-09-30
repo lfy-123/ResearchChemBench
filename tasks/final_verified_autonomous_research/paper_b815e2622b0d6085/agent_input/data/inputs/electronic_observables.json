@@ -1,0 +1,46 @@
+{
+  "primary_model": {
+    "functional": "HSE06",
+    "exact_exchange_fraction": 0.25,
+    "screening_inverse_A": 0.2,
+    "relativistic_treatment": "scalar_relativistic_without_SOC",
+    "structure": "Unrelaxed supplied neutral experimental parent cells, same spin/potential conventions across Cl/Br/I. State code, PAW/basis, occupancies, numerical convergence and k sampling.",
+    "boundary": "Exploration at other levels and optional direct/approximate SOC are separate branches, not substitutes for the primary comparison."
+  },
+  "fundamental": {
+    "field": "scalar_relativistic.fundamental",
+    "definition": "min over ALL unoccupied bands, k and spin of E_c minus max over ALL occupied bands, k and spin of E_v. Do not exclude low states because of their orbital character.",
+    "unit": "eV",
+    "occupation": "Declare occupation/metallicity criterion; distinguish numerical smearing from genuine partially filled bands."
+  },
+  "framework_interband": {
+    "field": "scalar_relativistic.framework_interband",
+    "definition": "Electronic edge gap from the highest occupied band edge to the lowest independently identified Pb-p-bearing inorganic-framework conduction manifold: min_k,spin E_framework(k) - max_k,spin E_v(k). This component-resolved electronic gap is NOT automatically an optical onset or a dipole-allowed excitation.",
+    "components": "Identify inorganic PbBr3-chain atoms and organic substituted-pyridinium atoms from periodic connectivity/CIF labels. Carbon-bound ring halogen belongs to the organic component, including Br in the Br-substituted crystal; do not classify all Br atoms as inorganic.",
+    "assignment_protocol": [
+      "Inspect the lowest unoccupied states and all states up to and through the first candidate framework manifold, not just a chosen high band.",
+      "Compare normalized atom/orbital projections for organic, inorganic-framework, Pb-p and other contributions, with the projection normalization and component atom lists retained. Follow dispersion/state character across the sampled k set; spatial localization or equivalent wavefunction evidence may resolve mixed states.",
+      "Use a target-independent orbital-character convention: compare normalized component/element/angular-momentum groups at each candidate manifold edge; identify the lowest manifold whose leading such group is framework Pb-p and whose dispersion/character can be followed across the sampled k set. A hybridized manifold need not have more than 50% total inorganic weight at every k. Report organic admixture, all lower candidate edges and any ambiguous disentangling; nonzero Pb weight alone is not enough. Do not use a fixed band ordinal or proximity to an expected energy.",
+      "If multiple plausible manifold trackings change the lowest edge, or the leading-character assignment is unresolved, retain candidate values with assignment_status=ambiguous and a limitation. Character assignment within a sampled domain is not proof over the full Brillouin zone."
+    ],
+    "interpretation": "The identity and order of organic/framework manifolds are results to determine, not supplied facts."
+  },
+  "same_k_gap": {
+    "field": "minimum_same_k_gap_eV",
+    "definition": "For the relevant unoccupied set, min over sampled k and same spin of [min E_c(k,spin) - max E_v(k,spin)]. Report separately for fundamental and framework sets. This need not equal the difference of independently extremized edges."
+  },
+  "edge_locations": {
+    "units": "fractional reciprocal coordinates in the stated input reciprocal basis",
+    "directness": "Compare the occupied and conduction edge k sets modulo reciprocal translations, including degenerate extrema. Direct can occur away from Gamma. Restrict a direct/indirect label to sampled_mesh unless a full-zone argument is established; report spin channels and any spin-selection restriction separately.",
+    "degeneracy": "Declare energy and k tolerances; report all degenerate edge locations."
+  },
+  "numerical_stability": {
+    "requirement": "For each reported quantity show at least one relevant numerical-setting comparison with the same physical-state definition.",
+    "fields": "signed_change_eV = check - primary; absolute_change_eV = abs(signed_change_eV), always nonnegative. A mesh difference is not a rigorous full-BZ error bound."
+  },
+  "optical_allowedness": {
+    "default_status": "not_established",
+    "boundary": "Orbital projection alone does not prove an optical selection rule. Claim an allowed/forbidden transition only with transition-matrix-element or explicit symmetry/selection-rule evidence, identifying k, polarization, spin and approximations. Optical calculations are not mandatory for the electronic-gap comparison; no unsupported claim may fill their place."
+  },
+  "SOC": "Optional. Distinguish direct parent-cell SOC from reduced-model estimates and no-SOC primary results. Keep all SOC-derived energies in a separate branch with validation; never compare them as if they were scalar-relativistic values."
+}

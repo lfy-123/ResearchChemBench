@@ -1,0 +1,38 @@
+{
+  "source": "Main Table1/Figure3 and NMR discussion pp5–6; experimental observations, not calculated answers",
+  "optical": [
+    {
+      "condition": "acid",
+      "lambda_max_nm": 350
+    },
+    {
+      "condition": "base",
+      "lambda_max_nm": 440
+    }
+  ],
+  "NMR_aromatic_site_ortho_to_terminal_OH": [
+    {
+      "condition": "acid",
+      "delta_ppm": 6.95
+    },
+    {
+      "condition": "neutral",
+      "delta_ppm": 6.8
+    },
+    {
+      "condition": "base",
+      "delta_ppm": 6.1
+    }
+  ],
+  "conditions": {
+    "optical_solvent": "water",
+    "NMR_solvent": "DMSO-d6",
+    "reported_condition_labels": [
+      "pH2",
+      "pH7",
+      "pH14"
+    ],
+    "reported_pKa": 9.89
+  },
+  "uncertainty": "Source does not provide per-point measurement errors; do not invent precision-based acceptance windows. Calibrate prediction uncertainty and disclose rounding/digitization."
+}

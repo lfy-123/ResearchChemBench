@@ -1,12 +1,25 @@
 {
-  "species_name": "AMP-TFA neutral ion pair",
+  "species_name": "AMP-TFA neutral bis-ion-pair cluster",
   "components": [
-    {"name": "2-ammonium-2-methyl-1-propanol", "smiles": "CC(C)([NH3+])CO", "formal_charge": 1},
-    {"name": "trifluoroacetate", "smiles": "O=C([O-])C(F)(F)F", "formal_charge": -1}
+    {
+      "name": "2-ammonium-2-methyl-1-propanol",
+      "smiles": "CC(C)([NH3+])CO",
+      "formal_charge": 1,
+      "count": 2
+    },
+    {
+      "name": "trifluoroacetate",
+      "smiles": "O=C([O-])C(F)(F)F",
+      "formal_charge": -1,
+      "count": 2
+    }
   ],
   "total_formal_charge": 0,
   "multiplicity": 1,
-  "formula": "C6H12F3NO3",
-  "starting_geometry_policy": "Generate and document one or more reasonable gas-phase starting conformers from the supplied connectivity; do not assume a crystal periodic calculation.",
-  "environment": "isolated gas phase"
+  "formula": "C12H24F6N2O6",
+  "starting_geometry_policy": "Generate and document the finite cluster of two AMP cations and two trifluoroacetate anions; use NH...O and OH...O hydrogen-bonded starts, not a periodic crystal or a single ion pair.",
+  "environment": "isolated gas phase",
+  "formula_unit": "C6H12F3NO3",
+  "atom_count": 50,
+  "electron_count": 212
 }

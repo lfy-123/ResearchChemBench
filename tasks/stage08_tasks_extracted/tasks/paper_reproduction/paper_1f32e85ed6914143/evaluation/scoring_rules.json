@@ -1,0 +1,170 @@
+{
+  "paper_id": "paper_1f32e85ed6914143",
+  "rules": [
+    {
+      "rule_id": "r_protocol",
+      "type": "semantic",
+      "expected": "Protocol and common reference are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol",
+          "$.comparison.reference_state"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_protocol"
+    },
+    {
+      "rule_id": "r_ts",
+      "type": "condition",
+      "expected": "Each advanced TS has one imaginary frequency and endpoint validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels[*].candidates[*].frequency_validation",
+          "$.channels[*].candidates[*].connectivity_validation"
+        ],
+        "comparison": "condition"
+      },
+      "reference_id": "kp_process_ts"
+    },
+    {
+      "rule_id": "r_coverage",
+      "type": "condition",
+      "expected": "All three channels retain identity and coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels"
+        ],
+        "comparison": "expert comparison"
+      },
+      "reference_id": "kp_process_coverage"
+    },
+    {
+      "rule_id": "r_meta",
+      "type": "numeric",
+      "target": 11.6,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barriers.meta"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_barriers",
+      "applicability": "When completion_status is complete; in bounded_failure, the channel failure record and truthful null comparison are evaluated instead of a numeric match."
+    },
+    {
+      "rule_id": "r_para",
+      "type": "numeric",
+      "target": 12.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barriers.para"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_barriers",
+      "applicability": "When completion_status is complete; in bounded_failure, the channel failure record and truthful null comparison are evaluated instead of a numeric match."
+    },
+    {
+      "rule_id": "r_ortho",
+      "type": "numeric",
+      "target": 18.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.barriers.ortho"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_barriers",
+      "applicability": "When completion_status is complete; in bounded_failure, the channel failure record and truthful null comparison are evaluated instead of a numeric match."
+    },
+    {
+      "rule_id": "r_order",
+      "type": "ordering",
+      "expected": "meta < para < ortho",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.ordering"
+        ],
+        "comparison": "ordered comparison"
+      },
+      "reference_id": "kp_result_ordering",
+      "applicability": "When completion_status is complete; bounded_failure reports must use null ordering."
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "Meta is supported over para and ortho within scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_selectivity"
+    },
+    {
+      "rule_id": "r_limits",
+      "type": "semantic",
+      "expected": "Limitations are disclosed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limitations"
+    },
+    {
+      "rule_id": "r_deltaG",
+      "reference_id": "kp_result_deltaG",
+      "applicability": "When completion_status is complete and the Int3-to-Int4 change was obtained; otherwise null is truthful.",
+      "type": "numeric",
+      "target": -2.8,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.reaction_free_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    }
+  ]
+}

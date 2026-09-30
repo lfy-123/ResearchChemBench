@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_d3b4575397179146",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use all four mapped heptazines and source substrate1a: N-methyl-N-(4-trifluoromethylphenyl)pivalamide. Pilot dFHeptZ/dOMeHeptZ first, then expand the same endpoint contract to dClHeptZ/dMeHeptZ. Use MeCN, 273.15 K, substrate0.1M, O2 1atm, 456nm source conditions; solute free energies use1M. Include substrate radical cation (charge+1,doublet), catalyst radical anion (−1,doublet), O2 triplet ground state, singlet oxygen and superoxide (−1,doublet). SET compares S+PC*→S+radical+PC−radical. EnT compares catalyst triplet deactivation with triplet-O2→singlet-O2; E00 and triplet gaps are not vertical S1 energies. A shared SCE reference may be used, but direct reaction G avoids arbitrary absolute-electrode shifts.",
+  "panels": {
+    "photoredox_matrix": {
+      "requirement": "Four catalysts on a common SET/EnT and redox/state reference.",
+      "required_cells": [
+        "dFHeptZ",
+        "dOMeHeptZ",
+        "dClHeptZ",
+        "dMeHeptZ"
+      ]
+    },
+    "oxygen_states": {
+      "requirement": "Correct oxygen state energetics and spin identity.",
+      "required_cells": [
+        "triplet_O2",
+        "singlet_O2",
+        "superoxide"
+      ]
+    },
+    "mechanism_discrimination": {
+      "requirement": "Fair possibility of both routes being feasible; no exact oxidation-yield prediction.",
+      "required_cells": [
+        "SET",
+        "EnT",
+        "constraints_used",
+        "pair_control",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "全氧化动力学和全部底物不加入。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

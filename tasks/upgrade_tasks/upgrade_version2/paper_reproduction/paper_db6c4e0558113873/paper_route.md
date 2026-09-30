@@ -1,0 +1,7 @@
+# Private source-route and V2 scope record
+
+The authors propose oxidative quenching of excited4CzIPN byCuII, reduction of sulfonyl chloride byCuI, sulfonyl-radical addition to6b, trapping byCuII(acac)Cl to allyl–CuIII species and reductive elimination (main pp8–9). Their computations compare four allyl–CuIII minima: C1 capture is lower than C3 alternatives and a2.3kcal/mol C1 conformer difference is used to rationalize selectivity. That is intermediate thermodynamics, not calculated C–Cl activation barriers. SI p65 uses Gaussian16, B3LYP-D3(BJ)/6-31G(d,p) withLANL2DZ onCu optimization/frequencies and M06/6-311+G(d,p)-SDD(Cu)/SMD MeCN single points. Its table labels a thermal column G273.15; source experiments are313.15K. Preserve and investigate this temperature-reference issue rather than silently treating old298.15K benchmark values as source conditions. Audit/reproduce the disclosed local rationale and state what further evidence is needed. The old two-route barrier matrix was a benchmark addition.
+
+The shared scientific question is: What molecular account of local C–Cl bond formation can explain the observed chlorosulfonylation selectivity of allenoate6b under the source photo/copper conditions, and what evidence limits that account?
+
+AR does not receive this metadata route through materialize_agent_files. The actual process rubric differs by mode under open_research. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

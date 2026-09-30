@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "evidence": [
+    {
+      "evidence_id": "source_main_si",
+      "source": [
+        {
+          "path": "papers/paper_2f2aa11ea61a32bb/documents/main.pdf",
+          "sha256": "bfdb4129439627d7d651b864d72f7c08c512af56365e473b538a8460c1e6a694",
+          "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+          "role": "source_original_scope_not_expanded_reference"
+        },
+        {
+          "path": "papers/paper_2f2aa11ea61a32bb/documents/supplementary_001.pdf",
+          "sha256": "6187b34d441b880b245cbbbd3350b5a9ca926ba472f56bd2026bad2a0e174983",
+          "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+          "role": "source_original_scope_not_expanded_reference"
+        }
+      ],
+      "description": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+      "scope": "Original publication facts and method only. Source optimized endpoints remain private; no expanded validation claimed."
+    },
+    {
+      "evidence_id": "benchmark_design",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md",
+        "kind": "new_benchmark_control_design"
+      },
+      "description": "Explain spectral differences across source monomers1a-1d by testing electronic substitution/topology effects against common local geometry and matched transition character.",
+      "scope": "Expanded controls pending scientific reference calculation."
+    }
+  ]
+}

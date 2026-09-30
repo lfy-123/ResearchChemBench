@@ -4,7 +4,7 @@ Determine from first-principles or an equivalent independently justified atomist
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/v2o5_h2o_p1.json`, a neutral singlet periodic V₈O₂₅H₈ bilayer cell with explicit SI-derived fractional coordinates. O* is the interlayer water oxygen and H(1)–H(8) are its water hydrogens. The physical boundary is the supplied periodic cell. Measure relaxed lattice lengths/angles, Γ-point frequencies, Raman activity/intensity where available, and mode composition. Any software/model may be chosen but must be disclosed. Comparison to experiment is limited to observed hydrated-V₂O₅ lattice and Raman features; no answer-bearing reference values are public.
+Use `data/inputs/v2o5_h2o_p1.json`, a neutral singlet periodic V₈O₂₄H₈ bilayer cell with explicit SI-derived fractional coordinates. O* is the interlayer water oxygen and H(1)–H(8) are its water hydrogens. The physical boundary is the supplied periodic cell. Measure relaxed lattice lengths/angles, Γ-point frequencies, Raman activity/intensity where available, and mode composition. Any software/model may be chosen but must be disclosed. Comparison to experiment is limited to observed hydrated-V₂O₅ lattice and Raman features; no answer-bearing reference values are public.
 
 # Required scientific validation/investigation
 

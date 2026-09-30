@@ -1,0 +1,120 @@
+{
+  "paper_id": "paper_08c040bf4e456891",
+  "rules": [
+    {
+      "rule_id": "paper_reproduction_pr_process_states",
+      "reference_id": "pr_process_states",
+      "type": "condition",
+      "expected": "The submitted record contains the stated process validation. Verify neutral-parent and cation identities, charge/spin, individually converged energies and the common neutral-parent zero. AIE and appearance energies must use that common zero; a cation-local dissociation energy alone is not an appearance energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.channels"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_pr_process_paths",
+      "reference_id": "pr_process_paths",
+      "type": "condition",
+      "expected": "Both channels have continuous, chemically valid paths with fragment identity, charge/electron conservation, separated endpoints and energy-convergence evidence. A sufficiently validated relaxed-coordinate scan is admissible; full multidimensional MEP proof is not required. Correct energies alone do not pass path validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_aie",
+      "reference_id": "pr_aie",
+      "type": "numeric",
+      "target": 11.9,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.aie"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_r1",
+      "reference_id": "pr_r1",
+      "type": "numeric",
+      "target": 12.4,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.chlorine_loss.appearance_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_r2",
+      "reference_id": "pr_r2",
+      "type": "numeric",
+      "target": 13.5,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.fluorine_loss.appearance_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_pr_final_energies",
+      "reference_id": "pr_final_energies",
+      "type": "semantic",
+      "expected": "The calculation recovers the adiabatic ionization energy and both fixed-channel appearance energies for CHClF2, supported by valid parent states, fragment identities, continuous paths, separated endpoints and converged energies. Reconstruct the reported energies from the declared parent/fragment terms and units. Path/fragment support and numerical agreement are separate checks; do not infer one from the other.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.channels",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_pr_route_test",
+      "reference_id": "pr_route_test",
+      "type": "semantic",
+      "expected": "The comparison explains the energetic difference between chlorine-loss and fluorine-loss channels using the calculated structures and validated paths.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

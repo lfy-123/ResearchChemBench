@@ -1,0 +1,679 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "models",
+      "mapping",
+      "observables",
+      "metrics",
+      "conclusion",
+      "comparison"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "models": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "method",
+            "coordinates",
+            "converged",
+            "stationary",
+            "identity_validation",
+            "stationarity_evidence",
+            "rationale",
+            "starting_coordinates",
+            "calculation_artifacts"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "string"
+            },
+            "converged": {
+              "type": "boolean"
+            },
+            "stationary": {
+              "type": "boolean"
+            },
+            "identity_validation": {
+              "type": "string"
+            },
+            "stationarity_evidence": {
+              "type": "string"
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "starting_coordinates": {
+              "type": "string",
+              "minLength": 1
+            },
+            "calculation_artifacts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          }
+        },
+        "maxItems": 2,
+        "description": "Records with actual available geometry/artifacts for the declared primary pair only. Include zero, one or two in bounded_failure; complete requires both. Record missing/failed attempts and supplementary models/starts in attempts, not placeholder model results."
+      },
+      "mapping": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "required": [
+          "label_to_atom",
+          "mapping_basis",
+          "coordinate_index_base"
+        ],
+        "properties": {
+          "label_to_atom": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "required": [
+              "C1",
+              "C2",
+              "C3",
+              "C4",
+              "C5",
+              "C6",
+              "C7",
+              "C8",
+              "C9",
+              "C10",
+              "C11",
+              "C12",
+              "C13",
+              "C14",
+              "C15",
+              "C16",
+              "C17",
+              "C18",
+              "C19",
+              "C20",
+              "N1",
+              "N2",
+              "N3",
+              "N4",
+              "N5",
+              "N6",
+              "O1",
+              "S1",
+              "Cl1",
+              "Cl2"
+            ]
+          },
+          "mapping_basis": {
+            "type": "string"
+          },
+          "coordinate_index_base": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "model_label_to_atom": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "description": "Coordinate-row mapping for the available primary results. May be null only when no primary model record or numerical observable is available; never invent row indices."
+      },
+      "observables": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "model",
+                "selector",
+                "kind",
+                "value",
+                "unit",
+                "reference_comparison"
+              ],
+              "properties": {
+                "model": {
+                  "type": "string"
+                },
+                "selector": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "reference_comparison": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "model",
+                "selector",
+                "kind",
+                "failure",
+                "unit"
+              ],
+              "properties": {
+                "model": {
+                  "type": "string"
+                },
+                "selector": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "failure": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "description": "Primary-comparison observations only; may be empty for bounded_failure. Keep genuine partial values and explicit unavailable-row reasons. Supplementary outcomes belong in attempts or their linked result_file."
+      },
+      "metrics": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "required": [
+            "model",
+            "observable_kind",
+            "mae",
+            "rmse",
+            "n_rows",
+            "torsion_error_convention"
+          ],
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "observable_kind": {
+              "type": "string",
+              "enum": [
+                "bond",
+                "angle",
+                "torsion"
+              ]
+            },
+            "mae": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "rmse": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "n_rows": {
+              "type": "integer"
+            },
+            "torsion_error_convention": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Primary-comparison metrics only. Full-set metrics that cannot be computed must be null, never fabricated or filled with zero. Use an empty array when no metric record is available."
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional unscored context; absence is not a failure. Actual evidence validity is checked independently."
+      },
+      "failure_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "inversion_comparison": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "model",
+            "selected_reference_sign",
+            "branches"
+          ],
+          "properties": {
+            "model": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selected_reference_sign": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "enum": [
+                -1,
+                1,
+                null
+              ]
+            },
+            "branches": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "reference_sign",
+                  "sse_degree2",
+                  "mae_degree",
+                  "rmse_degree"
+                ],
+                "properties": {
+                  "reference_sign": {
+                    "type": "integer",
+                    "enum": [
+                      -1,
+                      1
+                    ]
+                  },
+                  "sse_degree2": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "mae_degree": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "rmse_degree": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "model_pair",
+          "per_kind",
+          "overall",
+          "interpretation"
+        ],
+        "properties": {
+          "model_pair": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Names of the intended primary pair, in comparison order. Both are mandatory for complete. For bounded_failure retain the names already selected (zero, one or two); a named but uncomputed model need not have a models record."
+          },
+          "per_kind": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "mae_preference",
+                "rmse_preference"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "bond",
+                    "angle",
+                    "torsion"
+                  ]
+                },
+                "mae_preference": {
+                  "type": "string",
+                  "enum": [
+                    "first",
+                    "second",
+                    "tie",
+                    "unresolved"
+                  ]
+                },
+                "rmse_preference": {
+                  "type": "string",
+                  "enum": [
+                    "first",
+                    "second",
+                    "tie",
+                    "unresolved"
+                  ]
+                }
+              }
+            }
+          },
+          "overall": {
+            "type": "string",
+            "enum": [
+              "first_uniformly_no_worse",
+              "second_uniformly_no_worse",
+              "mixed",
+              "indistinguishable_on_reported_metrics",
+              "unresolved_incomplete"
+            ]
+          },
+          "interpretation": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "attempts": {
+        "type": "array",
+        "description": "Optional execution history for unsuccessful/not-started primary runs, retries and supplementary models/conformers. These records are not primary geometry results and do not by themselves change a completed primary comparison to bounded_failure.",
+        "items": {
+          "type": "object",
+          "required": [
+            "model",
+            "role",
+            "status"
+          ],
+          "properties": {
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Actual or planned model/run name; use the primary model name for its failed retries."
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "primary",
+                "supplementary"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "failed",
+                "not_started"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifacts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Only artifact paths that really exist. Omit or use [] when no file was produced; no placeholder paths."
+            },
+            "result_file": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Optional path to actual supplementary observations/results, kept separate from the primary arrays."
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "failed",
+                      "not_started"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "reason"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "completed"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "artifacts"
+                ],
+                "properties": {
+                  "artifacts": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "observables": {
+              "minItems": 94,
+              "items": {
+                "not": {
+                  "required": [
+                    "failure"
+                  ]
+                }
+              }
+            },
+            "metrics": {
+              "minItems": 6,
+              "items": {
+                "properties": {
+                  "mae": {
+                    "type": "number"
+                  },
+                  "rmse": {
+                    "type": "number"
+                  },
+                  "n_rows": {
+                    "minimum": 11
+                  }
+                }
+              }
+            },
+            "models": {
+              "items": {
+                "properties": {
+                  "converged": {
+                    "const": true
+                  },
+                  "stationary": {
+                    "const": true
+                  }
+                }
+              },
+              "minItems": 2
+            },
+            "comparison": {
+              "properties": {
+                "per_kind": {
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "overall": {
+                  "enum": [
+                    "first_uniformly_no_worse",
+                    "second_uniformly_no_worse",
+                    "mixed",
+                    "indistinguishable_on_reported_metrics"
+                  ]
+                },
+                "model_pair": {
+                  "minItems": 2
+                }
+              }
+            },
+            "inversion_comparison": {
+              "minItems": 2,
+              "items": {
+                "properties": {
+                  "selected_reference_sign": {
+                    "type": "integer",
+                    "enum": [
+                      1,
+                      -1
+                    ]
+                  },
+                  "branches": {
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              }
+            },
+            "mapping": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "inversion_comparison"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_reason"
+          ],
+          "properties": {
+            "comparison": {
+              "properties": {
+                "overall": {
+                  "const": "unresolved_incomplete"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "anyOf": [
+            {
+              "properties": {
+                "models": {
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "models"
+              ]
+            },
+            {
+              "properties": {
+                "observables": {
+                  "contains": {
+                    "type": "object",
+                    "required": [
+                      "value"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "observables"
+              ]
+            }
+          ]
+        },
+        "then": {
+          "properties": {
+            "mapping": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

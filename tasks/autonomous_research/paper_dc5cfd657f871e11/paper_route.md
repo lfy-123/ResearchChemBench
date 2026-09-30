@@ -6,7 +6,7 @@ The paper tests whether explicit excited-state contributions improve thermodynam
 
 ## 2. System and model boundary
 
-The model is a Co atom embedded in a heptazine-based monolayer g-C3N4 M-N4 site, represented by a 2x2 hexagonal periodic slab with 56 atoms and 15 Å vacuum. Reaction intermediates are *, *OH, *O, *OOH, *OO, and *(OH)2; gas references include H2, H2O, H2O2 and O2.
+The model is a Co atom embedded in a heptazine-based monolayer g-C3N4 M-N4 site, represented by a 2x2 hexagonal periodic slab with 57 atoms (56 C/N host atoms plus one Co atom) and 15 Å vacuum. Reaction intermediates are *, *OH, *O, *OOH, *OO, and *(OH)2; gas references include H2, H2O, H2O2 and O2.
 
 ## 3. Authors' implemented computational route
 

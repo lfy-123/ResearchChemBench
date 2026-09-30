@@ -4,7 +4,7 @@ For the uniquely specified isolated molecule PBNA, independently compute and int
 
 ## Public inputs and scientific boundaries
 
-The research object is PBNA, formula C26H18B2N2, represented by the 50 Cartesian atoms in `data/inputs/pbna.xyz`. The first line is the atom count and the second is a comment; coordinates are in angstrom and element symbols are explicit. Use charge 0 and multiplicity 1. `data/inputs/system.json` specifies HOMO/LUMO energies in eV; electronic energy, zero-point energy and Gibbs free energy in hartree; and entropy in cal mol−1 K−1 at 298.15 K. The boundary is one isolated gas-phase molecule with no solvent, crystal packing, counterion, or excited-state dynamics. Choose and justify an executable method/software and report it exactly. No author route, candidate ranking, target value, or expected direction is supplied.
+The research object is PBNA, formula C24H22B2N2, represented by the 50 Cartesian atoms in `data/inputs/pbna.xyz`. The first line is the atom count and the second is a comment; coordinates are in angstrom and element symbols are explicit. Use charge 0 and multiplicity 1. `data/inputs/system.json` specifies HOMO/LUMO energies in eV; electronic energy, zero-point energy and Gibbs free energy in hartree; and entropy in cal mol−1 K−1 at 298.15 K. The boundary is one isolated gas-phase molecule with no solvent, crystal packing, counterion, or excited-state dynamics. Choose and justify an executable method/software and report it exactly. No author route, candidate ranking, target value, or expected direction is supplied.
 
 ## Required scientific validation/investigation
 

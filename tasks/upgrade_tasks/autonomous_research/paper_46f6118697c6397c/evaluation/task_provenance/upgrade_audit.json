@@ -1,0 +1,104 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_46f6118697c6397c",
+  "task_type": "autonomous_research",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_autonomous_research/paper_46f6118697c6397c",
+  "source_manifest_sha256": "b4227dce8a0add299b41f0ffff999268dee22aaeecba647edef4a5edde80381b",
+  "source_package_content_sha256": "b29ca86e202cb2a1edb9f772b9fe14be4f5006941392bf1b2d734749dfb77747",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/ccdc_2512981.cif": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/ccdc_2512981.cif.snapshot",
+      "sha256": "2af0387a4f5d1b1a358de4cd82c8092802dd6fae495b9f1aeb065f39849f3ae5"
+    },
+    "agent_input/data/inputs/ccdc_record.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/ccdc_record.json.snapshot",
+      "sha256": "e35237eac1533e3dcee8e090e2a046e0eea5365e5f3abfbca61cd3f9d5729475"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "1384b4687d9b39da679702858869cc0ee720e73ac1e290114fa0fb0cd9886227"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "d5a32ecb1ddf73632db52f9022868adb84f888f28e555c645ed0b8d9956a8832"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "71eec620d7e503385681d014d49f656aa2784319a1c44308d4960aa5887edc9b"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "1f6783bb5055dbaa6220fcb6480de5b7b91a6a1c286c043f5375d1817ff9da69"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "7d579a7fd119c0f00502c1df795c1da74533bedfaead77343db66d018b7a9bd9"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "dd11df6b4e75e03072cdf358757de31345eab90d0ba7668ad409a47d45582911"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "3d33722de9f7aad0ea0775f44ce9460cd348bf134502e029860d2c85d11576cb"
+    },
+    "evaluation/task_provenance/maintenance_audit.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/task_provenance/maintenance_audit.md.snapshot",
+      "sha256": "fc2911a549f6a233243a7434a5d76781c2b4f66b4de783fcd1c7661a1b41e80f"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "4f2cc21499ed0c4f2f70653c51be624e546f3077b66d7ed7f0836cdae2249700"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "b4227dce8a0add299b41f0ffff999268dee22aaeecba647edef4a5edde80381b"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "a764760586a4403a4cbcf706eff24e204e1c6cb28a124bae493d9ccdeddd965b"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "1fcf58c4f2fbb0cc5a3fb3050013b4ba317f8556493b504c0052915752c4fa10"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_46f6118697c6397c/documents/supplementary_001.pdf",
+      "sha256": "d25723e53953f2a507b014af89f62abe1f1c229886d0090fd80943b24dd21cfa",
+      "pages": 26
+    },
+    {
+      "path": "papers/paper_46f6118697c6397c/documents/main.pdf",
+      "sha256": "4633e67606dc23badd9f553b89ec95d96540bd4fa637876897ae830a4e31901c",
+      "pages": 5
+    },
+    {
+      "path": "docs/evalution/update/paper_46f6118697c6397c.md",
+      "sha256": "f9911b278dea7ca858511e75e5d866162d87cca34361240c44ce628e167d3f2b"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "Public inputs provide full mapped molecular graphs; raw crystal coordinates stay private.",
+    "Compound1 substituent is ortho-tolyl, not unspecified/para-tolyl."
+  ],
+  "new_reference_gaps": "Complete series minima, common-core constrained states, N6-resolved matching and expanded uncertainty references remain uncalculated.",
+  "blockers": [],
+  "optional_not_required": "Dissociation networks and emission lifetimes are future extensions; four covalent triflates must remain part of compound 2."
+}

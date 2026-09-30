@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_c56ec62e92dbdfbc",
+  "rules": [
+    {
+      "rule_id": "r_ts",
+      "reference_id": "kp_process_ts",
+      "type": "condition",
+      "expected": "All candidates used for the final ordering have per-candidate saddle-point, intended-mode and connectivity evidence; unsupported candidates are not treated as validated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage.hypotheses_considered",
+          "$.candidates",
+          "$.selected_R_pathway_id",
+          "$.selected_S_pathway_id"
+        ],
+        "comparison": "expert validation of each candidate record"
+      }
+    },
+    {
+      "rule_id": "r_coverage",
+      "reference_id": "kp_process_coverage",
+      "type": "condition",
+      "expected": "Coverage counts and stopping_basis are present and scientifically specific.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage",
+          "$.status"
+        ],
+        "comparison": "expert comparison of coverage and stopping record"
+      }
+    },
+    {
+      "rule_id": "r_delta",
+      "reference_id": "kp_result_ordering",
+      "type": "numeric",
+      "target": 2.0,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_R_pathway_id",
+          "$.selected_S_pathway_id",
+          "$.barrier_R_kcal_mol",
+          "$.barrier_S_kcal_mol",
+          "$.delta_delta_G_dagger_kcal_mol",
+          "$.method.reference_definition",
+          "$.method.temperature_K"
+        ],
+        "comparison": "absolute difference; applies when status is success"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_selectivity",
+      "type": "semantic",
+      "expected": "The final conclusion identifies the favored enantiomer and C\u2013C bond formation as the enantiodetermining event, while acknowledging model/search limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.selectivity_determining_event"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_mechanism",
+      "reference_id": "kp_result_mechanism",
+      "type": "semantic",
+      "expected": "The report explicitly compares the rate-controlling/selectivity-determining event with the subsequent step and states model limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.step_comparison",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

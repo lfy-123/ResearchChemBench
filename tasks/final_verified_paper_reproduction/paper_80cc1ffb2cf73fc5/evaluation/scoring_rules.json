@@ -1,0 +1,74 @@
+{
+  "paper_id": "paper_80cc1ffb2cf73fc5",
+  "rules": [
+    {
+      "rule_id": "pr_r_min",
+      "reference_id": "pr_kp_process_minimum",
+      "type": "semantic",
+      "expected": "Structure identity, charge/spin and explicit frequency validation are present and internally consistent.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison The public experimental black trace is now available (vector Fig S1 extraction, not raw detector data or the fitted curve). Compare Z1-only relative spectra after the declared observed-origin/calculated-0-0 alignment. No absolute-origin accuracy, all-peak agreement, or fixed software mode number is required. Identify the physical in-plane-bending mode by displacement/FC evidence. Honest disagreement can earn evidence/process credit but is not automatically reproduction of the reference result; never fabricate experimental matches."
+      }
+    },
+    {
+      "rule_id": "pr_r_fc",
+      "reference_id": "pr_kp_process_fc",
+      "type": "semantic",
+      "expected": "Calculation, alignment, peak selection and mode evidence are reproducibly documented. Use the public observed origin 19444 cm^-1 and the calculated 0-0 origin for relative comparison in 19400-20100 cm^-1. Preserve declared model/scaling/broadening choices; reference 0.9566 and 4 cm^-1 are not mandatory. Inspect matched and unmatched features, not only the most favorable peak.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.calculation",
+          "$.peaks",
+          "$.comparison",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison The public experimental black trace is now available (vector Fig S1 extraction, not raw detector data or the fitted curve). Compare Z1-only relative spectra after the declared observed-origin/calculated-0-0 alignment. No absolute-origin accuracy, all-peak agreement, or fixed software mode number is required. Identify the physical in-plane-bending mode by displacement/FC evidence. Honest disagreement can earn evidence/process credit but is not automatically reproduction of the reference result; never fabricate experimental matches."
+      }
+    },
+    {
+      "rule_id": "pr_r_mode",
+      "reference_id": "pr_kp_result_mode",
+      "type": "semantic",
+      "expected": "The source-associated physical in-plane bending progression is identified by displacements and FC evidence (source label mode 3 is not a fixed software index). An evidence-backed contrary assignment is an honest submission but does not automatically satisfy reproduction of this reference assignment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.modes",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison The public experimental black trace is now available (vector Fig S1 extraction, not raw detector data or the fitted curve). Compare Z1-only relative spectra after the declared observed-origin/calculated-0-0 alignment. No absolute-origin accuracy, all-peak agreement, or fixed software mode number is required. Identify the physical in-plane-bending mode by displacement/FC evidence. Honest disagreement can earn evidence/process credit but is not automatically reproduction of the reference result; never fabricate experimental matches."
+      }
+    },
+    {
+      "rule_id": "pr_r_final",
+      "reference_id": "pr_c_final",
+      "type": "semantic",
+      "expected": "The computed Z1 relative Franck-Condon spectrum and physical mode displacements support or reject the in-plane-bending interpretation in the required spectral window. Judge actual peak positions, intensities and assignments; additional supported assignments are allowed. Recompute residual statistics for actual matched observed features, report unmatched coverage separately and do not turn missing/unreliable observations into zero errors. Mode assignment, spectral-position error and intensity evidence are distinct.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.modes",
+          "$.peaks",
+          "$.comparison",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison The public experimental black trace is now available (vector Fig S1 extraction, not raw detector data or the fitted curve). Compare Z1-only relative spectra after the declared observed-origin/calculated-0-0 alignment. No absolute-origin accuracy, all-peak agreement, or fixed software mode number is required. Identify the physical in-plane-bending mode by displacement/FC evidence. Honest disagreement can earn evidence/process credit but is not automatically reproduction of the reference result; never fabricate experimental matches."
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

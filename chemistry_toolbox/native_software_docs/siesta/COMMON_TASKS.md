@@ -3,8 +3,8 @@ software_id: siesta
 versions: ["5.4.2"]
 topics: ["common-tasks", "inputs", "outputs", "convergence"]
 aliases: ["SIESTA", "siesta"]
-inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files"]
-outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files"]
+inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files", "device and electrode Hamiltonians for transport"]
+outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files", "transport Hamiltonians and configured transmission or current outputs"]
 last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---
@@ -17,6 +17,8 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - **Bands**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Dos**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 - **Transport Preparation**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+- **Integrated Transiesta**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
+- **Tbtrans Postprocessing**: author the method-specific input, stage every dependency, and declare the outputs needed for interpretation.
 
 ## Preferred typed Action routes
 - `calculate_periodic_energy`: validated structured route through backend `siesta`.
@@ -27,6 +29,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 - `input.fdf`
 - `pseudopotential files`
 - `optional included structure and basis files`
+- `device and electrode Hamiltonians for transport`
 
 A minimum runnable input must still specify every scientifically material quantity: molecular or periodic structure, charge and spin where applicable, model or Hamiltonian, numerical controls, boundary conditions, task type, and requested outputs. Workflow programs additionally require their database, model, or upstream-calculation references.
 
@@ -37,6 +40,7 @@ A minimum runnable input must still specify every scientifically material quanti
 - `.WFSX`
 - `.bands`
 - `.DOS and trajectory files`
+- `transport Hamiltonians and configured transmission or current outputs`
 
 Only collect outputs produced by the same job or by explicitly linked parent jobs. Do not combine checkpoints, force constants, trajectories, pseudopotentials, wavefunctions, or databases from unrelated calculations.
 
@@ -57,7 +61,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 - `siesta: Final energy`
 
 ## Scientific convergence notes
-Require SCF convergence and the requested geometry, MD, band, or property completion marker.
+Require SCF convergence and the requested geometry, MD, band, or property completion marker. For transport verify electrode and finite-bias self-consistency, energy and k-grid convergence, bias/current signs and consistent Hamiltonian provenance; executable availability or an isolated dipole is not a transport result.
 
 ## Version-specific caution
 These mechanics target the installed `5.4.2` environment. Verify keywords and file formats against the official references before reusing an input written for another release.
@@ -72,3 +76,15 @@ The tested file under `examples/interface_smoke/` verifies the configured comman
 - Declared example outputs: stdout/stderr or task-dependent outputs.
 - Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
 - Output behavior: Writes primary output to stdout and SIESTA result/restart files in the job directory.
+- Caution: TranSIESTA is integrated into the installed SIESTA 5.4.2 executable; select SolutionMethod transiesta in a complete FDF input.
+- Caution: Finite-bias transport requires converged electrode and scattering-region calculations with explicit atom, cell, bias and Hamiltonian provenance.
+
+## Command: `tbtrans`
+- Synopsis: `tbtrans < input.fdf`.
+- Input mode: `stdin_file`.
+- Declared example inputs: `input.fdf`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
+- Output behavior: Writes native transmission, density-of-states and current-analysis outputs selected by the FDF input, including NetCDF when requested.
+- Caution: Consumes explicit device and electrode HSX, TSHS or supported NetCDF files from a consistent validated upstream calculation.
+- Caution: Preserve electrode chemical potentials, bias sign, energy zero, temperature, k mesh and energy integration settings; version success does not establish scientific convergence.

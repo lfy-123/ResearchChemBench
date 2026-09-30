@@ -1,0 +1,177 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "status",
+              "system",
+              "candidates",
+              "selected_transition",
+              "conclusion"
+            ],
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "system": {
+                "type": "object",
+                "required": [
+                  "smiles",
+                  "charge",
+                  "multiplicity",
+                  "solvent"
+                ],
+                "properties": {
+                  "smiles": {
+                    "type": "string"
+                  },
+                  "charge": {
+                    "type": "integer"
+                  },
+                  "multiplicity": {
+                    "type": "integer"
+                  },
+                  "solvent": {
+                    "type": "string"
+                  }
+                }
+              },
+              "candidates": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "candidate_id",
+                    "structure_reference",
+                    "minimum_validation",
+                    "state_selection_evidence"
+                  ],
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string"
+                    },
+                    "structure_reference": {
+                      "type": "string"
+                    },
+                    "minimum_validation": {
+                      "type": "string"
+                    },
+                    "state_selection_evidence": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "selected_transition": {
+                "type": "object",
+                "required": [
+                  "candidate_id",
+                  "state_label",
+                  "energy_kcal_mol",
+                  "oscillator_strength",
+                  "character",
+                  "evidence"
+                ],
+                "properties": {
+                  "candidate_id": {
+                    "type": "string"
+                  },
+                  "state_label": {
+                    "type": "string"
+                  },
+                  "energy_kcal_mol": {
+                    "type": "number"
+                  },
+                  "oscillator_strength": {
+                    "type": "number"
+                  },
+                  "character": {
+                    "type": "string"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              },
+              "conclusion": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": [
+              "status",
+              "failure"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "failure": {
+                "type": "object",
+                "required": [
+                  "attempts"
+                ],
+                "properties": {
+                  "attempts": {
+                    "type": "string"
+                  },
+                  "limitation": {
+                    "type": "string",
+                    "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

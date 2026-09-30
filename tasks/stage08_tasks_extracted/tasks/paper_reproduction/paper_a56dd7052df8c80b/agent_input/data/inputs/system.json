@@ -1,0 +1,14 @@
+{
+  "molecules": [
+    {"name": "propargyl_alcohol_1a", "smiles": "CC(C)(O)C#C", "charge": 0, "multiplicity": 1},
+    {"name": "metavanadate_monomer", "smiles": "[O-][V](=O)(=O)O", "charge": -1, "multiplicity": 1},
+    {"name": "carbon_dioxide", "smiles": "O=C=O", "charge": 0, "multiplicity": 1}
+  ],
+  "reaction_context": "carboxylative cyclization of propargyl alcohol with CO2",
+  "central_event": "O-H cleavage at the propargyl alcohol",
+  "pathway_endpoint_definitions": {
+    "assisted": "an O-bound alcohol/monomeric metavanadate reactant complex progressing to the O-H-cleavage saddle point and its deprotonated alkoxy-metavanadate product complex",
+    "alternative": "a carbon-dioxide-bound metavanadate complex progressing to the corresponding O-H-cleavage saddle point before the alkoxy product"
+  },
+  "allowed_model_boundary": "isolated molecular clusters with an explicitly stated charge, multiplicity, solvation treatment and conformer protocol; no assumption of a periodic surface is required"
+}

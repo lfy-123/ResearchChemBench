@@ -1,0 +1,1186 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sensitivity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_settings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "energy_and_thermal_conventions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "numerical_settings",
+          "energy_and_thermal_conventions"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "species": {
+              "type": "string",
+              "minLength": 1
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "const": 0
+            },
+            "multiplicity": {
+              "const": 1
+            },
+            "method_key": {
+              "type": "string",
+              "minLength": 1
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "kind": {
+              "enum": [
+                "minimum",
+                "constrained",
+                "single_point",
+                "atomic",
+                "failed"
+              ]
+            },
+            "geometry_file": {
+              "$ref": "#/$defs/artifact"
+            },
+            "job_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "log_file": {
+              "$ref": "#/$defs/artifact"
+            },
+            "energies": {
+              "type": "object",
+              "properties": {
+                "electronic_Eh": {
+                  "type": "number"
+                },
+                "ZPE_Eh": {
+                  "type": "number"
+                },
+                "thermal_G_correction_Eh": {
+                  "type": "number"
+                },
+                "G_Eh": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "electronic_Eh"
+              ],
+              "additionalProperties": false
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "identity_and_atom_map": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "curvature_or_constraint_evidence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "imaginary_frequencies_cm_1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 0
+                },
+                "charge_spin_checks": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "identity_and_atom_map",
+                "convergence",
+                "curvature_or_constraint_evidence",
+                "charge_spin_checks"
+              ],
+              "additionalProperties": false
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "record_id",
+            "system",
+            "species",
+            "formula",
+            "charge",
+            "multiplicity",
+            "method_key",
+            "environment",
+            "kind",
+            "job_id",
+            "log_file",
+            "validation",
+            "evidence_files"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "minimum",
+                      "constrained",
+                      "single_point",
+                      "atomic"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "energies",
+                  "geometry_file"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "object"
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discriminating_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved"
+              ]
+            },
+            "result_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "assessment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "hypothesis_id",
+            "proposition",
+            "discriminating_observation",
+            "outcome",
+            "result_record_ids",
+            "assessment",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "alternative_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "change": {
+              "type": "number"
+            },
+            "scientific_effect": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "question",
+            "baseline_record_ids",
+            "alternative_record_ids",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "unit",
+            "change",
+            "scientific_effect",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supporting_record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "scope_and_uncertainty": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "claim",
+          "supporting_record_ids",
+          "scope_and_uncertainty"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "$ref": "#/$defs/evidence_files"
+      }
+    },
+    "required": [
+      "status",
+      "methods",
+      "calculation_records",
+      "conclusion",
+      "evidence_files"
+    ],
+    "additionalProperties": false,
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "results": {
+            "type": "object",
+            "properties": {
+              "candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "initial_binding": {
+                      "enum": [
+                        "eta1",
+                        "eta2"
+                      ]
+                    },
+                    "geometric_isomer_description": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "endpoint_record_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "outcome": {
+                      "enum": [
+                        "retained_minimum",
+                        "collapsed_to_other_binding"
+                      ]
+                    },
+                    "final_binding": {
+                      "enum": [
+                        "eta1",
+                        "eta2",
+                        "other"
+                      ]
+                    },
+                    "relative_E_kJ_mol": {
+                      "type": "number"
+                    },
+                    "atom_map_file": {
+                      "$ref": "#/$defs/artifact"
+                    },
+                    "Ir_O_distances_A": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "N_O_distances_A": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "angles_degree": {
+                      "type": "object",
+                      "properties": {
+                        "O1_Ir_O2": {
+                          "type": "number"
+                        },
+                        "O1_N_O2": {
+                          "type": "number"
+                        },
+                        "O1_N_O3": {
+                          "type": "number"
+                        },
+                        "O2_N_O3": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "O1_Ir_O2",
+                        "O1_N_O2",
+                        "O1_N_O3",
+                        "O2_N_O3"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "attempts_and_validation": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "candidate_id",
+                    "initial_binding",
+                    "geometric_isomer_description",
+                    "endpoint_record_id",
+                    "outcome",
+                    "final_binding",
+                    "relative_E_kJ_mol",
+                    "atom_map_file",
+                    "Ir_O_distances_A",
+                    "N_O_distances_A",
+                    "angles_degree",
+                    "attempts_and_validation",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 2,
+                "allOf": [
+                  {
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "initial_binding"
+                      ],
+                      "properties": {
+                        "initial_binding": {
+                          "const": "eta1"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "initial_binding"
+                      ],
+                      "properties": {
+                        "initial_binding": {
+                          "const": "eta2"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  }
+                ]
+              },
+              "mode_assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "candidate_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "record_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "normal_modes_file": {
+                      "$ref": "#/$defs/artifact"
+                    },
+                    "participation_definition": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "modes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "mode_index": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "raw_frequency_cm_1": {
+                            "type": "number"
+                          },
+                          "scaled_frequency_cm_1": {
+                            "type": "number"
+                          },
+                          "intensity_km_mol": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "nitrate_fraction": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          },
+                          "PPh3_fraction": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          },
+                          "assignment": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "mode_index",
+                          "raw_frequency_cm_1",
+                          "scaled_frequency_cm_1",
+                          "intensity_km_mol",
+                          "nitrate_fraction",
+                          "PPh3_fraction",
+                          "assignment"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 4
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "candidate_id",
+                    "record_id",
+                    "normal_modes_file",
+                    "participation_definition",
+                    "modes",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              },
+              "spectral_comparison": {
+                "type": "object",
+                "properties": {
+                  "common_scale_factor": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "scale_policy_and_source": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "spectral_window_cm_1": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "assignment_algorithm": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "comparisons": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "candidate_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "observation_set": {
+                          "enum": [
+                            "common_four",
+                            "including_1561"
+                          ]
+                        },
+                        "assignments": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "observed_cm_1": {
+                                "enum": [
+                                  1532,
+                                  1261,
+                                  1223,
+                                  802,
+                                  1561
+                                ]
+                              },
+                              "mode_index": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "minimum": 1
+                              },
+                              "predicted_cm_1": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ]
+                              },
+                              "residual_cm_1": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ]
+                              },
+                              "unmatched_reason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "observed_cm_1",
+                              "mode_index",
+                              "predicted_cm_1",
+                              "residual_cm_1",
+                              "unmatched_reason"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "minItems": 4,
+                          "maxItems": 5
+                        },
+                        "matched_count": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 5
+                        },
+                        "RMSE_cm_1": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "minimum": 0
+                        },
+                        "unmatched_computed_modes": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "minItems": 0
+                        },
+                        "interpretation": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "evidence_files": {
+                          "$ref": "#/$defs/evidence_files"
+                        }
+                      },
+                      "required": [
+                        "candidate_id",
+                        "observation_set",
+                        "assignments",
+                        "matched_count",
+                        "RMSE_cm_1",
+                        "unmatched_computed_modes",
+                        "interpretation",
+                        "evidence_files"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 2,
+                    "allOf": [
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "observation_set"
+                          ],
+                          "properties": {
+                            "observation_set": {
+                              "const": "common_four"
+                            }
+                          }
+                        },
+                        "minContains": 1
+                      },
+                      {
+                        "contains": {
+                          "type": "object",
+                          "required": [
+                            "observation_set"
+                          ],
+                          "properties": {
+                            "observation_set": {
+                              "const": "including_1561"
+                            }
+                          }
+                        },
+                        "minContains": 1
+                      }
+                    ]
+                  },
+                  "supported_candidate_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "model_discrimination": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "$ref": "#/$defs/evidence_files"
+                  }
+                },
+                "required": [
+                  "common_scale_factor",
+                  "scale_policy_and_source",
+                  "spectral_window_cm_1",
+                  "assignment_algorithm",
+                  "comparisons",
+                  "supported_candidate_ids",
+                  "model_discrimination",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "candidates",
+              "mode_assignments",
+              "spectral_comparison"
+            ],
+            "additionalProperties": false
+          },
+          "methods": {
+            "required": [
+              "sensitivity"
+            ]
+          },
+          "calculation_records": {
+            "contains": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "minimum",
+                    "constrained",
+                    "single_point",
+                    "atomic"
+                  ]
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "conclusion": {
+            "properties": {
+              "supporting_record_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "required": [
+          "results",
+          "hypotheses",
+          "sensitivity"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_report"
+        ]
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "artifact": {
+        "type": "string",
+        "pattern": "^(?:\\./)?(outputs|code|data)/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))(?!/)[^\\r\\n\\\\]+$",
+        "description": "Workspace-relative path to a real artifact; no absolute, parent-traversal or external private paths."
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?:\\./)?(outputs|code|data)/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))(?!/)[^\\r\\n\\\\]+$",
+          "description": "Workspace-relative path to a real artifact; no absolute, parent-traversal or external private paths."
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "transition_set": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string",
+            "minLength": 1
+          },
+          "geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "root": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "energy_eV": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "wavelength_nm": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "oscillator_strength": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "physical_state_label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "character": {
+                  "type": "object",
+                  "properties": {
+                    "method_and_fragments": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "metrics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "definition": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "evidence_files": {
+                            "$ref": "#/$defs/evidence_files"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "value",
+                          "unit",
+                          "definition",
+                          "evidence_files"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 1
+                    },
+                    "assignment": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "NTO_or_transition_density_file": {
+                      "$ref": "#/$defs/artifact"
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "method_and_fragments",
+                    "metrics",
+                    "assignment",
+                    "NTO_or_transition_density_file",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "evidence_files": {
+                  "$ref": "#/$defs/evidence_files"
+                }
+              },
+              "required": [
+                "root",
+                "energy_eV",
+                "wavelength_nm",
+                "oscillator_strength",
+                "physical_state_label",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 5,
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 1
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 2
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 3
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 4
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 5
+                    }
+                  }
+                },
+                "minContains": 1
+              }
+            ]
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "system",
+          "geometry_record_id",
+          "TD_record_id",
+          "method_key",
+          "environment",
+          "states",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "state_comparison": {
+        "type": "object",
+        "properties": {
+          "comparison_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_root": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "right_root": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state_matching_criterion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state_correspondence_metric": {
+            "type": "number"
+          },
+          "metric_definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delta_energy_eV": {
+            "type": "number"
+          },
+          "delta_oscillator_strength": {
+            "type": "number"
+          },
+          "character_change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "interpretation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "comparison_id",
+          "left_geometry_record_id",
+          "right_geometry_record_id",
+          "left_TD_record_id",
+          "right_TD_record_id",
+          "left_root",
+          "right_root",
+          "state_matching_criterion",
+          "state_correspondence_metric",
+          "metric_definition",
+          "delta_energy_eV",
+          "delta_oscillator_strength",
+          "character_change",
+          "interpretation",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "description": "Complete means the expanded investigation is submitted, not that JSON validity establishes scientific correctness. Honest bounded failures must not invent uncomputed values. Every referenced record and evidence file must exist; the evaluator verifies arithmetic, identity and coverage."
+  }
+}

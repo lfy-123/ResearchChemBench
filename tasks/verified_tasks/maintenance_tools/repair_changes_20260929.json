@@ -1,0 +1,508 @@
+{
+  "date": "2026-09-29",
+  "authorization": "repair_and_report_only_no_migration",
+  "packages": [
+    {
+      "paper_id": "paper_589f72ac15eb7acd",
+      "name": "Fe 六自旋态",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "ar_process_plan",
+        "ar_process_validation",
+        "ar_result_values",
+        "ar_result_limit"
+      ],
+      "key_points_after": [
+        "ar_process_plan",
+        "ar_process_validation",
+        "ar_result_values",
+        "ar_result_limit"
+      ],
+      "conclusions_before": [
+        "ar_final"
+      ],
+      "conclusions_after": [
+        "ar_final"
+      ],
+      "changes": [
+        "将 $defs 放入 runner 实际使用的 result_schema，消除无法解析引用的错误。",
+        "成功的六个选中态必须保留电荷/多重度、能量、几何、频率及自旋/收敛证据；诚实失败不必填未完成方法。",
+        "保留 HS−LS 定义及方法自由度；AR 的物理量边界项改为过程有效性检查，不把普通 uncertainty 作为成果。"
+      ],
+      "remaining": "现有六态支持限定孤立电子能比较；未认证自主事前计划或全局构象穷尽。合理替代方法按实际电子态和能量证据判断，不强制复现作者每个数值。",
+      "contract_cases": 20
+    },
+    {
+      "paper_id": "paper_3c3d73b8715d5fcd",
+      "name": "Rh 环异构化",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "kp_process_stationary_points",
+        "kp_process_energy_assembly",
+        "kp_result_activation",
+        "kp_result_endo_exo"
+      ],
+      "key_points_after": [
+        "kp_process_stationary_points",
+        "kp_process_energy_assembly",
+        "kp_result_activation",
+        "kp_result_endo_exo"
+      ],
+      "conclusions_before": [
+        "conclusion_mechanism",
+        "conclusion_limitations"
+      ],
+      "conclusions_after": [
+        "conclusion_mechanism"
+      ],
+      "changes": [
+        "原 14 原子混拼 README_coordinates.xyz 原字节移入 evaluation/author_results，并注明不能作为合法计算结构；24 原子 1D 与 12 原子 Rh 二聚体未变。",
+        "移除 conclusion_limitations/rule_limitations；将能量组装关键点接回 conclusion_mechanism。",
+        "公开 298.15 K、1,4-dioxane、溶质 1 M/CO 8.5 mM、配平和 exo−endo 符号；完成与早期失败分支分开。"
+      ],
+      "remaining": "六 TS、十二连接端点和势垒有作者路线证据；TS3 是 QRC 替代有限 IRC，exo 开链端点不等同 endo INT1。替代协议应单独判断可比性，未认证自主盲搜索。",
+      "contract_cases": 12
+    },
+    {
+      "paper_id": "paper_c49993ae88ffa0e3",
+      "name": "H₂PQ/PyO",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "kp_ar_process_inventory",
+        "kp_ar_process_validation",
+        "kp_ar_dry",
+        "kp_ar_water",
+        "kp_ar_limits"
+      ],
+      "key_points_after": [
+        "kp_ar_process_inventory",
+        "kp_ar_process_validation",
+        "kp_ar_dry",
+        "kp_ar_water"
+      ],
+      "conclusions_before": [
+        "c_ar_final",
+        "c_ar_limits"
+      ],
+      "conclusions_after": [
+        "c_ar_final"
+      ],
+      "changes": [
+        "删除两模式 task.md 重复的整套指令，PR 单列作者指导。",
+        "删除 c_ar_limits/c_pr_limits 普通声明结论及 AR 纯边界 KP；保留状态、覆盖、水模型敏感性并接回真实热力学结论。",
+        "PR 按四种既有状态及各自标量比较；AR 按唯一 state_id 进行语义身份匹配，不按数组位置猜。历史 states 字典仅在私有测试中无损映射为数组。"
+      ],
+      "remaining": "水合 PT 的正文/SI 冲突保留，未新增固定 gold。29 构象与对称/去重敏感性支持有限来源系综；不宣称排除 PCET/HAT、得到速率或认证独立搜索收敛。",
+      "contract_cases": 13
+    },
+    {
+      "paper_id": "paper_c56ec62e92dbdfbc",
+      "name": "CBSCA 选择性",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "kp_process_ts",
+        "kp_process_coverage",
+        "kp_result_ordering",
+        "kp_result_mechanism"
+      ],
+      "key_points_after": [
+        "kp_process_ts",
+        "kp_process_coverage",
+        "kp_result_ordering",
+        "kp_result_mechanism"
+      ],
+      "conclusions_before": [
+        "c_final_selectivity"
+      ],
+      "conclusions_after": [
+        "c_final_selectivity"
+      ],
+      "changes": [
+        "success/bounded_failure 按 status 互斥，修复成功无结果误收及成功带空 blocker 被拒的问题。",
+        "额外失败候选可报告实际 disposition/failure_reason，不强造 TS；主结果仍必须有完整 saddle/模式/连接证据。",
+        "明确选中 R/S ID 必须唯一指向正确且已验证的候选，动态关联由语义审查承担；保留候选覆盖、敏感性和配平共同参照要求。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "现有四个作者代表 TS 支持有限路线的 R/S 能差与步骤比较；不能据此认证所有竞争家族的自主采样已收敛，也未认证完整催化剂复合物盆地连接或全局动力学网络。现行 coverage 要求未降级。",
+      "contract_cases": 14
+    },
+    {
+      "paper_id": "paper_1e3a1d290a02e5f0",
+      "name": "JY1–JY3",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "ar_process_identity",
+        "ar_process_reproducibility",
+        "ar_homo",
+        "ar_lumo",
+        "ar_lambda"
+      ],
+      "key_points_after": [
+        "ar_process_identity",
+        "ar_process_reproducibility",
+        "ar_homo",
+        "ar_lumo",
+        "ar_lambda"
+      ],
+      "conclusions_before": [
+        "ar_final_trend"
+      ],
+      "conclusions_after": [
+        "ar_final_trend"
+      ],
+      "changes": [
+        "公开三条主结果的 JY1/JY2/JY3 顺序，并将每个位置绑定完整行约束，拒绝只有身份或空 λ 的完成结果。",
+        "每模式从 3 条含混 numeric 规则补成 9 条身份明确的比较，保留原 JY1 rule ID；JY2/3 目标来自既有 KP，未改既有目标/容差。",
+        "将 LUMO 及过程关键点接回原有唯一科学结论；明确同一个四点 λ 物理量，公开 B3P86/6-311G(d,p) 比较背景，保留合理方法自由度。"
+      ],
+      "remaining": "九个验证值均满足原容差；不同方法与 B3P86 源靶是否可比仍须科学判断。现有源值/容差未放宽，也未将分子量推广为器件性能。",
+      "contract_cases": 14
+    },
+    {
+      "paper_id": "paper_9e7293af88532cd4",
+      "name": "Mo 水结合",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "ar_process_endpoints",
+        "ar_process_thermo",
+        "ar_result_delta",
+        "ar_result_interpretation"
+      ],
+      "key_points_after": [
+        "ar_process_endpoints",
+        "ar_process_thermo",
+        "ar_result_delta",
+        "ar_result_interpretation"
+      ],
+      "conclusions_before": [
+        "ar_final"
+      ],
+      "conclusions_after": [
+        "ar_final"
+      ],
+      "changes": [
+        "保留四端点和独立诊断；清理普通免责声明而不删端点/最低点/标准态检查。",
+        "保留 raw 1 atm、source-recipe、all-solute 1 M、bulk-water 四种量及原 1.6±8.0 kcal/mol；成功证据非空、失败可诚实报告。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "末步配平水结合及诊断有真实证据；不是整个反应机理验证。原 ±8.0 kcal/mol 宽容差保留，本轮不重新制定数值标准。",
+      "contract_cases": 10
+    },
+    {
+      "paper_id": "paper_1255ed42fa7e12ff",
+      "name": "O/S/Se ESIPT",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "key_points_after": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "conclusions_before": [
+        "c1"
+      ],
+      "conclusions_after": [
+        "c1"
+      ],
+      "changes": [
+        "公开主数组 O/S/Se 顺序，并让每个位置执行完整行约束；validated 必须有非空 TS/端点/证据、numeric 势垒及正速率。",
+        "逐分子绑定 barrier 和 k，明确 log10(k) 差值容差 0.25；读取完整频率/状态/连接证据。",
+        "公开 TD-ωB97X-D/6-311G(d,p)、CPCM MeCN、298.15 K 比较背景但不固定所有方法；失败可省未取得证据，AR 事前假说不补编。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "作者路线支持三势垒/速率及有限六根顺序；无波函数重叠连续性或非绝热动力学认证。AR 历史 report 缺事前 hypotheses，不伪造补齐；不同协议仍需可比性判断。",
+      "contract_cases": 19
+    },
+    {
+      "paper_id": "paper_3c89b494a1645491",
+      "name": "Au₄ 接触",
+      "mode": "autonomous_research",
+      "key_points_before": [
+        "ar_process_hypothesis",
+        "ar_process_validation",
+        "ar_result_aim",
+        "ar_result_class"
+      ],
+      "key_points_after": [
+        "ar_process_hypothesis",
+        "ar_process_validation",
+        "ar_result_aim",
+        "ar_result_class"
+      ],
+      "conclusions_before": [
+        "ar_final"
+      ],
+      "conclusions_after": [
+        "ar_final"
+      ],
+      "changes": [
+        "四条 contact 按身份唯一覆盖，允许乱序；validated 八个描述符必须为数字，complete 必须四条均成功且有四个 BCP。",
+        "缺描述符用 null 和真实 notes，早期失败不强造收敛或 BCP；成功不要求普通 notes/limitations。",
+        "保留 +4 单重态和原始 CCDC 2500223；未改 DI/rho 数值标准，rho 原均值/逐接触冲突明确交科学审查。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "DI=0.37627436 和 0.37365572 分别越过字面 [0.374,0.376] 上/下界 0.00027436 和 0.00034428；另两项在界内。rho 均值靶与逐接触措辞未统一。定性成键有支持，但不能宣称全部定量点严格通过；AR 历史 report 也缺 hypotheses。",
+      "contract_cases": 14
+    },
+    {
+      "paper_id": "paper_589f72ac15eb7acd",
+      "name": "Fe 六自旋态",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "pr_process_states",
+        "pr_process_validation",
+        "pr_result_values",
+        "pr_result_order"
+      ],
+      "key_points_after": [
+        "pr_process_states",
+        "pr_process_validation",
+        "pr_result_values",
+        "pr_result_order"
+      ],
+      "conclusions_before": [
+        "pr_final"
+      ],
+      "conclusions_after": [
+        "pr_final"
+      ],
+      "changes": [
+        "将 $defs 放入 runner 实际使用的 result_schema，消除无法解析引用的错误。",
+        "成功的六个选中态必须保留电荷/多重度、能量、几何、频率及自旋/收敛证据；诚实失败不必填未完成方法。",
+        "保留 HS−LS 定义及方法自由度；AR 的物理量边界项改为过程有效性检查，不把普通 uncertainty 作为成果。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "现有六态支持限定孤立电子能比较；未认证自主事前计划或全局构象穷尽。合理替代方法按实际电子态和能量证据判断，不强制复现作者每个数值。",
+      "contract_cases": 20
+    },
+    {
+      "paper_id": "paper_3c3d73b8715d5fcd",
+      "name": "Rh 环异构化",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "kp_process_stationary_points",
+        "kp_process_energy_assembly",
+        "kp_result_activation",
+        "kp_result_endo_exo"
+      ],
+      "key_points_after": [
+        "kp_process_stationary_points",
+        "kp_process_energy_assembly",
+        "kp_result_activation",
+        "kp_result_endo_exo"
+      ],
+      "conclusions_before": [
+        "conclusion_mechanism",
+        "conclusion_limitations"
+      ],
+      "conclusions_after": [
+        "conclusion_mechanism"
+      ],
+      "changes": [
+        "原 14 原子混拼 README_coordinates.xyz 原字节移入 evaluation/author_results，并注明不能作为合法计算结构；24 原子 1D 与 12 原子 Rh 二聚体未变。",
+        "移除 conclusion_limitations/rule_limitations；将能量组装关键点接回 conclusion_mechanism。",
+        "公开 298.15 K、1,4-dioxane、溶质 1 M/CO 8.5 mM、配平和 exo−endo 符号；完成与早期失败分支分开。"
+      ],
+      "remaining": "六 TS、十二连接端点和势垒有作者路线证据；TS3 是 QRC 替代有限 IRC，exo 开链端点不等同 endo INT1。替代协议应单独判断可比性，未认证自主盲搜索。",
+      "contract_cases": 12
+    },
+    {
+      "paper_id": "paper_c49993ae88ffa0e3",
+      "name": "H₂PQ/PyO",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "kp_pr_process_states",
+        "kp_pr_process_coverage",
+        "kp_pr_dry_values",
+        "kp_pr_water_et",
+        "kp_pr_water_pt_discrepancy"
+      ],
+      "key_points_after": [
+        "kp_pr_process_states",
+        "kp_pr_process_coverage",
+        "kp_pr_dry_values",
+        "kp_pr_water_et",
+        "kp_pr_water_pt_discrepancy"
+      ],
+      "conclusions_before": [
+        "c_pr_thermo",
+        "c_pr_limits"
+      ],
+      "conclusions_after": [
+        "c_pr_thermo"
+      ],
+      "changes": [
+        "删除两模式 task.md 重复的整套指令，PR 单列作者指导。",
+        "删除 c_ar_limits/c_pr_limits 普通声明结论及 AR 纯边界 KP；保留状态、覆盖、水模型敏感性并接回真实热力学结论。",
+        "PR 按四种既有状态及各自标量比较；AR 按唯一 state_id 进行语义身份匹配，不按数组位置猜。历史 states 字典仅在私有测试中无损映射为数组。"
+      ],
+      "remaining": "水合 PT 的正文/SI 冲突保留，未新增固定 gold。29 构象与对称/去重敏感性支持有限来源系综；不宣称排除 PCET/HAT、得到速率或认证独立搜索收敛。",
+      "contract_cases": 13
+    },
+    {
+      "paper_id": "paper_c56ec62e92dbdfbc",
+      "name": "CBSCA 选择性",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "kp_process_ts",
+        "kp_process_coverage",
+        "kp_result_ordering",
+        "kp_result_mechanism"
+      ],
+      "key_points_after": [
+        "kp_process_ts",
+        "kp_process_coverage",
+        "kp_result_ordering",
+        "kp_result_mechanism"
+      ],
+      "conclusions_before": [
+        "c_final_selectivity"
+      ],
+      "conclusions_after": [
+        "c_final_selectivity"
+      ],
+      "changes": [
+        "success/bounded_failure 按 status 互斥，修复成功无结果误收及成功带空 blocker 被拒的问题。",
+        "额外失败候选可报告实际 disposition/failure_reason，不强造 TS；主结果仍必须有完整 saddle/模式/连接证据。",
+        "明确选中 R/S ID 必须唯一指向正确且已验证的候选，动态关联由语义审查承担；保留候选覆盖、敏感性和配平共同参照要求。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "现有四个作者代表 TS 支持有限路线的 R/S 能差与步骤比较；不能据此认证所有竞争家族的自主采样已收敛，也未认证完整催化剂复合物盆地连接或全局动力学网络。现行 coverage 要求未降级。",
+      "contract_cases": 14
+    },
+    {
+      "paper_id": "paper_1e3a1d290a02e5f0",
+      "name": "JY1–JY3",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "pr_process_identity",
+        "pr_process_lambda",
+        "pr_homo",
+        "pr_lumo",
+        "pr_lambda"
+      ],
+      "key_points_after": [
+        "pr_process_identity",
+        "pr_process_lambda",
+        "pr_homo",
+        "pr_lumo",
+        "pr_lambda"
+      ],
+      "conclusions_before": [
+        "pr_final_trend"
+      ],
+      "conclusions_after": [
+        "pr_final_trend"
+      ],
+      "changes": [
+        "公开三条主结果的 JY1/JY2/JY3 顺序，并将每个位置绑定完整行约束，拒绝只有身份或空 λ 的完成结果。",
+        "每模式从 3 条含混 numeric 规则补成 9 条身份明确的比较，保留原 JY1 rule ID；JY2/3 目标来自既有 KP，未改既有目标/容差。",
+        "将 LUMO 及过程关键点接回原有唯一科学结论；明确同一个四点 λ 物理量，公开 B3P86/6-311G(d,p) 比较背景，保留合理方法自由度。"
+      ],
+      "remaining": "九个验证值均满足原容差；不同方法与 B3P86 源靶是否可比仍须科学判断。现有源值/容差未放宽，也未将分子量推广为器件性能。",
+      "contract_cases": 14
+    },
+    {
+      "paper_id": "paper_9e7293af88532cd4",
+      "name": "Mo 水结合",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "pr_process_endpoints",
+        "pr_process_thermo",
+        "pr_result_delta",
+        "pr_result_route"
+      ],
+      "key_points_after": [
+        "pr_process_endpoints",
+        "pr_process_thermo",
+        "pr_result_delta",
+        "pr_result_route"
+      ],
+      "conclusions_before": [
+        "pr_final"
+      ],
+      "conclusions_after": [
+        "pr_final"
+      ],
+      "changes": [
+        "保留四端点和独立诊断；清理普通免责声明而不删端点/最低点/标准态检查。",
+        "保留 raw 1 atm、source-recipe、all-solute 1 M、bulk-water 四种量及原 1.6±8.0 kcal/mol；成功证据非空、失败可诚实报告。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "末步配平水结合及诊断有真实证据；不是整个反应机理验证。原 ±8.0 kcal/mol 宽容差保留，本轮不重新制定数值标准。",
+      "contract_cases": 10
+    },
+    {
+      "paper_id": "paper_1255ed42fa7e12ff",
+      "name": "O/S/Se ESIPT",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "key_points_after": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "conclusions_before": [
+        "c1"
+      ],
+      "conclusions_after": [
+        "c1"
+      ],
+      "changes": [
+        "公开主数组 O/S/Se 顺序，并让每个位置执行完整行约束；validated 必须有非空 TS/端点/证据、numeric 势垒及正速率。",
+        "逐分子绑定 barrier 和 k，明确 log10(k) 差值容差 0.25；读取完整频率/状态/连接证据。",
+        "公开 TD-ωB97X-D/6-311G(d,p)、CPCM MeCN、298.15 K 比较背景但不固定所有方法；失败可省未取得证据，AR 事前假说不补编。",
+        "最终读回对齐 critical_failures：对声称有效的科学结果保留身份/验证要求，诚实失败可省未取得证据且不获缺失成果分。"
+      ],
+      "remaining": "作者路线支持三势垒/速率及有限六根顺序；无波函数重叠连续性或非绝热动力学认证。AR 历史 report 缺事前 hypotheses，不伪造补齐；不同协议仍需可比性判断。",
+      "contract_cases": 19
+    },
+    {
+      "paper_id": "paper_3c89b494a1645491",
+      "name": "Au₄ 接触",
+      "mode": "paper_reproduction",
+      "key_points_before": [
+        "pr_process_geometry",
+        "pr_process_bcp",
+        "pr_result_aim",
+        "pr_result_class"
+      ],
+      "key_points_after": [
+        "pr_process_geometry",
+        "pr_process_bcp",
+        "pr_result_aim",
+        "pr_result_class"
+      ],
+      "conclusions_before": [
+        "pr_final"
+      ],
+      "conclusions_after": [
+        "pr_final"
+      ],
+      "changes": [
+        "四条 contact 按身份唯一覆盖，允许乱序；validated 八个描述符必须为数字，complete 必须四条均成功且有四个 BCP。",
+        "缺描述符用 null 和真实 notes，早期失败不强造收敛或 BCP；成功不要求普通 notes/limitations。",
+        "保留 +4 单重态和原始 CCDC 2500223；未改 DI/rho 数值标准，rho 原均值/逐接触冲突明确交科学审查。"
+      ],
+      "remaining": "DI=0.37627436 和 0.37365572 分别越过字面 [0.374,0.376] 上/下界 0.00027436 和 0.00034428；另两项在界内。rho 均值靶与逐接触措辞未统一。定性成键有支持，但不能宣称全部定量点严格通过；AR 历史 report 也缺 hypotheses。",
+      "contract_cases": 14
+    }
+  ],
+  "existing_tests": {
+    "command": ".envs/researchchembench/bin/python -m pytest tests/test_output_contract.py tests/test_task_package_v19.py tests/test_scoring_rules.py -q",
+    "result": "28 passed in 109.48s",
+    "scope": "Existing offline software tests; no chemistry jobs or LLM evaluation."
+  }
+}

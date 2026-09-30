@@ -1,0 +1,95 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "G1": {
+      "formula": "C34H28N2",
+      "charge": 2,
+      "multiplicities": [
+        1,
+        3
+      ]
+    },
+    "G1_2": {
+      "formula": "C68H56N4",
+      "charge": 4,
+      "multiplicities": [
+        1,
+        3
+      ]
+    },
+    "CB7": {
+      "formula": "C42H42N28O14",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    },
+    "CB8": {
+      "formula": "C48H48N32O16",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ]
+    },
+    "CB7_G1": {
+      "formula": "C76H70N30O14",
+      "charge": 2,
+      "multiplicities": [
+        1,
+        3
+      ]
+    },
+    "CB8_G1": {
+      "formula": "C82H76N34O16",
+      "charge": 2,
+      "multiplicities": [
+        1,
+        3
+      ]
+    },
+    "CB8_G1_2": {
+      "formula": "C116H104N36O16",
+      "charge": 4,
+      "multiplicities": [
+        1,
+        3
+      ]
+    }
+  },
+  "identity_files": [
+    "CB7_identity.json",
+    "CB8_identity.json",
+    "g1_dimer.xyz",
+    "g1_dimer_identity.json",
+    "g1_monomer.xyz",
+    "g1_monomer_identity.json"
+  ],
+  "control_definitions": {
+    "bound_starts": "Use at least two relative guest orientations/placements for each host stoichiometry. Ring topology is fixed by the host graph; no optimized complex is supplied.",
+    "host_deletion": "At each bound geometry remove all host atoms without relaxing guest coordinates; retain guest charges +2/+4 and the same aqueous embedding.",
+    "partner_deletion": "For CB8:(G1)2 additionally remove guest B then guest A, giving the two +2 single guests at their frozen bound positions, both with and without CB8.",
+    "free_guests": "Relax isolated G1 and G1_2 independently in the same solvent. Compare confinement-induced geometry and excitonic coupling separately.",
+    "state_character": "Define fragments host/guestA/guestB before comparing NTOs; inspect whether host-centered or charge-transfer states enter the window."
+  },
+  "observable_definition": "Compare transition energies/oscillator strengths and matched guest transition densities at identical guest coordinates for full-host, deleted-host and deleted-partner controls. Bright/dark splitting is E(bright)-E(dark) with both state identities recorded; host deletion measures combined host response, not purely electrostatics.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "host_matrix",
+      "description": "Explicit-host versus same-geometry deleted-host controls"
+    },
+    {
+      "id": "coupling_controls",
+      "description": "Partner deletion and relaxed free-guest baselines"
+    },
+    {
+      "id": "mechanism_comparison",
+      "description": "Host response versus guest coupling attribution"
+    }
+  ],
+  "optional_not_scored": "CB10, full concentration titration, explicit-water dynamics, pure electrostatic embedding and absolute emission efficiencies are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

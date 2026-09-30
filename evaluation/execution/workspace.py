@@ -6,6 +6,7 @@ import hashlib
 import json
 import shutil
 import stat
+from datetime import datetime, timedelta, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 from zipfile import ZipFile
@@ -145,6 +146,7 @@ class WorkspaceLifecycleMixin:
             execution_resource_guidance=self._execution_resource_guidance(),
             required_deliverables=required_deliverables,
             toolbox_overview=toolbox_overview(
+                persistent=self.recovery_enabled or self.agent.get("kind") == "external",
                 discovery_mode=self.tool_discovery_mode,
                 include_health=True,
                 snapshot=(
@@ -154,35 +156,6 @@ class WorkspaceLifecycleMixin:
                 ),
             ),
         )
-
-    def _required_deliverable_status(self) -> list[dict[str, Any]]:
-        """Record task-specific evidence-product presence without making it a run gate."""
-
-        values: list[dict[str, Any]] = []
-        root = self.workspace.resolve()
-        for item in self.task_info.get("required_deliverables") or []:
-            specification = {"path": item} if isinstance(item, str) else dict(item)
-            relative = str(specification.get("path") or "").strip()
-            if not relative or Path(relative).is_absolute():
-                continue
-            path = (root / relative).resolve()
-            try:
-                path.relative_to(root)
-            except ValueError:
-                continue
-            exists = path.is_file()
-            size = path.stat().st_size if exists else 0
-            allow_empty = bool(specification.get("allow_empty", False))
-            values.append(
-                {
-                    "path": relative,
-                    "exists": exists,
-                    "size_bytes": size,
-                    "satisfied": exists and (allow_empty or size > 0),
-                    "allow_empty": allow_empty,
-                }
-            )
-        return values
 
     @staticmethod
     def _resolve_under(base: Path, relative_path: str, *, field: str) -> Path:
@@ -270,12 +243,18 @@ class WorkspaceLifecycleMixin:
                 f"Task not found: {self.task_type}/{self.paper_id}"
             )
         self.workspace.mkdir(parents=True, exist_ok=False)
+        self.first_started_at = datetime.now(timezone.utc).isoformat()
+        self.deadline_at = (
+            datetime.now(timezone.utc) + timedelta(seconds=self.timeout_seconds)
+        ).isoformat()
         self.public_task_files = materialize_agent_files(
             paper_id=self.paper_id,
             task_type=self.task_type,
             destination=self.workspace,
             repository=self.task_repository,
         )
+        from .output_contract import prepare_public_output_contract
+        prepare_public_output_contract(self.workspace)
         (self.workspace / "data").mkdir(exist_ok=True)
         self._extract_task_archives()
         for directory in (
@@ -310,8 +289,17 @@ class WorkspaceLifecycleMixin:
             encoding="utf-8",
         )
         self.instructions_path.write_text(self._build_instructions(), encoding="utf-8")
-        self._write_claude_mcp_config()
-        self._write_opencode_config()
+        if self.recovery_enabled:
+            with self.instructions_path.open("a", encoding="utf-8") as handle:
+                handle.write("\n## Persistent execution\nUse a stable submission_key for each intended computation (native, analysis, or Action). Reuse that key only for a communication retry; changed inputs or a new scientific attempt require a new key. Actions return an asynchronous job_id. Use lookup_execution_submission and list_execution_jobs after disconnection, then wait/collect the original job. Batch item identities are retained. Never resubmit solely because a response was lost. collect_execution_job returns a stable result_receipt_id; acknowledge_execution_result records that you have observed it. The original run deadline and usage budget continue across recovery.\n")
+        elif self.agent.get("kind") == "external":
+            with self.instructions_path.open("a", encoding="utf-8") as handle:
+                handle.write("\n## Managed execution\nAll roles share one run, deadline and computation budget. Use a stable submission_key for each intended native, analysis or Action computation; prefix keys with a role identifier to avoid collisions. Reuse a key only for a communication retry with identical inputs. Actions return asynchronous job IDs; wait/collect their results before finishing. Lookup existing submissions after a tool connection failure instead of duplicating work. Agent session resume is not supported. Returning with active jobs fails final validation and cancels those jobs.\n")
+        with self.instructions_path.open("a", encoding="utf-8") as handle:
+            handle.write("\nElectronic state policy: " + self.electronic_state_policy + ". Molecular quantum calculations require a declared charge and spin in strict mode. Supply method_spec.charge and method_spec.multiplicity (or the backend's declared spin field), or a structure with explicit state. Unrecognized free-form XYZ comments do not establish electronic state. Inspect execution_feedback for effective values and their sources.\n")
+        if self.agent.get("kind") != "external":
+            self._write_claude_mcp_config()
+            self._write_opencode_config()
         catalog_path = self.workspace / "_toolbox_catalog.json"
         self._write_meta(
             "ready",
@@ -324,3 +312,15 @@ class WorkspaceLifecycleMixin:
                 "public_task_files": self.public_task_files,
             },
         )
+        from .output_contract import freeze_public_output_contract
+        freeze_public_output_contract(self)
+        if self.recovery_enabled:
+            from .recovery import freeze_runner
+            freeze_runner(self)
+        elif self.archive_policy == "indexed" or self.agent.get("kind") == "external" or self._task_source is not None:
+            from .recovery import freeze_task_snapshot
+            freeze_task_snapshot(self)
+        if self.agent.get("kind") == "external":
+            from ..agent_plugins.protocol import write_external_request
+            write_external_request(self, self.agent)
+        self._persist_run_manifest(run_state="ready")

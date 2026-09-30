@@ -1,0 +1,181 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "success"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "success"
+          },
+          "success": {
+            "type": "object",
+            "required": [
+              "method",
+              "search_strategy",
+              "structures",
+              "connectivity",
+              "free_energy",
+              "conclusion"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "search_strategy": {
+                "type": "string"
+              },
+              "structures": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "imaginary_frequencies_cm-1",
+                    "classification",
+                    "evidence"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "imaginary_frequencies_cm-1": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "classification": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "connectivity": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "connects_3a_and_ent_3a",
+                  "evidence"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string"
+                  },
+                  "connects_3a_and_ent_3a": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              },
+              "free_energy": {
+                "type": "object",
+                "required": [
+                  "temperature_K",
+                  "reference_structure",
+                  "ts_structure",
+                  "formula",
+                  "barrier_kcal_mol",
+                  "unit_conversion",
+                  "evidence"
+                ],
+                "properties": {
+                  "temperature_K": {
+                    "type": "number"
+                  },
+                  "reference_structure": {
+                    "type": "string"
+                  },
+                  "ts_structure": {
+                    "type": "string"
+                  },
+                  "formula": {
+                    "type": "string"
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "unit_conversion": {
+                    "type": "string"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              },
+              "conclusion": {
+                "type": "object",
+                "required": [
+                  "agreement_with_experiment",
+                  "interpretation",
+                  "limitations"
+                ],
+                "properties": {
+                  "agreement_with_experiment": {
+                    "type": "string"
+                  },
+                  "interpretation": {
+                    "type": "string"
+                  },
+                  "limitations": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "bounded_failure"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "bounded_failure"
+          },
+          "bounded_failure": {
+            "type": "object",
+            "required": [
+              "failed_check",
+              "evidence",
+              "established_results",
+              "limitations"
+            ],
+            "properties": {
+              "failed_check": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              },
+              "established_results": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

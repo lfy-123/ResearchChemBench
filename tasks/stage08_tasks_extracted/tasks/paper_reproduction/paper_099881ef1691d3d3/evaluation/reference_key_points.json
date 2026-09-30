@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_099881ef1691d3d3",
+  "items": [
+    {
+      "key_point_id": "kp_ground_minimum",
+      "key_point_type": "process",
+      "statement": "The workflow establishes a converged neutral-singlet ground-state stationary point and uses vibrational analysis to determine whether it is a minimum.",
+      "evidence_ids": [
+        "ev_doc_1c553297f9ef_000185_0895d51f5390",
+        "ev_doc_1c553297f9ef_000191_403785856c82"
+      ],
+      "expected": "A ground-state geometry and frequency evidence are supplied, with the minimum claim tied to the submitted frequencies and diagnostics."
+    },
+    {
+      "key_point_id": "kp_excited_state_dipoles",
+      "key_point_type": "process",
+      "statement": "The S1\u2192S0 CPL transition is explicitly assigned and both electric and magnetic transition dipoles plus their angle are obtained from the excited-state calculation.",
+      "evidence_ids": [
+        "ev_doc_1c553297f9ef_000191_403785856c82",
+        "ev_doc_b580573d77f7_000153_a4fa98b480af"
+      ],
+      "expected": "The report identifies S1, gives provenance for the transition dipoles and angle, and connects them to the CPL calculation."
+    },
+    {
+      "key_point_id": "kp_glum_value",
+      "key_point_type": "result",
+      "statement": "The calculated C[2]BNDI CPL dissymmetry magnitude is approximately 7.1 \u00d7 10\u22123.",
+      "unit": "dimensionless",
+      "evidence_ids": [
+        "ev_doc_b580573d77f7_000136_567823a4d3d3",
+        "ev_doc_b580573d77f7_000153_a4fa98b480af"
+      ],
+      "expected": 0.0071
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Molecular interpretation of substituent-dependent benzyl-alcohol oxidation
+
+Investigate what can be established at the molecular level about the different oxidation behavior of the supplied para-substituted benzyl alcohols. Develop and test an explanation for the comparatively poor conversion of the methylsulfanyl alcohol toward its aldehyde under the reported flavin-mediated electrophotochemical conditions. Determine which parts of that explanation your evidence supports, which remain unresolved, and whether the molecular evidence is sufficient to explain the observation.
+
+## Supplied facts and scope
+
+`data/inputs/systems.json` defines five neutral parent identities; `observations.json` states the qualitative experimental contrast and its limited context. Study molecular behavior within these identities and chemically defined transformations needed for your explanation. Preserve full structures or justify any approximation and its effect. Choose your molecular states and medium model explicitly. Molecular results cannot alone establish quantitative catalytic rates/yields or the complete catalyst/electrode network. No direction or mechanism is stipulated for a calculated property.
+
+## Author protocol for reproduction
+
+The article (main pp3–4, Figure3) proposes substrate-to-photoexcited-flavin electron transfer and discusses relatively sulfur-localized radical-cation spin and difficult benzylic H-atom loss for SMe. Reproduce the source molecular evidence before assessing that interpretation. SI S6 (p34) reports B3LYP/6-311+G(d) optimizations in vacuum and CPCM water/MeCN, frequency validation of minima, and Hirshfeld spin analysis. TableS8 gives SMe sulfur spin about0.401. TableS16 (p36) reports gas-phase benzylic C–H electronic dissociation energies H/Cl/Me/OMe/SMe=139.4/157.3/152.8/173.7/198.5 kJ/mol. For this reference channel distinguish loss of neutral H from proton loss: parent radical cation(+1,doublet), dehydrogenated cation(+1,singlet), H(0,doublet); use E(product)+E(H)−E(parent), with no ZPE/thermal addition to the stated electronic quantity. SI TableS11 prints a positive SMe water electronic energy; flag it as a source inconsistency rather than adopting it unquestioningly. These source anchors do not establish a kinetic mechanism or yield. The V1 complete neutral-ionization matrix, paired conformer challenges and retrospective Cl test were benchmark additions, not source requirements.
+
+Reproduce the disclosed source baseline and assess what it supports about the same scientific question. Explain source ambiguities and any deviations. Additional tests you choose are your extensions; they are not publication results. A defensible disagreement earns scientific credit; protocol fidelity is assessed separately on the process axis.
+
+## Investigation and deliverables
+
+Reproduce the disclosed source baseline, recording protocol ambiguities and any scientifically justified substitution. Choose additional comparisons and stopping decisions that assess what the baseline supports. Generate inspectable evidence and assess its validity, uncertainty and ability to support your claims. Adapt the investigation when results warrant it. The disclosed protocol guides reproduction; the choice of additional investigations remains yours. No particular winning explanation, direction of effect or number of hypotheses is required by the common scientific result criteria. Separate supplied observations, your results and interpretation.
+
+Submit `report/results.json` and `report/report.md` as described in `submission_guide.md`. Link raw outputs and reproducible analyses. The result axis evaluates supported scientific findings; the process axis evaluates research decisions and execution independently, each out of 100, with product divided by 100 as the total. Honest partial work is reportable; unperformed research does not count as an unresolved scientific result.
+
+This is a self-contained task. Use its public inputs and the tools/resources actually made available by the runner. Do not access target-paper answers, its full article/SI, private evaluator files, prior verification archives or another mode's guidance. General scientific/software documentation is allowed. The supplied facts and any source protocol explicitly disclosed in this task are authorized.

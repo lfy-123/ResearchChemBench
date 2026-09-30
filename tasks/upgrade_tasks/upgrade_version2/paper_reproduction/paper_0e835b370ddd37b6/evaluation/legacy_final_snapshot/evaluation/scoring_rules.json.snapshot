@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "rules": [
+    {
+      "rule_id": "r_minima",
+      "type": "condition",
+      "expected": "for every system, when outcome_status is validated_success, optimized=true and imaginary_frequencies=0 with evidence; a bounded_failure system must still identify the minimum-search outcome truthfully in its minimum object",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].minimum"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_minima"
+    },
+    {
+      "rule_id": "r_ts",
+      "type": "condition",
+      "expected": "for every system, candidates_attempted, candidates_validated, coverage and evidence document the H2-activation search; validated_success requires a one-imaginary-frequency H-H-cleavage TS and endpoint evidence, while bounded_failure requires the attempted coverage and explicit failure reason",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].ts_search"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_ts"
+    },
+    {
+      "rule_id": "r_barriers",
+      "type": "condition",
+      "expected": "validated_success systems report a kcal/mol barrier computed from separated silylene + H2 reactants to the validated H-H-activation TS; bounded_failure systems report null and an explicit failure reason. When both systems succeed, compare the two barriers on the same stated model and preserve each named system identity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.method"
+        ],
+        "comparison": "expert comparison"
+      },
+      "reference_id": "kp_barriers"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. Validated H–H activation barriers from separated reactants are lower for silylene 1 than for V-prime. The comparison must be supported by the two corresponding TSs and a common method/Gibbs convention.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.comparison",
+          "$.conclusion",
+          "$.method"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final"
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -1,0 +1,16 @@
+{
+  "system_name": "four stereoisomers of 2-azidocyclohexan-1-ol",
+  "formula": "C6H11N3O",
+  "mapped_connectivity_smiles": "[C:1]1([OH:7])([H])[C:2]([N:8]=[N+:9]=[N-:10])([H])[CH2:3][CH2:4][CH2:5][CH2:6]1",
+  "atom_definitions": {"1": "hydroxyl-bearing ring carbon C1", "2": "adjacent azide-bearing ring carbon C2", "3": "ring carbon C3", "4": "ring carbon C4", "5": "ring carbon C5", "6": "ring carbon C6", "7": "hydroxyl oxygen", "8": "proximal azide nitrogen bonded to C2", "9": "central azide nitrogen", "10": "terminal azide nitrogen"},
+  "stereoisomers": {
+    "RR": {"chemical_name": "(1R,2R)-2-azidocyclohexan-1-ol", "absolute_configuration": {"1": "R", "2": "R"}},
+    "SS": {"chemical_name": "(1S,2S)-2-azidocyclohexan-1-ol", "absolute_configuration": {"1": "S", "2": "S"}},
+    "SR": {"chemical_name": "(1S,2R)-2-azidocyclohexan-1-ol", "absolute_configuration": {"1": "S", "2": "R"}},
+    "RS": {"chemical_name": "(1R,2S)-2-azidocyclohexan-1-ol", "absolute_configuration": {"1": "R", "2": "S"}}
+  },
+  "total_charge": 0,
+  "spin_multiplicity": 1,
+  "environment": {"phase": "solution", "solvent": "water", "temperature_K": 298.15, "achiral_environment": true},
+  "comparison_endpoint": "lowest validated conformer standard Gibbs free energy for each stereoisomer under one consistently documented model"
+}

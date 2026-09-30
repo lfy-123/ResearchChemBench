@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "species_registry.json",
+      "action": "retain neutral graphs and DPPH; remove donor/state recipes",
+      "reason": "Actual chemical identity is necessary; prescribed HAT/deprotonation/redox states are research choices."
+    },
+    {
+      "file": "compound_4b.json/geometry_comparison.json",
+      "action": "private_snapshot_only",
+      "reason": "Old orbital and geometry target/reference comparison is not a mechanistic answer."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "Remove3mechanism cycle and4c/4h forced HAT path matrix."
+    },
+    {
+      "file": "observations.json",
+      "action": "supply original dose-response means/SD and tableIC50",
+      "reason": "Preserve measurable facts and actual uncertainty rather than only qualitative ranking."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

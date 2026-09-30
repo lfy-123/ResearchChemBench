@@ -1,0 +1,946 @@
+{
+  "status": "complete",
+  "models": [
+    {
+      "name": "B3LYP",
+      "method": "#p B3LYP/6-311+G(d,p) Opt=(CalcFC,MaxCyc=300) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine",
+      "coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/si_conformer_20260920/B3LYP_optimized.xyz",
+      "starting_coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_B3LYP_optfreq_20260920_20260920T150823Z/input.com",
+      "calculation_artifacts": [
+        "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_B3LYP_optfreq_20260920_20260920T150823Z/input.com",
+        "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_B3LYP_optfreq_20260920_20260920T150823Z/stdout.log"
+      ],
+      "converged": true,
+      "stationary": true,
+      "identity_validation": "Correct mapped C20H17ClN6OS E-imine N5-H thione, 0/1; raw coordinate graph rechecked.",
+      "stationarity_evidence": "132 positive frequencies; minimum 5.901 cm^-1; real Opt/Freq logs.",
+      "rationale": "Archived source-informed author pair; this is not a blind autonomous model-selection history."
+    },
+    {
+      "name": "CAM-B3LYP",
+      "method": "#p CAM-B3LYP/6-311+G(d,p) Opt=(CalcFC,MaxCyc=300) Freq NoSymm SCF=(Tight,XQC,MaxCycle=512) Int=UltraFine",
+      "coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/si_conformer_20260920/CAM-B3LYP_optimized.xyz",
+      "starting_coordinates": "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_CAM_B3LYP_optfreq_20260920_20260920T152432Z/input.com",
+      "calculation_artifacts": [
+        "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_CAM_B3LYP_optfreq_20260920_20260920T152432Z/input.com",
+        "docs/verification/group_2/paper_a3968806251093cd/provenance/qzcli_hpc/si7a_CAM_B3LYP_optfreq_20260920_20260920T152432Z/stdout.log"
+      ],
+      "converged": true,
+      "stationary": true,
+      "identity_validation": "Correct mapped C20H17ClN6OS E-imine N5-H thione, 0/1; raw coordinate graph rechecked.",
+      "stationarity_evidence": "132 positive frequencies; minimum 5.0328 cm^-1; real Opt/Freq logs.",
+      "rationale": "Archived source-informed author pair; this is not a blind autonomous model-selection history."
+    }
+  ],
+  "mapping": {
+    "label_to_atom": {
+      "C1": 1,
+      "C2": 2,
+      "C3": 3,
+      "C4": 4,
+      "C5": 5,
+      "C6": 6,
+      "C7": 7,
+      "C8": 8,
+      "C9": 9,
+      "C10": 10,
+      "C11": 11,
+      "C12": 12,
+      "C13": 13,
+      "C14": 14,
+      "C15": 15,
+      "C16": 16,
+      "C17": 17,
+      "C18": 18,
+      "C19": 19,
+      "C20": 20,
+      "N1": 21,
+      "N2": 22,
+      "N3": 23,
+      "N4": 24,
+      "N5": 25,
+      "N6": 26,
+      "O1": 27,
+      "S1": 28,
+      "Cl1": 29,
+      "Cl2": 29
+    },
+    "coordinate_index_base": 1,
+    "mapping_basis": "Fixed source graph labels; Cl1/Cl2 alias. Raw source-informed historical calculations."
+  },
+  "observables": [
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "Cl1-C14",
+      "value": 1.7583308584103268,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "S1-C18",
+      "value": 1.6742913735288134,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "O1-C11",
+      "value": 1.3963693178174603,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "O1-C7",
+      "value": 1.3529590679488424,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N1-N2",
+      "value": 1.370075165376338,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N2-C9",
+      "value": 1.32283281062612,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N3-N4",
+      "value": 1.3785084119181137,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N3-C17",
+      "value": 1.2898117638357154,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N4-C18",
+      "value": 1.400357018042899,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N4-C19",
+      "value": 1.392519201515369,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N5-N6",
+      "value": 1.368330160304157,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N5-C18",
+      "value": 1.3570215238211953,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "bond",
+      "selector": "N6-C19",
+      "value": 1.298180780648442,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "C7-O1-C11",
+      "value": 119.77119049855567,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "C6-N1-C7",
+      "value": 129.7177008402892,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N2-N1-C6",
+      "value": 119.8136662223503,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N2-N1-C7",
+      "value": 110.46502204457737,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N1-N2-C9",
+      "value": 106.48563931495505,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N4-N3-C17",
+      "value": 119.48026229733016,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N3-N4-C18",
+      "value": 133.37381640170105,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N3-N4-C19",
+      "value": 118.35867574458781,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "C18-N4-C19",
+      "value": 108.19555680597573,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N6-N5-C18",
+      "value": 114.98702214472122,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N5-N6-C19",
+      "value": 104.29595794113104,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N1-C6-C1",
+      "value": 118.67232033534991,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N1-C6-C5",
+      "value": 120.74855033958282,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "O1-C7-N1",
+      "value": 122.84844228554525,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "O1-C7-C8",
+      "value": 128.98039322691764,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "C9-C8-C17",
+      "value": 132.11567277228818,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N2-C9-C8",
+      "value": 111.05947333260069,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "S1-C18-N4",
+      "value": 132.39563806775794,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "Cl2-C14-C13",
+      "value": 119.53998789651551,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "S1-C18-N5",
+      "value": 126.09533751990375,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N4-C18-N5",
+      "value": 101.50579352917003,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N4-C19-N6",
+      "value": 111.01261528263561,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "angle",
+      "selector": "N6-C19-C20",
+      "value": 125.31967744559638,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "C6-N1-N2-C9",
+      "value": -179.90049159452857,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "C7-N1-N2-C9",
+      "value": -0.5262194652627307,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "C17-N3-N4-C18",
+      "value": -9.365354352194714,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "C17-N3-N4-C19",
+      "value": 174.1341401813727,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "C5-C6-N1-N2",
+      "value": -146.3302880009136,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "O1-C7-N1-C6",
+      "value": -2.282956318023265,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "O1-C7-C8-C17",
+      "value": 1.001167861539847,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "S1-C18-N4-N3",
+      "value": 2.0875355366912784,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "S1-C18-N4-C19",
+      "value": 178.84620395341793,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "N5-C18-N4-N3",
+      "value": -177.26950809104926,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "B3LYP",
+      "kind": "torsion",
+      "selector": "Cl2-C14-C15-C16",
+      "value": 179.94669983793614,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "Cl1-C14",
+      "value": 1.746991592174673,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "S1-C18",
+      "value": 1.6687086705180147,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "O1-C11",
+      "value": 1.388344759728649,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "O1-C7",
+      "value": 1.3478119277369522,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N1-N2",
+      "value": 1.359963744690644,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N2-C9",
+      "value": 1.3155479567256376,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N3-N4",
+      "value": 1.375211474016633,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N3-C17",
+      "value": 1.279923048174772,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N4-C18",
+      "value": 1.3874896114796678,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N4-C19",
+      "value": 1.386747276364731,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N5-N6",
+      "value": 1.3625559680875499,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N5-C18",
+      "value": 1.3489090262716015,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "bond",
+      "selector": "N6-C19",
+      "value": 1.2898277313598896,
+      "unit": "Angstrom",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "C7-O1-C11",
+      "value": 119.44007754143318,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "C6-N1-C7",
+      "value": 129.46699819380393,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N2-N1-C6",
+      "value": 120.04013651410735,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N2-N1-C7",
+      "value": 110.4818881899211,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N1-N2-C9",
+      "value": 106.60005711246372,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N4-N3-C17",
+      "value": 119.68631224349399,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N3-N4-C18",
+      "value": 133.47964395933445,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N3-N4-C19",
+      "value": 118.23956064090112,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "C18-N4-C19",
+      "value": 108.25837761096707,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N6-N5-C18",
+      "value": 114.76769639523087,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N5-N6-C19",
+      "value": 104.37734066994705,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N1-C6-C1",
+      "value": 118.61943910887689,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N1-C6-C5",
+      "value": 120.63609895930841,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "O1-C7-N1",
+      "value": 122.95229239966376,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "O1-C7-C8",
+      "value": 128.8814472932769,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "C9-C8-C17",
+      "value": 131.94525689372995,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N2-C9-C8",
+      "value": 110.87276868127014,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "S1-C18-N4",
+      "value": 132.36125315582154,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "Cl2-C14-C13",
+      "value": 119.55342836037119,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "S1-C18-N5",
+      "value": 125.91927093137151,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N4-C18-N5",
+      "value": 101.71861831057502,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N4-C19-N6",
+      "value": 110.87694626962008,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "angle",
+      "selector": "N6-C19-C20",
+      "value": 125.67151719203578,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "C6-N1-N2-C9",
+      "value": -179.48170236322807,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "C7-N1-N2-C9",
+      "value": -0.5759580772201025,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "C17-N3-N4-C18",
+      "value": -5.111881215850669,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "C17-N3-N4-C19",
+      "value": 176.84167403827945,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "C5-C6-N1-N2",
+      "value": -146.69383352142327,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "O1-C7-N1-C6",
+      "value": -2.3802386514224376,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "O1-C7-C8-C17",
+      "value": 0.9580820762974875,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "S1-C18-N4-N3",
+      "value": 1.1793862788996692,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "S1-C18-N4-C19",
+      "value": 179.36715583331858,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "N5-C18-N4-N3",
+      "value": -178.48895056786347,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    },
+    {
+      "model": "CAM-B3LYP",
+      "kind": "torsion",
+      "selector": "Cl2-C14-C15-C16",
+      "value": 179.91740957092142,
+      "unit": "degree",
+      "reference_comparison": "Public SCXRD observations; protocol a396_geometry_comparison_v2."
+    }
+  ],
+  "metrics": [
+    {
+      "model": "B3LYP",
+      "observable_kind": "bond",
+      "mae": 0.009206281813074497,
+      "rmse": 0.012073207858483816,
+      "n_rows": 13,
+      "unit": "Angstrom",
+      "torsion_error_convention": "not applicable"
+    },
+    {
+      "model": "B3LYP",
+      "observable_kind": "angle",
+      "mae": 0.9608175565821525,
+      "rmse": 1.3506512674709459,
+      "n_rows": 23,
+      "unit": "degree",
+      "torsion_error_convention": "not applicable"
+    },
+    {
+      "model": "B3LYP",
+      "observable_kind": "torsion",
+      "mae": 4.678395134966598,
+      "rmse": 5.936454954915708,
+      "n_rows": 11,
+      "unit": "degree",
+      "torsion_error_convention": "global reference sign chosen on all 11 rows, circular differences"
+    },
+    {
+      "model": "CAM-B3LYP",
+      "observable_kind": "bond",
+      "mae": 0.007247509565070604,
+      "rmse": 0.008619331644947832,
+      "n_rows": 13,
+      "unit": "Angstrom",
+      "torsion_error_convention": "not applicable"
+    },
+    {
+      "model": "CAM-B3LYP",
+      "observable_kind": "angle",
+      "mae": 0.9376718386988317,
+      "rmse": 1.344865633240589,
+      "n_rows": 23,
+      "unit": "degree",
+      "torsion_error_convention": "not applicable"
+    },
+    {
+      "model": "CAM-B3LYP",
+      "observable_kind": "torsion",
+      "mae": 5.5447110046167,
+      "rmse": 7.3797239636874705,
+      "n_rows": 11,
+      "unit": "degree",
+      "torsion_error_convention": "global reference sign chosen on all 11 rows, circular differences"
+    }
+  ],
+  "inversion_comparison": [
+    {
+      "model": "B3LYP",
+      "selected_reference_sign": 1,
+      "branches": [
+        {
+          "reference_sign": 1,
+          "sse_degree2": 387.65647174917586,
+          "mae_degree": 4.678395134966598,
+          "rmse_degree": 5.936454954915708
+        },
+        {
+          "reference_sign": -1,
+          "sse_degree2": 7053.472112344667,
+          "mae_degree": 14.633051468310361,
+          "rmse_degree": 25.322415711892077
+        }
+      ]
+    },
+    {
+      "model": "CAM-B3LYP",
+      "selected_reference_sign": 1,
+      "branches": [
+        {
+          "reference_sign": 1,
+          "sse_degree2": 599.0635835824542,
+          "mae_degree": 5.5447110046167,
+          "rmse_degree": 7.3797239636874705
+        },
+        {
+          "reference_sign": -1,
+          "sse_degree2": 6604.577477804051,
+          "mae_degree": 13.784423295641915,
+          "rmse_degree": 24.50339026228458
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "model_pair": [
+      "B3LYP",
+      "CAM-B3LYP"
+    ],
+    "per_kind": [
+      {
+        "kind": "bond",
+        "mae_preference": "second",
+        "rmse_preference": "second"
+      },
+      {
+        "kind": "angle",
+        "mae_preference": "second",
+        "rmse_preference": "second"
+      },
+      {
+        "kind": "torsion",
+        "mae_preference": "first",
+        "rmse_preference": "first"
+      }
+    ],
+    "overall": "mixed",
+    "interpretation": "Comparison of the actual computed conformers; not a universal functional ranking."
+  },
+  "conclusion": "CAM has lower bond/angle MAE and RMSE; B3LYP lower torsion errors. This is a complete mixed comparison, not CAM-wins replication.",
+  "archive_context": "PRIVATE evidence of scientific calculability from successful source-informed runs. Not a blind-agent submission or an exact SI-theory reproduction."
+}

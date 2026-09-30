@@ -1,0 +1,96 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "task_type": "autonomous_research",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_autonomous_research/paper_3c058fa17fa7c54e",
+  "source_manifest_sha256": "1b41a0ec76da4c254cc3351c9f8cf18779dddc7049400c76b8e770fd20a5d5d5",
+  "source_package_content_sha256": "f8a2cc359289c63b3794f472e6fbaff27c3368ba998122a91069be89b51bb02c",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/molecule_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/molecule_manifest.json.snapshot",
+      "sha256": "2775b4e0be25af7cbf1250a24efea84cde4ed5ff8aabc1ebc71dd44c82f3fede"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "b609c11bc8d24338419a8576386ecaec0560a704cf23d82c8df42ed36b4cc097"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "ef42180e24eee5bd06169ba4d5bfd01461fad524bbeb39509b4b5883b7e1d434"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "618a1773cb2b95a6cbd4075f76fc9ef08b216875a20d9467dae954696bf6d8be"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "4fc5acd53d4019bbe4f52d256ca94c14e42c9318cba7ad97d19e91d1df6281b6"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "5d6bdd0d5a20f97bd3581def5dfb9f3d4998e3aa51045d105a13d5137dcdee1e"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "77afb140545068305c96b80f59725d4972538fdc0c506be005f4f44edc35aa17"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "6dc52b62b5d46849837200dc4565fa73f7fba39afb7ed7767e25245e21a15e1c"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "5936788908e326aa35c56fb9d7863a24e10443f3e71e16c72e0836f4b2f14d09"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "1b41a0ec76da4c254cc3351c9f8cf18779dddc7049400c76b8e770fd20a5d5d5"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "38cfda384cb35219fd008e2c04281cc89b073ea9c0c3eb6f8ada18e10c9006cc"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "7d2b17a9d5e6c767c6ed22e26d93ddaba84c095c2c5af7c2caf19f3c42771547"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_3c058fa17fa7c54e/documents/supplementary_001.pdf",
+      "sha256": "01140712f70bcc77d7c656fcc6c211bc78e72aaac4e90d1d37e3b22b7a7162cd",
+      "pages": 9
+    },
+    {
+      "path": "papers/paper_3c058fa17fa7c54e/documents/main.pdf",
+      "sha256": "38002008855a03bf3bd90f3315f0008ae9fff275c1305e6fca20494ff3850e86",
+      "pages": 8
+    },
+    {
+      "path": "docs/evalution/update/paper_3c058fa17fa7c54e.md",
+      "sha256": "40e261fa95abf511cde739aedbe7e6ad53da88a546ab41ae0da981ffb64b9a85"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "New π bridge explicitly changes composition, so only property contrasts are used; no unbalanced total-energy comparison.",
+    "Complete two-arm mapping excludes changed bridge carbons; both ethynyl attachment sites retain para-arm connectivity."
+  ],
+  "new_reference_gaps": "Ethynyl control geometries, matched torsions, NTO correspondence and separately relaxed excited-state references are missing.",
+  "blockers": [],
+  "optional_not_required": "Full concentration-dependent kinetics, films, TTA efficiency and nonadiabatic propagation are outside this version."
+}

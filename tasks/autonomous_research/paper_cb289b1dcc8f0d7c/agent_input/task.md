@@ -4,7 +4,7 @@ Characterize how substitution across the neutral BQ1–BQ7 boron(III) 8-hydroxyq
 
 # Public inputs and scientific boundaries
 
-Use only `data/inputs/bq_series.json` and your own calculations. Each named member is a neutral monomer (charge 0), with singlet S0/S1 and triplet T1/T2; B is bonded to two phenyl ipso carbons and N/O of one deprotonated 8-hydroxyquinolinate. Positions and formulas are explicit. The default boundary is an isolated monomer with implicit toluene. A BQ7 stacked dimer in water may be investigated only if its generated geometry, selection rule and model are reported. You choose software and model chemistry. Do not use the paper, SI, general web, or hidden evaluator files.
+Use `data/inputs/bq_series.json`, `data/inputs/experimental_solution_fluorescence.json` (observed toluene solution values only), and your own calculations. Each named member is a neutral monomer (charge 0), with singlet S0/S1 and triplet T1/T2; B is bonded to two phenyl ipso carbons and N/O of one deprotonated 8-hydroxyquinolinate. Positions and formulas are explicit. The default boundary is an isolated monomer with implicit toluene. A BQ7 stacked dimer in water may be investigated only if its generated geometry, selection rule and model are reported. You choose software and model chemistry. Do not use the paper, SI, general web, or hidden evaluator files.
 
 # Required scientific validation/investigation
 

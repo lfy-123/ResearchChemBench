@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use fused 2a C18H20B10 and nonfused source precursor1a C18H21B10Br, both neutral singlets. Precursor1a is 1-(8-bromonaphthalen-1-yl)-2-phenyl-o-carborane; it is not a pure geometric un-fusion because Br/H composition differs. Public graph edits remove the B3-aryl fusion edge, restore B3-H and add aryl-Br. Preserve the closo cage adjacency and mapped cage C1-C2 axis; a multicenter cage edge is not an ordinary two-center bond-order assertion. Primary THF continuum.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use fused 2a C18H20B10 and nonfused source precursor1a C18H21B10Br, both neutral singlets. Precursor1a is 1-(8-bromonaphthalen-1-yl)-2-phenyl-o-carborane; it is not a pure geometric un-fusion because Br/H composition differs. Public graph edits remove the B3-aryl fusion edge, restore B3-H and add aryl-Br. Preserve the closo cage adjacency and mapped cage C1-C2 axis; a multicenter cage edge is not an ordinary two-center bond-order assertion. Primary THF continuum.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_fusion_pair",
+      "statement": "Require NTO/state character, valid ground-state modes and both distinct chemical identities; no KS-gap or NICS proxy for quantum yield. Core rows: fused2a, nonfused1a. Recompute excitation_eV, oscillator_strength, cage_CC_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Require NTO/state character, valid ground-state modes and both distinct chemical identities; no KS-gap or NICS proxy for quantum yield. Core rows: fused2a, nonfused1a. Recompute excitation_eV, oscillator_strength, cage_CC_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_cage_displacement",
+      "statement": "Use symmetric ±0.05 angstrom coordinate perturbations around each own relaxed C-C reference as design points, with fixed and orthogonally relaxed versions. The displacement size is a chosen intervention, not a reference tolerance. Core rows: 2a_minus, 2a_plus, 1a_minus, 1a_plus. Recompute displacement_A, relative_E_kJ_mol, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Use symmetric ±0.05 angstrom coordinate perturbations around each own relaxed C-C reference as design points, with fixed and orthogonally relaxed versions. The displacement size is a chosen intervention, not a reference tolerance. Core rows: 2a_minus, 2a_plus, 1a_minus, 1a_plus. Recompute displacement_A, relative_E_kJ_mol, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_causal_limits",
+      "statement": "Keep Br substitution as a chemical confound, report vibrational/displacement response and trigger higher-level diagnostics for near-degenerate state mixing. A compound conclusion need not isolate fusion uniquely. Core rows: fusion_vs_motion, method_sensitivity. Recompute excitation_change_eV, response_eV_per_A, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Keep Br substitution as a chemical confound, report vibrational/displacement response and trigger higher-level diagnostics for near-degenerate state mixing. A compound conclusion need not isolate fusion uniquely. Core rows: fusion_vs_motion, method_sensitivity. Recompute excitation_change_eV, response_eV_per_A, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

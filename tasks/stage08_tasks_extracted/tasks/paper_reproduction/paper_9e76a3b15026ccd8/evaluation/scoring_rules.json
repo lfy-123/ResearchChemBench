@@ -1,0 +1,137 @@
+{
+  "paper_id": "paper_9e76a3b15026ccd8",
+  "rules": [
+    {
+      "rule_id": "r_object",
+      "reference_id": "kp_process_object",
+      "type": "condition",
+      "expected": "Object and reference states are unambiguously identified.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.object"
+        ],
+        "comparison": "expert verification"
+      }
+    },
+    {
+      "rule_id": "r_validation",
+      "reference_id": "kp_process_validation",
+      "type": "semantic",
+      "expected": "Stationarity and an explicit stability/convergence check are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_energy",
+      "reference_id": "kp_energy",
+      "type": "numeric",
+      "target": -0.137,
+      "unit": "eV",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results.adsorption_energy.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success"
+    },
+    {
+      "rule_id": "r_height",
+      "reference_id": "kp_height",
+      "type": "numeric",
+      "target": 2.99,
+      "unit": "angstrom",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results.height.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success"
+    },
+    {
+      "rule_id": "r_charge",
+      "reference_id": "kp_charge",
+      "type": "numeric",
+      "target": -0.2,
+      "unit": "e",
+      "tolerance": 0.05,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results.bader_charge.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success"
+    },
+    {
+      "rule_id": "r_moment",
+      "reference_id": "kp_moment",
+      "type": "numeric",
+      "target": 1.74,
+      "unit": "mu_B",
+      "tolerance": 0.08,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.results.magnetic_moment.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success"
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_observables",
+      "type": "semantic",
+      "expected": "Conclusion integrates weak adsorption, charge transfer and reduced moment for the fixed object.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limit",
+      "reference_id": "c_limit",
+      "type": "semantic",
+      "expected": "Conclusion states the collective-mechanism limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

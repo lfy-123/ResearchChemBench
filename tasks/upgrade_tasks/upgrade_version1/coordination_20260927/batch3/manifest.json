@@ -1,0 +1,2121 @@
+{
+  "batch": 3,
+  "date": "2026-09-27",
+  "papers": [
+    {
+      "paper_id": "paper_36722b90a0c12825",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_36722b90a0c12825",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_36722b90a0c12825",
+      "blocker": null,
+      "scientific_upgrade": "Determine whether E/Z photoisomerization changes chloride affinity through host preorganization, host distortion, or the common solvent environment. Test a closed binding cycle for the (1,3)Ph host rather than infer affinity from two bound E conformers.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_36722b90a0c12825",
+        "status": "passed",
+        "checks": 140,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 6,
+          "largest_explicit_atom_inventory": 101
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "c160acf508cc201ff9dfb76df24f1a691c2667145611179243474acb9013af30",
+        "PR": "3bf6d96eaecbaaeac2b6df14a2adc79375135e94163e7adbe0ef46ff68990495"
+      },
+      "source_package_sha256": {
+        "AR": "fb75dd12a9950c70b9499086e8c78ec272c81572be91ca43557c0d98d71d68b8",
+        "PR": "6d1ab2cd9c0a7da1b49a2f184ffe4a372c7c00e13153e7b4dba071fc61654cc1"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_36722b90a0c12825/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_36722b90a0c12825/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_36722b90a0c12825.md",
+            "sha256": "b47fd738b1ad856f0ba248c0533c8d98a9960a3c135237d4e20851c875676ff4"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_36722b90a0c12825/documents/main.pdf",
+            "sha256": "ba5c030e4e408007aba517f664a257a4703fb5119f70452d93f1120cac8a0ee1",
+            "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_36722b90a0c12825/documents/supplementary_001.pdf",
+            "sha256": "ddb684896fb0ac2f2a1eee1c681fb4ec4071a27834966f9f53342e1bf6603069",
+            "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_36722b90a0c12825/documents/supplementary_002.pdf",
+            "sha256": "7357d277c10ad1081614f77286650c562c4ca7bc841ffd273c8d27cc232f95be",
+            "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_36722b90a0c12825.md",
+            "sha256": "b47fd738b1ad856f0ba248c0533c8d98a9960a3c135237d4e20851c875676ff4"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_36722b90a0c12825/documents/main.pdf",
+            "sha256": "ba5c030e4e408007aba517f664a257a4703fb5119f70452d93f1120cac8a0ee1",
+            "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_36722b90a0c12825/documents/supplementary_001.pdf",
+            "sha256": "ddb684896fb0ac2f2a1eee1c681fb4ec4071a27834966f9f53342e1bf6603069",
+            "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_36722b90a0c12825/documents/supplementary_002.pdf",
+            "sha256": "7357d277c10ad1081614f77286650c562c4ca7bc841ffd273c8d27cc232f95be",
+            "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Audit E/Z N=N stereochemistry, all 100 host atoms and chloride charge; independently reproduce one free/bound pair, then a host distortion term. Old G(open)-G(close) and electronic E(open)-E(close) are different observables and neither is a binding switch.",
+      "review_findings_zh": {
+        "upgrade": "把单一 E 主体 open/close 差升级为 E/Z × 游离/Cl⁻ 结合的构象集合和闭合结合循环，加入冻结主体畸变与介质/离子对控制。公开 100 原子主体连接和 E/Z 定义，Cl⁻ 及复合物电荷明确；不公开旧优化终态坐标。",
+        "source_and_baseline": "核对正文 Figs3–5、两份 SI 与历史输出。旧约 +0.999 eV 是 G(open)−G(close)，约 +1.516 eV 是电子能差；两者都不是 E/Z 结合开关。已将此区别写入私有基线门控；没有声称重算纠正了旧结果。PSS 不作为热平衡布居。",
+        "feasibility_and_limits": "Gaussian/ORCA、CREST 与热化学后处理可支撑有限分子研究。仍缺四组集合、标准态一致的结合差和畸变/环境先导；第二主体及完整滴定/PSS 不是首版硬性项。"
+      }
+    },
+    {
+      "paper_id": "paper_9455a82229de2427",
+      "old_class": "C",
+      "new_class": "加强C",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_9455a82229de2427",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9455a82229de2427",
+      "blocker": null,
+      "scientific_upgrade": "Identify a finite, defensible set of cyclic SiNC5H7 products and distinguish thermodynamic compatibility from dynamical accessibility under a single collision.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_9455a82229de2427",
+        "status": "passed",
+        "checks": 124,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 3,
+          "largest_explicit_atom_inventory": 13
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "d9610b7a1fdd912e2aa361cc716283c45152778f4705d58317bc97d60af7cfe5",
+        "PR": "54be632966ececd2a773e68aef7c7f56b1a88e4059e6b4a839b8d11337305217"
+      },
+      "source_package_sha256": {
+        "AR": "f03727332d71fd35542c3cb0965417e1b3c4e8298c554146d8060a635d07ea4f",
+        "PR": "63e56072a41ee1b57e186bb8c33b0182c4c328c24cbc855bb97a0a8a0cbcac59"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_9455a82229de2427/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9455a82229de2427/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_9455a82229de2427.md",
+            "sha256": "b46bd004e1d7ff730f1b62a4a64cabd9fbb10fb9aaf25956bd1bb2a647f9e8c8"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9455a82229de2427/documents/main.pdf",
+            "sha256": "cb6a4cf501837f252e2ceced551eefe8bcab8ca315fc4577e9daeb0d334476a1",
+            "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9455a82229de2427/documents/supplementary_001.pdf",
+            "sha256": "27409af9dd2e70aae498d28aec9956049b2fc88bfcd5fa7439d57583ab67edbb",
+            "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_9455a82229de2427.md",
+            "sha256": "b46bd004e1d7ff730f1b62a4a64cabd9fbb10fb9aaf25956bd1bb2a647f9e8c8"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9455a82229de2427/documents/main.pdf",
+            "sha256": "cb6a4cf501837f252e2ceced551eefe8bcab8ca315fc4577e9daeb0d334476a1",
+            "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9455a82229de2427/documents/supplementary_001.pdf",
+            "sha256": "27409af9dd2e70aae498d28aec9956049b2fc88bfcd5fa7439d57583ab67edbb",
+            "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Validate one atom-conserving doublet route and H-loss asymptote with endpoints before freezing any barrier threshold. A TS requires mode and bidirectional connection, and a barrierless route requires a continuous converged path.",
+      "review_findings_zh": {
+        "upgrade": "保留开放候选发现，明确 Si/N 从异戊二烯两个末端的四个进攻类别；新契约要求主路径和最重要竞争路径的端点、TS/IRC 或连续无垒证据，以及热力学排序与碰撞可达性的分开判断。",
+        "source_and_baseline": "正文反应 PES、Fig3 与 SI CBS-QB3 数据支持 SiN 双重态、异戊二烯单重态、SiNC₅H₇ 单重态和 H 双重态的守恒定义。公开的是实验碰撞/放热观测和反应物身份；候选产物图由参试者提交，不给作者赢家。统一 0 K E+ZPE 的分离反应物零点。",
+        "feasibility_and_limits": "复合能量/ORCA 加路径软件具备方法基础；没有新路径先导，也不冻结可达性数值阈值。须先验证一条守恒连通路径再开展竞争路线；不要求全 RRKM、全散射或精确分支比。"
+      }
+    },
+    {
+      "paper_id": "paper_9a58a1fa6ed7d780",
+      "old_class": "B",
+      "new_class": "加强B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_9a58a1fa6ed7d780",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9a58a1fa6ed7d780",
+      "blocker": null,
+      "scientific_upgrade": "Test whether BN incorporation changes state energies and charge separation beyond geometry and method uncertainty, using matched BN-AkFlu and CC-AkFlu graphs.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_9a58a1fa6ed7d780",
+        "status": "passed",
+        "checks": 115,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 2,
+          "largest_explicit_atom_inventory": 40
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "bcdc9082488fa55c8a537683705a931afc6e976608ae1b9f5bf964e424a0e06d",
+        "PR": "3acdb8a6ddc5d39c0f6500d24116884e28a2d4914684c2adb5b656a17af3ff00"
+      },
+      "source_package_sha256": {
+        "AR": "1ad6e531de76f1fb198890a96849b1dd5cadaea607bb745b792c9abf71ff5e93",
+        "PR": "b74467d95045e2a15d90d44e62afd65e5325ae22c364bb0af3c9685f0e159188"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_9a58a1fa6ed7d780/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9a58a1fa6ed7d780/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_9a58a1fa6ed7d780.md",
+            "sha256": "8e03f89941084dd8f768401928b433140e6b995272e18a0e8ec588e5df53b8f8"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9a58a1fa6ed7d780/documents/main.pdf",
+            "sha256": "aeebf1cd58e33932312c18720a87e7fddd1c12d72f39a5afb963baaa5ce4ca92",
+            "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9a58a1fa6ed7d780/documents/supplementary_001.pdf",
+            "sha256": "dcd192b5e3b92b087855114bacea08f5316e4de2d8a105fa4af949b8459531fe",
+            "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_9a58a1fa6ed7d780.md",
+            "sha256": "8e03f89941084dd8f768401928b433140e6b995272e18a0e8ec588e5df53b8f8"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9a58a1fa6ed7d780/documents/main.pdf",
+            "sha256": "aeebf1cd58e33932312c18720a87e7fddd1c12d72f39a5afb963baaa5ce4ca92",
+            "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9a58a1fa6ed7d780/documents/supplementary_001.pdf",
+            "sha256": "dcd192b5e3b92b087855114bacea08f5316e4de2d8a105fa4af949b8459531fe",
+            "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Recheck BN stoichiometry, S1 energy, S4 Sr, root mapping and full TD amplitudes; compare normalized hole/electron grids before expanding the all-carbon control.",
+      "review_findings_zh": {
+        "upgrade": "新增真实 BN 5a/全碳 5b 的松弛与交叉冻结骨架对照，以匹配态的 E、f、D、Sr 和 NTO 分解化学与几何作用。给出两个 40 原子图以及经图同构检查的完整原子映射。",
+        "source_and_baseline": "SI S21/S22 支持 BN 为 C₂₂H₁₄B₂N₂、全碳为 C₂₆H₁₄，修正旧说明 H 数错误。历史 S1–S4 指标已经存在，真正需修复的是 S1 能量、S4 Sr 偏差和态/密度定义，不能将其写成缺少全部指标。",
+        "feasibility_and_limits": "TDDFT 与 Multiwfn 可以完成有界对照；扩展前需复核归一化振幅、网格和态匹配。没有新能量或 Sr 参考，不沿用旧窄容差。"
+      }
+    },
+    {
+      "paper_id": "paper_9f4c259696ad2f87",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_9f4c259696ad2f87",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9f4c259696ad2f87",
+      "blocker": null,
+      "scientific_upgrade": "Discriminate pi-extension, molecular distortion and Lewis-acid coordination as explanations of PXX optical shifts while testing whether spectra identify a unique acid stoichiometry.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_9f4c259696ad2f87",
+        "status": "passed",
+        "checks": 142,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 7,
+          "largest_explicit_atom_inventory": 152
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "304e95166481fd23979f09b5e8ea417dd5b53ac74b15da9c2e45b40ab6e3c0b6",
+        "PR": "4fd7cb7110ced53989b43e3a6da4560660b78e0c4c733edbaf9790fed31e7c30"
+      },
+      "source_package_sha256": {
+        "AR": "2fd7253534fd6e67028270ce094fd0352a171da2d5d9691ae571ec7d804b333a",
+        "PR": "e740304ebfa0eeb68deef1a1794944ad5c8af865950650acaf57509ba24fc5d5"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_9f4c259696ad2f87/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9f4c259696ad2f87/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_9f4c259696ad2f87.md",
+            "sha256": "fce13cddff64f6df88e51f9a16924772a284525c0d657aba1939c06eaab8e718"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9f4c259696ad2f87/documents/main.pdf",
+            "sha256": "592534cc448b295773af43b0783196ac34170f0e847fb7412d873e8a6e98c2ba",
+            "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+            "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+            "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_9f4c259696ad2f87.md",
+            "sha256": "fce13cddff64f6df88e51f9a16924772a284525c0d657aba1939c06eaab8e718"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9f4c259696ad2f87/documents/main.pdf",
+            "sha256": "592534cc448b295773af43b0783196ac34170f0e847fb7412d873e8a6e98c2ba",
+            "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9f4c259696ad2f87/documents/supplementary_001.pdf",
+            "sha256": "f3436ca99f362b00e082f3bc28926ef30d56c7f4cfffaf92faa92708a24569ad",
+            "locator": "Main pp8-10 Figs6-7; SI pp5-6 methods, pp144-149 coordinates, pp167-169 Lewis adduct discussion.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Pilot the largest two-acid model, verify carbonyl versus ether atom map and state tracking, then calibrate sequential association and fixed-geometry acid removal. Do not assume all large adducts are stable minima.",
+      "review_findings_zh": {
+        "upgrade": "新增 PXX1/PXX2 各自 0/1/2 个 B(C₆F₅)₃ 的有限计量矩阵、逐步守恒结合/解离、同几何取走酸及完全松弛对照，并要求 TD/NTO/f 与可比较滴定趋势。",
+        "source_and_baseline": "正文 Figs6–7 和 SI 结构确认 PXX1 只有一个羰基，因此第二酸模型定义为额外供体位点/竞争配位，未虚构第二羰基。补公开实验浓度、溶剂、定性红移/等吸收点及游离吸收观测；明确 SI 图示与图注编号冲突。PR 还区分正文和 SI 的基组表述。",
+        "feasibility_and_limits": "最大双酸复合物成本仍需先导测量，构象坍缩可以实证提交。相似光谱允许不可区分，不能硬判唯一计量；未要求无原始谱可支撑的全浓度拟合、FRET 或发光效率。"
+      }
+    },
+    {
+      "paper_id": "paper_a0f6b899582cb9f7",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "blocked",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_a0f6b899582cb9f7",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_a0f6b899582cb9f7",
+      "blocker": "blocked_input_definition: Main Fig1 identifies PM6/BTP-eC9 but the available SI contains no atom-resolved capped pair models. Exact cut bonds, caps, charge validation and enlarged matched fragments remain unverified. Release requires independently checked full mapped fragment graphs and a truncation-pair pilot; M3 alone is insufficient.",
+      "scientific_upgrade": "Test whether M3 has comparable evidence for interaction with PM6 and BTP-eC9 fragments and whether apparent attraction arises from electrostatics, dispersion or distortion.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_a0f6b899582cb9f7",
+        "status": "passed",
+        "checks": 92,
+        "development_status": "blocked",
+        "public_inputs": {
+          "objects": 1,
+          "largest_explicit_atom_inventory": 24
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "cb1577f2ecb893e610ae9a850a3ed377c4fb8d6890230b9e5d9c7d423292d2cc",
+        "PR": "e07a0e12d7e2cfe6892ed6ffe3324e280a2276a07639bf9f4dfdda3a23b3422d"
+      },
+      "source_package_sha256": {
+        "AR": "656201a6800af3d72e15deb508c0a1ce31ffaebd873c2e8aa2d108ce8e903f68",
+        "PR": "343d7adc99b424577b985906b794763f02e50446cfa32dd152106669d26f531a"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_a0f6b899582cb9f7/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_a0f6b899582cb9f7/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_a0f6b899582cb9f7.md",
+            "sha256": "04ec1a7c6b119d752ad084eb44abe8620d5391ee54ca3b24bf42c4ae0609290c"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_a0f6b899582cb9f7/documents/main.pdf",
+            "sha256": "536dd808e61410cb46b94a17eccf128122c410866a2933ca90121a7d20de81f0",
+            "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_a0f6b899582cb9f7/documents/supplementary_001.pdf",
+            "sha256": "706d864d2d7eedd3257f86c9d9a4510612c0d6cc5fcdf10b3198f784fbd006ae",
+            "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_a0f6b899582cb9f7.md",
+            "sha256": "04ec1a7c6b119d752ad084eb44abe8620d5391ee54ca3b24bf42c4ae0609290c"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_a0f6b899582cb9f7/documents/main.pdf",
+            "sha256": "536dd808e61410cb46b94a17eccf128122c410866a2933ca90121a7d20de81f0",
+            "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_a0f6b899582cb9f7/documents/supplementary_001.pdf",
+            "sha256": "706d864d2d7eedd3257f86c9d9a4510612c0d6cc5fcdf10b3198f784fbd006ae",
+            "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Resolve both capped fragment graphs and enlarged counterpart against Fig1, then pilot one pair and SAPT feasibility. An alternative decomposition requires a stated, calibrated definition, not renaming unlike components.",
+      "review_findings_zh": {
+        "upgrade": "已建立 M3 与 PM6/真实受体 BTP-eC9 的面/边接触、冻结/松弛、分解、增大片段与四极矩矩阵及提交/evaluator。公开可核对的 M3 图和已有独立初始构型，未用 Qzz 替代两类配对作用。",
+        "source_and_baseline": "亲自查看正文 Fig1、相互作用段落及 SI。可以识别材料和 M3，但没有查到可直接复用的原子级封端配对模型、切键清单和增大片段映射；不能把示意结构默认为已核准有限模型。",
+        "feasibility_and_limits": "blocked_input_definition：必须补齐 PM6 与 BTP-eC9 两套准确连接、切键/封端、电荷及增大片段对应，并完成一组截短/分解先导。两包只接受 partial/bounded_failure；未声称已可执行完整科学任务。"
+      }
+    },
+    {
+      "paper_id": "paper_b276b18215cba283",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_b276b18215cba283",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_b276b18215cba283",
+      "blocker": null,
+      "scientific_upgrade": "Test whether the single-arm conformational optical shift survives in the full three-arm chromophore, and distinguish arm geometry from inter-arm electronic mixing.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_b276b18215cba283",
+        "status": "passed",
+        "checks": 122,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 2,
+          "largest_explicit_atom_inventory": 141
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "5b08f006071760a205ebae5c8c61fc2d040baec2dbef65b5bf31c3a4db036c25",
+        "PR": "bdbb802218372d29e2d81183341fdd42e1a627196bfc76a844d058ba770b9ba7"
+      },
+      "source_package_sha256": {
+        "AR": "02dd9ac9675239f111c197cb0b143f8bb9fe30f7df4021dd43de9756e647f561",
+        "PR": "75281f2497ef3e51b741a9b8784828b6c152ef3db98768d9e7c3048f2b742e6d"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_b276b18215cba283/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_b276b18215cba283/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_b276b18215cba283.md",
+            "sha256": "49a7dd565bf595233cb12405ad7911a161be4245075f2f6b06aaea11869bc20e"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_b276b18215cba283/documents/main.pdf",
+            "sha256": "389f29d6530237e6642f504587587564347b11765747bb427fc6568960d0b1c4",
+            "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_b276b18215cba283/documents/supplementary_001.pdf",
+            "sha256": "2c5e532a011fe24841808d9dd1c9f5ef653d924992cc1080a13cbc7e7ee09abf",
+            "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_b276b18215cba283.md",
+            "sha256": "49a7dd565bf595233cb12405ad7911a161be4245075f2f6b06aaea11869bc20e"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_b276b18215cba283/documents/main.pdf",
+            "sha256": "389f29d6530237e6642f504587587564347b11765747bb427fc6568960d0b1c4",
+            "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_b276b18215cba283/documents/supplementary_001.pdf",
+            "sha256": "2c5e532a011fe24841808d9dd1c9f5ef653d924992cc1080a13cbc7e7ee09abf",
+            "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Confirm complete 141-atom three-arm graph and three arm maps, then pilot full TD root window/cost. Without at least one complete three-arm electronic result there is no transfer conclusion.",
+      "review_findings_zh": {
+        "upgrade": "从单臂推广猜测升级为 57 原子单臂与完整 141 原子三臂的 cisoid/transoid、逐臂冻结与气相/乙醇转移比较。公开三个独立臂的重原子映射、明确切除其余臂时的封端规则和各臂扭转原子。",
+        "source_and_baseline": "SI TablesS8–S11 与正文/quatsome 讨论直接核对了完整三臂对象。公共图不含优化答案；图映射检查确保三臂不是三份任意小分子，也未用单臂计算冒充完整转移验证。",
+        "feasibility_and_limits": "完整三臂 TD 的根窗口和成本尚未测量，至少一套完整三臂电子结果属于核心。膜、双光子与聚集实验机制不由这些局部分子结果证明。"
+      }
+    },
+    {
+      "paper_id": "paper_fda8b9b53f8276db",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_fda8b9b53f8276db",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_fda8b9b53f8276db",
+      "blocker": null,
+      "scientific_upgrade": "Determine whether local bond residuals and cis/trans preference are attributable to torsional conformation or medium, keeping the original six-bond cis validation separate from thermochemistry.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_fda8b9b53f8276db",
+        "status": "passed",
+        "checks": 117,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 1,
+          "largest_explicit_atom_inventory": 31
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "8ac543621fd7c9b835f5759a05b60af9cea5f218525c5bc4959ec4cd1d1e0d09",
+        "PR": "a5b6ef6b8fab01dee7c54a53695c6a02e6125bf6412d39a2cf358f4d2428860f"
+      },
+      "source_package_sha256": {
+        "AR": "a8e772473aeb7a548e5289ea263a8ba3d20c2fbc7f1285d8e73c0596726a1588",
+        "PR": "f304f3a9c8a65c7be37efa5d82eb687e27435d3399e6672f9aac66893af36c59"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_fda8b9b53f8276db/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_fda8b9b53f8276db/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_fda8b9b53f8276db.md",
+            "sha256": "45f3f62c38e2e1e2a8e3c184700d235f7bae61b990e3623c00fa20cf04dda20b"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_fda8b9b53f8276db/documents/main.pdf",
+            "sha256": "0afa69242ab928c082802d029d66eaa4c3c58cea7f791438d64de1c7f88de8d1",
+            "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_fda8b9b53f8276db/documents/supplementary_001.pdf",
+            "sha256": "13ace6b2daec90e737a69c21f21a4af2d7cab7a54b967859e270ca1147c496de",
+            "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_fda8b9b53f8276db.md",
+            "sha256": "45f3f62c38e2e1e2a8e3c184700d235f7bae61b990e3623c00fa20cf04dda20b"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_fda8b9b53f8276db/documents/main.pdf",
+            "sha256": "0afa69242ab928c082802d029d66eaa4c3c58cea7f791438d64de1c7f88de8d1",
+            "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_fda8b9b53f8276db/documents/supplementary_001.pdf",
+            "sha256": "13ace6b2daec90e737a69c21f21a4af2d7cab7a54b967859e270ca1147c496de",
+            "locator": "Main p4 computational structure discussion; SI Table S2 and FigsS11-S13; immutable CCDC2433822 and current final experimental_bonds.json define the six-bond scope.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Recover the current cis six-bond baseline and N1-C1-C2-N2 mapping, not a historical trans/seven-bond result; then validate both environments and one restrained torsion.",
+      "review_findings_zh": {
+        "upgrade": "将晶体几何拟合升级为 cis/trans × 气相/MeCN 的能量与六键残差比较，并以 N1–C1–C2–N2 扭转干预区分构象与环境来源。公开原 CIF、六键实验定义及其标签映射。",
+        "source_and_baseline": "采用 CCDC2433822 和当前 final 的六键 scope，已核对 SI TableS2/FigsS11–S13；没有混用历史七键集合或其他反式报告。单个 RMSE 不替代四个环境/构象端点和热力学比较。",
+        "feasibility_and_limits": "常规优化/频率和短约束扭转可实现；新集合与介质参考尚未跑。晶体差异解释限制在有限分子模型，不能将气相最低能当作固态唯一原因。"
+      }
+    },
+    {
+      "paper_id": "paper_0de37d01e35c27df",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_0de37d01e35c27df",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_0de37d01e35c27df",
+      "blocker": null,
+      "scientific_upgrade": "Test whether oxidation-induced sulfur approach is accompanied by the occupation, spin and bonding changes required for a two-center three-electron interpretation.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp3-4 Fig2/Table1; SI pp10-11 TablesS3/S4, pp15-18 TablesS7/S8 and orbital/EPR sections.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_0de37d01e35c27df",
+        "status": "passed",
+        "checks": 147,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 4,
+          "largest_explicit_atom_inventory": 26
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "b2505c73380cf600774f58a2f7a4c65d2e4d0519a2f6447faf40654e69f19957",
+        "PR": "e69b535d869b7553528693e71a64fa75a3e5e22a65ed7b4db644cf45af689ada"
+      },
+      "source_package_sha256": {
+        "AR": "14f55bca2e239aa5348919f83e9714804a344b1943497c0bbb323ffe482823fe",
+        "PR": "a12e370a380d2954a3a02c3183cf48bd403b791ee66c1247aa530282ccb82663"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_0de37d01e35c27df/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_0de37d01e35c27df/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_0de37d01e35c27df.md",
+            "sha256": "c9ecf150deeb9ddb3b20aec9f8b33956f04c1f918059005e55bd1ffaaea292fb"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_0de37d01e35c27df/documents/main.pdf",
+            "sha256": "0e7674491acb0b2565ea4dbec1dc37cad1a408c963344f839db245d3b7f85177",
+            "locator": "Main pp3-4 Fig2/Table1; SI pp10-11 TablesS3/S4, pp15-18 TablesS7/S8 and orbital/EPR sections.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_0de37d01e35c27df/documents/supplementary_001.pdf",
+            "sha256": "5db011e6236dc4acc437de3264214f79e39ea967de00ab8459a83934f55623a1",
+            "locator": "Main pp3-4 Fig2/Table1; SI pp10-11 TablesS3/S4, pp15-18 TablesS7/S8 and orbital/EPR sections.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_0de37d01e35c27df.md",
+            "sha256": "c9ecf150deeb9ddb3b20aec9f8b33956f04c1f918059005e55bd1ffaaea292fb"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_0de37d01e35c27df/documents/main.pdf",
+            "sha256": "0e7674491acb0b2565ea4dbec1dc37cad1a408c963344f839db245d3b7f85177",
+            "locator": "Main pp3-4 Fig2/Table1; SI pp10-11 TablesS3/S4, pp15-18 TablesS7/S8 and orbital/EPR sections.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_0de37d01e35c27df/documents/supplementary_001.pdf",
+            "sha256": "5db011e6236dc4acc437de3264214f79e39ea967de00ab8459a83934f55623a1",
+            "locator": "Main pp3-4 Fig2/Table1; SI pp10-11 TablesS3/S4, pp15-18 TablesS7/S8 and orbital/EPR sections.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "First fix norDTCO topology/charge and reject spurious S-S bonds inferred by distance alone. Validate one neutral/cation pair and the DTCO ring graph before correlating contraction with bonding.",
+      "review_findings_zh": {
+        "upgrade": "将单个 S···S 距离升级为 norDTCO/DTCO × 中性/阳离子及交叉冻结几何，联查键级、反键占据、自旋与距离，检验两中心三电子解释。",
+        "source_and_baseline": "正文 Fig2/Table1 与 SI S3/S4/S7/S8 核对了桥连和无桥连对象。固定显式 H 原子映射，拒绝仅按近距离添加不存在的共价 S–S 边；中性 singlet、阳离子 doublet 和电子数一致。",
+        "feasibility_and_limits": "开壳层 DFT、轨道/自旋分析有方法基础；需校准键级/占据定义和方法敏感性。仅收缩不能支持三电子键；证据充分的反驳或无可区分响应都允许。"
+      }
+    },
+    {
+      "paper_id": "paper_43d74f8a469d9ad3",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_43d74f8a469d9ad3",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_43d74f8a469d9ad3",
+      "blocker": null,
+      "scientific_upgrade": "Test whether restriction of the same aryl rotation changes S0/S1 energetics and transition character across two source boron dyes, distinguishing geometric restriction from chemical substitution.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_43d74f8a469d9ad3",
+        "status": "passed",
+        "checks": 121,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 2,
+          "largest_explicit_atom_inventory": 52
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "cf0d70e0d01f9707cdb414fd0382962c337914e63bac3d812b5d8f4de0bbf996",
+        "PR": "0e279079b9b946f9fc8348f13ddb9ce573035bb5008f115e0c66dd735e2b54de"
+      },
+      "source_package_sha256": {
+        "AR": "664ed978431d7950e0d38251e98df0652d0ee97fb86c00b73cb24ca0c2a18c6c",
+        "PR": "a88e6ca30dc2bbb0e94d512c373e305200e11a2577279181f3296b7c24f93986"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_43d74f8a469d9ad3/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_43d74f8a469d9ad3/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_43d74f8a469d9ad3.md",
+            "sha256": "0468942b57c602c1c9096f3488ffff15726e17ed749fa503c4e36f382fee4956"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_43d74f8a469d9ad3/documents/main.pdf",
+            "sha256": "3702c207117b172cf5f60f75a5488e55a7c10fc33cccf97eb8ff0c1a3bc721cb",
+            "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_43d74f8a469d9ad3/documents/supplementary_001.pdf",
+            "sha256": "7b0fafc26a4cfda88dd80c6a1b3d524940e51ec7eb20480383262cb8c4f7d3d5",
+            "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_43d74f8a469d9ad3.md",
+            "sha256": "0468942b57c602c1c9096f3488ffff15726e17ed749fa503c4e36f382fee4956"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_43d74f8a469d9ad3/documents/main.pdf",
+            "sha256": "3702c207117b172cf5f60f75a5488e55a7c10fc33cccf97eb8ff0c1a3bc721cb",
+            "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_43d74f8a469d9ad3/documents/supplementary_001.pdf",
+            "sha256": "7b0fafc26a4cfda88dd80c6a1b3d524940e51ec7eb20480383262cb8c4f7d3d5",
+            "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Map the actual CCDC boron aryl branch and Scheme1 methoxy substitution; validate continuous S1 state tracking on one short torsion segment before completing a scan.",
+      "review_findings_zh": {
+        "upgrade": "提供 CCDC2441197 对应染料1与 Scheme1 甲氧基染料2的明确连接和取代映射，要求同一芳基转动的 S0/S1 剖面、限制/释放以及态连续性和网格/方法控制。",
+        "source_and_baseline": "实际检查 Scheme1、计算段、扭转讨论和 SI S5–S8：SI 标为1的一处组成与真实 CIF 对象不一致。以实验 CIF 的 C₂₃H₂₀BNO₃ 和结构式构建 C₂₄H₂₂BNO₄ 对照，未复制有疑问的 SI 优化几何。PR 披露扭转与一般 TD 方法差别。",
+        "feasibility_and_limits": "先做短角段 S1 跟踪，再扩剖面；受限点不得声称无约束极小点。局部转动/激发结果不单独证明光稳定性或发光产率。"
+      }
+    },
+    {
+      "paper_id": "paper_86a0b654270a8ce7",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_86a0b654270a8ce7",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_86a0b654270a8ce7",
+      "blocker": null,
+      "scientific_upgrade": "Determine whether the relative stability of two Ir–salen–NHC coordination isomers survives conformational, low-frequency and method controls and whether stacking offers a supported local explanation.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_86a0b654270a8ce7",
+        "status": "passed",
+        "checks": 121,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 2,
+          "largest_explicit_atom_inventory": 130
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "b35f2f20f695eecca6297ba2e54b2a90c01646d39b97d4faf2ca07f109ff6f4a",
+        "PR": "5577a2026b7bab2fe35ea417c296506fd6102c1d711f56350d4c9f52bc5ffd19"
+      },
+      "source_package_sha256": {
+        "AR": "55f76e8569952a5570756d0bbeb6d8a3fdd91e2c565bd787c1bfda4b0beb9d2a",
+        "PR": "3dc594d64afe03248545447dc9feaefff489816f84f67d73721b8c8c7235e10a"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_86a0b654270a8ce7/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_86a0b654270a8ce7/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_86a0b654270a8ce7.md",
+            "sha256": "7db4b5b8674b944c350a42b950bed95f7cb3bcdd074f35e2bec334c59eab669d"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_86a0b654270a8ce7/documents/main.pdf",
+            "sha256": "b19110f192c994ade2406a46c6cc62346d465b27568db22c2b86df46f3af5879",
+            "locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_86a0b654270a8ce7/documents/supplementary_001.pdf",
+            "sha256": "59edd5baf1ea3027779a0ba8fef20348da233372dfdccdaf0ea2fa1f3f5886fb",
+            "locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_86a0b654270a8ce7.md",
+            "sha256": "7db4b5b8674b944c350a42b950bed95f7cb3bcdd074f35e2bec334c59eab669d"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_86a0b654270a8ce7/documents/main.pdf",
+            "sha256": "b19110f192c994ade2406a46c6cc62346d465b27568db22c2b86df46f3af5879",
+            "locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_86a0b654270a8ce7/documents/supplementary_001.pdf",
+            "sha256": "59edd5baf1ea3027779a0ba8fef20348da233372dfdccdaf0ea2fa1f3f5886fb",
+            "locator": "Main pp2-3 Scheme1 thermochemistry and contact discussion; SI pp6-7 geometry and pp11-18 Gibbs calculation details/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Resolve the old reversed ranking with exact isomer labels and E/G decomposition. Pilot a released conformer of each plus a fixed-contact intervention; preserve negative method results.",
+      "review_findings_zh": {
+        "upgrade": "两个完整 Ir–salen–NHC 配位异构体以同组成图、六个供体及三组 trans 配对唯一限定。新增构象集合、339 K THF 中 E/溶剂化/热/低频拆分、接触干预和方法稳健性。",
+        "source_and_baseline": "正文 Scheme1 和 SI 几何/自由能段支持中性 Ir(III)、salen²⁻ 与环金属化 NHC⁻ 记账。保留身份所需的类别配位关系而移除作者终态坐标；历史排序翻转是待修基线，不冒充已解决。",
+        "feasibility_and_limits": "完整 130 原子对象可用量化软件处理，但新构象与低频敏感性成本未测量。只有相同定义的 ΔG₂₋₁ 才能排序，堆积接触不等于独立因果，产率不作平衡布居。"
+      }
+    },
+    {
+      "paper_id": "paper_94e7481ded3b6a75",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_94e7481ded3b6a75",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_94e7481ded3b6a75",
+      "blocker": null,
+      "scientific_upgrade": "Test the molecular contribution of constrained motion to BN-anthracene excitation and charge transfer, separating a local geometry effect from an unsupported aggregate explanation.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_94e7481ded3b6a75",
+        "status": "passed",
+        "checks": 113,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 1,
+          "largest_explicit_atom_inventory": 50
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "ffaa41817991dd19bb1fb5c3386b05b26a5f4d9529d34c21fe904f14b75da48e",
+        "PR": "11bf5fe43ae821d10db3ff70b90e9a20f1aaee257904beed38e4c088a606ce61"
+      },
+      "source_package_sha256": {
+        "AR": "5e0e3dc8e5902ed948cfa695c919d0f04e73c3937c57840b96055e845591d320",
+        "PR": "ba96c1639d4752984d1ae0ba80e4c497e64a718ea04fc33b63b30892e65d1940"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_94e7481ded3b6a75/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_94e7481ded3b6a75/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_94e7481ded3b6a75.md",
+            "sha256": "232f96200da6d1dad079f199e7f6673eaf364ee80cd876623b7f699b227e7850"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+            "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c",
+            "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+            "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6",
+            "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_94e7481ded3b6a75.md",
+            "sha256": "232f96200da6d1dad079f199e7f6673eaf364ee80cd876623b7f699b227e7850"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+            "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c",
+            "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+            "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6",
+            "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Validate one PBNA S1 and one mapped B-phenyl restraint, checking root continuity and excitation gradients before interpreting a motion effect.",
+      "review_findings_zh": {
+        "upgrade": "以实际 PBNA 图定义两个外侧 B–phenyl 转轴，对 S0/S1 自由和受限几何做垂直/松弛响应，并加入第二扭转或方法及同溶剂控制。",
+        "source_and_baseline": "正文 Figs3–4 与 SI S11/S12/光谱段已查。图桥检查将真正外侧转轴与骨架内部键分开，避免初始距离推断误把稠环内键当可自由转动的 phenyl 键。",
+        "feasibility_and_limits": "TD 激发态梯度/连续性和受限结果需要先导，当前没有新 S1 参考。科学结论限于分子运动贡献，不能声称完成聚集或 AIE 机制证明。"
+      }
+    },
+    {
+      "paper_id": "paper_9aa6d5655edfeb52",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_9aa6d5655edfeb52",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9aa6d5655edfeb52",
+      "blocker": null,
+      "scientific_upgrade": "Discriminate arene fusion from cage motion as explanations of state changes in a source carborane pair, with explicit chemical differences between the pair.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_9aa6d5655edfeb52",
+        "status": "passed",
+        "checks": 117,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 2,
+          "largest_explicit_atom_inventory": 50
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "a10b54bb7ac8403a911c7f86ace21dcde4b6e253978ecd10cac5300172fed597",
+        "PR": "fc41541a93201cd503c7749713b2d1f9f286ad3be24fb3931bdbc98faa95417b"
+      },
+      "source_package_sha256": {
+        "AR": "df3f169ae38ea081e76f598d50e538a5365b7eb3823b2ff0cb1517d4fdb64305",
+        "PR": "6254ae42e749232e4edf2a896181349f4a165f479b623fe10420efa9ac4aca55"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_9aa6d5655edfeb52/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_9aa6d5655edfeb52/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_9aa6d5655edfeb52.md",
+            "sha256": "4d15a958ec3b5063a9e0787901b016323c25f2fb3801cfdeb3bcc4bd8845d510"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9aa6d5655edfeb52/documents/main.pdf",
+            "sha256": "e318b656b7b6cc8b1814ad47956ce676db9c80f09b1c0516211a9e1fc601a0af",
+            "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9aa6d5655edfeb52/documents/supplementary_001.pdf",
+            "sha256": "a9ac1730b24a478de5e980909e145583d9ef54c525e9ef7f20f5174003d733bc",
+            "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_9aa6d5655edfeb52.md",
+            "sha256": "4d15a958ec3b5063a9e0787901b016323c25f2fb3801cfdeb3bcc4bd8845d510"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_9aa6d5655edfeb52/documents/main.pdf",
+            "sha256": "e318b656b7b6cc8b1814ad47956ce676db9c80f09b1c0516211a9e1fc601a0af",
+            "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_9aa6d5655edfeb52/documents/supplementary_001.pdf",
+            "sha256": "a9ac1730b24a478de5e980909e145583d9ef54c525e9ef7f20f5174003d733bc",
+            "locator": "Main pp2-4 Schemes1-2 and optical discussion; SI pp4-5 identity1a, p19 methods/2a coordinates, pp10-15 optical context.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Recheck full cage adjacency, frequency/state validity and the source precursor identity. Pilot a small symmetric cage C-C displacement and test electronic near-degeneracy.",
+      "review_findings_zh": {
+        "upgrade": "采用真实融合2a与非融合前体1a，加入对称小幅笼 C–C 位移、态/频率检查和方法敏感性，区分融合、笼运动与其他化学变化。",
+        "source_and_baseline": "SI pp4–5 的1a实际含 Br；公开组成 C₁₈H₂₁B₁₀Br，对照2a为 C₁₈H₂₀B₁₀。图检查12个 closo 顶点各有五个笼邻居，切融合键、恢复 B–H/aryl–Br 有明确映射。±0.05 Å 是新设计干预，不是误差容差。",
+        "feasibility_and_limits": "Br 差异是明确混杂因素，不能把二者差全部归因融合。需跑频率、态连续性与位移参考；近简并和方法依赖可构成有证据的不可区分结论。"
+      }
+    },
+    {
+      "paper_id": "paper_a6e8c57709329bdb",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "blocked",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_a6e8c57709329bdb",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_a6e8c57709329bdb",
+      "blocker": "blocked_solution_definition: DMF and competing Co(II) are confirmed, but the accessed main/SI do not fix sensing salt counterions, pH/proton reservoir or water content. Define those from source records or an explicitly authorized model before atom-complete Fe/Co exchange references. No invented salt/pH or calibrated selectivity is supplied.",
+      "scientific_upgrade": "Test whether preferential association and a metal-related dark/charge-transfer state are distinguishable explanations for HL response to Fe(III), using a source competing ion and balanced solution species.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_a6e8c57709329bdb",
+        "status": "passed",
+        "checks": 87,
+        "development_status": "blocked",
+        "public_inputs": {
+          "objects": 1,
+          "largest_explicit_atom_inventory": 52
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "4803fa314d6adaa04d53a24c0c872e965081f202bf78b3baf2f027e5832db569",
+        "PR": "4d23df6628b39205c183cdfb1ac1f4a1b5d81e25bd2e394fbf1495651da048bf"
+      },
+      "source_package_sha256": {
+        "AR": "e2d861ecb02ca06e670079552edba31d651edeec12a8b120af215873cd57502c",
+        "PR": "f156d52d1618f58ede2ae40283218de7cdb24bde335f45057b42aaba0b92a136"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_a6e8c57709329bdb/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_a6e8c57709329bdb/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_a6e8c57709329bdb.md",
+            "sha256": "77bd87d53b3c8f3a24e3e13f42873caa3fcc9fe9523c04ba8568eb9b87696d39"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_a6e8c57709329bdb/documents/main.pdf",
+            "sha256": "5a566dd113353d03624849466569e890d4212bc2e0a7298ec2bcb77e7cbef2a1",
+            "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_a6e8c57709329bdb/documents/supplementary_001.pdf",
+            "sha256": "dcb7c395f4cad30dbeae17d62a11bdf820207bf7d8b83b8866def961e7322f60",
+            "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_a6e8c57709329bdb.md",
+            "sha256": "77bd87d53b3c8f3a24e3e13f42873caa3fcc9fe9523c04ba8568eb9b87696d39"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_a6e8c57709329bdb/documents/main.pdf",
+            "sha256": "5a566dd113353d03624849466569e890d4212bc2e0a7298ec2bcb77e7cbef2a1",
+            "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_a6e8c57709329bdb/documents/supplementary_001.pdf",
+            "sha256": "dcb7c395f4cad30dbeae17d62a11bdf820207bf7d8b83b8866def961e7322f60",
+            "locator": "Main pp2,5-7 Fig4 and theoretical calculation section; SI FigsS5-S8/S20. DMF is explicit; salt counterion, water activity and pH for Fe/Co sensing are not established by the accessed records.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Obtain the salt/counterion and acid/water boundary, define finite coordination/protonation with mass balance, then pilot a Fe/Co ligand-exchange pair and open-shell response.",
+      "review_findings_zh": {
+        "upgrade": "已重构 HL/Fe(III)/Co(II) 的配位、质子化、溶液交换与暗态/CT 竞争解释矩阵，公开已能确认的 HL/DMF 图和 Fe/Co 候选自旋边界。",
+        "source_and_baseline": "正文 pp2,5–7 与 SI S5–S8/S20 确认 DMF 和 Co(II) 竞争离子；没有确定传感盐反离子、水含量及 pH/质子库。原 MnL 是不同配位背景的异配体对象，不能替代干净竞争离子控制。",
+        "feasibility_and_limits": "blocked_solution_definition：需源记录或经确认的有限溶液模型固定反离子、水/质子库、配位与质子化，再建立守恒 Fe/Co 交换和开壳层参考。未虚构盐、pH 或 Fe 终态，两包禁止 complete。"
+      }
+    },
+    {
+      "paper_id": "paper_b1467cd61ca8022d",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_b1467cd61ca8022d",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_b1467cd61ca8022d",
+      "blocker": null,
+      "scientific_upgrade": "Test whether O/F chelation and anion competition support a molecular explanation of the solvent series beyond isolated-solvent descriptors.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_b1467cd61ca8022d",
+        "status": "passed",
+        "checks": 161,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 10,
+          "largest_explicit_atom_inventory": 28
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "6ffb07d655edb7b9f58b057ae6650de76faa587d9ea6a22b492e8ab82100c5b4",
+        "PR": "4f3a477bf9cd031955f19d5f7e18b8e21ae4393e98aaf5f84c94b90562cbd97c"
+      },
+      "source_package_sha256": {
+        "AR": "608d78179ed1a477195a436e4678cdf75d5bbe6a882d4885e4e17cb2d80a892e",
+        "PR": "d5fe6fd9e38dc7f4ada2156b5d133968111e4ce0b4d5dea2a549d257156c4b98"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_b1467cd61ca8022d/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_b1467cd61ca8022d/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_b1467cd61ca8022d.md",
+            "sha256": "c4b33c9586c7a70b6184c0519d5de2622f48c9281768dd40454075a67e1903ee"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_b1467cd61ca8022d/documents/main.pdf",
+            "sha256": "5d8206d63bf9546ab21cd825a8b6401671658eb2b405a2a6f4d2512b9079a058",
+            "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_b1467cd61ca8022d_official_si.pdf",
+            "sha256": "990e77372a82e68e2f69c340c32bad64e4f83a0d2065a48f55751e312ea3b155",
+            "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+            "role": "formal_publisher_SI"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_b1467cd61ca8022d.md",
+            "sha256": "c4b33c9586c7a70b6184c0519d5de2622f48c9281768dd40454075a67e1903ee"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_b1467cd61ca8022d/documents/main.pdf",
+            "sha256": "5d8206d63bf9546ab21cd825a8b6401671658eb2b405a2a6f4d2512b9079a058",
+            "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_b1467cd61ca8022d_official_si.pdf",
+            "sha256": "990e77372a82e68e2f69c340c32bad64e4f83a0d2065a48f55751e312ea3b155",
+            "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+            "role": "formal_publisher_SI"
+          }
+        ]
+      },
+      "specific_reference_gap": "Confirm all four ether graphs and LiFSI charge; validate one O/F versus anion-contact pair with frequency/fragment energies, then calibrate analysis definitions.",
+      "review_findings_zh": {
+        "upgrade": "定义 PM/BM/TFPM/TFBM、FSI⁻ 与 Li⁺，构建统一 1:1:1 中性有限簇的溶剂配位/阴离子竞争、冻结碎片能和畸变，并区分 ESP 与 RESP 的物理量和单位。",
+        "source_and_baseline": "核对正文 Fig2/methods 后发现本地 supplementary_001 是审稿文件，另从出版方下载正式46页 SI，核查 pp5–8 FigsS5–S8 和 TableS1。四种醚的连接及氟代位置均显式提供。",
+        "feasibility_and_limits": "有限簇 DFT 和密度分析可实施；新构象、竞争能及分解参考待算。簇描述符不代表体相 RDF、配位数分布或电解液性能，未补造体相验证。"
+      }
+    },
+    {
+      "paper_id": "paper_c28b0a1c549f4575",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_c28b0a1c549f4575",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_c28b0a1c549f4575",
+      "blocker": null,
+      "scientific_upgrade": "Determine whether competitive PC association survives ion-pair geometry and finite solvation-number controls while maintaining complete charge and composition balance.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_c28b0a1c549f4575",
+        "status": "passed",
+        "checks": 159,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 10,
+          "largest_explicit_atom_inventory": 70
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "f9e3a53cded0cc8a4ba803e07c05206e3cb3c0830041c07945dbdb686ef591ff",
+        "PR": "8d05ab4f65eed3327b914ae101cb330b500f44c1154114c0ea85461c1d8b00ab"
+      },
+      "source_package_sha256": {
+        "AR": "c835e006dfef4c503a595c207ea45405ca9dd7639019dd67e91e7b655129c2c3",
+        "PR": "092ad603ce43e3be5539dd211a9e70deb18f9a92251e8a522e8555734f9426fb"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_c28b0a1c549f4575/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_c28b0a1c549f4575/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_c28b0a1c549f4575.md",
+            "sha256": "4141a9356b04ea8bf83bfe018d39f3920904cea46275adfa87ea2000138a6113"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_c28b0a1c549f4575/documents/main.pdf",
+            "sha256": "4e3ad96c28503f3a100df2083569811eef0ee848ae6aca2def236523628f8909",
+            "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_c28b0a1c549f4575/documents/supplementary_001.pdf",
+            "sha256": "51551c36ef22b1633c2ee346411edf4c5b5f3ec9edd9ea1ce7e923c011387546",
+            "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_c28b0a1c549f4575.md",
+            "sha256": "4141a9356b04ea8bf83bfe018d39f3920904cea46275adfa87ea2000138a6113"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_c28b0a1c549f4575/documents/main.pdf",
+            "sha256": "4e3ad96c28503f3a100df2083569811eef0ee848ae6aca2def236523628f8909",
+            "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_c28b0a1c549f4575/documents/supplementary_001.pdf",
+            "sha256": "51551c36ef22b1633c2ee346411edf4c5b5f3ec9edd9ea1ce7e923c011387546",
+            "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Verify DED ethylated quaternary-N graph and two BF4 anions. Pilot contact/separated A.PC and one balanced PC exchange with DFT refinement.",
+      "review_findings_zh": {
+        "upgrade": "公开 TEA⁺、双季铵 DED²⁺、BF₄⁻ 和 PC 的完整图；以电中性盐的 PC0/1/2 配位层定义接触/分离离子对及第一、第二 PC 转移的守恒反应。",
+        "source_and_baseline": "正文电解质身份与 SI 计算定义直接核对，DED 为双乙基化 DABCO，不是误电荷的中性胺。程序检查两条 PC 交换在元素与电荷上都严格守恒，避免不同离子数裸总能排序。",
+        "feasibility_and_limits": "可用构象搜索后 DFT 精化有限簇；主介质/有限溶剂定义已写入控制。新交换自由能、接触稳定性和构象不确定性未校准，不能据此宣称全溶液热力学。"
+      }
+    },
+    {
+      "paper_id": "paper_2877efc02814175d",
+      "old_class": "A",
+      "new_class": "B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_2877efc02814175d",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_2877efc02814175d",
+      "blocker": null,
+      "scientific_upgrade": "Discriminate metal-induced electronic changes from ligand deformation in Cd/Co/Ni DQCS complexes, using free and frozen ligand controls and properly treated open-shell response.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Recovered user-supplied main PDF (10 pages; source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf), p2 computational section and pp7-8 Figs8-10; SI pp11-13 TablesS1-S3 and p18 TableS8 directly checked. The default papers/main.pdf has no readable body and is not the evidence source. Experimental sensing is DMSO/water9:1, distinct from the bounded DMSO electronic calculation.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_2877efc02814175d",
+        "status": "passed",
+        "checks": 137,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 4,
+          "largest_explicit_atom_inventory": 65
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "31e4a03686cade8fb74af8b31a9b76cc7d51889c54b5be8b2c1052c3f7b6234c",
+        "PR": "8ac7446310b0b32ecf27e3db1ebbd268e3c3ddd11782db70aa4bc7c440e90202"
+      },
+      "source_package_sha256": {
+        "AR": "38d3a5c077365ae3f031cbae486e3867226d508e5dec67fce0ccdb7911d98c8f",
+        "PR": "dbd90d220efecf4d87ffa534ff4a6aec76b5e4f0c3231d66c82d53b0ec4a071b"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_2877efc02814175d/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_2877efc02814175d/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_2877efc02814175d.md",
+            "sha256": "fc572e10c9305fac26c7ab8fbe70270f8e996beb445d0e3c9e62559458fe212d"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_2877efc02814175d/documents/supplementary_001.pdf",
+            "sha256": "9244bf34a4da6ee7f3829c7eb75798289030a65fc3cf8107e6f8026a90edf45f",
+            "locator": "Recovered user-supplied main PDF (10 pages; source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf), p2 computational section and pp7-8 Figs8-10; SI pp11-13 TablesS1-S3 and p18 TableS8 directly checked. The default papers/main.pdf has no readable body and is not the evidence source. Experimental sensing is DMSO/water9:1, distinct from the bounded DMSO electronic calculation.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf",
+            "sha256": "3ed031e94536c075f14d4aaec6fced89d457235c3202c1bc2eb8c7a236ee2d39",
+            "locator": "Recovered main PDF pp2,7-8 computational methods, structures and electronic analysis",
+            "role": "recovered_readable_primary_source"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_2877efc02814175d.md",
+            "sha256": "fc572e10c9305fac26c7ab8fbe70270f8e996beb445d0e3c9e62559458fe212d"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_2877efc02814175d/documents/supplementary_001.pdf",
+            "sha256": "9244bf34a4da6ee7f3829c7eb75798289030a65fc3cf8107e6f8026a90edf45f",
+            "locator": "Recovered user-supplied main PDF (10 pages; source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf), p2 computational section and pp7-8 Figs8-10; SI pp11-13 TablesS1-S3 and p18 TableS8 directly checked. The default papers/main.pdf has no readable body and is not the evidence source. Experimental sensing is DMSO/water9:1, distinct from the bounded DMSO electronic calculation.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "docs/verification/group_2/paper_2877efc02814175d/source_data/user_supplied_20260925/1-s2.0-S0022286025023567-main.pdf",
+            "sha256": "3ed031e94536c075f14d4aaec6fced89d457235c3202c1bc2eb8c7a236ee2d39",
+            "locator": "Recovered main PDF pp2,7-8 computational methods, structures and electronic analysis",
+            "role": "recovered_readable_primary_source"
+          }
+        ]
+      },
+      "specific_reference_gap": "Remove the metal from a verified 65-atom complex and check full neutral 64-atom ligand electron count; validate Co unrestricted response and spin before comparing NTO partitions.",
+      "review_findings_zh": {
+        "upgrade": "新增完整自由 DQCS、Cd/Co/Ni 复合物以及从各金属结构取出的冻结中性配体，使用同态 TD/NTO、金属/配体分区和畸变拆分电子与几何作用。",
+        "source_and_baseline": "默认 papers/main.pdf 无可读正文，实际阅读已有 user_supplied 的10页恢复主文 pp2,7–8 及 SI。自由配体为64原子 C₃₁H₂₇N₃O₃；源金属索引64保留，配体末尾H为65，不进行错误整体重编号。Co doublet 与 Cd/Ni singlet 明确。",
+        "feasibility_and_limits": "开壳层响应须先导检查自旋与态匹配。原实验 DMSO/H₂O 9:1 与本次有界 DMSO 电子计算明确区分，不将孤立金属复合物差异当作水溶液选择性证明。"
+      }
+    },
+    {
+      "paper_id": "paper_2f2aa11ea61a32bb",
+      "old_class": "B",
+      "new_class": "加强B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_2f2aa11ea61a32bb",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_2f2aa11ea61a32bb",
+      "blocker": null,
+      "scientific_upgrade": "Explain spectral differences across source monomers1a-1d by testing electronic substitution/topology effects against common local geometry and matched transition character.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_2f2aa11ea61a32bb",
+        "status": "passed",
+        "checks": 142,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 4,
+          "largest_explicit_atom_inventory": 30
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "6b43384999a714825cc51892c09853011019f1cbf0c9e87e8003416564b98f00",
+        "PR": "279027840290244156cc4a045ddd861bcc781a3cb39d054d1eca1a6c6dd1ca80"
+      },
+      "source_package_sha256": {
+        "AR": "eafb1515efedc79aad3a51051564683ca3bc2176d35e4e322c481a76006ec46c",
+        "PR": "f9070a6cad996543fdbf3d40d4b725b9f253464ab9cef0ff5e9430fa89fd16ce"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_2f2aa11ea61a32bb/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_2f2aa11ea61a32bb/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_2f2aa11ea61a32bb.md",
+            "sha256": "abe51814b2ff3ef5b9859e477ef1cfdb58061610eb51a070a2555335185ec934"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_2f2aa11ea61a32bb/documents/main.pdf",
+            "sha256": "bfdb4129439627d7d651b864d72f7c08c512af56365e473b538a8460c1e6a694",
+            "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_2f2aa11ea61a32bb/documents/supplementary_001.pdf",
+            "sha256": "6187b34d441b880b245cbbbd3350b5a9ca926ba472f56bd2026bad2a0e174983",
+            "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_2f2aa11ea61a32bb.md",
+            "sha256": "abe51814b2ff3ef5b9859e477ef1cfdb58061610eb51a070a2555335185ec934"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_2f2aa11ea61a32bb/documents/main.pdf",
+            "sha256": "bfdb4129439627d7d651b864d72f7c08c512af56365e473b538a8460c1e6a694",
+            "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_2f2aa11ea61a32bb/documents/supplementary_001.pdf",
+            "sha256": "6187b34d441b880b245cbbbd3350b5a9ca926ba472f56bd2026bad2a0e174983",
+            "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Audit four graphs, map the common chelate and state identities, then pilot one common-geometry comparison before full series intervention.",
+      "review_findings_zh": {
+        "upgrade": "四个真实单体1a–1d各做松弛与共同局部螯合骨架控制，结合态身份和保留的实验吸收趋势分开检验化学取代/拓扑与几何作用。",
+        "source_and_baseline": "正文 Fig2/Table1 明确吸收在 toluene，主环境已按实测定义；没有把另一介质照搬过来。四个原子图、含 B/O/N 的共同螯合顺序和 F 对称性有明确映射，作者计算坐标移入私有快照。",
+        "feasibility_and_limits": "需要共几何变形代价、根匹配与独立趋势测试；不要求聚合物、固态白光或量子产率。旧单体谱匹配不能代替新归因对照。"
+      }
+    },
+    {
+      "paper_id": "paper_3a22e838133b906d",
+      "old_class": "B",
+      "new_class": "加强B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_3a22e838133b906d",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_3a22e838133b906d",
+      "blocker": null,
+      "scientific_upgrade": "Separate local dealkylation, Li coordination, MeCN coordination and real dimerization contributions to P-O...B geometry through atom-balanced hierarchical models.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_3a22e838133b906d",
+        "status": "passed",
+        "checks": 192,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 12,
+          "largest_explicit_atom_inventory": 138
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "74f7ef9cdb7b365573fb6a2404d137d3bb78e0e9ffe9c7ac56715ed8f49418e2",
+        "PR": "f826a535f7f687ce94d1da91faac7f8c131139f274b299691401d9f9ae0b3ffc"
+      },
+      "source_package_sha256": {
+        "AR": "245fd946305545e7441959af0323315ee3b321cad81438554f05d8b5f66f02db",
+        "PR": "1b48a8c63a732ccf8b695059187eeebf1fd1b167a46104c781275e27548abc03"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_3a22e838133b906d/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_3a22e838133b906d/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_3a22e838133b906d.md",
+            "sha256": "7815c9ecd99a2a73b9bf9bb9554a6da3a9ea83055bd38b0de0823fd998b88852"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_3a22e838133b906d/documents/main.pdf",
+            "sha256": "0b3a6429a4f8d324616b78c736daedf397971e63fdeff848f1b28058a39a1238",
+            "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_3a22e838133b906d/documents/supplementary_001.pdf",
+            "sha256": "0179f85740483c73a9996ca3c5ef36fd4f0044eca862b18eadc90e03463a7235",
+            "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_3a22e838133b906d.md",
+            "sha256": "7815c9ecd99a2a73b9bf9bb9554a6da3a9ea83055bd38b0de0823fd998b88852"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_3a22e838133b906d/documents/main.pdf",
+            "sha256": "0b3a6429a4f8d324616b78c736daedf397971e63fdeff848f1b28058a39a1238",
+            "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "papers/paper_3a22e838133b906d/documents/supplementary_001.pdf",
+            "sha256": "0179f85740483c73a9996ca3c5ef36fd4f0044eca862b18eadc90e03463a7235",
+            "locator": "Main pp1-3 Scheme1/Fig1, including Li2O2 paragraph p2; SI pp62,69 crystal data and p78 computation; old public model graphs are retained only as labeled truncation controls.",
+            "role": "source_original_scope_not_expanded_reference"
+          }
+        ]
+      },
+      "specific_reference_gap": "Validate full anion and neutral Li(MeCN)2 monomer, then pilot the minimum 2-anion/2-Li/4-MeCN dimer and its dissociation counterpart. Atom inventory/coordination follows Fig1; no fabricated crystal coordinates are supplied.",
+      "review_findings_zh": {
+        "upgrade": "从旧截短单体扩到完整中性/阴离子、Li 配位、2MeCN 以及晶体支持的2阴离子/2Li/4MeCN二聚模型；定义 P–O···B 目标原子、桥连 O、配位类别与两条守恒反应，旧小模型只作截短控制。",
+        "source_and_baseline": "查看正文 Scheme1/Fig1 及 Li₂O₂ 描述和 SI 晶体表。公开完整阴离子 C₂₀H₃₁BO₃P⁻ 与138原子二聚组成，使用类别连接构建独立起点，没有生成冒充来源的 CIF。脱乙基以 neutral+LiI→Li·anion+EtI 配平，二聚为2monomer→dimer。",
+        "feasibility_and_limits": "首版必须实际计算完整配位层与最小二聚，不能继续用小单体覆盖。最大规模/频率成本尚待先导；若二聚坍缩需保存真实路径和碎片记账，不假设已存在稳定极小点。"
+      }
+    },
+    {
+      "paper_id": "paper_98b6f8a0352f72c2",
+      "old_class": "B",
+      "new_class": "加强B",
+      "status": "implemented_pending_expanded_reference",
+      "AR": "tasks/upgrade_tasks/autonomous_research/paper_98b6f8a0352f72c2",
+      "PR": "tasks/upgrade_tasks/paper_reproduction/paper_98b6f8a0352f72c2",
+      "blocker": null,
+      "scientific_upgrade": "Determine whether donor substitution and solvent effects on absorption, emission and CT survive matched torsional geometry and consistent state definitions.",
+      "reference_gaps": [
+        "expanded core reference matrix",
+        "stationary/path/state checks",
+        "uncertainty and pilot resource calibration",
+        "independent upgraded execution"
+      ],
+      "source_locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+      "new_scientific_calculations_performed": false,
+      "checks": {
+        "paper_id": "paper_98b6f8a0352f72c2",
+        "status": "passed",
+        "checks": 116,
+        "development_status": "implemented_pending_expanded_reference",
+        "public_inputs": {
+          "objects": 2,
+          "largest_explicit_atom_inventory": 52
+        },
+        "scientific_validation_performed": false
+      },
+      "package_content_sha256": {
+        "AR": "bcd36f4b0894609768c93bc9405a3efd6243521241dc50ccbb684389649d9a7c",
+        "PR": "8d07de6b6ecd2a334829d8228f714e708cd48aa9c6ba3a0fe0ea149604000f01"
+      },
+      "source_package_sha256": {
+        "AR": "debdef50bcc61092a602a27c88084285821d644c37ab73591d8a0f96c18d2ae2",
+        "PR": "15d10c79c59d607158aec8275b5d989702a8c598fe9ed17f7cb09b2d70d9ace2"
+      },
+      "reference_validation_plans": {
+        "AR": "tasks/upgrade_tasks/autonomous_research/paper_98b6f8a0352f72c2/evaluation/reference_validation_plan.md",
+        "PR": "tasks/upgrade_tasks/paper_reproduction/paper_98b6f8a0352f72c2/evaluation/reference_validation_plan.md"
+      },
+      "source_document_hashes": {
+        "AR": [
+          {
+            "path": "docs/evalution/update/paper_98b6f8a0352f72c2.md",
+            "sha256": "16d13197bea0d531b2446500d4a3e7390948cd9b5a28e364f8380d9cf1ec51c0"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_98b6f8a0352f72c2/documents/main.pdf",
+            "sha256": "714a568d5e123ebb80f11a9ab57fd85c282648d3f861353b63973f8d8cdf3492",
+            "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_98b6f8a0352f72c2_official_si.docx",
+            "sha256": "275ca4700127d3f0cce5b5b9ae3a9d21f157acc0409cb8aa658fb06e4f65a924",
+            "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+            "role": "formal_publisher_SI"
+          }
+        ],
+        "PR": [
+          {
+            "path": "docs/evalution/update/paper_98b6f8a0352f72c2.md",
+            "sha256": "16d13197bea0d531b2446500d4a3e7390948cd9b5a28e364f8380d9cf1ec51c0"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+            "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+            "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+          },
+          {
+            "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+            "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+          },
+          {
+            "path": "papers/paper_98b6f8a0352f72c2/documents/main.pdf",
+            "sha256": "714a568d5e123ebb80f11a9ab57fd85c282648d3f861353b63973f8d8cdf3492",
+            "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+            "role": "source_original_scope_not_expanded_reference"
+          },
+          {
+            "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_98b6f8a0352f72c2_official_si.docx",
+            "sha256": "275ca4700127d3f0cce5b5b9ae3a9d21f157acc0409cb8aa658fb06e4f65a924",
+            "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+            "role": "formal_publisher_SI"
+          }
+        ]
+      },
+      "specific_reference_gap": "Verify 12a/12d graphs and two media, then pilot one tracked S1 in both solvents with cross-program/state mapping. No series regression before states are matched.",
+      "review_findings_zh": {
+        "upgrade": "定义真实12a(NMe₂)/12d(NEt₂) × CHCl₃/EtOAc，新增统一扭转几何、吸收/发射/绝热能区分、f/跃迁偶极/CT 和辐射速率约定检验。",
+        "source_and_baseline": "正文合成/光谱/3.1.4 节直接核对，另下载正式 DOCX SI 查看 FigsS31–S39/TableS1。12d 是源系列真实成员；SI 理论寿命不冒充实测寿命，只有 Φ 与 τ 都为实测时才允许实测速率拆分。",
+        "feasibility_and_limits": "源 ORCA 范围分离 TD 路线与独立态映射可实施；新溶剂/扭转/S1参考未跑。实验缺量不被伪造，理论辐射率与实验非辐射通道明确分开。"
+      }
+    }
+  ],
+  "new_scientific_calculations_performed": false,
+  "development_delivery": "complete_for_all_19_papers_with_explicit_blockers",
+  "package_count": 38,
+  "status_counts": {
+    "implemented_pending_expanded_reference": 17,
+    "blocked": 2
+  },
+  "validation_summary": {
+    "batch": 3,
+    "date": "2026-09-27",
+    "status": "passed",
+    "paper_count": 19,
+    "package_count": 38,
+    "checks": 2466,
+    "scientific_engine_starts": 0,
+    "LLM_scientific_judge_run": false,
+    "boundary": "Official structural/runtime/public-export validation, graph/count sanity and synthetic output-format tests only. No new quantum reference, calibrated scoring or scientific PASS is claimed."
+  },
+  "new_scientific_engine_starts": 0,
+  "scientific_reference_validated": false,
+  "handoff_files": {
+    "report": "REPORT.md",
+    "status": "STATUS.md",
+    "validation": "validation_report.json",
+    "checker": "check_batch.py"
+  },
+  "report_sha256": "bd006bfdb87a8faf94937fbb342fd3b6c91b110ad9f3def9df37019363cc2649",
+  "validation_report_sha256": "5304ff7b6d6d5ec26155a5a2e855febbe6fb5855c0239e84c6ba9820810bd394",
+  "unresolved_release_gate": "Resolve the two documented input blocks; run real pilots, expanded references, uncertainty calibration and independent scientific replays before scientific certification.",
+  "supervisor_repair_report": "docs/upgrade_tasks_verification/supervisor/prelaunch_repair.json",
+  "supervisor_latest_repair": "object_metric_applicability",
+  "supervisor_updated_at": "2026-09-27T15:22:25.025741+00:00"
+}

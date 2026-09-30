@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline, C15H13N3, from CCDC2433822. Cis/trans is the mapped N1-C1-C2-N2 torsion; preserve deposited labels. Primary gas phase and acetonitrile continuum at 298.15 K, consistent 1 M molecular convention for solution. Six bonds are exactly those in experimental_bonds.json; seven SI or 33 CIF bond sets must not enter this RMSE.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline, C15H13N3, from CCDC2433822. Cis/trans is the mapped N1-C1-C2-N2 torsion; preserve deposited labels. Primary gas phase and acetonitrile continuum at 298.15 K, consistent 1 M molecular convention for solution. Six bonds are exactly those in experimental_bonds.json; seven SI or 33 CIF bond sets must not enter this RMSE."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conformer_environment",
+      "reference_id": "kp_conformer_environment",
+      "type": "semantic",
+      "expected": "Validate graph/minima, searches and environment-specific conformer identity; a released candidate may merge into another basin with actual evidence. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute electronic_Eh, G_Eh, torsion_degree from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.conformer_environment",
+          "$.calculation_records"
+        ],
+        "comparison": "Validate graph/minima, searches and environment-specific conformer identity; a released candidate may merge into another basin with actual evidence. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute electronic_Eh, G_Eh, torsion_degree from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_six_bond_residuals",
+      "reference_id": "kp_six_bond_residuals",
+      "type": "semantic",
+      "expected": "Recompute six unrounded residuals and RMSE against the authorized experimental distances. Separate any larger bond statistics; include OLS with intercept only if called R squared. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute C1_C2_A, C2_C3_A, N1_C1_A, N2_C2_A, N3_C3_A, C1_C10_A, RMSE_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.six_bond_residuals",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute six unrounded residuals and RMSE against the authorized experimental distances. Separate any larger bond statistics; include OLS with intercept only if called R squared. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute C1_C2_A, C2_C3_A, N1_C1_A, N2_C2_A, N3_C3_A, C1_C10_A, RMSE_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_torsional_intervention",
+      "reference_id": "kp_torsional_intervention",
+      "type": "semantic",
+      "expected": "A defined mapped torsion restraint and relaxed counterpart distinguish geometric from solvent effects. Nonstationary restrained points receive no borrowed harmonic G. Core rows: gas_fixed_vs_relaxed, MeCN_fixed_vs_relaxed. Recompute torsion_degree, delta_E_kJ_mol, residual_change_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.torsional_intervention",
+          "$.calculation_records"
+        ],
+        "comparison": "A defined mapped torsion restraint and relaxed counterpart distinguish geometric from solvent effects. Nonstationary restrained points receive no borrowed harmonic G. Core rows: gas_fixed_vs_relaxed, MeCN_fixed_vs_relaxed. Recompute torsion_degree, delta_E_kJ_mol, residual_change_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. CIF neighbor clusters, solid-state explanation and NMR are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. CIF neighbor clusters, solid-state explanation and NMR are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline, C15H13N3, from CCDC2433822. Cis/trans is the mapped N1-C1-C2-N2 torsion; preserve deposited labels. Primary gas phase and acetonitrile continuum at 298.15 K, consistent 1 M molecular convention for solution. Six bonds are exactly those in experimental_bonds.json; seven SI or 33 CIF bond sets must not enter this RMSE.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "conformer_environment",
+      "max_score": 20,
+      "description": "Validate graph/minima, searches and environment-specific conformer identity; a released candidate may merge into another basin with actual evidence. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute electronic_Eh, G_Eh, torsion_degree from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_conformer_environment"
+      ]
+    },
+    {
+      "id": "six_bond_residuals",
+      "max_score": 25,
+      "description": "Recompute six unrounded residuals and RMSE against the authorized experimental distances. Separate any larger bond statistics; include OLS with intercept only if called R squared. Core rows: cis_gas, trans_gas, cis_MeCN, trans_MeCN. Recompute C1_C2_A, C2_C3_A, N1_C1_A, N2_C2_A, N3_C3_A, C1_C10_A, RMSE_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_six_bond_residuals"
+      ]
+    },
+    {
+      "id": "torsional_intervention",
+      "max_score": 20,
+      "description": "A defined mapped torsion restraint and relaxed counterpart distinguish geometric from solvent effects. Nonstationary restrained points receive no borrowed harmonic G. Core rows: gas_fixed_vs_relaxed, MeCN_fixed_vs_relaxed. Recompute torsion_degree, delta_E_kJ_mol, residual_change_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_torsional_intervention"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. CIF neighbor clusters, solid-state explanation and NMR are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_reference_verified_phase1",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Actual finite matrix native reference and independent uncertainty/format/runtime checks now exist. See verified_computation_reference.md; publicexperimentalESD and unknowncovariance retained. Scientific credit still requires raw evidence, not schema success.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

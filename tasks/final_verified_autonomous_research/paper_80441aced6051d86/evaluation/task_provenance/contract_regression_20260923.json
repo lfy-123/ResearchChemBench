@@ -1,0 +1,238 @@
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_80441aced6051d86",
+  "mode": "autonomous_research",
+  "source": "docs/verification/group_4/paper_80441aced6051d86/report/results.json",
+  "mapping": [
+    "PASS status mapped to complete; real scientific fields unchanged"
+  ],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_mono_b",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_mono_p",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_dist",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_slip",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_mono_b",
+      "observed": [
+        51.977518235868274
+      ],
+      "target": 50.66,
+      "tolerance": 3.0,
+      "passed": true
+    },
+    {
+      "rule": "r_mono_p",
+      "observed": [
+        32.40938171182651
+      ],
+      "target": 30.275,
+      "tolerance": 3.0,
+      "passed": true
+    },
+    {
+      "rule": "r_dist",
+      "observed": [
+        3.778995283019103
+      ],
+      "target": 3.63,
+      "tolerance": 0.25,
+      "passed": true
+    },
+    {
+      "rule": "r_slip",
+      "observed": [
+        44.90154146654128
+      ],
+      "target": 44.89,
+      "tolerance": 5.0,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 8,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": [
+    {
+      "file": "g1_dimer.xyz",
+      "checks": {
+        "finite_coordinates_and_expected_count": true,
+        "graph_charge_and_formula": true,
+        "one_based_unique_mapping_and_elements": true,
+        "identity_connectivity_matches_old_and_new": true,
+        "reasonable_bonds_no_severe_collisions": true,
+        "archive_preserves_original_bytes": true,
+        "new_geometry_not_rigid_transform_of_endpoint": true,
+        "both_modes_same_public_starter": true,
+        "two_complete_fragments_and_clash_free_assembly": true
+      },
+      "bond_radius_ratio": [
+        0.8996435001502647,
+        1.0540640421167937
+      ],
+      "minimum_nonbonded_radius_ratio": 1.5030952207938901,
+      "maximum_pairwise_distance_change_A": 24.370804983474166
+    },
+    {
+      "file": "g1_monomer.xyz",
+      "checks": {
+        "finite_coordinates_and_expected_count": true,
+        "graph_charge_and_formula": true,
+        "one_based_unique_mapping_and_elements": true,
+        "identity_connectivity_matches_old_and_new": true,
+        "reasonable_bonds_no_severe_collisions": true,
+        "archive_preserves_original_bytes": true,
+        "new_geometry_not_rigid_transform_of_endpoint": true,
+        "both_modes_same_public_starter": true
+      },
+      "bond_radius_ratio": [
+        0.8954246859560699,
+        1.042653704041426
+      ],
+      "minimum_nonbonded_radius_ratio": 1.5074270736871658,
+      "maximum_pairwise_distance_change_A": 2.5532756024100376
+    }
+  ],
+  "followup_definition_checks": [
+    {
+      "check": "actual_historical_result_valid",
+      "passed": true
+    },
+    {
+      "check": "monomer_missing_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "monomer_empty_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "dimer_missing_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "dimer_empty_structure_path_rejected",
+      "passed": true
+    },
+    {
+      "check": "signed_torsion_not_accepted_as_primary_plane_angle",
+      "passed": true
+    },
+    {
+      "check": "inline_only_not_promised",
+      "passed": true
+    },
+    {
+      "check": "ring_mapping_has_only_carbon_nitrogen",
+      "passed": true
+    },
+    {
+      "check": "same_ring_map_both_modes",
+      "passed": true
+    },
+    {
+      "check": "early_failure_still_valid",
+      "passed": true
+    }
+  ],
+  "followup_boundary": "Historical scientific values preserved. New checks are schema/candidate-separation/measurement-definition checks, not a new quantum run or LLM judge validation. Different records with the same physical mode still need semantic/evidence checking."
+}

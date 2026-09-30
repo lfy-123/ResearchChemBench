@@ -1,0 +1,53 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "task_type": "paper_reproduction",
+  "owner": "original_author_batch2",
+  "version": 2,
+  "created_or_updated_at": "2026-09-28T17:33:15.395960+00:00",
+  "plan_path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch2/work/plans/paper_5286f393dfa5a49a.json",
+  "plan_sha256": "8cd3f6402daab389cfcf82967d6dde4645d70c27620d313b2289cb0db0034da4",
+  "v1_path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_5286f393dfa5a49a",
+  "v1_package_content_sha256": "5d2549d910cb0292b14afda232dc1fb16cb8d448e1a585176c1bcdd941f801af",
+  "baseline_inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666",
+  "previous_v2_content_sha256": "f301b82de2f72fff8c4dfb8a713017cf7636ae3db5c6b3442c5e69df7a70f95f",
+  "source_documents": [
+    {
+      "role": "main",
+      "path": "papers/paper_5286f393dfa5a49a/documents/main.pdf",
+      "sha256": "5a66fa0198121ae0667252defdc0916a09d0a76ab7f4b664848c9361e8087d4d",
+      "material_type": "primary_article",
+      "pdf_pages_1_based": [
+        2,
+        3
+      ],
+      "sections_figures_tables": "PDF p2 molecular synthesis, UV-visible/CD observations and source calculations; p3 Figure1a–d identities and experimental spectra, Figure1e–g source calculations/interpretation kept private or PR-only."
+    },
+    {
+      "role": "si",
+      "path": "papers/paper_5286f393dfa5a49a/documents/supplementary_001.pdf",
+      "sha256": "c82dd9a778b5e845a4ed4ff2d2141653e79fb530488318a03c6b661ad6062156",
+      "material_type": "actual_supporting_information",
+      "pdf_pages_1_based": [
+        7,
+        11,
+        12,
+        13
+      ],
+      "sections_figures_tables": "PDF p7 separate conformational and TDDFT-CD protocols; p11 FigureS5 HPLC and NMR ratio; pp12–13 FiguresS6/S7 distinguish observed temperature-dependent resonances from computed barriers and structural assignments."
+    }
+  ],
+  "historical_class": "B",
+  "autonomy_design": "source_bounded_open_research",
+  "status": "content_implemented_pending_coordinator_review",
+  "new_scientific_calculations_performed": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "reference_status": "source_molecular_optics_and_legacy_energy_context_only_expanded_reference_pending",
+  "scope_changes": [
+    "Remove fixed M-family backbone, specified side-chain ensemble size and prescribed cut/cap coupling control.",
+    "Remove mandatory mirror-calibration job and nominated transition/dipole mechanism from AR inputs and active requirements.",
+    "Keep the known side-chain absolute configurations and real solution observations; release backbone assignments rather than deleting necessary experimental facts."
+  ],
+  "provenance_addendum_at": "2026-09-28T17:43:05.532907+00:00",
+  "reference_artifact_inventory": "evaluation/task_provenance/reference_artifact_inventory.json"
+}

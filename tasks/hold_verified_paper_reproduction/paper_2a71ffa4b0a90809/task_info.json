@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_2a71ffa4b0a90809",
+  "task_type": "paper_reproduction",
+  "title": "Independent computational determination of the 1a rotational barrier",
+  "category": "computational chemistry / conformational thermochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The molecular system and observable are fixed, but the investigator must choose and validate a constrained scan, generate converged states, and test robustness."
+  ],
+  "paper": {
+    "title": "Data-Integrated Elucidation of Structure–Activity Relationships toward the Rational Design of Perfluoroiodoarene-Based Halogen-Bond Donor Catalysts",
+    "doi": "10.1021/acs.joc.5c02704",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-28"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ coordinates for neutral singlet 1a-syn (C18F12I2), with atom order and coordinates in the file."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Declared structured computational profile, barrier, validation and conclusion."
+    },
+    {
+      "path": "report/README.md",
+      "description": "Reproducibility notes, commands, atom indices, units."
+    }
+  ]
+}

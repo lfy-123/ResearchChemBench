@@ -2,6 +2,14 @@
   "paper_id": "paper_e8da3be56e9450b0",
   "rules": [
     {
+      "rule_id": "ar_r_route_infeasible",
+      "type": "condition",
+      "expected": "When status=bounded_failure and outcome.kind=bounded_failure, document that the neutral ISPIN=1 BZCT route has odd NELECT and VASP emits no Berry polarization; do not substitute spin, charge, vacancy, or a numeric value. Record route infeasibility rather than treating null as zero.",
+      "applicability": "status=bounded_failure only",
+      "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.status", "$.outcome", "$.systems[*].polarization", "$.comparison", "$.conclusion"], "comparison": "expert condition check"},
+      "reference_id": "ar_route_infeasible"
+    },
+    {
       "rule_id": "ar_r_identity",
       "type": "condition",
       "expected": "Both named systems and the stated substitutions/neutral boundary are verified.",
@@ -40,6 +48,7 @@
       "target": 32.41,
       "unit": "\u03bcC/cm\u00b2",
       "tolerance": 2.0,
+      "applicability": "status=complete only",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -58,6 +67,7 @@
       "target": 26.86,
       "unit": "\u03bcC/cm\u00b2",
       "tolerance": 2.0,
+      "applicability": "status=complete only",
       "binding": {
         "artifact_paths": [
           "report/results.json"
@@ -74,6 +84,7 @@
       "rule_id": "ar_r_final",
       "type": "semantic",
       "expected": "The conclusion supports higher BZCT polarization than BTO and states the model/branch limitation.",
+      "applicability": "status=complete only",
       "binding": {
         "artifact_paths": [
           "report/results.json"

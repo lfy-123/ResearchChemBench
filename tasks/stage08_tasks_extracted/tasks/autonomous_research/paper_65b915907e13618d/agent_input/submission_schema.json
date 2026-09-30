@@ -1,0 +1,16 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "observables", "validation", "method", "conclusion"],
+    "properties": {
+      "status": {"type":"string","enum":["completed"]},
+      "observables": {"type":"object","required":["cu_p1","cu_p2","cu_n1","cu_n2","p1_cu_p2","p1_cu_n1","p1_cu_n2","p2_cu_n1","p2_cu_n2","n1_cu_n2"],"properties": {
+        "cu_p1":{"type":"number"},"cu_p2":{"type":"number"},"cu_n1":{"type":"number"},"cu_n2":{"type":"number"},"p1_cu_p2":{"type":"number"},"p1_cu_n1":{"type":"number"},"p1_cu_n2":{"type":"number"},"p2_cu_n1":{"type":"number"},"p2_cu_n2":{"type":"number"},"n1_cu_n2":{"type":"number"}}},
+      "validation": {"type":"object","required":["minimum_status","evidence","label_provenance"],"properties":{"minimum_status":{"type":"string"},"evidence":{"type":"string"},"label_provenance":{"type":"string"}}},
+      "method": {"type":"object","required":["software_or_code","model","environment","convergence","starting_structure"],"properties":{"software_or_code":{"type":"string"},"model":{"type":"string"},"environment":{"type":"string"},"convergence":{"type":"string"},"starting_structure":{"type":"string"}}},
+      "conclusion": {"type":"string"}
+    }
+  }
+}

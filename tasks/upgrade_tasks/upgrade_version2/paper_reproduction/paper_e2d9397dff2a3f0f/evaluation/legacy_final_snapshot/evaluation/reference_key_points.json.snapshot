@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_freq",
+      "key_point_type": "process",
+      "statement": "The submission optimizes the supplied reference starter and an independently generated transition-state candidate and performs vibrational analyses, reporting convergence and charge/multiplicity.",
+      "evidence_ids": [
+        "ev_doc_d29674c1bddc_000540_d8dcc822e989"
+      ],
+      "expected": "The supplied reference starter and independently generated candidate have documented optimization and frequency results with explicit computational settings."
+    },
+    {
+      "key_point_id": "kp_pr_process_ts",
+      "key_point_type": "process",
+      "statement": "The target stationary point is validated as a first-order saddle and its imaginary displacement is assigned to N–O cleavage.",
+      "evidence_ids": [
+        "ev_doc_d29674c1bddc_000817_76da90988e7c"
+      ],
+      "expected": "Exactly one imaginary frequency is reported for the target and the mode evidence addresses N–O cleavage."
+    },
+    {
+      "key_point_id": "kp_pr_result_barrier",
+      "key_point_type": "result",
+      "statement": "The computed Gibbs barrier for N–O cleavage is reported with a defined equation and units.",
+      "evidence_ids": [
+        "ev_doc_7419176c5781_000765_81f1905507d0"
+      ],
+      "expected": "A reproducible numerical barrier in kcal/mol is supplied or a justified bounded failure is documented."
+    }
+  ]
+}

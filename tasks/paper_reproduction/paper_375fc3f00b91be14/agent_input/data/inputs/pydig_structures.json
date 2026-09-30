@@ -1,10 +1,51 @@
 {
-  "description":"Self-contained molecular identity for the two PyDIG photoisomers and their conjugate-acid states. Atom maps are stable within each record; E/Z labels refer to the two imine geometries adjacent to the central guanidine.",
-  "molecules":[
-    {"id":"EE_neutral","label":"E,E-PyDIG neutral base","smiles":"C1=CC=CC=N1/C=C/NNC(=N)NN/C=C/2N=CC=CC2","formal_charge":0,"multiplicity":1,"protonation":"neutral PyDIG; two equivalent terminal imine NH sites are deprotonated relative to the conjugate acid","stereochemistry":"E,E at both pyridylmethylene C=N bonds","atom_map":"Map atoms from left pyridine through left imine, central guanidine, right imine, right pyridine in SMILES order."},
-    {"id":"ZZ_neutral","label":"Z,Z-PyDIG neutral base","smiles":"C1=CC=CC=N1/C=C\\NNC(=N)NN/C=C\\2N=CC=CC2","formal_charge":0,"multiplicity":1,"protonation":"neutral PyDIG; two equivalent terminal imine NH sites are deprotonated relative to the conjugate acid","stereochemistry":"Z,Z at both pyridylmethylene C=N bonds","atom_map":"Map atoms from left pyridine through left imine, central guanidine, right imine, right pyridine in SMILES order."},
-    {"id":"EE_protonated","label":"E,E-PyDIG conjugate acid","smiles":"C1=CC=CC=N1/C=C/NNC(=[NH2+])NN/C=C/2N=CC=CC2","formal_charge":1,"multiplicity":1,"protonation":"singly protonated PyDIG conjugate acid; proton is on the central guanidine imine nitrogen shown as [NH2+]","stereochemistry":"E,E","atom_map":"Use the same atom-map convention as EE_neutral; the added proton is unmapped."},
-    {"id":"ZZ_protonated","label":"Z,Z-PyDIG conjugate acid","smiles":"C1=CC=CC=N1/C=C\\NNC(=[NH2+])NN/C=C\\2N=CC=CC2","formal_charge":1,"multiplicity":1,"protonation":"singly protonated PyDIG conjugate acid; proton is on the central guanidine imine nitrogen shown as [NH2+]","stereochemistry":"Z,Z","atom_map":"Use the same atom-map convention as ZZ_neutral; the added proton is unmapped."}
+  "description": "Self-contained molecular identity for the two PyDIG photoisomers and their conjugate-acid states. Atom maps are stable within each record; E/Z labels refer to the two imine geometries adjacent to the central guanidine.",
+  "molecules": [
+    {
+      "id": "EE_neutral",
+      "label": "E,E-PyDIG neutral base",
+      "smiles": "n1ccccc1/C=N/NC(=N)N/N=C/c2ccccn2",
+      "formula": "C13H13N7",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "protonation": "Neutral PyDIG; the SMILES is a representative guanidine tautomer. Redistribute guanidine N-bound hydrogens and associated bond orders when searching neutral tautomers, preserving formula, heavy-atom connectivity, total charge and both pyridylmethylene E/Z labels.",
+      "stereochemistry": "E,E at both pyridylmethylene C=N bonds",
+      "atom_map": "Map atoms from left pyridine through left imine, central guanidine, right imine, right pyridine in SMILES order."
+    },
+    {
+      "id": "ZZ_neutral",
+      "label": "Z,Z-PyDIG neutral base",
+      "smiles": "n1ccccc1/C=N\\NC(=N)N/N=C\\c2ccccn2",
+      "formula": "C13H13N7",
+      "formal_charge": 0,
+      "multiplicity": 1,
+      "protonation": "Neutral PyDIG; the SMILES is a representative guanidine tautomer. Redistribute guanidine N-bound hydrogens and associated bond orders when searching neutral tautomers, preserving formula, heavy-atom connectivity, total charge and both pyridylmethylene E/Z labels.",
+      "stereochemistry": "Z,Z at both pyridylmethylene C=N bonds",
+      "atom_map": "Map atoms from left pyridine through left imine, central guanidine, right imine, right pyridine in SMILES order."
+    },
+    {
+      "id": "EE_protonated",
+      "label": "E,E-PyDIG conjugate acid",
+      "smiles": "n1ccccc1/C=N/NC(=[NH2+])N/N=C/c2ccccn2",
+      "formula": "C13H14N7+",
+      "formal_charge": 1,
+      "multiplicity": 1,
+      "protonation": "Singly protonated PyDIG conjugate acid; the [NH2+] notation is a representative guanidinium form. Evaluate chemically valid conformers/tautomers of this charge state and preserve both outer E/Z labels; do not move the extra proton to a pyridine without explicitly investigating a distinct protomer.",
+      "stereochemistry": "E,E",
+      "atom_map": "Use the same atom-map convention as EE_neutral; the added proton is unmapped."
+    },
+    {
+      "id": "ZZ_protonated",
+      "label": "Z,Z-PyDIG conjugate acid",
+      "smiles": "n1ccccc1/C=N\\NC(=[NH2+])N/N=C\\c2ccccn2",
+      "formula": "C13H14N7+",
+      "formal_charge": 1,
+      "multiplicity": 1,
+      "protonation": "Singly protonated PyDIG conjugate acid; the [NH2+] notation is a representative guanidinium form. Evaluate chemically valid conformers/tautomers of this charge state and preserve both outer E/Z labels; do not move the extra proton to a pyridine without explicitly investigating a distinct protomer.",
+      "stereochemistry": "Z,Z",
+      "atom_map": "Use the same atom-map convention as ZZ_neutral; the added proton is unmapped."
+    }
   ],
-  "calculation_boundary":"The Agent may generate 3-D conformers from these connectivity records. No transition state, selected conformer, ranking or reference energy is supplied. Treat the two equivalent deprotonation sites consistently and disclose the convention."
+  "calculation_boundary": "The Agent may generate 3-D conformers from these connectivity records. No transition state, selected conformer, ranking or reference energy is supplied. Treat the two equivalent deprotonation sites consistently and disclose the convention.",
+  "tautomer_boundary": "The displayed neutral guanidine =NH form is not a fixed sole tautomer. Central =NH and terminal NH2 forms belong to the allowed molecular identity. Select or combine validated conformers/tautomers from calculated solution thermochemistry; no preferred tautomer, geometry or ranking is supplied."
 }

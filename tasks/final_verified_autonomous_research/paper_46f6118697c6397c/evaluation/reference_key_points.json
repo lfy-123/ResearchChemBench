@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "items": [
+    {
+      "key_point_id": "ar_kp_process_identity",
+      "key_point_type": "process",
+      "statement": "The submitted calculation uses the uniquely identified neutral compound-2 tetra(triflate) B2N6 molecule and verifies its complete structure before electronic-structure calculations.",
+      "expected": "Identity evidence records CCDC 2512981 provenance, resulting atom count and C18H14B2F12N6O12S4 formula, charge 0, singlet multiplicity 1, deterministic symmetry/disorder handling, and verified B2N6 connectivity with all four B-O-SO2CF3 substituents retained.",
+      "evidence_ids": [
+        "ev_doc_5eb0affa079c_000086_16ffc984dc9a",
+        "ev_doc_ced2213a1270_000186_5497c9505d81"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_process_validation",
+      "key_point_type": "process",
+      "statement": "The ground-state structure is optimized and the excited-state calculation is based on a converged geometry with reproducible state-selection evidence.",
+      "expected": "The report documents optimization convergence, states whether a frequency/Hessian check was performed, reports disorder/starting-structure/the conformers actually computed, and lists enough singlet states, including neighboring states or equivalent evidence, to justify selection of the fifth singlet or the method-corresponding dominant near-UV/visible state.",
+      "evidence_ids": [
+        "ev_doc_5eb0affa079c_000117_00e0873d52bb"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_result_energy",
+      "key_point_type": "result",
+      "statement": "The dominant compound-2 singlet excitation has the detailed source-reported SI energy.",
+      "expected": "3.8436 eV for the fifth singlet state carrying the dominant oscillator strength; the inconsistent main-text value 4.33 eV is not used as the numeric target.",
+      "evidence_ids": [
+        "ev_doc_5eb0affa079c_000119_e84fb1c9ec64",
+        "ev_doc_5eb0affa079c_000120_1cc9e6f995dd"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_result_osc",
+      "key_point_type": "result",
+      "statement": "The dominant compound-2 singlet excitation has the source-reported oscillator strength.",
+      "expected": "Oscillator strength f=0.4243.",
+      "evidence_ids": [
+        "ev_doc_5eb0affa079c_000119_e84fb1c9ec64",
+        "ev_doc_5eb0affa079c_000120_1cc9e6f995dd"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_result_character",
+      "key_point_type": "result",
+      "statement": "The selected dominant compound-2 transition is principally HOMO-4 to LUMO and involves the N6-centred electronic system.",
+      "expected": "The report identifies the source assignment as predominantly HOMO-4 to LUMO (217 to 222 coefficient 0.70241), relates it to N6-centred orbitals and electron-withdrawing triflate substitution, and acknowledges method-dependent orbital numbering/analysis.",
+      "evidence_ids": [
+        "ev_doc_ced2213a1270_000133_97a25df0559c",
+        "ev_doc_ced2213a1270_000134_06926d150144",
+        "ev_doc_5eb0affa079c_000120_1cc9e6f995dd"
+      ]
+    }
+  ]
+}

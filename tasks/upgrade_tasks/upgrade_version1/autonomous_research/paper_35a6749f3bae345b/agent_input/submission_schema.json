@@ -1,0 +1,1302 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "paper_id",
+      "status",
+      "methods",
+      "resources",
+      "calculation_records",
+      "evidence_files",
+      "conclusion"
+    ],
+    "properties": {
+      "paper_id": {
+        "const": "paper_35a6749f3bae345b"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure",
+          "blocked"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "primary",
+          "software_versions",
+          "solvent_and_state_convention",
+          "energy_zero_and_units",
+          "state_matching",
+          "conformer_coverage",
+          "uncertainty_protocol"
+        ],
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "solvent_and_state_convention": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "energy_zero_and_units": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "state_matching": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "conformer_coverage": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "uncertainty_protocol": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          }
+        }
+      },
+      "resources": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "engine_calls",
+          "wall_seconds",
+          "cpu_core_hours",
+          "max_memory_MB",
+          "accounting_basis",
+          "attempt_log"
+        ],
+        "properties": {
+          "engine_calls": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "max_memory_MB": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "accounting_basis": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "attempt_log": {
+            "type": "string",
+            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+          }
+        }
+      },
+      "calculation_records": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "calculation_id",
+            "system",
+            "record_type",
+            "kind",
+            "method",
+            "environment",
+            "input_file",
+            "output_file",
+            "convergence"
+          ],
+          "properties": {
+            "calculation_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "system": {
+              "type": "string",
+              "enum": [
+                "DBC_Ph",
+                "DBC_Nap",
+                "DBC_Cbz"
+              ]
+            },
+            "record_type": {
+              "type": "string",
+              "enum": [
+                "electronic_structure",
+                "analysis"
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "failed"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "output_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "convergence": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "geometry_role": {
+              "type": "string",
+              "enum": [
+                "relaxed_minimum",
+                "constrained_control",
+                "single_point",
+                "excited_state"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "electronic_energy_hartree": {
+              "type": "number"
+            },
+            "imaginary_frequencies_cm1": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "number"
+              }
+            },
+            "state_identity": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "analysis_type": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "source_evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "DBC_Ph"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "DBC_Nap"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "DBC_Cbz"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "charge",
+                  "multiplicity",
+                  "basis",
+                  "geometry_role"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "electronic_energy_hartree",
+                  "state_identity"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "analysis"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "analysis_type",
+                  "source_evidence_files"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "evidence_files": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "verdict",
+          "claim",
+          "scope_limit",
+          "evidence_files"
+        ],
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "not_established"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "scope_limit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      },
+      "results": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "relaxation_cycles",
+          "twist_control",
+          "Cbz_prediction"
+        ],
+        "properties": {
+          "relaxation_cycles": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "DBC_Ph",
+              "DBC_Nap",
+              "DBC_Cbz"
+            ],
+            "properties": {
+              "DBC_Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "E1_R0_hartree",
+                  "E0_R1_hartree",
+                  "E1_R1_hartree",
+                  "absorption_eV",
+                  "emission_eV",
+                  "lambda0_eV",
+                  "lambda1_eV",
+                  "S0_geometry",
+                  "S1_geometry",
+                  "root_tracking_file",
+                  "nto_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "E1_R0_hartree": {
+                    "type": "number"
+                  },
+                  "E0_R1_hartree": {
+                    "type": "number"
+                  },
+                  "E1_R1_hartree": {
+                    "type": "number"
+                  },
+                  "absorption_eV": {
+                    "type": "number"
+                  },
+                  "emission_eV": {
+                    "type": "number"
+                  },
+                  "lambda0_eV": {
+                    "type": "number"
+                  },
+                  "lambda1_eV": {
+                    "type": "number"
+                  },
+                  "S0_geometry": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "S1_geometry": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "root_tracking_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "nto_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "DBC_Nap": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "E1_R0_hartree",
+                  "E0_R1_hartree",
+                  "E1_R1_hartree",
+                  "absorption_eV",
+                  "emission_eV",
+                  "lambda0_eV",
+                  "lambda1_eV",
+                  "S0_geometry",
+                  "S1_geometry",
+                  "root_tracking_file",
+                  "nto_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "E1_R0_hartree": {
+                    "type": "number"
+                  },
+                  "E0_R1_hartree": {
+                    "type": "number"
+                  },
+                  "E1_R1_hartree": {
+                    "type": "number"
+                  },
+                  "absorption_eV": {
+                    "type": "number"
+                  },
+                  "emission_eV": {
+                    "type": "number"
+                  },
+                  "lambda0_eV": {
+                    "type": "number"
+                  },
+                  "lambda1_eV": {
+                    "type": "number"
+                  },
+                  "S0_geometry": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "S1_geometry": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "root_tracking_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "nto_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "DBC_Cbz": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "E0_R0_hartree",
+                  "E1_R0_hartree",
+                  "E0_R1_hartree",
+                  "E1_R1_hartree",
+                  "absorption_eV",
+                  "emission_eV",
+                  "lambda0_eV",
+                  "lambda1_eV",
+                  "S0_geometry",
+                  "S1_geometry",
+                  "root_tracking_file",
+                  "nto_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "E0_R0_hartree": {
+                    "type": "number"
+                  },
+                  "E1_R0_hartree": {
+                    "type": "number"
+                  },
+                  "E0_R1_hartree": {
+                    "type": "number"
+                  },
+                  "E1_R1_hartree": {
+                    "type": "number"
+                  },
+                  "absorption_eV": {
+                    "type": "number"
+                  },
+                  "emission_eV": {
+                    "type": "number"
+                  },
+                  "lambda0_eV": {
+                    "type": "number"
+                  },
+                  "lambda1_eV": {
+                    "type": "number"
+                  },
+                  "S0_geometry": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "S1_geometry": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "root_tracking_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "nto_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "twist_control": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "DBC_Ph",
+              "DBC_Nap"
+            ],
+            "properties": {
+              "DBC_Ph": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_45deg"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "ground_torsions_deg",
+                      "excited_torsions_deg",
+                      "absorption_eV",
+                      "emission_eV",
+                      "localization_metric",
+                      "mapped_torsion_file",
+                      "state_matching",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "ground_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "excited_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "absorption_eV": {
+                        "type": "number"
+                      },
+                      "emission_eV": {
+                        "type": "number"
+                      },
+                      "localization_metric": {
+                        "type": "number"
+                      },
+                      "mapped_torsion_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "state_matching": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_45deg": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "ground_torsions_deg",
+                      "excited_torsions_deg",
+                      "absorption_eV",
+                      "emission_eV",
+                      "localization_metric",
+                      "mapped_torsion_file",
+                      "state_matching",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "ground_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "excited_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "absorption_eV": {
+                        "type": "number"
+                      },
+                      "emission_eV": {
+                        "type": "number"
+                      },
+                      "localization_metric": {
+                        "type": "number"
+                      },
+                      "mapped_torsion_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "state_matching": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "DBC_Nap": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_45deg"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "ground_torsions_deg",
+                      "excited_torsions_deg",
+                      "absorption_eV",
+                      "emission_eV",
+                      "localization_metric",
+                      "mapped_torsion_file",
+                      "state_matching",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "ground_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "excited_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "absorption_eV": {
+                        "type": "number"
+                      },
+                      "emission_eV": {
+                        "type": "number"
+                      },
+                      "localization_metric": {
+                        "type": "number"
+                      },
+                      "mapped_torsion_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "state_matching": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_45deg": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "ground_torsions_deg",
+                      "excited_torsions_deg",
+                      "absorption_eV",
+                      "emission_eV",
+                      "localization_metric",
+                      "mapped_torsion_file",
+                      "state_matching",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "ground_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "excited_torsions_deg": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "absorption_eV": {
+                        "type": "number"
+                      },
+                      "emission_eV": {
+                        "type": "number"
+                      },
+                      "localization_metric": {
+                        "type": "number"
+                      },
+                      "mapped_torsion_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "state_matching": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Cbz_prediction": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "frozen_prediction_file",
+              "predicted_absorption_eV",
+              "predicted_emission_eV",
+              "computed_absorption_eV",
+              "computed_emission_eV",
+              "observed_comparison_eV",
+              "residual_eV",
+              "observation_assignment",
+              "explanation_survives",
+              "calculation_ids",
+              "evidence_files"
+            ],
+            "properties": {
+              "frozen_prediction_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              },
+              "predicted_absorption_eV": {
+                "type": "number"
+              },
+              "predicted_emission_eV": {
+                "type": "number"
+              },
+              "computed_absorption_eV": {
+                "type": "number"
+              },
+              "computed_emission_eV": {
+                "type": "number"
+              },
+              "observed_comparison_eV": {
+                "type": "number"
+              },
+              "residual_eV": {
+                "type": "number"
+              },
+              "observation_assignment": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              },
+              "explanation_survives": {
+                "type": "string",
+                "enum": [
+                  "yes",
+                  "no",
+                  "unresolved"
+                ]
+              },
+              "calculation_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Nonempty scientific explanation"
+                }
+              },
+              "evidence_files": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                }
+              }
+            }
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "prediction",
+            "falsifier",
+            "discriminating_panel"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "prediction": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "falsifier": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "discriminating_panel": {
+              "type": "string",
+              "enum": [
+                "relaxation_cycles",
+                "twist_control",
+                "Cbz_prediction"
+              ]
+            }
+          }
+        }
+      },
+      "sensitivity": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "setting",
+            "baseline_value",
+            "perturbed_value",
+            "unit",
+            "conclusion_changed",
+            "uncertainty_basis",
+            "calculation_ids",
+            "evidence_files"
+          ],
+          "properties": {
+            "setting": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "conclusion_changed": {
+              "type": "boolean"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "calculation_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              }
+            },
+            "evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          }
+        }
+      },
+      "failure_report": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "recovery_condition",
+          "evidence_files"
+        ],
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            }
+          },
+          "recovery_condition": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            },
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "record_type"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "bounded_failure",
+                "blocked"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "const": "not_established"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "calculation_records": {
+              "maxItems": 0
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "resources": {
+              "properties": {
+                "engine_calls": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

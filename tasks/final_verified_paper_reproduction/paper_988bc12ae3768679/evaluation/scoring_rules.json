@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_inputs",
+      "type": "condition",
+      "expected": "Both named objects have correct public-input identity, charge, multiplicity, atom count, provenance and convergence evidence. Exactly one record named 2a-acid and one named 2a-base must be present; duplicates or unknown names do not establish coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert validation"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_coverage",
+      "type": "condition",
+      "expected": "Each structure reports labeled S1-S4 energies and oscillator strengths and an explicit maximum-oscillator selection. Within each uniquely named object, select argmax(f) only over the required S1-S4 records and verify its energy/wavelength. Higher auxiliary roots cannot replace that four-state comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*].states",
+          "$.structures[*].brightest_state"
+        ],
+        "comparison": "expert validation"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_acid",
+      "type": "semantic",
+      "expected": "Select only the structure record with name=\"2a-acid\" (exactly one); never infer identity from array position. Acid brightest state is S3; numerical per-state values are compared against the hidden Table 3 values with method-aware expert tolerance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*]"
+        ],
+        "comparison": "match the complete structure record by its exact name, independent of array order; then compare state identity and values"
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_result_base",
+      "type": "semantic",
+      "expected": "Select only the structure record with name=\"2a-base\" (exactly one); never infer identity from array position. Base brightest state is S1; numerical per-state values are compared against the hidden Table 3 values with method-aware expert tolerance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*]"
+        ],
+        "comparison": "match the complete structure record by its exact name, independent of array order; then compare state identity and values"
+      }
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_final_switch",
+      "type": "semantic",
+      "expected": "The conclusion states distinct profiles and lower-energy base bright transition supporting the qualitative switch within scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

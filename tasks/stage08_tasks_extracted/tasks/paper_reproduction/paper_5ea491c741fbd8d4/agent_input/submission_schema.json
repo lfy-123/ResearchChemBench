@@ -1,0 +1,73 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["completion_status", "method", "conformer_search", "candidates", "conclusion", "limitations", "sensitivity_assessment"],
+    "properties": {
+      "completion_status": {"type": "string"},
+      "method": {
+        "type": "object",
+        "required": ["software", "electronic_structure_method", "basis_or_numerical_representation", "environment", "optimization_settings", "orbital_definition", "justification"],
+        "properties": {
+          "software": {"type": "string"},
+          "electronic_structure_method": {"type": "string"},
+          "basis_or_numerical_representation": {"type": "string"},
+          "environment": {"type": "string"},
+          "optimization_settings": {"type": "string"},
+          "orbital_definition": {"type": "string"}, "justification": {"type": "string", "minLength": 1}
+        }
+      },
+      "conformer_search": {
+        "type": "object",
+        "required": ["generation_strategy", "degrees_of_freedom", "deduplication_criterion", "stopping_rule", "generated_count", "advanced_count"],
+        "properties": {
+          "generation_strategy": {"type": "string"},
+          "degrees_of_freedom": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "deduplication_criterion": {"type": "string"},
+          "stopping_rule": {"type": "string"},
+          "generated_count": {"type": "integer", "minimum": 1},
+          "advanced_count": {"type": "integer", "minimum": 1}
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": ["candidate_id", "identity", "disposition", "optimization_status", "stationary_point_test", "relative_energy_kcal_mol", "diagnostics"],
+          "properties": {
+            "candidate_id": {"type": "string"},
+            "identity": {"type": "string"},
+            "disposition": {"type": "string"},
+            "optimization_status": {"type": "string"},
+            "stationary_point_test": {
+              "type": "object",
+              "required": ["method", "imaginary_frequency_count", "minimum_assessment"],
+              "properties": {
+                "method": {"type": "string"},
+                "imaginary_frequency_count": {"type": "integer", "minimum": 0},
+                "minimum_assessment": {"type": "string"}
+              }
+            },
+            "relative_energy_kcal_mol": {"type": ["number", "null"]},
+            "diagnostics": {"type": "string"}
+          }
+        }
+      },
+      "selected_candidate_id": {"type": "string"},
+      "selected_geometry_xyz": {"type": "string"},
+      "homo_eV": {"type": "number"},
+      "lumo_eV": {"type": "number"},
+      "gap_eV": {"type": "number", "minimum": 0},
+      "arithmetic_check_eV": {"type": "number"},
+      "conclusion": {"type": "string"}, "sensitivity_assessment": {"type": "string", "minLength": 1},
+      "limitations": {"type": "array", "items": {"type": "string"}}
+    },
+    "oneOf": [
+      {"properties": {"completion_status": {"pattern": "^success$"}}, "required": ["selected_candidate_id", "selected_geometry_xyz", "homo_eV", "lumo_eV", "gap_eV", "arithmetic_check_eV"]},
+      {"properties": {"completion_status": {"pattern": "^bounded_failure$"}}}
+    ]
+  }
+}

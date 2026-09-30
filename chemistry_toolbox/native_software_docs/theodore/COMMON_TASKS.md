@@ -59,6 +59,14 @@ These mechanics target the installed `installed TheoDORE runtime` environment. V
 ## Minimal-example policy
 The tested file under `examples/interface_smoke/` verifies the configured command route. It does not choose a paper-specific method. For scientific work, start from the smallest official example for the intended calculation family, replace all structures and methods explicitly, run the toolbox validator, and retain the complete inputs and outputs as provenance.
 
+## Command: `theodore_compat`
+- Synopsis: `theodore_compat <analyze_tden|analyze_sden> [-f FILE]`.
+- Input mode: `arguments`.
+- Declared example inputs: `orbital`, `dens_ana.in`.
+- Declared example outputs: stdout/stderr or task-dependent outputs.
+- Example resources: `{'cpu_cores': 1, 'memory_mb': 2048, 'gpu_count': 0}`.
+- Output behavior: Uses the explicit theodore-reader-1 adapter for known ORCA tables. Preserves native scientific analysis and missing-data errors; does not rerun calculations.
+
 ## Command: `theodore`
 - Synopsis: `theodore <subcommand> [subcommand options]`.
 - Input mode: `arguments`.

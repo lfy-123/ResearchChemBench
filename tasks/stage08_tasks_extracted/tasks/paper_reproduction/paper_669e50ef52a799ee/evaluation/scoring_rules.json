@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_669e50ef52a799ee",
+  "rules": [
+    {
+      "rule_id": "r_pr_kp_min",
+      "type": "condition",
+      "expected": "The submitted structures include convergence and minimum-validation evidence, with exclusions and coverage stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures",
+          "$.candidate_coverage"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_pr_process_minimum"
+    },
+    {
+      "rule_id": "r_pr_kp_spec",
+      "type": "condition",
+      "expected": "Every reported band has wavelength, oscillator strength and a stated selection basis tied to protocol and provenance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bands",
+          "$.computational_protocol"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_pr_process_spectrum"
+    },
+    {
+      "rule_id": "r_pr_kp_bands",
+      "type": "numeric",
+      "target": 319,
+      "unit": "nm",
+      "tolerance": 5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bands[*].wavelength_nm"
+        ],
+        "comparison": "set-wise nearest absolute difference"
+      },
+      "reference_id": "kp_pr_bands"
+    },
+    {
+      "rule_id": "r_pr_kp_bands_288",
+      "type": "numeric",
+      "target": 288,
+      "unit": "nm",
+      "tolerance": 5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bands[*].wavelength_nm"
+        ],
+        "comparison": "set-wise nearest absolute difference"
+      },
+      "reference_id": "kp_pr_bands",
+      "expected": "A reported prominent band is near 288 nm (method and geometry dependence allowed)."
+    },
+    {
+      "rule_id": "r_pr_kp_assign",
+      "type": "semantic",
+      "expected": "The reported near-310-nm assignment is supported by explicit orbital or fragment evidence and identifies ligand-to-Ag involvement, with uncertainty stated when appropriate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_assignment"
+    },
+    {
+      "rule_id": "r_pr_c",
+      "type": "semantic",
+      "expected": "A reasoned final conclusion compares independent bands with the source and evaluates the proposed transition interpretation within limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_pr_final"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "mode": "autonomous_research",
+  "source": "runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260918_closure/report/results.json",
+  "mapping": [
+    "Real 09-18 closure mapped to current systems schema, preserving S/T root, geometry and sensitivity facts"
+  ],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_j_h",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_j_me",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_j_ome",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pop_h",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pop_me",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pop_ome",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_j_h",
+      "observed": [
+        -334.3735252659845
+      ],
+      "target": -335,
+      "tolerance": 20,
+      "passed": true
+    },
+    {
+      "rule": "r_j_me",
+      "observed": [
+        -341.4120457906486
+      ],
+      "target": -342,
+      "tolerance": 20,
+      "passed": true
+    },
+    {
+      "rule": "r_j_ome",
+      "observed": [
+        -344.58232169224055
+      ],
+      "target": -345,
+      "tolerance": 20,
+      "passed": true
+    },
+    {
+      "rule": "r_pop_h",
+      "observed": [
+        37.6362295496755
+      ],
+      "target": 37.6,
+      "tolerance": 2,
+      "passed": true
+    },
+    {
+      "rule": "r_pop_me",
+      "observed": [
+        36.847292755439156
+      ],
+      "target": 36.8,
+      "tolerance": 2,
+      "passed": true
+    },
+    {
+      "rule": "r_pop_ome",
+      "observed": [
+        36.49419835376705
+      ],
+      "target": 36.4,
+      "tolerance": 2,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 12,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": []
+}

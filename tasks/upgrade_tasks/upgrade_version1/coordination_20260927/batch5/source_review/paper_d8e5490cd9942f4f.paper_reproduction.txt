@@ -1,0 +1,691 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "task_type": "paper_reproduction",
+  "title": "Aqueous syn/anti conformational thermochemistry of [La-KHQ]+",
+  "category": "coordination thermochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Two explicitly defined conformers must be optimized and thermochemically validated.",
+    "The qualitative syn/anti conformational hypothesis is exposed, while the computed ordering and numerical result are withheld."
+  ],
+  "paper": {
+    "title": "d5dt03015c 3413..3421 ++",
+    "doi": "10.1039/d5dt03015c",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-28"
+  },
+  "data": [
+    {
+      "path": "data/inputs/syn_La_KHQ.xyz",
+      "description": "81-atom XYZ starting geometry for the syn [La-KHQ]+ conformer; La, C32H38N4O6, charge +1, singlet. This is a given source-optimized object, not an independent geometry-discovery input."
+    },
+    {
+      "path": "data/inputs/anti_La_KHQ.xyz",
+      "description": "81-atom XYZ starting geometry for the anti [La-KHQ]+ conformer; La, C32H38N4O6, charge +1, singlet. This is a given source-optimized object, not an independent geometry-discovery input."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computational results and conclusion conforming to submission_schema.json."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The paper uses DFT to model 1:1 Ln3+ complexes of H2KHQ and compare syn and anti arrangements of the two 8-hydroxyquinoline arms. It reports that syn is favored over anti across the lanthanide series, supporting the conformational/thermodynamic interpretation of H2KHQ binding and size selectivity.
+
+## 2. System and model boundary
+
+The La benchmark system is [La-KHQ]+, modeled as a +1, singlet cation containing one La center and the fully deprotonated KHQ ligand (C32H38N4O6). The two endpoints are the syn and anti arm arrangements. The author calculations use continuum water corrections and 298 K solution standard-state thermochemistry; explicit solvent and counterions are not included in the endpoint calculations.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Generate syn starting geometry | crystal-derived [La-HKHQ]2+ arrangement, remove H8 to model +1 species | structural preparation | La3+ center; syn arms | syn [La-KHQ]+ starting structure | ev_doc_924dc5cd83b8_000328_56a66f50478b, ev_doc_ee2b6aed5d22_000308_18269a7ce1cd |
+| 2 | Optimize each endpoint | syn and anti starting geometries | Gaussian16 Rev. C.01, ωB97XD | def2svp for C/H/N/O; LCRECP and associated basis for Ln; nosymm; int=ultrafine; pseudosinglet | optimized geometries and energies | ev_doc_924dc5cd83b8_000328_56a66f50478b |
+| 3 | Confirm minima | optimized geometries | Gaussian16 frequency calculation | absence of imaginary frequencies | vibrational validation and thermal terms | ev_doc_924dc5cd83b8_000348_97770d902739 |
+| 4 | Add aqueous electronic-energy correction | optimized geometries | Gaussian16 single point with SMD | water solvent; parameterized Ln ionic radii | solvated electronic energies | ev_doc_924dc5cd83b8_000349_304791c92618 |
+| 5 | Obtain solution free energies | frequency and SMD results | GoodVibes with Grimme quasi-harmonic treatment | 100 cm-1 cutoff; scale factor 1.0; 298 K; 1 M complex standard state; water 55.5 M correction | G°aq for each endpoint | ev_doc_924dc5cd83b8_000353_fda087bdcc59, ev_doc_924dc5cd83b8_000354_b3f40026500e, ev_doc_924dc5cd83b8_000355_045c63dabe2b, ev_doc_924dc5cd83b8_000357_368ebcd7142d |
+| 6 | Compare conformers | endpoint G°aq values | Equation S2 arithmetic | ΔG°conf = G°aq(anti) − G°aq(syn) | conformational preference | ev_doc_924dc5cd83b8_000371_badc800c4c37, ev_doc_924dc5cd83b8_000393_c31bbb7d8bdf |
+
+## 4. Validation and analysis protocol
+
+The authors used frequency calculations to identify local minima and compared the aqueous Gibbs energies of syn and anti structures. Their broader series analysis also screened multiple C2-symmetric conformations and used the conformational comparison to interpret binding and ligand-strain trends. The paper cautions that calculated trends are qualitative and that gas-phase ion-energy treatment can produce quantitative discrepancies.
+
+## 5. Private reference results
+
+For La, the SI coordinate/log section reports G(298 K) = -1941.809708 for La-syn-KHQ(1+) and -1941.800071 for La-anti-KHQ(1+), in the author gas-phase log outputs. The SI Table S2 reports aqueous free energies of -1218165.73 (syn) and -1218161.53 (anti) kcal mol-1 and ΔG°conf = +4.2 kcal mol-1. Thus anti minus syn is positive and syn is preferred in the published calculation.
+
+## 6. Limitations and interpretation boundaries
+
+The reference is a relative conformational result within the stated model, not an experimental free energy. The endpoint structures are local-minimum calculations and do not prove exhaustive global conformational sampling. Protonation state, explicit hydration, standard-state conventions, ECP treatment, and low-frequency entropy treatment can affect absolute values; comparisons must preserve a consistent convention.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_minima",
+      "reference_id": "kp_process_minima",
+      "type": "semantic",
+      "expected": "Two endpoint validation records are present; a completed comparison reports no residual imaginary modes for the selected minima, or bounded failure explicitly records the failed endpoint and diagnostics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints[*].id",
+          "$.endpoints[*].identity",
+          "$.endpoints[*].validation_status",
+          "$.endpoints[*].imaginary_mode_count",
+          "$.investigation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_process_consistency",
+      "reference_id": "kp_process_consistency",
+      "type": "semantic",
+      "expected": "The same stated thermochemical convention is applied to syn and anti and the signed difference is formed as anti minus syn. Recompute anti-minus-syn after matching endpoint IDs and units. Retain the actual solvent/entropy/standard-state convention; a common standard-state correction cancels for these equal-composition isomers and is not added as a spurious reaction correction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints[*].id",
+          "$.endpoints[*].free_energy",
+          "$.endpoints[*].free_energy_unit",
+          "$.route",
+          "$.investigation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_result_delta_g",
+      "reference_id": "kp_result_delta_g",
+      "type": "numeric",
+      "target": 4.2,
+      "unit": "kcal/mol",
+      "tolerance": 1,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.delta_g_conf",
+          "$.conclusion.delta_g_unit"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_c_final_preference",
+      "reference_id": "c_final_preference",
+      "type": "semantic",
+      "expected": "Under the published aqueous DFT convention, syn-La-KHQ+ is thermodynamically preferred to anti-La-KHQ+ because G(anti) − G(syn) is positive.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算链：syn / anti La-KHQ 热化学
+
+- 论文 ID：`paper_d8e5490cd9942f4f`
+- 本任务模式：`paper_reproduction`（论文复现模式）
+- 论文 DOI：`10.1039/d5dt03015c`
+- 归档日期：2026-09-16（历史验证完成日期以原始记录为准）
+- 验证来源：[group_2](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f)；[本组通过清单](../../../../docs/verification/all_verified_tasks/group_2.md)
+- 最新已归档科学状态：正确 +1/单重态、La ECP46MWB 作者路线的 syn/anti 热化学通过。
+- 2026-09-17 最终包审查通过；当前目录/审批状态：已按负责人授权迁入 `final_verified_paper_reproduction`。该状态适用于本包声明的科学范围；部署访问隔离仍需单独确认。
+
+## 1. 本文件用途与任务版本
+
+本文件记录已经真实完成、被最新作者路线审计采纳的计算步骤和结果，不是新增计算，也不是评估评分规则。评分仍由本目录下 `critical_failures.json`、`evidence_map.json`、`reference_conclusions.json`、`reference_key_points.json`、`scoring_rules.json` 决定。本文件及其链接中的作者结构、数值答案均属于 evaluator 侧资料，不能作为 agent 输入。
+
+本任务的入库基线已保存于 Git `e67441a9`；格式整理检查点为 `42970e03`。来源为 [canonical 源任务](../../../paper_reproduction/paper_d8e5490cd9942f4f)，后续维护只调整本副本，不覆盖原始验证记录。本文件归档历史真实计算；包的现行指令、输入和 evaluator 应按维护后的版本核对，不能把“入库时原样复制”理解成此后从未修改。
+
+验证者允许知道正文/SI 的作者路线，并可用作者结构作为验证起点。验证的含义是：相应科学子问题已有真实计算支持；不是要求当时验证过程模拟待评 agent 的信息受限探索，也不是将私有作者 endpoint 重新提供给 agent 的授权。本模式记录作者子路线的科学可计算性；不把它扩大为整篇论文复现或自主 agent 盲测通过。
+
+## 2. 真实有效的计算流程
+
+1. 核对 syn/anti 均为 81 原子 [La-KHQ]+（C32H38LaN4O6+），总电荷 +1、单重态；两者原子组成与比较边界一致。
+
+2. 在 Gaussian 使用 ωB97X-D/GenECP：C/H/N/O 为 def2SVP，La 为 ECP46MWB 大芯相对论 ECP 配套基组；SMD 水、298.15 K。分别完成 syn 与 anti 的 Opt/Freq，使用实际输入中的显式基组/ECP 区块。
+
+3. 两条输出均正常终止，每条 237 实频、0 虚频。提取同温度、同标准态的最终电子能和热校正，读取完整 Gibbs 自由能。
+
+4. 计算 ΔG(anti−syn) = [G(anti)−G(syn)] × 627.509474；同分子异构体的共同标准态处理不引入不对称修正。
+
+5. 比较正的 anti−syn 自由能差及结构身份，逐项审计 evaluator 所需的 syn 热力学较低结论。
+
+## 3. 实际结果与支持的结论
+
+| 量 | 实际值 |
+|---|---:|
+| G(syn) / Eh | −1941.937433 |
+| G(anti) / Eh | −1941.930431 |
+| ΔG(anti−syn) / kcal mol⁻¹ | +4.393821 |
+| syn / anti 虚频数 | 0 / 0 |
+
+在当前水相连续介质模型和作者电子态/ECP 边界内，syn 低于 anti。
+
+## 4. 原始输入与输出索引
+
+下表按有效链列出原始输入/命令及日志。多个 `Normal termination` 通常对应组合输入中的多个计算段，不等于多个独立体系。正常终止标记只是执行证据，科学判断同时依赖上文频率、身份、数值及下文专门审计。成功重提作业可作为证据；失败尝试不列为有效步骤。
+
+| 阶段 | 原始输入/命令/波函数 | 原始输出 | 执行证据与限定 |
+|---|---|---|---|
+| author_syn_La_KHQ_wb97xd_lcrecp_water_optfreq_retry_basis_v2 | [input.com](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/provenance/qzcli_hpc/author_syn_La_KHQ_wb97xd_lcrecp_water_optfreq_retry_basis_v2_hpc20_20260911T063030Z/input.com) | [stdout.log](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/provenance/qzcli_hpc/author_syn_La_KHQ_wb97xd_lcrecp_water_optfreq_retry_basis_v2_hpc20_20260911T063030Z/stdout.log) | Gaussian 正常终止标记 2 处；有优化收敛标记 |
+| author_anti_La_KHQ_wb97xd_lcrecp_water_optfreq_retry_basis_v2 | [input.com](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/provenance/qzcli_hpc/author_anti_La_KHQ_wb97xd_lcrecp_water_optfreq_retry_basis_v2_hpc20_20260911T063034Z/input.com) | [stdout.log](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/provenance/qzcli_hpc/author_anti_La_KHQ_wb97xd_lcrecp_water_optfreq_retry_basis_v2_hpc20_20260911T063034Z/stdout.log) | Gaussian 正常终止标记 2 处；有优化收敛标记 |
+
+## 5. 后处理、结果与逐项核验依据
+
+- [provenance/author_route_evaluation_audit.json](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/provenance/author_route_evaluation_audit.json)
+- [report/results.json](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/report/results.json)
+- [verification_report.md](../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/verification_report.md)
+
+以上脚本/输入仅作为历史流程索引，不要求本次重新运行。总报告可能保留早期失败或旧状态；应以本文件明确选定的原始成功输出、最新专门审计和正式结果为准，不将旧尝试混入成功链。
+
+## 6. 保留的科学与记录边界
+
+- 旧中性电荷、格式错误的基组/ECP 或 LANL2DZ fallback 不属于本成功链。
+- 仅验证两构型相对热化学；不外推为动力学、显式溶剂 MD 或所有镧系金属机制。
+
+## 7. 成功阶段计时
+
+成功作业 ledger 记录 syn/anti 约 17330/54767 s；分阶段和不等于并行日历工期。
+
+本次归档没有提交、重启或停止任何计算作业。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "items": [
+    {
+      "key_point_id": "kp_process_minima",
+      "key_point_type": "process",
+      "statement": "Both supplied syn and anti La-KHQ endpoints are subjected to stationary-point validation and the reported result identifies imaginary-mode diagnostics for each.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000348_97770d902739"
+      ],
+      "expected": "Two endpoint validation records are present; a completed comparison reports no residual imaginary modes for the selected minima, or bounded failure explicitly records the failed endpoint and diagnostics."
+    },
+    {
+      "key_point_id": "kp_process_consistency",
+      "key_point_type": "process",
+      "statement": "The conformer comparison uses a consistent free-energy convention, endpoint identity, temperature and aqueous standard state.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000353_fda087bdcc59",
+        "ev_doc_924dc5cd83b8_000371_badc800c4c37"
+      ],
+      "expected": "The same stated thermochemical convention is applied to syn and anti and the signed difference is formed as anti minus syn."
+    },
+    {
+      "key_point_id": "kp_result_delta_g",
+      "key_point_type": "result",
+      "statement": "The published La conformer free-energy difference is positive for anti minus syn and approximately +4.2 kcal mol−1.",
+      "evidence_ids": [
+        "ev_doc_924dc5cd83b8_000390_9f59cf1be1f9",
+        "ev_doc_924dc5cd83b8_000393_c31bbb7d8bdf"
+      ],
+      "expected": {
+        "delta_g_conf": 4.2,
+        "unit": "kcal mol-1",
+        "sign_definition": "G(anti) - G(syn)"
+      }
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "items": [
+    {
+      "failure_id": "f_wrong_identity",
+      "condition": "Reported endpoint is not the supplied 81-atom La-KHQ cation or charge/multiplicity is changed.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "f_unvalidated",
+      "condition": "A completed result omits endpoint validation or fabricates a free energy after a failed calculation.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "f_sign_error",
+      "condition": "The reported ΔG uses a reversed or undefined sign convention.",
+      "severity": "critical"
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_924dc5cd83b8_000348_97770d902739",
+      "document_id": "doc_924dc5cd83b8",
+      "source": "current paper/SI evidence index"
+    },
+    {
+      "evidence_id": "ev_doc_924dc5cd83b8_000353_fda087bdcc59",
+      "document_id": "doc_924dc5cd83b8",
+      "source": "current paper/SI evidence index"
+    },
+    {
+      "evidence_id": "ev_doc_924dc5cd83b8_000371_badc800c4c37",
+      "document_id": "doc_924dc5cd83b8",
+      "source": "current paper/SI evidence index"
+    },
+    {
+      "evidence_id": "ev_doc_924dc5cd83b8_000390_9f59cf1be1f9",
+      "document_id": "doc_924dc5cd83b8",
+      "source": "current paper/SI evidence index"
+    },
+    {
+      "evidence_id": "ev_doc_924dc5cd83b8_000393_c31bbb7d8bdf",
+      "document_id": "doc_924dc5cd83b8",
+      "source": "current paper/SI evidence index"
+    },
+    {
+      "evidence_id": "ev_doc_ee2b6aed5d22_000308_18269a7ce1cd",
+      "document_id": "doc_ee2b6aed5d22",
+      "source": "current paper/SI evidence index"
+    },
+    {
+      "evidence_id": "ev_doc_924dc5cd83b8_000328_56a66f50478b",
+      "document_id": "doc_924dc5cd83b8",
+      "source": "current paper/SI evidence index"
+    }
+  ]
+}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "items": [
+    {
+      "conclusion_id": "c_final_preference",
+      "claim_role": "final",
+      "evidence_ids": [
+        "ev_doc_ee2b6aed5d22_000308_18269a7ce1cd",
+        "ev_doc_924dc5cd83b8_000393_c31bbb7d8bdf"
+      ],
+      "expected": "Under the published aqueous DFT convention, syn-La-KHQ+ is thermodynamically preferred to anti-La-KHQ+ because G(anti) − G(syn) is positive.",
+      "supporting_key_point_ids": [
+        "kp_process_minima",
+        "kp_process_consistency",
+        "kp_result_delta_g"
+      ],
+      "statement": "Under the published aqueous DFT convention, syn-La-KHQ+ is thermodynamically preferred to anti-La-KHQ+ because G(anti) − G(syn) is positive."
+    }
+  ]
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 当前目录与审批状态（2026-09-17）
+
+本包已完成最终包审查，并按负责人“检查通过后移动到 final”的明确授权，迁入 `tasks/final_verified_paper_reproduction/paper_d8e5490cd9942f4f`。
+
+当前任务范围、有效计算依据和限制见[已验证计算参考](../verified_computation_reference.md)。本次迁移及元数据收尾未改变任务科学内容，也未新增量化计算或模型盲测。
+
+下方“仍在 verified_tasks”“未批准迁移”“已退回 verified_tasks”等文字属于此前维护阶段的历史状态，不代表当前目录或审批状态；当前状态以本节为准。历史科学事实和修复记录保留不变。
+
+---
+
+# 历史实施状态（2026-09-16）
+
+## 已批准修复记录（2026-09-16）
+
+按已批准边界保留 source-optimized 给定对象/初态；统一 XYZ 注释和 task_info，不称其为独立生成或待发现几何。待求性质/中间关键点仍由 agent 计算，未公开结果或排名。
+
+本包仍在 verified_tasks；未新增量化计算，未批准迁移。下方保留审批前历史，若与本节冲突以本节为准。
+
+---
+
+# 本批维护审查：syn / anti La-KHQ 热化学
+
+> 当前状态：已按负责人指令退回 verified_tasks 复审；本文件下方为前轮审查记录，不是负责人验收/迁移批准。当前仅记录问题和建议，等待确认后才改任务；再次迁入 final 或 hold 还需独立的明确确认。
+
+## 本次复审结论（2026-09-16，待负责人确认）
+
+本模式：`paper_reproduction`。工作目录：`tasks/verified_tasks/paper_reproduction/paper_d8e5490cd9942f4f`。本批全部34包均已退回暂存；本包未获得 final/hold 迁移确认。
+
+AR/PR 的指定 syn/anti 自由能比较成立；给定作者端点的范围仍应由你验收。
+
+复审摘要：两端点各 237 实频，ΔG=4.393821；不是完整构象搜索，作者端点保留边界待确认。
+
+具体文件/规则、论文及真实输出依据、模式差异和建议修法见[集中报告中的本篇分析](../../../../verified_tasks/MAINTENANCE_REPORT.md#paper_d8e5490cd9942f4f)。本轮只分析；没有再修改 task.md、科学输入、schema 或 evaluator，也没有新增量化计算。即使建议无需科学修复，也须负责人验收并另行批准去向后才可迁移。
+
+**下方为前轮维护历史。其“移 final/hold”“通过”字样仅记录前轮审查者判断，迁移已撤回，不代表当前验收或授权；以本次复审和集中报告为准。**
+
+日期：2026-09-16。论文：`paper_d8e5490cd9942f4f`；group：`group_2`；模式：`paper_reproduction`。
+
+结论：**当前既有科学范围通过，移入 final**。当前既有科学范围内可移入 final；作者路线证据不等于自主盲测通过。
+
+修复前版本：`e67441a9`；格式检查点：`42970e03`。本记录不是 evaluator 规则，也不证明运行时隔离或自主 agent 盲测通过。
+
+## 1. 原文依据与对象
+
+正文 PDF p5；SI PDF p21–22 Eq. S2 / Table S2 的 ΔG 定义与 4.2 kcal/mol，p85–91 syn/anti 优化结构。
+
+- [正文](../../../../../papers/paper_d8e5490cd9942f4f/documents/main.pdf)
+- [SI](../../../../../papers/paper_d8e5490cd9942f4f/documents/supplementary_001.pdf)
+- [当前任务](../../agent_input/task.md)、[提交 schema](../../agent_input/submission_schema.json)
+
+## 2. 输入、答案边界与必要信息
+
+两端点各 81 原子，La+C32H38N4O6，charge +1/singlet；水连续介质、298 K、1 M 与 ΔG=G(anti)−G(syn) 公开明确。坐标全匹配 SI，但任务本来就是给定两构象端点自由能比较，未把端点生成当待发现目标；未公开谁更稳定。
+
+模式核对：PR 可以给作者定性假设/待比较路线，但不能把已求得的结构/TS、排序或参考值当作指导输入；存在该问题的包已明确 hold，不以数值通过替代隔离修复。
+
+## 3. 历史真实计算支持与限制
+
+ωB97XD、La LCRECP46MWB、SMD(水) 两 Opt/Freq 均 237 实频；ΔG=4.393821 kcal/mol，在4.2±1内。相同分子数的1 M标准态校正相消，不把1 atm单个绝对 G直接冒称不经校正的1 M绝对值。
+
+仅比较两个指定端点，有限 alternatives/retries；不是全局构象、质子转移、络合形成或完整溶液平衡。数值规则绑定还含 unit 字段，这是语义配对不是第二个要减目标的数字；验收已分别检查值和单位。
+
+完整有效步骤及输入/输出索引见 [verified_computation_reference.md](../verified_computation_reference.md)，不依赖本文件作为评分标准。原始 [group 结果](../../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/report/results.json) 保持只读。
+
+专门核查记录：
+
+- [provenance/author_route_evaluation_audit.json](../../../../../docs/verification/group_2/paper_d8e5490cd9942f4f/provenance/author_route_evaluation_audit.json)
+
+## 4. 当前评分契约核对
+
+原有五个 evaluator JSON 已核对。下表是与实际结果的字段绑定/算术复核；semantic 行的科学解释见上节，**没有重新运行 LLM judge**。格式成立不消除上节的科学问题；尤其错误分子的数值不能认证论文目标。
+
+| 规则 → 关键点/结论 | 类型与真实结果核对 | 绑定 |
+|---|---|---|
+| `r_kp_process_minima` → `kp_process_minima` | semantic；真实证据/适用边界见第 3 节 | `$.endpoints[].id` / `$.endpoints[].identity` / `$.endpoints[].validation_status` / `$.endpoints[].imaginary_mode_count` / `$.investigation` |
+| `r_kp_process_consistency` → `kp_process_consistency` | semantic；真实证据/适用边界见第 3 节 | `$.endpoints[].id` / `$.endpoints[].free_energy` / `$.endpoints[].free_energy_unit` / `$.route` / `$.investigation` / `$.investigation` |
+| `r_kp_result_delta_g` → `kp_result_delta_g` | 4.393821；参考 4.2 ± 1 kcal/mol；算术通过 | `$.conclusion.delta_g_conf` / `$.conclusion.delta_g_unit` |
+| `r_c_final_preference` → `c_final_preference` | semantic；真实证据/适用边界见第 3 节 | `$.conclusion` |
+| `r_c_limitation` → `c_limitation` | semantic；真实证据/适用边界见第 3 节 | `$.conclusion` |
+
+历史正式 results.json 直接通过当前 result_schema 检查。
+
+当前绑定均能在真实结果中定位；值、单位、符号和候选/态身份仍以上述逐篇科学判断为准。
+
+## 5. 本轮实际修改
+
+- 先按统一章节整理 task.md；PR 单列既有作者定性 guidance。格式步骤没有改变非标题文字。
+- `agent_input/task.md`：澄清既有给定结构角色/公开来源，或补全格式拆分后的主语；不改变目标、方法或评分。
+- 更新 reference 的任务版本说明，避免把维护后的副本仍称为“原样仅复制”。
+- 包迁移只调整目录与相对链接；manifest 随文件变化重建。源任务、正文/SI 和 group 原始记录不修改。
+
+## 6. 后续行动与发布边界
+
+两模式移 final；已明确几何来源/角色，不改电子态或自由能零点。
+
+前轮建议去向（迁移已撤回）：`tasks/final_verified_paper_reproduction/paper_d8e5490cd9942f4f`。集中报告：[MAINTENANCE_REPORT.md](../../../../verified_tasks/MAINTENANCE_REPORT.md)。相对链接已按退回 verified_tasks 后的实际位置重算。
+
+没有新增量化计算、HPC 操作或 benchmark 发布。包校验/软件回归不能替代科学审计；只交付 agent_input 的物化路径已核查，真实运行环境的挂载、共享目录、网络和检索隔离尚未作端到端测试。任务的五个 evaluator JSON 与 reference 继续位于私有侧；task_provenance 是可移除的维护资料，不是 agent 必需输入。
+
+- 定向复核给定 81 原子 La +1/singlet、水/298 K/1 M 及 Ganti−Gsyn；历史两端点各 237 实频、4.393821 kcal/mol 仍对应当前固定对象。未扩大全局构象范围。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "route",
+      "endpoints",
+      "investigation",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "route": {
+        "type": "object",
+        "required": [
+          "method_summary",
+          "temperature_K",
+          "standard_state"
+        ],
+        "properties": {
+          "method_summary": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "standard_state": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "endpoints": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "identity",
+            "validation_status",
+            "free_energy",
+            "free_energy_unit",
+            "imaginary_mode_count"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "identity": {
+              "type": "string"
+            },
+            "validation_status": {
+              "type": "string"
+            },
+            "free_energy": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "free_energy_unit": {
+              "type": "string"
+            },
+            "imaginary_mode_count": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "structure_path": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "investigation": {
+        "type": "object",
+        "required": [
+          "formula",
+          "coverage",
+          "validation_summary"
+        ],
+        "properties": {
+          "formula": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string"
+          },
+          "validation_summary": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "delta_g_conf",
+          "delta_g_unit",
+          "preferred_endpoint",
+          "text"
+        ],
+        "properties": {
+          "delta_g_conf": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "delta_g_unit": {
+            "type": "string"
+          },
+          "preferred_endpoint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "failure": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "diagnostics": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "completed"
+          },
+          "endpoints": {
+            "items": {
+              "properties": {
+                "free_energy": {
+                  "type": "number"
+                },
+                "validation_status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "conclusion": {
+            "required": [
+              "delta_g_conf",
+              "preferred_endpoint"
+            ],
+            "properties": {
+              "delta_g_conf": {
+                "type": "number"
+              },
+              "preferred_endpoint": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure": {
+            "required": [
+              "stage",
+              "reason",
+              "diagnostics"
+            ]
+          },
+          "conclusion": {
+            "properties": {
+              "delta_g_conf": {
+                "type": "null"
+              },
+              "preferred_endpoint": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "additionalProperties": true
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+Determine the aqueous 298 K, 1 M standard-state Gibbs free-energy difference between the two supplied 1:1 [La-KHQ]+ conformers, defined exactly as ΔG_conf = G°aq(anti-La-KHQ+) − G°aq(syn-La-KHQ+), in kcal mol−1, and determine which supplied conformer is thermodynamically preferred under that definition. Independently test this conformational hypothesis; do not assume the paper method or answer.
+
+# Author-provided scientific guidance
+
+The authors qualitatively proposed that the two 8-hydroxyquinoline arms can adopt distinct syn or anti arrangements around La3+.
+
+# Public inputs and scientific boundaries
+
+Use only the two public XYZ files: `syn_La_KHQ.xyz` and `anti_La_KHQ.xyz`. Each contains exactly 81 atoms: one La atom and the C32H38N4O6 ligand in the +1 charge, singlet state. The labels syn and anti identify the two supplied arm-arrangement endpoints; they are not claims about the computed ordering. The system boundary is the isolated cation in an aqueous continuum at 298 K and 1 M standard state. Water molecules are not included in the supplied endpoints and no explicit solvent, counterion, proton transfer, alternative protonation state, metal substitution, or reaction pathway is part of the scored object. You may generate conformers or repair geometries only as documented alternatives to the supplied endpoints; do not change atom identity or charge.
+
+The supplied syn and anti coordinates are source-optimized endpoint structures. This is the stated two-endpoint free-energy comparison, not an independent search for the structures or a claim that either endpoint is globally preferred.
+
+# Required scientific validation/investigation
+
+Choose and document a defensible electronic-structure and solution-thermochemistry route. For each endpoint, optimize the supplied structure, verify that the result is a stationary point by a vibrational calculation or a scientifically justified equivalent, and report whether imaginary modes remain. Apply an explicit aqueous free-energy treatment and state temperature, standard state, and all corrections. Compute ΔG_conf with the definition above using consistently treated endpoints. Compare at least the supplied-starting-geometry result with any alternative conformers or retries you use, deduplicate alternatives by connectivity and a stated structural criterion, and explain whether the endpoint assignment survived optimization. If an endpoint cannot be validated or the calculation cannot be completed, report bounded failure with the attempted calculations, diagnostics; do not fabricate a number. Scientific completion requires all requested primary observables, the specified validation evidence and the resulting scientific comparison. A partial or failed calculation may be submitted with its actual results and diagnostics, but does not satisfy an uncomputed scientific result.
+
+# Deliverables
+
+Submit `report/results.json` only in the declared schema. Include the route and software, endpoint identities, optimized structures or unambiguous paths to them, electronic and solvation/thermal settings, validation diagnostics, free energies with units and standard state, ΔG_conf with its sign convention, preferred endpoint, convergence/retry coverage. A bounded-failure branch must identify the failed endpoint or stage and preserve all diagnostics needed to assess what was learned.
+
+Additional starting structures or investigations may be used to obtain the required results. Report auxiliary results separately; they do not replace the primary observables or their specified definitions. Optional analyses may be omitted without explanation or penalty.

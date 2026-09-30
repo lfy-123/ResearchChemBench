@@ -1,0 +1,80 @@
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "status": "implemented_pending_expanded_reference",
+  "old_class": "B",
+  "new_class": "加强B",
+  "packages": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_3d1d9b7f6df049da",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_3d1d9b7f6df049da"
+  },
+  "new_reference_gaps": [
+    "No new mode projection matrix, negative-control derivatives or frame/step uncertainty reference has been run."
+  ],
+  "blockers": [],
+  "checks": {
+    "validate_task_package": "passed",
+    "full_batch_regression": "passed",
+    "identity_input_audit": "passed"
+  },
+  "new_scientific_calculations_performed": false,
+  "package_hashes": {
+    "autonomous_research": "efcdd11a7d85567ace2cfa6756831d014284814419ce7d2812db84437a454627",
+    "paper_reproduction": "1d427ca9f0fff53733e9f4b4be8bdca754445c16f054483ed44c061bac0cf836"
+  },
+  "source_review": "paper_reviews/paper_3d1d9b7f6df049da.md",
+  "source_packages": {
+    "autonomous_research": {
+      "path": "tasks/final_verified_autonomous_research/paper_3d1d9b7f6df049da",
+      "package_content_sha256": "b5ddb0da1d251291f67f321ce151c656a831a426f8a390f6fda09c1e53574c0e"
+    },
+    "paper_reproduction": {
+      "path": "tasks/final_verified_paper_reproduction/paper_3d1d9b7f6df049da",
+      "package_content_sha256": "593fee3aa7bb28ae68a99f1a8654f56818934ce67418546623a96b31d7ce5ca4"
+    }
+  },
+  "result_panels": [
+    "mode_assignment",
+    "tensor_derivatives",
+    "thermal_and_frame_controls"
+  ],
+  "source_documents": [
+    {
+      "path": "papers/paper_3d1d9b7f6df049da/documents/main.pdf",
+      "sha256": "767499d77d3e48a8377ff6668eb0ea6263ba5d3ed7a11dbc62b323f2d6a24fb4",
+      "pages": [
+        3,
+        8,
+        9,
+        10
+      ],
+      "total_pages": 19
+    },
+    {
+      "path": "papers/paper_3d1d9b7f6df049da/documents/supplementary_001.pdf",
+      "sha256": "9506646b763e5856fe966b7523096ce523255d105cf4f0f792c45769dfaf4568",
+      "pages": [
+        2,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "total_pages": 32
+    },
+    {
+      "path": "docs/evalution/update/paper_3d1d9b7f6df049da.md",
+      "sha256": "53acfffcfbda60cb01f90aed1dfd413d8b04dc2624264e202f4507f9b958d7a0",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "stop_modifying": true,
+  "development_handoff_at": "2026-09-27T13:59:37.595305+00:00",
+  "scientific_validation_passed": false,
+  "reference_validation_plan": {
+    "autonomous_research": "tasks/upgrade_tasks/autonomous_research/paper_3d1d9b7f6df049da/evaluation/reference_validation_plan.md",
+    "paper_reproduction": "tasks/upgrade_tasks/paper_reproduction/paper_3d1d9b7f6df049da/evaluation/reference_validation_plan.md"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "paper_id": "paper_2c439196c2f349c9",
+  "rules": [
+    {
+      "rule_id": "r_process",
+      "type": "condition",
+      "statement": "Identity, convergence and frequency evidence are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecule",
+          "$.method.optimization_converged",
+          "$.geometry_validation"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_process",
+      "expected": "explicit identity, convergence and frequency evidence",
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    },
+    {
+      "rule_id": "r_homo",
+      "type": "numeric",
+      "target": -0.23029,
+      "unit": "hartree",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frontier_orbitals.homo_au"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result",
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    },
+    {
+      "rule_id": "r_lumo",
+      "type": "numeric",
+      "target": -0.10866,
+      "unit": "hartree",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frontier_orbitals.lumo_au"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result",
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    },
+    {
+      "rule_id": "r_gap",
+      "type": "numeric",
+      "target": 3.31,
+      "unit": "eV",
+      "tolerance": 0.2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frontier_orbitals.gap_ev"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result",
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "The optimized neutral singlet INP molecule has source-consistent HOMO and LUMO energies and a molecular frontier-orbital gap near 3.31 eV. The electronic interpretation is supported by the calculated orbital spatial distributions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final",
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

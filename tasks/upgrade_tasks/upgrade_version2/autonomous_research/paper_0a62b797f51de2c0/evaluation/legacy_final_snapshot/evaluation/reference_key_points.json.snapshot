@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "items": [
+    {
+      "key_point_id": "ar_process_identity",
+      "key_point_type": "process",
+      "statement": "The independent investigation covers all three supplied monomer connectivities as neutral singlet molecules and records reproducible calculation metadata.",
+      "expected": "All three public chemical identities are preserved from the supplied IDs and structures; charge 0, multiplicity 1 and molecule-specific validation records are present. If historical or generated labels are used, their mapping to the supplied identities is made explicit.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000108_1209164c6485",
+        "ev_doc_47250c8470bc_000109_7388b4d4ed62"
+      ]
+    },
+    {
+      "key_point_id": "ar_process_validation",
+      "key_point_type": "process",
+      "statement": "The investigation defines and validates its ESP observable and conformer/optimization coverage before drawing a series conclusion.",
+      "expected": "The report states ESP units/convention, convergence or stationary-point evidence, the conformers actually computed.",
+      "evidence_ids": [
+        "ev_doc_6a6661d37024_000123_571920e2cd0b"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_trend",
+      "key_point_type": "result",
+      "statement": "Source-supported comparison indicates stronger dipole/polarization with increasing cyano substitution.",
+      "expected": "The reported 0CN-to-1CN-to-2CN dipole/polarization comparison is supported by the submitted values, conventions and uncertainty. Agreement with an increasing source-supported trend is acceptable, while an evidence-backed method-dependent departure is also acceptable when it is stated and bounded rather than silently forced into the reference trend.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000168_413265c0a85d",
+        "ev_doc_6a6661d37024_000153_af50646314fa"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_pattern",
+      "key_point_type": "result",
+      "statement": "The source MESP comparison identifies a more positive thiophene-side and more negative cyano-side potential in cyano-substituted members, interpreted from consistently defined signed potential maps.",
+      "expected": "Evaluate the actual signed potential regions and the stated surface/grid convention. Chemical donor/acceptor terminology or electron density is not an ESP sign. Retain evidence-backed method-dependent departures rather than forcing unsupported agreement.",
+      "evidence_ids": [
+        "ev_doc_47250c8470bc_000168_413265c0a85d"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "task_type": "autonomous_research",
+  "version": 2,
+  "old_class": {
+    "old": "A",
+    "v1": "B"
+  },
+  "autonomy": "source_bounded_open_research_C",
+  "status": "content_developed_reference_judge_isolation_pending",
+  "baseline_package": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_43d74f8a469d9ad3",
+  "baseline_package_content_sha256": "cf0d70e0d01f9707cdb414fd0382962c337914e63bac3d812b5d8f4de0bbf996",
+  "baseline_manifest_sha256": "cb7c3d33b67cfbc515fdc7ac5a7b15f73c3b02b3c47b0728985b891f224eae8a",
+  "baseline_snapshot": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/_backup_metadata/snapshot_manifest.json",
+    "sha256": "6aec7a6cf2b705fb9700e949fb90323c4f972ee954ca16979b7c7a3082152915",
+    "inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666"
+  },
+  "plan": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/plans/paper_43d74f8a469d9ad3.json",
+  "plan_sha256": "fb9089aa62f29bf1b9f5f67ce58dfa72757867ead9b1902092916358417fcfcf",
+  "plan_created_before_copy": true,
+  "public_changes": [
+    "Retain Scheme1-correct complete graphs and measured absorption bands, without source TD state assignments or optimized structures.",
+    "Remove named X-B-C-C torsion,24-point and S0/S1 grids, frozen restraints and prescribed rotation explanation.",
+    "Retire unchecked SI S5/S6 coordinate-label assignments; do not require acetonitrile, in which source reports instability for some derivatives."
+  ],
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "scientifically_validated": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "blockers": [],
+  "created_at_utc": "2026-09-28T16:49:44.329502+00:00",
+  "review_amendments": [
+    "Direct main p11 review: identify the actual1/3 pair and15-degree rotation protocol; do not transplant it to the selected1/2 task."
+  ],
+  "offline_existing_output_observation_at_utc": "2026-09-28T17:32:53.467157+00:00"
+}

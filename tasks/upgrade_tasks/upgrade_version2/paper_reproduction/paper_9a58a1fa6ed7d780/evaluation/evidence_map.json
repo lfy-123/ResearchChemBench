@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_9a58a1fa6ed7d780",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_9a58a1fa6ed7d780/documents/main.pdf",
+          "sha256": "aeebf1cd58e33932312c18720a87e7fddd1c12d72f39a5afb963baaa5ce4ca92",
+          "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p3 描述 BN-AkFlu/CC 类比物；SI p3 方法和 pp49–51 坐标表。当前完整对象为 BN C22H14B2N2、CC C26H14，共同映射拓扑检查通过。",
+          "actual_read_pages_and_sections": "Main pp2–4 molecular/optical discussion; SI pp3,39,41–43 methods and tables,49–51 coordinate identities."
+        },
+        {
+          "path": "papers/paper_9a58a1fa6ed7d780/documents/supplementary_001.pdf",
+          "sha256": "dcd192b5e3b92b087855114bacea08f5316e4de2d8a105fa4af949b8459531fe",
+          "locator": "Main pp2-4 Figs2-3; SI p3 methods, Tables S11/S14 and pp49-51 Tables S21-S22.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p3 描述 BN-AkFlu/CC 类比物；SI p3 方法和 pp49–51 坐标表。当前完整对象为 BN C22H14B2N2、CC C26H14，共同映射拓扑检查通过。",
+          "actual_read_pages_and_sections": "Main pp2–4 molecular/optical discussion; SI pp3,39,41–43 methods and tables,49–51 coordinate identities."
+        }
+      ],
+      "description": "The source compares internal BN incorporation in BN-AkFlu5a with the all-carbon CC-AkFlu5b. This bounded task addresses isolated-molecule low-energy electronic excitations rather than crystallographic assembly, photoluminescence kinetics or devices. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "group_3 冻结记录为 finite scientifically_validated；保留实际输出和来源条件，V2 语义评分与盲测不继承通过。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "How does replacing the specified internal carbon sites by BN units affect the low-energy molecular electronic excitations of BN-AkFlu and CC-AkFlu, and what molecular explanation can be supported? Determine which differences are robust and which depend on the chosen model or state interpretation. Separate orbital gaps, vertical excitations and any other observable you calculate. Match physical states using adequate evidence whenever comparing states across molecules or methods; specify descriptor definitions and numerical convergence if such descriptors support the explanation. Test limitations important for the asserted BN effect without a prescribed control axis."
+    }
+  ]
+}

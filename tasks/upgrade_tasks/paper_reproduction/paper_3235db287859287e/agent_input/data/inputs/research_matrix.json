@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_3235db287859287e",
+  "scientific_class": "C",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use methyl 2-(hydroxy(phenyl)methyl)acrylate 1a and benzenethiol 2a, not benzylthiol. The local reaction uses MeCN, 298.15 K and a declared 1 M solution convention. Experimental context is 1 mmol of each substrate, 5 mL 0.1 M KI, Pt electrodes, 10 mA, room temperature, N2 (main PDF p7). Compare a finite radical/ionic and substrate-O/water-O candidate space. Reservoir species are I−/I radical, H2O, H+/electron with explicitly matched electron/proton chemical potentials; the electrochemical cell is not modeled. The unlabelled product constitution is a comparison endpoint, not an energetic winner. Isotope observations are public constraints, not blind predictions.",
+  "panels": {
+    "paths": {
+      "requirement": "Two chemically different, connected local oxygen-transfer routes with common reservoir bookkeeping.",
+      "required_cells": [
+        "substrate_O_candidate",
+        "competitive_alternative"
+      ]
+    },
+    "oxygen_tests": {
+      "requirement": "Atom-source predictions and computed protection perturbation, bound to actual paths.",
+      "required_cells": [
+        "substrate_18O",
+        "water_18O",
+        "OH_protected"
+      ]
+    },
+    "path_comparison": {
+      "requirement": "Compare reference-corrected barriers, not merely E/Z product G.",
+      "required_cells": [
+        "comparison_outcome",
+        "left_record_ids",
+        "right_record_ids",
+        "reference_definition",
+        "uncertainty_basis",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "完整电极过程、所有底物和完整反应网络不加入。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

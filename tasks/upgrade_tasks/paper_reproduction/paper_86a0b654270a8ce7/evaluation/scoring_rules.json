@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Both complete IrC60H63N4O2 isomers are neutral singlets, in THF at 339 K. Preserve Ir coordination identity; report E, solvent contribution, ZPE/thermal and low-frequency correction separately with one standard state. The source predicts a preference, but a contrary converged method is not discarded. Contact-separation restraints measure interaction plus deformation and must not be called pure pi-stacking energies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Both complete IrC60H63N4O2 isomers are neutral singlets, in THF at 339 K. Preserve Ir coordination identity; report E, solvent contribution, ZPE/thermal and low-frequency correction separately with one standard state. The source predicts a preference, but a contrary converged method is not discarded. Contact-separation restraints measure interaction plus deformation and must not be called pure pi-stacking energies."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_isomer_ensembles",
+      "reference_id": "kp_isomer_ensembles",
+      "type": "semantic",
+      "expected": "Use low-energy conformer coverage and frequency evidence with identical 339 K convention; reconstruct ensemble G and document degeneracy. Core rows: isomer1, isomer2. Recompute electronic_Eh, solvation_Eh, thermal_Eh, low_frequency_Eh, G_339K_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.isomer_ensembles",
+          "$.calculation_records"
+        ],
+        "comparison": "Use low-energy conformer coverage and frequency evidence with identical 339 K convention; reconstruct ensemble G and document degeneracy. Core rows: isomer1, isomer2. Recompute electronic_Eh, solvation_Eh, thermal_Eh, low_frequency_Eh, G_339K_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_stacking_intervention",
+      "reference_id": "kp_stacking_intervention",
+      "type": "semantic",
+      "expected": "Submit mapped aromatic ring atoms and frozen/released contacts, controlling other geometry. Distortion cannot be removed by merely labeling the difference stacking. Core rows: isomer1_contact, isomer2_contact. Recompute centroid_distance_A, relative_angle_degree, delta_E_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.stacking_intervention",
+          "$.calculation_records"
+        ],
+        "comparison": "Submit mapped aromatic ring atoms and frozen/released contacts, controlling other geometry. Distortion cannot be removed by merely labeling the difference stacking. Core rows: isomer1_contact, isomer2_contact. Recompute centroid_distance_A, relative_angle_degree, delta_E_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_ranking_robustness",
+      "reference_id": "kp_ranking_robustness",
+      "type": "semantic",
+      "expected": "Quantify sign and interval under actual methods and thermal treatment; unresolved ranking after complete data is acceptable. Isolated yields are not a scored equilibrium ratio. Core rows: method_change, thermal_model_change. Recompute delta_G_2_minus_1_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ranking_robustness",
+          "$.calculation_records"
+        ],
+        "comparison": "Quantify sign and interval under actual methods and thermal treatment; unresolved ranking after complete data is acceptable. Isolated yields are not a scored equilibrium ratio. Core rows: method_change, thermal_model_change. Recompute delta_G_2_minus_1_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Complete interconversion networks and exact isolated yields are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Complete interconversion networks and exact isolated yields are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Both complete IrC60H63N4O2 isomers are neutral singlets, in THF at 339 K. Preserve Ir coordination identity; report E, solvent contribution, ZPE/thermal and low-frequency correction separately with one standard state. The source predicts a preference, but a contrary converged method is not discarded. Contact-separation restraints measure interaction plus deformation and must not be called pure pi-stacking energies.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "isomer_ensembles",
+      "max_score": 20,
+      "description": "Use low-energy conformer coverage and frequency evidence with identical 339 K convention; reconstruct ensemble G and document degeneracy. Core rows: isomer1, isomer2. Recompute electronic_Eh, solvation_Eh, thermal_Eh, low_frequency_Eh, G_339K_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_isomer_ensembles"
+      ]
+    },
+    {
+      "id": "stacking_intervention",
+      "max_score": 25,
+      "description": "Submit mapped aromatic ring atoms and frozen/released contacts, controlling other geometry. Distortion cannot be removed by merely labeling the difference stacking. Core rows: isomer1_contact, isomer2_contact. Recompute centroid_distance_A, relative_angle_degree, delta_E_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_stacking_intervention"
+      ]
+    },
+    {
+      "id": "ranking_robustness",
+      "max_score": 20,
+      "description": "Quantify sign and interval under actual methods and thermal treatment; unresolved ranking after complete data is acceptable. Isolated yields are not a scored equilibrium ratio. Core rows: method_change, thermal_model_change. Recompute delta_G_2_minus_1_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_ranking_robustness"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Complete interconversion networks and exact isolated yields are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

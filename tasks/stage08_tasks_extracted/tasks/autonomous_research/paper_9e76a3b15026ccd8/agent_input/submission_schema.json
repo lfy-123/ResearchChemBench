@@ -1,0 +1,21 @@
+{
+  "paper_id": "paper_9e76a3b15026ccd8",
+  "task_type": "autonomous_research",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "object", "method", "validation", "conclusion"],
+    "properties": {
+      "status": {"type": "string", "enum": ["success", "bounded_failure"]},
+      "object": {"type": "object", "required": ["system", "adsorbate_atoms", "substrate_atoms", "geometry_source"], "properties": {"system": {"type": "string"}, "adsorbate_atoms": {"type": "array"}, "substrate_atoms": {"type": "array"}, "geometry_source": {"type": "string"}}},
+      "method": {"type": "object", "required": ["software", "model", "spin_treatment", "relaxation_criteria", "reference_definition"], "properties": {"software": {"type": "string"}, "model": {"type": "string"}, "spin_treatment": {"type": "string"}, "relaxation_criteria": {"type": "string"}, "reference_definition": {"type": "string"}}},
+      "validation": {"type": "object", "required": ["stationarity", "stability_check", "provenance"], "properties": {"stationarity": {"type": "string"}, "stability_check": {"type": "string"}, "provenance": {"type": "array"}}},
+      "conclusion": {"type": "string"}
+    },
+    "oneOf": [
+      {"properties": {"status": {"const": "success"}, "results": {"type": "object", "required": ["adsorption_energy", "height", "bader_charge", "magnetic_moment"], "properties": {"adsorption_energy": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}}, "height": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}}, "bader_charge": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}}, "magnetic_moment": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}}}}}, "required": ["results"]},
+      {"properties": {"status": {"const": "bounded_failure"}, "failure": {"type": "object", "required": ["attempted_scope", "diagnostics", "limitations"], "properties": {"attempted_scope": {"type": "string"}, "diagnostics": {"type": "array"}, "limitations": {"type": "string"}}}}, "required": ["failure"]}
+    ]
+  }
+}

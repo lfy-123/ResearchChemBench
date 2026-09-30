@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_63bba4453d5e7545",
+  "task_type": "autonomous_research",
+  "title": "Independent conformational and NMR analysis of protonated piperidines",
+  "category": "conformer thermochemistry and NMR property calibration",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The four fixed structures and observables are supplied, but the Agent must choose and justify its own computational protocol and infer the physical interpretation."
+  ],
+  "paper": {
+    "title": "From NH+ Chemical Shifts to Chemical Insights: A 1H NMR Spectroscopic Window into Amine pKa, Anion pKBHX, and Charge-Assisted Intramolecular H-Bond Assessment from a Medicinal Chemistry Perspective",
+    "doi": "10.1021/acs.jmedchem.5c03319",
+    "journal": "Journal of Medicinal Chemistry",
+    "publication_date": "2026-02-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Four named SI XYZ structures of protonated piperidines 11 and 12."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated structure-level calculations and independently reasoned conclusion."
+    },
+    {
+      "path": "report/method.md",
+      "description": "Independent method, convergence, referencing, validation, and limitations."
+    }
+  ]
+}

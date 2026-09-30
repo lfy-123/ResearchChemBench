@@ -1,6 +1,6 @@
 # Scientific objective
 
-Independently test the authors' qualitative hypothesis that strengthening the acceptor in an anthraquinone donor–acceptor molecule changes intramolecular charge transfer and the first singlet–triplet gap. For the explicitly supplied AQ and EQ molecules, calculate and compare ΔE_ST = E(T1) − E(S1), HOMO–LUMO gaps, dipole moments, and donor/acceptor localization of frontier orbitals. The author hypothesis is disclosed only as a qualitative route: cyano-functionalization is proposed to strengthen the acceptor and promote charge-transfer/ISC behavior; you must independently test it and may reject it.
+Independently test the authors' qualitative hypothesis that strengthening the acceptor in an anthraquinone donor–acceptor molecule changes intramolecular charge transfer and the first singlet–triplet gap. For the explicitly supplied AQ and EQ molecules, calculate and compare ΔE_ST = E(S1) − E(T1), HOMO–LUMO gaps, dipole moments, and donor/acceptor localization of frontier orbitals. The author hypothesis is disclosed only as a qualitative route: cyano-functionalization is proposed to strengthen the acceptor and promote charge-transfer/ISC behavior; you must independently test it and may reject it.
 
 # Public inputs and scientific boundaries
 

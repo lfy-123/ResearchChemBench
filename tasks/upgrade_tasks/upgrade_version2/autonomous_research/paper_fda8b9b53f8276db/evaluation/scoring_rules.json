@@ -1,0 +1,187 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Map the full ligand graph and CIF labels consistently; distinguish free ligand1 from the Re complex and do not confuse molecular orientations with connectivity changes. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Map the full ligand graph and CIF labels consistently; distinguish free ligand1 from the Re complex and do not confuse molecular orientations with connectivity changes."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_evidence",
+      "reference_id": "kp_quantitative_evidence",
+      "type": "semantic",
+      "expected": "Check structural quantities extracted from genuine models against correctly mapped measured coordinates/bonds, including metric definitions, original precision and crystallographic uncertainty. The reported ESD is not a universal electronic-structure tolerance. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.operations",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Check structural quantities extracted from genuine models against correctly mapped measured coordinates/bonds, including metric definitions, original precision and crystallographic uncertainty. The reported ESD is not a universal electronic-structure tolerance."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_answer",
+      "reference_id": "kp_scientific_answer",
+      "type": "semantic",
+      "expected": "Judge the evidence supporting the proposed molecular structure and interpretation of crystal/model differences. No prescribed cis winner, solvent contrast or torsional scan is mandatory; alternative structures and evidence-supported unresolved phase attribution are eligible. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Judge the evidence supporting the proposed molecular structure and interpretation of crystal/model differences. No prescribed cis winner, solvent contrast or torsional scan is mandatory; alternative structures and evidence-supported unresolved phase attribution are eligible."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_validity_and_uncertainty",
+      "reference_id": "kp_validity_and_uncertainty",
+      "type": "semantic",
+      "expected": "Verify any claimed optimized state or structural minimum and define the molecular/experimental environments compared. If reporting residuals, state the included atoms/bonds and statistic; separate marginal crystallographic ESDs, absent covariance, rounding and model error. A local minimum is not a certified global minimum, and bond agreement alone cannot explain a phase-dependent conformation. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validations",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Verify any claimed optimized state or structural minimum and define the molecular/experimental environments compared. If reporting residuals, state the included atoms/bonds and statistic; separate marginal crystallographic ESDs, absent covariance, rounding and model error. A local minimum is not a certified global minimum, and bond agreement alone cannot explain a phase-dependent conformation."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_bounded_conclusion",
+      "reference_id": "kp_bounded_conclusion",
+      "type": "semantic",
+      "expected": "Do not equate agreement of several local bonds with a globally correct conformation or phase equilibrium. Finite molecular energies do not establish crystal lattice free energy, solid-state conformer populations, Re-complex behavior or biological activity. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Do not equate agreement of several local bonds with a globally correct conformation or phase equilibrium. Finite molecular energies do not establish crystal lattice free energy, solid-state conformer populations, Re-complex behavior or biological activity."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "bounded_answer",
+      "type": "semantic",
+      "expected": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability. Do not equate agreement of several local bonds with a globally correct conformation or phase equilibrium. Finite molecular energies do not establish crystal lattice free energy, solid-state conformer populations, Re-complex behavior or biological activity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.validations",
+          "$.status"
+        ],
+        "comparison": "Check question coverage and evidence, not author agreement or the self-declared completion status."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Map the full ligand graph and CIF labels consistently; distinguish free ligand1 from the Re complex and do not confuse molecular orientations with connectivity changes.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_evidence",
+      "max_score": 25,
+      "description": "Check structural quantities extracted from genuine models against correctly mapped measured coordinates/bonds, including metric definitions, original precision and crystallographic uncertainty. The reported ESD is not a universal electronic-structure tolerance.",
+      "rule_ids": [
+        "rule_quantitative_evidence"
+      ]
+    },
+    {
+      "id": "scientific_answer",
+      "max_score": 25,
+      "description": "Judge the evidence supporting the proposed molecular structure and interpretation of crystal/model differences. No prescribed cis winner, solvent contrast or torsional scan is mandatory; alternative structures and evidence-supported unresolved phase attribution are eligible.",
+      "rule_ids": [
+        "rule_scientific_answer"
+      ]
+    },
+    {
+      "id": "validity_and_uncertainty",
+      "max_score": 20,
+      "description": "Verify any claimed optimized state or structural minimum and define the molecular/experimental environments compared. If reporting residuals, state the included atoms/bonds and statistic; separate marginal crystallographic ESDs, absent covariance, rounding and model error. A local minimum is not a certified global minimum, and bond agreement alone cannot explain a phase-dependent conformation.",
+      "rule_ids": [
+        "rule_validity_and_uncertainty"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 15,
+      "description": "Do not equate agreement of several local bonds with a globally correct conformation or phase equilibrium. Finite molecular energies do not establish crystal lattice free energy, solid-state conformer populations, Re-complex behavior or biological activity.",
+      "rule_ids": [
+        "rule_bounded_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_developed_existing_references_scope_limited",
+  "calibrated_expanded_tolerances": false,
+  "scientific_notes": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+  "semantic_judge_calibration": "pending; no new judge or scientific jobs in this development round",
+  "retired_matrix_policy": "V1 files archived as historical .snapshot are never normative for V2. Their valid raw facts may be used only within documented applicability, without requiring their candidate/control grid."
+}

@@ -1,0 +1,104 @@
+# Source and scope audit
+
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "batch": 1,
+  "source_documents": [
+    {
+      "path": "papers/paper_628af8d0bf0a1bfe/documents/main.pdf",
+      "sha256": "327d99aeb6698b39bc1833dec1bb95f244445ee173fb51d060aa17ef6dcf52a1",
+      "matches_audit": true,
+      "declared_pages": 8,
+      "material_type": "main_article",
+      "pdf_pages_read_1_based": [
+        5,
+        6
+      ]
+    },
+    {
+      "path": "papers/paper_628af8d0bf0a1bfe/documents/supplementary_001.pdf",
+      "sha256": "7d4e1b91fc4c4501b692d2b1804669e276daaf77502ac8755e5735dac565aec1",
+      "matches_audit": true,
+      "declared_pages": 56,
+      "material_type": "true_supporting_information",
+      "pdf_pages_read_1_based": [
+        2,
+        4,
+        5,
+        7,
+        8,
+        14,
+        15,
+        51,
+        52,
+        53,
+        54
+      ]
+    }
+  ],
+  "source_scope": {
+    "objects": "Full4a C36H14F12S2 and4c C34H22O2S2 neutral singlet molecules, not stripped pentalene or phenyl placeholders.",
+    "conditions": "Isolated ground-state molecular comparison; no crystal-packing or finite-temperature population claim is required.",
+    "question": "Substituent-associated molecular magnetic response and interpretation as antiaromatic character of the fused central pentalene.",
+    "observation_status": "Published ordering is a computational result, not an independent experimental magnetic measurement; therefore it is withheld from AR.",
+    "boundaries": "Do not generalize to every aromaticity criterion, arbitrary derivatives, bulk transport, reactivity or synthesis yield. Structural and electronic analyses may support the same magnetic interpretation."
+  },
+  "source_mapping": [
+    {
+      "kind": "molecular_identity",
+      "source": "SI pp7–8 systematic names and [M+H]+ characterization; SI coordinate tables pp51–54",
+      "use": "Public full neutral names/formulas, explicitly remove mass-spectrum proton."
+    },
+    {
+      "kind": "author_computational_claim",
+      "source": "main p5 Figure5 NICS/ACID and topology interpretation",
+      "use": "PR/private only:4a23.6ppm vs4c19.2ppm NICS(1.7)zz; substituent interpretation is an author hypothesis."
+    },
+    {
+      "kind": "source_validity_caveat",
+      "source": "main p6 footnote; SI pp14–15",
+      "use": "Only4b/4e have X-ray data;4a/4c source structures are optimized, not crystal inputs; source geometry-method benchmark used4e model."
+    },
+    {
+      "kind": "method_discrepancy",
+      "source": "main p5 vs SI p14",
+      "use": "NICS basis6-31++G(2d,p) vs6-311+G(2d,p); retain discrepancy for PR, not silently mix."
+    },
+    {
+      "kind": "benchmark_extension",
+      "source": "V1 full tensor study and this plan",
+      "use": "Fixed core, both sides/multiheight/rotation are one diagnostic design, not mandatory evidence axes."
+    }
+  ],
+  "agent_decisions": [
+    "Select a magnetic-response observable and how to localize or interpret it for the pentalene unit.",
+    "Build valid full structures and decide what geometry, response or electronic comparisons are needed for the proposed attribution.",
+    "Choose any scientifically adequate magnetic-response method and uncertainty analysis; current-density routes are not excluded by a NICS-only schema.",
+    "Decide whether response association supports a causal substituent/antiaromatic interpretation and how far it generalizes."
+  ],
+  "limitations": [
+    "No experimental magnetic-response target supplied for4a/4c.",
+    "Published NICS basis descriptions differ; PR must disclose that ambiguity.",
+    "One finite full-molecule NICS route is supported by historical evidence; other routes need their own validation.",
+    "No new scientific jobs or judge calibration; actual runner isolation pending."
+  ],
+  "baseline_packages": [
+    {
+      "mode": "autonomous_research",
+      "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_628af8d0bf0a1bfe",
+      "package_content_sha256": "9de8dcb8e73015f4e2b2af79df203ff5979c3af6344d4cc3b74049da3998a677",
+      "manifest_sha256": "28682b9df41a5e15174b55e3f3470e4e3f2839d23583357fdb603ebef44d6cc3"
+    },
+    {
+      "mode": "paper_reproduction",
+      "path": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_628af8d0bf0a1bfe",
+      "package_content_sha256": "5f56b4897bcee34b69a5feb48a52e717c3f87671077a05dd97da4e88fc0d2925",
+      "manifest_sha256": "7826ce0adeb9f9be9d441046eb54e1b96c715fef7dfde9c76bc95035bc284bb0"
+    }
+  ],
+  "old_classification": {
+    "original": "B",
+    "v1": "B",
+    "openness_target": "user_defined_C_open_research_not_historical_category_relabel"
+  }
+}

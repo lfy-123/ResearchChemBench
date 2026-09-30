@@ -1,0 +1,366 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "method",
+          "systems",
+          "coverage",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "thermochemistry": {
+                "type": "string"
+              },
+              "convergence_settings": {
+                "type": "string"
+              },
+              "torsion_definition": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "software",
+              "model",
+              "thermochemistry",
+              "convergence_settings",
+              "torsion_definition"
+            ]
+          },
+          "systems": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "enum": [
+                    "SNaft",
+                    "SAntr"
+                  ]
+                },
+                "states": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "state_id": {
+                        "type": "string",
+                        "enum": [
+                          "V+",
+                          "V-",
+                          "Z"
+                        ]
+                      },
+                      "torsion_deg": {
+                        "type": "number"
+                      },
+                      "gibbs_kcal_mol": {
+                        "type": "number"
+                      },
+                      "relative_gibbs_kcal_mol": {
+                        "type": "number"
+                      },
+                      "minimum_validation": {
+                        "type": "object",
+                        "properties": {
+                          "method": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "string"
+                          },
+                          "evidence": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "method",
+                          "result",
+                          "evidence"
+                        ]
+                      },
+                      "structure": {
+                        "type": "object",
+                        "properties": {
+                          "format": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "format",
+                          "value"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "state_id",
+                      "torsion_deg",
+                      "gibbs_kcal_mol",
+                      "relative_gibbs_kcal_mol",
+                      "minimum_validation",
+                      "structure"
+                    ]
+                  },
+                  "maxItems": 3,
+                  "allOf": [
+                    {
+                      "contains": {
+                        "properties": {
+                          "state_id": {
+                            "const": "V+"
+                          }
+                        },
+                        "required": [
+                          "state_id"
+                        ]
+                      },
+                      "minContains": 0,
+                      "maxContains": 1
+                    },
+                    {
+                      "contains": {
+                        "properties": {
+                          "state_id": {
+                            "const": "V-"
+                          }
+                        },
+                        "required": [
+                          "state_id"
+                        ]
+                      },
+                      "minContains": 0,
+                      "maxContains": 1
+                    },
+                    {
+                      "contains": {
+                        "properties": {
+                          "state_id": {
+                            "const": "Z"
+                          }
+                        },
+                        "required": [
+                          "state_id"
+                        ]
+                      },
+                      "minContains": 0,
+                      "maxContains": 1
+                    }
+                  ]
+                },
+                "interaction_analysis": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "states",
+                "interaction_analysis"
+              ]
+            },
+            "maxItems": 2,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "id": {
+                      "const": "SNaft"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "id": {
+                      "const": "SAntr"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          },
+          "coverage": {
+            "type": "object",
+            "properties": {
+              "starting_structures": {
+                "type": "string"
+              },
+              "deduplication": {
+                "type": "string"
+              },
+              "stopping_rule": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              },
+              "state_coverage": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "starting_structures",
+              "deduplication",
+              "state_coverage"
+            ]
+          },
+          "failed_states": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "system_id": {
+                  "type": "string"
+                },
+                "state_id": {
+                  "type": "string"
+                },
+                "cause": {
+                  "type": "string"
+                },
+                "attempted_search": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "system_id",
+                "state_id",
+                "cause",
+                "attempted_search"
+              ]
+            },
+            "minItems": 1
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "conclusion": {
+            "type": "object",
+            "properties": {
+              "ordering": {
+                "type": "string"
+              },
+              "stabilization_explanation": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ordering",
+              "text",
+              "stabilization_explanation"
+            ]
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "systems": {
+                "items": {
+                  "properties": {
+                    "states": {
+                      "minItems": 3
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              }
+            },
+            "required": [
+              "status",
+              "failed_states"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

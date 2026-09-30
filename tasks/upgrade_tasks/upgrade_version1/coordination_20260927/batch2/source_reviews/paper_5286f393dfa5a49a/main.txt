@@ -1,0 +1,775 @@
+
+===== PDF PAGE 1 =====
+Research Article
+How to cite: Angew. Chem. Int. Ed. 2026, 65, e25044
+doi.org/10.1002/anie.202525044
+Circularly Polarized Light Hot Paper
+Chiroπ-Extended Helitwistacene: Resolving the Planarity–Helicity
+Dilemma for Broadband Circularly Polarized Light Detection
+Xue Wang+, Ke Gao+, Siyuan Zhang+, Xianfeng Shen, Dong Zeng, Wenxuan Chang,
+Huile Zhu, Xiaobo Shang,* Rongjin Li,* and Wenping Hu
+Abstract: Achieving broadband and high-sensitivity circularly polarized light (CPL) detection with intrinsic organic
+semiconductors remains a fundamental challenge due to the inherent planarity–helicity dilemma: conventional π-extension
+strategies broaden absorption but tend to suppress molecular helicity, whereas enhanced helicity through steric modulation
+often shortens conjugation and limits spectral coverage. Here, we introduce a Chiroπ-Extension (CπE) design strategy that
+reconciles this conﬂict by bay-fusing two perylene diimides into a π-extended helitwistacene. This fusion simultaneously
+elongates the conjugation pathway and enforces near-collinear alignment of electric and magnetic transition dipoles,
+resulting in ampliﬁed chiroptical activity across the UV–visible region. Single-crystal devices of (S)-di-ClPDI-Ph exhibit
+broadband CPL detection from 365 to 690 nm with an exceptional photocurrent dissymmetry factor of 0.60 at 515 nm,
+along with high photoresponsivity (9.1 W−1) and detectivity (4.8 × 1012 Jones). This work establishes CπE as a general
+molecular design principle for intrinsically chiral semiconductors, paving the way toward high-sensitivity, broadband, and
+integrable CPL optoelectronic technologies.
+Introduction
+The direct detection of circularly polarized light (CPL) using
+intrinsically chiral semiconductor materials eliminates the
+need for external optical components such as polarizers
+and quarter-wave plates, simplifying the optical conﬁgura-
+tion and enabling both device miniaturization and on-chip
+integration.[1–4] Broadband CPL detection, extending from
+the ultraviolet (UV) to the visible or even near-infrared
+(NIR) region is particularly promising for advanced applica-
+tions in polarization imaging, secure optical communication,
+and spin-selective photonic devices.[5–8]
+The discrimination between left-handed CPL (LCPL) and
+right-handed CPL (RCPL) is typically quantiﬁed by the
+absorption dissymmetry factor (gabs) and the photocurrent
+dissymmetry factor (gph), which are deﬁned as:
+[*] X. Wang+, S. Zhang+, X. Shen, D. Zeng, W. Chang, H. Zhu,
+Prof. R. Li, Prof. W. Hu
+State Key Laboratory of Advanced Materials for Intelligent Sensing,
+MOE Key Laboratory of Organic Integrated Circuit & Tianjin Key
+Laboratory of Molecular Optoelectronic Sciences, Department of
+Chemistry, School of Science, Tianjin University, Tianjin 300072,
+China
+E-mail: lirj@tju.edu.cn
+K. Gao+, Prof. X. Shang
+State Key Laboratory for Porous Metal Materials, Shaanxi
+International Research Center for Soft Matter, School of Materials
+Science and Engineering, Xi’an Jiaotong University, Xi’an 710049,
+P.R. China
+E-mail: xiaoboshang@xjtu.edu.cn
+[+] These authors contributed equally to this work.
+Additional supporting information can be found online in the
+Supporting Information section
+gabs = 2ALCPL −ARCPL
+ALCPL + ARCPL
+(1)
+gph= 2ILCPL −IRCPL
+ILCPL + IRCPL
+(2)
+where ALCPL and ARCPL are the absorbances, and ILCPL
+and IRCPL are the photocurrents, under LCPL and RCPL
+illumination, respectively. In general, |gph| scales positively
+with |gabs|; higher |gph| values indicate stronger polarization
+selectivity, which is essential for achieving high-performance
+CPL photodetectors.[4,9]
+Chiral π-conjugated small molecules are attractive CPL-
+sensitive semiconductors owing to their straightforward
+synthesis, tunable chemical structures, and ease of transition
+dipole moment manipulation.[10–14] For instance, Fuchter and
+Campbell reported the ﬁrst chiral organic phototransistor
+based on 1-aza[6]helicene that achieved CPL detection at
+365 nm; however, its limited π-conjugation conﬁned their per-
+formance to the UV region.[15] Lee and Oh reported that 1,1′-
+binaphthyl-linked naphthalene diimides exhibited CPL sen-
+sitivity in the UV range, but their responsivity dissymmetry
+factor (gR) was only 0.05 at 385 nm.[16] Additionally, ortho-π-
+extended perylene diimide (PDI) double-[7]heterohelicenes
+reported by Lin et al. extended detection into the NIR region,
+yet the maximum gR of 0.01 at 730 nm remained insufﬁcient
+for practical optoelectronic applications.[17] Collectively, these
+studies highlight a persistent limitation: current molecular
+design strategies for intrinsically chiral π-conjugated small
+molecules fail to maintain large |gph| values across a broad
+spectral range (Table S1), restricting their ability to achieve
+efﬁcient full-spectrum CPL detection.
+At the molecular level, this limitation arises from
+a
+planarity–helicity
+dilemma.
+Conventional
+π-extension
+Angew. Chem. Int. Ed. 2026, 65, e25044 (1 of 9)
+© 2026 Wiley-VCH GmbH
+
+
+===== PDF PAGE 2 =====
+Research Article
+strategies, widely employed to broaden absorption and red-
+shift optical transitions, tend to planarize the conjugated
+backbone, thereby diminishing molecular helicity and weak-
+ening the coupling between magnetic and electric transition
+dipoles that is critical for strong chiroptical activity.[18,19]
+Conversely, enhancing helicity through steric modulation
+strengthens chirality but shortens the effective conjugation
+length, leading to a narrower absorption band and reduced
+charge-transport efﬁciency.[20–22] Overcoming this intrinsic
+structural conﬂict is therefore critical for developing chiral
+materials that combine strong and broadband chiroptical
+responses.
+Herein, we present a Chiroπ-Extension (CπE) molecular
+design strategy that resolves this long-standing dilemma. By
+fusing two PDI units at their bay regions to form a π-extended
+helitwistacene, this approach simultaneously extends the
+conjugation backbone, producing redshifted and broadened
+absorption, and enforces a near-collinear alignment between
+the electric and magnetic transition dipoles. This optimized
+alignment markedly enhances chiroptical activity across
+the
+long-wavelength
+region.
+Devices
+fabricated
+from
+tetrachlorinated diperylene diimide ((S)-di-ClPDI-Ph) single
+crystals exhibit broadband CPL detection from 365 to 690 nm
+with an exceptional gph of 0.60 at 515 nm, representing
+a ﬁvefold enhancement over the monomer (S)-ClPDI-
+Ph. In addition, the photodetectors display outstanding
+photoresponsivity (R = 9.1 A W−1) and speciﬁc detectivity
+(D* = 4.8 × 1012 Jones), outperforming previously reported
+intrinsic chiral small-molecule CPL detectors by one to two
+orders of magnitude. Moreover, leveraging these intrinsic
+properties, RGB three-channel imaging was demonstrated,
+establishing a compact and integrable platform for circularly
+polarized color imaging. Collectively, these ﬁndings establish
+a molecular design principle that uniﬁes π-extension with
+helicity enhancement, providing a general strategy for high-
+sensitivity, broadband, and integrable CPL optoelectronics.
+Results and Discussion
+Molecular Design, Synthesis, and Photophysical Properties
+Chiral PDIs have long been recognized as versatile chro-
+mophores for optoelectronic and chiroptical applications due
+to their tunable molecular structures, high photostability,
+and strong π–π stacking interactions.[23–26] To implement
+the CπE design strategy, we synthesized (R)- and (S)-di-
+ClPDI-Ph from their corresponding chiral monomers, (R)-
+and (S)-ClPDI-Ph (Figure 1a). These monomers were synthe-
+sized by reacting 1,6,7,12-Tetrachloroperylene tetracarboxylic
+dianhydride with (R)- or (S)-1-phenylethylamine, followed
+by L-proline-promoted CuI-catalyzed direct Ullmann C–C
+coupling to yield the (R)- and (S)-di-ClPDI-Ph (Schemes
+S1 and S2). The molecular structures were conﬁrmed by 1H
+NMR, 13C NMR, variable-temperature NMR, and IR spectra
+(see Supporting Information, Synthesis and Characterization,
+Figures S1–S9).
+The (R)- and (S)-1-phenylethyl substituents act as stere-
+ochemical directors, inducing a preferred helical chirality in
+the dimeric backbone and stabilizing one helical conformer
+over the other. Density functional theory (DFT) calculations
+(Figure S10) show that the (RRRR)-MM conformation is
+6.56 kJ mol−1 lower in energy than the (SSSS)-MM con-
+formation, indicating that (S)-1-phenylethyl preferentially
+induces P-helicity while (R)-1-phenylethyl favors M-helicity.
+This side-chain–driven chiral induction effectively controls
+the helical conﬁguration of the π-conjugated core while sim-
+plifying synthesis, lowering production costs, and enhancing
+the commercial viability for chiral organic semiconductors.
+The resulting (R)- and (S)-di-ClPDI-Ph molecules embody
+the core concept of the CπE molecular design strategy, which
+integrates π-extension with helicity ampliﬁcation through
+structural fusion. In this architecture, two PDI units are
+covalently fused at their bay regions, forming a rigid
+π-extended backbone that incorporates two helicene-like
+substructures within a single conjugated framework. The bay-
+fusion simultaneously extends the π-conjugation pathway and
+introduces a helical twist across the fused backbone, gener-
+ating a distinct helitwistacene geometry. This conﬁguration
+represents a molecular embodiment of the planarity–helicity
+balance central to the CπE concept.
+The photophysical properties of these chiral molecules
+were characterized by UV–vis absorption and circular
+dichroism (CD) spectroscopy. As shown in Figure 1b, the
+π-extension in (R)-di-ClPDI-Ph signiﬁcantly broadens the
+absorption from 300 to 700 nm, compared with the 400–
+550 nm range of the monomer (R)-ClPDI-Ph (1.0 × 10−5 M
+in DCM). The monomers exhibit negligible Cotton effects,
+conﬁrming that the chiral side chains alone do not impart
+substantial helicity. In contrast, the dimers display strong
+mirror-image CD signals spanning the entire UV–visible
+region (Figure 1c), with |gabs| values reaching 8.6 × 10−3 at
+502 nm (Figure 1d). These results clearly demonstrate that
+π-extension via the CπE strategy enhances both chiroptical
+activity and broadens the spectral coverage.
+To elucidate the origin of these enhanced chiroptical
+properties, time-dependent DFT (TD-DFT) calculations were
+performed based on the experimentally determined crystal
+structure. The calculated CD spectra (Figure 1e) accurately
+reproduce the experimental results, supporting the reliabil-
+ity of the calculations. Charge density difference (CDD)
+(Figure S11) reveals that the CD peaks near between 500
+and 650 nm originate from localized excitations within the
+fused PDI backbone, dominated by the S1 and S6 transitions.
+The S1 and S6 excited states are primarily governed by
+the HOMO→LUMO and HOMO→LUMO + 1 transitions,
+respectively. The excitation at 400 nm is composed of several
+transitions, representatively governed by the S14 and S17
+excited states, and is attributed to charge transfer between
+the fused PDI backbones and the imide carbonyl groups.
+The LUMO and LUMO + 1 correspond to the molecular
+LUMO states formed by different wavefunction combinations
+of the monomer ClPDI marked Fragment A and Frag-
+ment B, as described by the formula under the visualized
+molecular orbitals (Figure 1f). Therefore, the long-wavelength
+absorption peak arises from the entire dimeric π-conjugated
+system constructed using the CπE design strategy, in which
+the exciton coupling between the two PDI chromophores
+Angew. Chem. Int. Ed. 2026, 65, e25044 (2 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 3 =====
+Research Article
+Figure 1. Molecular design and chiroptical characteristics. a) Molecular structures and synthetic route of (R)- and (S)-di-ClPDI-Ph designed via the
+CπE strategy. b) UV–vis absorption spectra of (R)-ClPDI-Ph and (R)-di-ClPDI-Ph in DCM solution (1.0 × 10−5 M). c) CD spectra of (R)-ClPDI-Ph,
+(S)-ClPDI-Ph, (R)-di-ClPDI-Ph, and (S)-di-ClPDI-Ph in DCM (1.0 × 10−5 M). d) Corresponding gabs values of the same solutions, showing enhanced
+chiroptical activity upon π-extension. e) Calculated CD spectra of (S)-di-ClPDI-Ph based on time-dependent DFT in the monomeric state. f)
+Visualized molecular orbitals for the S1 and S6 excited states of (S)-di-ClPDI-Ph, illustrating charge distribution across the fused backbone. g)
+Schematic representation of the CπE design principle (left) and alignment of electric (μ, red) and magnetic (m, blue) transition dipole moments for
+the HOMO→LUMO and HOMO→LUMO + 1 transitions in Fragment A, Fragment B, and the fused (S)-di-ClPDI-Ph dimer (right). The m vector
+length is ampliﬁed ﬁvefold for clarity, with atomic units used for visualization.
+Angew. Chem. Int. Ed. 2026, 65, e25044 (3 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 4 =====
+Research Article
+generates strong CD signals, consistent with experimental
+observations.
+The gabs is calculated from the electric (μ) and magnetic
+(m) transition dipole moments and their relative angle (θ):[27]
+gabs = 4 cos θ
+|μ| |m|
+|μ|2 + |m|2
+(3)
+We evaluated μ, m, and θ for (S)-di-ClPDI-Ph in its
+HOMO→LUMO and HOMO→LUMO + 1 transitions
+(Tables S2–S6). While the μ and m of the two fragments
+are initially perpendicular to each other, the gabs values
+of monomer (S)-ClPDI-Ph are nearly negligible, which is
+consistent with experimental results. Nevertheless, upon
+fusion of the two fragments, the resulting µsum and msum
+become nearly collinear (Figure 1g; Figures S12 and S13).
+Speciﬁcally, for both Fragment A and Fragment B in the
+HOMO→LUMO transition, m is nearly perpendicular to μ.
+However, when these fragments are fused into the dimer
+(S)-di-ClPDI-Ph, msum becomes nearly collinear with µsum,
+enhancing the dot product of µsum and msum and resulting
+in high |gabs| values. Similarly, in the HOMO→LUMO + 1
+transition, after fusing Fragment A and Fragment B, the
+relative orientation of m and μ changes from perpendicular
+to nearly collinear, also increasing the |gabs| values. The
+π-extended helitwistacene framework, realized through the
+CπE strategy, therefore enforces optimal transition dipole
+alignment, simultaneously preserving and amplifying helicity
+while extending conjugation. This synergy yields high |gabs|
+values and broad spectral response—deﬁning the hallmark of
+the CπE design concept.
+Chiroptical Properties of Single Crystals
+The performance of optoelectronic devices is strongly gov-
+erned by the solid-state organization of their constituent
+molecules, motivating the investigation of the morphology
+and chiroptical properties of the CπE-engineered materials
+in the single-crystal state. Single crystals of (R)- and (S)-di-
+ClPDI-Ph were obtained at room temperature via the slow
+diffusion of methanol into a toluene solution. Experimental
+details and crystallization procedures are provided in the
+Supporting Information.
+Single-crystal
+X-ray
+diffraction
+(SCXRD)
+analysis
+revealed
+that
+(S)-di-ClPDI-Ph
+crystallizes
+in
+the
+non-
+centrosymmetric monoclinic space group P21 (Figure 2a),
+conﬁrming its chiral crystal structure. The unit-cell parameters
+were determined to be a = 11.500 (2°) Å, b = 35.601 (7°) Å,
+c = 117.014 (4°) Å, and β = 110.432 (7°) (Crystallographic
+data are presented in Table S7).[28] The π–π stacking distance
+between adjacent molecular planes is 3.441 Å (Figure 2b),
+indicative of efﬁcient orbital overlap, which is conducive
+to efﬁcient charge transport. The dimeric PDI core adopts
+an exclusive P-type helical conﬁguration, with a dihedral
+angle of 40.88° between the two PDI subunits (Figure 2c),
+consistent with the molecular conformation observed in the
+monomeric state.
+Both
+enantiomers
+form
+well-deﬁned
+parallelogram-
+shaped crystals with typical lengths of 60–100 µm and
+widths of 10–50 µm (Figure 2d; Figure S14). The crystal
+surfaces
+were
+smooth
+and
+homogeneous,
+suggesting
+a
+low density of structural defects (Figure S15). Powder
+X-ray diffraction (PXRD) patterns of both enantiomers
+displayed
+sharp
+diffraction
+peaks
+at
+4.97°
+and
+9.94°,
+corresponding to the (020) and (040) planes, respectively,
+conﬁrming their high crystallinity (Figure S16). Selected-
+area electron diffraction (SAED) patterns obtained via
+transmission electron microscopy (TEM) exhibited discrete,
+well-ordered diffraction spots (Figure 2e), consistent with
+the reciprocal-lattice symmetry of the P21 space group.
+Collectively, these observations conﬁrm the highly ordered
+and
+enantiopure
+crystalline
+nature
+of
+the
+π-extended
+helitwistacenes. Hirshfeld surface analysis further elucidates
+the intermolecular interactions governing crystal packing
+(Figure S17), identifying regions of steric hindrance (red),
+attractive weak interactions (blue), and van der Waals
+interactions
+(green).[29]
+The
+predominance
+of
+van
+der
+Waals interactions suggests that weak noncovalent forces
+maintain the helical integrity of the molecular framework
+while
+promoting
+favorable
+π–π
+stacking
+within
+the
+lattice.
+CD spectra of the single crystals revealed a maximum
+|gabs| value of 6.2 × 10−3 at 518 nm for (R)- and (S)-
+di-ClPDI-Ph (Figure 2f). This value is markedly higher
+than that of the (R)- and (S)-ClPDI-Ph crystals (|gabs|
+≈1.5 × 10−3 at 461 nm; Figure S18), indicating that
+the π-extended helitwistacene exhibits stronger chiroptical
+activity in the condensed phase. Through the CπE strategy,
+planarity and helicity are harmonized within a single π-
+framework: extended conjugation broadens absorption and
+facilitates transport, while embedded helical twists preserve
+strong dipole coupling.
+This molecular synergy under-
+pins broadband circular dichroism and high-efﬁciency CPL
+detection.
+Device Fabrication and Optoelectronic Performance
+To
+evaluate
+the
+optoelectronic
+performance
+and
+CPL
+detection capabilities of the π-extended helitwistacene,
+two-terminal Ag/(S/R)-di-ClPDI-Ph/Ag photodetectors were
+fabricated (Figure 3a). Beneﬁting from the CπE-induced π-
+extension and optimized crystal packing, the (S)-di-ClPDI-Ph
+device exhibited strong and broadband photoresponse across
+the UV–visible range (365–690 nm; Figure 3b). The current–
+voltage (I–V) characteristics measured in the dark and
+under monochromatic illumination (Figure 3c; Figure S19)
+demonstrate pronounced photocurrent generation, even at
+low irradiance levels. Key performance metrics extracted
+from these measurements (Figure 3d; Figure S20) reveal
+outstanding device performance, with maximum external
+quantum efﬁciency (EQE), R, and D* values of 1780.4%, 9.1
+A W−1, and 4.8 × 1012 Jones, respectively (Table S8). These
+values exceed those of most previously reported intrinsic
+chiral small-molecule CPL detectors by one to two orders of
+magnitude in both R and D* (Table S9).
+Angew. Chem. Int. Ed. 2026, 65, e25044 (4 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 5 =====
+Research Article
+Figure 2. Structural and chiroptical characteristics of (S)-di-ClPDI-Ph single crystals. a–c) Single-crystal structures of (S)-di-ClPDI-Ph (hydrogen
+atoms omitted for clarity). d) Scanning electron microscopy (SEM) image showing well-deﬁned parallelogram-shaped crystals. e) SAED pattern
+conﬁrming the ordered crystalline nature and P21 space group symmetry. f) gabs of (R)- and S)-di-ClPDI-Ph single crystals, demonstrating stronger
+chiroptical activity in the condensed phase.
+Temporal photoresponse measurements under monochro-
+matic illumination (λ = 515 nm) and a 30 V bias exhibited
+a rapid rise time of approximately 125 ms and a decay time
+of approximately 154 ms (Figure 3e). Continuous on–off
+cycling under an irradiance of 1.8 mW cm−2 demonstrated
+stable photocurrent over 300 switching cycles with negligible
+degradation, conﬁrming the operational stability of the device
+(Figure 3f; Figure S21). Moreover, after three months of
+ambient storage, no noticeable deterioration in performance
+was observed, demonstrating excellent environmental stabil-
+ity (Figure S22). Noise spectral density analysis revealed a
+transition from 1/f noise at low frequencies to frequency-
+independent behavior above approximately 100 Hz,[30] with
+a minimal noise current of 10−14 A Hz−1/2 approaching
+the bulk-noise limit (Figure S23). This combination of high
+photosensivity, fast response, long-term stability, and low
+intrinsic noise underscores the potential of the CπE-based
+system for high-performance polarization-resolved imaging.
+The CPL discrimination ability was further examined by
+measuring real-time photocurrent responses under LCPL and
+RCPL at 515 nm (Figure 3g). The (S)-di-ClPDI-Ph crystal-
+based device exhibited higher sensitivity to LCPL, generating
+signiﬁcantly stronger photocurrent than under RCPL. The
+corresponding gph, calculated using Equation (2), reached
+a high value of 0.60 at 515 nm—ﬁvefold higher than that
+of the monomer (S)-ClPDI-Ph (gph = 0.12; Figure S24).
+Conversely, the (R)-di-ClPDI-Ph device showed the opposite
+response, with higher sensitivity to RCPL and an average
+gph = −0.57 (Figure S25). The large gph value are attributed
+to the synergistic contribution of two mechanisms. First,
+the intrinsically high |gabs| values of the chiral molecules
+enhance selective CPL absorption, resulting in asymmetric
+generation of photogenerated charge carriers. Second, the
+chiral-induced spin selectivity (CISS) effect of the single crys-
+tal promotes spin-dependent charge transport and collection
+(Figure S26), further magnifying the CPL response.[31] For
+comparison, the CPL performance of (R)-di-ClPDI-Ph thin-
+ﬁlm devices was also examined, yielding a lower average gph
+value of −0.11 (Figure S27). This reduced discrimination is
+attributed to grain boundaries and increased structural dis-
+order in the polycrystalline ﬁlms, which impair efﬁcient CPL
+differentiation. Wavelength-dependent measurements further
+conﬁrmed broadband CPL detection at 365, 450, 590, 635, and
+690 nm (Figure 3h; Figures S28–S32). The (S)-di-ClPDI-Ph
+crystal maintained high discrimination over the entire spectral
+range, exhibiting average gph values of 0.14, −0.20, 0.35, 0.42,
+and −0.18, respectively. Statistical analysis of six indepen-
+dently fabricated devices conﬁrmed reproducible broadband
+CPL detection with consistent performance (Figure S33).
+Compared to previously reported CPL detectors based
+on intrinsic chiral small molecules and perovskites, which
+typically
+exhibit
+|gph|
+<
+0.3
+over
+narrow
+wavelength
+ranges,[16,17,32–42] the di-ClPDI-Ph crystals deliver signiﬁcantly
+higher |gph| across the entire visible spectrum (Figure 3i). This
+advancement highlights the fundamental advantage of the
+CπE molecular design—achieving simultaneous π-extension
+and helicity retention—which enables pronounced chiroptical
+ampliﬁcation and exceptional device-level CPL selectivity.
+Angew. Chem. Int. Ed. 2026, 65, e25044 (5 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 6 =====
+Research Article
+Figure 3. Optoelectronic performance of di-ClPDI-Ph single crystal photodetectors. a) Schematic of the single-crystal photodetector. b) Broadband
+photoresponse spectrum of the (S)-di-ClPDI-Ph device under monochromatic illumination from 365 to 690 nm. c) Power-dependent I–V
+characteristics measured under 515 nm illumination. d) R and D* of the (S)-di-ClPDI-Ph device. e) Temporal photoresponse showing rise and decay
+times under monochromatic illumination (λ = 515 nm). f) Operational stability of the device over more than 300 on–oﬀswitching cycles. g) I–t
+responses of the (S)-di-ClPDI-Ph device under LCPL and RCPL illumination (λ = 515 nm). h) Average |gph| values of (S)-di-ClPDI-Ph crystals under
+CPL illumination from 365 to 690 nm. i) Comparison of |gph| performance among representative intrinsic chiral organic small-molecule and
+perovskite CPL detectors. The color of each star marker indicates the corresponding operational wavelength of the di-ClPDI-Ph device.
+RGB Circularly Polarized Imaging
+Unlike conventional intensity-based imaging systems that
+record only the light amplitude, CPL-resolved imaging
+captures the polarization-dependent optical characteristics
+of incident light through the determination of Stokes
+parameters.[43–45] This multidimensional sensing capability
+enables the visualization of optical anisotropy, surface texture,
+and chiral reﬂectivity—features that remain invisible to
+standard imaging techniques.[46,47]
+The CπE-based photodetectors developed in this study
+exhibit
+distinct
+CPL
+sensitivity
+across
+the
+full
+visible
+spectrum—blue (450 nm), green (515 nm), and red (635 nm)
+thereby enabling full-color circularly polarized imaging. The
+imaging principle is illustrated in Figure 4a using the
+scarab beetle Chrysina gloriosa, a biological model known
+for its selective reﬂection of LCPL arising from a chiral
+photonic exoskeleton resembling a cholesteric liquid crys-
+tal structure.[48–50] Under randomly polarized daylight, the
+beetle’s characteristic iridescent green color originates from
+the preferential reﬂection of LCPL,[51,52] making it an ideal
+natural reference for validating CPL-selective detection.
+Decomposition of the RGB images into individual
+grayscale components (Figure 4b) highlights polarization-
+dependent effects, with the green channel exhibiting the
+strongest contrast, consistent with the device’s peak response
+at 515 nm. The Stokes parameter S3, representing the
+degree of circular polarization was calculated by pixel-wise
+Angew. Chem. Int. Ed. 2026, 65, e25044 (6 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 7 =====
+Research Article
+Figure 4. RGB circularly polarized imaging. a) Schematic of the RGB analog imaging setup using the di-ClPDI-Ph device for the scarab beetle. b)
+Grayscale images for the red, green, and blue channels extracted from photographs under LCPL (top) and RCPL (bottom). c) S3 Stokes parameter
+map derived from pixel-wise diﬀerences between LCPL- and RCPL-illuminated images in each channel. d, e) Intensity histograms of the RGB
+channels under LCPL (top) and RCPL (bottom), highlighting polarization-dependent contrast. f, g) Reconstructed circularly polarized color images
+generated with the di-ClPDI-Ph device, illustrating the complementary responses of the enantiomeric detectors.
+subtraction of LCPL and RCPL images (Figure 4c). The
+resulting S3 map reveals spatially varying circular dichroism
+across the beetle’s exoskeleton, consistent with its biological
+optical activity and the broadband chiroptical response of the
+CπE-based device. To visualize these polarization-dependent
+contrasts quantitatively, RGB histograms were extracted from
+the captured images (Figures 4d, e), revealing clear intensity
+differentiation between polarization states, most prominently
+in the green channel.
+Simulated RGB reconstructions were further performed
+using the gph values at 450, 515, and 635 nm, where the gph of
+(S)-di-ClPDI-Ph corresponds to the experimental value, and
+Angew. Chem. Int. Ed. 2026, 65, e25044 (7 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 8 =====
+Research Article
+that of (R)-di-ClPDI-Ph is taken as the opposite of the (S)-
+di-ClPDI-Ph value (Figure 4f). The (S)-di-ClPDI-Ph device,
+which preferentially responds to LCPL, produced a bright
+green image, whereas the (R)-di-ClPDI-Ph counterpart,
+favoring RCPL, generated a darker brown tone (Figure 4g).
+This complementary response faithfully reproduces the bee-
+tle’s natural CPL reﬂectivity pattern. Although the circularly
+polarized diffuse reﬂection of C. gloriosa primarily occurs in
+the green spectral region, the (S/R)-di-ClPDI-Ph materials,
+which enable broadband CPL detection with large |gph| values,
+indicate that these devices also hold promise for circularly
+polarized imaging of real-world objects across the entire
+visible spectrum.
+To demonstrate the importance of broadband sensitivity,
+imaging experiments were also performed using the (S/R)-
+ClPDI-Ph (Figure S34). Due to their narrower spectral
+response and smaller |gph|
+value (0.12), the monomer
+devices could detect CPL only near 515 nm and failed to
+effectively distinguish between LCPL and RCPL, resulting
+in low-contrast images. This comparison clearly demon-
+strates that high-quality CPL color imaging requires the
+simultaneous achievement of broadband responsivity and
+large |gph| values. The di-ClPDI-Ph materials developed via
+the CπE strategy satisfy both conditions, enabling realistic
+polarization-resolved imaging of complex chiral objects. This
+multifunctional capability underscores the potential of CπE-
+engineered semiconductors as foundational materials for
+next-generation polarization-sensitive imaging and optical
+sensing technologies.
+Conclusion
+In summary, we have developed a Chiroπ-Extension (CπE)
+molecular design strategy that resolves the planarity–helicity
+dilemma in chiral π-conjugated systems by bay-fusing two
+PDI units into a π-extended helitwistacene. This architecture
+couples extended conjugation with enforced helicity, yielding
+near-collinear electric and magnetic dipole alignment and
+strong, broadband chiroptical activity across the UV–visible
+range. Devices based on (S)-di-ClPDI-Ph single crystals
+achieve broadband CPL detection (365–690 nm) with an
+outstanding gph of 0.60 at 515 nm, high R of 9.1 A W−1, and
+D* of 4.8 × 1012 Jones, alongside remarkable stability and
+low noise. The resulting broadband CPL sensitivity enables
+RGB circularly polarized color imaging, demonstrating the
+potential of CπE-engineered semiconductors as a general
+platform for high-performance chiral optoelectronic and
+polarization-resolved photonic devices.
+Acknowledgements
+This work was ﬁnancially supported by the National Key
+R&D Program of China (2024YFA1209600), the National
+Natural Science Foundation of China (52273193, 52073206,
+and 22475165), and the Fundamental Research Funds for the
+Central Universities. We thank Mr. X. Liu, Mr. P. Fu, Prof. Z.
+Sun and Prof. J. Huang for helpful discussions and for their
+assistance with VT-NMR and HPLC measurements.
+Conﬂict of Interests
+The authors declare no conﬂict of interest.
+Data Availability Statement
+The data that support the ﬁndings of this study are available
+from the corresponding author upon reasonable request.
+Keywords: Broadband detection • Chiral organic small
+molecules • Circularly polarized light • Perylene diimide •
+Photodetector
+[1] R. Lu, Y. Li, H. Song, J. Jiang, Adv. Funct. Mater. 2025, 35,
+2423770, https://doi.org/10.1002/adfm.202423770.
+[2] J. Ahn, S. H. Lee, I. Song, P. Chidchob, Y. Kwon, J. H. Oh, Device
+2023, 1, 100176, https://doi.org/10.1016/j.device.2023.100176.
+[3] Y. Liu, P. Xing, Adv. Mater. 2023, 35, 2300968, https://doi.org/10.
+1002/adma.202300968.
+[4] C. Zhang, X. Wang, L. Qiu, Front. Chem. 2021, 9, 711488, https://
+doi.org/10.3389/fchem.2021.711488.
+[5] D. S. Sanchez, I. Belopolski, T. A. Cochran, X. Xu, J.-X. Yin, G.
+Chang, W. Xie, K. Manna, V. Süß, C.-Y. Huang, N. Alidoust, D.
+Multer, S. S. Zhang, N. Shumiya, X. Wang, G.-Q. Wang, T.-R.
+Chang, C. Felser, S.-Y. Xu, S. Jia, H. Lin, M. Z. Hasan, Nature
+2019, 567, 500–505, https://doi.org/10.1038/s41586-019-1037-2.
+[6] P. Lodahl, S. Mahmoodian, S. Stobbe, A. Rauschenbeutel, P.
+Schneeweiss, J. Volz, H. Pichler, P. Zoller, Nature 2017, 541,
+473–480, https://doi.org/10.1038/nature21037.
+[7] C. Chappert, A. Fert, F. N. Van Dau, Nat. Mater. 2007, 6, 813–
+823, https://doi.org/10.1038/nmat2024.
+[8] J. F. Sherson, H. Krauter, R. K. Olsson, B. Julsgaard, K.
+Hammerer, I. Cirac, E. S. Polzik, Nature 2006, 443, 557–560,
+https://doi.org/10.1038/nature05136.
+[9] J. L. Greenﬁeld, J. Wade, J. R. Brandt, X. Shi, T. J. Penfold, M. J.
+Fuchter, Chem. Sci. 2021, 12, 8589–8602, https://doi.org/10.1039/
+D1SC02335G.
+[10] J. Li, P. Li, M. Fan, X. Zheng, J. Guan, M. Yin, Angew.
+Chem. Int. Ed. 2022, 61, e202202532, https://doi.org/10.1002/
+anie.202202532.
+[11] T. Mori, Chem. Rev. 2021, 121, 2373–2412, https://doi.org/10.
+1021/acs.chemrev.0c01017.
+[12] W. Fan, T. Matsuno, Y. Han, X. Wang, Q. Zhou, H. Isobe, J.
+Wu, J. Am. Chem. Soc. 2021, 143, 15924–15929, https://doi.org/
+10.1021/jacs.1c08468.
+[13] S. Ma, J. Gu, C. Lin, Z. Luo, Y. Zhu, J. Wang, J. Am. Chem. Soc.
+2020, 142, 16887–16893, https://doi.org/10.1021/jacs.0c08555.
+[14] J. R. Brandt, F. Salerno, M. J. Fuchter, Nat. Rev. Chem. 2017, 1,
+0045, https://doi.org/10.1038/s41570-017-0045.
+[15] Y. Yang, R. C. Da Costa, M. J. Fuchter, A. J. Campbell,
+Nat. Photonics 2013, 7, 634–638, https://doi.org/10.1038/nphoton.
+2013.176.
+[16] Y. Kwon, J. Jung, W. B. Lee, J. H. Oh, Adv. Sci. 2024, 11, 2308262,
+https://doi.org/10.1002/advs.202308262.
+[17] L. Zhang, I. Song, J. Ahn, M. Han, M. Linares, M. Surin, H.-J.
+Zhang, J. H. Oh, J. Lin, Nat. Commun. 2021, 12, 142, https://doi.
+org/10.1038/s41467-020-20390-y.
+Angew. Chem. Int. Ed. 2026, 65, e25044 (8 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 9 =====
+Research Article
+[18] Z. Zhang, Z. Liu, T. Hirose, Org. Lett. 2025, 27, 11313–11318,
+https://doi.org/10.1021/acs.orglett.5c03620.
+[19] W. Niu, Y. Fu, Q. Deng, Z. Qiu, F. Liu, A. A. Popov, H. Komber,
+J. Ma, X. Feng, Angew. Chem. Int. Ed. 2024, 63, e202319874,
+https://doi.org/10.1002/anie.202319874.
+[20] X. Wang, Z. Yu, Z. Huang, N. Zhou, X. Cheng, Z. Zhang, W.
+Zhang, X. Zhu, Angew. Chem. Int. Ed. 2024, 63, e202315686,
+https://doi.org/10.1002/anie.202315686.
+[21] A. Bedi, A. Manor Armon, Y. Diskin-Posner, B. Bogosalvsky,
+O. Gidron, Nat. Commun. 2022, 13, 451, https://doi.org/10.1038/
+s41467-022-28072-7.
+[22] Y. Qiu, H. Yan, J. Wang, Q. Jiang, H. Wang, H. Peng, Y. Liao, X.
+Xie, B. E. Brycki, Polymer 2020, 188, 122135, https://doi.org/10.
+1016/j.polymer.2019.122135.
+[23] X. Shang, I. Song, H. Ohtsu, Y. H. Lee, T. Zhao, T. Kojima, J.
+H. Jung, M. Kawano, J. H. Oh, Adv. Mater. 2017, 29, 1605828,
+https://doi.org/10.1002/adma.201605828.
+[24] D. Ley, C. X. Guzman, K. H. Adolfsson, A. M. Scott, A. B.
+Braunschweig, J. Am. Chem. Soc. 2014, 136, 7809–7812, https://
+doi.org/10.1021/ja5015053.
+[25] E. Krieg, E. Shirman, H. Weissman, E. Shimoni, S. G. Wolf,
+I. Pinkas, B. Rybtchinski, J. Am. Chem. Soc. 2009, 131,
+14365–14373, https://doi.org/10.1021/ja903938g.
+[26] B. A. Jones, A. Facchetti, M. R. Wasielewski, T. J. Marks, J.
+Am. Chem. Soc. 2007, 129, 15259–15278, https://doi.org/10.1021/
+ja075242e.
+[27] J. A. Schellman, Chem. Rev. 1975, 75, 323–331, https://doi.org/10.
+1021/cr60295a004.
+[28] Deposition number 2474534 (for (S)-di-ClPDI-Ph) contains
+the supplementary crystallographic data for this paper. These
+data are provided free of charge by the joint Cambridge
+Crystallographic Data Centre and Fachinformationszentrum
+Karlsruhe Access Structures service.
+[29] T. Lu, Q. Chen, J. Comput. Chem. 2022, 43, 539–555, https://doi.
+org/10.1002/jcc.26812.
+[30] H. Liu, E. Lhuillier, P. Guyot-Sionnest, J. Appl. Phys. 2014, 115,
+154309, https://doi.org/10.1063/1.4871682.
+[31] M. Gao, W. Qin, Adv. Opt. Mater. 2021, 9, 2101201, https://doi.
+org/10.1002/adom.202101201.
+[32] W. Shi, F. Salerno, M. D. Ward, A. Santana-Bonilla, J. Wade, X.
+Hou, T. Liu, T. J. S. Dennis, A. J. Campbell, K. E. Jelfs, M. J.
+Fuchter, Adv. Mater. 2021, 33, 2004115, https://doi.org/10.1002/
+adma.202004115.
+[33] Z. Li, X. Shen, W. Zhao, K. Gao, Z. Wang, H. Zhuo, J. Liu, Z.
+Wang, L. Yang, X. Zheng, Y. Yan, Y. Fang, F. Chen, L. Wan,
+G. Long, R. Li, W. Ma, M. Zhang, X. Shang, Adv. Funct. Mater.
+2025, 35, 2414453, https://doi.org/10.1002/adfm.202414453.
+[34] X. Shang, I. Song, J. H. Lee, W. Choi, J. Ahn, H. Ohtsu, J. C.
+Kim, J. Y. Koo, S. K. Kwak, J. H. Oh, ACS Nano 2020, 14, 14146–
+14156, https://doi.org/10.1021/acsnano.0c07012.
+[35] K. Gao, S. H. Lee, W. Zhao, J. Ahn, T. W. Kim, Z. Li, H. Zhuo, Z.
+Wang, X. Zheng, Y. Yan, G. Chang, W. Ma, M. Zhang, G. Long,
+J. H. Oh, X. Shang, Mater. Horiz 2025, 12, 1903–1912, https://doi.
+org/10.1039/D4MH01435A.
+[36] C. Chen, L. Gao, W. Gao, C. Ge, X. Du, Z. Li, Y. Yang, G. Niu,
+J. Tang, Nat. Commun. 2019, 10, 1927, https://doi.org/10.1038/
+s41467-019-09942-z.
+[37] Y. Zhao, Y. Qiu, J. Feng, J. Zhao, G. Chen, H. Gao, Y. Zhao, L.
+Jiang, Y. Wu, J. Am. Chem. Soc. 2021, 143, 8437–8445, https://
+doi.org/10.1021/jacs.1c02675.
+[38] J. Wang, C. Fang, J. Ma, S. Wang, L. Jin, W. Li, D. Li, ACS Nano
+2019, 13, 9473.
+[39] D. Li, X. Liu, W. Wu, Y. Peng, S. Zhao, L. Li, M. Hong, J. Luo,
+Angew. Chem. Int. Ed. 2021, 60, 8415–8418, https://doi.org/10.
+1002/anie.202013947.
+[40] L. Wang, Y. Xue, M. Cui, Y. Huang, H. Xu, C. Qin, J. Yang,
+H. Dai, M. Yuan, Angew. Chem. Int. Ed. 2020, 59, 6442–6450,
+https://doi.org/10.1002/anie.201915912.
+[41] Y. Peng, X. Liu, L. Li, Y. Yao, H. Ye, X. Shang, X. Chen, J. Luo, J.
+Am. Chem. Soc. 2021, 143, 14077–14082, https://doi.org/10.1021/
+jacs.1c07183.
+[42] L. Liu, Y. Yang, S. C. J. Meskers, Q. Wang, L. Zhang, C. Yang, J.
+Zhang, L. Zhu, Y. Zhang, Z. Wei, Adv. Mater. 2023, 35, 2304627,
+https://doi.org/10.1002/adma.202304627.
+[43] T. Zhu, L. Wang, W. Jing, J. Deng, J. Ye, Y. Zhang, Z. Chu, J.
+Zhou, X. Chen, X. Li, W. Lu, X. Shen, Adv. Sci. 2025, 12, e09292,
+https://doi.org/10.1002/advs.202509292.
+[44] I. Song, J. Ahn, H. Ahn, S. H. Lee, J. Mei, N. A. Kotov, J. H.
+Oh, Nature 2023, 617, 92–99, https://doi.org/10.1038/s41586-023-
+05877-0.
+[45] N. A. Rubin, G. D’Aversa, P. Chevalier, Z. Shi, W. T. Chen,
+F. Capasso, Science 2019, 365, eaax1839, https://doi.org/10.1126/
+science.aax1839.
+[46] F. Wang, S. Fang, Y. Zhang, Q. J. Wang, Nat. Commun. 2025, 16,
+6791, https://doi.org/10.1038/s41467-025-61924-6.
+[47] Z. Wang, T. Wan, S. Ma, Y. Chai, Nat. Nanotechnol. 2024, 19,
+919–930, https://doi.org/10.1038/s41565-024-01665-7.
+[48] V. Sharma, M. Crne, J. O. Park, M. Srinivasarao, Mater. Today
+Proc. 2014, 1, 161.
+[49] E. J. Warrant, Curr. Biol. 2010, 20, R610–R612, https://doi.org/
+10.1016/j.cub.2010.05.036.
+[50] A. Pace, Science 1972, 176, 678–680, https://doi.org/10.1126/
+science.176.4035.678.
+[51] W. E. Vargas, E. Avendano, M. Hernández-Jiménez, D. E.
+Azofeifa, E. Libby, Á. Solís, C. Barboza-Aguilar, Biomimetics
+2018, 3, 30, https://doi.org/10.3390/biomimetics3040030.
+[52] D. H. Goldstein, Appl. Opt. 2006, 45, 7944, https://doi.org/10.
+1364/AO.45.007944.
+Manuscript received: November 12, 2025
+Revised manuscript received: December 20, 2025
+Manuscript accepted: January 07, 2026
+Version of record online: January 14, 2026
+Angew. Chem. Int. Ed. 2026, 65, e25044 (9 of 9)
+© 2026 Wiley-VCH GmbH
+ 15213773, 2026, 8, Downloaded from https://onlinelibrary.wiley.com/doi/10.1002/anie.202525044 by Rmit University Library, Wiley Online Library on [10/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

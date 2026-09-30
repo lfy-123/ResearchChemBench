@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_minima",
+      "key_point_type": "process",
+      "statement": "The submission performs a stationary-point validation for each of the three named input species and reports the species-specific imaginary-frequency count and final structure artifact.",
+      "evidence_ids": [
+        "ev_doc_8a1aa1009e1c_000089_0d189ebf08e1",
+        "ev_doc_8a1aa1009e1c_000091_46143619f057"
+      ],
+      "expected": "All three species are independently optimized and frequency-checked; a truthful bounded-failure branch identifies any failed species and missing observables."
+    },
+    {
+      "key_point_id": "kp_pr_process_mapping",
+      "key_point_type": "process",
+      "statement": "The submission defines atom-indexed O···P, O···αH, and O···βH measurements using the supplied coordinate atom identities and carries those indices into the reported values.",
+      "evidence_ids": [
+        "ev_doc_8a1aa1009e1c_000268_7728dff79059",
+        "ev_doc_1e6fd476cea2_000575_f419bbd900ed"
+      ],
+      "expected": "Distances are traceable to explicit per-species atom indices and α/β definitions, without cross-species atom-order confusion. The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+    },
+    {
+      "key_point_id": "kp_pr_distances",
+      "key_point_type": "result",
+      "statement": "The optimized complexes reproduce the paper's reported contact pattern: PO has O···P and weaker αH/βH contacts; PA has αH/βH contacts and a weaker P contact.",
+      "evidence_ids": [
+        "ev_doc_1e6fd476cea2_000575_f419bbd900ed",
+        "ev_doc_1e6fd476cea2_000586_09162b3b4845"
+      ],
+      "expected": "Reported distances identify PO O···P, O···αH, O···βH and PA O···αH, O···βH, O···P, with values close enough to support the stated pattern. The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+    },
+    {
+      "key_point_id": "kp_pr_charge",
+      "key_point_type": "result",
+      "statement": "ADCH analysis reports phosphorus and neighboring αH/βH charge redistribution across free base, PO adduct, and PA zwitterion.",
+      "evidence_ids": [
+        "ev_doc_1e6fd476cea2_000593_e48b8864ac77",
+        "ev_doc_1e6fd476cea2_000595_f3f1c106ba01"
+      ],
+      "expected": "Figure 6 absolute P ADCH charges free=-0.018, PO=+0.447, PA=+0.455 e; all mapped N-ethyl H charges and selected H redistribution are reported. +0.074 e is a free-base alphaH label, not phosphorus. Report all N-ethyl alphaH/betaH ADCH charges with atom mappings. Highlighted contact-H values must use the same nearest H atoms selected by the public O49 distance rule on that species; no hidden source-selected H is required. The free species has no O contact selection. Preserve signed per-site values; any means are auxiliary, not replacements for individual sites."
+    },
+    {
+      "key_point_id": "kp_pr_mep",
+      "key_point_type": "result",
+      "statement": "MEP analysis is used to assess complementary electrostatic regions in the phosphonium-containing species.",
+      "evidence_ids": [
+        "ev_doc_1e6fd476cea2_000604_fcd38ffd08b9"
+      ],
+      "expected": "Signed MEP surface reproduces positive phosphorus-containing region and negative carboxylate region. Use the signed ESP observable; electron density is a different quantity. Explicit artifact and sign convention are required."
+    }
+  ],
+  "paper_id": "paper_ef26687d63a37e29"
+}

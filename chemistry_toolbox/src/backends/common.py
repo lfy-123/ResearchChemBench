@@ -17,6 +17,7 @@ from typing import Any
 
 from ..artifacts import ArtifactStore, relative_workspace_path, resolve_workspace_path, workspace_root
 from ..resources import is_resource_reference, resolve_resource_reference
+from ..models import ArtifactRef
 
 
 def success(
@@ -102,6 +103,8 @@ def request_parts(request: dict[str, Any]) -> tuple[dict[str, Any], dict[str, An
 
 
 def unwrap_artifact(value: Any) -> Any:
+    if isinstance(value, ArtifactRef):
+        return ArtifactStore().load(value)
     if isinstance(value, dict) and "artifact_id" in value:
         return ArtifactStore().load(value)
     if isinstance(value, str) and value.startswith("art_"):
@@ -170,6 +173,8 @@ def _parse_xyz(path: Path) -> dict[str, Any]:
         "atoms": atoms,
         "charge": int(charge_match.group(1)) if charge_match else 0,
         "multiplicity": int(multiplicity_match.group(1)) if multiplicity_match else 1,
+        "electronic_state_sources": {"charge": "xyz_metadata" if charge_match else "legacy_default",
+                                     "multiplicity": "xyz_metadata" if multiplicity_match else "legacy_default"},
         "pbc": [False, False, False],
         "source_path": relative_workspace_path(path),
     }
@@ -199,6 +204,7 @@ def _parse_pdb(path: Path) -> dict[str, Any]:
         "atoms": atoms,
         "charge": 0,
         "multiplicity": 1,
+        "electronic_state_sources": {"charge": "legacy_default", "multiplicity": "legacy_default"},
         "pbc": [False, False, False],
         "source_path": relative_workspace_path(path),
     }
@@ -224,6 +230,7 @@ def _parse_sdf(path: Path) -> dict[str, Any]:
         "atoms": atoms,
         "charge": 0,
         "multiplicity": 1,
+        "electronic_state_sources": {"charge": "legacy_default", "multiplicity": "legacy_default"},
         "pbc": [False, False, False],
         "source_path": relative_workspace_path(path),
     }
@@ -253,6 +260,7 @@ def _parse_vasp_structure(path: Path) -> dict[str, Any]:
         ],
         "charge": 0,
         "multiplicity": 1,
+        "electronic_state_sources": {"charge": "legacy_default", "multiplicity": "legacy_default"},
         "pbc": [True, True, True],
         "source_path": relative_workspace_path(path),
     }
@@ -260,10 +268,12 @@ def _parse_vasp_structure(path: Path) -> dict[str, Any]:
 
 def structure_dict(value: Any) -> dict[str, Any]:
     reference = None
-    if isinstance(value, str) and value.startswith("art_"):
-        reference = ArtifactStore().find(value)
+    if isinstance(value, ArtifactRef):
+        reference = ArtifactStore().resolve(value)
+    elif isinstance(value, str) and value.startswith("art_"):
+        reference = ArtifactStore().resolve(value)
     elif isinstance(value, dict) and isinstance(value.get("artifact_id"), str):
-        reference = ArtifactStore().find(str(value["artifact_id"]))
+        reference = ArtifactStore().resolve(value)
     if reference is not None and any(
         token in reference.semantic_type.casefold()
         for token in ("ensemble", "trajectory")
@@ -381,6 +391,7 @@ def ase_atoms(value: Any):
     atoms.set_pbc(pbc)
     atoms.info["charge"] = int(structure.get("charge", 0))
     atoms.info["multiplicity"] = int(structure.get("multiplicity", 1))
+    atoms.info["electronic_state_sources"] = structure.get("electronic_state_sources", {k: "structured_input" if k in structure else "legacy_default" for k in ("charge", "multiplicity")})
     return atoms
 
 
@@ -395,6 +406,7 @@ def structure_from_atoms(atoms) -> dict[str, Any]:
         ],
         "cell_angstrom": [[float(value) for value in row] for row in atoms.cell.array],
         "pbc": [bool(value) for value in atoms.pbc],
+        "electronic_state_sources": atoms.info.get("electronic_state_sources", {k: "structure_metadata" if k in atoms.info else "legacy_default" for k in ("charge", "multiplicity")}),
         "charge": int(atoms.info.get("charge", 0)),
         "multiplicity": int(atoms.info.get("multiplicity", 1)),
     }
@@ -446,7 +458,7 @@ def run_external(
     directory: Path,
     environment_variable: str | None = None,
     stdin_text: str | None = None,
-    timeout_seconds: int = 1800,
+    timeout_seconds: int = 86400,
     environment_overrides: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     command = resolve_command(executable, environment_variable)

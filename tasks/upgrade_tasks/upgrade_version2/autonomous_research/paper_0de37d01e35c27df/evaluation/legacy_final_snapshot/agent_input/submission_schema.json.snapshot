@@ -1,0 +1,218 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "states",
+      "distance_change",
+      "validation",
+      "coverage",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "states": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "state",
+            "charge",
+            "multiplicity",
+            "sulfur_distance_angstrom",
+            "provenance",
+            "validation"
+          ],
+          "properties": {
+            "state": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "sulfur_distance_angstrom": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "provenance": {
+              "type": "object",
+              "required": [
+                "file",
+                "atom_indices"
+              ],
+              "properties": {
+                "file": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "atom_indices": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "converged",
+                "stationary_point_evidence"
+              ],
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "stationary_point_evidence": {
+                  "type": "string"
+                },
+                "imaginary_frequency_count": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "spin_diagnostic": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "distance_change": {
+        "type": "object",
+        "required": [
+          "value_angstrom",
+          "definition"
+        ],
+        "properties": {
+          "value_angstrom": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "definition": {
+            "type": "string"
+          }
+        }
+      },
+      "validation": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ]
+    },
+    "else": {
+      "properties": {
+        "states": {
+          "items": {
+            "properties": {
+              "sulfur_distance_angstrom": {
+                "type": "number"
+              },
+              "provenance": {
+                "properties": {
+                  "file": {
+                    "type": "string"
+                  }
+                }
+              },
+              "validation": {
+                "properties": {
+                  "imaginary_frequency_count": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "distance_change": {
+          "properties": {
+            "value_angstrom": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

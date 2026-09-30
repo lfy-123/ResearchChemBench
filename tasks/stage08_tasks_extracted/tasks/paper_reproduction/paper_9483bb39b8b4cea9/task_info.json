@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_9483bb39b8b4cea9",
+  "task_type": "paper_reproduction",
+  "title": "Independent test of visible-light charge transfer in a TsCl–THF collision complex",
+  "category": "computational photochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires conformer generation and deduplication for a flexible noncovalent complex, followed by multireference-style excited-state validation and CT assignment."
+  ],
+  "paper": {
+    "title": "Visible Light-Induced Hydrosulfonylation of Terminal Alkyne with Sulfonyl Chloride via Collision Complex between Solvent and Substrate",
+    "doi": "10.1021/acs.joc.5c02407",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-27"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained TsCl and THF identities plus neutral-singlet 1:1 complex boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated candidate search, excitation observables, CT analysis, comparison and conclusion."
+    }
+  ]
+}

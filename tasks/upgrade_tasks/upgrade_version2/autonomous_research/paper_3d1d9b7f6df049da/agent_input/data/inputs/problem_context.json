@@ -1,0 +1,16 @@
+{
+  "problem": "Does cage isomerism change the molecular spin response to vibrations in the supplied Y2@C80(CH2Ph) radicals, and what can that evidence explain about differences in spin-lattice relaxation?",
+  "facts": [
+    "The two fullerene cage connectivities are Ih and D5h; each contains Y2 and one exohedral benzyl group.",
+    "The source measured EPR in toluene/frozen d8-toluene and Raman spectra at 78 K. Molecular calculations and the frozen-solution environment need to remain distinct."
+  ],
+  "scope": "Compare the two supplied neutral C87H7Y2 molecular isomers in their radical doublet setting. Structures are source-computed starting geometries, not fresh experimental coordinates and not validated force-constant/tensor solutions. The target is molecular vibration–spin response and its relevance to relaxation trends; no absolute bulk relaxation lifetime is required.",
+  "data_files": [
+    "y2_d5h_starting_geometry.json",
+    "y2_ih_starting_geometry.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "No raw experimental relaxation traces or environmental phonon spectrum are supplied. Source geometries require independent suitability checks for the chosen calculations."
+  ]
+}

@@ -1,0 +1,396 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "states",
+      "comparison",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ],
+        "minLength": 1
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model_chemistry",
+          "solvent",
+          "charge",
+          "multiplicity",
+          "energy_unit"
+        ],
+        "properties": {
+          "software": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model_chemistry": {
+            "type": "string",
+            "minLength": 1
+          },
+          "solvent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "charge": {
+            "const": 0
+          },
+          "multiplicity": {
+            "const": 2
+          },
+          "energy_unit": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "states": {
+        "type": "object",
+        "required": [
+          "intermediate_B",
+          "ts2",
+          "ts2_prime"
+        ],
+        "properties": {
+          "intermediate_B": {
+            "type": "object",
+            "required": [
+              "identity",
+              "validation_status",
+              "validation_evidence"
+            ],
+            "properties": {
+              "identity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "energy": {
+                "type": "number"
+              },
+              "energy_unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "imaginary_frequency_count": {
+                "type": "integer"
+              },
+              "validation_status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "validation_evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "failure_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "geometry_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "atom_mapping": {
+                "type": "array",
+                "minItems": 53,
+                "maxItems": 53,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 53
+                },
+                "description": "For each output-geometry row, give the corresponding 1-based input radical_starter.xyz atom index."
+              }
+            }
+          },
+          "ts2": {
+            "type": "object",
+            "required": [
+              "identity",
+              "validation_status",
+              "validation_evidence"
+            ],
+            "properties": {
+              "identity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "energy": {
+                "type": "number"
+              },
+              "energy_unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "imaginary_frequency_count": {
+                "type": "integer"
+              },
+              "validation_status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "validation_evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "failure_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "geometry_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "forming_bond_1based": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 53
+                },
+                "description": "Two 1-based row indices in this state's output geometry; use atom_mapping to recover the corresponding public-input indices."
+              },
+              "atom_mapping": {
+                "type": "array",
+                "minItems": 53,
+                "maxItems": 53,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 53
+                },
+                "description": "For each output-geometry row, give the corresponding 1-based input radical_starter.xyz atom index."
+              }
+            }
+          },
+          "ts2_prime": {
+            "type": "object",
+            "required": [
+              "identity",
+              "validation_status",
+              "validation_evidence"
+            ],
+            "properties": {
+              "identity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "energy": {
+                "type": "number"
+              },
+              "energy_unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "imaginary_frequency_count": {
+                "type": "integer"
+              },
+              "validation_status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "validation_evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "failure_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "geometry_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "forming_bond_1based": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 53
+                },
+                "description": "Two 1-based row indices in this state's output geometry; use atom_mapping to recover the corresponding public-input indices."
+              },
+              "atom_mapping": {
+                "type": "array",
+                "minItems": 53,
+                "maxItems": 53,
+                "uniqueItems": true,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 53
+                },
+                "description": "For each output-geometry row, give the corresponding 1-based input radical_starter.xyz atom index."
+              }
+            }
+          }
+        }
+      },
+      "comparison": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "reference_state",
+              "barrier_ts2",
+              "barrier_ts2_prime",
+              "barrier_difference",
+              "unit"
+            ],
+            "properties": {
+              "reference_state": {
+                "type": "string",
+                "minLength": 1
+              },
+              "barrier_ts2": {
+                "type": "number"
+              },
+              "barrier_ts2_prime": {
+                "type": "number"
+              },
+              "barrier_difference": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "reference_state",
+              "failure_reason"
+            ],
+            "properties": {
+              "reference_state": {
+                "type": "string",
+                "minLength": 1
+              },
+              "failure_reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        ]
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "states": {
+              "properties": {
+                "intermediate_B": {
+                  "required": [
+                    "energy",
+                    "energy_unit",
+                    "imaginary_frequency_count",
+                    "geometry_file",
+                    "atom_mapping"
+                  ],
+                  "properties": {
+                    "imaginary_frequency_count": {
+                      "const": 0
+                    }
+                  }
+                },
+                "ts2": {
+                  "required": [
+                    "energy",
+                    "energy_unit",
+                    "imaginary_frequency_count",
+                    "geometry_file",
+                    "forming_bond_1based",
+                    "atom_mapping"
+                  ],
+                  "properties": {
+                    "imaginary_frequency_count": {
+                      "const": 1
+                    }
+                  }
+                },
+                "ts2_prime": {
+                  "required": [
+                    "energy",
+                    "energy_unit",
+                    "imaginary_frequency_count",
+                    "geometry_file",
+                    "forming_bond_1based",
+                    "atom_mapping"
+                  ],
+                  "properties": {
+                    "imaginary_frequency_count": {
+                      "const": 1
+                    }
+                  }
+                }
+              }
+            },
+            "comparison": {
+              "required": [
+                "reference_state",
+                "barrier_ts2",
+                "barrier_ts2_prime",
+                "barrier_difference",
+                "unit"
+              ]
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "comparison": {
+              "required": [
+                "failure_reason"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

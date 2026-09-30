@@ -1,0 +1,291 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "calculation",
+      "structures",
+      "validation",
+      "hypotheses",
+      "modes",
+      "peaks",
+      "comparison",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "calculation": {
+        "type": "object",
+        "required": [
+          "software",
+          "method",
+          "basis",
+          "scaling",
+          "broadening",
+          "alignment_rule"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          },
+          "scaling": {
+            "type": "number"
+          },
+          "broadening": {
+            "type": "string"
+          },
+          "alignment_rule": {
+            "type": "string"
+          }
+        }
+      },
+      "structures": {
+        "type": "object",
+        "required": [
+          "anion",
+          "neutral",
+          "connectivity_preserved"
+        ],
+        "properties": {
+          "anion": {
+            "type": "object",
+            "required": [
+              "charge",
+              "multiplicity",
+              "atom_count",
+              "source"
+            ],
+            "properties": {
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "atom_count": {
+                "type": "integer"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          },
+          "neutral": {
+            "type": "object",
+            "required": [
+              "charge",
+              "multiplicity",
+              "atom_count",
+              "source"
+            ],
+            "properties": {
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "atom_count": {
+                "type": "integer"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          },
+          "connectivity_preserved": {
+            "type": "boolean"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "anion_imaginary_frequencies",
+          "neutral_imaginary_frequencies",
+          "minimum_evidence",
+          "coverage_and_stopping"
+        ],
+        "properties": {
+          "anion_imaginary_frequencies": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "neutral_imaginary_frequencies": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "minimum_evidence": {
+            "type": "string"
+          },
+          "coverage_and_stopping": {
+            "type": "string"
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "statement",
+            "evidence_for",
+            "evidence_against",
+            "status"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "statement": {
+              "type": "string"
+            },
+            "evidence_for": {
+              "type": "string"
+            },
+            "evidence_against": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "modes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "mode_id",
+            "frequency_cm_minus_1",
+            "assignment",
+            "displacement_evidence"
+          ],
+          "properties": {
+            "mode_id": {
+              "type": "string"
+            },
+            "frequency_cm_minus_1": {
+              "type": "number"
+            },
+            "assignment": {
+              "type": "string"
+            },
+            "displacement_evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "peaks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "peak_id",
+            "calculated_cm_minus_1",
+            "relative_to_origin_cm_minus_1",
+            "assignment",
+            "selection_rule"
+          ],
+          "properties": {
+            "peak_id": {
+              "type": "string"
+            },
+            "calculated_cm_minus_1": {
+              "type": "number"
+            },
+            "relative_to_origin_cm_minus_1": {
+              "type": "number"
+            },
+            "assignment": {
+              "type": "string"
+            },
+            "selection_rule": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "matched_features",
+          "mae_cm_minus_1",
+          "origin_alignment",
+          "interpretation"
+        ],
+        "properties": {
+          "matched_features": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "feature_id",
+                "calculated_cm_minus_1",
+                "observed_cm_minus_1",
+                "difference_cm_minus_1"
+              ],
+              "properties": {
+                "feature_id": {
+                  "type": "string"
+                },
+                "calculated_cm_minus_1": {
+                  "type": "number"
+                },
+                "observed_cm_minus_1": {
+                  "type": "number"
+                },
+                "difference_cm_minus_1": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "mae_cm_minus_1": {
+            "type": "number"
+          },
+          "origin_alignment": {
+            "type": "string"
+          },
+          "interpretation": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

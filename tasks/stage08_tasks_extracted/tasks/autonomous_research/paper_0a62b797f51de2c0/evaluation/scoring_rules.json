@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "rules": [
+    {
+      "rule_id": "ar_rule_identity",
+      "reference_id": "ar_process_identity",
+      "type": "semantic",
+      "expected": "All three public monomers are calculated with preserved identity and neutral-singlet metadata.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].id",
+          "$.molecules[].structure.smiles",
+          "$.molecules[].method.charge",
+          "$.molecules[].method.multiplicity"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_validation",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "The agent explicitly validates optimization/conformer coverage and defines ESP comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].validation.conformer_coverage",
+          "$.molecules[].validation.notes",
+          "$.molecules[].esp.definition"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_trend",
+      "reference_id": "ar_result_trend",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.dipole_ordering",
+          "$.comparison.esp_ordering",
+          "$.comparison.trend_statement"
+        ],
+        "comparison": "reported ordering compared with source-supported trend"
+      },
+      "expected": "The reported cross-series comparison states the dipole/polarization trend or transparently reports that it is indeterminate under bounded failure."
+    },
+    {
+      "rule_id": "ar_rule_pattern",
+      "reference_id": "ar_result_pattern",
+      "type": "semantic",
+      "expected": "Opposed thiophene-side and cyano-side electrostatic regions are supported or qualified.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.trend_statement",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_final",
+      "reference_id": "ar_final_conclusion",
+      "type": "semantic",
+      "expected": "Independent final claim supports cyano-dependent polarization and states limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

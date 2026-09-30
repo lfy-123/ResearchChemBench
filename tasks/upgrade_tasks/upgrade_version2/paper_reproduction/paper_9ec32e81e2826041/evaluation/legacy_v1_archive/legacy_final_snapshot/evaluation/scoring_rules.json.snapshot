@@ -1,0 +1,72 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "rules": [
+    {
+      "rule_id": "r_pr_process_inputs",
+      "reference_id": "pr_process_inputs",
+      "type": "semantic",
+      "expected": "Two uniquely labeled 80-atom C35H43NZn conformers have consistent chemical identity, charge 0, multiplicity 1 and input-to-result mapping.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*].label",
+          "$.structures[*].input_file",
+          "$.structures[*].input_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_process_validation",
+      "reference_id": "pr_process_validation",
+      "type": "semantic",
+      "expected": "Both distinct conformers are optimized minima with frequency evidence and consistently computed primary-protocol Gibbs energies at 300 K.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*].stationary_point",
+          "$.structures[*].method",
+          "$.structures[*].free_energy"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_result_delta",
+      "reference_id": "pr_result_delta",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "The signed G_coplanar − G_perpendicular comparison in kJ mol−1 agrees with the submitted, traceable primary-protocol Gibbs energies and unit conversion. Missing calculations do not earn this result by supplying a failure explanation."
+    },
+    {
+      "rule_id": "r_pr_final_conclusion",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "Evaluate real calculations and scientifically correct results; ordinary disclaimers, search-round counts and generic limitations are not scored. A truthful failure is a valid submission, not achievement of missing scientific results. Credit only actually supported components; extra failed attempts do not invalidate a successful main result. Verify identity, units, energy references and calculation evidence before numerical agreement. The primary PBE0-D3BJ/6-311+G(d,p), 300 K gas-phase harmonic Gibbs comparison supports near-isoenergetic conformers. Check the signed subtraction and distinct optimized identities; do not apply this claim blindly to dispersion-free control calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.comparison",
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

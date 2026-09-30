@@ -27,4 +27,9 @@ The reactant free energy in Table S6 is −859.262712 au. The product endpoint i
 
 ## 6. Limitations and interpretation boundaries
 
-The numerical profile is model-dependent and contains mixed electronic surfaces and standard-state corrections. Formal oxidation-state assignments for nitrosyl chemistry are non-innocent; the paper describes the product as Mo(II)/NO+-leaning rather than uniquely ionic. The public benchmark therefore scores reproducible endpoint energetics and validation evidence, while treating mechanistic interpretation as a supported conclusion rather than an absolute proof.
+The numerical profile is model-dependent and contains mixed electronic surfaces and standard-state corrections. Formal oxidation-state assignments for nitrosyl chemistry are non-innocent; the paper describes the product as Mo(II)/NO+-leaning rather than uniquely ionic. The repaired benchmark validates complex1/product3 and scores only balanced Im5+water association; its declared source-recipe scalar is not a consistently corrected1M thermodynamic claim.
+
+
+## 2026-09-26 source-backed task correction
+
+Original complex1/product3 validation and the independent diagnostic remain required. Added completeIm5 and isolatedwater inputs make the scored final association atom balanced. The old unbalanced field is removed. Numeric reference1.6kcal/mol and tolerance8.0 are unchanged. SI S5 specifies1atm harmonic corrections, but S6/S7 calls the raw Gaussian sum1M. Therefore reproduce its exact recipe(raw deltaG minusRTln55.34) only as the source-recipe field and separately report raw1atm, consistentall-solute1M and bulk-water values. This correction does not establish the overall conversion or validate every proposed intermediate. The source is primary SI physicalS5-S7 andTableS6.

@@ -1,0 +1,204 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "method",
+          "geometry_validation",
+          "pDOS_analysis",
+          "validation",
+          "conclusion",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "success"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "structure_file_or_generator",
+              "charge",
+              "spin",
+              "adsorption_site"
+            ],
+            "properties": {
+              "structure_file_or_generator": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "number"
+              },
+              "spin": {
+                "type": "string"
+              },
+              "adsorption_site": {
+                "type": "string"
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "relaxation",
+              "electronic_structure",
+              "convergence"
+            ],
+            "properties": {
+              "relaxation": {
+                "type": "string"
+              },
+              "electronic_structure": {
+                "type": "string"
+              },
+              "convergence": {
+                "type": "string"
+              }
+            }
+          },
+          "geometry_validation": {
+            "type": "object",
+            "required": [
+              "result",
+              "evidence"
+            ],
+            "properties": {
+              "result": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "pDOS_analysis": {
+            "type": "object",
+            "required": [
+              "feature_assignment",
+              "energy_relative_to_fermi_eV",
+              "evidence"
+            ],
+            "properties": {
+              "feature_assignment": {
+                "type": "string"
+              },
+              "energy_relative_to_fermi_eV": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "result",
+              "sensitivity_or_independent_check"
+            ],
+            "properties": {
+              "result": {
+                "type": "string"
+              },
+              "sensitivity_or_independent_check": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "system",
+          "method",
+          "failure_report",
+          "limitations"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "system": {
+            "type": "object",
+            "required": [
+              "structure_file_or_generator",
+              "charge",
+              "spin",
+              "adsorption_site"
+            ],
+            "properties": {
+              "structure_file_or_generator": {
+                "type": "string"
+              },
+              "charge": {
+                "type": "number"
+              },
+              "spin": {
+                "type": "string"
+              },
+              "adsorption_site": {
+                "type": "string"
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "relaxation",
+              "electronic_structure",
+              "convergence"
+            ],
+            "properties": {
+              "relaxation": {
+                "type": "string"
+              },
+              "electronic_structure": {
+                "type": "string"
+              },
+              "convergence": {
+                "type": "string"
+              }
+            }
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "failed_stage",
+              "attempted_coverage",
+              "limitation"
+            ],
+            "properties": {
+              "failed_stage": {
+                "type": "string"
+              },
+              "attempted_coverage": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string"
+              }
+            }
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      }
+    ]
+  }
+}

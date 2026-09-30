@@ -1,0 +1,80 @@
+{
+  "items": [
+    {
+      "key_point_id": "pr_process_minimum",
+      "key_point_type": "process",
+      "statement": "The report identifies independently optimized neutral and anion endpoints and supplies frequency or equivalent stationary-point validation plus candidate coverage.",
+      "expected_result": "Both endpoint candidates have convergence evidence, explicit charges/multiplicities, and zero or otherwise scientifically justified imaginary-mode handling; completed candidates and their evidence are identified.",
+      "evidence_ids": [
+        "ev_doc_4f9490507c88_000002_2257e7560ecc"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints",
+          "$.candidates",
+          "$.coverage"
+        ]
+      },
+      "expected": "Both endpoint candidates have convergence evidence, explicit charges/multiplicities, and zero or otherwise scientifically justified imaginary-mode handling; completed candidates and their evidence are identified."
+    },
+    {
+      "key_point_id": "pr_process_aea_definition",
+      "key_point_type": "process",
+      "statement": "AEA is formed from the adiabatic neutral/anionic endpoint energies with an explicit unit and zero-point convention.",
+      "expected_result": "The submission states E(neutral)-E(anion), identifies energy units and whether ZPE is included, and reports both endpoint energies.",
+      "evidence_ids": [
+        "ev_doc_4f9490507c88_000002_2257e7560ecc"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aea",
+          "$.endpoints"
+        ]
+      },
+      "expected": "The submission states E(neutral)-E(anion), identifies energy units and whether ZPE is included, and reports both endpoint energies."
+    },
+    {
+      "key_point_id": "pr_result_aea",
+      "key_point_type": "result",
+      "statement": "The isolated PAl12[B(C6F5)3]2 endpoint has a source-reported AEA of 3.93 eV.",
+      "expected_result": 3.93,
+      "evidence_ids": [
+        "ev_doc_6507cac94f8a_000182_3943e25f7727"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aea.value"
+        ]
+      },
+      "expected": 3.93
+    },
+    {
+      "key_point_id": "pr_result_framework",
+      "key_point_type": "result",
+      "statement": "The ligated cluster retains the PAl12 metal-core structural framework after optimization within the stated model boundary.",
+      "expected_result": "The report explicitly compares the optimized core with the specified PAl12 framework and gives structure-based evidence.",
+      "evidence_ids": [
+        "ev_doc_6507cac94f8a_000027_3943e25f7727"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.framework_assessment"
+        ]
+      },
+      "expected": "The report explicitly compares the optimized core with the specified PAl12 framework and gives structure-based evidence."
+    }
+  ],
+  "paper_id": "paper_c7217910ecbee1d9"
+}

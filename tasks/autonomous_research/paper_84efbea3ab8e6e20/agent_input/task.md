@@ -4,7 +4,7 @@ Independently investigate whether positional isomerism of Bpin-substituted carba
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/molecules.json`. It defines the uniquely named neutral singlet molecules CZ1B (1-substituted), CZ2B (2-substituted), and CZ4B (4-substituted), all C18H20BNO2 with charge 0 and multiplicity 1. Computation concerns isolated molecules; 0.5 wt% PVA is only the experimental measurement boundary. The task does not provide or imply an author route, preferred mechanism, winning isomer, result direction, software, model chemistry, geometry, or state. Do not use the paper or SI as an Agent input.
+Use `data/inputs/molecules.json`. It defines the uniquely named neutral singlet molecules CZ1B (1-substituted), CZ2B (2-substituted), and CZ4B (4-substituted), all C18H20BNO2 with charge 0 and multiplicity 1. The listed CCDC identifiers are provenance metadata only: no CIF is supplied or required, and CCDC database retrieval is not required or scored. Generate molecular geometries from the explicit names and positional identities. Computation concerns isolated molecules; 0.5 wt% PVA is only the experimental measurement boundary. The task does not provide or imply an author route, preferred mechanism, winning isomer, result direction, software, model chemistry, geometry, or state. Do not use the paper or SI as an Agent input.
 
 # Required scientific validation/investigation
 

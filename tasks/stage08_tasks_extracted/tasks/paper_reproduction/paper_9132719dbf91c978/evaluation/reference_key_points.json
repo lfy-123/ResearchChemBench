@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "items": [
+    {
+      "key_point_id": "kp_process_minimum",
+      "key_point_type": "process",
+      "statement": "The submission validates the supplied neutral singlet INT-G as a stationary-point minimum and reports its imaginary-frequency count.",
+      "expected": "A defensible minimum validation is reported with charge 0, multiplicity 1 and no imaginary frequencies (or a clearly justified reoptimization result).",
+      "evidence_ids": [
+        "ev_doc_ad8d4ad88545_000309_79c551457e0b",
+        "ev_doc_ad8d4ad88545_000312_53250658d885"
+      ]
+    },
+    {
+      "key_point_id": "kp_process_ts",
+      "key_point_type": "process",
+      "statement": "The submission validates a transition state for H2 reductive elimination and demonstrates endpoint connectivity.",
+      "expected": "One imaginary mode is reported for the TS and an IRC, mode-following, scan, or equivalent evidence supports both INT-G-side and H2/Pd(0)-side endpoints.",
+      "evidence_ids": [
+        "ev_doc_ad8d4ad88545_000195_afed2f27e96a"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_barrier",
+      "key_point_type": "result",
+      "statement": "The submission reports the computed free-energy barrier for H2 reductive elimination from INT-G.",
+      "expected": "The reported barrier is approximately 0.9 kcal/mol within the stated comparison tolerance, with units and reference state explicit.",
+      "evidence_ids": [
+        "ev_doc_ad8d4ad88545_000199_c59d4d6aeb1b"
+      ]
+    }
+  ]
+}

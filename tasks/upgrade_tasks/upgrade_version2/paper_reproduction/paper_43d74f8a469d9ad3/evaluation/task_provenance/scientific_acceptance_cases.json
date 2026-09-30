@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_43d74f8a469d9ad3",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.409724+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_43d74f8a469d9ad3/documents/main.pdf",
+      "sha256": "3702c207117b172cf5f60f75a5488e55a7c10fc33cccf97eb8ff0c1a3bc721cb",
+      "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p2 Scheme1 和 p5 溶剂讨论；2–4 在 MeCN 中有解离，不能当完好母体默认光谱介质。SI pp32–37 的坐标标签/组成冲突已在旧审查识别，CCDC2441197 支持身份。",
+      "actual_read_pages_and_sections": "Main pp2–4 Scheme1/methods; pp7–8 Tables4–6 optical discussion; SI pp32–37 identities/rotational subsection checked against Scheme1."
+    },
+    {
+      "path": "papers/paper_43d74f8a469d9ad3/documents/supplementary_001.pdf",
+      "sha256": "7b0fafc26a4cfda88dd80c6a1b3d524940e51ec7eb20480383262cb8c4f7d3d5",
+      "locator": "Main p2 Scheme1, pp3-4 computational section, pp8-10 torsion/photostability; CCDC2441197. SI pp32-37 Tables S5-S8 contain composition/label inconsistency.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p2 Scheme1 和 p5 溶剂讨论；2–4 在 MeCN 中有解离，不能当完好母体默认光谱介质。SI pp32–37 的坐标标签/组成冲突已在旧审查识别，CCDC2441197 支持身份。",
+      "actual_read_pages_and_sections": "Main pp2–4 Scheme1/methods; pp7–8 Tables4–6 optical discussion; SI pp32–37 identities/rotational subsection checked against Scheme1."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Correct intact dyes 1/2 and physically defined absorption evidence across the disclosed solvents support an optical explanation without mandated scans or bleaching predictions.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Calculated optical evidence shows solvent responses compatible with multiple accounts and does not uniquely attribute the contrast to viscosity.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "The source ground-state rotation scan for dyes 1/3 is claimed as an S1 calculation for dyes 1/2 or its maximum as a verified transition state.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "One valid ground-state scan is retained as a conformational model result, with no bleaching rate or excited-state pathway claim.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular explanation accounts for the solution absorption of source organoboron dyes1 and2 and their response to the two supplied solvents? Determine whether proposed structural/electronic differences are supported beyond a coincidental match to an absorption maximum.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Check Scheme1 dye1/dye2 graph and methoxy substitution, boron coordination and neutral electron count; reject blind reuse of conflicting SI molecule labels. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Specify the molecular/solvent state and how calculated properties relate to measured absorption. Validate transitions and structures material to the argument and account for coupled chemical/environmental differences when making causal claims. Sampling and numerical uncertainty should be sufficient for the claimed resolution, with no prescribed scan or unique method. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Restrict claims to the two molecular dyes and solution absorption. A molecular rotation, excitation or static barrier cannot establish photobleaching yield, hydrolytic lifetime, cell-staining mechanism or biocompatibility. Methanol/chloroform comparisons do not isolate viscosity as the only changed property. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify N-phenyl7a/8a/5g identities and conservation of composition, proton/electron balance and atom correspondence for derived models. Do not use the NH analogue6a or another substituent as the same compound. Keep the measurement media distinct. The 7a14.07ppm solvent field is unresolved, not a fixed CDCl3 or DMSO-d6 identity constraint.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.executions",
+          "$.evidence"
+        ],
+        "comparison": "Verify N-phenyl7a/8a/5g identities and conservation of composition, proton/electron balance and atom correspondence for derived models. Do not use the NH analogue6a or another substituent as the same compound. Keep the measurement media distinct. The 7a14.07ppm solvent field is unresolved, not a fixed CDCl3 or DMSO-d6 identity constraint. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_results",
+      "reference_id": "kp_results",
+      "type": "semantic",
+      "expected": "Evaluate auditable optical quantities and any independent spectroscopic/state evidence actually used. Appropriate state/mode/shift references and raw artifacts must support numerical comparisons; a KS orbital gap cannot silently stand in for an absorption maximum. Any use of 7a14.07ppm must cite its main/SI solvent-label discrepancy; it is not an unambiguous medium-specific reference or two independent measurements.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.executions",
+          "$.methods",
+          "$.evidence"
+        ],
+        "comparison": "Evaluate auditable optical quantities and any independent spectroscopic/state evidence actually used. Appropriate state/mode/shift references and raw artifacts must support numerical comparisons; a KS orbital gap cannot silently stand in for an absorption maximum. Any use of 7a14.07ppm must cite its main/SI solvent-label discrepancy; it is not an unambiguous medium-specific reference or two independent measurements. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "Assess whether a molecular explanation accounts for the observed compound/solvent behaviour and respects the independent NMR/IR constraints. Species redistribution, fixed-form effects or another in-scope explanation is acceptable only as far as its evidence supports it; no named tautomer or mandatory decomposition is privileged. Do not infer solvent-invariant NMR behaviour from the duplicated14.07ppm annotation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.findings",
+          "$.measurements",
+          "$.conclusion"
+        ],
+        "comparison": "Assess whether a molecular explanation accounts for the observed compound/solvent behaviour and respects the independent NMR/IR constraints. Species redistribution, fixed-form effects or another in-scope explanation is acceptable only as far as its evidence supports it; no named tautomer or mandatory decomposition is privileged. Do not infer solvent-invariant NMR behaviour from the duplicated14.07ppm annotation. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Assess molecular-model, medium and measurement limitations relevant to the asserted distinction. Source-series ranges cannot become precise per-species target values. Population claims require a defensible common thermodynamic basis and justified scope, not an assumed equilibrium from arbitrary SCF energies. Treat the main p14 DMSO-d6 versus SI p155 CDCl3 disagreement for7a14.07ppm as unresolved source provenance. Credit justified bounded use or exclusion from solvent-specific calibration; do not require a particular extra calculation or penalize the agent for the publication conflict.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.measurements",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "Assess molecular-model, medium and measurement limitations relevant to the asserted distinction. Source-series ranges cannot become precise per-species target values. Population claims require a defensible common thermodynamic basis and justified scope, not an assumed equilibrium from arbitrary SCF energies. Treat the main p14 DMSO-d6 versus SI p155 CDCl3 disagreement for7a14.07ppm as unresolved source provenance. Credit justified bounded use or exclusion from solvent-specific calibration; do not require a particular extra calculation or penalize the agent for the publication conflict. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_audit",
+      "reference_id": "kp_audit",
+      "type": "semantic",
+      "expected": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.research_log",
+          "$.evidence",
+          "$.executions",
+          "$.resources"
+        ],
+        "comparison": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    },
+    {
+      "rule_id": "r_answer",
+      "reference_id": "conclusion_answer",
+      "type": "semantic",
+      "expected": "State what explains the measured behaviour and which molecular-form conclusions are or are not established for the three identities and environments. A bounded support set or nonidentifiability is acceptable with evidence, while unperformed core reasoning cannot be relabeled uncertainty. If7a14.07ppm contributes to a conclusion, state the unresolved solvent provenance and its consequence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.findings",
+          "$.incomplete_work"
+        ],
+        "comparison": "State what explains the measured behaviour and which molecular-form conclusions are or are not established for the three identities and environments. A bounded support set or nonidentifiability is acceptable with evidence, while unperformed core reasoning cannot be relabeled uncertainty. If7a14.07ppm contributes to a conclusion, state the unresolved solvent provenance and its consequence. Score 0 when absent, scientifically invalid or unsupported by auditable artifacts; award partial credit for the supported scope and full credit only when the question-relevant criterion is satisfied. Any scientifically valid method may satisfy this criterion; missing a V1-specific operation is not itself a failure."
+      },
+      "partial_credit": "Separate demonstrated local results from unsupported generalization. A negative or evidence-sufficient unresolved result has the same eligibility as a positive result. Unsupported labels and fluent narrative receive no scientific-result credit."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Verify N-phenyl7a/8a/5g identities and conservation of composition, proton/electron balance and atom correspondence for derived models. Do not use the NH analogue6a or another substituent as the same compound. Keep the measurement media distinct. The 7a14.07ppm solvent field is unresolved, not a fixed CDCl3 or DMSO-d6 identity constraint.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "results",
+      "max_score": 25,
+      "description": "Evaluate auditable optical quantities and any independent spectroscopic/state evidence actually used. Appropriate state/mode/shift references and raw artifacts must support numerical comparisons; a KS orbital gap cannot silently stand in for an absorption maximum. Any use of 7a14.07ppm must cite its main/SI solvent-label discrepancy; it is not an unambiguous medium-specific reference or two independent measurements.",
+      "rule_ids": [
+        "r_results"
+      ]
+    },
+    {
+      "id": "interpretation",
+      "max_score": 25,
+      "description": "Assess whether a molecular explanation accounts for the observed compound/solvent behaviour and respects the independent NMR/IR constraints. Species redistribution, fixed-form effects or another in-scope explanation is acceptable only as far as its evidence supports it; no named tautomer or mandatory decomposition is privileged. Do not infer solvent-invariant NMR behaviour from the duplicated14.07ppm annotation.",
+      "rule_ids": [
+        "r_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "Assess molecular-model, medium and measurement limitations relevant to the asserted distinction. Source-series ranges cannot become precise per-species target values. Population claims require a defensible common thermodynamic basis and justified scope, not an assumed equilibrium from arbitrary SCF energies. Treat the main p14 DMSO-d6 versus SI p155 CDCl3 disagreement for7a14.07ppm as unresolved source provenance. Credit justified bounded use or exclusion from solvent-specific calibration; do not require a particular extra calculation or penalize the agent for the publication conflict.",
+      "rule_ids": [
+        "r_uncertainty"
+      ]
+    },
+    {
+      "id": "audit",
+      "max_score": 10,
+      "description": "Verify that evidence IDs resolve to actual hash-matched raw artifacts, models/methods are linked, and numerical transformations can be reproduced. Inspect research_log against real tool traces for process claims. Neither schema validity, normal termination, hypothesis count nor self-written chronology proves scientific validity.",
+      "rule_ids": [
+        "r_audit"
+      ]
+    },
+    {
+      "id": "answer",
+      "max_score": 10,
+      "description": "State what explains the measured behaviour and which molecular-form conclusions are or are not established for the three identities and environments. A bounded support set or nonidentifiability is acceptable with evidence, while unperformed core reasoning cannot be relabeled uncertainty. If7a14.07ppm contributes to a conclusion, state the unresolved solvent provenance and its consequence.",
+      "rule_ids": [
+        "r_answer"
+      ]
+    }
+  ],
+  "reference_stage": "v2_content_development_reference_and_semantic_calibration_separate",
+  "scoring_notes": "V1 matrices and results remain historical, nonbinding evidence. Read v2_reference_reuse.md for applicability. No numeric acceptance band was invented. Runtime supplies different AR/PR process rubrics; author agreement is not a shared-result criterion."
+}

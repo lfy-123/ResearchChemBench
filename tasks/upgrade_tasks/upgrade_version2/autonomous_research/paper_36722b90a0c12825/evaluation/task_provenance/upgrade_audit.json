@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "task_type": "autonomous_research",
+  "version": 2,
+  "old_class": {
+    "old": "A",
+    "v1": "B"
+  },
+  "autonomy": "source_bounded_open_research_C",
+  "status": "content_developed_reference_judge_isolation_pending",
+  "baseline_package": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_36722b90a0c12825",
+  "baseline_package_content_sha256": "c160acf508cc201ff9dfb76df24f1a691c2667145611179243474acb9013af30",
+  "baseline_manifest_sha256": "82120294e3bb7ff0cf156fb858cb4693d405a427e15199094dc2f315fc5be43d",
+  "baseline_snapshot": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/_backup_metadata/snapshot_manifest.json",
+    "sha256": "6aec7a6cf2b705fb9700e949fb90323c4f972ee954ca16979b7c7a3082152915",
+    "inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666"
+  },
+  "plan": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/plans/paper_36722b90a0c12825.json",
+  "plan_sha256": "ae61bf52f7e3f44c7655aa29c9b8ff65c95972eb4cde2b6602f1a78ab1ca97ad",
+  "plan_created_before_copy": true,
+  "public_changes": [
+    "Retain E/Z complete starting molecular graphs, chloride and TBA composition; remove the preassembled bound objects as an obligatory research inventory.",
+    "Replace controls.json (fixed binding equations and intervention axes) with neutral context and the two actual SI Table S2 E/Z observation pairs, including reported errors and acetone-d6 conditions.",
+    "Remove source coordinate/energy answers and prescribed conformer labels from AR; archive all V1 material privately, keep public topology/stereochemistry only.",
+    "Replace fixed species_ensembles/binding_cycle/intervention rows and hypothesis-count requirement with freely named models, operations, quantitative evidence and claims.",
+    "Neutralize title, difficulty reasons, bibliography and all public instructions; retain real author protocol only in PR guidance."
+  ],
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "scientifically_validated": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "blockers": [],
+  "created_at_utc": "2026-09-28T16:25:24.719104+00:00",
+  "mutable_evidence_fix_at_utc": "2026-09-28T16:44:58.471422+00:00",
+  "offline_existing_output_observation_at_utc": "2026-09-28T17:32:46.538704+00:00"
+}

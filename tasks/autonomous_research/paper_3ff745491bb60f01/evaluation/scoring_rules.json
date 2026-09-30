@@ -130,11 +130,23 @@
       }
     },
     {
+      "rule_id": "r_bounded_consistency",
+      "reference_id": "c_bounded_consistency",
+      "type": "condition",
+      "expected": "When status=bounded_consistency, both calculations are application-level converged, product gap is larger than CSO, and the report explicitly explains that evaluator numeric targets are not met because solvent/conformer/ORCA details are under-specified; this is a bounded consistency outcome, not a numeric pass.",
+      "applicability": "status=bounded_consistency only",
+      "binding": {
+        "artifact_paths": ["report/results.json"],
+        "fields": ["$.status", "$.structures", "$.comparison", "$.limitations"],
+        "comparison": "expert condition check"
+      }
+    },
+    {
       "rule_id": "r_interpretation",
       "reference_id": "kp_interpretation",
       "type": "semantic",
       "expected": "The report states that the larger product gap supports a qualified blue-shift interpretation.",
-      "applicability": "status=complete only",
+      "applicability": "status=complete or bounded_consistency",
       "binding": {
         "artifact_paths": [
           "report/results.json"

@@ -1,0 +1,27 @@
+# Scientific objective
+
+Determine the coverage-dependent hydrogen adsorption thermodynamics and selected Tafel H2-desorption kinetics of the explicitly supplied periodic Cu(111) slab. Compute optimized clean and H-covered states at 0.25, 0.50, 0.75, 1.00, and 1.25 ML, the differential Gibbs energy for each incremental H, the corresponding CHE potential, the first top-site occupation point, and Tafel barriers for at least 0.50 and 1.00 ML and, if computationally stable, 1.25 ML.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that hydrogen adsorption on periodic Cu(111) is relatively unfavorable at low coverage, while high coverage can make hydrogen recombination and desorption easier through occupation of a different surface site.
+
+**Candidate route or mechanism.**
+For the coverage series, test whether low-coverage hydrogen preferentially occupies threefold hollow or bridge environments and whether a top-site population becomes relevant only at high coverage. For Tafel desorption, compare recombination from the lower-coverage adsorbate arrangement with a high-coverage arrangement that includes top-site hydrogen.
+
+**Discriminating evidence.**
+Use coverage-dependent differential adsorption free energies and CHE potentials, the first coverage at which a top site is occupied, optimized site identities and rearrangements, and validated Tafel paths and barriers at the requested coverages to distinguish the proposed coverage-dependent thermodynamic and kinetic change.
+
+
+# Public inputs and scientific boundaries
+
+Use every file under `data/inputs/`: `cu111_clean.poscar` is the neutral 12-Cu periodic slab, `h2_reference.xyz` is the neutral H2 reference, and `system_definition.json` defines the cell, layer constraints, sites, coverage, charge, multiplicity, temperature and SHE reference. Do not infer or alter atom identity, stoichiometry, protonation, charge, multiplicity, or periodicity. You may generate H coordinates and computational settings. Use a defensible electronic-structure method and state it fully. CHE means ΔG(U)=ΔG(0)−eU for one H+e−. Explicit solvent, grand-canonical field effects, and Heyrovsky kinetics are outside scope.
+
+# Required scientific validation/investigation
+
+Record the clean slab reference and generate and compare candidate H placements at each specified coverage, retaining unique structure/site identity and the evidence used to select the reported state. Optimize each state, document force/energy convergence and H rearrangements, and deduplicate structures by an explicit geometric criterion. Advance a state only if the slab remains intact and the H count and coverage are unambiguous. Calculate ΔGdiff from adjacent total free energies (or state the exact alternative thermodynamic construction), and derive U from the stated CHE convention. For Tafel desorption, identify initial and final states, verify endpoint connectivity and a continuous validated path, and report the maximum barrier; if a path cannot be converged, submit the schema's bounded-failure attempt branch with attempted states, diagnostics and a scientifically justified stopping condition (barrier_eV must be null in that branch). Completion requires all five thermodynamic states plus at least the 0.50 and 1.00 ML kinetic attempts; a non-converged kinetic path is complete only when its bounded-failure branch is fully documented. Stop after the specified coverage set has been exhausted and no unresolved identity or convergence failure remains; do not claim exhaustive global site search. Discuss at least two plausible explanations for any coverage trend and discriminate them using the computed evidence.
+
+# Deliverables
+
+Submit exactly the files declared in `submission_schema.json`, with `report/results.json` as the primary file. Include inputs/methods, per-state structures or reproducible structure references, energies/free-energy calculations, convergence evidence, Tafel path evidence or bounded failure, final conclusions, competing explanations and limitations. A successful result must report numeric values and units; a bounded failure must include the required diagnostic and preserve all successfully computed preceding states.

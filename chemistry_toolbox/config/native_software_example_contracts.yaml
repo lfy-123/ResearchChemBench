@@ -160,6 +160,20 @@ software:
           cpu_cores: 1
           memory_mb: 2048
           gpu_count: 0
+
+  fcclasses3:
+    commands:
+      fcclasses3:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [input.fcc]
+        inputs: [input.fcc]
+        outputs: [spectrum.dat]
+        stdin_target: null
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 4096
+          gpu_count: 0
   crest:
     commands:
       crest:
@@ -825,6 +839,18 @@ software:
           cpu_cores: 1
           memory_mb: 2048
           gpu_count: 0
+      tbtrans:
+        enabled: true
+        example_kind: scientific_template
+        arguments: []
+        inputs:
+        - input.fdf
+        outputs: []
+        stdin_target: input.fdf
+        resource_limits:
+          cpu_cores: 1
+          memory_mb: 2048
+          gpu_count: 0
   dftbplus:
     commands:
       dftb+:
@@ -1221,6 +1247,14 @@ software:
           gpu_count: 0
   theodore:
     commands:
+      theodore_compat:
+        enabled: true
+        example_kind: scientific_template
+        arguments: [analyze_tden, -f, dens_ana.in]
+        inputs: [orbital, dens_ana.in]
+        outputs: []
+        stdin_target: null
+        resource_limits: {cpu_cores: 1, memory_mb: 2048, gpu_count: 0}
       theodore:
         enabled: true
         example_kind: scientific_template

@@ -1,0 +1,166 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Preserve source1,V′,4 graphs including all specified substituents; distinguish truncatedV′ from the experimental bulky system. Validate any chosen states and H2/Si atom mapping; unconverged seeds are not minima. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Preserve source1,V′,4 graphs including all specified substituents; distinguish truncatedV′ from the experimental bulky system. Validate any chosen states and H2/Si atom mapping; unconverged seeds are not minima. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_reactivity",
+      "reference_id": "kp_reactivity",
+      "type": "condition",
+      "expected": "Generate auditable quantitative evidence relevant to H2 activation across the bounded source models. Old barrier copying or lone gap/charge values do not establish the explanation. Valid alternative methods and evidence-backed unresolved differences are acceptable. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.records",
+          "$.scientific_response"
+        ],
+        "comparison": "Generate auditable quantitative evidence relevant to H2 activation across the bounded source models. Old barrier copying or lone gap/charge values do not establish the explanation. Valid alternative methods and evidence-backed unresolved differences are acceptable. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_explanation",
+      "reference_id": "kp_explanation",
+      "type": "condition",
+      "expected": "Judge whether the selected investigation differentiates the submitted physical explanation from correlation alone. No prescribed strain/interaction partition, donor-acceptor label or HH grid. Claiming a transition state or pathway requires appropriate saddle/connectivity evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.validity_checks",
+          "$.decision_log"
+        ],
+        "comparison": "Judge whether the selected investigation differentiates the submitted physical explanation from correlation alone. No prescribed strain/interaction partition, donor-acceptor label or HH grid. Claiming a transition state or pathway requires appropriate saddle/connectivity evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "condition",
+      "expected": "Account for decisive conformer/state, solvation and thermal/standard-state effects in the actual comparison. If decomposition is used, fragments and references must reconstruct the stated quantity. Do not compare gasH2 and solute conventions without conversion or invent reliable ranking from small unbounded gaps. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.results",
+          "$.uncertainty"
+        ],
+        "comparison": "Account for decisive conformer/state, solvation and thermal/standard-state effects in the actual comparison. If decomposition is used, fragments and references must reconstruct the stated quantity. Do not compare gasH2 and solute conventions without conversion or invent reliable ranking from small unbounded gaps. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Accept supported differences, refuted source rationale or sufficiently established indistinguishability. Do not claim experimentalH2 rates, full-ligand behaviour or other substrate catalysis from these finite source models. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.scientific_response",
+          "$.limitations"
+        ],
+        "comparison": "Accept supported differences, refuted source rationale or sufficiently established indistinguishability. Do not claim experimentalH2 rates, full-ligand behaviour or other substrate catalysis from these finite source models. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Exact source-model identity and H2 inventory Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "reactivity",
+      "max_score": 30,
+      "description": "Evidence establishes or limits reactivity differences Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_reactivity"
+      ]
+    },
+    {
+      "id": "explanation",
+      "max_score": 20,
+      "description": "Explanatory account challenged by discriminating evidence Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_explanation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 15,
+      "description": "State, model and reference reliability Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 15,
+      "description": "Model-level conclusions only Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

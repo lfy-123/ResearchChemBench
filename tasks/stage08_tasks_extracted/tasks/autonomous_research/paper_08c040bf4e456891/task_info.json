@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_08c040bf4e456891",
+  "task_type": "autonomous_research",
+  "title": "Autonomous CHClF2 ionization and halogen-loss investigation",
+  "category": "computational reaction energetics",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The fixed endpoints are known, but the agent must discover and discriminate path representations and coupled structural changes independently while documenting coverage and stopping."
+  ],
+  "paper": {
+    "title": "Electron-impact ionization of CClF3 and CHClF2: absolute cross sections and fragmentation dynamics",
+    "doi": "10.1039/d5cp04305k",
+    "journal": "Physical Chemistry Chemical Physics",
+    "publication_date": "2026-02-04"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit CHClF2 connectivity, atom order, state charges/multiplicities, channel endpoint identities, and 5-atom XYZ starter geometries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent energies, path candidates, validation context, sensitivity and conclusion."
+    },
+    {
+      "path": "report",
+      "description": "Referenced geometry and path artifacts."
+    }
+  ]
+}

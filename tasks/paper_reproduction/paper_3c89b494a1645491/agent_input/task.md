@@ -4,7 +4,7 @@ Determine the electronic/bonding character of the four Au(I)···Au(I) contacts
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system_definition.json`. Retrieve exactly CCDC Access Structures record 2500223 (Au1·ClO4), remove only perchlorate counterions and crystallographic solvent molecules, retain the four Au1-derived ligands and all atom labels/connectivity, and use charge +4 and multiplicity 1. The four scored contacts are Au1-Au2, Au2-Au3, Au3-Au4 and Au4-Au1 in the retained cyclic labels. You may generate conformers or analysis files, but do not use the paper/SI or general web. Report quantities at the Au···Au BCPs and state units and software/method provenance. Results are limited to this finite molecular model.
+Use `data/inputs/system_definition.json` and the supplied immutable CCDC file `data/inputs/ccdc_2500223.cif` directly. The CCDC record number is provenance only; CCDC database retrieval is not required or scored. Verify the CIF's internal archive ID, formula, element set, occupancy and cell before use. Remove only perchlorate counterions and crystallographic solvent molecules, retain the four Au1-derived ligands and all atom labels/connectivity, and use charge +4 and multiplicity 1. The four scored contacts are Au1-Au2, Au2-Au3, Au3-Au4 and Au4-Au1 in the retained cyclic labels. Do not edit the raw CIF; document component selection, disorder handling and coordinate conversion. You may generate conformers or analysis files, but do not use the paper/SI or general web. Report quantities at the Au···Au BCPs and state units and software/method provenance. Results are limited to this finite molecular model.
 
 # Required scientific validation/investigation
 

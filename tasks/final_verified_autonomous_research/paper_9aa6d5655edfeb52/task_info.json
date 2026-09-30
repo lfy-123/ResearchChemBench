@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "task_type": "autonomous_research",
+  "title": "Independent frontier-orbital and singlet-excitation study of o-carborane 2a",
+  "category": "computational chemistry / excited-state spectroscopy",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The endpoint is fixed, while the agent must independently select a defensible model, validate convergence/state identity, and infer the electronic origin of absorption from computed contributions."
+  ],
+  "paper": {
+    "title": "Arene-Fused o-Carboranes via C–B(3) Bond Formation: Synthesis and Properties",
+    "doi": "10.1021/acs.inorgchem.5c04459",
+    "journal": "Inorganic Chemistry",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained identity, charge/multiplicity, and SI Cartesian coordinates for compound 2a."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computed observables and independent interpretation conforming to submission_schema.json."
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "host": {
+    "name": "ZnAl2O4 normal-spinel benchmark host",
+    "input_cif": "data/inputs/host_initial.cif",
+    "parent_space_group": "Fd-3m",
+    "file_space_group": "P1 (explicit complete cell, not a symmetry expansion recipe)",
+    "atom_count": 56,
+    "element_counts": {
+      "Zn": 8,
+      "Al": 16,
+      "O": 32
+    },
+    "lattice_vectors_A": [
+      [
+        8.08,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        8.08,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        8.08
+      ]
+    ],
+    "starting_anion_parameter_u": 0.36,
+    "status": "Unoptimized constructed host; not author final coordinates and not an exact ICSD export. ICSD 94156 identifies the material family only. The lattice and starting parameter define the benchmark model, not a target geometry."
+  },
+  "activator": {
+    "element": "Fe",
+    "substitution": "Exactly one Al site replaced by Fe in every state; choose and record the site.",
+    "nominal_oxidation_state_for_bookkeeping": 3,
+    "concentration_boundary": "One Fe among 16 parent octahedral cation sites in a 56-atom model; not an exact representation of experimental 0.5 at.% doping. Final Fe oxidation state is not fixed by the nominal label or initial moment."
+  },
+  "states": [
+    {
+      "id": "UC-1",
+      "atom_count": 56,
+      "element_counts": {
+        "Zn": 8,
+        "Fe": 1,
+        "Al": 15,
+        "O": 32
+      },
+      "composition_change": "Fe-activated baseline, without Li/F/Si substitution.",
+      "nominal_ionic_charge_sum": 0
+    },
+    {
+      "id": "UC-2",
+      "atom_count": 56,
+      "element_counts": {
+        "Zn": 7,
+        "Li": 1,
+        "Fe": 1,
+        "Al": 15,
+        "O": 31,
+        "F": 1
+      },
+      "composition_change": "Baseline plus one Zn->Li and one O->F.",
+      "nominal_ionic_charge_sum": 0
+    },
+    {
+      "id": "UC-3",
+      "atom_count": 56,
+      "element_counts": {
+        "Zn": 6,
+        "Li": 1,
+        "Si": 1,
+        "Fe": 1,
+        "Al": 15,
+        "O": 31,
+        "F": 1
+      },
+      "composition_change": "UC-2 plus a different remaining Zn->Si.",
+      "nominal_ionic_charge_sum": 2
+    }
+  ],
+  "electronic_boundary": {
+    "total_cell_charge": 0,
+    "compensation": "Neutral-cell electronic compensation in all three states. UC-3 formal ionic bookkeeping sums to +2 (Zn2+, Li+, Si4+, Al3+, Fe3+, O2-, F-); allow electronic redistribution at neutral atom-count electron number, not an added background charge.",
+    "excluded_changes": "Do not add vacancies, counterions, extra antisites or change element counts to impose a different ionic compensation mechanism.",
+    "magnetism": "Use a documented spin-polarized treatment for Fe; declare initial moments and inspect final moments/electronic state. A nominal high-spin Fe initialization is a trial, not a verified oxidation state."
+  },
+  "relaxation_boundary": {
+    "fixed_cell": true,
+    "relax": "Atomic positions only at the supplied lattice; do not optimize lattice vectors.",
+    "method": "Choose and report a defensible periodic method, potentials/basis, sampling and electronic/force convergence criteria; test relevant numerical sensitivity."
+  },
+  "site_boundary": "Li and Si substitute parent tetrahedral Zn sites; Fe substitutes a parent octahedral Al site. F substitutes an anion O site participating in Al/Fe-centered (O,F)6 octahedra; the O site itself is not six-coordinate. Explore relative site choices without a supplied ranking.",
+  "geometry_definition": {
+    "center_ids": "Retain host labels through substitution and map them to final file atom indices.",
+    "neighbors": "For every cation, sort periodic O/F neighbors by distance (ties by retained atom ID and image). Report nearest four for parent Zn/Li/Si centers and nearest six for Al/Fe centers, plus next-neighbor distance and any changed coordination/topology. This is a nominal-shell extraction, not proof of coordination.",
+    "bonds": "Report every selected center-neighbor distance in A with atom IDs and periodic image vectors.",
+    "angles": "Report all unordered pairs of selected neighbors around each center in degrees (six angles for a four-member shell, fifteen for a six-member shell). Include both endpoint images. Do not select the angle closest to an expected value.",
+    "comparison": "Use complete same-definition sets or explicitly defined mean/range summaries; separate different bond/angle labels and compare matching site classes across states. Do not hide split shells or topology changes."
+  },
+  "boundary": "Use this self-contained model; no paper/SI, web lookup, final doped coordinates, site ranking or target observables are inputs."
+}

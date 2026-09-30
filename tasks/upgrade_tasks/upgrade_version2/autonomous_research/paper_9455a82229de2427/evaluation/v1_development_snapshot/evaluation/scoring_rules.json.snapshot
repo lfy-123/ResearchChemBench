@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Reactants SiN (0, doublet) and isoprene C5H8 (0, singlet) produce SiNC5H7 (0, singlet) plus H (0, doublet). Doublet SiNC5H8 addition/rearrangement structures share the reactant atom map. Use separated reactants as zero for E0=Eelectronic+ZPE at 0 K. Collision energy 25±1 kJ/mol and experimental channel exoergicity -162±27 kJ/mol are observations, not computed answers. Enumerate terminal-C1/C4 attack by Si and N, then at least ring closure and H-loss alternatives. Declare explored bond edits and remaining search limits.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Reactants SiN (0, doublet) and isoprene C5H8 (0, singlet) produce SiNC5H7 (0, singlet) plus H (0, doublet). Doublet SiNC5H8 addition/rearrangement structures share the reactant atom map. Use separated reactants as zero for E0=Eelectronic+ZPE at 0 K. Collision energy 25±1 kJ/mol and experimental channel exoergicity -162±27 kJ/mol are observations, not computed answers. Enumerate terminal-C1/C4 attack by Si and N, then at least ring closure and H-loss alternatives. Declare explored bond edits and remaining search limits."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_candidate_space",
+      "reference_id": "kp_candidate_space",
+      "type": "semantic",
+      "expected": "Provide mapped graph-edit enumeration, attempted structures, state validity and products for the four attack families. Multiple seeds collapsing to one product are legitimate only with raw mapped evidence; no requirement for four distinct products. Core rows: terminal_C1_Si, terminal_C4_Si, terminal_C1_N, terminal_C4_N. Recompute lowest_E0_kJ_mol, product_reaction_E0_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.candidate_space",
+          "$.calculation_records"
+        ],
+        "comparison": "Provide mapped graph-edit enumeration, attempted structures, state validity and products for the four attack families. Multiple seeds collapsing to one product are legitimate only with raw mapped evidence; no requirement for four distinct products. Core rows: terminal_C1_Si, terminal_C4_Si, terminal_C1_N, terminal_C4_N. Recompute lowest_E0_kJ_mol, product_reaction_E0_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_connected_routes",
+      "reference_id": "kp_connected_routes",
+      "type": "semantic",
+      "expected": "Submit ordered mapped nodes/edges, optimized endpoints, TS and IRC files or continuous no-barrier path evidence. Recompute all nodes relative to SiN+isoprene, including the free H atom. Core rows: main_route, competitor_route. Recompute maximum_relative_E0_kJ_mol, reaction_E0_kJ_mol, collision_margin_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.connected_routes",
+          "$.calculation_records"
+        ],
+        "comparison": "Submit ordered mapped nodes/edges, optimized endpoints, TS and IRC files or continuous no-barrier path evidence. Recompute all nodes relative to SiN+isoprene, including the free H atom. Core rows: main_route, competitor_route. Recompute maximum_relative_E0_kJ_mol, reaction_E0_kJ_mol, collision_margin_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_accessibility",
+      "reference_id": "kp_accessibility",
+      "type": "semantic",
+      "expected": "Separate lowest-energy product, channel exoergicity and accessible barrier. Compare collision margins and demonstrate method/ZPE sensitivity; no 298 K equilibrium abundance or branching ratio inference. Core rows: thermodynamic_vs_kinetic, method_sensitivity. Recompute main_minus_competitor_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.accessibility",
+          "$.calculation_records"
+        ],
+        "comparison": "Separate lowest-energy product, channel exoergicity and accessible barrier. Compare collision margins and demonstrate method/ZPE sensitivity; no 298 K equilibrium abundance or branching ratio inference. Core rows: thermodynamic_vs_kinetic, method_sensitivity. Recompute main_minus_competitor_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Full scattering, exact branching ratios and a complete RRKM network are optional.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Full scattering, exact branching ratios and a complete RRKM network are optional."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Reactants SiN (0, doublet) and isoprene C5H8 (0, singlet) produce SiNC5H7 (0, singlet) plus H (0, doublet). Doublet SiNC5H8 addition/rearrangement structures share the reactant atom map. Use separated reactants as zero for E0=Eelectronic+ZPE at 0 K. Collision energy 25±1 kJ/mol and experimental channel exoergicity -162±27 kJ/mol are observations, not computed answers. Enumerate terminal-C1/C4 attack by Si and N, then at least ring closure and H-loss alternatives. Declare explored bond edits and remaining search limits.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "candidate_space",
+      "max_score": 20,
+      "description": "Provide mapped graph-edit enumeration, attempted structures, state validity and products for the four attack families. Multiple seeds collapsing to one product are legitimate only with raw mapped evidence; no requirement for four distinct products. Core rows: terminal_C1_Si, terminal_C4_Si, terminal_C1_N, terminal_C4_N. Recompute lowest_E0_kJ_mol, product_reaction_E0_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_candidate_space"
+      ]
+    },
+    {
+      "id": "connected_routes",
+      "max_score": 25,
+      "description": "Submit ordered mapped nodes/edges, optimized endpoints, TS and IRC files or continuous no-barrier path evidence. Recompute all nodes relative to SiN+isoprene, including the free H atom. Core rows: main_route, competitor_route. Recompute maximum_relative_E0_kJ_mol, reaction_E0_kJ_mol, collision_margin_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_connected_routes"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "max_score": 20,
+      "description": "Separate lowest-energy product, channel exoergicity and accessible barrier. Compare collision margins and demonstrate method/ZPE sensitivity; no 298 K equilibrium abundance or branching ratio inference. Core rows: thermodynamic_vs_kinetic, method_sensitivity. Recompute main_minus_competitor_kJ_mol, uncertainty_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_accessibility"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Full scattering, exact branching ratios and a complete RRKM network are optional.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

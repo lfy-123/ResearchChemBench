@@ -1,0 +1,804 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "task_type": "paper_reproduction",
+  "title": "Gas-phase cis-(egan)IrCl isomer energy comparison",
+  "category": "computational_chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The two molecular identities and endpoints are fixed, but the agent must choose and validate an appropriate electronic-structure protocol for a heavy-element complex."
+  ],
+  "paper": {
+    "title": "d5dt02509e 2088..2099 ++",
+    "doi": "10.1039/d5dt02509e",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two self-contained source-provided 58-atom XYZ geometries for the named neutral singlet cis-alpha and cis-beta (egan)IrCl complexes; the task compares their electronic energies, not discovery of their structures."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured computational results, method, validation, energy difference, ordering, conclusion and limitations."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The paper uses computation to compare the gas-phase electronic energies of the cis-α and cis-β isomers of the monochloride complex cis-(Egan)IrCl (with tert-butyl groups replaced by hydrogen in the computational egan model). This comparison supports the experimental discussion of thermal isomerization and relative isomer stability.
+
+## 2. System and model boundary
+
+The calculated species are neutral, closed-shell singlet cis-α-(egan)IrCl and cis-β-(egan)IrCl. The computational egan ligand is the Egan ligand with tert-butyl groups replaced by hydrogen. Calculations are gas phase; solvent, counterions and crystal packing are excluded.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Optimize cis-α structure | SI Cartesian starting/optimized geometry for cis-α-(egan)IrCl | Gaussian 16 DFT geometry optimization | B3LYP; SDD on Ir; 6-31G* on all other atoms; neutral singlet; gas phase | optimized geometry and electronic energy | ev_doc_5ccb7b51871a_000302_1fa04590812b; ev_doc_5ccb7b51871a_000304_fd5dc7553e0e; ev_doc_5ccb7b51871a_000306_80edac933a9e; ev_doc_84440e2ee670_000203_0a6088017185 |
+| 2 | Optimize cis-β structure | SI Cartesian starting/optimized geometry for cis-β-(egan)IrCl | Gaussian 16 DFT geometry optimization | same model and state | optimized geometry and electronic energy | ev_doc_5ccb7b51871a_000302_1fa04590812b; ev_doc_5ccb7b51871a_000304_fd5dc7553e0e; ev_doc_5ccb7b51871a_000306_80edac933a9e; ev_doc_84440e2ee670_000207_663eef882274 |
+| 3 | Validate stationary points | optimized geometries | harmonic vibrational-frequency calculations in Gaussian 16 | same model; frequencies scaled 0.9614 for reported frequencies | zero-imaginary-frequency minimum assignment for each isomer | ev_doc_5ccb7b51871a_000304_fd5dc7553e0e; ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d; ev_doc_5ccb7b51871a_000313_1adc4275bbab |
+| 4 | Compare isomer energies | two validated optimized structures | subtraction of electronic energies | ΔE = E(cis-β) − E(cis-α), converted to kcal mol−1 | relative electronic energy | ev_doc_84440e2ee670_000203_0a6088017185; ev_doc_84440e2ee670_000207_663eef882274 |
+
+## 4. Validation and analysis protocol
+
+Each optimized structure was checked by a vibrational-frequency calculation. The paper states that cis-α and cis-β are minima; the reported frequencies use a 0.9614 scale factor. The energy comparison is the electronic-energy difference between the two optimized minima, not a free-energy or solution-phase quantity.
+
+## 5. Private reference results
+
+The SI reports electronic energies of −2204.52499146 a.u. for cis-α-(egan)IrCl and −2204.52269915 a.u. for cis-β-(egan)IrCl. Thus Eβ−Eα is positive and approximately 1.44 kcal mol−1 (using 627.5095 kcal mol−1 per hartree). Both structures are reported as minima.
+
+## 6. Limitations and interpretation boundaries
+
+These are gas-phase single-method electronic energies for a hydrogen-substituted computational ligand model. They do not establish solution equilibria, kinetics, barriers, or complete conformational/global-minimum sampling. Numerical agreement should be interpreted within normal DFT and optimization sensitivity; the evaluator scores the stated endpoint and validation evidence, not reproduction of an undisclosed software-specific trajectory.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "rules": [
+    {
+      "rule_id": "r_pr_alpha_process",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.cis_alpha"
+        ],
+        "comparison": "expert check of item identity and validation Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "condition",
+      "reference_id": "kp_pr_process_alpha",
+      "expected": "The cis-alpha item reports its input identity, optimization method/state, energy and explicit stationary-point validation."
+    },
+    {
+      "rule_id": "r_pr_beta_process",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.cis_beta"
+        ],
+        "comparison": "expert check of item identity and validation Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "condition",
+      "reference_id": "kp_pr_process_beta",
+      "expected": "The cis-beta item reports its input identity, optimization method/state, energy and explicit stationary-point validation."
+    },
+    {
+      "rule_id": "r_pr_energy",
+      "target": 1.44,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.relative_energy.value"
+        ],
+        "comparison": "absolute difference Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "numeric",
+      "reference_id": "kp_pr_result_energy"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers",
+          "$.relative_energy",
+          "$.lower_energy_identity",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "semantic",
+      "reference_id": "con_pr_final",
+      "expected": "The two specified gas-phase structures are compared on electronic energy, with cis-alpha lower and positive E(beta)-E(alpha). The difference and ordering must be consistent with both absolute electronic energies. Recompute E(beta)-E(alpha) in the reported units from both absolute electronic energies. A numeric tolerance window that overlaps zero does not establish the required positive direction."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算链：egan-IrCl cis-α / cis-β 相对能
+
+- 论文 ID：`paper_e31cc7bc7b21b610`
+- 本任务模式：`paper_reproduction`（论文复现模式）
+- 论文 DOI：`10.1039/d5dt02509e`
+- 归档日期：2026-09-16（历史验证完成日期以原始记录为准）
+- 验证来源：[group_1](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610)；[本组通过清单](../../../../docs/verification/all_verified_tasks/group_1.md)
+- 最新已归档科学状态：READY / PASS / QUALIFIED（修复元素身份后的两种 egan 异构体）。
+- 2026-09-17 最终包审查通过；当前目录/审批状态：已按负责人授权迁入 `final_verified_paper_reproduction`。该状态适用于本包声明的科学范围；部署访问隔离仍需单独确认。
+
+## 1. 本文件用途与任务版本
+
+本文件记录已经真实完成、被最新作者路线审计采纳的计算步骤和结果，不是新增计算，也不是评估评分规则。评分仍由本目录下 `critical_failures.json`、`evidence_map.json`、`reference_conclusions.json`、`reference_key_points.json`、`scoring_rules.json` 决定。本文件及其链接中的作者结构、数值答案均属于 evaluator 侧资料，不能作为 agent 输入。
+
+本任务的入库基线已保存于 Git `e67441a9`；格式整理检查点为 `42970e03`。来源为 [canonical 源任务](../../../paper_reproduction/paper_e31cc7bc7b21b610)，后续维护只调整本副本，不覆盖原始验证记录。本文件归档历史真实计算；包的现行指令、输入和 evaluator 应按维护后的版本核对，不能把“入库时原样复制”理解成此后从未修改。
+
+验证者允许知道正文/SI 的作者路线，并可用作者结构作为验证起点。验证的含义是：相应科学子问题已有真实计算支持；不是要求当时验证过程模拟待评 agent 的信息受限探索，也不是将私有作者 endpoint 重新提供给 agent 的授权。本模式记录作者子路线的科学可计算性；不把它扩大为整篇论文复现或自主 agent 盲测通过。
+
+## 2. 真实有效的计算流程
+
+1. 依据 SI S26–S27 核对 cis-α / cis-β-(egan)IrCl：每种 58 原子、总电荷 0、单重态；β 的缺 H/错元素标签已在源任务修正，旧错误身份结果排除。
+
+2. 两种结构按作者 B3LYP、Ir/SDD 基组及 ECP、其余原子/6-31G(d)，气相 Opt/Freq。α 保留正确成功作业；β 使用修正身份后成功作业。Tight/UltraFine/XQC 等数值控制在输入 deck 中保留。
+
+3. 检查优化终止、各 168 个实频、0 虚频，并逐原子核对组成、配位和 α/β 异构体身份。
+
+4. 从同一模型的最终电子能求 E(β)−E(α)，以 627.509474 kcal·mol⁻¹/Eh 换算，判断 α 低于 β。这里比较的是电子能，不替换成 Gibbs 能。
+
+## 3. 实际结果与支持的结论
+
+| 量 | 实算 |
+|---|---:|
+| E(α) / Eh | −2204.52499151 |
+| E(β) / Eh | −2204.52269915 |
+| E(β)−E(α) / kcal·mol⁻¹ | +1.43847762 |
+| 各端点实频/虚频 | 168 / 0 |
+
+支持 gas-phase cis-α 电子能更低的 evaluator 结论。
+
+## 4. 原始输入与输出索引
+
+下表按有效链列出原始输入/命令及日志。多个 `Normal termination` 通常对应组合输入中的多个计算段，不等于多个独立体系。正常终止标记只是执行证据，科学判断同时依赖上文频率、身份、数值及下文专门审计。成功重提作业可作为证据；失败尝试不列为有效步骤。
+
+| 阶段 | 原始输入/命令/波函数 | 原始输出 | 执行证据与限定 |
+|---|---|---|---|
+| cis_alpha Opt/Freq | [input.com](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/qzcli_hpc/cis_alpha_author_b3lyp_sdd_631gd_optfreq_v2_58atom/hpc_20260911T075318Z_1830377/input.com) | [gaussian.log](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/qzcli_hpc/cis_alpha_author_b3lyp_sdd_631gd_optfreq_v2_58atom/hpc_20260911T075318Z_1830377/gaussian.log) | Gaussian 正常终止标记 2 处；有优化收敛标记 |
+| cis_beta Opt/Freq | [input.com](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/qzcli_hpc/cis_beta_author_correct_elements_20260914/repair_20260914T123300Z/input.com) | [gaussian.log](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/qzcli_hpc/cis_beta_author_correct_elements_20260914/repair_20260914T123300Z/gaussian.log) | Gaussian 正常终止标记 2 处；有优化收敛标记 |
+
+## 5. 后处理、结果与逐项核验依据
+
+- [provenance/correct_identity_closure_20260915.json](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/correct_identity_closure_20260915.json)
+- [report/results.json](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/report/results.json)
+- [verification_report.md](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/verification_report.md)
+- [provenance/finalize_correct_identity_20260915.py](../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/finalize_correct_identity_20260915.py)
+
+以上脚本/输入仅作为历史流程索引，不要求本次重新运行。总报告可能保留早期失败或旧状态；应以本文件明确选定的原始成功输出、最新专门审计和正式结果为准，不将旧尝试混入成功链。
+
+## 6. 保留的科学与记录边界
+
+- 作者优化几何在当前源任务中作为供给结构；原验证针对再优化及相对能，不是异构体自主发现。本归档不为公开坐标来源另作发布合格保证。
+- 不外推异构化势垒、速率、溶液平衡或 Gibbs 排序。
+- 作者完整软件 build/数值默认值未全部公开；α/β 数值优化坐标算法不同但模型层级相同。
+
+## 7. 成功阶段计时
+
+两项成功 Gaussian 阶段分别 2381.0 和 1605.0 s，共 3986.0 s。β 本地稳定性探针 1522.98 s 另计，不与成功主链重复相加。
+
+本次归档没有提交、重启或停止任何计算作业。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_alpha",
+      "key_point_type": "process",
+      "statement": "The named cis-alpha input is optimized as the supplied neutral singlet complex and the final stationary point is explicitly checked by frequencies or justified equivalent.",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+        "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+        "ev_doc_84440e2ee670_000203_0a6088017185"
+      ],
+      "expected": "A per-object record identifies cis-alpha, its input file, method/state, final energy and imaginary-frequency result; a minimum assignment requires no imaginary mode. Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+    },
+    {
+      "key_point_id": "kp_pr_process_beta",
+      "key_point_type": "process",
+      "statement": "The named cis-beta input is independently optimized and its stationary-point character is checked.",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+        "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "expected": "A per-object record identifies cis-beta and reports an explicit frequency/validation outcome; a minimum assignment requires no imaginary mode."
+    },
+    {
+      "key_point_id": "kp_pr_result_energy",
+      "key_point_type": "result",
+      "statement": "The electronic-energy difference is defined as E(cis-beta) minus E(cis-alpha) and is positive for the paper reference calculation.",
+      "evidence_ids": [
+        "ev_doc_84440e2ee670_000203_0a6088017185",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "expected": "The submitted relative_energy.value is positive and approximately 1.44 kcal/mol within the scoring tolerance, with the stated definition and units. Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "items": [
+    {
+      "failure_id": "cf_pr_identity",
+      "condition": "The submission swaps, omits or cannot unambiguously identify either named XYZ complex.",
+      "scientific_severity": "critical"
+    },
+    {
+      "failure_id": "cf_pr_state",
+      "condition": "Charge or multiplicity is inconsistent with the public neutral singlet definition and no justified correction is given.",
+      "scientific_severity": "critical"
+    },
+    {
+      "failure_id": "cf_pr_no_validation",
+      "condition": "No per-isomer stationary-point validation is reported, or an imaginary mode is ignored while claiming a minimum.",
+      "scientific_severity": "critical"
+    },
+    {
+      "failure_id": "cf_pr_no_comparison",
+      "condition": "No consistently defined E_beta minus E_alpha comparison is reported.",
+      "scientific_severity": "critical"
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_5ccb7b51871a_000013_178dd9b2d53b",
+      "source": "The monochloride product is formed as cis-alpha and isomerizes upon heating to form an equilibrium mixture with cis-beta.",
+      "document_id": "doc_5ccb7b51871a",
+      "document_role": "main_paper",
+      "source_ref": "content_list_v2:13"
+    },
+    {
+      "evidence_id": "ev_doc_5ccb7b51871a_000304_fd5dc7553e0e",
+      "source": "Computational methods: gas phase; B3LYP; SDD on Ir and 6-31G* on other atoms; Gaussian16; structures confirmed as minima by frequencies.",
+      "document_id": "doc_5ccb7b51871a",
+      "document_role": "main_paper",
+      "source_ref": "content_list_v2:304"
+    },
+    {
+      "evidence_id": "ev_doc_5ccb7b51871a_000309_4ca3ad9b3e7d",
+      "source": "The computational-method discussion specifies vibrational-frequency validation.",
+      "document_id": "doc_5ccb7b51871a",
+      "document_role": "main_paper",
+      "source_ref": "content_list_v2:309"
+    },
+    {
+      "evidence_id": "ev_doc_84440e2ee670_000203_0a6088017185",
+      "source": "cis-alpha optimized energy = -2204.52499146 a.u.",
+      "document_id": "doc_84440e2ee670",
+      "document_role": "supporting_information",
+      "source_ref": "page 24"
+    },
+    {
+      "evidence_id": "ev_doc_84440e2ee670_000207_663eef882274",
+      "source": "cis-beta optimized energy = -2204.52269915 a.u.",
+      "document_id": "doc_84440e2ee670",
+      "document_role": "supporting_information",
+      "source_ref": "page 25"
+    }
+  ]
+}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "items": [
+    {
+      "conclusion_id": "con_pr_final",
+      "claim_role": "final",
+      "evidence_ids": [
+        "ev_doc_5ccb7b51871a_000013_178dd9b2d53b",
+        "ev_doc_84440e2ee670_000203_0a6088017185",
+        "ev_doc_84440e2ee670_000207_663eef882274"
+      ],
+      "statement": "The two specified gas-phase structures are compared on electronic energy, with cis-alpha lower and positive E(beta)-E(alpha). The difference and ordering must be consistent with both absolute electronic energies.",
+      "supporting_key_point_ids": [
+        "kp_pr_process_alpha",
+        "kp_pr_process_beta",
+        "kp_pr_result_energy"
+      ],
+      "expected": "The two specified gas-phase structures are compared on electronic energy, with cis-alpha lower and positive E(beta)-E(alpha). The difference and ordering must be consistent with both absolute electronic energies."
+    }
+  ]
+}
+
+=== evaluation/task_provenance/structure_provenance.json ===
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "mode": "paper_reproduction",
+  "revision": "cis-beta-complete-si-element-labels-v2",
+  "element_label_correction_20260914": {
+    "source": "SI S26-S27 complete 58-row atomic-number/coordinate table",
+    "rows_1based": {"8": "C -> O", "9": "O -> C", "11": "C -> O", "12": "O -> C"},
+    "coordinates_and_atom_order_changed": false,
+    "previous_58atom_sha256": "74d52a12268caec03726191ca9820ec17fc440b82bee1754a77195d1e1ec74fd",
+    "reason": "Earlier restoration fixed missing hydrogens but retained four incorrect element labels. Same formula alone did not establish correct molecular identity."
+  },
+  "source": {
+    "type": "paper_si_cartesian_table",
+    "description": "The original task package stopped after the first 46 cis-beta rows. The complete SI table contains twelve additional hydrogen rows (rows 47-58), restored without changing the existing coordinates or atom order.",
+    "source_document": "10.1039/d5dt02509e Supplementary Information, Cartesian geometry S26",
+    "source_access": "verification-side temporary extraction; task package records the repair explicitly"
+  },
+  "original_file": {
+    "path": "docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/task_revision_originals/paper_reproduction/agent_input/data/inputs/cis_beta_egan_IrCl.xyz.46atom.pre_repair",
+    "atom_count": 46,
+    "sha256": "6725fa542036f14f9fda9162a2852e3af5b676b6940b025895beb01d78aa37e4"
+  },
+  "repaired_file": {
+    "path": "data/inputs/cis_beta_egan_IrCl.xyz",
+    "atom_count": 58,
+    "sha256": "39cb668ef1dc09f3fb83be68d7403874ce5cdd67d85d95a7874562c5190a5f9a"
+  },
+  "restored_rows": [
+    "H -2.494114 2.419742 2.194331",
+    "H 0.115562 5.811718 1.757461",
+    "H 1.478279 1.813902 2.319156",
+    "H 0.906426 1.491274 4.712716",
+    "H 0.241206 -0.768295 5.536965",
+    "H 0.174769 -2.676909 3.952271",
+    "H -3.676292 2.329494 0.307296",
+    "H -5.922317 1.367550 0.290171",
+    "H -6.246825 -1.088076 -0.075298",
+    "H -4.268748 -2.507237 -0.494538",
+    "H -0.226313 -3.710965 -1.302758",
+    "H -1.485705 -4.976394 -1.210043"
+  ],
+  "scientific_boundary": "This is a public-input repair, not a calculated answer. The agent must still choose and execute the electronic-structure route and validate both minima."
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 当前目录与审批状态（2026-09-17）
+
+本包已完成最终包审查，并按负责人“检查通过后移动到 final”的明确授权，迁入 `tasks/final_verified_paper_reproduction/paper_e31cc7bc7b21b610`。
+
+当前任务范围、有效计算依据和限制见[已验证计算参考](../verified_computation_reference.md)。本次迁移及元数据收尾未改变任务科学内容，也未新增量化计算或模型盲测。
+
+下方“仍在 verified_tasks”“未批准迁移”“已退回 verified_tasks”等文字属于此前维护阶段的历史状态，不代表当前目录或审批状态；当前状态以本节为准。历史科学事实和修复记录保留不变。
+
+---
+
+# 历史实施状态（2026-09-16）
+
+## 已批准修复记录（2026-09-16）
+
+已确认两给定 cis 异构体；私有规则联合核对数值、符号、两绝对电子能和能序，不将答案能序加入公开输入，未改原容差。
+
+本包仍在 verified_tasks；未新增量化计算，未批准迁移。下方保留审批前历史，若与本节冲突以本节为准。
+
+---
+
+# 本批维护审查：egan-IrCl cis-α / cis-β 相对能
+
+> 当前状态：已按负责人指令退回 verified_tasks 复审；本文件下方为前轮审查记录，不是负责人验收/迁移批准。当前仅记录问题和建议，等待确认后才改任务；再次迁入 final 或 hold 还需独立的明确确认。
+
+## 本次复审结论（2026-09-16，待负责人确认）
+
+本模式：`paper_reproduction`。工作目录：`tasks/verified_tasks/paper_reproduction/paper_e31cc7bc7b21b610`。本批全部34包均已退回暂存；本包未获得 final/hold 迁移确认。
+
+AR/PR 的电子能比较可计算；有数值容差与排序的一致性风险，给定终态边界待验收。
+
+复审摘要：各 168 实频，ΔE=1.43848；1.44±1.5 允许负值，需显式与能序联合判定。
+
+具体文件/规则、论文及真实输出依据、模式差异和建议修法见[集中报告中的本篇分析](../../../../verified_tasks/MAINTENANCE_REPORT.md#paper_e31cc7bc7b21b610)。本轮只分析；没有再修改 task.md、科学输入、schema 或 evaluator，也没有新增量化计算。即使建议无需科学修复，也须负责人验收并另行批准去向后才可迁移。
+
+**下方为前轮维护历史。其“移 final/hold”“通过”字样仅记录前轮审查者判断，迁移已撤回，不代表当前验收或授权；以本次复审和集中报告为准。**
+
+日期：2026-09-16。论文：`paper_e31cc7bc7b21b610`；group：`group_1`；模式：`paper_reproduction`。
+
+结论：**当前既有科学范围通过，移入 final**。当前既有科学范围内可移入 final；作者路线证据不等于自主盲测通过。
+
+修复前版本：`e67441a9`；格式检查点：`42970e03`。本记录不是 evaluator 规则，也不证明运行时隔离或自主 agent 盲测通过。
+
+## 1. 原文依据与对象
+
+SI PDF p24–27 的 cis-α/cis-β egan-IrCl 完整优化坐标；原文电子能比较（1.44 kcal/mol）。
+
+- [正文](../../../../../papers/paper_e31cc7bc7b21b610/documents/main.pdf)
+- [SI](../../../../../papers/paper_e31cc7bc7b21b610/documents/supplementary_001.pdf)
+- [当前任务](../../agent_input/task.md)、[提交 schema](../../agent_input/submission_schema.json)
+
+## 2. 输入、答案边界与必要信息
+
+两结构各 58 原子、charge 0/singlet；元素/补氢问题在既有成功验证前已纠正，并核对 SI。当前原始目标就是给定两异构体的电子能比较，不是结构/异构体发现。明示 source-optimized 给定对象，未公开能序或差值；将补氢/元素维修历史 JSON 移到 task_provenance。
+
+模式核对：PR 可以给作者定性假设/待比较路线，但不能把已求得的结构/TS、排序或参考值当作指导输入；存在该问题的包已明确 hold，不以数值通过替代隔离修复。
+
+## 3. 历史真实计算支持与限制
+
+Gaussian B3LYP、Ir SDD/其余 6-31G(d)，气相两条 Opt/Freq 均 168 实频；Eα=−2204.52499151、Eβ=−2204.52269915 Eh，(Eβ−Eα)×627.5094740631=1.43847762 kcal/mol，满足现行 1.44±1.5。
+
+支持气相电子稳定性，不是自由能、互变势垒、速率或溶液平衡。历史作者结构公开是既有给定性质任务范围，不将其重新宣称自主几何生成。
+
+完整有效步骤及输入/输出索引见 [verified_computation_reference.md](../verified_computation_reference.md)，不依赖本文件作为评分标准。原始 [group 结果](../../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/report/results.json) 保持只读。
+
+专门核查记录：
+
+- [provenance/correct_identity_closure_20260915.json](../../../../../docs/verification/group_1/paper_e31cc7bc7b21b610/provenance/correct_identity_closure_20260915.json)
+
+## 4. 当前评分契约核对
+
+原有五个 evaluator JSON 已核对。下表是与实际结果的字段绑定/算术复核；semantic 行的科学解释见上节，**没有重新运行 LLM judge**。格式成立不消除上节的科学问题；尤其错误分子的数值不能认证论文目标。
+
+| 规则 → 关键点/结论 | 类型与真实结果核对 | 绑定 |
+|---|---|---|
+| `r_pr_alpha_process` → `kp_pr_process_alpha` | semantic；真实证据/适用边界见第 3 节 | `$.isomers.cis_alpha` |
+| `r_pr_beta_process` → `kp_pr_process_beta` | semantic；真实证据/适用边界见第 3 节 | `$.isomers.cis_beta` |
+| `r_pr_energy` → `kp_pr_result_energy` | 1.438477618；参考 1.44 ± 1.5 kcal/mol；算术通过 | `$.relative_energy.value` |
+| `r_pr_conclusion` → `con_pr_final` | semantic；真实证据/适用边界见第 3 节 | `$.conclusion` / `$.limitations` |
+
+历史正式 results.json 直接通过当前 result_schema 检查。
+
+当前绑定均能在真实结果中定位；值、单位、符号和候选/态身份仍以上述逐篇科学判断为准。
+
+## 5. 本轮实际修改
+
+- 先按统一章节整理 task.md；PR 单列既有作者定性 guidance。格式步骤没有改变非标题文字。
+- `agent_input/task.md`：移出维护历史引用，明确既有固定异构体相对电子能任务范围；不改对象或评分。
+- `agent_input/data/inputs/structure_provenance.json` → `evaluation/task_provenance/structure_provenance.json`：维护记录私有化；保留原文件，不作为评分输入。
+- task_info.json 同步移除已私有化维护 JSON 的公开 data 声明；完整科学输入不变。
+- 更新 reference 的任务版本说明，避免把维护后的副本仍称为“原样仅复制”。
+- 包迁移只调整目录与相对链接；manifest 随文件变化重建。源任务、正文/SI 和 group 原始记录不修改。
+
+## 6. 后续行动与发布边界
+
+两模式移 final。AR 的零虚频 count→空数组、limitations 列表→字符串仅在私有映射中无损转换，不修改 group 结果或现行评分。
+
+前轮建议去向（迁移已撤回）：`tasks/final_verified_paper_reproduction/paper_e31cc7bc7b21b610`。集中报告：[MAINTENANCE_REPORT.md](../../../../verified_tasks/MAINTENANCE_REPORT.md)。相对链接已按退回 verified_tasks 后的实际位置重算。
+
+没有新增量化计算、HPC 操作或 benchmark 发布。包校验/软件回归不能替代科学审计；只交付 agent_input 的物化路径已核查，真实运行环境的挂载、共享目录、网络和检索隔离尚未作端到端测试。任务的五个 evaluator JSON 与 reference 继续位于私有侧；task_provenance 是可移除的维护资料，不是 agent 必需输入。
+
+- 按已批准边界保留 source-optimized 给定对象/初态；统一 XYZ 注释和 task_info，不称其为独立生成或待发现几何。待求性质/中间关键点仍由 agent 计算，未公开结果或排名。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "isomers",
+      "relative_energy",
+      "lower_energy_identity",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "partial",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure",
+          "charge",
+          "multiplicity",
+          "convergence_settings"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "electronic_structure": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "convergence_settings": {
+            "type": "string"
+          }
+        }
+      },
+      "isomers": {
+        "type": "object",
+        "required": [
+          "cis_alpha",
+          "cis_beta"
+        ],
+        "properties": {
+          "cis_alpha": {
+            "$ref": "#/$defs/isomer"
+          },
+          "cis_beta": {
+            "$ref": "#/$defs/isomer"
+          }
+        }
+      },
+      "relative_energy": {
+        "type": "object",
+        "required": [
+          "definition",
+          "value",
+          "unit"
+        ],
+        "properties": {
+          "definition": {
+            "type": "string"
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          }
+        }
+      },
+      "lower_energy_identity": {
+        "type": "string"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": [
+          "string",
+          "array"
+        ],
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "provenance": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "reason",
+          "missing_observables",
+          "evidence"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_observables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "description": "Required for partial/bounded_failure; list unavailable observables and actual diagnostic paths, never fabricated values."
+      }
+    },
+    "$defs": {
+      "isomer": {
+        "type": "object",
+        "required": [
+          "name",
+          "input_file",
+          "status",
+          "normal_termination",
+          "optimization_completed",
+          "imaginary_frequency_count",
+          "energy_hartree",
+          "evidence"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "input_file": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "normal_termination": {
+            "type": "boolean"
+          },
+          "optimization_completed": {
+            "type": "boolean"
+          },
+          "imaginary_frequency_count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "frequency_count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "energy_hartree": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "imaginary_frequencies": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "number"
+            }
+          },
+          "validation_status": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "if": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "bounded_failure"
+          ]
+        }
+      }
+    },
+    "then": {
+      "required": [
+        "failure"
+      ]
+    },
+    "else": {
+      "properties": {
+        "isomers": {
+          "properties": {
+            "cis_alpha": {
+              "properties": {
+                "energy_hartree": {
+                  "type": "number"
+                },
+                "imaginary_frequencies": {
+                  "type": "array"
+                },
+                "imaginary_frequency_count": {
+                  "type": "integer"
+                },
+                "frequency_count": {
+                  "type": "integer"
+                },
+                "evidence": {
+                  "minItems": 1
+                }
+              }
+            },
+            "cis_beta": {
+              "properties": {
+                "energy_hartree": {
+                  "type": "number"
+                },
+                "imaginary_frequencies": {
+                  "type": "array"
+                },
+                "imaginary_frequency_count": {
+                  "type": "integer"
+                },
+                "frequency_count": {
+                  "type": "integer"
+                },
+                "evidence": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        },
+        "relative_energy": {
+          "properties": {
+            "value": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+Study the neutral, closed-shell singlet cis-α-(egan)IrCl and cis-β-(egan)IrCl complexes supplied as Cartesian geometries.
+
+# Author-provided scientific guidance
+
+The author hypothesis to test is that the two cis isomers can interconvert and have different relative stabilities; independently plan and execute calculations that determine whether each supplied structure relaxes to a minimum and which isomer is lower in gas-phase electronic energy. Do not assume the author's software or model chemistry.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/cis_alpha_egan_IrCl.xyz` is the 58-atom cis-α complex and `cis_beta_egan_IrCl.xyz` is the 58-atom cis-β complex. These are source-provided isomer geometries for a fixed-object energy comparison, not a test of discovering the isomers. XYZ element labels and coordinates are the complete molecular identity; each is neutral and singlet. The computational ligand is the hydrogen-substituted egan model represented by these files. The boundary is gas phase and electronic energy; solvent, crystal packing, free energy, kinetics and reaction barriers are outside scope.
+
+# Required scientific validation/investigation
+
+For each named file, choose and report a defensible optimization method, basis/ECP treatment, charge and multiplicity, convergence settings and software. Optimize the supplied geometry, then validate the resulting stationary point with harmonic frequencies or a scientifically justified equivalent. Report the number and sign of imaginary frequencies for each named object. Compute ΔE = E(cis-β) − E(cis-α) from energies evaluated consistently at the two final structures and convert it to kcal/mol. Completion requires both named objects to have a reported endpoint and validation result.
+
+# Deliverables
+
+Submit `report/results.json` conforming to the schema. Include reproducibility metadata, per-isomer energies and validation, ΔE with units, the lower-energy identity, a concise conclusion about the author's qualitative stability hypothesis, and explicit diagnostic evidence. Do not report paper values as if they were your calculations.
+
+Scientific completion requires all requested primary observables, the specified validation evidence and the resulting scientific comparison. A partial or failed calculation may be submitted with its actual results and diagnostics, but does not satisfy an uncomputed scientific result.
+
+Additional starting structures or investigations may be used to obtain the required results. Report auxiliary results separately; they do not replace the primary observables or their specified definitions. Optional analyses may be omitted without explanation or penalty.
+
+# Partial or unsuccessful submission
+
+Use `status: "partial"` or `status: "bounded_failure"` when required calculations or analyses remain unavailable. Retain all actual partial results in their original fields. Include `failure` with a nonempty `reason`, a nonempty `missing_observables` array naming the unavailable result fields, and an `evidence` array of existing input, output or diagnostic paths (empty only if no artifact was produced). Explain which calculation failed or was not attempted; do not invent output files.
+
+For these two statuses, the schema permits `null` for the specified unavailable calculated values, selected structures, state assignments or output paths. Keep the known molecular identities, charges, multiplicities, units and attempted methods. Report actual counts, including zero generated/validated candidates when appropriate. An unavailable frequency result is `null`, not zero imaginary modes or an empty list claiming a completed frequency analysis. A genuinely computed zero or an established empty imaginary-mode list remains valid evidence. A missing comparison is not a zero difference or zero RMSE.
+
+Other statuses, and omission of status where the original schema permits it, retain the complete-result format. Passing this format check does not establish scientific completion: uncomputed endpoints receive no completion credit, and existing scientific rules still assess the actual evidence. This reporting branch does not change the scientific target, required successful investigation, or numerical acceptance criteria.

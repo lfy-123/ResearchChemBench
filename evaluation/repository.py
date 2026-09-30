@@ -55,7 +55,42 @@ class TaskRepository:
         )
         self._index = self._build_index()
 
+    @classmethod
+    def from_final(
+        cls, task_root: str | Path, *, approved_tasks: Iterable[tuple[str, str]]
+    ) -> "TaskRepository":
+        """Opt-in final-only loading; explicit (mode, paper_id) approval is required.
+
+        This does not declare packages scientifically publishable or change default
+        canonical discovery. Callers must approve the audited version, not all
+        packages merely because they reside in a final directory.
+        """
+        import re
+
+        root = Path(task_root).expanduser().resolve()
+        directories = []
+        seen = set()
+        for mode, paper_id in approved_tasks:
+            if mode not in {"autonomous_research", "paper_reproduction"}:
+                raise InvalidTaskPackageError(f"invalid_final_mode:{mode}")
+            if not re.fullmatch(r"paper_[A-Za-z0-9]+", paper_id):
+                raise InvalidTaskPackageError(f"invalid_final_paper_id:{paper_id}")
+            if (mode, paper_id) in seen:
+                raise DuplicateTaskError(f"duplicate_final_approval:{mode}:{paper_id}")
+            seen.add((mode, paper_id))
+            directory = root / f"final_verified_{mode}" / paper_id
+            if directory.parent.is_symlink() or directory.is_symlink() or not directory.is_dir():
+                raise InvalidTaskPackageError(f"invalid_final_directory:{directory}")
+            directories.append(directory)
+        repository = cls.__new__(cls)
+        repository.roots = (root,)
+        repository._approved_final_directories = tuple(directories)
+        repository._index = repository._build_index()
+        return repository
+
     def _candidate_directories(self) -> list[Path]:
+        if hasattr(self, "_approved_final_directories"):
+            return list(self._approved_final_directories)
         candidates: list[Path] = []
         for root in self.roots:
             if not root.exists():

@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use complete source molecules including both octyl chains. The public ideal (10,10) armchair tube has 12 primitive repeats, 480 C atoms, periodic z and 18 angstrom transverse vacuum on each side. Source experimental tubes have unspecified chirality; this benchmark model is conditional and is not claimed to reconstruct the exact experimental distribution. Use one molecule per baseline cell, total neutral charge, with the same electronic/spin treatment and dispersion protocol across all interfaces. E_int=E(tube+molecule)-E(tube at interface geometry)-E(molecule at interface geometry); E_def=E(tube frozen)-E(tube relaxed)+E(molecule frozen)-E(molecule relaxed); E_ads=E_int+E_def. All in eV per molecule at identical numerical conditions. Work function W=V_vac-E_F; electron gain on the molecule is positive in the declared density partition. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_interface_matrix",
+      "statement": "Three full interfaces with frozen and relaxed references",
+      "expected": "Inspect models, adsorption poses, charge-neutral stoichiometry and full dispersion/settings. Recompute E_ads/E_int/E_def and W. Molecular HOMO ordering alone earns no interface endpoint.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_boundary_controls",
+      "statement": "Length, coverage, vacuum and reciprocal-sampling controls",
+      "expected": "Require real paired interface/pristine calculations; normalize doubled cell energy per molecule and preserve density. Doubling length with one adsorbate conflates finite size and coverage.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_charge_mechanism",
+      "statement": "Donation versus interfacial dipole and adsorption geometry",
+      "expected": "Cross-check density integration, vacuum potential and projected states; partition dependence must be reported. Work-function change can contain an interface dipole and is not automatically a free-carrier count.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject undefined chirality/coverage, truncated octyl ligands, unmatched cell references, charged-potential offsets mistaken for W, or uncalibrated finite-cluster substitution. These static interfaces do not prove a thermoelectric power factor.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

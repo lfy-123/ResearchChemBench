@@ -1,0 +1,20 @@
+{
+  "paper_id": "paper_3316e45a74258fb7",
+  "items": [
+    {
+      "failure_id": "cf_pr_identity",
+      "condition": "The submitted calculation uses a different connectivity, charge, multiplicity, protonation state or system boundary than TD-2T neutral singlet.",
+      "scientific_impact": "The result is not for the requested molecule."
+    },
+    {
+      "failure_id": "cf_pr_unvalidated",
+      "condition": "No geometry provenance or optimization/state validation is provided.",
+      "scientific_impact": "Excited-state numbers cannot be interpreted reproducibly."
+    },
+    {
+      "failure_id": "cf_pr_fabricated",
+      "condition": "Missing observables are replaced by invented values or unsupported certainty.",
+      "scientific_impact": "The report is scientifically invalid."
+    }
+  ]
+}

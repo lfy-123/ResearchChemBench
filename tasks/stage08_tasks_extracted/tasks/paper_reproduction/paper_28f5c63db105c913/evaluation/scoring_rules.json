@@ -1,0 +1,78 @@
+{
+  "paper_id": "paper_28f5c63db105c913",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "semantic",
+      "expected": "traceable harmonic phonon method, sign convention and sensitivity evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.harmonic",
+          "$.method.sensitivity"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_harmonic"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "semantic",
+      "expected": "finite-temperature sampling and explicit retention criterion are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.finite_temperature"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_thermal"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "condition",
+      "expected": "When harmonic.status is completed, harmonic.imaginary_modes is true; when status is bounded_failure, the submission reports the attempted scope and reason without fabricating a harmonic result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.harmonic.status", "$.harmonic.imaginary_modes"],
+        "comparison": "condition"
+      },
+      "reference_id": "pr_result_harmonic"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "condition",
+      "expected": "When finite_temperature.status is completed, finite_temperature.retained is true for the sampled interval; when status is bounded_failure, the submission reports the attempted scope and reason without fabricating finite-temperature observables.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.finite_temperature.status", "$.finite_temperature.retained"],
+        "comparison": "condition"
+      },
+      "reference_id": "pr_result_thermal"
+    },
+    {
+      "rule_id": "pr_r5",
+      "type": "semantic",
+      "expected": "finite-temperature/anharmonic stabilization is supported within stated scope and absolute stability is not claimed",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final"
+    }
+  ]
+}

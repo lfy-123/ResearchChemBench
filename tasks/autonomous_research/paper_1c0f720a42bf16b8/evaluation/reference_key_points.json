@@ -25,8 +25,8 @@
     {
       "key_point_id": "kp_ar_result_1",
       "key_point_type": "result",
-      "statement": "The principal calculated absorption is predominantly a HOMO-to-LUMO pi-to-pi-star transition with a dominant contribution exceeding 72 percent.",
-      "expected": "The submitted transition assignment identifies HOMO\u2192LUMO pi\u2192pi-star character and reports a dominant contribution above 72 percent, or explains a method-dependent discrepancy.",
+      "statement": "For C1, the authors' gas-phase M062X/6-311++G(d,p) TD-DFT table reports S0\u2192S1 at 3.16 eV (391.7 nm), 12.3% above the 447 nm DCM experimental maximum, with HOMO\u2192LUMO contribution 98.6% and oscillator strength 1.13.",
+      "expected": "The submitted vertical spectrum identifies S0\u2192S1 and reports energy about 3.16 eV, wavelength about 391.7 nm, oscillator strength about 1.13, and HOMO\u2192LUMO contribution about 98.6%; it keeps the 447 nm value explicitly as experiment rather than a gas-phase target.",
       "evidence_ids": [
         "ev_doc_ff6d864a9e6f_000150_ed9b741859c7"
       ]
@@ -43,11 +43,22 @@
     {
       "key_point_id": "kp_ar_result_3",
       "key_point_type": "result",
-      "statement": "The calculated gap for the compound series is reported in the 3.13\u20133.53 eV range and calculated absorption is described as consistent with experiment.",
-      "expected": "The report places its C1 gap in the paper's series range if directly comparable and discusses calculated-versus-experimental spectral consistency without treating the experimental value as a gas-phase calculation target.",
+      "statement": "The DFT-derived C1 frontier gap in Table S3 is 3.44 eV; the paper describes the calculated absorption as comparable to, but distinct from, measured solution spectra.",
+      "expected": "The report gives a directly identified C1 DFT gap near 3.44 eV (with HOMO/LUMO evidence) and separates it from the solution-phase optical maximum.",
       "evidence_ids": [
         "ev_doc_ff6d864a9e6f_000146_1a8e644ea65a",
         "ev_doc_ff6d864a9e6f_000150_ed9b741859c7"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_result_4",
+      "key_point_type": "result",
+      "statement": "Table S2 reports C1 ground-state alpha=1.16°, beta=43.58°, dipole=8.2 D and first-excited-state alpha=4.10°, beta=21.1°, dipole=10.8 D.",
+      "expected": "The report provides the four C1 geometry/dipole values (or a clearly explained numerical discrepancy) and identifies alpha/beta definitions from the source figure.",
+      "evidence_ids": [
+        "ev_doc_29c0280b4f8d_000007_97843c12f191",
+        "ev_doc_29c0280b4f8d_000015_b81fe30a62b6",
+        "ev_doc_29c0280b4f8d_000016_b384b44b785a"
       ]
     }
   ]

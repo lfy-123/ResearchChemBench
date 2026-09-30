@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "rules": [
+    {
+      "rule_id": "r_state",
+      "reference_id": "kp_process_state",
+      "type": "condition",
+      "expected": "Reported system is charge 0, multiplicity 1, 22 atoms at zero field with reproducible method provenance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system.charge",
+          "$.system.multiplicity",
+          "$.system.atom_count",
+          "$.calculation.field_v",
+          "$.calculation.method",
+          "$.calculation.software"
+        ],
+        "comparison": "expert check of stated system and provenance"
+      }
+    },
+    {
+      "rule_id": "r_validation",
+      "reference_id": "kp_process_validation",
+      "type": "semantic",
+      "expected": "Concrete stationarity/geometry and independent convergence validation are documented. Evaluate convergence and stationarity for the actually declared fixed, constrained or relaxed geometry. A justified constrained calculation need not be an unconstrained global minimum; inspect the constrained degrees of freedom and independent check.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.geometry_or_stationarity",
+          "$.validation.independent_check",
+          "$.validation.details"
+        ],
+        "comparison": "expert scientific validation"
+      }
+    },
+    {
+      "rule_id": "r_dipole",
+      "reference_id": "kp_result_dipole",
+      "type": "numeric",
+      "target": 2.67,
+      "unit": "Debye",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.calculation.dipole_magnitude_debye"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "Evaluate each obtained required observable against this rule. A missing or failed required observable receives no scientific-result credit; truthful partial or failed submissions remain valid and may receive credit for other completed work."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "c_final_dipole",
+      "type": "semantic",
+      "expected": "The validated isolated molecule has a nonzero dipole near the source reference of 2.67 Debye, calculated from the specified molecular identity and electronic state.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.text"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

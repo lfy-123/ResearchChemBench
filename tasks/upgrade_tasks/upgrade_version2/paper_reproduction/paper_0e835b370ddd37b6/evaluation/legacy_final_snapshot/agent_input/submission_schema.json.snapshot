@@ -1,0 +1,291 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "method",
+      "comparison",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "method",
+          "basis",
+          "solvent",
+          "temperature_K",
+          "pressure_atm",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "software": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "solvent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "pressure_atm": {
+            "type": "number"
+          },
+          "charge": {
+            "type": "string",
+            "minLength": 1
+          },
+          "multiplicity": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "system_id",
+            "minimum",
+            "ts_search",
+            "outcome_status"
+          ],
+          "oneOf": [
+            {
+              "required": [
+                "outcome_status",
+                "barrier"
+              ],
+              "properties": {
+                "outcome_status": {
+                  "const": "validated_success"
+                },
+                "barrier": {
+                  "type": "number"
+                },
+                "minimum": {
+                  "required": [
+                    "imaginary_frequencies"
+                  ],
+                  "properties": {
+                    "optimized": {
+                      "const": true
+                    },
+                    "imaginary_frequencies": {
+                      "const": 0
+                    }
+                  }
+                },
+                "ts_search": {
+                  "properties": {
+                    "candidates_validated": {
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "outcome_status",
+                "failure_reason"
+              ],
+              "properties": {
+                "outcome_status": {
+                  "const": "bounded_failure"
+                },
+                "barrier": {
+                  "type": "null"
+                },
+                "failure_reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "system_id": {
+              "enum": [
+                "1",
+                "V-prime"
+              ]
+            },
+            "minimum": {
+              "type": "object",
+              "required": [
+                "optimized",
+                "evidence"
+              ],
+              "properties": {
+                "optimized": {
+                  "type": "boolean"
+                },
+                "imaginary_frequencies": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "evidence": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "ts_search": {
+              "type": "object",
+              "required": [
+                "candidates_attempted",
+                "candidates_validated",
+                "coverage",
+                "evidence"
+              ],
+              "properties": {
+                "candidates_attempted": {
+                  "type": "integer"
+                },
+                "candidates_validated": {
+                  "type": "integer"
+                },
+                "coverage": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "barrier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "outcome_status": {
+              "enum": [
+                "validated_success",
+                "bounded_failure"
+              ]
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "maxItems": 2,
+        "allOf": [
+          {
+            "contains": {
+              "required": [
+                "system_id"
+              ],
+              "properties": {
+                "system_id": {
+                  "const": "1"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "required": [
+                "system_id"
+              ],
+              "properties": {
+                "system_id": {
+                  "const": "V-prime"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        ]
+      },
+      "comparison": {
+        "type": "string",
+        "minLength": 1
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1
+      },
+      "limitations": {
+        "type": "string"
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "systems": {
+              "items": {
+                "properties": {
+                  "outcome_status": {
+                    "const": "validated_success"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "systems": {
+              "contains": {
+                "properties": {
+                  "outcome_status": {
+                    "const": "bounded_failure"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

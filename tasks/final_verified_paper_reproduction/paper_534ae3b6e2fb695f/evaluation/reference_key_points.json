@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_534ae3b6e2fb695f",
+  "items": [
+    {
+      "key_point_id": "pr_process_model",
+      "key_point_type": "process",
+      "statement": "The submission preserves the supplied neutral singlet molecular identities and explicitly documents conformer handling, geometry convergence/stationarity, amine-site mapping and descriptor definitions.",
+      "expected": "Preserve each neutral singlet graph and report independent conformer/stationarity evidence for three diamines; TMC is context only. Vertical N+/-1 electron probes are legal auxiliary states, not wrong target charge. Map both amine N sites and distinguish primary measurement conditions from sensitivity methods.",
+      "evidence_ids": [
+        "ev_doc_1c73d8151157_000192_dd59907735bd",
+        "ev_approved_diamine_observables_20260914"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_dihedral",
+      "key_point_type": "process",
+      "statement": "Ring-plane angle and continuous linker torsions are explicitly different, atom-mapped geometry observables.",
+      "expected": "Re-extract the acute least-squares six-carbon plane angle and all public bonded-path torsions from submitted validated geometry. Check map IDs, plane residuals, sign convention and PFMB center bond 3-12. No nearest-target selector.",
+      "evidence_ids": [
+        "ev_doc_1c73d8151157_000192_dd59907735bd",
+        "ev_approved_diamine_observables_20260914"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_values",
+      "key_point_type": "result",
+      "statement": "Source global nucleophilicity indices are ODA 4.26, 6FODA 3.68 and PFMB 3.56 eV; these are not local atomic descriptors.",
+      "expected": "Compare the identity-bound HOMO-derived global index only, using the public fixed TCE scale and primary method. Check the arithmetic N=HOMO-(-9.1212). Separately assess local definitions, units, both N sites and provenance; never score ALIE/ESP/Fukui/local N against these global numbers.",
+      "evidence_ids": [
+        "ev_doc_1ec204d1c673_000043_baebf4f34a87",
+        "ev_approved_diamine_observables_20260914"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_order",
+      "key_point_type": "result",
+      "statement": "The source global-index ordering is ODA > 6FODA > PFMB; the optimized diamines are noncoplanar. Source four-atom angles 75.2/81.6/77.1 degrees do not define a unique ring-plane observable.",
+      "expected": "Assess global ordering and analyze local-descriptor disagreements. Require auditable noncoplanar geometry (or evidence-backed contrary result), not agreement of ring-plane angles with ambiguous source four-atom numbers.",
+      "evidence_ids": [
+        "ev_doc_1c73d8151157_000201_84be483c9063",
+        "ev_doc_1c73d8151157_000192_dd59907735bd",
+        "ev_approved_diamine_observables_20260914"
+      ]
+    }
+  ]
+}

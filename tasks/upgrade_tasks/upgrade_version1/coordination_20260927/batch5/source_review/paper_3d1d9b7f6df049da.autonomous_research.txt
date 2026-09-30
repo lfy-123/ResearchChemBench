@@ -1,0 +1,1018 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "task_type": "autonomous_research",
+  "title": "Y2 fullerene lateral modes",
+  "category": "vibrational spectroscopy",
+  "difficulty": "easy",
+  "difficulty_reasons": [
+    "fixed geometries and observables"
+  ],
+  "paper": {
+    "title": "Orientationally Resolved Electron-Spin Relaxation and Coherence in Fullerene-Encapsulated Rare-Earth Dimers with a Single-Electron Metal–Metal Bond",
+    "doi": "10.1021/jacs.5c22495",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-02-10"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two explicit XYZ geometries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated mode frequencies and interpretation."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+Compare low-frequency lateral Y2 modes in Y2@Ih and Y2@D5h C80(CH2Ph); authors report higher D5h modes and longer T1.
+
+## 2. System and model boundary
+
+Neutral S=1/2 96-atom molecules, 87 C, 7 H, 2 Y, SI optimized geometries.
+
+## 3. Authors' implemented computational route
+
+|Step|Purpose|Input|Method/software|Key parameters|Output|Source evidence|
+|---|---|---|---|---|---|---|
+|1|optimize|geometries|ORCA DFT|PBE/def2-TZVP, Dolg ECP Y|Hessian|ev_doc_3788c5dd4ff8_000085_a691892a67f1|
+|2|frequencies|Hessian|ORCA|same|normal modes|ev_doc_3788c5dd4ff8_000085_a691892a67f1|
+
+## 4. Validation and analysis protocol
+
+Inspect Y2 participation and distinguish lateral transverse from longitudinal stretching.
+
+## 5. Private reference results
+
+Ih 49.9,54.9,65.2,68.9; D5h 67.4,81.9,90.2,93.8 cm-1. Both are four-mode sets: main PDF p8 and SI Table S3a/S3b (PDF pp21-22). The old Ih list omitted 68.9 and its key point approximated the first frequency as 48 rather than 49.9; the numeric target field also incorrectly repeated the tolerance as 12.0. These source-transcription errors were corrected on 2026-09-18, retaining the 12 cm-1 tolerance, public geometry, scientific objective and schema. No EPR/g/hyperfine tensor production is required by this fixed-geometry vibrational subtask.
+
+## 6. Limitations and interpretation boundaries
+
+Low-frequency harmonic modes are method- and anharmonicity-sensitive.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "rules": [
+    {
+      "rule_id": "r_input",
+      "type": "semantic",
+      "expected": "validation documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.input_checks",
+          "$.validation.frequency_run"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_input",
+      "target": null
+    },
+    {
+      "rule_id": "r_assign",
+      "type": "semantic",
+      "expected": "Check four distinct physical lateral modes per complete isomer using native mode_id and vector/participation evidence. Duplicate mode IDs or the same physical mode repeated with a changed number cannot count twice. Additional candidates belong to additional_modes and do not invalidate a correct primary set. No hidden participation threshold or gold-frequency selection is allowed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.assignment_rule",
+          "$.isomers.Ih.modes[*].assignment_evidence",
+          "$.isomers.D5h.modes[*].assignment_evidence",
+          "$.isomers.Ih.modes[*].mode_id",
+          "$.isomers.D5h.modes[*].mode_id"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_assign",
+      "target": null
+    },
+    {
+      "rule_id": "r_ih",
+      "type": "numeric",
+      "expected": "Ih four-mode source set from SI Table S3a: 49.9,54.9,65.2,68.9 cm-1; do not omit the fourth lateral mode.",
+      "unit": "cm-1",
+      "tolerance": 12,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.Ih.modes[*].frequency_cm-1"
+        ],
+        "comparison": "Use exactly the four physically assigned distinct primary modes in modes (not additional_modes). Sort these and the four reference frequencies; each absolute paired difference must be <=12 cm-1. Judge mode identity/duplicate IDs with assignment evidence before numeric pairing; do not choose by gold proximity. Additional candidates are permitted and do not change this selector."
+      },
+      "reference_id": "kp_ih",
+      "target": [
+        49.9,
+        54.9,
+        65.2,
+        68.9
+      ]
+    },
+    {
+      "rule_id": "r_d5h",
+      "type": "numeric",
+      "expected": "D5h four-mode source set from SI Table S3b: 67.4,81.9,90.2,93.8 cm-1.",
+      "unit": "cm-1",
+      "tolerance": 12,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.D5h.modes[*].frequency_cm-1"
+        ],
+        "comparison": "Use exactly the four physically assigned distinct primary modes in modes (not additional_modes). Sort these and the four reference frequencies; each absolute paired difference must be <=12 cm-1. Judge mode identity/duplicate IDs with assignment evidence before numeric pairing; do not choose by gold proximity. Additional candidates are permitted and do not change this selector."
+      },
+      "reference_id": "kp_d5h",
+      "target": [
+        67.4,
+        81.9,
+        90.2,
+        93.8
+      ]
+    },
+    {
+      "rule_id": "r_trend",
+      "type": "ordering",
+      "expected": "D5h higher",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.direction"
+        ],
+        "comparison": "expert ordering comparison"
+      },
+      "reference_id": "c_trend",
+      "target": null
+    },
+    {
+      "rule_id": "r_relax",
+      "type": "semantic",
+      "expected": "higher D5h modes support longer T1 and computational evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_relax",
+      "target": null
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算参考 — paper_3d1d9b7f6df049da / autonomous_research
+
+整理日期：2026-09-23。本文件只记录既有成功的科学计算链，属于 evaluator 私有档案，不是评分规则，也不是 agent 必须照做的脚本。未在本次维护中新增量化计算；失败/重试不计入下列成功结果。
+
+## 1. 来源与实际范围（Group 5）
+
+正文 PDF p8 与 SI Tables S3a/S3b（PDF pp21–22）。
+
+[论文正文](../../../../papers/paper_3d1d9b7f6df049da/documents/main.pdf)；[当前成功结果与证据索引](../../../../runs/hold_verification/group_5/closure_20260921/paper_3d1d9b7f6df049da/report/results.json)。
+[补充材料 supplementary_001.pdf](../../../../papers/paper_3d1d9b7f6df049da/documents/supplementary_001.pdf)
+
+## 2. 真实有效计算流程
+
+1. 保持两份 96 原子 C87H7Y2 固定 SI 几何，中性 doublet，Y 为1-based 81/82；任务为给定几何的横向振动性质，不额外增加优化任务。
+2. ORCA6.1.1 PBE/def2-TZVP、Y Dolg/def2-ECP、DEFGRID3/VeryTightSCF，分别计算 Hessian；各 288 modes（6 rigid zeros、282 positive），无负频。固定几何残余梯度诊断有记录，不谎称重新优化最低点。
+3. 从 native Cartesian mode 向量，以质量加权 Y kinetic participation 及相对 Y→C80 核心质心径向的 transverse fraction 判读；作者路线验证用 >.5/>.8 作为独立分析选择，不按靠近 gold 选模，也不将该阈值变成额外隐藏门槛。
+4. Ih 四个横向模 38.569422/44.952490/56.192315/60.850646；D5h 66.703314/73.094561/82.391991/87.430579 cm⁻¹，各在原±12窗口，D5h 均值较高 27.263893 cm⁻¹。以模式族和频率趋势讨论振动关联，不生成未计算的定量 T1。
+
+## 3. 有效产物与原始输入/输出
+
+
+下列日志/后处理由上述有效链索引。输入取同目录 input.com/input.inp（存在时直链）；路径本身不是通过判据，科学量与步骤见第2节。
+
+- [y2_d5h_fixed_geometry_grid3_hessian_sensitivity_bounded2400_20260918/20260918T140810_293541_421/orca_stdout.log](../../../../runs/hold_verification/group_5/y2_bounded_20260918/paper_3d1d9b7f6df049da/provenance/qzcli_hpc/y2_d5h_fixed_geometry_grid3_hessian_sensitivity_bounded2400_20260918/20260918T140810_293541_421/orca_stdout.log)；[input.inp](../../../../runs/hold_verification/group_5/y2_bounded_20260918/paper_3d1d9b7f6df049da/provenance/qzcli_hpc/y2_d5h_fixed_geometry_grid3_hessian_sensitivity_bounded2400_20260918/20260918T140810_293541_421/input.inp)
+- [y2_ih_fixed_geometry_grid3_hessian_sensitivity_bounded2400_20260918/20260918T131827_725766_188/orca_stdout.log](../../../../runs/hold_verification/group_5/y2_bounded_20260918/paper_3d1d9b7f6df049da/provenance/qzcli_hpc/y2_ih_fixed_geometry_grid3_hessian_sensitivity_bounded2400_20260918/20260918T131827_725766_188/orca_stdout.log)；[input.inp](../../../../runs/hold_verification/group_5/y2_bounded_20260918/paper_3d1d9b7f6df049da/provenance/qzcli_hpc/y2_ih_fixed_geometry_grid3_hessian_sensitivity_bounded2400_20260918/20260918T131827_725766_188/input.inp)
+
+## 4. 当前 evaluator 对应关系
+
+以下对应是证据核对，不是本轮运行 LLM judge 的评分，也不宣称复现了 AR 的自主探索过程。
+
+| 项目 | 当前要求 | 本参考支持方式 |
+|---|---|---|
+| `kp_input` | Both geometries are checked as neutral doublets and diagnostics reported. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_assign` | Selected modes retain identity and reproducible Y2 lateral assignment. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_ih` | Ih has four lateral modes near 49.9,54.9,65.2,68.9 cm-1 (SI Table S3a; main-text rounded set 50,55,65,69). | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_d5h` | D5h has four lateral modes near 67.4,81.9,90.2,93.8 cm-1 (SI Table S3b). | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `c_trend` | D5h lateral modes are higher than Ih. | 上述关键点与实际数值/物理解释共同支持；源值和验证值不混写。 |
+| `c_relax` | Higher D5h lateral frequencies support longer D5h T1, with computational evidence. | 上述关键点与实际数值/物理解释共同支持；源值和验证值不混写。 |
+
+## 5. 不能扩大解释的地方
+
+最新成功链在 closure_20260921，不能引用旧 group bounded-failure 作为最后结果；固定几何性质与几何发现边界保持不变。
+
+参考使用作者知情路线和可能的作者端点，能支持此科学子问题存在真实可行计算链；不要求向被评 agent 公开端点，也不证明任意方法、初猜都必然收敛。任务的公开身份和必要定义须另行自包含核对。普通 limitation 不作为评估成果；本段只是维护档案的事实说明。
+
+两模式共享的作者路线结果不等同于自主模式盲测。历史没有记录的自主假设、候选提出或路线决策，不因格式映射而编造成已经执行；科学子问题计算支持与自主过程能力得分应分开。
+
+## 6. 2026-09-23 测量定义与当前任务的补充对应
+
+SI Tables S3a/b 的主对照为每异构体四个 Y2 横向模式。旧 schema 允许 modes 超过四个，numeric selector 却读取整个数组与四参考配对。现将 complete 主数组限定四项，额外候选用 additional_modes，不限制探索总数；mode_id 去重由显式物理指认规则判断，schema uniqueItems 只阻止完全相同的重复记录，不冒称能自动判定所有物理重复。真实两异构体各四模式结果保留，原频率及 ±12 cm⁻¹ 容差不变。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "items": [
+    {
+      "key_point_id": "kp_input",
+      "key_point_type": "process",
+      "statement": "Both geometries are checked as neutral doublets and diagnostics reported.",
+      "evidence_ids": [
+        "ev_doc_3788c5dd4ff8_000085_a691892a67f1"
+      ],
+      "expected": "Input, charge/spin, convergence and imaginary modes documented."
+    },
+    {
+      "key_point_id": "kp_assign",
+      "key_point_type": "process",
+      "statement": "Selected modes retain identity and reproducible Y2 lateral assignment.",
+      "evidence_ids": [
+        "ev_doc_9bcfd67390e7_000952_835afb5cdd1"
+      ],
+      "expected": "Per-mode evidence and exclusion rule."
+    },
+    {
+      "key_point_id": "kp_ih",
+      "key_point_type": "result",
+      "statement": "Ih has four lateral modes near 49.9,54.9,65.2,68.9 cm-1 (SI Table S3a; main-text rounded set 50,55,65,69).",
+      "evidence_ids": [
+        "ev_doc_3788c5dd4ff8_000293_51f5c5dcac5e"
+      ],
+      "expected": "Four identity-supported lateral modes; compare the sorted set [49.9,54.9,65.2,68.9] cm-1 using the unchanged 12 cm-1 tolerance. Retain and explain any mixed-character extra modes rather than silently selecting frequencies by closeness."
+    },
+    {
+      "key_point_id": "kp_d5h",
+      "key_point_type": "result",
+      "statement": "D5h has four lateral modes near 67.4,81.9,90.2,93.8 cm-1 (SI Table S3b).",
+      "evidence_ids": [
+        "ev_doc_9bcfd67390e7_000952_835afb5cdd1"
+      ],
+      "expected": "Four identity-supported lateral modes; compare the sorted set [67.4,81.9,90.2,93.8] cm-1 using the unchanged 12 cm-1 tolerance."
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "items": [
+    {
+      "failure_id": "cf_inputs",
+      "condition": "missing/malformed geometry or wrong charge/spin",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_assignment",
+      "condition": "no per-mode lateral assignment evidence",
+      "severity": "critical"
+    }
+  ]
+}
+=== evaluation/evidence_map.json ===
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_3788c5dd4ff8_000085_a691892a67f1",
+      "source": "SI S2",
+      "document_id": "doc_3788c5dd4ff8",
+      "text": "ORCA PBE/def2-TZVP and Dolg ECP Y"
+    },
+    {
+      "evidence_id": "ev_doc_3788c5dd4ff8_000293_51f5c5dcac5e",
+      "source": "SI Table S3a",
+      "document_id": "doc_3788c5dd4ff8",
+      "text": "Ih 49.9,54.9,65.2,68.9 cm-1"
+    },
+    {
+      "evidence_id": "ev_doc_9bcfd67390e7_000952_835afb5cdd1",
+      "source": "article vibrational discussion",
+      "document_id": "doc_9bcfd67390e7",
+      "text": "D5h near 67,82,90,94 cm-1"
+    },
+    {
+      "evidence_id": "ev_doc_9bcfd67390e7_000032_47af21789372",
+      "source": "abstract",
+      "document_id": "doc_9bcfd67390e7",
+      "text": "higher D5h modes align with longer T1"
+    },
+    {
+      "evidence_id": "ev_doc_9bcfd67390e7_001069_9a1816673f8b",
+      "source": "conclusions",
+      "document_id": "doc_9bcfd67390e7",
+      "text": "D5h higher lateral frequencies and longer relaxation"
+    }
+  ]
+}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "items": [
+    {
+      "conclusion_id": "c_trend",
+      "claim_role": "final",
+      "evidence_ids": [
+        "ev_doc_9bcfd67390e7_001069_9a1816673f8b"
+      ],
+      "statement": "D5h lateral modes are higher than Ih.",
+      "expected": "D5h lateral modes are higher than Ih.",
+      "supporting_key_point_ids": [
+        "kp_ih",
+        "kp_d5h",
+        "kp_input",
+        "kp_assign"
+      ]
+    },
+    {
+      "conclusion_id": "c_relax",
+      "claim_role": "final",
+      "evidence_ids": [
+        "ev_doc_9bcfd67390e7_000032_47af21789372"
+      ],
+      "statement": "Higher D5h lateral frequencies support longer D5h T1, with computational evidence.",
+      "expected": "Higher D5h lateral frequencies support longer D5h T1, with computational evidence.",
+      "supporting_key_point_ids": [
+        "kp_ih",
+        "kp_d5h",
+        "kp_input",
+        "kp_assign"
+      ]
+    }
+  ]
+}
+
+=== evaluation/task_provenance/contract_regression_20260923.json ===
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "mode": "autonomous_research",
+  "source": "runs/hold_verification/group_5/closure_20260921/paper_3d1d9b7f6df049da/report/results.json",
+  "mapping": [],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_ih",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_d5h",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_ih",
+      "observed": [
+        38.569422035509696,
+        44.95249028570665,
+        56.19231516161977,
+        60.85064633471249
+      ],
+      "target": [
+        49.9,
+        54.9,
+        65.2,
+        68.9
+      ],
+      "tolerance": 12,
+      "passed": true
+    },
+    {
+      "rule": "r_d5h",
+      "observed": [
+        66.7033140791065,
+        73.09456051271566,
+        82.39199091025229,
+        87.4305789840461
+      ],
+      "target": [
+        67.4,
+        81.9,
+        90.2,
+        93.8
+      ],
+      "tolerance": 12,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 15,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": [],
+  "followup_definition_checks": [
+    {
+      "check": "actual_historical_result_valid",
+      "passed": true
+    },
+    {
+      "check": "extra_modes_do_not_invalidate_four_main",
+      "passed": true
+    },
+    {
+      "check": "Ih_selector_ignores_additional",
+      "passed": true
+    },
+    {
+      "check": "Ih_fifth_primary_rejected",
+      "passed": true
+    },
+    {
+      "check": "Ih_identical_duplicate_rejected",
+      "passed": true
+    },
+    {
+      "check": "Ih_three_modes_not_complete",
+      "passed": true
+    },
+    {
+      "check": "D5h_selector_ignores_additional",
+      "passed": true
+    },
+    {
+      "check": "D5h_fifth_primary_rejected",
+      "passed": true
+    },
+    {
+      "check": "D5h_identical_duplicate_rejected",
+      "passed": true
+    },
+    {
+      "check": "D5h_three_modes_not_complete",
+      "passed": true
+    },
+    {
+      "check": "nonidentical_duplicate_ID_rule_explicit",
+      "passed": true
+    },
+    {
+      "check": "early_failure_still_valid",
+      "passed": true
+    }
+  ],
+  "followup_boundary": "Historical scientific values preserved. New checks are schema/candidate-separation/measurement-definition checks, not a new quantum run or LLM judge validation. Different records with the same physical mode still need semantic/evidence checking."
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 已批准修复记录（2026-09-23）
+
+授权：负责人同意 MAINTENANCE_REPORT 第 15 节方案及 D1–D7。正文/SI 为主，验证计算为辅；只在 verified_tasks 修复，无新量化计算、无迁移授权。
+
+已按批准方案分离 PR guidance，取消普通 limitation/停止表态的 required 和独立得分，显式采用 scientific_results 策略；保留真实失败诊断、对象/态/收敛/敏感性证据与原科学数值容差，修复已发现的 [] 选择器并接回必要关键点。
+
+收尾复查：修复清理后的残句及“失败也称 complete”矛盾；保留主结果要求，提供不必虚构数值/结构的早期失败格式。针对主对象重复/缺失与成功状态做契约检查；普通免责声明不作为必需字段或成果。
+
+计算档案已补成有效链、源方法/验证差异、原始输入输出和当前 4 个关键点/2 条科学结论对应；不把 reference 变成 evaluator、不写入虚构计算。
+
+## 2026-09-23 二次回查：定义与提交契约修复
+
+SI Tables S3a/b 的主对照为每异构体四个 Y2 横向模式。旧 schema 允许 modes 超过四个，numeric selector 却读取整个数组与四参考配对。现将 complete 主数组限定四项，额外候选用 additional_modes，不限制探索总数；mode_id 去重由显式物理指认规则判断，schema uniqueItems 只阻止完全相同的重复记录，不冒称能自动判定所有物理重复。真实两异构体各四模式结果保留，原频率及 ±12 cm⁻¹ 容差不变。
+
+本次只澄清既定科学子目标，不改数值 target/tolerance、不增加 limitation 评分；未重算、未运行 LLM judge、未迁移目录。
+
+## 2026-09-24 补齐原文出处摘要
+
+直接核读 SI PDF p21 Table S3a 第4–7行：Ih 四模参考为 49.9、54.9、65.2、68.9 cm⁻¹。当前评分和 reference 本已包含四项，closure_20260921 的实际四模计算也完整，遗漏只在 evidence_map 的该条 text。本次补入 68.9，未改 target/tolerance、选模方法、公开输入或历史频率。无新增计算或迁移；测试及本轮结果见 MAINTENANCE_REPORT.md 第19节。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "status",
+              "method",
+              "validation",
+              "isomers",
+              "comparison",
+              "interpretation"
+            ],
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "isomers": {
+                "required": [
+                  "Ih",
+                  "D5h"
+                ],
+                "properties": {
+                  "Ih": {
+                    "required": [
+                      "result_status",
+                      "modes"
+                    ],
+                    "properties": {
+                      "result_status": {
+                        "const": "complete"
+                      },
+                      "modes": {
+                        "minItems": 4,
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "frequency_cm-1",
+                            "assignment_evidence"
+                          ]
+                        },
+                        "maxItems": 4,
+                        "uniqueItems": true
+                      }
+                    }
+                  },
+                  "D5h": {
+                    "required": [
+                      "result_status",
+                      "modes"
+                    ],
+                    "properties": {
+                      "result_status": {
+                        "const": "complete"
+                      },
+                      "modes": {
+                        "minItems": 4,
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "frequency_cm-1",
+                            "assignment_evidence"
+                          ]
+                        },
+                        "maxItems": 4,
+                        "uniqueItems": true
+                      }
+                    }
+                  }
+                }
+              },
+              "comparison": {
+                "required": [
+                  "statistic_name",
+                  "statistic_value",
+                  "units",
+                  "direction"
+                ]
+              }
+            }
+          },
+          {
+            "required": [
+              "status",
+              "method",
+              "validation",
+              "isomers",
+              "failure_diagnostics"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "isomers": {
+                "required": [
+                  "Ih",
+                  "D5h"
+                ],
+                "properties": {
+                  "Ih": {
+                    "required": [
+                      "result_status",
+                      "modes",
+                      "diagnostics"
+                    ],
+                    "properties": {
+                      "modes": {
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "assignment_evidence"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "D5h": {
+                    "required": [
+                      "result_status",
+                      "modes",
+                      "diagnostics"
+                    ],
+                    "properties": {
+                      "modes": {
+                        "items": {
+                          "required": [
+                            "mode_id",
+                            "assignment_evidence"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "bounded_failure"
+            ]
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software_or_code",
+              "model_or_algorithm",
+              "settings"
+            ],
+            "properties": {
+              "software_or_code": {
+                "type": "string"
+              },
+              "model_or_algorithm": {
+                "type": "string"
+              },
+              "settings": {
+                "type": "string"
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "input_checks",
+              "frequency_run",
+              "assignment_rule",
+              "supporting_artifacts"
+            ],
+            "properties": {
+              "input_checks": {
+                "type": "string"
+              },
+              "frequency_run": {
+                "type": "string"
+              },
+              "assignment_rule": {
+                "type": "string"
+              },
+              "supporting_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "isomers": {
+            "type": "object",
+            "required": [
+              "Ih",
+              "D5h"
+            ],
+            "properties": {
+              "Ih": {
+                "type": "object",
+                "properties": {
+                  "result_status": {
+                    "type": "string",
+                    "enum": [
+                      "complete",
+                      "partial",
+                      "failed"
+                    ]
+                  },
+                  "modes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "description": "Four primary distinct physical modes when complete. Each native mode_id must be unique; physical identity is checked with assignment evidence."
+                  },
+                  "diagnostics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "additional_modes": {
+                    "type": "array",
+                    "description": "Optional other examined/mixed candidates, excluded from the primary four-frequency selector; not an exploration limit.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "D5h": {
+                "type": "object",
+                "properties": {
+                  "result_status": {
+                    "type": "string",
+                    "enum": [
+                      "complete",
+                      "partial",
+                      "failed"
+                    ]
+                  },
+                  "modes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "description": "Four primary distinct physical modes when complete. Each native mode_id must be unique; physical identity is checked with assignment evidence."
+                  },
+                  "diagnostics": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "additional_modes": {
+                    "type": "array",
+                    "description": "Optional other examined/mixed candidates, excluded from the primary four-frequency selector; not an exploration limit.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "mode_id",
+                        "assignment_evidence"
+                      ],
+                      "properties": {
+                        "mode_id": {
+                          "type": "string"
+                        },
+                        "frequency_cm-1": {
+                          "type": "number"
+                        },
+                        "assignment_evidence": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "comparison": {
+            "type": "object",
+            "required": [
+              "statistic_name",
+              "statistic_value",
+              "units",
+              "direction"
+            ],
+            "properties": {
+              "statistic_name": {
+                "type": "string"
+              },
+              "statistic_value": {
+                "type": "number"
+              },
+              "units": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string"
+              }
+            }
+          },
+          "interpretation": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+          },
+          "failure_diagnostics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+Determine harmonic low-frequency lateral Y2 modes of Y2@Ih-C80(CH2Ph) and Y2@D5h-C80(CH2Ph), compare frequencies, and assess spin-lattice-relaxation implications. Lateral means substantial Y2 displacement parallel to the cage inner surface, not Y-Y-axis or framework motion. Atoms 81 and 82 (one-based XYZ atom records, excluding the two header lines) are Y; verify element labels rather than relying on an unverified index.
+
+# Public inputs and scientific boundaries
+
+Assign physical modes before comparing frequencies. With Cartesian displacement u and mass m, report Y participation sum_Y(m|u|²)/sum_all(m|u|²); for the Y–Y unit vector a, a useful transverse fraction is sum_Y[m(|u|²−(u·a)²)]/sum_Y(m|u|²). If the program prints mass-weighted eigenvectors, convert consistently. Use these measures and mode vectors to distinguish transverse Y motion from longitudinal/cage motion; disclose your criterion rather than selecting frequencies closest to an expected value. For each isomer put exactly four distinct, physically assigned primary lateral modes in `modes`; use their native `mode_id` values once each. Put any other examined or mixed candidates in optional `additional_modes`, with assignment evidence explaining why they are not in the primary set. There is no limit on exploration; this separates the four-mode comparison from additional candidates. Sort the identity-assigned primary set only for final pairing. If four primary modes cannot be assigned, report partial/failure rather than inventing or duplicating modes. A numerical spin-lattice T1 calculation is not required.
+
+`data/inputs/y2_ih.xyz` and `data/inputs/y2_d5h.xyz` are explicit 96-atom XYZ geometries (87 C, 7 H, 2 Y), Angstrom. Use isolated neutral charge 0, multiplicity 2. No paper/SI/web/database access. Report cm-1 frequencies and assignment evidence. State software/model chemistry/settings.
+
+# Required scientific validation/investigation
+
+Analyze both fixed geometries with an independent frequency calculation or validated equivalent. Verify atoms, charge, spin, convergence and imaginary frequencies. For every selected mode report identity, frequency and Y2 lateral evidence; explain exclusion of longitudinal/framework modes. Report per-isomer lists, comparison statistic, direction. If failure occurs, report bounded failure with diagnostics and partial results. Completion requires both inputs analyzed and a reproducible assignment/comparison record.
+
+A complete outcome requires the requested scientific results and their validation evidence. If only part succeeds, use the existing failure/partial pathway and submit completed results plus the specific missing calculations and diagnostics; do not fabricate values. Extra exploratory attempts are allowed and do not invalidate completed main results. General limitations or stopping statements are optional, not scored deliverables.
+
+# Deliverables
+
+For an early or partial failure, a compact alternative submission is `status: bounded_failure` with `failure_report: {reason, missing_endpoint, completed_artifacts}`. Use nonempty reasons, identify the missing calculation, and list only artifacts that exist (the list may be empty if failure preceded computation). Include any available partial results; never fill unavailable scientific values. This branch is a valid submission, not successful completion.
+
+Submit `report/results.json` conforming to `submission_schema.json`, with method, validation, per-isomer modes, comparison, interpretation and artifact paths.

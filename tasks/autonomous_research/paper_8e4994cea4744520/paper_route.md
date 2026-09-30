@@ -23,8 +23,12 @@ The source-supported process validation is that each optimized structure should 
 
 ## 5. Private reference results
 
-The published dipole magnitudes (Debye), in the fragment order above, are 3.55, 1.76, 2.05, 2.26, and 0.68. The mixed (4-butylphenyl)-N-(4-fluorophenyl)amine is described as the highest-dipole fragment. These values are evaluator-only references.
+The published dipole magnitudes (Debye), in the fragment order above, are 3.55, 1.76, 2.05, 2.26, and 0.68. The mixed (4-butylphenyl)-N-(4-fluorophenyl)amine has the highest reported dipole among the three diarylamines; it is not the highest among all five named fragments. These values are evaluator-only references.
 
 ## 6. Limitations and interpretation boundaries
 
 The paper does not provide Cartesian starting coordinates or a complete machine-readable input deck, and dipole values can depend on conformer and implementation details. The task therefore requires the Agent to state how starting structures and conformers were generated, retain the tested conformers, and report convergence and frequency evidence. Agreement is assessed against the source-reported scalar values, while no claim is made that this fragment calculation alone proves solid-state packing or device performance.
+
+## Source-scope correction (2026-09-15)
+
+Source boundary reviewed 2026-09-15: main p3 lists 3.55/1.76 D for the two monoarylamines and 2.05/2.26/0.68 D for the three diarylamines. Thus mixed is highest only within the three-diarylamine subset, not all five. Fig. 1a labels bis(4-butylphenyl)amine 1.76 D, conflicting with main-text 0.68 D. The existing 0.68 D main-text numeric target is retained with this explicit unresolved source conflict; no tolerance or scientific objective is reduced.

@@ -1,0 +1,14 @@
+{
+  "generator": "RDKit ETKDGv3 topology-only embedding",
+  "rdkit_version": "2023.09.6",
+  "seeds": {"neutral.xyz": 2337, "anion.xyz": 3337},
+  "quantum_calculation": false,
+  "force_field_minimization": false,
+  "energy_ranking": false,
+  "source_coordinate_template": false,
+  "structures": {
+    "neutral.xyz": {"formula": "C10H16BO3P", "atom_count": 31, "charge": 0, "multiplicity": 1, "atom_mapping": "P=11; O1=12; O2=13; O3=14; B=21"},
+    "anion.xyz": {"formula": "C9H13BO3P", "atom_count": 27, "charge": -1, "multiplicity": 1, "atom_mapping": "P=11; O1=12; O2=13; O3=14; B=18"}
+  },
+  "identity_validation": "Element sequence, mapped connectivity and XYZ row order agree with starting_geometry_definition.json."
+}

@@ -1,0 +1,73 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "mode": "AR",
+  "updated_at": "2026-09-28T13:23:33.245433+00:00",
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "previous_reference_stage": "implemented_pending_expanded_reference",
+  "scientific_reference_status": "author_informed_bounded_reference_validated",
+  "semantic_judge_calibration": "not_performed",
+  "blind_AR_trial": "not_performed",
+  "coordinator_final_review": "pending",
+  "accepted_at": "2026-09-28T06:23:37.132882+00:00",
+  "completed_endpoints": [
+    "state_geometry.S0_free",
+    "state_geometry.S1_free",
+    "state_geometry.S0_restrained",
+    "state_geometry.S1_restrained",
+    "motion_response.vertical_fixed_motion",
+    "motion_response.relaxed_motion",
+    "local_robustness.second_torsion_or_method",
+    "local_robustness.common_solvent"
+  ],
+  "limitations": [
+    "Single isolated PBNA in gas with fixed-geometry CH2Cl2 continuum sensitivity; no crystal/aggregate calculation, quantum yield, nonradiative rate or lifetime claim.",
+    "Source-aware native reuse is not blind autonomous discovery. Only two angular interventions and local S1 minima; no exhaustive conformer search.",
+    "B3LYP/6-31G(d) electronic quantities; no thermal or standard-state corrections used, constrained points have no thermodynamic statistical weight.",
+    "D is a normalized X+Y hole/electron first-moment distance; symmetry can cancel opposing transfers. Fragment transfer and NTO evidence remain necessary.",
+    "State matching uses reciprocal endpoint AO overlaps plus native ten-root trajectory energy gaps/dominant contributions. Large geometric endpoint changes reduce overlaps; higher roots can mix and are not forced into root-number identity.",
+    "Sensitivity spreads are actual protocol/angle contrasts, not statistical confidence intervals or total model error.",
+    "Main PDF p7 describes PBNA as AIE-inactive. These local molecular controls do not establish aggregation-induced emission; TPE-derivative observations cannot be transferred to PBNA."
+  ],
+  "evidence": {
+    "report/scientific_acceptance.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/scientific_acceptance.json",
+      "sha256": "1d55592cf12e1f4c1c5b626b5c8e9a0b91b56176f10e1aba78449a395efb5515"
+    },
+    "report/results.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/results.json",
+      "sha256": "83dacd8ef15714d02e529fdb07b1080b784c41201328b852e000102e51b5ccf0"
+    },
+    "report/verification_report.md": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/verification_report.md",
+      "sha256": "e4252ed5a6c530ffe3a07dd81b6acf43183ca9a808fa01b7e030f79d9d6f5c27"
+    },
+    "report/validation/contract_checks.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/validation/contract_checks.json",
+      "sha256": "761cb2ad4a51a721d4a40e65188c41d25b94c6e901c6596a26fd69cce8a9dee8"
+    },
+    "report/resource_summary.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/resource_summary.json",
+      "sha256": "8e7a02893d8002e3f05100501aaaaaaf23e976863c4b02c053ade594379ea5f0"
+    },
+    "evaluator_mapping.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/evaluator_mapping.json",
+      "sha256": "cde96dbd2f98fde7491cba46ef0b26c640b659b75904af51a43892e2255fbba5"
+    },
+    "task_snapshot/manifest.json": {
+      "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/task_snapshot/manifest.json",
+      "sha256": "debf42bf97bdf20760eed620c45656a4ee2ee58bfbbfa850140cb8a891cad183"
+    }
+  },
+  "raw_artifact_index": {
+    "path": "docs/upgrade_tasks_verification/group_1/papers/paper_94e7481ded3b6a75/report/validation/contract_checks.json",
+    "sha256": "761cb2ad4a51a721d4a40e65188c41d25b94c6e901c6596a26fd69cce8a9dee8"
+  },
+  "validated_scientific_package_hashes": {
+    "AR": "ffaa41817991dd19bb1fb5c3386b05b26a5f4d9529d34c21fe904f14b75da48e",
+    "PR": "11bf5fe43ae821d10db3ff70b90e9a20f1aaee257904beed38e4c088a606ce61"
+  },
+  "package_before_reference_binding_sha256": "ffaa41817991dd19bb1fb5c3386b05b26a5f4d9529d34c21fe904f14b75da48e",
+  "historical_package_snapshot": "docs/upgrade_tasks_v2_review_20260928/group_1/phase1/history/reference_binding/paper_94e7481ded3b6a75/AR/ffaa41817991dd19bb1fb5c3386b05b26a5f4d9529d34c21fe904f14b75da48e",
+  "change_scope": "Private evidence/provenance metadata and manifest only. Public inputs, schemas, scoring criteria, weights, critical failures, and author route are unchanged.",
+  "current_result_schema_checked": true
+}

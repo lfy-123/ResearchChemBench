@@ -1,0 +1,363 @@
+[
+  {
+    "paper_id": "paper_36722b90a0c12825",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "固定 E 主体 close/open 差不能解释 E/Z 结合切换",
+    "minimum": "自由/结合主体与 E/Z 成对热力学循环，加入构象和共同介质控制",
+    "software": "Gaussian/ORCA＋CREST＋GoodVibes",
+    "gate": "先校准能量定义：现有约 +0.999 eV 为自由能差；PSS 不能当热平衡布居",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "源 E/Z 主体各含游离与 Cl⁻ 结合态，在 acetone 中以相同构象处理形成闭合结合循环；第二主体只用于预先选择的检验。",
+      "accept": "逐个报告 ΔGbind 与 ΔΔGbind、构象代价和环境敏感性。旧 open−close 的 +0.999 eV 是 G，+1.516 eV 是 E；均不是 E/Z 结合自由能。PSS 按光稳态处理，不当 Boltzmann 热平衡。",
+      "optional": "全部滴定浓度、精确光稳态布居和器件开关效率不加入。",
+      "pilot": "先核对主体 E/Z、Cl⁻/TBA 与标准态，再验证一个游离/结合配对及构象成本。"
+    }
+  },
+  {
+    "paper_id": "paper_9455a82229de2427",
+    "origin": "final",
+    "current_class": "C",
+    "action": "upgrade",
+    "target": "加强C",
+    "weakness": "可独立找产物，但能量窗相容尚不能区分碰撞可达性",
+    "minimum": "有限连接搜索后加入代表加成/失H路径及正确自旋/能量边界",
+    "software": "Gaussian复合方法或ORCA＋pysisyphus/IRC",
+    "gate": "先验证至少一条可达通道；不强制完整散射/RRKM，不用室温布居解释分子束",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "从 SiN 双重态和异戊二烯出发，有限枚举加成方向与闭环候选；SiNC₅H₇ 单重态产品和游离 H 双重态满足守恒。对能窗内候选至少建立一条主路径及最重要竞争路径。",
+      "accept": "以分离反应物为统一 0 K E+ZPE 零点，提交双重态加成/重排/失 H 的端点、TS 或无垒连续路径证据，比较碰撞可用能。最低能产品、反应放热与动力学可达性分别判断。",
+      "optional": "全散射、精确分支比和全 RRKM 网络不强制。",
+      "pilot": "先验证一条守恒且连通的代表通道；无参考路径前不能将可达性设为已冻结数值评分。"
+    }
+  },
+  {
+    "paper_id": "paper_9a58a1fa6ed7d780",
+    "origin": "final",
+    "current_class": "B",
+    "action": "upgrade",
+    "target": "加强B",
+    "weakness": "单个 BN 分子的空穴—电子指标不足以归因 BN 嵌入",
+    "minimum": "BN/全碳匹配骨架与冻结几何，检验态能和电荷分离",
+    "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+    "gate": "先修现有 S1 能量/S4 Sr 偏差；S1–S4数据已有，不能误写为缺少全部指标",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "从正文确认 5a 与全碳对照 5b/前体的真实匹配连接，构建各自松弛与公共骨架；所有比较都跟踪同一物理激发态。",
+      "accept": "E、f、D、Sr 与 NTO 一致来自已收敛态，能量和振幅/密度收敛独立检查。原 S1–S4 Sr 已齐，原 S1 能量及 S4 Sr 超差不能改写为缺字段。分析 BN 取代效应是否超过几何和方法不确定性。",
+      "optional": "大范围新分子筛选、量子产率不加入。",
+      "pilot": "先解决旧 S1 能量、S4 Sr 和态映射；达到定义一致后才扩全碳控制。"
+    }
+  },
+  {
+    "paper_id": "paper_9f4c259696ad2f87",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "PXX1 一个激发态不足以解释 Lewis 酸调控",
+    "minimum": "PXX1/2 与酸的 1:1/1:2 模型，固定几何和络合/解离对照",
+    "software": "Gaussian/ORCA TD＋Multiwfn＋CREST",
+    "gate": "计量/浓度/谱定义一致；光谱不可区分时允许混合，FRET 非最低目标",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "PXX1/PXX2 各有游离、B(C₆F₅)₃ 的 1:1/1:2 模型；同几何取出酸与完全松弛配对，以计量守恒循环比较。",
+      "accept": "交付结合/解离账本、同态 TD/NTO、f 和可比较滴定趋势；区分 π 扩展、几何和配位效应。不同酸数不能裸总能排序，不能从相似光谱硬判唯一计量。",
+      "optional": "FRET、完整浓度动力学及发光效率不加入。",
+      "pilot": "先试最大酸复合物及同态映射，固定实验浓度/环境；若过大，缩减题面中的计量空间再建立参考。"
+    }
+  },
+  {
+    "paper_id": "paper_a0f6b899582cb9f7",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "M3 四极矩和平面性不能独立证明双重结合",
+    "minimum": "与 PM6/真实受体片段的两类配对作用，分解静电/色散/畸变",
+    "software": "Gaussian/ORCA＋Psi4 SAPT或明确片段分解",
+    "gate": "统一四极矩原点/单位，验证截短；不将 Qzz 直接当器件 PCE",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "M3 分别与一个来源明确的 PM6 片段和一个真实受体片段配对，设多个合理接触及冻结/松弛几何控制；至少一组增大片段检查截短。",
+      "accept": "全四极矩使用同原点/单位，作用能、畸变、静电/色散项使用可复核同一分解规范。比较两类相互作用的证据，不能由 Qzz 直接推双重结合或器件 PCE；分解不是唯一可观测因果。",
+      "optional": "体相共混形貌和器件模拟不加入。",
+      "pilot": "先固定受体名称/片段截断键和电荷；试 Psi4 SAPT 可承受性，替代分解必须重新定义，不能混用项名。"
+    }
+  },
+  {
+    "paper_id": "paper_b276b18215cba283",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "简化单臂 cis/trans 的 S1 不能代表三臂机制",
+    "minimum": "匹配单/三臂、冻结/松弛臂几何及介质对照",
+    "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+    "gate": "需三臂实际参考和预算；线性 TD 不替代两光子或膜聚集研究",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "相同连接规则的单臂/完整三臂模型，各自 cis/trans 与冻结臂/松弛臂对照；同一溶剂和同一物理态。",
+      "accept": "提交同态 E、f、跃迁密度及臂间分区，检验单臂红移能否迁移到三臂。至少一个完整三臂参考必需；只有单臂数据不能获得迁移结论。",
+      "optional": "两光子、膜聚集、绝对寿命不加入。",
+      "pilot": "先试完整三臂 TD 的成本和态数。做不到则收缩科学主张和正式要求，不能保留“已解释三臂”的题目。"
+    }
+  },
+  {
+    "paper_id": "paper_fda8b9b53f8276db",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "指定 cis 六键 RMSE 不等于构象/环境解释",
+    "minimum": "cis/trans在气相与溶剂中的几何、自由能和扭转控制；CIF近邻可选",
+    "software": "Gaussian/ORCA＋CREST；有限CIF簇仅可选",
+    "gate": "先对齐当前六键 cis；七键 SI 与33键CIF属于不同范围，不能混成同一验证",
+    "feasibility": "R",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "先以现包 cis 局部极小值及六条映射键校准；新题比较同组成 cis/trans 的低能构象和气相/一个论文相关溶剂，做代表扭转控制。",
+      "accept": "六键 RMSE 与构象 ΔE/ΔG 分表；局部 cis 存在不等于全局最稳。由环境/几何干预检验残差来源，允许不同环境支持不同构象。七条 SI 与 33 条 CIF 不得混入六键统计。",
+      "optional": "真实 CIF 近邻簇与 NMR 作为有数据后的可选模块；首版不强制晶体环境解释。",
+      "pilot": "先读取当前 cis 六键实际基线而非旧 trans 七键运行；新参考由气相/溶剂范围独立冻结。"
+    }
+  },
+  {
+    "paper_id": "paper_0de37d01e35c27df",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "中性/阳离子 S–S 距离比较，不能独立证明三电子键",
+    "minimum": "两氧化态加一个环尺寸/刚性对照；固定与松弛几何交叉，结合占据、自旋和键级",
+    "software": "Gaussian/ORCA＋Multiwfn",
+    "gate": "先修复当前拓扑/构象基线；大幅收缩不能直接写成成键发现",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "26 原子母体的中性/阳离子，加正文可定位的一项环尺寸或刚性对照；同一拓扑族内比较固定骨架与松弛骨架。",
+      "accept": "同时提交 S–S 距离、轨道占据、自旋分布与键级/密度证据；收缩但占据不支持三电子成键时应削弱该解释。坍缩/开环候选独立编号，不能合并到同一构象差。",
+      "optional": "电化学可逆性和全芳基系列不强制。",
+      "pilot": "先修复母体身份与电子态；控制物的明确连接图未落实前，先做数据准备。"
+    }
+  },
+  {
+    "paper_id": "paper_43d74f8a469d9ad3",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "一个基态扭转曲线无法解释完整光稳定性",
+    "minimum": "同系列 S0/S1 扭转与运动限制对照，分析态局域化和环境影响",
+    "software": "Gaussian/ORCA TDDFT＋扫描/态分析",
+    "gate": "先验证 S1 态跟踪；扫描峰不自动是 TS，不要求首版给绝对光漂白速率",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "正文可比染料系列的 S0/S1 扭转，采用相同映射键的受限与松弛控制，保留光谱对应状态。",
+      "accept": "给出角度—能量—态性质连续性及关键运动限制的差异效应；根切换作为状态变化记录。基态扫描峰不能自动称 TS，势面趋势不能推出绝对光漂白速率。",
+      "optional": "非绝热轨迹、锥形交叉及绝对寿命另立模块。",
+      "pilot": "先落实具体成员/映射键，并验证一条 S1 扫描能持续跟踪态；失去态身份即暂停扩面。"
+    }
+  },
+  {
+    "paper_id": "paper_86a0b654270a8ce7",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "两异构体能差/布居尚未区分稳定性的来源",
+    "minimum": "339 K、THF 下分解几何、溶剂与低频熵贡献，做受控堆积/系综比较",
+    "software": "Gaussian/ORCA＋GoodVibes",
+    "gate": "先解释当前相反排序和构型标签；无互变证据不把分离产率当平衡布居",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "原 Ir–Salen–NHC 两异构体在 339 K、THF，同温同标准态建立低能构象；受控堆积与松弛几何配对。",
+      "accept": "E、溶剂项、热修正及低频处理分列，检查能量排序对方法/构象的稳健性。分离产率无互变证据时不能作为平衡比例验收。",
+      "optional": "全互变网络和精确分离产率不强制。",
+      "pilot": "先解释旧排序反号和构型标签；不得筛掉反例方法后冻结唯一参考。"
+    }
+  },
+  {
+    "paper_id": "paper_94e7481ded3b6a75",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "基态几何/热化学缺少发光解释",
+    "minimum": "最低只做分子运动限制、对应 S0/S1 和 CT 干预",
+    "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+    "gate": "二聚为独立可选模块；加入聚集目标才要求真实近邻和额外预算",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "源 BN 蒽分子的运动限制与对应 S0/S1、CT 变化；同分子公共扭转或受限运动与自由松弛成对。",
+      "accept": "由态追踪、能量/跃迁及局部几何响应比较运动限制和电子效应；只评价分子局部解释的支持程度。受限点不冒充无约束激发态极小值。",
+      "optional": "二聚、晶体 AIE 完整解释、knr/量子产率另开模块，不作为最低必需 K4。",
+      "pilot": "先验证一个代表物 S1 与运动干预；若需聚集结论则先补至少两种真实近邻及参考。"
+    }
+  },
+  {
+    "paper_id": "paper_9aa6d5655edfeb52",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "单个碳硼烷电子结构量不能分解发光原因",
+    "minimum": "稠合/非稠合与笼 C–C 位移干预，检验态性质与局部振动",
+    "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+    "gate": "先修复原端点验证；晶体发光另需真实近邻，近简并需高层诊断",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "来源明确的稠合/非稠合碳硼烷与同态笼 C–C 位移对照；固定和松弛几何分开。",
+      "accept": "交付态性质、能量/f、笼振动/局部位移响应与方法敏感性；NICS/KS gap 不作为量子产率代理，近简并触发更高层诊断。",
+      "optional": "晶体发光仅在真实近邻和模型收敛后启用。",
+      "pilot": "先恢复旧对象/频率/电子态有效性，再开展位移；一开始不扩大为全光物理。"
+    }
+  },
+  {
+    "paper_id": "paper_a6e8c57709329bdb",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "游离 HL 能隙不能解释 Fe3+ 选择性",
+    "minimum": "金属/配位/质子化控制与相应 TD 光谱，分开结合与淬灭",
+    "software": "Gaussian/ORCA＋CREST＋Multiwfn",
+    "gate": "先锁定盐、pH、溶剂和配位水；无动力学不承诺唯一淬灭机制",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "HL、Fe–HL 和论文一个竞争金属的有限配位/质子化候选，保持配位水、反离子、质子及总物料守恒。",
+      "accept": "用同参考溶液交换/结合自由能与相应 TD/NTO 对照，分开结合选择性与淬灭选择性；允许多个 Fe 物种均相容。不以不同组成总能或 Fe 最小 gap 判选择性。",
+      "optional": "完整淬灭动力学、精确检测限和生物环境不加入。",
+      "pilot": "先固定盐、pH、溶剂、竞争金属名称及自旋空间；缺失条件不由 agent 自由猜成参考答案。"
+    }
+  },
+  {
+    "paper_id": "paper_b1467cd61ca8022d",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "一个 Li+–TFPM 气相结合能缺少溶剂/阴离子竞争",
+    "minimum": "PM/BM/TFPM/TFBM 与 LiFSI 的有限同计量配位簇比较",
+    "software": "Gaussian/ORCA＋CREST；GROMACS仅体相扩展",
+    "gate": "最低题不要求 RDF/CN；体相模块需独立力场、电荷与采样验证",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "PM/BM/TFPM/TFBM 与 LiFSI 的固定计量有限簇，配对不同 O/F 配位和阴离子竞争；各比较总组成一致或写平衡交换循环。",
+      "accept": "提交配位几何、电子作用能/畸变及频率，统一 Eb、ESP 与原子电荷定义；比较双描述符是否经真实配位控制仍成立。ESP eV 色标不是 RESP 电荷。",
+      "optional": "2 M 体相 RDF/CN/MD 是独立扩展，未启用时不应在评分中出现必需 RDF。",
+      "pilot": "先核对 LiFSI/溶剂计量和一个竞争簇；体相须另有力场、电荷和采样验证。"
+    }
+  },
+  {
+    "paper_id": "paper_c28b0a1c549f4575",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "不同净电荷的气相离子结合强弱难说明溶液竞争",
+    "minimum": "平衡反离子和溶剂的有限 DED/TEA–PC 配位循环",
+    "software": "Gaussian/ORCA＋CREST/xTB",
+    "gate": "先校准计量/电荷/溶剂参考；体相 GROMACS 需要额外参数，不推容量/循环寿命",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "TEA/DED、BF₄⁻、PC 的电荷守恒交换循环；在同计量簇比较接触离子对和分隔构型及有限 PC 配位数。",
+      "accept": "DFT 精化后报告结合、畸变、溶剂交换项和构象不确定度。不同电荷或 PC 数不裸总能排名；没有体相观测时结论限定分子必要条件。",
+      "optional": "容量/循环寿命、全体相 GROMACS 不纳入首版。",
+      "pilot": "先确定 DED 实际化学身份与总电荷、浓度边界和反离子，校准一个同计量比较。"
+    }
+  },
+  {
+    "paper_id": "paper_2877efc02814175d",
+    "origin": "final",
+    "current_class": "A",
+    "action": "upgrade",
+    "target": "B",
+    "weakness": "Cd/Co/Ni 轨道描述符未分开金属和几何作用",
+    "minimum": "游离配体与三络合物的冻结几何交叉及 TD/NTO",
+    "software": "Gaussian/ORCA＋Multiwfn＋构象工具",
+    "gate": "Co 必须正确双重态，核准质子数/电荷；小 KS gap 不等于结合或淬灭强",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "游离配体与 Cd/Co/Ni 三个源络合物，分别做松弛和冻结配体骨架；Cd/Co/Ni 原模型电荷 +2，自旋多重度 1/2/1，游离配体独立核准。",
+      "accept": "各络合物的 TD/NTO、金属/配体成分与几何控制解释差异；Co 的开壳层态不能硬套闭壳层单重态 TD。gap、硬度、电亲性代数相关，不算独立机制证据。",
+      "optional": "DNA 结合、淬灭速率、抗菌机制不加入。",
+      "pilot": "先核准游离配体质子数/电荷及 Co 开壳层响应；正文用已有可读备份，不依赖损坏 main.pdf。"
+    }
+  },
+  {
+    "paper_id": "paper_2f2aa11ea61a32bb",
+    "origin": "final",
+    "current_class": "B",
+    "action": "upgrade",
+    "target": "加强B",
+    "weakness": "四个给定单体吸收/轨道归属与固态主线有差距",
+    "minimum": "先做匹配取代/几何的分子光谱解释，再按条件加入真实晶体邻近簇",
+    "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+    "gate": "晶态部分需 CIF/晶型映射；不能用四单体推出白光色坐标或量子产率",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "第一版限定 1a–d 同介质单体，做取代×公共几何/松弛几何及同态 TD/NTO 对照；至少一个独立谱趋势用于检验。",
+      "accept": "分开峰位、强度、态性质与几何效应；仅完成四单体原光谱不能通过增强版，必须实际有干预。第一版只解释分子光谱；不能由此宣称白光晶型机制。",
+      "optional": "CIF 多晶型单体/真实二聚与白光模块单独启用；必须先有晶型—实验谱映射和收敛参考。",
+      "pilot": "先核对 1a–d 连接与态映射，验证一组公共几何控制。原方案把晶体步骤列必需，已按初步升级目的改为独立扩展。"
+    }
+  },
+  {
+    "paper_id": "paper_3a22e838133b906d",
+    "origin": "final",
+    "current_class": "B",
+    "action": "upgrade",
+    "target": "加强B",
+    "weakness": "中性/阴离子几何变化未区分 Li 和晶体环境",
+    "minimum": "Li/MeCN 配位及至少一个有依据二聚的阶梯对照",
+    "software": "Gaussian/ORCA＋有限簇/构象工具",
+    "gate": "完整聚集解释需二聚实际参考；更小局部版本须另定范围，不能缺项仍宣称完整",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "阴离子、Li 配位、MeCN 配位与至少一个真实晶体支持二聚形成分层对照，所有能差用计量守恒循环。",
+      "accept": "比较 P–O···B 几何、作用能和去烷基化/配位/聚集的差异贡献；完整聚集解释需要实际二聚。截短必须配对验证，不能省二聚却给全机制分。",
+      "optional": "若资源只容许局部阴离子/Li/MeCN B，需另立较小版本并删除聚集终点。",
+      "pilot": "先验证完整单体和最小二聚的收敛、来源、规模；数据/预算不足先停在准备阶段。"
+    }
+  },
+  {
+    "paper_id": "paper_98b6f8a0352f72c2",
+    "origin": "final",
+    "current_class": "B",
+    "action": "upgrade",
+    "target": "加强B",
+    "weakness": "单个12a的 CT/辐射寿命计算仍偏局部",
+    "minimum": "供体/扭转/介质控制，比较同态 CT、发射相关量和辐射通道",
+    "software": "Gaussian/ORCA TDDFT＋Multiwfn",
+    "gate": "校准吸收/发射几何与跨程序态映射；不预测薄膜非辐射寿命",
+    "feasibility": "C",
+    "batch": 3,
+    "first_version_spec": {
+      "matrix": "从正式 SI 固定 2–3 个真实衍生物及 CHCl₃/EtOAc；同态 S0/TD/S1、公共扭角与松弛几何比较。",
+      "accept": "分别报告垂直吸收/发射、绝热能、f/跃迁偶极和 CT。实测辐射率只有同时有 Φ 与 τ 才用 kr=Φ/τ；不能将 1/τ 无条件当 kr。与理论辐射率比较需固定折射率等约定。",
+      "optional": "薄膜非辐射寿命、全器件效率不加入。",
+      "pilot": "先落实成员和数字化误差，并验证一对 S1 态及跨程序映射；未匹配态前不做系列回归。"
+    }
+  }
+]

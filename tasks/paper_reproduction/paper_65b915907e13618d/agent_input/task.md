@@ -4,7 +4,7 @@ Determine the gas-phase ground-state coordination geometry of the four-coordinat
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/complex_7a_identity.json` and the accompanying SMILES file. They uniquely define L7 connectivity, one Cu(I), total charge +1, singlet multiplicity, donor labels P1/N1 and P2/N2, and exclusion of BF4− from the bonded model. You may generate 3-D conformers and choose a defensible initial arrangement, but must preserve connectivity, protonation, charge, multiplicity and donor identities. The scored state is the optimized electronic ground-state structure of this cation in the gas phase, matching the source calculation. Report distances in Å and angles in degrees; do not report counterion contacts as coordination bonds.
+Use `data/inputs/complex_7a_identity.json`, the accompanying SMILES file, and `data/inputs/atom_label_mapping.json`. Together they uniquely define L7 connectivity, the bookkeeping map for donor labels P1/N1 and P2/N2, one Cu(I), total charge +1, singlet multiplicity, and exclusion of BF4− from the bonded model. The mapping uses the atom order of the supplied non-canonical SMILES; preserve it when generating 3-D structures or explicitly document any remapping. You may generate 3-D conformers and choose a defensible initial arrangement, but must preserve connectivity, protonation, charge, multiplicity and donor identities. The scored state is the optimized electronic ground-state structure of this cation in the gas phase, matching the source calculation. Report distances in Å and angles in degrees; do not report counterion contacts as coordination bonds.
 
 # Required scientific validation/investigation
 
@@ -12,4 +12,4 @@ Independently plan and execute a geometry optimization and a minimum verificatio
 
 # Deliverables
 
-Submit `report/results.json` conforming to `submission_schema.json`. Include the selected geometry observables, validation status/evidence, method and convergence details, starting-structure provenance, and a concise conclusion addressing the qualitative partial-relaxation hypothesis. Include enough coordinate or geometry-file provenance for another researcher to identify P1/N1/P2/N2 and reproduce the measurements.
+Submit `report/results.json` conforming to `submission_schema.json`. Include the selected geometry observables, validation status/evidence, method and convergence details, starting-structure provenance, and a concise conclusion addressing the qualitative partial-relaxation hypothesis. Include enough coordinate or geometry-file provenance for another researcher to identify P1/N1/P2/N2 and reproduce the measurements. If the minimum cannot be validated after documented, unbounded-walltime attempts, use the schema's `bounded_failure` branch with the attempted calculations, diagnostics, coverage and remaining requirement; never replace missing distances or angles with placeholders.

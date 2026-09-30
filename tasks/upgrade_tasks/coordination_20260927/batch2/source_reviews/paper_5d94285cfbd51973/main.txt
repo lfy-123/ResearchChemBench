@@ -1,0 +1,1007 @@
+
+===== PDF PAGE 1 =====
+ChemistrySelect 
+RESEARCH ARTICLE
+New Azetidine-Linked Nitrogen-Bearing Heterocycles: 
+Synthesis, Antimicrobial Assessment, DFT Profiling, 
+ADMET Studies, and Docking Simulation Against DNA 
+Gyrase and CYP51 Targets 
+Amrish J. Dave1 , 2 
+Sweta S. Joshi1 
+Bhaveshkumar B. Makwana3 
+Heena A. Parmar3 
+Palkesh N. Chauhan4 
+Jatin Upadhyay1 
+1 Department of Chemistry, Matushri Virbaima Mahila Science and Home Science College, Rajkot, Gujarat, India 
+2 Department of Chemistry, M. P. Shah Arts 
+and Science College, Surendranagar, Gujarat, India 
+3 Department of Chemistry, Government Science College, Valsad, Gujarat, India 
+4 Department of 
+Chemistry, Sheth P. T. Arts and Science College, Godhra, Gujarat, India 
+Correspondence: Jatin Upadhyay ( chem.jjugroup@gmail.com) 
+Received: 15 September 2025 
+Revised: 23 December 2025 
+Accepted: 3 February 2026 
+Keywords: antimicrobial agents | azetidine-pyridazine heterocycles | cheminformatics | drug design | medicinal chemistry 
+ABSTRACT 
+The rapid rise of antimicrobial resistance necessitates the development of new chemotypes with improved efficacy and drug- 
+like properties. In this study, 10 previously unexplored azetidine–pyridazine scaffolds were synthesized under mild, metal-free 
+conditions, and evaluated for their dual antibacterial and antifungal potential. Several derivatives displayed strong in vitro 
+activity against Staphylococcus aureus , with five compounds outperforming chloramphenicol. Two compounds also exhibited 
+twofold higher antifungal potency than griseofulvin against Candida albicans . All molecules demonstrated favourable ADMET 
+characteristics, including high predicted gastrointestinal absorption, no violations of drug-likeness rules, and non-substrate 
+behaviour toward P-glycoprotein. DFT-based electronic analysis and molecular docking against DNA gyrase (5MMN) and CYP51 
+(3JUV) provided molecular-level justification for the observed SAR and antimicrobial effects. Overall, the combination of green 
+synthesis, potent bioactivity, desirable pharmacokinetics, and strong target interactions highlights azetidine–pyridazine scaffolds 
+as promising leads for future antimicrobial drug development. 
+1 
+Introduction 
+The worldwide surge in antimicrobial resistance (AMR) contin- 
+ues to erode the effectiveness of existing drugs, posing an impend- 
+ing threat to public health and the viability of contemporary 
+medicines. In accordance with the World Health Organization 
+(WHO), bacterial and fungal infections resistant to conventional 
+drugs are causing an increasing number of disorders and deaths, 
+underscoring an urgent need for novel pharmaceuticals with dis- 
+tinctive structural backbones and modes of action [ 1 ]. Literature 
+suggests that nitrogen-containing heterocycles are appreciated 
+scaffolds in medicinal chemistry, offering a foundation for a 
+broad range of valuable antibacterial and antifungal supplements 
+[ 2 ]. Particularly, linezolid, an oxazolidinone-class antibiotic, and 
+fluconazole, a triazole antifungal, exemplify how heterocyclic 
+frameworks promote bioactivity through hydrogen bonding, π–π
+stacking, and interactions with microbial enzymes or ribosomal 
+targets [ 3, 4 ]. While such scaffolds exhibit long-term efficacy, 
+Amrish J. Dave and Sweta S. Joshi are Co-first authors. 
+© 2026 Wiley-VCH GmbH 
+ChemistrySelect , 2026; 11:e05650 
+https://doi.org/10.1002/slct.202505650
+1 of 12
+
+
+===== PDF PAGE 2 =====
+increasing drug resistance has diminished therapeutic impact, 
+offering a key interest for transforming and blending existing 
+pharmacophores to develop new moieties. 
+Azetidine-3-carboxamide derivatives have recently emerged as 
+affirming therapeutics due to their rigid, strained four-membered 
+ring architecture [ 5 ]. The inflexibility and structural constraints 
+imposed by the azetidine ring promote receptor-binding selec- 
+tivity, pharmacokinetic features, and metabolic stability [ 6 ]. 
+Furthermore, the amide linkage offers distinct possibilities for 
+hydrogen bonding, resulting in robust intermolecular interac- 
+tions with microbial targets [ 7 ]. Despite these advantages, the 
+effective use of azetidine-3-carboxamide derivatives in a dual 
+antimicrobial (antibacterial and antifungal) context remains 
+underexplored, particularly when accompanied by a variety of 
+heterocycles, such as substituted pyridines, phenyl groups, and 
+piperazines. 
+According to recent findings, hybrid molecules that incorporate 
+azetidine rings with nitrogen-rich aromatic heterocycles exhibit 
+optimized activity profiles due to their synergistic structural 
+features [ 8–10 ]. Interestingly, a literature survey suggests consid- 
+erable gap in the rational design and demanding evaluation of 
+such hybridized frameworks that adopt both experimental and 
+computational approaches. Notably, a few studies focus solely on 
+in vitro data without establishing bioactivity, adopting density 
+functional theory (DFT) or molecular docking, which may help 
+anticipate and rationalize electronic behavior, binding affinity, 
+and conformational reactivity [ 11 ]. 
+Considering the aforementioned, we proposed and synthesized a 
+novel azetidine-3-carboxamide derivative AZ1 - AZ10 , 1-(2-ben- 
+zyl-6-chloro-3-oxo-2,3-dihydropyridazin-4-yl)- N -(aryl)azetidine- 
+3-carboxamide, which is comprised of an N -benzyl substituted 
+pyridazine-3-carboxamide moiety, and a carboxamide-linked 
+azetidine ring (Figure 1 ). The inclusion of pyridazine enhances 
+membrane permeability and bioavailability, while the aryl and 
+heteroaryl substituents promote hydrophobic interactions at the 
+target site [ 12 ]. The pharmacophores drove the above strategy, 
+as observed in defloxacin, azelinidipine, relugolix, ponatinib, 
+linezolid, and fluconazole, etc., although it was further modified 
+to prevent the development of resistance mechanisms [ 13, 14 ]. 
+The compounds were comprehensively examined for antibacte- 
+rial and antifungal activity, and they exhibit significant potential 
+against a wide range of Gram-positive, Gram-negative, and fungal 
+microbes. DFT simulations were employed to evaluate frontier 
+molecular orbitals (HOMO-LUMO gap), molecular electrostatic 
+potential (MEP), and molecular stability, providing biologi- 
+cal insights through electronic and structural features. These 
+quantum-chemical descriptors offered insights into the com- 
+pounds’ reactivity and potential biological interactions. More- 
+over, a molecular docking study with bacterial DNA gyrase and 
+fungal lanosterol 14 α-demethylase (CYP51) revealed favorable 
+binding affinities and key interactions similar to those observed 
+with conventional drugs. Incorporating both computational and 
+experimental techniques, molecular design and its structural- 
+activity correlations (SARs) were emphasized to guide subse- 
+quent modifications. This work accordingly presents a novel 
+scaffold exhibiting antimicrobial potential, a finding supported by 
+computational validation. 
+FIGURE 1 
+New azetidine-pyridazine linked nitrogen bearing 
+derivatives AZ1-AZ10 are under investigation. 
+The novelty of this work lies in the strategic fusion of azeti- 
+dine and pyridazine pharmacophores, along with the deliberate 
+incorporation of electron-withdrawing (F, Cl) and hydrophobic 
+(CH3 ) substituents to modulate steric, electronic, and biological 
+properties. To establish the therapeutic relevance of these new 
+molecules, the objectives of the study were to synthesize and char- 
+acterize the derivatives, evaluate their in vitro antibacterial and 
+antifungal activities, analyze structure–activity relationships, and 
+employ molecular docking and DFT calculations to understand 
+their binding behavior and electronic nature. Additionally, in sil- 
+ico ADMET profiling was performed to assess their drug-likeness 
+and pharmacokinetic suitability. Together, these objectives aim 
+to identify promising azetidine–pyridazine based candidates for 
+future development as dual-action antimicrobial agents. 
+2 
+Results and Discussion 
+2.1 
+Synthesis 
+10 novel azetidine-pyridazine linked scaffolds 1-(2-ben- 
+zyl-6-chloro-3-oxo-2,3-dihydropyridazin-4-yl)- N -(aryl)azetidine- 
+3-carboxamide AZ1-AZ10 bearing various functionalities 
+were synthesized. Primarily, 3,4,6-trichloropyridazine 1 was 
+refluxed in the presence of acetic acid to give 4,6-dichloro-2 H - 
+pyridazin-3-one 2 , which was then treated with benzyl bromide 
+in the presence of potassium carbonate and DMF at room 
+temperature to produce 2-benzyl-4,6-dichloropyridazin-3(2 H )- 
+one 3 . Furthermore, protected amide intermediates 5a-5j were 
+prepared from azetidine-3-carboxylic acid derivative 4 using 
+corresponding amines, incorporating HATU and DIPEA in 
+DMF solvent at room temperature. These intermediates were 
+then treated with TFA in DCM solvent at ambient temperature, 
+yielding the deprotected amines 6a-6j . These compounds, 
+obtained as 2-benzyl-4,6-dichloropyridazin-3(2H)-one 3 and 
+deprotected amines 6a-6j , were then reacted with the DIPEA 
+reagent in DMF solvent at room temperature, yielding AZ1- 
+AZ10 . The synthetic methodology is proposed in Scheme 1 . The 
+structural integrity of the synthesized compounds was confirmed 
+through comprehensive spectroscopic analysis, including NMR, 
+mass spectrometry, and IR spectroscopy [ 15–18 ]. 
+2.2 
+SAR and in Vitro Antimicrobial Study 
+Azetidine-pyridazine linked amide-functionalized heterocyclic 
+compounds exhibit significant antibacterial properties. Structure- 
+2 of 12
+ChemistrySelect, 2026
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 3 =====
+SCHEME 1 
+Synthetic route of novel azetidine-pyridazine linked scaffolds 1-(2-benzyl-6-chloro-3-oxo-2,3-dihydropyridazin-4-yl)- N -(aryl)azetidine- 
+3-carboxamide AZ1-AZ10 . 
+activity relationship (SAR) investigations and earlier studies 
+reveal that compounds featuring electron-withdrawing groups, 
+such as halogens or sulfonyl moieties, on the phenyl ring of the 
+azetidine core tend to be more effective antibacterial and antifun- 
+gal agents than prevalent drugs like, ampicillin and clotrimazole 
+[ 19–21 ]. Nitrogen-containing heterocycles optimize antibacterial 
+efficacy, possibly due to enhanced interactions with microbial 
+targets [ 20–22 ]. SAR examinations reveal that modifications at 
+crucial positions on the azetidine ring and its pertaining amide 
+or heterocyclic components can dramatically influence selectivity 
+and efficacy against Gram-positive and Gram-negative bacteria 
+[ 19–22 ]. Nonetheless, whilst many derivatives have substan- 
+tial antibacterial and antifungal characteristics, their antiviral 
+potency is generally decreased [ 20 ]. These findings underscore 
+the importance of rational design in strengthening azetidine- 
+linked amide heterocycles for antibacterial applications, partic- 
+ularly in light of emerging drug resistance [ 20–23 ]. In the context 
+of the synthesized novel azetidine-linked scaffolds, AZ1-AZ10 
+were biologically tested for their antimicrobial efficacy using 
+various microbes. The examination data are displayed in Table 
+S1 and Figure 2 . On carrying out the biological examination, 
+AZ1 (MIC = 62.5 µg/mL), AZ7 (MIC = 62.5 µg/mL), and AZ9 
+(MIC = 62.5 µg/mL), exhibit excellent inhibitory concentration 
+against S . aureus Gram-positive bacteria when compared to 
+standard chloramphenicol (MIC = 80.0 µg/mL). Additionally, 
+AZ3 (MIC = 62.5 µg/mL) and AZ4 (MIC = 62.5 µg/mL) were both 
+effective against S. pyogenes Gram-positive bacteria in consider- 
+able concentrations compared to the standard chloramphenicol 
+(MIC = 50.0 µg/mL). Evidently, AZ5 (MIC = 62.5 µg/mL) and 
+AZ8 (MIC = 62.5 µg/mL) also exhibit significant biological 
+activity against E. coli with values closer to chloramphenicol 
+(MIC = 20.0 µg/mL). Notably, AZ6 (MIC = 250 µg/mL) and 
+AZ9 (MIC = 250 µg/mL) exhibited approximately twofold better 
+activity than the standard drug griseofulvin (MIC = 500 µg/mL) 
+against C. albicans fungi. Herein, AZ1 , AZ3 , AZ4 , and AZ7 scaf- 
+folds possess electron-withdrawing groups, viz. halogen, making 
+them excellent inhibitors for S . aureus bacteria. In addition, AZ9 
+possesses the dimethyl substituent at the phenyl ring, which may 
+enhance hydrophobic interactions with microbial membranes, 
+contributing to remarkable inhibition of S. aureus bacteria [ 24 ]. 
+Specifically, AZ5 and AZ8 scaffolds bearing the methyl and 
+methoxy groups with high electron density contribute to better 
+activity against E. coli bacteria. 
+The antimicrobial profiling of the synthesized AZ1–AZ10 ana- 
+logues demonstrated a clear structure activity relationship (SAR) 
+that correlates directly with their docking performance against 
+DNA gyrase (5MMN) and CYP51 (3JUV). Compounds displaying 
+potent antimicrobial effects, particularly AZ8 , AZ7 , AZ5 , AZ9 , 
+and AZ1 , also exhibited the most favorable docking affinities, as 
+reflected by their highly negative MolDock and Re-rank scores. 
+Against DNA gyrase, top-scoring ligands such as AZ8 (-134.04), 
+AZ7 (-132.67), AZ5 (-132.31), and AZ1 (-131.69) formed multi- 
+ple hydrogen bonds with critical catalytic residues, including 
+Glu50, Gly77, Thr165, Asp73, and Ala47, along with extensive 
+hydrophobic contacts involving Ile78, Ile94, Val120, Val71, and 
+Val167. These interactions are consistent with known binding 
+requirements of gyrase inhibitors, in which a combination of 
+polar anchoring and deep hydrophobic insertion stabilizes lig- 
+and orientation and enhances inhibitory potential. Conversely, 
+compounds showing comparatively weaker antimicrobial activity 
+possessed higher (less favorable) docking scores and reduced 
+interaction density, indicating a diminished ability to engage key 
+residues within the gyrase binding pocket. A similar correlation 
+ChemistrySelect, 2026
+3 of 12
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 4 =====
+FIGURE 2 
+Graphical representation of antimicrobial activity of AZ1-AZ10 molecules. 
+was observed for the CYP51 target, where the most active 
+analogues exhibited substantially stronger docking affinities 
+than the reference drug griseofulvin (-105.27). Compounds AZ9 
+(-150.13), AZ8 (-147.17), AZ5 (-144.74), AZ4 (-144.44), AZ7 (- 
+143.16), and AZ3 (-142.63) displayed pronounced binding stabi- 
+lization through hydrogen-bonding with residues such as Tyr131, 
+His236, Trp239, Met378, and electrostatic or halogen interactions 
+with His447, Lys156, and Pro441. These active ligands further 
+demonstrated extensive hydrophobic contacts with Ile377, Ile379, 
+Leu310, Ala311, Phe442, and Met381, contributing significantly to 
+their high binding affinities. 
+Notably, same substituent (such as a halogen) is present, its size 
+and position influence how easily the compound can interact 
+with or penetrate microbial cells. Compounds with appropriately 
+sized substituents, large enough to enhance membrane interac- 
+tion but not so bulky that they hinder diffusion, tend to show 
+better antibacterial activity, as seen with AZ5 , AZ7 , and AZ8 . 
+When substituents are positioned at locations that maintain an 
+optimal molecular shape (para or meta positions), the molecules 
+appear to cross the bacterial cell wall more effectively and 
+reach their intracellular targets. In contrast, fungal cell walls 
+are thicker and more complex, often requiring molecules with 
+slightly larger steric bulk or differently oriented substituents to 
+interact efficiently with fungal membranes. This helps explain 
+why compounds like AZ6 and AZ9 , which possess substituent 
+arrangements that increase molecular surface area, show better 
+antifungal performance in vitro. 
+2.3 
+DFT Calculations 
+The DFT calculations were carried out to examine the optimized 
+structures of synthesized scaffolds, frontier molecular orbitals, 
+energy band gaps, MEP, and chemical properties. The fully opti- 
+mized geometry of the most potent investigated scaffolds AZ1, 
+AZ6, AZ7, and AZ9 is displayed in Figure 3 A–D , respectively. 
+Reports suggest that the molecular characteristics and structure- 
+activity correlations can be anticipated through the examination 
+of frontier molecular orbitals and MEP [ 25–27 ]. Primarily, the 
+highest occupied molecular orbitals (HOMO) were found dis- 
+persed across the azetidine ring along the central region. In 
+contrast, the lowest unoccupied molecular orbitals (LUMO) 
+were mainly clustered over the pyridazine ring along with the 
+azetidine core in all the molecules (Figure 4 ). As shown in Table 
+S12 , these molecules possess a HOMO-LUMO band gap of ∼ 
+4.42 eV, displaying their non-conducting nature. Notably, the high 
+dipole moment of the synthesized scaffolds AZ1-AZ10 suggests 
+favorable interactions with biological systems that carry a high 
+dipole character [ 28, 29 ]. 
+2.3.1 
+Frontier Molecular Orbitals (FMOs’) and 
+Chemical Descriptors 
+Frontier molecular orbitals (HOMO and LUMO) play crucial role 
+in determining molecular stability, reactivity, and electron trans- 
+fer properties, affecting ionization potential, electron affinity, and 
+various chemical descriptors like hardness, softness, electroneg- 
+ativity, and electrophilicity. These parameters collectively help in 
+predicting how molecules behave in chemical reactions. Herein, 
+all insights relevant to the numerous chemical descriptors are 
+tabulated in Table S12 . The DFT computation indicates AZ8 , 
+AZ9 , and AZ10 molecules possess high-energy HOMO orbitals. 
+However, AZ4 , AZ7 , and AZ10 display low-energy LUMO 
+orbitals, implying strong bioactivity and a noticeable contribution 
+to protein-ligand interaction. Qualitatively, AZ8 , AZ9 , and AZ10 
+were characterized by relatively high-energy HOMOs, indicating 
+enhanced electron-donating capability, while AZ4 , AZ7 , and 
+AZ10 displayed comparatively low-energy LUMOs, indicating 
+more substantial electron-accepting potential. AZ6 showed a 
+relatively high electron affinity (EA = 1.2321 eV), consistent with 
+its predicted ability to accept electron density in protein envi- 
+ronments (e.g., CYP51). Taken together, these features suggest 
+4 of 12
+ChemistrySelect, 2026
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 5 =====
+FIGURE 3 
+Optimized geometry at B3LYP/6-31G(d) basis set of potent compounds (A) AZ1, (B) AZ6, (C) AZ7 , and (D) AZ9 . 
+FIGURE 4 
+Frontier molecular orbital representation in agreement with electron delocalization obtained by B3LYP/6-31G(d) (Isovalue = 0.02) of 
+potent compounds (A) AZ1, (B) AZ6, (C) AZ7, and (D) AZ9 . 
+that compounds with both elevated HOMO energy and lowered 
+LUMO energy, allowing facile donor–acceptor interactions, are 
+more likely to form stabilizing charge-transfer and polarization 
+interactions with protein residues. This interpretation correlates 
+with the docking and biological data, the compounds that showed 
+the most favorable docking scores and MICs (notably AZ8 , 
+AZ9 , AZ5 , and AZ4 ) are predicted to have smaller HOMO–
+LUMO gaps and thus greater electronic softness, supporting 
+stronger ligand receptor complementarity. Conversely, molecules 
+with large ΔE are electronically harder and less polarizable, 
+consistent with their comparatively weaker docking scores and 
+higher MICs. Notably, AZ4 has the highest IP (5.7094 eV) and 
+EA (1.2805 eV), indicating significant resistance to oxidation and 
+high potential to accept electrons, which is favorable for the 
+intermolecular interactions such as pi–pi stacking and H-bonding 
+during docking. Additionally, AZ6 has a relatively high EA 
+ChemistrySelect, 2026
+5 of 12
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 6 =====
+FIGURE 5 
+Molecular electrostatic potential map of potent compounds (A) AZ1, (B) AZ6, (C) AZ7, and (D) AZ9 . 
+(1.2321 eV), implying its considerable binding profile displayed 
+in docking with CYP51. Chemical hardness ( η) values remain 
+decisively dispersed (2.2087–2.2144 eV), pointing to an acceptable 
+stability or reactivity proportion among all compounds. Chemical 
+softness ( σ) varies from AZ4 (0.2257) to AZ10 (0.2263), with 
+AZ10 , AZ5 , and AZ8 being relatively more chemically config- 
+urable. Electrophilicity index ( ω) varies from AZ8 (1.1043 eV) 
+to AZ4 (1.1072 eV), where AZ4 adhering to a more substantial 
+value indicates a more realistic ability to acquire electrons in 
+biological systems. Furthermore, AZ4 turns out to be an effective 
+electrophilic attacker, emphasizing its favorable docking contacts 
+with DNA gyrase. Dipole moments ranged extensively, from AZ7 
+(3.71 D) to AZ8 (7.09 D). A higher dipole moment often promotes 
+solubility and binding perspective within polar environments 
+such as enzyme pockets. Compounds like AZ8 (7.09 D), AZ9 
+(5.84 D), and AZ5 (5.80) display resilient polarity, revealing 
+improved water solubility and cell permeability appropriate for 
+biological activity. AZ7 has the lowest dipole moment, which 
+would explain its relatively low antifungal efficiency despite 
+having good docking scores. 
+DFT analysis of the synthesized azetidine–pyridazine derivatives 
+revealed that the HOMO orbitals of the more active compounds 
+( AZ8 , AZ9 , and AZ10 ) are predominantly localized over the 
+electron-rich aromatic ring and heterocyclic core, regions directly 
+involved in ligand–protein interactions. This HOMO distribution 
+is important because it identifies the principal electron-donating 
+sites of the molecule. In the docking study with DNA gyrase 
+(5MMN), these HOMO-enriched regions align closely with amino 
+acid residues such as Glu50, Ala47, Thr165, and Asp73, which 
+are capable of participating in charge-assisted hydrogen bonding 
+or polar interactions. The overlap of HOMO density with these 
+residues supports stronger donor–acceptor interactions and cor- 
+relates well with the superior antibacterial activity of compounds 
+like AZ5 , AZ7 , AZ8 , and AZ9 . Similarly, in CYP51 docking 
+(3JUV), compounds having HOMO density distributed over the 
+aromatic portion of the scaffold interact efficiently with electron- 
+def icient or polarizable residues such as His236, Tyr131, Trp239, 
+and Met378. The HOMO-rich regions of AZ8 , AZ9 , and AZ10 
+also face the hydrophobic channel leading to the heme core, 
+facilitating favorable π–π and π–polar interactions. This explains 
+the enhanced antifungal behavior of AZ6 and AZ9 , whose 
+HOMO distributions support π-polarizable contacts within the 
+CYP51 binding tunnel. 
+2.3.2 
+Molecular Electrostatic Potential (MEP) 
+The MEP maps facilitate valuable insights into the reactive 
+surface regions of the scaffolds, displaying how electronic charge 
+is distributed across the investigated molecules. This observation 
+helps in identifying potential sites for electrophilic and nucle- 
+ophilic attacks, thus offering visual evidence of possible optimal 
+binding contacts with biological targets. Herein, the most potent 
+scaffold MEP diagrams are shown in Figure 5 . Primarily, the 
+red/blue region and green color represents, the negative/positive 
+and neutral electrostatic potential, respectively. The blue zone 
+signifies the area of nucleophilic attack, and the red zone shows 
+the region of electrophilic attack. The fluctuations observed in 
+the electrostatic potential are attributed to the electronic envi- 
+ronment of the atoms within the molecule. Primarily, negative 
+electrostatic potential is noticed near the carbonyl group, and 
+the positive potential is identified near -NH atoms emphasizing 
+the carbonyl group being an optimal site for electrophilic attack 
+and -NH region being more appealing for nucleophilic attack. 
+Evidently, AZ6 and AZ9 display remarkable dual-site reactivity, 
+while MEP maps of AZ1 and AZ7 reveal well-defined negative 
+potential on the carbonyl region and complementary positive 
+6 of 12
+ChemistrySelect, 2026
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 7 =====
+TABLE 1 
+MolDock score, re-rank score, hydrogen bond energies, and non-bonding interactions with amino acids within 6 Å of the active site of 
+5MMN (DNA gyrase receptor) with molecules AZ1-AZ10 and chloramphenicol (reference drug) were obtained through molecular docking simulations 
+using Molegro Virtual Docker (MVD)a . 
+Compound 
+MolDock score Re-rank score H-bond energies 
+Interacting amino acids 
+AZ1 
+− 131.69 
+− 101.23 
+− 2.45 
+H-bond: Glu50, Ala47, Ile78, Pro79, and Val43 
+Hydrophobic: Ile78, Ile94, Met95, Val120, Pro79, 
+Val43, Ala47, Val71, Val167, and Arg76 
+AZ2 
+− 125.07 
+− 96.13 
+− 1.68 
+H-bond: Gly77, Ala47, Thr165, Asn46, and Val43 
+Hydrophobic: Ile78, Ile94, Val120, Val43, Ala47, 
+Val71, Val167, Arg76, and Pro79 
+AZ3 
+− 128.67 
+− 84.08 
+− 1.48 
+H-bond: Gly77, Thr165, Asp73, and Asn46 
+Hydrophobic: Pro79, Ile78, Val43, Val120, Val167, 
+Ile94, and Arg76 
+AZ4 
+− 129.37 
+− 102.20 
+− 0.57 
+H-bond: Gly77, Ala47, Arg76, Asn46, Val43, and 
+Arg136 
+Hydrophobic: Ile78, Ile94, Met95, Val120, Arg76, 
+Val43, Ala47, Val71, Val167, and Pro79 
+AZ5 
+− 132.31 
+− 97.81 
+0 
+H-bond: Ala47, Ile78, Pro79, and Val43 
+Hydrophobic: Ile78, Ile94, Met95, Val120, Val43, 
+Ala47, Val71, Val167, Arg76, and Pro79 
+AZ6 
+− 131.56 
+− 94.03 
+− 1.62 
+H-bond: Gly77, Thr165, Asp73, and Asn46 
+Hydrophobic: Pro79, Ile78, Val43, Val120, Val167, 
+Ile94, and Arg76 
+AZ7 
+− 132.67 
+− 97.90 
+0 
+H-bond: Ala47, Ile78, Pro79, Asn46, and Val43 
+Hydrophobic: Ile78, Ile94, Met95, Val120, Val43, 
+Ala47, Val71, Val167, Arg76, and Pro79 
+AZ8 
+− 134.04 
+− 98.50 
+− 3.86 
+H-bond: Gly77, Glu50, Thr165, Asp73, Asn46, and 
+Val43 
+Hydrophobic: Ile78, Ile94, Met95, Val120, Val43, 
+Ala47, Val71, Val167, Arg76, and Pro79 
+AZ9 
+− 131.68 
+− 82.72 
+− 1.35 
+H-bond: Gly77, Thr165, Asp73, and Asn46 
+Hydrophobic: Pro79, Ile78, Val43, Val120, Val167, 
+Ile94, and Arg76 
+AZ10 
+− 131.04 
+− 21.31 
+− 1.77 
+H-bond: Ile78, Pro79, Thr165, and Asn46 
+Hydrophobic: Ile78, Asn46, Ala47, Val120, Pro79, 
+Val43, Ile59, Val71, and Arg76 
+Chloramphenicol 
+− 105.71 
+− 92.82 
+− 5.05 
+H-bond: Asp73, Asn46, Val43, Thr165, and Asp73 
+Hydrophobic: Ile78, Asn46, and Ala47 
+a The scores of the compounds were the best of five possible conformations obtained from independent docking methods. 
+potential on the adjacent –NH site. These electrostatic patches 
+are geometrically oriented to form directional hydrogen bonds 
+and dipole-type interactions with complementary residues in the 
+target pockets. The MEP complementarity is consistent with the 
+docking contacts (e.g., AZ1 H-bonding with Glu50 and Val167 in 
+DNA gyrase and AZ7 ’s favorable contacts in CYP51), supporting 
+the interpretation that electrostatic directionality contributes to 
+target binding [ 29 ]. 
+The MEP maps of the azetidine–pyridazine derivatives reveal 
+clear correlations with their docking interactions and antimicro- 
+bial potency. Compounds that displayed stronger antibacterial 
+activity and lower MIC values ( AZ5 , AZ7 , AZ8 , and AZ9 ) showed 
+pronounced electron-rich (negative) regions localized around 
+the carbonyl oxygen and heteroatoms of the pyridazine ring, 
+along with electron-deficient (positive) regions near the azetidine 
+NH and aromatic hydrogens. These electrostatic patches align 
+directly with the amino-acid residues involved in stabilizing 
+interactions within DNA gyrase (5MMN). The negative MEP 
+regions of AZ7 and AZ8 correspond to sites that engage in 
+hydrogen-bonding with Glu50, Gly77, Asp73, and Thr165, while 
+the positive MEP zones are oriented toward residues such as 
+Ala47 and Val43, which act as acceptors of dipolar interactions. 
+This complementarity reinforces the strong docking scores of 
+these compounds and explains their lower MICs (e.g., AZ7 : 
+62.5 µg/mL against S. aureus ). Similarly, compounds demonstrat- 
+ing notable antifungal activity, especially AZ6 and AZ9 , display 
+extended negative MEP surfaces along the heteroatomic core, 
+matching the electrostatic requirements of CYP51 (3JUV). These 
+electron-rich regions align with electron-deficient or polarizable 
+ChemistrySelect, 2026
+7 of 12
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 8 =====
+TABLE 2 
+MolDock score, re-rank score, hydrogen bond energies, and non-bonding interactions with amino acids within 6 Å of the active site 
+of 3JUV (lanosterol 14 α-demethylase CYP51) with molecules AZ1-AZ10 and griseofulvin (reference drug) were obtained through molecular docking 
+simulations using Molegro Virtual Docker (MVD)a . 
+Compound 
+MolDock score Re-rank score H-bond energies 
+Interacting amino acids 
+AZ1 
+− 133.79 
+− 109.42 
+− 0.36 
+H-bond: Cys449, Gly451, and Thr315 
+Electrostatic: Met380 
+Hydrophobic: Phe442, Phe454, Gly443, Cys449, Ala455, 
+Ile377, Ile459, His447, Ala206, and Ala455 
+AZ2 
+− 129.69 
+− 101.46 
+− 0.84 
+H-bond: Ser235, Tyr131, Asp231 
+Halogen: Gly307 
+Hydrophobic: Pro137, His236, Ala311, Leu310, Phe139, 
+Ile488, Ile377, and Ile379 
+AZ3 
+− 142.63 
+− 99.16 
+− 2.50 
+H-bond: Tyr131, Val138, His236, Trp239, and Met378 
+Halogen: Val138 
+Hydrophobic: Pro137, Ala238, Ile377, Ile379, Val138, 
+Leu310, His236, Trp239, Met378, Ile488, Met381, and 
+Ala311 
+AZ4 
+− 144.44 
+− 113.66 
+− 2.18 
+H-bond: Arg382, Ile450, Ala311, and His447 
+Halogen: His447 
+Hydrophobic: Gly312, Gln313, Arg448, Cys449, Ala311, 
+Ala455, Met380, Phe442, Ala206, and Leu210 
+AZ5 
+− 144.74 
+− 74.72 
+− 0.17 
+H-bond: Ser316, Gly312, Thr315, Thr319 
+Electrostatic: Met380, Cys449 
+Hydrophobic: Phe442, Tyr456, Cys449, Ala455, Ile377, 
+His447, Leu371, and Ile459 
+AZ6 
+− 137.51 
+− 109.70 
+− 4.92 
+H-bond: Arg382, Cys449, and Asn149 
+Halogen: Pro441 
+Electrostatic: Lys156 
+Hydrophobic: Ile377, Phe442, His447, Gly443, Met380, 
+Leu153, Arg446, and Cys449 
+AZ7 
+− 143.16 
+− 114.07 
+− 2.04 
+H-bond: Arg382, Ile450, and Ala311 
+Halogen: Phe442, His447 
+Hydrophobic: Ala206, Gly312, Gln313, Arg448, Cys449, 
+Ala311, Ala455, Phe442, and Leu210 
+AZ8 
+− 147.17 
+− 59.25 
+− 2.77 
+H-bond: Tyr131, His236, Trp239, Met378, Val138, Gly307, 
+and Ser235 
+Hydrophobic: Pro137, Leu310, Ala311, Ala238, Ile377, 
+Ile379, Met381, Val138, Phe139, His236, Trp239, and Ile488 
+AZ9 
+− 150.13 
+− 87.79 
+− 2.71 
+H-bond: His236, Trp239, Met378, Tyr131, and Ser235 
+Hydrophobic: Pro137, Leu310, Ala311, Ala238, Ile377, 
+Ile379, Val138, His236, Trp239, Met378, and Ile488 
+AZ10 
+− 132.85 
+− 109.23 
+− 0.67 
+H-bond: Ile379, Tyr131, His236, and Phe442 
+Hydrophobic: Ile377, Ile379, Met380, His236, Phe442, 
+Gly443, Met378, His447, His449, and Cys449 
+Griseofulvin 
+− 105.27 
+− 86.29 
+− 3.90 
+H-bond: Lys156, Ile450, His447, Pro441 
+Hydrophobic: Arg448, Cys449, Met380, and Ile377 
+a The scores of the compounds were the best of five possible conformations obtained from independent docking methods. 
+residues such as His236, Tyr131, Trp239, and Met378, facilitating 
+strong donor–acceptor and π–polar interactions. Their positive 
+MEP zones also orient appropriately toward Cys449 and Ala311, 
+supporting the stabilized ligand geometry observed in the docking 
+poses. The alignment of these electrostatic potentials matches 
+their improved antifungal MICs (e.g., AZ6 and AZ9 against C. 
+albicans ). 
+2.4 
+Virtual Screening 
+2.4.1 
+ADMET Predictions 
+The pharmacokinetic and drug-likeness profiles of the synthe- 
+sized azetidine-pyridazine linked heterocyclic scaffolds AZ1- 
+AZ10 were evaluated using the SwissADME web server. The 
+8 of 12
+ChemistrySelect, 2026
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 9 =====
+FIGURE 6 
+3D and 2D docking and binding pattern of (A) AZ1 , (B) AZ7 , and (C) AZ9 into the active site of DNA gyrase receptor (PDB entry: 
+5MMN). 
+physicochemical and pharmacokinetic predictions are shown in 
+Table S13 . All of the synthesized compounds AZ1-AZ10 followed 
+Lipinski’s rule boosting drug-likeness and oral bioavailability of 
+the molecules [ 30 ]. Moreover, the topological polar surface area 
+being convincingly below the threshold limit of 140 Å2 suggests 
+effective membrane permeability by following Veber’s rule [ 31 ]. 
+Each of the azetidine-linked skeletons included one hydrogen 
+bond donor (nHBD), three to five hydrogen bond acceptors 
+(nHBA), and six or seven rotatable bonds (nRB) meeting Veber’s 
+criterion for orally active drugs, along with high gastrointestinal 
+absorptivity (GIT) and capability of crossing Blood Brain Barrier 
+(BBB). The MLogP values indicated enough lipophilicity to cross 
+lipid membranes without losing aqueous solubility. Importantly, 
+none of the derivatives observed violations of either Lipinski’s 
+rule of five or Veber’s rule, demonstrating firm drug-likeness 
+profiles. Thus, promising bioavailability, CNS permeability, and 
+non-substrate behavior toward P-gp, make them appealing candi- 
+dates for further development. These in silico predictions strongly 
+support the idea that azetidine-pyridazine hybrids provide the 
+pharmacokinetic advantages over other heterocyclic systems, 
+such as thiazoles, which may face issues with efflux potential, 
+poor absorption, or toxicity [ 32 ]. 
+2.4.2 
+Docking Simulation 
+Molecular docking was performed to identify an entity that 
+energetically and geometrically aligns with a protein’s active 
+binding site [ 33 ]. Docking simulation was performed with DNA 
+gyrase (PDB: 5MMN) and lanosterol 14 α-demethylase (CYP51) 
+(PDB: 3JUV) receptors to identify the possible binding sites of 
+the synthesized inhibitors AZ1-AZ10 and their binding affinity. 
+The detailed non-bonding interactions with amino acid residues 
+of selected receptors for AZ1-AZ10 are tabulated in Tables 1, 2 . 
+2.4.2.1 
+DNA Gyrase (5MMN) Inhibition. Inhibition of 
+E. coli DNA Gyrase B (PDB: 5MMN) is important for drug 
+development because this enzyme is essential for bacterial DNA 
+replication and cell survival, making it a prime target for antibac- 
+terial agents. Among all the studied derivatives, AZ5 expressed 
+the most suitable docking profile toward DNA gyrase, with a 
+MolDock score of -132.31, re-rank score of -97.81, and resilient 
+interactions through hydrophobic contacts and H-bonding (espe- 
+cially with Ala47, Ile78, Val43, and Pro79). In a comparable 
+manner, AZ8 , AZ7 , and AZ9 also demonstrated considerable 
+binding scores (-134.04, -132.67, and -131.68, respectively) with 
+numerous favorable H-bonding and hydrophobic interactions, as 
+indicated in Figure 6 . Surprisingly, AZ5 and AZ8 both show- 
+cased greater in vitro antibacterial activity with MIC values of 
+62.5 µg/mL against E. coli . The correlation between low MIC 
+and highly negative docking score confirms the notion that 
+considerable binding to bacterial DNA gyrase underlies their 
+potential antibacterial activity. In contrast, AZ1 demonstrated 
+low docking efficiency (-131.69) but substantial inhibition towards 
+S. aureus (MIC = 62.5 µg/mL), implying its interaction with the 
+enzyme (particularly with Glu50 and Val167) has a significant 
+inhibitory function. Notably, all synthesized scaffolds displayed a 
+favorable MolDock score when compared to the standard antibi- 
+otic chloramphenicol (-105.71) (Figure S56A ). These findings 
+support the predicted binding affinity of synthesized compounds, 
+further validating the design strategy. 
+ChemistrySelect, 2026
+9 of 12
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 10 =====
+FIGURE 7 
+3D and 2D docking and binding pattern of (A) AZ6 and (B) AZ9 into the active site of CYP51 receptor (PDB entry: 3JUV). 
+2.4.2.2 
+Lanosterol 14 α-Demethylase (CYP51) (3JUV) 
+Inhibition. Antifungal drugs such as ketoconazole and 
+econazole target CYP51 in fungi, exploiting its central role in 
+maintaining fungal cell membrane integrity; inhibition results 
+in the death of pathogenic yeast or molds. Docking with 3JUV 
+further validated the antifungal potential of synthesized scaffolds. 
+Among all molecules, AZ9 exhibited exceptional binding, with 
+a MolDock score of -150.13 and interactions with His236, Ser235, 
+and Met378 (Figure 7 ). These findings completely validate its 
+antifungal potency with C. albicans (MIC = 250 µg/mL), proving 
+to be one of the most potent scaffolds. Furthermore, AZ6 and 
+AZ5 showed the remarkable binding with MolDock scores of 
+-144.74 and -137.51, with -4.92 H-bond energies, surpassing the 
+reference antifungal drug griseofulvin (-105.27) (Figure S56B ). 
+Herein, AZ5 interacts with Ser316, Gly312, and Thr319 residues, 
+which are part of the active binding pocket site essential for 
+fungal ergosterol biosynthesis. These computational outcomes 
+support the antifungal potency of AZ6 (MIC = 250 µg/mL) 
+and AZ5 (MIC = 500 µg/mL), indicating a reliable SAR. This 
+study not only reveals the docking protocol efficiently, but also 
+provides the idea of possible binding sites with potency, implying 
+consistency with the antimicrobial activity, thereby validating 
+and supporting the results [ 34 ]. 
+3 
+Conclusion 
+In summary, a series of metal-free synthesized azetidine pyri- 
+dazine derivatives ( AZ1–AZ10 ) were successfully characterized 
+and demonstrated moderate to significant antimicrobial activity. 
+Among them, AZ5 and AZ8 showed considerable antibacte- 
+rial potency against E. coli , while AZ1 , AZ7 , and AZ9 were 
+particularly effective against S. aureus . Compounds AZ6 and 
+AZ9 exhibited notable antifungal activity toward C. albicans . 
+SAR analysis indicated that electron-withdrawing (F, Cl) and 
+hydrophobic (CH3 ) substituents enhance biological activity. The 
+ADMET evaluation further revealed excellent drug-like profiles, 
+high gastrointestinal absorption, BBB permeability, and full com- 
+pliance with Lipinski and Veber rules, supporting their potential 
+as orally active and CNS-permeable agents. Computational inves- 
+tigations reinforced the experimental findings. Docking studies 
+showed a strong correlation between binding affinity to DNA 
+gyrase and CYP51 and the observed antimicrobial effects. DFT 
+analysis highlighted that compound such as AZ8 , AZ9 , and 
+AZ10 possess high HOMO energies, while AZ4 , AZ7 , and 
+AZ10 display low LUMO energies, indicating favorable electronic 
+behavior for protein binding. The rich electrostatic surfaces of 
+AZ6 and AZ9 , along with the excellent hydrogen-bonding and 
+10 of 12
+ChemistrySelect, 2026
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 11 =====
+binding energies of AZ5 , AZ7 , and AZ8 , further support their 
+enhanced bioactivity. Notably, AZ9 and AZ6 showed stronger 
+interaction with CYP51 than griseofulvin, confirming their poten- 
+tial as antifungal agents. Overall, the study establishes a solid 
+structural basis for the antibacterial and antifungal potential 
+of azetidine pyridazine scaffolds and highlights how targeted 
+structural modifications can fine-tune biological activity. Future 
+work should focus on molecular dynamics (MD) simulations and 
+solvent-corrected computational approaches to better understand 
+the stability of protein–ligand complexes under physiological 
+conditions. Additionally, in vivo antimicrobial and toxicity stud- 
+ies, evaluation against a broader microbial panel, and QSAR 
+or machine-learning modeling will provide deeper mechanistic 
+insight. Designing and synthesizing new derivatives based on 
+the active pharmacophore may ultimately lead to more potent 
+dual-action antimicrobial candidates. 
+Acknowledgments 
+The authors thank the Department of Chemistry, Matushri Virbaima 
+Mahila Science & Home Science College, Department of Chemistry, M. P. 
+Shah Arts and Science College, and Department of Chemistry, Saurashtra 
+University for the support. 
+Conflicts of Interest 
+The authors declare no conflict of interest. 
+Data Availability Statement 
+The data that support the findings of this study are available in the 
+supplementary material of this article. 
+References 
+1 . World Health Organization, “Report by Director-General on Antimi- 
+crobial Resistance,” 2025 (accessed: September 10, 2025) can be found 
+under, https://apps.who.int/gb/ebwha/pdf_files/WHA78/A78_8-en.pdf. 
+2 . N. Kerru, L. Gummidi, S. Maddila, K. K. Gangu, and S. B. Jonnalagadda, 
+“A Review on Recent Advances in Nitrogen-Containing Molecules and 
+Their Biological Applications,” Molecules (Basel, Switzerland) 25 (2020): 
+1909, https://doi.org/10.3390/molecules25081909 . 
+3 . D. M. Livermore, “Linezolid in Vitro: Mechanism and Antibacterial 
+Spectrum,” Journal of Antimicrobial Chemotherapy 51 (2003): 9–16, 
+https://doi.org/10.1093/jac/dkg249 . 
+4 . P. Vandeputte, S. Ferrari, and A. T. Coste, “Antifungal Resistance and 
+New Strategies to Control Fungal Infections,” Int J Microbiol 2012 (2011): 
+713687. 
+5 . J. M. Khurana and B. Banerjee, Bioactive Four-Membered Heterocycles: 
+Natural Products, Green Synthesis and Bioactivity (Walter de Gruyter 
+GmbH & Co KG, 2025): 1–72, https://doi.org/10.1515/9783111386577 . 
+6 . H. Mughal and M. Szostak, “Recent Advances in the Synthesis and 
+Reactivity of Azetidines: Strain-Driven Character of the Four-Membered 
+Heterocycle,” Organic & Biomolecular Chemistry 19 (2021): 3274–3286, 
+https://doi.org/10.1039/D1OB00061F . 
+7 . J. Sangwan, C. P. Kaushik, L. Kumar, A. Yadav, S. Chahal, and J. 
+Sindhu, “Multi-Faceted Exploration of Amide-Amine Tethered 1,2,3- 
+Triazole Conjugates as Antimicrobial Agents Using Synthetic, in Vitro 
+and in Silico Approach,” Journal of Molecular Structure 1319 (2025): 
+139410, https://doi.org/10.1016/j.molstruc.2024.139410 . 
+8 . A. Ragab, “Recent Advances in the Synthesis, Reaction, and Bio- 
+evaluation Potential of Purines as Precursor Pharmacophores in Chemical 
+Reactions: A Review,” RSC Advances 15 (2025): 3607–3654. 
+9 . D. Wang, T. Zhang, Z. Deng, et al., “Preparation, Antifungal Activity 
+Evaluation, and Mechanistic Studies of Unique and Structurally Novel 
+Pyrazole-Heterocyclic-Amide Analogues,” Journal of Agricultural and 
+Food Chemistry 73 (2025): 2332–2341 , https://doi.org/10.1021/acs.jafc. 
+4c10490 . 
+10 . S. Rejinthala, S. Endoori, D. Vemula, V. Bhandari, and T. Mondal, 
+“Novel Pyrimidine-Piperazine Hybrids as Potential Antimicrobial Agents: 
+In-vitro Antimicrobial and in-silico Studies,” Res Chem 5 (2023): 100951. 
+11 . H. Guan, H. Sun, and X. Zhao, “Application of Density Functional 
+Theory to Molecular Engineering of Pharmaceutical Formulations,”
+International Journal of Molecular Sciences 26 (2025): 3262, https://doi. 
+org/10.3390/ijms26073262 . 
+12 . A. A. Alsimaree, A. H. Alessa, A. Alharbi, et al., “Synthesis of New 
+Pyrazine-Pyrazole-Thiazolidin-4-One and Pyrazine-Triazole-Thiazolidin- 
+4-One Conjugates, Molecular Modelling and Docking as Antimicrobial 
+Agents,” Journal of Molecular Structure 1320 (2025): 139431, https://doi. 
+org/10.1016/j.molstruc.2024.139431 . 
+13 . M. S. Raghu, C. P. Kumar, K. Y. Kumar, M. K. Prashanth, F. Alharethy, 
+and B. H. Jeon, “Synthesis, Biological Evaluation and Molecular Docking 
+Study of Pyrimidine Linked Thiazolidinedione Derivatives as Poten- 
+tial Antimicrobial and Antitubercular Agents,” Bioorganic & Medicinal 
+Chemistry Letters 103 (2024): 129707, https://doi.org/10.1016/j.bmcl.2024. 
+129707 . 
+14 . D. R. Parmar, J. Y. Soni, R. Guduru, R. H. Rayani, R. V. Kusurkar, 
+and A. G. Vala, “Azetidines of Pharmacological Interest,” Archiv der 
+Pharmazie 354 (2021): 2100062, https://doi.org/10.1002/ardp.202100062 . 
+15 . M. Pordel, H. Gheibi, and D. J. Eftekhari, “Fluorescent Amide Dyes 
+as Novel Fluorophores in Dye-Sensitized Solar Cells: Synthesis, Char- 
+acterization, Optical Properties, Cyclic Voltammetry, DFT Calculations, 
+and Photovoltaic Properties,” Journal of Molecular Structure 1329 ( 2025): 
+141470. 
+16 . S. Hafez-Ghoran, M. Sajid, M. I. Abdjan, et al., “New Methyl and Ethyl 
+Gallate Esters Linked Chlorinated Benzoyl Derivatives as Anti- Candida 
+albicans Agents: Isolation, Semi-Synthesis, in Vitro, and in Silico Studies,”
+Chemistry & Biodiversity 22 (2025): e202500153, https://doi.org/10.1002/ 
+cbdv.202500153 . 
+17 . N. A. Bakuleva, B. V. Lichitskii, A. N. Komogortsev, and E. 
+V. Tretyakov, “Construction of a 1,2-diazetidine Core Based on 
+a Multicomponent Reaction of N , N ′ -(2,3-dimethylbutane-2,3- 
+diyl)bis(hydroxylamine), Arylglyoxals, and Meldrum’s Acid,” Organic 
+& Biomolecular Chemistry 23 (2025): 4997–5005, https://doi.org/10.1039/ 
+D5OB00545K . 
+18 . E. J. Fadhil, A. O. Hammady, and A. N. Ayyash, “Novel Bis-spiro- β- 
+lactams Derived from some Quinolinones via the Staudinger Synthesis,”
+Russian Journal of Organic Chemistry 60 (2024): 1980–1983, https://doi. 
+org/10.1134/S1070428024100130 . 
+19 . M. Mandal, S. Ghosh, H. Bhat, L. Naesens, and U. Singh, “Syn- 
+thesis and Biological Evaluation of Substituted Phenyl Azetidine-2-one 
+Sulphonyl Derivatives as Potential Antimicrobial and Antiviral Agents,”
+Bioorganic Chemistry 104 (2020): 104320, https://doi.org/10.1016/j.bioorg. 
+2020.104320 . 
+20 . V. Rani and P. Reddy, “Synthesis and Antimicrobial Activity of New 
+Pyridine Containing Substituted Phenyl Azetidine-2-One Derivatives,”
+Open J Med Chem 08 (2018): 22. 
+21 . R. Shah, D. Rathore, F. Khan, N. Deshmukh, and S. Pillai, “Syn- 
+thesis and Antibacterial Activity of Some New Substituted Azetidine 
+Derivatives,” JDDT 7 (2017): 113. 
+22 . L. Zhai, L. He, Y. Liu, et al., “Synthesis and Antibacterial Activities 
+of Amidine Substituted Monocyclic β-Lactams,” Medicinal Chemistry 18 
+(2022): 574–588. 
+ChemistrySelect, 2026
+11 of 12
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+===== PDF PAGE 12 =====
+23 . M. U. Rehman, F. He, X. Shu, et al., “Antibacterial and Antifungal 
+Pyrazoles Based on Different Construction Strategies,” EJMECH 282 
+(2025): 117081. 
+24 . Y. Ivanenkov, R. S. Yamidanov, I. Osterman, et al., “Identification of N- 
+Substituted Triazolo-azetidines as Novel Antibacterials Using pDualrep2 
+HTS Platform,” Combinatorial Chemistry & High Throughput Screening 22 
+(2019): 346–354, https://doi.org/10.2174/1386207322666190412165316 . 
+25 . H. A. Parmar, B. B. Makwana, and V. K. Singh, “Synthesis, Photo- 
+physical, Antimicrobial Activity and in silico Study of Homoleptic Dithio- 
+carbamate Complexes [MII {k2 S ˆ S-S2 CN(R)CH2 C6 H4 OH}2 ] (R = 2-picolyl, 
+3-picolyl; M = NiII , CuII , ZnII ),” ChemistrySelect 9 (2024): e202402476. 
+26 . A. C. Ekennia, A. A. Osowole, L. O. Olasunkanmi, D. C. Onwudiwe, 
+O. O. Olubiyi, and E. E. Ebenso, “Synthesis, Characterization, DFT 
+Calculations and Molecular Docking Studies of Metal (II) Complexes,”
+Journal of Molecular Structure 1150 (2017): 279–292, https://doi.org/10. 
+1016/j.molstruc.2017.08.085 . 
+27 . C. J. Savani, H. Roy, S. K. Verma, D. R. Vennapu, and V. K. Singh, “Syn- 
+thesis, Characterization and Evaluation of Novel Ferrocenylmethylamine 
+Derivatives as Cytotoxic Agents,” Applied Organometallic Chemistry 35 
+(2021): 6137, https://doi.org/10.1002/aoc.6137 . 
+28 . J. L. Reed, “Electronegativity: Chemical Hardness I,” The Journal 
+of Physical Chemistry A 101 (1997): 7396–7400, https://doi.org/10.1021/ 
+jp9711050 . 
+29 . M. I. Abdullah, A. Mahmood, M. Madni, S. Masood, and M. Kashif, 
+“Synthesis, Characterization, Theoretical, Anti-Bacterial and Molecu- 
+lar Docking Studies of Quinoline Based Chalcones as a DNA Gyrase 
+Inhibitor,” Bioorganic Chemistry 54 (2014): 31–37, https://doi.org/10.1016/ 
+j.bioorg.2014.03.006 . 
+30 . C. Lipinski, F. Lombardo, B. W. Dominy, and P. J. Feeney, “Exper- 
+imental and Computational Approaches to Estimate Solubility and 
+Permeability in Drug Discovery and Development Settings 1PII of Original 
+Article: S0169-409X(96)00423-1. The Article Was Originally Published 
+in Advanced Drug Delivery Reviews 23 (1997) 3–25. 1,” Advanced Drug 
+Delivery Reviews 46 (2001): 3–26, https://doi.org/10.1016/S0169-409X(00) 
+00129-0 . 
+31 . D. F. Veber, S. R. Johnson, H. Y. Cheng, B. R. Smith, K. W. Ward, and K. 
+D. Kopple, “Molecular Properties That Influence the Oral Bioavailability 
+of Drug Candidates,” Journal of Medicinal Chemistry 45 (2002): 2615–2623, 
+https://doi.org/10.1021/jm020017n . 
+32 . R. Z. Batran, E. Y. Ahmed, E. S. Nossier, H. M. Awad, and N. A. A. Latif, 
+“Anticancer Activity of New Triazolopyrimidine Linked Coumarin and 
+Quinolone Hybrids: Synthesis, Molecular Modeling, TrkA, PI3K/AKT, 
+and EGFR Inhibition,” Journal of Molecular Structure 1305 (2024): 137790, 
+https://doi.org/10.1016/j.molstruc.2024.137790 . 
+33 . M. S. Meenukutty, A. P. Mohan, V. G. Vidya, and V. V. Kumar, 
+“Synthesis, Characterization, DFT Analysis and Docking Studies of a 
+Novel Schiff Base Using 5-bromo Salicylaldehyde and β-alanine,” Heliyon 
+8 (2022): e09600, https://doi.org/10.1016/j.heliyon.2022.e09600 . 
+34 . R. Thomsen and M. H. Christensen, “MolDock: A New Technique for 
+High-Accuracy Molecular Docking,” Journal of Medicinal Chemistry 49 
+(2006): 3315–3321, https://doi.org/10.1021/jm051197e . 
+35 . C. M. Huang, C. H. Chen, D. Pornpattananangkul, et al., “Eradication 
+of Drug Resistant Staphylococcus aureus by Liposomal Oleic Acids,” Bio- 
+materials 32 (2011): 214–221, https://doi.org/10.1016/j.biomaterials.2010. 
+08.076 . 
+36 . B. C. Monk and A. Goffeau, “Outwitting Multidrug Resistance to 
+Antifungals,” Science 321 (2008): 367–369, https://doi.org/10.1126/science. 
+1159746 . 
+37 . P. E. Varaldo, “Antimicrobial Resistance and Susceptibility Testing: an 
+Evergreen Topic,” Journal of Antimicrobial Chemotherapy 50 (2002): 1–4, 
+https://doi.org/10.1093/jac/dkf093 . 
+38 . A. D. Becke, “Density-functional Thermochemistry. I. The Effect of the 
+Exchange-only Gradient Correction,” The Journal of Chemical Physics 96 
+(1992): 2155–2160, https://doi.org/10.1063/1.462066 . 
+39 . M. J. Frisch, G. W. Trucks, H. B. Schlegel, et al. Gaussian 16 , Revision 
+C.01, (Gaussian, Inc., 2016). 
+40 . K. Bechlem, M. Aissaoui, B. Belhani, et al., “Synthesis, X- 
+ray Crystallographic Study and Molecular Docking of New 
+α-sulfamidophosphonates: 
+POM 
+Analyses 
+of 
+Their 
+Cytotoxic 
+Activity,”
+Journal of Molecular Structure 1210 (2020): 127990, 
+https://doi.org/10.1016/j.molstruc.2020.127990 . 
+41 . R. Dennington, T. A. Keith, and J. M. Millam, GaussView , Version 6.1, 
+(Semichem Inc., 2016). 
+42 . J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli, “AutoDock 
+Vina 1.2.0: New Docking Methods, Expanded Force Field, and Python 
+Bindings,” Journal of Chemical Information and Modeling 61 (2021): 
+3891–3898, https://doi.org/10.1021/acs.jcim.1c00203 . 
+43 . O. Trott and A. J. Olson, “AutoDock Vina: Improving the Speed and 
+Accuracy of Docking with a New Scoring Function, Efficient Optimiza- 
+tion, and Multithreading,” Journal of Computational Chemistry 31 (2009): 
+455–461, https://doi.org/10.1002/jcc.21334 . 
+44 . B. B. Makwana, P. N. Chauhan, H. A. Parmar, M. Mori, U. P. Tarpada, 
+and V. C. Kotadiya, “Synthesis of New Multi-functionalized Schiff Base 
+Derivatives Based on Vanillic Acid: Antimicrobial Activity, Photophysical, 
+DFT Calculations and in-silico Study,” Journal of Molecular Structure 1322 
+(2025): 140375, https://doi.org/10.1016/j.molstruc.2024.140375 . 
+45 . R. Huey, G. M. Morris, A. J. Olson, and D. S. Goodsell, “A Semiem- 
+pirical Free Energy Force Field with Charge-Based Desolvation,” Journal 
+of Computational Chemistry 28 (2007): 1145–1152, https://doi.org/10.1002/ 
+jcc.20634 . 
+46 . E. F. Pettersen, T. D. Goddard, C. C. Huang, et al., “UCSF ChimeraX: 
+Structure Visualization for Researchers, Educators, and Developers,”
+Protein Science 30 (2020): 70–82, https://doi.org/10.1002/pro.3943 . 
+47 . BIOVIA, Dassault Systèmes, Discovery Studio, San Diego: Dassault 
+Systèmes, 2020. 
+Supporting Information 
+Additional supporting information can be found online in the Supporting 
+Information section. 
+Supporting File: slct72726-sup-0001-SuppMat.pdf. 
+12 of 12
+ChemistrySelect, 2026
+ 23656549, 2026, 7, Downloaded from https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/slct.202505650 by Northwestern Polytechnic, Wiley Online Library on [12/03/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

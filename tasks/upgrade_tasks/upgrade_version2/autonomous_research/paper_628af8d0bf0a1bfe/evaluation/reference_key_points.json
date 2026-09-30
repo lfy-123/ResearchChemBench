@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_628af8d0bf0a1bfe",
+  "items": [
+    {
+      "key_point_id": "kp_full_system_identity",
+      "statement": "Correct full molecules, core mapping and physical states.",
+      "expected": "Check full4a/4c stoichiometry and source connectivity in actual structures, including all CF3/OMe groups and sulfur-containing fused rings. Distinguish the central carbon pentalene from thiophene/benzene. Check charge, state and declared geometry assumptions. Correct output on a truncated substitute cannot answer the full-pair question without an explicit validated approximation.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_magnetic_response_evidence",
+      "statement": "Inspectable magnetic response with reproducible definition and arithmetic.",
+      "expected": "Verify actual response output, geometry and analysis for both systems at comparable stated conditions. Recompute relevant contrasts. For a tensor route, inspect full tensor/probe/frame/sign mapping; for current-density routes inspect field convention, density/current evidence and integration or interpretation used. No particular NICS height, ring averaging, ACID software or source scalar is mandatory. A source number or diagram alone is not newly generated scientific evidence.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_attribution",
+      "statement": "Evidence supporting the scope of the substituent/antiaromatic interpretation.",
+      "expected": "Assess whether selected comparisons can distinguish the submitted explanation from material geometry, nonlocal-response or measurement-definition effects for the claims actually made. Direct causation needs more than two unequal scalars; a clearly limited association can be valid but must not claim unique cause. No fixed-core swap, BLA or exact diagnostic matrix is mandatory. Reward actual contrary or indistinguishable results when they are supported, without requiring4a>4c.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_response_reliability",
+      "statement": "Scientific/numerical reliability appropriate to the chosen magnetic method.",
+      "expected": "Validate stationary points when asserted, constraints when used, response conventions and dominant numerical/structural uncertainty. Projection must be invariant to mere coordinate labeling; an unaligned global zz is not a molecular normal response. A current or tensor method needs relevant convergence/uncertainty, but not the reference grid. Source basis discrepancy is not a tolerance to force agreement. Uncertainty must support the precision and directional conclusion claimed.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    }
+  ]
+}

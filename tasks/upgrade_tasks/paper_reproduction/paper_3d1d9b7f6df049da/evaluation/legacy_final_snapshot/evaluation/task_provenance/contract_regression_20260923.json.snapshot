@@ -1,0 +1,190 @@
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "mode": "paper_reproduction",
+  "source": "runs/hold_verification/group_5/closure_20260921/paper_3d1d9b7f6df049da/report/results.json",
+  "mapping": [],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_ih",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_d5h",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_ih",
+      "observed": [
+        38.569422035509696,
+        44.95249028570665,
+        56.19231516161977,
+        60.85064633471249
+      ],
+      "target": [
+        49.9,
+        54.9,
+        65.2,
+        68.9
+      ],
+      "tolerance": 12,
+      "passed": true
+    },
+    {
+      "rule": "r_d5h",
+      "observed": [
+        66.7033140791065,
+        73.09456051271566,
+        82.39199091025229,
+        87.4305789840461
+      ],
+      "target": [
+        67.4,
+        81.9,
+        90.2,
+        93.8
+      ],
+      "tolerance": 12,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 15,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": [],
+  "followup_definition_checks": [
+    {
+      "check": "actual_historical_result_valid",
+      "passed": true
+    },
+    {
+      "check": "extra_modes_do_not_invalidate_four_main",
+      "passed": true
+    },
+    {
+      "check": "Ih_selector_ignores_additional",
+      "passed": true
+    },
+    {
+      "check": "Ih_fifth_primary_rejected",
+      "passed": true
+    },
+    {
+      "check": "Ih_identical_duplicate_rejected",
+      "passed": true
+    },
+    {
+      "check": "Ih_three_modes_not_complete",
+      "passed": true
+    },
+    {
+      "check": "D5h_selector_ignores_additional",
+      "passed": true
+    },
+    {
+      "check": "D5h_fifth_primary_rejected",
+      "passed": true
+    },
+    {
+      "check": "D5h_identical_duplicate_rejected",
+      "passed": true
+    },
+    {
+      "check": "D5h_three_modes_not_complete",
+      "passed": true
+    },
+    {
+      "check": "nonidentical_duplicate_ID_rule_explicit",
+      "passed": true
+    },
+    {
+      "check": "early_failure_still_valid",
+      "passed": true
+    }
+  ],
+  "followup_boundary": "Historical scientific values preserved. New checks are schema/candidate-separation/measurement-definition checks, not a new quantum run or LLM judge validation. Different records with the same physical mode still need semantic/evidence checking."
+}

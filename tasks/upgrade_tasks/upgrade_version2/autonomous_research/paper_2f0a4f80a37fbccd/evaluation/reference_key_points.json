@@ -1,0 +1,49 @@
+{
+  "paper_id": "paper_2f0a4f80a37fbccd",
+  "items": [
+    {
+      "key_point_id": "kp_composition_and_model",
+      "statement": "Correct full molecular composition and valid state/representation for iridium.",
+      "expected": "Inspect actual inputs/outputs for one Ir,twoCl,two fullPPh3,oneNO3 and declared neutral singlet model. Check atomic/electron accounting including any ECP and consistent relativistic convention. Compare metal connectivity from results, not starting labels. Wrong NO/nitrate species, omitted phenyls or unintended ligand loss cannot support the target structure.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_structural_spectral_findings",
+      "statement": "Traceable structure/property evidence connected to the actual supplied observations.",
+      "expected": "Inspect native structural and relevant spectroscopic outputs and recompute reported comparisons. For normal-mode assignments require evidence of vibrational character rather than nearest peak alone, allowing displacement analysis or other adequate characterization. A different defensible structural inference route may earn equivalent credit. Include mismatched/unexplained observations pertinent to the claim; no preassigned hapticity, exact peak-count coverage, threshold or universal RMSE is required.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_identifiability",
+      "statement": "Evidence for the strength and uniqueness of the structural inference.",
+      "expected": "Determine whether the actual investigation challenges its proposed structural assignment and distinguishes plausibility from uniqueness. A unique assignment requires sufficient evidence against relevant alternatives, without demanding the V1 named candidate list. Supported nonuniqueness/rejection receives credit; absent sampling or one failed search is not proof of impossibility. Consider whether the published band-account discrepancy matters for the actual argument, with no compulsory fitting matrix.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_comparison_validity",
+      "statement": "Sound treatment of molecular reliability and experimental/model mismatch.",
+      "expected": "Check stationary-point evidence for claimed stable structures and relevant method/error treatment for Ir. If comparing spectra, inspect assignments, scaling, unmatched features and method/solid-state uncertainty; candidate-dependent per-peak tuning cannot establish discrimination. If using relative energies, check common definitions and do not infer KBr phase populations from gas energies. A fixed mass-weighted participation threshold or predetermined sensitivity grid is not mandatory.",
+      "evidence_ids": [
+        "source_0",
+        "source_1",
+        "v1_reuse",
+        "v2_design"
+      ]
+    }
+  ]
+}

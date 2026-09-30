@@ -1,11 +1,11 @@
 {
   "paper_id": "paper_e1acfacf7feef111",
   "task_type": "paper_reproduction",
-  "title": "Independent local BiBr4 geometry and Raman validation",
+  "title": "Author-route formula-unit cluster geometry and Raman validation",
   "category": "computational chemistry validation",
   "difficulty": "medium",
   "difficulty_reasons": [
-    "The fragment and observables are fixed, but the Agent must choose and justify a route and validate a minimum and six mode assignments.",
+    "The 38-atom formula-unit cluster requires a heavy-atom ECP/mixed-basis optimization, minimum validation and six mode assignments.",
     "The comparison requires explicit atom/mode mapping and three aggregate metrics."
   ],
   "paper": {
@@ -16,8 +16,12 @@
   },
   "data": [
     {
-      "path": "data/inputs",
-      "description": "One explicit 5-atom BiBr4 fragment XYZ; atom 1 Bi, atoms 2-5 Br, charge -1 and singlet state."
+      "path": "data/inputs/formula_unit_cluster.xyz",
+      "description": "SI-derived 38-atom neutral-singlet formula-unit cluster containing [BiBr4]-, the organic cation and two waters."
+    },
+    {
+      "path": "data/inputs/reference_observables.json",
+      "description": "Six observed Raman bands and explicit direct Bi-Br/Br-Bi-Br pairings required by the v1 comparison."
     }
   ],
   "required_deliverables": [

@@ -1,0 +1,18 @@
+{
+  "files": [
+    "data/inputs/benchmark_B2_start.extxyz",
+    "data/inputs/benchmark_L12_start.extxyz",
+    "data/inputs/crystal_identities.json",
+    "data/inputs/problem_context.json",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "removed_or_rewritten": [
+    "Retain only ideal crystal identity/start resources and measured setting; remove named defect/surface-control matrix, forced Ni-rich reservoir, supercell/layer/vacuum counts and adsorption-site search list.",
+    "Rewrite the lattice metadata to identify benchmark guesses honestly; remove the old POSCAR header implying an exact source structure. Phase identity remains legitimate experimental fact, while source energetics and exchange pathway are PR/private."
+  ],
+  "metadata_title_sanitized": true,
+  "actual_filesystem_isolation": "pending_coordinator_runtime_access_test",
+  "blind_prediction_claimed": false
+}

@@ -1,25 +1,28 @@
 {
-  "description": "Experimental ECD sign anchors digitized from Figure 4; measured-spectrum boundary, not target values.",
+  "description": "Measured ECD sign anchors recovered from the green experimental curve in Figure 4. These are experimental comparison inputs, not computed target values. The plotted ordinate is circular dichroism in mdeg; no absolute-amplitude comparison is specified.",
   "solvent": "methanol",
   "wavelength_unit": "nm",
-  "delta_epsilon_unit": "M^-1 cm^-1",
+  "source_ordinate_unit": "mdeg",
+  "comparison_scope": "Compare every anchor and the broad pattern, retaining disagreements. The 255 and 270 nm features are weak and close to the plotted zero baseline; their graphical signs are not exact high-confidence experimental discriminants.",
   "anchors": [
     {
       "wavelength_nm": 270,
-      "sign": "positive"
+      "sign": "positive",
+      "reliability": "weak near-zero feature; digitization and experimental baseline uncertainty unavailable"
     },
     {
       "wavelength_nm": 255,
-      "sign": "negative"
+      "sign": "positive",
+      "reliability": "weak near-zero feature; digitization and experimental baseline uncertainty unavailable"
     },
     {
       "wavelength_nm": 220,
       "sign": "positive"
     },
     {
-      "wavelength_nm": 205,
+      "wavelength_nm": 230,
       "sign": "negative"
     }
   ],
-  "source": "Figure 4, main paper (ev_doc_7686ed923580_000139_29adb67baf67)"
+  "source": "Figure 4, main paper PDF page 3 (ev_doc_7686ed923580_000139_29adb67baf67). The displayed axis begins at approximately 210 nm; the former 205 nm anchor was unsupported by this figure. The negative 230 nm feature is also reported in the main-text characterization. No calculated spectrum or configuration assignment is included."
 }

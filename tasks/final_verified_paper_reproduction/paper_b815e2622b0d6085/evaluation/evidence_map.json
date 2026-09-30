@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000310_ac23b9c709ae",
+      "source": "Main paper, crystal-structure deposition statement: CCDC 2499860/2499861/2499862 identify the 3-Cl, 3-I and 3-Br crystals."
+    },
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000057_20b506efb7ff",
+      "source": "Main paper, computational approach: periodic PAW/HSE06 calculations, SCF convergence and Gamma-centered sampling."
+    },
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000061_447852ce6d75",
+      "source": "Main paper, computational approach: band path and 50 points per segment generated with VASPKIT."
+    },
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000145_b18a4cc481f7",
+      "source": "Main paper, electronic-structure results: Cl primary allowed excitation/gap is 4.63 eV and the structural trend is discussed."
+    },
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000147_ff4cca47a9a8",
+      "source": "Main paper, electronic-structure results: Br primary allowed excitation/gap is 4.64 eV."
+    },
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000149_861dd7011649",
+      "source": "Main paper, electronic-structure results: I primary allowed excitation/gap is 4.44 eV."
+    },
+    {
+      "evidence_id": "ev_doc_bb6e4f756d2c_000156_c29e5b98f41a",
+      "source": "Main paper, SOC/model discussion: model SOC shrinkage and resulting values are trend estimates, not accurate parent-cell values."
+    },
+    {
+      "evidence_id": "ev_approved_band_observables_20260914",
+      "source": "Main paper pp2,4-5: HSE06 context, organic pi-star levels versus higher Pb-related excitation energies, separate reduced-model SOC estimate. Approved observable split; evaluation/boundary_repair_evidence.json replays original group_6 EIGENVAL in both successful meshes. Historical analyze_hse06_band_edges.py selected vband+9 and minimized same-k differences; this does not establish the global independent-edge gap, full-zone directness, exhaustive manifold assignment or optical allowedness. Raw projection outputs remain available, not rewritten or used as an agent answer. Current update: evaluation/verification_supplement.json closes the original second-grid identity gap using independent new projections; the boundary_repair_evidence.json release_reconciliation is retained as historical provenance."
+    },
+    {
+      "evidence_id": "ev_b815_second_mesh_identity_20260920",
+      "source": "Evaluator-private evaluation/verification_supplement.json and verified_computation_reference.md: three independently projected 3x3x1 HSE06 SCFs completed 2026-09-16, re-extracted from raw outputs 2026-09-20; same-object character, four distinct observables and cross-mesh stability established within sampled domain."
+    }
+  ]
+}

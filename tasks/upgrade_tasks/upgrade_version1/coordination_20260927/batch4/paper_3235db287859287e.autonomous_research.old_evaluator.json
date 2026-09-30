@@ -1,0 +1,166 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_3235db287859287e",
+    "items": [
+      {
+        "key_point_id": "kp_process_minima",
+        "key_point_type": "process",
+        "statement": "The investigator verifies both named structures retain their assigned E/Z configuration and are minima with zero imaginary frequencies.",
+        "evidence_ids": [
+          "ev_doc_735b0692630f_000515_ad0a47173949"
+        ],
+        "expected": "Object-specific validation is reported for 3aa_Z and 3aa_E, including connectivity/configuration checks and imaginary-frequency counts of zero for accepted minima.",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "key_point_id": "kp_process_common_protocol",
+        "key_point_type": "process",
+        "statement": "The comparison uses one explicitly declared, common energy protocol and reports temperature, environment, and energy convention.",
+        "evidence_ids": [
+          "ev_doc_735b0692630f_000515_ad0a47173949"
+        ],
+        "expected": "A reproducible common protocol and units are stated for both objects.",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "key_point_id": "kp_result_signed_difference",
+        "key_point_type": "result",
+        "statement": "The signed relative free energy is reported as ΔG(E)−ΔG(Z) in kcal/mol.",
+        "evidence_ids": [
+          "ev_doc_735b0692630f_000588_c05dd23f0c91"
+        ],
+        "expected": "A numeric signed difference with unit and calculation basis is supplied when status is complete.",
+        "paper_id": "paper_3235db287859287e"
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_3235db287859287e",
+    "items": [
+      {
+        "conclusion_id": "c_final_preference",
+        "claim_role": "final",
+        "evidence_ids": [
+          "ev_doc_735b0692630f_000588_c05dd23f0c91"
+        ],
+        "expected": "The validated 3aa_Z and 3aa_E free energies identify the preferred stereoisomer and the signed G(E)-G(Z) difference under the common thermochemical protocol.",
+        "supporting_key_point_ids": [
+          "kp_process_minima",
+          "kp_process_common_protocol",
+          "kp_result_signed_difference"
+        ],
+        "paper_id": "paper_3235db287859287e",
+        "statement": "The validated 3aa_Z and 3aa_E free energies identify the preferred stereoisomer and the signed G(E)-G(Z) difference under the common thermochemical protocol."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "paper_id": "paper_3235db287859287e",
+    "rules": [
+      {
+        "rule_id": "r_kp_process_minima",
+        "type": "semantic",
+        "expected": "Both named objects have object-specific configuration/connectivity validation and zero imaginary frequencies when accepted as minima. Establish E/Z correspondence from the mapped final geometry rather than filename or energy proximity.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.objects[*].connectivity_verified",
+            "$.objects[*].minimum_validation"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "reference_id": "kp_process_minima",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "rule_id": "r_kp_protocol",
+        "type": "semantic",
+        "expected": "The report declares a common protocol, temperature, environment and energy convention.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.protocol"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "reference_id": "kp_process_common_protocol",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "rule_id": "r_kp_difference",
+        "type": "semantic",
+        "expected": "When status is complete, compare the reported numeric signed ΔG(E)−ΔG(Z) in kcal/mol to the source value 1.5 kcal/mol within 1.0 kcal/mol; when status is bounded_failure, accept a null difference only when the report identifies the failed validation and does not claim a favored object. Recompute the signed difference from the two identified same-protocol Gibbs energies and units. A bounded failure does not establish the energy difference or a preferred stereoisomer.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.objects",
+            "$.protocol",
+            "$.comparison"
+          ],
+          "comparison": "absolute difference"
+        },
+        "reference_id": "kp_result_signed_difference",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "rule_id": "r_final",
+        "type": "semantic",
+        "expected": "The validated 3aa_Z and 3aa_E free energies identify the preferred stereoisomer and the signed G(E)-G(Z) difference under the common thermochemical protocol. Restrict the conclusion to the computed E/Z thermodynamic comparison; it does not demonstrate experimental formation selectivity or a kinetic mechanism.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.status",
+            "$.comparison"
+          ],
+          "comparison": "expert semantic comparison"
+        },
+        "reference_id": "c_final_preference",
+        "paper_id": "paper_3235db287859287e"
+      }
+    ],
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_3235db287859287e",
+    "items": [
+      {
+        "failure_id": "cf_wrong_object",
+        "condition": "The submission changes connectivity, charge, multiplicity, or E/Z identity of either named object.",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "failure_id": "cf_unvalidated_minimum",
+        "condition": "A claimed accepted minimum lacks vibrational analysis or has nonzero imaginary-frequency count.",
+        "paper_id": "paper_3235db287859287e"
+      },
+      {
+        "failure_id": "cf_unbound_claim",
+        "condition": "The submission claims a global or mechanistic conclusion unsupported by its declared search and model boundary.",
+        "paper_id": "paper_3235db287859287e"
+      }
+    ]
+  },
+  "evidence_map.json": {
+    "paper_id": "paper_3235db287859287e",
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_735b0692630f_000515_ad0a47173949",
+        "paper_id": "paper_3235db287859287e",
+        "source": "Current SI computational details and stereochemical considerations (sections 10 and 13), source-backed in evidence index."
+      },
+      {
+        "evidence_id": "ev_doc_735b0692630f_000588_c05dd23f0c91",
+        "paper_id": "paper_3235db287859287e",
+        "source": "Current SI computational details and stereochemical considerations (sections 10 and 13), source-backed in evidence index."
+      }
+    ]
+  }
+}

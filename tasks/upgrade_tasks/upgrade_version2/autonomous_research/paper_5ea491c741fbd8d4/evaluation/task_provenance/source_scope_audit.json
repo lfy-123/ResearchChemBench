@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "source_scope_verified": true,
+  "source_documents": [
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/main.pdf",
+      "sha256": "7621bdebf4659fb6c1e67f15c6ceda8dccbb4442eec850819fd613db4bc8ba6a",
+      "material_type": "article PDF",
+      "read_scope": "PDF pp2–4 methods/Table1/§3.2–3.3 and pp5–6 Figs2–5; p3 basis inconsistency verified"
+    },
+    {
+      "path": "papers/paper_5ea491c741fbd8d4/documents/supplementary_001.pdf",
+      "sha256": "4d381cbbbbade30dc691faf5ca339844b62b609a221568ee0f9a7983b29299a5",
+      "material_type": "checkCIF report PDF, not a source CIF",
+      "read_scope": "All4pages; checkCIF/PLATON alerts and drawing, no fractional-coordinate loop"
+    }
+  ],
+  "source_scope": {
+    "question": "对指定E-isoxazole 1a真实晶体的分子间作用及堆积解释进行证据检验。",
+    "identity": "C12H11NO3；完整27原子中性单重态单体；300 K测定P21/c，CCDC2445596，Z=4。",
+    "observations": "只保留Table1实测晶胞和物质身份；完整结构坐标缺失。源接触指派、指纹百分比和稳定化说法是作者推断，留PR/私有。",
+    "scale": "真实单晶中的分子间作用；不能由单体gap推出晶格自由能、酶抑制或生物效力。",
+    "mapping": [
+      {
+        "fact": "身份/晶胞/300K",
+        "source": "main p3 Table1; p4 §3.1–3.2"
+      },
+      {
+        "fact": "研究相互作用与堆积",
+        "source": "main p4 §3.2–3.3; Figs2–5"
+      },
+      {
+        "fact": "SI不足以恢复坐标",
+        "source": "supplementary001 all4pages"
+      }
+    ]
+  },
+  "facts_and_goal_mapping": [
+    {
+      "fact": "身份/晶胞/300K",
+      "source": "main p3 Table1; p4 §3.1–3.2"
+    },
+    {
+      "fact": "研究相互作用与堆积",
+      "source": "main p4 §3.2–3.3; Figs2–5"
+    },
+    {
+      "fact": "SI不足以恢复坐标",
+      "source": "supplementary001 all4pages"
+    }
+  ],
+  "reading_boundary": "Relevant full sections/text and existing source-page figures read; raw source hashes verified. Missing sources are explicitly stated.",
+  "new_goal": "What intermolecular interactions account for the observed packing of the specified isoxazole crystal, and how strongly can the available evidence distinguish their roles? Establish which interpretations are supported, contradicted or unresolved within the authenticated crystal and the limits of the chosen evidence.",
+  "decision_space": [
+    "自主提出或修正作用解释；不提供接触类型候选表。",
+    "选择表示晶体的模型、抽取范围、计算/分析方法、判别量和验证。",
+    "决定何种证据能支持几何、能量或因果层级主张及何时收缩结论；不规定CP/面积/截断。"
+  ],
+  "input_changes": [
+    {
+      "action": "retain",
+      "file": "data/inputs/system.json",
+      "reason": "完整化学身份和映射必要，不含答案坐标。"
+    },
+    {
+      "action": "rewrite",
+      "file": "data/inputs/crystal_source_specification.json",
+      "reason": "保留观测数据并加原报道误差，不提供接触赢家。"
+    },
+    {
+      "action": "remove_from_active_public",
+      "file": "controls.json; development_gate.json; data_provenance.json",
+      "reason": "旧矩阵及操作顺序移入私有V1归档，改中性input_status/resource_limits。"
+    },
+    {
+      "action": "redact",
+      "file": "task_info.json",
+      "reason": "paper标题/doi等检索线索不进入盲AR公共metadata；保留私有来源索引。"
+    }
+  ],
+  "limits": [
+    "真实CIF未获得；本轮禁止新科学作业，不能宣称源晶体任务可科学执行完成。",
+    "离线格式/完整性检查不替代科学语义judge校准；需协调者审查。"
+  ]
+}

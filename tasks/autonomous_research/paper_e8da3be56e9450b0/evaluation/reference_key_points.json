@@ -38,6 +38,13 @@
       "evidence_ids": [
         "ev_doc_63c3e04330d3_000237_6b1dc4a4932e"
       ]
+    },
+    {
+      "key_point_id": "ar_route_availability",
+      "key_point_type": "qualification",
+      "statement": "If the author-specified neutral ISPIN=1 BZCT route is non-insulating and VASP emits no LCALCPOL/Berry vector, the numeric polarization comparison is route-infeasible and must be reported as bounded failure rather than inferred.",
+      "expected": "A bounded-failure report may preserve the paper targets while explicitly recording that the observable is unavailable under the executable route.",
+      "evidence_ids": []
     }
   ]
 }

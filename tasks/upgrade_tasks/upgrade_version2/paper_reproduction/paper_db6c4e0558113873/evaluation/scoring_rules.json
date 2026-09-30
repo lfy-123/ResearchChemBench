@@ -1,0 +1,166 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Validate6b and full relevant ligand/substrate identity, Cu coordination/charge/spin, chlorine and reagent reservoirs. Formal CuIII labels alone do not validate electronic states. Different ligand inventories cannot be compared by bare total energies. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Validate6b and full relevant ligand/substrate identity, Cu coordination/charge/spin, chlorine and reagent reservoirs. Formal CuIII labels alone do not validate electronic states. Different ligand inventories cannot be compared by bare total energies. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_reaction",
+      "reference_id": "kp_reaction",
+      "type": "condition",
+      "expected": "Generate auditable quantities bearing on local C–Cl formation/selectivity. Repeating the source2.3kcal/mol minima difference alone does not establish the reaction route. Non-author models and bounded conclusions are eligible when grounded in relevant raw evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.records",
+          "$.scientific_response"
+        ],
+        "comparison": "Generate auditable quantities bearing on local C–Cl formation/selectivity. Repeating the source2.3kcal/mol minima difference alone does not establish the reaction route. Non-author models and bounded conclusions are eligible when grounded in relevant raw evidence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_test",
+      "reference_id": "kp_test",
+      "type": "condition",
+      "expected": "Judge the discriminating power of the selected tests in light of observed product and catalyst/trapping controls. A claimed activation route needs connectivity and appropriate stationary/path evidence; neither author CuIII capture nor direct transfer is mandatory. Properly demonstrated collapse or indistinguishability is acceptable. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.validity_checks",
+          "$.decision_log"
+        ],
+        "comparison": "Judge the discriminating power of the selected tests in light of observed product and catalyst/trapping controls. A claimed activation route needs connectivity and appropriate stationary/path evidence; neither author CuIII capture nor direct transfer is mandatory. Properly demonstrated collapse or indistinguishability is acceptable. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_limits",
+      "reference_id": "kp_limits",
+      "type": "condition",
+      "expected": "Bound model/spin, preparation/binding and thermal/solvation effects relevant to the inference. Explain source40°C versus any calculation temperature; do not equate the SI G273.15 label with verified313.15K thermochemistry or add arbitrary tolerance. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.uncertainty",
+          "$.methods",
+          "$.results"
+        ],
+        "comparison": "Bound model/spin, preparation/binding and thermal/solvation effects relevant to the inference. Explain source40°C versus any calculation temperature; do not equate the SI G273.15 label with verified313.15K thermochemistry or add arbitrary tolerance. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Support or challenge the source rationale in proportion to evidence. Local energetics cannot prove the entire photocycle, quantitative yield or an exclusive global pathway. No source conformer or Cu oxidation-state winner is compulsory. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.scientific_response",
+          "$.limitations"
+        ],
+        "comparison": "Support or challenge the source rationale in proportion to evidence. Local energetics cannot prove the entire photocycle, quantitative yield or an exclusive global pathway. No source conformer or Cu oxidation-state winner is compulsory. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Metal/ligand and atom accounting Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "reaction",
+      "max_score": 30,
+      "description": "Quantitative evidence for local C–Cl selectivity Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_reaction"
+      ]
+    },
+    {
+      "id": "test",
+      "max_score": 20,
+      "description": "Mechanistic inference distinguished from endpoint ranking Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_test"
+      ]
+    },
+    {
+      "id": "limits",
+      "max_score": 15,
+      "description": "State and condition sensitivity Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_limits"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 15,
+      "description": "Local explanation with appropriate causal scope Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

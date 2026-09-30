@@ -1,0 +1,100 @@
+{
+  "batch": 5,
+  "date": "2026-09-27",
+  "paper_id": "paper_2c439196c2f349c9",
+  "mode": "autonomous_research",
+  "source": "tasks/final_verified_autonomous_research/paper_2c439196c2f349c9",
+  "source_package_content_sha256": "ec948c278478d5129e6f210b9ec53482d1dd140b4e88103566a3f1b790ae80e6",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/inp_molecule.json": {
+      "sha256": "70c8b53f724f33bf18f25389b92a5f2137435ff4f07fe808cf5ef9b01ead8456",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/inp_molecule.json.snapshot"
+    },
+    "agent_input/submission_schema.json": {
+      "sha256": "c54246da117f95c05300a8bb464c2fe2a12a168ba0670124fa456dc76f1091ad",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot"
+    },
+    "agent_input/task.md": {
+      "sha256": "ec9189a306788de5867902343478266c316d4224c3f9bbe8728da46d9199ea7c",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot"
+    },
+    "evaluation/critical_failures.json": {
+      "sha256": "fed2dc6c7f025b071f8365120f2d40e3881ec25d503009ea802bb8ae7fd2ee38",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot"
+    },
+    "evaluation/evidence_map.json": {
+      "sha256": "e7769018e2c55167264ca9ad4abd51d09a33630119597b3e08ddcc0b04f20e12",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot"
+    },
+    "evaluation/reference_conclusions.json": {
+      "sha256": "3a05b460c78994cfe78e7139f33d14ca63df72e5d5a72c44a7846e8bc2c08b11",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot"
+    },
+    "evaluation/reference_key_points.json": {
+      "sha256": "12cb637f0dc46ac0dec037c201f78eba81742db40c69150bafaf3f42d54f59e8",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot"
+    },
+    "evaluation/scoring_rules.json": {
+      "sha256": "875d65f8315874f26b60af72878314fbf8dfeec3c0b82f01fb1e7c10818095d1",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "sha256": "1ee68c01130c3e918fe7b7c67e4f8988c78e1d0138e61a1d29f93e22f5375a88",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot"
+    },
+    "package_manifest.json": {
+      "sha256": "cf0a2cd387583e2000c936f9063deb2b4b3f61ac6a2a63dc6e21d1d2d1f7e81e",
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot"
+    },
+    "paper_route.md": {
+      "sha256": "4cd73107c8f8a5bf026848f5a16928e82a654b8b68168f0698ed417dea9380a8",
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot"
+    },
+    "task_info.json": {
+      "sha256": "073de036943c7fc5e061b841de815696eb1b8e56510de394b04f2bc7ab3f455d",
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_2c439196c2f349c9/documents/main.pdf",
+      "sha256": "1470f926af7414723c25e43c91ebe0fc964aa269e3943752deb4d469907ae3e7",
+      "pages": [
+        3,
+        9,
+        10,
+        11
+      ],
+      "total_pages": 12
+    },
+    {
+      "path": "papers/paper_2c439196c2f349c9/documents/supplementary_001.pdf",
+      "sha256": "2f1a3ca284a417a10d01c535fe535c5fcfc4d3f39d1ad9391a835f06094b2669",
+      "pages": [
+        6,
+        7
+      ],
+      "total_pages": 7
+    },
+    {
+      "path": "docs/evalution/update/paper_2c439196c2f349c9.md",
+      "sha256": "957d14dfad2b4a4f777f9b3eb0fe9f60a31cc92772ef5726cda387843c1185b7",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "status": "blocked",
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "short_checks": "Connectivity/formula/stoichiometry checks and synthetic format regressions only.",
+  "input_blockers": [
+    "Figure 10 now has 27 traceable discrete temporal marker rows with pixel-reading bounds. Independent power/intensity and Z-scan measurement rows from the remaining figures, with defensible experimental/digitization errors, remain missing. Fitted curves and fitted time constants are not independent observations.",
+    "The available source text does not establish a complete calibrated SSPM beam-waist, instrument-response and thermal-parameter dataset. Obtain measurement/plot digitization with bounded parameter provenance before completing model discrimination."
+  ],
+  "new_reference_gaps": [
+    "Complete power/Z-scan measured rows and traceable SSPM beam, instrument-response, measurement-noise and thermal bounds remain needed; 27 temporal markers alone do not resolve identifiability.",
+    "No fitted expanded reference, residual distribution or noise-based tolerance has been computed."
+  ],
+  "source_read_claim": "Relevant full-text pages/sections were read; list is not a claim that every page was scientifically revalidated."
+}

@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_3c89b494a1645491",
+  "task_type": "paper_reproduction",
+  "title": "Independent AIM characterization of Au···Au contacts in a tetranuclear gold(I) cation",
+  "category": "computational inorganic chemistry / bonding analysis",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Heavy-atom tetracation requires a defensible relativistic electronic-structure treatment.",
+    "The agent must validate four named BCPs and report multiple coupled QTAIM observables while independently choosing the computational route.",
+    "The qualitative author hypothesis is disclosed, but the quantitative bonding result must be independently reproduced and interpreted."
+  ],
+  "paper": {
+    "title": "Tetranuclear Gold(I) Complexes Bearing Imidazo[1,5-b]pyridazin-7-ylidene Ligands: Synthesis and Catalytic Applications in Nucleophilic Addition to Alkynes",
+    "doi": "10.1021/acs.organomet.5c00453",
+    "journal": "Organometallics",
+    "publication_date": "2026-01-08"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Supplied immutable CCDC 2500223 CIF plus deterministic extraction/state definition for the anion-free tetranuclear Au(I) cation; CCDC retrieval is not scored."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculation provenance, geometry/BCP checks, per-contact AIM observables, classification, conclusion."
+    }
+  ]
+}

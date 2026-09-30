@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct scientific objects and valid computational evidence.",
+      "expected": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: Use the complete neutral singlet `EPI1_start.xyz` (C13H21NO2) and `EPI2_start.xyz` (C14H23NO3). Preserve the original atom indices within each molecule and supply a correspondence for the common cured-epoxy backbone. Do not modify the curing/truncation convention to manufacture a comparison. The starting geometries are not guaranteed minima and do not define the only permitted conformer.\n\nThe primary boundary is gas phase at 298.15 K. Use a common method and thermal convention for both molecules, reporting the choice before comparing populations. For distinct validated released minima, normalize Boltzmann weights using a stated relative-G and conformer-degeneracy convention. The primary ensemble polarity descriptor is <mu^2> = sum_i w_i |mu_i|^2 in D^2; sqrt(<mu^2>) may additionally be reported. Do not sum dipole vectors expressed in arbitrary molecular orientations and interpret cancellation as reduced intrinsic polarity. Also report single-conformer |mu| in D, EPI2-minus-EPI1 changes and their signed percentages with the reference denominator stated.\n\nCompare O–H orientation toward/away from the mapped methoxy oxygen and the corresponding common backbone in EPI1. Frozen or restrained geometries are intervention diagnostics, not unconstrained minima. Do not assign them equilibrium weights or reuse an unrelated thermal correction. Hydroxyl stretch assignment requires real normal-mode/displacement evidence at valid minima; if an away geometry returns to the same basin, report that result and use the constrained point only for geometry/electronic diagnostics. Bulk Dk, water uptake, crosslinked-polymer MD and macroscopic FTIR prediction are outside scope.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_conformers",
+      "statement": "Released minima, energies, dipoles and OH-mode evidence for both fragments.",
+      "expected": "Verify same fragment identity, honest conformer deduplication and minima; recalculate dipoles and relative energies from the logs. Absence of a second basin must be supported by actual searches. Both EPI1 C13H21NO2 and EPI2 C14H23NO3 are neutral singlets with the supplied backbone/atom indices. Check actual search coverage, duplicate minima, geometry validation and OH normal-mode displacements; dipole magnitudes must come from the claimed states/protocol. A single surviving minimum may be legitimate after real searching; do not require invented basins. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_ensembles",
+      "statement": "Same-temperature normalized weights and <mu^2>, with signed comparison.",
+      "expected": "Recompute weights, degeneracies, <mu^2> and percentage; distinguish single-structure from ensemble changes. No arbitrary-frame dipole-vector cancellation or weights on constrained points. At 298.15 K recompute w_i=g_i*exp[-(G_i-G_min)/(R*T)]/sum_j(g_j*exp[-(G_j-G_min)/(R*T)]), using R consistent with kJ/mol. Weights sum to one and use distinct released minima only. Recompute <mu^2>=sum(w_i*mu_i^2), Delta=EPI2-EPI1 and percent=100*Delta/<mu^2>_EPI1. No summation of vectors in arbitrary frames, arbitrary duplication of degeneracy, constrained-point population or silent single-conformer substitution. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_interventions",
+      "statement": "OH orientation and common-backbone controls separating substitution and geometry.",
+      "expected": "Inspect mapped frozen/released geometries, dipole contrasts, OH distances/angles and valid normal modes. A text about hydrogen bonding without a real intervention does not satisfy this endpoint. Both OH-orientation and common-backbone control endpoints must have actual paired calculations, or an explicitly demonstrated equivalent intervention with the same discrimination. Read the atom/constraint map and compare measured OH...O geometry and dipoles. Frequency evidence for an OH stretch comes from validated released minima, not a restrained nonstationary structure. Assess whether population changes confound the hydrogen-bond inference. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Evidence-supported hypothesis discrimination and sensitivity.",
+      "expected": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Changing fragment truncation; using arbitrary-frame vector cancellation; treating a restrained point as an equilibrium minimum; calling a single dipole or an unvalidated constrained vibration a proof of bulk dielectric behavior.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

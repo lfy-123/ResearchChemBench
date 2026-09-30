@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_c28b0a1c549f4575",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_c28b0a1c549f4575/documents/main.pdf",
+          "sha256": "4e3ad96c28503f3a100df2083569811eef0ee848ae6aca2def236523628f8909",
+          "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF pp1–3为TEA-BF4/PC与DEDABCO-(BF4)2，p3 NMR/Raman表现随DED浓度变化；SI为制备及计算边界。",
+          "actual_read_pages_and_sections": "Main pp1–3 identities/formulation and complete Fig2 discussion p3; SI pp5–6 computational protocols and separate MD specification."
+        },
+        {
+          "path": "papers/paper_c28b0a1c549f4575/documents/supplementary_001.pdf",
+          "sha256": "51551c36ef22b1633c2ee346411edf4c5b5f3ec9edd9ea1ce7e923c011387546",
+          "locator": "Main pp1-3 electrolyte identity and association; SI pp5-6 computational details.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF pp1–3为TEA-BF4/PC与DEDABCO-(BF4)2，p3 NMR/Raman表现随DED浓度变化；SI为制备及计算边界。",
+          "actual_read_pages_and_sections": "Main pp1–3 identities/formulation and complete Fig2 discussion p3; SI pp5–6 computational protocols and separate MD specification."
+        }
+      ],
+      "description": "The source investigates TEA-BF4/PC with addition of DEDABCO-(BF4)2 and links concentration-dependent spectral behavior to molecular association. This task bounds the investigation to local ion/solvent association. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "group_6 既有TEA接触先导/恢复输出保留；DED、配位数和方法参考未齐。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular account of propylene-carbonate association with the TEA/DED/BF4 components is supported in the stated mixed-electrolyte context? Determine whether and under which model assumptions the change of cation composition can alter the local PC environment, and what cannot be inferred from that evidence. Support each association inference with a chemically matched reference and appropriate structure/state/numerical evidence. Distinguish electronic interaction, thermodynamics and bulk speciation; justify the model and any comparison to concentration-dependent spectroscopy. If results depend on composition, solvent treatment or configurations, bound the conclusion accordingly rather than prespecifying one grid."
+    }
+  ]
+}

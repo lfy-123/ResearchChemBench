@@ -39,7 +39,7 @@
     {
       "rule_id": "r_ih",
       "type": "numeric",
-      "expected": "Ih source set",
+      "expected": "Ih four-mode source set from SI Table S3a: 49.9,54.9,65.2,68.9 cm-1; do not omit the fourth lateral mode.",
       "unit": "cm-1",
       "tolerance": 12,
       "binding": {
@@ -47,15 +47,15 @@
           "report/results.json"
         ],
         "fields": ["$.isomers.Ih.modes[].frequency_cm-1"],
-        "comparison": "sorted-set comparison"
+        "comparison": "Sort four physically assigned lateral modes and the four reference frequencies; each absolute paired difference must be <=12 cm-1. Disclose mode mixing and additional candidates. Do not use gold proximity to choose modes."
       },
       "reference_id": "kp_ih",
-      "target": 12.0
+      "target": [49.9, 54.9, 65.2, 68.9]
     },
     {
       "rule_id": "r_d5h",
       "type": "numeric",
-      "expected": "D5h source set",
+      "expected": "D5h four-mode source set from SI Table S3b: 67.4,81.9,90.2,93.8 cm-1.",
       "unit": "cm-1",
       "tolerance": 12,
       "binding": {
@@ -63,10 +63,10 @@
           "report/results.json"
         ],
         "fields": ["$.isomers.D5h.modes[].frequency_cm-1"],
-        "comparison": "sorted-set comparison"
+        "comparison": "Sort four physically assigned lateral modes and the four reference frequencies; each absolute paired difference must be <=12 cm-1. Disclose mode mixing and additional candidates. Do not use gold proximity to choose modes."
       },
       "reference_id": "kp_d5h",
-      "target": 12.0
+      "target": [67.4, 81.9, 90.2, 93.8]
     },
     {
       "rule_id": "r_trend",

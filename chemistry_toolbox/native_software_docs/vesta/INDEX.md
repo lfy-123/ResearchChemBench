@@ -12,7 +12,7 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 
 ## Installed software
 - Installed version: `3.90.5a`.
-- Operational status: `runnable_headless_gui`.
+- Operational status: `runnable_headless`.
 - Configured runtime: `vesta`.
 - Primary use: interactive visualization and conversion of crystal, volumetric, and project files.
 

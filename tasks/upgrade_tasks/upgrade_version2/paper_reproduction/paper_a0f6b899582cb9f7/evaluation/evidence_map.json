@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_a0f6b899582cb9f7/documents/main.pdf",
+          "sha256": "536dd808e61410cb46b94a17eccf128122c410866a2933ca90121a7d20de81f0",
+          "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p2 Fig1 提供材料拓扑、pp3–4 讨论相互作用；SI p3 是 M3 合成/表征，没有作者精确封端坐标。当前 data_provenance 和 fragment_models 明示独立审查的 builder finite models。",
+          "actual_read_pages_and_sections": "Main pp2–4 Fig1 and interaction paragraph; pp7–8 method sections; SI pp3,5. Fig1a chemical drawings visually inspected and isolated from answer panels."
+        },
+        {
+          "path": "papers/paper_a0f6b899582cb9f7/documents/supplementary_001.pdf",
+          "sha256": "706d864d2d7eedd3257f86c9d9a4510612c0d6cc5fcdf10b3198f784fbd006ae",
+          "locator": "Main p2 Fig1 and pp3-4 interactions; SI pp3,5 molecular characterization and FigS3; no atom-resolved PM6/BTP-eC9 fragment coordinate/cap list was found in these materials.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p2 Fig1 提供材料拓扑、pp3–4 讨论相互作用；SI p3 是 M3 合成/表征，没有作者精确封端坐标。当前 data_provenance 和 fragment_models 明示独立审查的 builder finite models。",
+          "actual_read_pages_and_sections": "Main pp2–4 Fig1 and interaction paragraph; pp7–8 method sections; SI pp3,5. Fig1a chemical drawings visually inspected and isolated from answer panels."
+        }
+      ],
+      "description": "The source studies M3 in PM6/BTP-eC9 films and includes finite molecular interaction models. The defensible executable subproblem is the local molecular interaction account for these source components, not a prediction of film/device performance. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "已有图审查、四接触起向筛选、历史张量证据可用；严格频率、CP/变形、统一分解和真实较大片段配对仍待完成。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What can a finite molecular investigation establish about interactions of M3 with the chemical environments present in PM6 and BTP-eC9? Develop a physically supported account and determine how far the chosen models can represent those material components. For every material model explain what was retained and omitted and what properties it can represent. Validate the actual quantitative interaction observable and assumptions underpinning the explanation. If using multipoles, state coordinate frame, origin, convention and dimensionally correct units; if using energies, use balanced systems and disclose treatment of structural/electronic approximations."
+    }
+  ]
+}

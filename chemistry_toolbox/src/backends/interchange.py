@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import json
-import math
 from pathlib import Path
 from typing import Any
 
+from .quantum_reader import read_quantum_output as _read_quantum_output
+
 from .common import (
     atoms_and_coordinates,
+    failed,
     module_version,
     output_directory,
     partial_success,
@@ -158,7 +160,7 @@ def _validate_qcschema_record(request: dict[str, Any]) -> dict[str, Any]:
 
 _CCLIB_GROUPS: dict[str, tuple[str, ...]] = {
     "metadata": (
-        "metadata", "charge", "mult", "natom", "nbasis", "nmo", "coreelectrons",
+        "metadata", "charge", "mult", "natom", "nbasis", "nmo", "coreelectrons", "optdone", "optstatus",
     ),
     "atom_coordinates": ("atomcoords", "atomnos", "atommasses"),
     "energies": (
@@ -205,83 +207,6 @@ def _array_elements(value: Any) -> int:
     return 1
 
 
-def _append_orca_scf_targets_compat(parser: Any, inputfile: Any, line: str) -> bool:
-    """Handle ORCA blocks whose first convergence report omits RMS-density."""
-
-    while "Last Energy change" not in line:
-        line = next(inputfile)
-    delta_energy_value = float(line.split()[4])
-    delta_energy_target = float(line.split()[7])
-    line = next(inputfile)
-    used_workaround = False
-    if "Last MAX-Density change" in line:
-        maximum_density_value = float(line.split()[4])
-        maximum_density_target = float(line.split()[7])
-        line = next(inputfile)
-        if "Last RMS-Density change" in line:
-            rms_density_value = float(line.split()[4])
-            rms_density_target = float(line.split()[7])
-        else:
-            previous_values = parser.scfvalues[-1][-1]
-            rms_density_value = (
-                float(previous_values[2]) if len(previous_values) > 2 else math.nan
-            )
-            if parser.scftargets:
-                rms_density_target = float(parser.scftargets[-1][2])
-                if delta_energy_target != parser.scftargets[-1][0]:
-                    raise ValueError("ORCA SCF energy target changed unexpectedly")
-                if maximum_density_target != parser.scftargets[-1][1]:
-                    raise ValueError("ORCA SCF maximum-density target changed unexpectedly")
-            else:
-                # ORCA 4 may omit the RMS target in the first convergence
-                # summary. cclib 1.8.1 indexes a nonexistent previous target.
-                # Preserve the missing value as NaN; it is parser metadata and
-                # does not alter any electronic energy or requested property.
-                rms_density_target = math.nan
-                used_workaround = True
-        parser.scfvalues[-1].append(
-            [delta_energy_value, maximum_density_value, rms_density_value]
-        )
-        parser.scftargets.append(
-            [delta_energy_target, maximum_density_target, rms_density_target]
-        )
-    return used_workaround
-
-
-def _ccread_with_orca_compatibility(source: Path) -> tuple[Any, list[str]]:
-    """Run cclib with a narrow ORCA 4/cclib 1.8.1 convergence-block fix."""
-
-    from cclib.io import ccread
-    from cclib.parser.orcaparser import ORCA
-
-    original = ORCA._append_scfvalues_scftargets
-    workaround_used = False
-
-    def patched(parser: Any, inputfile: Any, line: str) -> None:
-        nonlocal workaround_used
-        workaround_used = (
-            _append_orca_scf_targets_compat(parser, inputfile, line)
-            or workaround_used
-        )
-
-    ORCA._append_scfvalues_scftargets = patched
-    try:
-        parsed = ccread(str(source), loglevel=40)
-    except Exception as exc:
-        raise RuntimeError(
-            f"cclib could not parse {source.name}: {type(exc).__name__}: {exc}"
-        ) from exc
-    finally:
-        ORCA._append_scfvalues_scftargets = original
-    warnings = []
-    if workaround_used:
-        warnings.append(
-            "Applied the cclib 1.8.1 compatibility fix for an ORCA convergence block "
-            "whose first summary omitted the RMS-density target; electronic energies "
-            "and requested scientific properties were not changed."
-        )
-    return parsed, warnings
-
 
 def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
     import cclib
@@ -310,9 +235,28 @@ def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
     if maximum < 1 or maximum > 100000000:
         raise ValueError("max_array_elements must be between 1 and 100000000")
 
-    parsed, parser_warnings = _ccread_with_orca_compatibility(source)
+    version = getattr(cclib, "__version__", None) or module_version("cclib")
+    parsed, parse_details = _read_quantum_output(source)
     if parsed is None:
-        raise RuntimeError("cclib could not recognize or parse the supplied output file")
+        error = parse_details["error"]
+        message = (
+            f"cclib {version} could not parse {error['source_path']} "
+            f"at line {error['line_number']} ({error['section']}): "
+            f"{error['exception_type']}: {error['reason']}"
+        )
+        response = failed(message, code="output_parse_failed")
+        response["error"].update(error, parser_version=version,
+            evidence=[{"path": error["source_path"], "line_number": error["line_number"]}])
+        response["backend_version"] = version
+        return response
+    parser_warnings = [
+        f"{item['message']} (line {item['line_number']}; occurrences: {item['occurrences']})"
+        for item in parse_details["diagnostics"]
+    ]
+    if parse_details["source_termination"] != "normal":
+        parser_warnings.append(
+            "Normal termination was not confirmed in the source output. Values can come from earlier completed steps; inspect property_sources before combining energies, geometries and frequencies."
+        )
     attributes = parsed.getattributes(tolists=True)
     selected: dict[str, Any] = {}
     missing_groups = []
@@ -338,13 +282,20 @@ def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
             f"Selected cclib data contains {element_count} scalar elements, exceeding "
             f"max_array_elements={maximum}; request fewer groups or raise the explicit limit"
         )
+    incomplete = set(parse_details["incomplete_properties"])
+    incomplete_groups = [group for group in groups
+                         if "all" in incomplete or incomplete.intersection(_CCLIB_GROUPS[group])]
     metadata = dict(attributes.get("metadata") or {})
     result = {
         "parser": metadata.get("package") or parsed.__class__.__module__.split(".")[-1],
-        "parser_class": parsed.__class__.__name__,
+        "parser_class": parse_details["parser_class"],
         "source_path": relative_workspace_path(source),
         "requested_property_groups": groups,
         "missing_property_groups": missing_groups,
+        "incomplete_property_groups": incomplete_groups,
+        "source_termination": parse_details["source_termination"],
+        "parse_diagnostics": parse_details["diagnostics"],
+        "property_sources": {name: location for name, location in parse_details["property_sources"].items() if name in selected},
         "coordinate_frames": coordinate_frames,
         "properties": selected,
         "attribute_units": {
@@ -354,7 +305,6 @@ def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
     }
     directory = output_directory("parse_quantum_chemistry_output", "cclib")
     path = write_json(directory, "parsed_quantum_output.json", result)
-    version = getattr(cclib, "__version__", None) or module_version("cclib")
     kwargs = {
         "artifact_files": [
             {
@@ -372,7 +322,8 @@ def _parse_quantum_output(request: dict[str, Any]) -> dict[str, Any]:
             ),
         ],
     }
-    return partial_success(result, **kwargs) if missing_groups else success(result, **kwargs)
+    incomplete_output = missing_groups or incomplete_groups or parse_details["source_termination"] != "normal"
+    return partial_success(result, **kwargs) if incomplete_output else success(result, **kwargs)
 
 
 def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[str, Any]:

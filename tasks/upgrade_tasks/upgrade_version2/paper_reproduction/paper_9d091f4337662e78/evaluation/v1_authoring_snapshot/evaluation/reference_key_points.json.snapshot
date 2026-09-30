@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_ensemble_search",
+      "key_point_type": "result",
+      "statement": "Search both configurations independently, show per-seed generation/deduplication, refine all retained conformers and document excluded populations. Supply geometries, G values, degeneracy and weights normalized within each configuration. Validate stereochemistry and minima. Conformer collapse is deduplicated, not artificially counted.",
+      "expected": "Search both configurations independently, show per-seed generation/deduplication, refine all retained conformers and document excluded populations. Supply geometries, G values, degeneracy and weights normalized within each configuration. Validate stereochemistry and minima. Conformer collapse is deduplicated, not artificially counted.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_ensemble_ECD",
+      "key_point_type": "result",
+      "statement": "Provide per-conformer transition/rotatory strengths, weighted spectrum and analysis code under one convention. Verify a mirror pair has matching energy and opposite rotatory sign within numerical convergence. Never average R and S populations into one spectrum or choose the sign from the known label.",
+      "expected": "Provide per-conformer transition/rotatory strengths, weighted spectrum and analysis code under one convention. Verify a mirror pair has matching energy and opposite rotatory sign within numerical convergence. Never average R and S populations into one spectrum or choose the sign from the known label.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_configuration_discrimination",
+      "key_point_type": "result",
+      "statement": "Compare both frozen ensemble predictions against the heldout experimental band; compute residual/sign diagnostics across cutoff and broadening perturbations. Account separately for digitization and model errors. A two-member support set is valid only after the required searches and comparisons, not as a substitute for them.",
+      "expected": "Compare both frozen ensemble predictions against the heldout experimental band; compute residual/sign diagnostics across cutoff and broadening perturbations. Account separately for digitization and model errors. A two-member support set is valid only after the required searches and comparisons, not as a substitute for them.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

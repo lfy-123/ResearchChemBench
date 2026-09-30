@@ -99,7 +99,7 @@ auxiliary_environments:
     conda_packages: [numpy, scipy, matplotlib, cclib]
     pip_packages: [theodore=2.5.0]
     modules: [theodore, cclib]
-    commands: [theodore]
+    commands: [theodore, theodore_compat]
     notes: TheoDORE imports and CLI start; optional OpenBabel/Orbkit extensions are non-blocking extras.
 
   vesta:

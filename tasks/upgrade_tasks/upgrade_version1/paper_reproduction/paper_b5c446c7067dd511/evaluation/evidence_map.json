@@ -1,0 +1,53 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "evidence": [
+    {
+      "evidence_id": "source_documents",
+      "source": [
+        {
+          "path": "papers/paper_b5c446c7067dd511/documents/main.pdf",
+          "sha256": "e14eba4b6b741eec2e479177d88173fd688caa63c7a5f9bce461d441b7f5e09d",
+          "pages": [
+            3,
+            4,
+            5
+          ],
+          "total_pages": 13
+        },
+        {
+          "path": "papers/paper_b5c446c7067dd511/documents/supplementary_001.pdf",
+          "sha256": "d8ea0572e3bcb3543cfcba2de0e31c9a4001e9f72925f9adf5caf7d0454238f0",
+          "pages": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "total_pages": 37
+        },
+        {
+          "path": "docs/evalution/update/paper_b5c446c7067dd511.md",
+          "sha256": "73e0ee14a9879f0d6ec8b61ee5fb87a73f1f46c942d55e23c3ac587d5d1eb596",
+          "role": "First-version specification, not scientific evidence"
+        }
+      ],
+      "context": "Read main pp3–5/Figure3 and SI pp2–6 low/high-state table, NTO and IFCT definitions. Source gives energies and characters, not a calibrated full SOC/kinetic reference; a tabulated Py CT/LE percentage pair is internally inconsistent, so re-normalize from actual densities rather than copy it. The original AR file had names only while PR also had source-derived SMILES; both upgraded modes now share formula-checked full graphs and explicit terminal/bridge mappings, without the author high-state labels.",
+      "scope": "Source identities, methods and observations; author conclusions remain hypotheses for the expanded comparison."
+    },
+    {
+      "evidence_id": "extension",
+      "source": {
+        "path": "evaluation/reference_validation_plan.md"
+      },
+      "scope": "Benchmark-authored controls; new numerical references and error calibration pending."
+    },
+    {
+      "evidence_id": "legacy",
+      "source": {
+        "path": "evaluation/legacy_final_snapshot"
+      },
+      "scope": "Historical payload only. Old outputs/PASS certify no expanded endpoint."
+    }
+  ]
+}

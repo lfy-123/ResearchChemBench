@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxation_cycles",
+      "key_point_type": "result",
+      "statement": "Optimize and validate S0 and trackedS1, retaining root/state history and NTO evidence. Recompute four-point absorption, emission and reorganization terms. Define the solvation convention at each point; a darkS1/brightS2 distinction must remain explicit.",
+      "expected": "Optimize and validate S0 and trackedS1, retaining root/state history and NTO evidence. Recompute four-point absorption, emission and reorganization terms. Define the solvation convention at each point; a darkS1/brightS2 distinction must remain explicit.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_twist_control",
+      "key_point_type": "result",
+      "statement": "Compare matched45° and relaxed Ph/Nap in S0 and trackedS1. Use consistent localization metrics and atom mappings, distinguishing geometric and state-switch effects. Do not infer ESA from ordinary ground-reference roots at R1.",
+      "expected": "Compare matched45° and relaxed Ph/Nap in S0 and trackedS1. Use consistent localization metrics and atom mappings, distinguishing geometric and state-switch effects. Do not infer ESA from ordinary ground-reference roots at R1.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_Cbz_prediction",
+      "key_point_type": "result",
+      "statement": "Freeze the explanatory rule from Ph/Nap beforeCbz interpretation. Submit predicted and computedCbz properties plus a consistent experimental-band comparison and error bound. A failure of transfer is an acceptable scientific outcome after completing the panel.",
+      "expected": "Freeze the explanatory rule from Ph/Nap beforeCbz interpretation. Submit predicted and computedCbz properties plus a consistent experimental-band comparison and error bound. A failure of transfer is an acceptable scientific outcome after completing the panel.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

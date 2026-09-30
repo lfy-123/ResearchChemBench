@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "required": ["status", "method_summary", "coverage", "outcome", "audit_text", "branch_conclusion", "rate_conclusion", "scope_limitations", "validation_summary"],
+  "properties": {
+    "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+    "method_summary": {
+      "type": "object",
+      "required": ["software_or_engine", "level_of_theory", "solvation", "temperature_K", "spin_and_charge"],
+      "properties": {
+        "software_or_engine": {"type": "string"},
+        "level_of_theory": {"type": "string"},
+        "solvation": {"type": "string"},
+        "temperature_K": {"type": "number"},
+        "spin_and_charge": {"type": "string"}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["candidates", "deduplication", "stopping_rule", "limitations"],
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["candidate_id", "event", "branch", "validation_status", "evidence"],
+            "properties": {
+              "candidate_id": {"type": "string"}, "event": {"type": "string"}, "branch": {"type": "string"},
+              "validation_status": {"type": "string"}, "evidence": {"type": "string"}
+            }
+          }
+        },
+        "deduplication": {"type": "string"}, "stopping_rule": {"type": "string"}, "limitations": {"type": "string"}
+      }
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "object", "required": ["profile", "conclusion", "uncertainty"],
+          "properties": {
+            "profile": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/profile_item"}},
+            "conclusion": {"$ref": "#/$defs/conclusion"}, "uncertainty": {"type": "string"}
+          }
+        },
+        {
+          "type": "object", "required": ["profile", "missing_required_event", "attempted_candidates", "limitation", "partial_findings"],
+          "properties": {
+            "profile": {"type": "array", "maxItems": 0, "items": {"$ref": "#/$defs/profile_item"}},
+            "missing_required_event": {"type": "string"}, "attempted_candidates": {"type": "array", "items": {"type": "string"}},
+            "limitation": {"type": "string"}, "partial_findings": {"type": "string"}
+          }
+        }
+      ]
+    },
+    "audit_text": {"type": "string"}, "branch_conclusion": {"type": "string"}, "rate_conclusion": {"type": "string"},
+    "scope_limitations": {"type": "string"}, "validation_summary": {"type": "string"}
+  },
+  "$defs": {
+    "profile_item": {
+      "type": "object",
+      "required": ["object_id", "branch", "event", "relative_free_energy_kcal_mol", "validation", "provenance", "activation_free_energy_kcal_mol"],
+      "properties": {
+        "object_id": {"type": "string"}, "branch": {"type": "string"}, "event": {"type": "string"},
+        "relative_free_energy_kcal_mol": {"type": "number"}, "activation_free_energy_kcal_mol": {"type": "number"},
+        "validation": {"type": "string"}, "provenance": {"type": "string"}
+      }
+    },
+    "conclusion": {
+      "type": "object", "required": ["branch_assignment", "turnover_relevant_step", "model_scope"],
+      "properties": {"branch_assignment": {"type": "string"}, "turnover_relevant_step": {"type": "string"}, "model_scope": {"type": "string"}}
+    }
+  },
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "method_summary", "coverage", "outcome", "audit_text", "branch_conclusion", "rate_conclusion", "scope_limitations", "validation_summary"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+      "method_summary": {"type": "object", "required": ["software_or_engine", "level_of_theory", "solvation", "temperature_K", "spin_and_charge"], "properties": {"software_or_engine": {"type": "string"}, "level_of_theory": {"type": "string"}, "solvation": {"type": "string"}, "temperature_K": {"type": "number"}, "spin_and_charge": {"type": "string"}}},
+      "coverage": {"type": "object", "required": ["candidates", "deduplication", "stopping_rule", "limitations"], "properties": {"candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "event", "branch", "validation_status", "evidence"], "properties": {"candidate_id": {"type": "string"}, "event": {"type": "string"}, "branch": {"type": "string"}, "validation_status": {"type": "string"}, "evidence": {"type": "string"}}}}, "deduplication": {"type": "string"}, "stopping_rule": {"type": "string"}, "limitations": {"type": "string"}}},
+      "outcome": {"oneOf": [{"type": "object", "required": ["profile", "conclusion", "uncertainty"], "properties": {"profile": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["object_id", "branch", "event", "relative_free_energy_kcal_mol", "validation", "provenance", "activation_free_energy_kcal_mol"], "properties": {"object_id": {"type": "string"}, "branch": {"type": "string"}, "event": {"type": "string"}, "relative_free_energy_kcal_mol": {"type": "number"}, "activation_free_energy_kcal_mol": {"type": "number"}, "validation": {"type": "string"}, "provenance": {"type": "string"}}}}, "conclusion": {"type": "object", "required": ["branch_assignment", "turnover_relevant_step", "model_scope"], "properties": {"branch_assignment": {"type": "string"}, "turnover_relevant_step": {"type": "string"}, "model_scope": {"type": "string"}}}, "uncertainty": {"type": "string"}}}, {"type": "object", "required": ["profile", "missing_required_event", "attempted_candidates", "limitation", "partial_findings"], "properties": {"profile": {"type": "array", "maxItems": 0, "items": {"type": "object", "required": ["object_id", "branch", "event", "relative_free_energy_kcal_mol", "validation", "provenance", "activation_free_energy_kcal_mol"], "properties": {"object_id": {"type": "string"}, "branch": {"type": "string"}, "event": {"type": "string"}, "relative_free_energy_kcal_mol": {"type": "number"}, "activation_free_energy_kcal_mol": {"type": "number"}, "validation": {"type": "string"}, "provenance": {"type": "string"}}}}, "missing_required_event": {"type": "string"}, "attempted_candidates": {"type": "array", "items": {"type": "string"}}, "limitation": {"type": "string"}, "partial_findings": {"type": "string"}}}]},
+      "audit_text": {"type": "string"}, "branch_conclusion": {"type": "string"}, "rate_conclusion": {"type": "string"}, "scope_limitations": {"type": "string"}, "validation_summary": {"type": "string"}
+    }
+  }
+}

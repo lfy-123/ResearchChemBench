@@ -1,0 +1,213 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "coverage",
+      "states",
+      "interpretation",
+      "comparison"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "differences_A": {
+            "type": "object",
+            "required": [
+              "P-O1",
+              "P-O2",
+              "P-O3",
+              "O1-B"
+            ],
+            "properties": {
+              "P-O1": {
+                "type": "number"
+              },
+              "P-O2": {
+                "type": "number"
+              },
+              "P-O3": {
+                "type": "number"
+              },
+              "O1-B": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "differences_A"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_summary"
+        ]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software_or_code",
+          "method_description",
+          "charges_and_multiplicities"
+        ],
+        "properties": {
+          "software_or_code": {
+            "type": "string"
+          },
+          "method_description": {
+            "type": "string"
+          },
+          "charges_and_multiplicities": {
+            "type": "string"
+          }
+        }
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "candidate_generation",
+          "deduplication",
+          "advanced_candidates"
+        ],
+        "properties": {
+          "candidate_generation": {
+            "type": "string"
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "advanced_candidates": {
+            "type": "string"
+          },
+          "stopping_statement": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          }
+        }
+      },
+      "states": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "state",
+            "validated",
+            "imaginary_frequency_count",
+            "atom_mapping"
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "validated": {
+                  "const": true
+                },
+                "distances_A": {
+                  "type": "object",
+                  "required": [
+                    "P-O1",
+                    "P-O2",
+                    "P-O3",
+                    "O1-B"
+                  ],
+                  "properties": {
+                    "P-O1": {
+                      "type": "number"
+                    },
+                    "P-O2": {
+                      "type": "number"
+                    },
+                    "P-O3": {
+                      "type": "number"
+                    },
+                    "O1-B": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "distances_A",
+                "validation_evidence"
+              ]
+            },
+            {
+              "properties": {
+                "validated": {
+                  "const": false
+                }
+              },
+              "required": [
+                "failure_evidence"
+              ]
+            }
+          ],
+          "properties": {
+            "state": {
+              "type": "string"
+            },
+            "validated": {
+              "type": "boolean"
+            },
+            "imaginary_frequency_count": {
+              "type": "number"
+            },
+            "atom_mapping": {
+              "type": "string"
+            },
+            "distances_A": {
+              "type": "object"
+            },
+            "validation_evidence": {
+              "type": "string"
+            },
+            "failure_evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "interpretation": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "comparison": {
+        "type": "string"
+      },
+      "provenance": {
+        "type": "string"
+      },
+      "differences_A": {
+        "type": "object"
+      },
+      "failure_summary": {
+        "type": "string"
+      }
+    }
+  }
+}

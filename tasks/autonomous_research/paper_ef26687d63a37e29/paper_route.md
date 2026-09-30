@@ -2,11 +2,11 @@
 
 ## 1. Scientific objective and author claim
 
-The paper uses quantum-chemical structures and charge/electrostatic analysis to explain how the phosphonium-containing zwitterion formed from tris(diethylamino)phosphine and propylene anhydride interacts with propylene oxide and an alkoxide chain end. The author claim is that the onium site activates the epoxide and stabilizes the growing chain end through complementary noncovalent contacts, supporting the high-activity CO2/PO copolymerization mechanism.
+The paper uses quantum-chemical structures and charge/electrostatic analysis to explain how the phosphonium-containing zwitterion formed from tris(diethylamino)phosphine and phthalic anhydride interacts with propylene oxide and an alkoxide chain end. The author claim is that the onium site activates the epoxide and stabilizes the growing chain end through complementary noncovalent contacts, supporting the high-activity CO2/PO copolymerization mechanism.
 
 ## 2. System and model boundary
 
-The computed species are neutral singlet `(Et2N)3P`, its propylene-oxide adduct `(Et2N)3P-PO`, and its propylene-anhydride zwitterion `(Et2N)3P-PA`. The SI supplies Cartesian coordinates for each optimized structure. The analysis concerns isolated ground-state molecules, not the full polymerization environment, solvent, or explicit triethylborane.
+The computed species are neutral singlet `(Et2N)3P`, its propylene-oxide adduct `(Et2N)3P-PO`, and its phthalic-anhydride zwitterion `(Et2N)3P-PA`. The SI supplies Cartesian tables, but the PA S39-S40 table omits C6H4 relative to Figure 6a. The public task supplies the full source-defined graph and explicitly labels the generated missing-fragment coordinates; they are not attributed to the author. The analysis concerns isolated ground-state molecules, not the full polymerization environment, solvent, or explicit triethylborane.
 
 ## 3. Authors' implemented computational route
 
@@ -23,8 +23,12 @@ Each optimized structure is checked as a true minimum by the absence of imaginar
 
 ## 5. Private reference results
 
-The paper reports for `(Et2N)3P-PO`: O···P = 1.828 Å, O···αH = 2.124 Å, O···βH = 2.437 Å. For `(Et2N)3P-PA`: O···αH = 2.312 Å, O···βH = 2.363 Å, O···P = 2.651 Å. The reported P charge difference between `(Et2N)3P-PO` and free `(Et2N)3P` is +0.074 e; the paper also reports αH and βH charge values for all three species and describes increased electron density around the PA phosphonium region in the MEP. These values are hidden evaluator references.
+The paper reports for `(Et2N)3P-PO`: O···P = 1.828 Å, O···αH = 2.124 Å, O···βH = 2.437 Å. For `(Et2N)3P-PA`: O···αH = 2.312 Å, O···βH = 2.363 Å, O···P = 2.651 Å. Figure 6b-d gives absolute P charges -0.018, +0.447 and +0.455 e for free/PO/PA. The +0.074 e label belongs to free-base alpha-H, not P or a P-charge difference; the paper also reports αH and βH charge values for all three species and describes increased electron density around the PA phosphonium region in the MEP. These values are hidden evaluator references.
 
 ## 6. Limitations and interpretation boundaries
 
 The calculations are isolated-molecule ground-state DFT models and do not establish a full catalytic free-energy profile, solvent effects, dynamic populations, or the complete role of Et3B. Contact distances and ADCH/MEP patterns support the proposed interaction picture but are not, alone, a quantitative causal proof of polymerization rate or selectivity.
+
+## Source-binding clarification (2026-09-15)
+
+Figure 6 contacts are defined on N-ethyl CH2/CH3 H sites (P–N–C), despite the generic alpha/beta wording in the main-text paragraph. PO indices: O49/P46/H5(CH2)/H45(CH3). PA indices: carboxylate O49/P46/H27(CH2)/H29(CH3). Source Figure 6 uses a signed ESP color bar (-0.05 red to +0.05 blue au); its wording about increased electron density in a blue region must not be substituted for a charge-density measurement. Verify signed ESP and state this wording limitation. No new scientific goal is added or removed.

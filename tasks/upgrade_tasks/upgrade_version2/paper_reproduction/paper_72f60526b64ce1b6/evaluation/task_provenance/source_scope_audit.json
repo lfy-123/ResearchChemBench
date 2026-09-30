@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "source_scope_verified": true,
+  "source_documents": [
+    {
+      "path": "papers/paper_72f60526b64ce1b6/documents/main.pdf",
+      "sha256": "c8aa3ceb687608453545f2b907f5e3f96f4c238484974fcf65c347ab02da7a15",
+      "material_type": "article PDF",
+      "read_scope": "PDF p2 Fig1 and §2.1–2.2; pp3–4 molecular response; pp6–9 transport, §3.3 and conclusions; reread pp8–10 in V2"
+    },
+    {
+      "path": "papers/paper_72f60526b64ce1b6/documents/supplementary_001.pdf",
+      "sha256": "bd0915de22a3e9db944c0c98421c2ffa50ae7d5524896fb28597e8d7cf76935a",
+      "material_type": "coordinate supplementary PDF",
+      "read_scope": "PDF pp1–2 Group A isolated coordinates and pp5–10 Group A Au junction coordinates; true16page SI"
+    }
+  ],
+  "source_scope": {
+    "question": "Group A三种桥型的Au(111)单分子结是否存在、何时出现不同整流响应及其电子结构解释。",
+    "identity": "AD/ApiD/AsigmaD孤立C10H8N2S2/C12H10N2S2/C12H12N2S2；源Au结合态去H21/H22。",
+    "conditions": "源研究±2V范围，Au(111)双电极；公开只设此物理范围，不给固定偏压网格、温度或电极层数。",
+    "scale": "单分子两端结及其组成分子；不新增GroupB、其他金属、体相或效率终点。",
+    "mapping": [
+      {
+        "fact": "三种结构、Au电极与组成",
+        "source": "main p2 Fig1/§2.2; SI pp1–2/5–10"
+      },
+      {
+        "fact": "桥型—整流问题",
+        "source": "main pp6–9 current/transmission and conclusions"
+      },
+      {
+        "fact": "偏压范围",
+        "source": "main §2.1–3.2, reported -2 to +2 V"
+      }
+    ]
+  },
+  "facts_and_goal_mapping": [
+    {
+      "fact": "三种结构、Au电极与组成",
+      "source": "main p2 Fig1/§2.2; SI pp1–2/5–10"
+    },
+    {
+      "fact": "桥型—整流问题",
+      "source": "main pp6–9 current/transmission and conclusions"
+    },
+    {
+      "fact": "偏压范围",
+      "source": "main §2.1–3.2, reported -2 to +2 V"
+    }
+  ],
+  "reading_boundary": "Relevant full sections/text and existing source-page figures read; raw source hashes verified. Missing sources are explicitly stated.",
+  "new_goal": "Determine whether and under what conditions the bridge changes rectification within the supplied Group A molecules in Au(111) junctions. Develop and test a molecular-level explanation for the response, and establish how far the evidence supports it within the stated junction and bias domain.",
+  "decision_space": [
+    "自己选择电子结构/输运解释和可证伪预测，不预给偶极或取向机制。",
+    "选择结构/接触表示、研究顺序、偏压取样和验证；源三分子是研究域不是强制五结矩阵。",
+    "定义可换算整流度量、可比性控制和不确定性；不靠固定±0.5V反向控制判定完成。",
+    "决定哪些证据支持桥型而非其他混杂，必要时收缩结论。"
+  ],
+  "input_changes": [
+    {
+      "action": "retain",
+      "file": "systems.json",
+      "reason": "保留完整图/原子映射/端基计量，不泄露源优化坐标。"
+    },
+    {
+      "action": "replace",
+      "file": "controls.json;development_gate.json",
+      "reason": "改Au(111)对象域和工具/输入现状；移除五结、0.2Å、0.5V、固定温度。"
+    },
+    {
+      "action": "add",
+      "file": "measurement_conventions.json",
+      "reason": "固定单位/化学势差只是可复核约定，允许逆比值/方向经明确转换。"
+    },
+    {
+      "action": "redact",
+      "file": "task_info.paper",
+      "reason": "源全文检索标识留私有，防止公共metadata提供作者路线。"
+    }
+  ],
+  "limits": [
+    "既有电极rc0不等于源器件输运校准；2026-09-28T16:17进展仅记录AD零偏压先导排队，未宣称已完成。",
+    "本轮不新发或操作任何科学job；具体完整参考、真实judge与执行隔离pending。"
+  ]
+}

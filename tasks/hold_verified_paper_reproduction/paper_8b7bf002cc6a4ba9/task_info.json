@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_8b7bf002cc6a4ba9",
+  "task_type": "paper_reproduction",
+  "title": "Aqueous conformer and dipole comparison of AL and AB",
+  "category": "computational chemistry / conformer thermochemistry and molecular property",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The two molecular identities and observables are fixed, but multiple conformers must be generated, deduplicated and validated.",
+    "The agent must independently choose a defensible aqueous model and connect geometry descriptors to the qualitative author hypothesis."
+  ],
+  "paper": {
+    "title": "Interface-Targeting Amino-Acid-Derivative-Based Dipolar Molecular Strategy for High-Performance Zn–I2 Full Batteries",
+    "doi": "10.1021/acsnano.5c19783",
+    "journal": "ACS Nano",
+    "publication_date": "2026-02-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Unique zwitterionic molecular identities, charge states, multiplicities, solvent and structural terminology."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated conformer energies, dipoles, selections and conclusion."
+    },
+    {
+      "path": "report/validation.json",
+      "description": "Candidate generation, deduplication, optimization and stopping evidence."
+    }
+  ]
+}

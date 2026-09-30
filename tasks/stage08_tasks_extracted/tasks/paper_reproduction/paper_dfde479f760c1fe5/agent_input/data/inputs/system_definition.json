@@ -1,0 +1,11 @@
+{
+  "structure_database": "Protein Data Bank",
+  "structure_record": "1OTS",
+  "system_identity": "Escherichia coli CLC (EcCLC) homodimer; chains A and B retained as separate permeation pathways",
+  "membrane": {"lipid": "POPE", "xy_size_angstrom": [120, 120], "normal_axis": "Z", "overlapping_lipids": "remove"},
+  "solvent_and_ions": {"water_model": "TIP3P", "salt": "NaCl", "salt_concentration_molar": 0.2, "box_angstrom": [120, 120, 80]},
+  "protonation": {"E113": "protonated in chains A and B", "H175": "protonated in chains A and B", "H281": "protonated in chains A and B", "H284": "protonated in chains A and B", "R417": "protonated in chain A", "E148": "protonated in chains A and B", "other_residues": "use the selected force-field protonation convention and report it"},
+  "conditions": {"temperature_K": 300, "pressure_atm": 1, "periodic_boundaries": "all dimensions", "chloride_probe": "one chloride ion transported from the central binding site", "chain_labels": {"A": "water-containing proton pathway condition", "B": "water-depleted proton pathway comparison condition"}},
+  "landmarks": {"S_cen": "central chloride-binding site at the pore center", "S_ext": "external chloride-binding site toward extracellular side", "S_int": "internal chloride-binding site toward intracellular side", "coordinate": "chloride Z coordinate relative to the protein reference; report the exact reference used"},
+  "allowed_database_use": "Retrieve coordinates and connectivity for PDB 1OTS through the controlled PDB connector; do not use the paper or SI as an input."
+}

@@ -1,0 +1,139 @@
+{
+    "paper_id": "paper_b815e2622b0d6085",
+    "rules": [
+        {
+            "rule_id": "r_pr_identity",
+            "reference_id": "kp_pr_process_identity",
+            "type": "semantic",
+            "expected": "all three named object identities and CCDC mappings are retained",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.objects.cl_crystal.object_id",
+                    "$.objects.br_crystal.object_id",
+                    "$.objects.i_crystal.object_id"
+                ],
+                "comparison": "expert semantic comparison against the named CCDC mappings"
+            }
+        },
+        {
+            "rule_id": "r_pr_validation",
+            "reference_id": "kp_pr_process_validation",
+            "type": "semantic",
+            "expected": "each successful object has its own stability and band-edge evidence; each bounded failure has its own attempted evidence and consequence",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.objects.cl_crystal",
+                    "$.objects.br_crystal",
+                    "$.objects.i_crystal",
+                    "$.validation"
+                ],
+                "comparison": "outcome-aware expert semantic comparison per named object"
+            }
+        },
+        {
+            "rule_id": "r_pr_gap_cl",
+            "reference_id": "kp_pr_gap_values",
+            "type": "numeric",
+            "target": 4.63,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.objects.cl_crystal.gap_eV"
+                ],
+                "comparison": "absolute difference when cl_crystal is successful; not applicable to a documented bounded-failure outcome"
+            }
+        },
+        {
+            "rule_id": "r_pr_gap_br",
+            "reference_id": "kp_pr_gap_values",
+            "type": "numeric",
+            "target": 4.64,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.objects.br_crystal.gap_eV"
+                ],
+                "comparison": "absolute difference when br_crystal is successful; not applicable to a documented bounded-failure outcome"
+            }
+        },
+        {
+            "rule_id": "r_pr_gap_i",
+            "reference_id": "kp_pr_gap_values",
+            "type": "numeric",
+            "target": 4.44,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.objects.i_crystal.gap_eV"
+                ],
+                "comparison": "absolute difference when i_crystal is successful; not applicable to a documented bounded-failure outcome"
+            }
+        },
+        {
+            "rule_id": "r_pr_trend",
+            "reference_id": "kp_pr_trend",
+            "type": "semantic",
+            "expected": "iodine has the lower primary gap and the a-axis or other structural comparison is explicitly defined without overstating causality",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.structural_comparison",
+                    "$.conclusion"
+                ],
+                "comparison": "expert semantic comparison when coverage permits; otherwise assess the stated scientific consequence"
+            }
+        },
+        {
+            "rule_id": "r_pr_final",
+            "reference_id": "c_pr_final_gap",
+            "type": "semantic",
+            "expected": "the conclusion reports the supported per-object trend, or accurately limits the conclusion when bounded failure prevents it",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.objects",
+                    "$.conclusion"
+                ],
+                "comparison": "outcome-aware expert semantic comparison"
+            }
+        },
+        {
+            "rule_id": "r_pr_limits",
+            "reference_id": "c_pr_limitations",
+            "type": "semantic",
+            "expected": "any reduced-model SOC correction is labelled approximate unless a direct parent-cell SOC calculation is demonstrated and validated",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.method.settings",
+                    "$.limitations"
+                ],
+                "comparison": "expert semantic comparison conditional on the reported relativistic treatment"
+            }
+        }
+    ]
+}

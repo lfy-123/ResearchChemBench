@@ -4,7 +4,7 @@ Test the qualitative author hypothesis that an Fe(III) porphyrin site with an ax
 
 # Public inputs and scientific boundaries
 
-`data/inputs/feiii_cl_tcpp.xyz` is the 86-atom Fe(III)Cl@TCPP Cartesian model from SI Table S14. It is neutral with multiplicity 6; the atom order and coordinates are fixed. The physical boundary is this isolated cluster, not the periodic MOF or solvent. The measurement boundary is comparison to Fe@PCN-224 ligand 1H/13C MAS NMR site shifts and Fe coordination distances, but the numerical observations are intentionally withheld. Evaluate the three aromatic proton environments (beta, meta, ortho) and eight carbon environments (alpha, beta, meso, ipso, ortho, meta, para, carboxylate carbon); define your atom/site mapping explicitly.
+`data/inputs/feiii_cl_tcpp.xyz` is the 86-atom Fe(III)Cl@TCPP Cartesian model from SI Table S14. It has charge -4 and multiplicity 6; the atom order and coordinates are fixed. The physical boundary is this isolated cluster, not the periodic MOF or solvent. The measurement boundary is comparison to Fe@PCN-224 ligand 1H/13C MAS NMR site shifts and Fe coordination distances, but the numerical observations are intentionally withheld. Evaluate the three aromatic proton environments (beta, meta, ortho) and eight carbon environments (alpha, beta, meso, ipso, ortho, meta, para, carboxylate carbon); define your atom/site mapping explicitly.
 
 # Required scientific validation/investigation
 

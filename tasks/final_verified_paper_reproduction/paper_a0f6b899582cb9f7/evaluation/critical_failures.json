@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "items": [
+    {
+      "failure_id": "pr_fail_identity",
+      "condition": "The submission changes the molecule, charge, multiplicity, atom mapping, or reports a tensor for an unidentified structure.",
+      "severity": "scientifically serious",
+      "evidence_ids": [
+        "ev_doc_807d3d1df12c_000028_db19c7557038"
+      ]
+    },
+    {
+      "failure_id": "pr_fail_no_validation",
+      "condition": "A numerical tensor is submitted without optimization/convergence evidence or without a declared axis/origin convention.",
+      "severity": "scientifically serious",
+      "evidence_ids": [
+        "ev_doc_807d3d1df12c_000194_3a3167107ee8"
+      ]
+    },
+    {
+      "failure_id": "pr_fail_answer_copy",
+      "condition": "The report presents source values as its own calculation without a reproducible independent computational record.",
+      "severity": "scientifically serious",
+      "evidence_ids": [
+        "ev_doc_b2705987463b_000041_0d9109c0bce5"
+      ]
+    }
+  ]
+}

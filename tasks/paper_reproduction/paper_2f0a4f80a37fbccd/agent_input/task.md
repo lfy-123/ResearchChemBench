@@ -4,7 +4,7 @@ Independently test the structural and vibrational assignment of neutral singlet 
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/complex_specification.json`. It uniquely defines formula C36H30Cl2IrNO3P2, neutral charge, singlet multiplicity, Ir1/Cl1/Cl2/P1/P2/N1/O1/O2/O3 labels, two PPh3 ligands, and O1/O2 bidentate nitrate connectivity. The model is one isolated molecule; omit crystal packing, solvent, counterions and periodicity. You may construct 3D coordinates and choose software, relativistic treatment, basis, functional, convergence settings and frequency scaling. The measured comparison quantities are Ir1-O1/O2, N1-O1/O2/O3, O1-Ir1-O2, O1-N1-O2, O1-N1-O3, O2-N1-O3, and nitrate-associated IR frequencies. The experimental comparison is to the molecular X-ray and KBr IR observations represented in the hidden evaluator, not to a particular crystal cell.
+Use `data/inputs/complex_specification.json`. It uniquely defines formula C36H30Cl2IrNO3P2, neutral charge, singlet multiplicity, Ir1/Cl1/Cl2/P1/P2/N1/O1/O2/O3 labels, two PPh3 ligands, and O1/O2 bidentate nitrate connectivity. The model is one isolated molecule; omit crystal packing, solvent, counterions and periodicity. You may construct 3D coordinates and choose software, relativistic treatment, basis, functional, convergence settings and frequency scaling. The measured comparison quantities are Ir1-O1/O2, N1-O1/O2/O3, O1-Ir1-O2, O1-N1-O2, O1-N1-O3, O2-N1-O3, and nitrate-associated IR frequencies. The experimental comparison is to the molecular X-ray and KBr IR observations in `data/inputs/experimental_xray_ir_boundary.json`, not to a particular crystal cell or a hidden numerical target.
 
 # Required scientific validation/investigation
 

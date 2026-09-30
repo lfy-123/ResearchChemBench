@@ -1,0 +1,7 @@
+# Upgraded author-route and scope record
+
+Authors propose hydroperoxide-induced alkene polarization and a bromiranium intermediate; nonenzymatic NBS gives the same profile as CiVCPO (main p3). Main p7 explicitly reports NBS/Et3N in dry DCM, whereas original descriptors used aqueous B3LYP/CBSB7 C-PCM. The new local model uses the identified NBS control and tests six/seven closures. It does not identify the microscopic enzyme brominating species or import a nonexistent five-membered source channel.
+
+Use (R)-4 only for the minimum path matrix, with its full C10H20O3 graph. Primary stage is the source nonenzymatic NBS/Et3N control in DCM (main p7): this supplies an identified brominating reagent and proton acceptor without presuming an enzyme-generated free Br+ species. Model one NBS and one Et3N per substrate in a neutral singlet cluster at 298.15 K/1 M; Et3N is a local proton-relay model, not a claim that the experimental loading was one equivalent. Initial alkene maps2/4, alcohol O21; six-membered closure forms O21–C4, seven-membered closure O21–C2. The actual hydroperoxide oxygens are O23/O24, not row22 (H). The two physically available closures are SIX/SEVEN, correcting the planning document five/six label. Enzymatic aqueous selectivity is contextual, not a required QM/MM result.
+
+The AR public prompt excludes this route. AR and PR share objects, schema, scientific rubric and completion requirements. Development status: implemented_pending_expanded_reference. Old route and old PASS are historical only in the snapshot.

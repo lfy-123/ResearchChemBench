@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "int_g.xyz",
+      "action": "private_snapshot_only; neutral ligand graph/inventory supplied",
+      "reason": "Remove inherited optimized endpoint coordinates and retain a reconstructible full-ligand starting-model definition."
+    },
+    {
+      "file": "species_registry.json",
+      "action": "retainDMAc/H2; replace metal seed by explicit inventory",
+      "reason": "Do not prescribe eta2-H2, separated gas and one-DMAc endpoints."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "Remove fixed formation/release/regeneration order and forced solvent-capture conformer matrix."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

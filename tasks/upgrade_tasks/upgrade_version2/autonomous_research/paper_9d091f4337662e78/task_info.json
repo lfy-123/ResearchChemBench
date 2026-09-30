@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "task_type": "autonomous_research",
+  "title": "Absolute configuration from molecular ECD evidence",
+  "category": "computational chemistry / conformer thermochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Configuration assignment with finite spectral precision",
+    "Choosing a defensible representation of a flexible molecule",
+    "Separating robust stereochemical evidence from model-sensitive agreement"
+  ],
+  "paper": {
+    "title": "",
+    "doi": "",
+    "journal": "",
+    "publication_date": ""
+  },
+  "data": [
+    {
+      "path": "data/inputs/ecd_observation_provenance.json",
+      "description": "Public identity, physical definition or observation for the stated scientific question."
+    },
+    {
+      "path": "data/inputs/experimental_ecd.csv",
+      "description": "Public identity, physical definition or observation for the stated scientific question."
+    },
+    {
+      "path": "data/inputs/problem_facts.json",
+      "description": "Public identity, physical definition or observation for the stated scientific question."
+    },
+    {
+      "path": "data/inputs/systems.json",
+      "description": "Public identity, physical definition or observation for the stated scientific question."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured evidence-linked investigation and scientific quantities"
+    },
+    {
+      "path": "report/report.md",
+      "description": "Readable answer, methods, evidence and limitations"
+    }
+  ]
+}

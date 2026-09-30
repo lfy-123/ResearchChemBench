@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_b815e2622b0d6085",
+  "task_type": "paper_reproduction",
+  "title": "Independent periodic band-gap test of halogenated pyridinium lead bromides",
+  "category": "periodic electronic structure",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Three heavy-element periodic crystals require independently planned convergence and orbital-assignment checks at the stated HSE06 no-SOC primary level, with optional SOC reported separately.",
+    "The agent must validate band gaps and band-edge character for each object and test a qualitative structure–gap hypothesis."
+  ],
+  "paper": {
+    "title": "d5dt02637g 2232..2241 ++",
+    "doi": "10.1039/d5dt02637g",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Three experimental parent CIFs and explicit, separate fundamental/framework/same-k electronic observable and relativistic boundaries."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Per-crystal fundamental/framework edge and same-k gaps, assignment and stability evidence, separately labeled optical/SOC claims, structural comparison and limitations."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "paper_id": "paper_c23cfabbd34b087f",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "1M_OMe": {
+      "formula": "C56H42O2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "1M_OMe_identity.json"
+    },
+    "1M_TIPS": {
+      "formula": "C58H42Si2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "1M_TIPS_identity.json"
+    },
+    "2M_OMe": {
+      "formula": "C58H44O2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "2M_OMe_identity.json"
+    },
+    "2M_TIPS": {
+      "formula": "C60H44Si2",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "identity_file": "2M_TIPS_identity.json"
+    }
+  },
+  "identity_files": [
+    "1M_OMe_identity.json",
+    "1M_TIPS_identity.json",
+    "2M_OMe_identity.json",
+    "2M_TIPS_identity.json",
+    "common_scaffold_mapping.json"
+  ],
+  "control_definitions": {
+    "spin": "CS, independently initialized BS and triplet for all four models, with orbital stability and natural occupations. At least two BS starts and independent conformer starts; accept evidenced collapse.",
+    "shared_scaffold": "For each topology use the supplied common atom mapping between OMe and TIPS models. Fix mapped shared heavy scaffold to the OMe triplet geometry, relax only unmatched atoms, then compare states. Such frozen structures are not minima.",
+    "calibration": "For one most diagnostically ambiguous member chosen by occupation diagnostics, test a spin-adapted small-active-space or another documented independent electronic diagnostic before treating unrestricted TD states as definitive.",
+    "environment": "Use one common gas electronic-spin baseline and a consistently declared chloroform optical model. Keep excitation versus spin-energy comparisons separate."
+  },
+  "observable_definition": "Within each fixed composition report E(T)-E(CS) on shared CS geometry and separately at state-relaxed geometries. BS energies are determinant energies with S2/occupations, not a spin-pure singlet unless an explicitly justified projection is supplied. Across topologies compare like-defined gaps and state descriptors, not total E.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "relaxed_series",
+      "description": "Four matched electronic-state and optical panels"
+    },
+    {
+      "id": "frozen_scaffold",
+      "description": "Within-topology frozen-scaffold substituent controls"
+    },
+    {
+      "id": "calibrated_interpretation",
+      "description": "Independent spin calibration and topology/substitution discrimination"
+    }
+  ],
+  "optional_not_scored": "Full alkyl groups, oxidation products, device performance and a large new molecular design series are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

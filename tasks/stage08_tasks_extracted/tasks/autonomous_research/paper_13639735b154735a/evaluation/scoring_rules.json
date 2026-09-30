@@ -1,0 +1,103 @@
+{
+  "paper_id": "paper_13639735b154735a",
+  "rules": [
+    {
+      "rule_id": "r_minimum",
+      "type": "condition",
+      "expected": "A candidate identified as the reactant reference reports zero imaginary frequencies and convergence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].validation",
+          "$.selected_result.reactant_reference"
+        ],
+        "comparison": "expert verification of candidate-specific fields"
+      },
+      "reference_id": "kp_process_minimum"
+    },
+    {
+      "rule_id": "r_ts",
+      "type": "condition",
+      "expected": "The selected candidate reports exactly one imaginary frequency and assigns its displacement to epoxide ring opening.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_result.transition_state_candidate_id",
+          "$.candidates[*].imaginary_frequency_count",
+          "$.candidates[*].validation"
+        ],
+        "comparison": "candidate-identity-aware expert verification"
+      },
+      "reference_id": "kp_process_ts"
+    },
+    {
+      "rule_id": "r_connectivity",
+      "type": "condition",
+      "expected": "Connectivity evidence links the selected TS to reactant and ring-opened successor.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_result.connectivity"
+        ],
+        "comparison": "expert scientific verification"
+      },
+      "reference_id": "kp_process_connectivity"
+    },
+    {
+      "rule_id": "r_barrier",
+      "type": "numeric",
+      "target": 12.0,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected_result.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_barrier"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "The submitted conclusion states that validated ring opening is rate determining within the investigated pathway and supports that claim with candidate-level evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.selected_result.connectivity",
+          "$.investigation.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_rate_determining"
+    },
+    {
+      "rule_id": "r_limit",
+      "type": "semantic",
+      "expected": "The report states finite-cluster/electronic-energy limitations and does not overclaim experimental free-energy equivalence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.investigation.limitations",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limit_model"
+    }
+  ]
+}

@@ -1,0 +1,945 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_e0791c047a731974",
+  "task_type": "autonomous_research",
+  "title": "Independent Cy2 excited-state energetics investigation",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "easy",
+  "difficulty_reasons": [
+    "The scientific object and endpoint are fixed; the main burden is a defensible direct calculation and validation rather than candidate discovery."
+  ],
+  "paper": {
+    "title": "830 nm-Excitable Triplet–Triplet Annihilation Upconversion Achieved by a Selenium-Integrated Heptamethine Cyanine Sensitizer",
+    "doi": "10.1021/jacs.5c15902",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Cy2 S0 Cartesian XYZ geometry, charge and starting multiplicity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated energies, state/convergence evidence, energetic interpretation."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The authors use electronic-structure calculations to rationalize why selenium-integrated heptamethine cyanine Cy2 is an effective 830 nm triplet–triplet-annihilation upconversion sensitizer. Their claim is that heavy-atom incorporation, especially selenium, increases spin–orbit coupling and intersystem crossing while preserving an energetically suitable triplet state. The computationally testable core is the Cy2 S0 geometry, low-lying vertical S1/T1/T2 energies, and relaxed T1 adiabatic energy in chloroform.
+
+## 2. System and model boundary
+
+The modeled species is the Cy2 cation, with no iodide counterion, with the SI Cartesian S0 structure as the starting geometry. The calculations use chloroform continuum solvation. The relevant states are singlet ground state S0, lowest singlet excited state S1, and lowest triplet states T1 and T2. The reported T1 adiabatic energy is relative to S0.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Optimize ground-state structure | Cy2 S0 coordinates, iodides omitted | Gaussian 16 DFT | B3LYP/6-31G(d,p); SMD chloroform; def2TZVP for the two Se atoms; Cy2 has no iodine, so the general SI iodine/SDD clause is inactive | optimized S0 geometry and vibrational analysis | ev_doc_12faeb9900c2_000087_bfb5062814ef; ev_doc_12faeb9900c2_000088_e3402a1f5a87; ev_doc_12faeb9900c2_000283_fbb6424a09c6 |
+| 2 | Compute vertical excited states | optimized S0 geometry | Gaussian 16 TDDFT | same functional, solvent and heavy-element basis treatment | vertical S1, T1, T2 energies and transitions | ev_doc_12faeb9900c2_000088_e3402a1f5a87; ev_doc_12faeb9900c2_000177_2042854d666b |
+| 3 | Relax the lowest triplet | ground- and triplet-state geometries of the same Cy2 cation | Gaussian 16 unrestricted DFT (UDFT), as stated in the main article PDF p6 | same model boundary and solvent; compare relaxed triplet and ground-state electronic energies | relaxed T1 geometry and adiabatic T1 energy | ev_doc_abac62ae831c_000240_eb03647e9fdc; ev_doc_abac62ae831c_000242_6593d5c6384c |
+| 4 | Interpret photophysics | computed states and orbital/electron-hole descriptors | Multiwfn/GaussView analysis plus comparison with kinetics | compare state gaps, selenium contributions and ISC-related observations | mechanistic interpretation of selenium-enhanced triplet formation | ev_doc_abac62ae831c_000212_608edbbbbd81; ev_doc_abac62ae831c_000240_eb03647e9fdc |
+
+## 4. Validation and analysis protocol
+
+The state calculation identifies S1, T1 and T2 explicitly and reports vertical energies in eV at the same S0 geometry, with stationarity and convergence evidence. T1 relaxation retains triplet identity and uses the corresponding relaxed S0 electronic energy as reference. In the main article PDF p6, the authors compare the Cy2 S1−T1 and T2−S1 gaps in discussing ISC, while applying 2T1 > S1 to the separate rubrene annihilator. The present task evaluates the four Cy2 energies and their interpretation, not rubrene, a measured SOC/ISC enhancement or an upconversion yield. A Cy2 2T1−S1 value is only an optional diagnostic, not a sensitizer criterion. The broader article also reports localized excitations and selenium hole contributions of 14.8%, 10.6% and 14.9% in S1, T1 and T2; those descriptors are not additional mandatory endpoints of this task.
+
+The archived verification used TD(Triplets,NStates=6,Root=1) relaxation on a singlet reference, not the article's UDFT implementation. This is an explicitly documented alternative under the method-open task: the converged triplet excited-state total energy minus the matching relaxed S0 electronic energy gives 1.010301083 eV. It is not evidence that the author's implementation was reproduced exactly, and no ZPE or thermal correction is included.
+
+## 5. Private reference results
+
+SI Table S3 reports Cy2 vertical energies: S1 1.8909 eV, T1 1.0556 eV and T2 2.1221 eV. The article reports the Cy2 relaxed T1 adiabatic energy as 1.09 eV. These four values remain the private numerical references with the existing tolerances. The article's Cy2 ISC rate of 3.2 × 10^8 s−1, triplet quantum yield of 23% and selenium-associated SOC interpretation are broader paper context, not scored numerical endpoints or conclusions established by this four-energy verification.
+
+## 6. Limitations and interpretation boundaries
+
+The coordinates are a single published conformer and omit iodide counterions as in the authors' calculations. Numerical agreement is model-dependent; the article explicitly notes systematic T1 underestimation. The task evaluates reproducible state identification, validation and comparison, not experimental quantum yields or a universal ranking of sensitizers.
+
+=== evaluation/scoring_rules.json ===
+{
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "type": "semantic",
+      "expected": "system identity, charge, multiplicity, iodide omission and S0 validation are explicitly evidenced",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.validation.s0_stationary",
+          "$.validation.frequency_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "type": "semantic",
+      "expected": "vertical and adiabatic states are distinguished with convergence and multiplicity evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables",
+          "$.validation.state_identity",
+          "$.validation.t1_relaxation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "type": "numeric",
+      "target": 1.8909,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.vertical.s1.energy_eV"
+        ],
+        "comparison": "absolute difference; correct state and electronic-energy definition required; adiabatic excludes ZPE/thermal terms; vertical states share the S0 geometry"
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "type": "numeric",
+      "target": 1.0556,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.vertical.t1.energy_eV"
+        ],
+        "comparison": "absolute difference; correct state and electronic-energy definition required; adiabatic excludes ZPE/thermal terms; vertical states share the S0 geometry"
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s5",
+      "type": "numeric",
+      "target": 2.1221,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.vertical.t2.energy_eV"
+        ],
+        "comparison": "absolute difference; correct state and electronic-energy definition required; adiabatic excludes ZPE/thermal terms; vertical states share the S0 geometry"
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s6",
+      "type": "numeric",
+      "target": 1.09,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.adiabatic_t1.energy_eV"
+        ],
+        "comparison": "absolute difference; correct state and electronic-energy definition required; adiabatic excludes ZPE/thermal terms; vertical states share the S0 geometry"
+      },
+      "reference_id": "ar_r2"
+    },
+    {
+      "rule_id": "ar_s7",
+      "type": "semantic",
+      "expected": "Evaluate the conclusion from the four validated Cy2 energies, their state ordering, the vertical S1−T1 and T2−S1 gaps and the electronic-energy references. These gaps are derived from the already required energies, with no new numerical target or tolerance. The optional Cy2 2×T1−S1 diagnostic has no independent score and is not evidence of the annihilator's TTA condition or enhanced SOC/ISC. Do not require an affirmative causal claim, additional SOC/rate/annihilator calculations or a generic limitation statement.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.observables",
+          "$.validation.checks"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c1"
+    }
+  ],
+  "paper_id": "paper_e0791c047a731974",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算参考 — paper_e0791c047a731974 / autonomous_research
+
+整理日期：2026-09-24。本文件只记录既有成功的科学计算链，属于 evaluator 私有档案，不是评分规则，也不是 agent 必须照做的脚本。未在本次维护中新增量化计算；失败/重试不计入下列成功结果。
+
+## 1. 来源与实际范围（Group 4）
+
+正文 PDF pp5–6；SI PDF p7 方法、p12/Table S3、p24 Se 基组。
+
+[论文正文](../../../../papers/paper_e0791c047a731974/documents/main.pdf)；[当前成功结果与证据索引](../../../../docs/verification/group_4/paper_e0791c047a731974/report/results.json)。
+[补充材料 supplementary_001.pdf](../../../../papers/paper_e0791c047a731974/documents/supplementary_001.pdf)
+
+## 2. 真实有效计算流程
+
+1. 完整 Cy2 阳离子 +1 singlet、去 iodide 的分子边界，给定几何用于电子态性质。Gaussian16 B3LYP/6-31G(d,p)(CHNO)+def2TZVP(Se)/SMD(chloroform) S0 Opt/Freq，180 正频。
+2. 以同一 S0 geometry 分别计算六 singlet 与六 triplet TD roots，核对 singlet S²=0、triplet S²=2：vertical S1=1.8909、T1=1.0555、T2=2.1220 eV。
+3. 实际验证使用 singlet reference 的 TD(Triplets,NStates=6,Root=1) T1 Opt/Freq，180 正频；以最低 triplet 身份和收敛总 excited-state energy 减 S0 electronic energy 得 adiabatic T1=1.010301083 eV。不是 T1 geometry 的 SCF-only 能量差，也没有加入 ZPE/G。
+4. 从上述既有垂直能量直接相减，S1−T1=.8354 eV、T2−S1=.2311 eV，态序为 T1<S1<T2；这是数值后处理，不是新增电子结构计算。历史记录另列 Cy2 的 2T1−S1=.2201 eV，但正文 PDF p6 的 2T1>S1 条件针对 rubrene 湮灭剂，不能据 Cy2 此差值验证 rubrene 条件或增强 SOC/ISC。当前结论采用四能量、态序和垂直能隙证据。
+
+## 3. 有效产物与原始输入/输出
+
+
+下列日志/后处理由上述有效链索引。输入取同目录 input.com/input.inp（存在时直链）；路径本身不是通过判据，科学量与步骤见第2节。
+
+- [local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_singlets_td6_20260915/input.com)
+- [local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_computed_s0_triplets_td6_20260915/input.com)
+- [local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_s0_full_si_tdroute_20260915/input.com)
+- [local_stage_tests_20260914/cy2_t1_source_internal_smallstep_optfreq_20260919/stdout.log](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_t1_source_internal_smallstep_optfreq_20260919/stdout.log)；[input.com](../../../../docs/verification/group_4/paper_e0791c047a731974/provenance/local_stage_tests_20260914/cy2_t1_source_internal_smallstep_optfreq_20260919/input.com)
+
+## 4. 当前 evaluator 对应关系
+
+以下对应是证据核对，不是本轮运行 LLM judge 的评分，也不宣称复现了 AR 的自主探索过程。
+
+| 项目 | 当前要求 | 本参考支持方式 |
+|---|---|---|
+| `ar_p1` | The submitted investigation identifies the supplied Cy2 cation geometry, charge +1, singlet starting state and omission of iodide counterions, and provides auditable S0 stationarity/frequency evidence. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `ar_p2` | The calculation distinguishes vertical S1/T1/T2 states from a relaxed T1 state and documents state multiplicity and convergence. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `ar_r1` | Cy2 vertical energies are approximately S1 1.8909 eV, T1 1.0556 eV and T2 2.1221 eV under the published computational framework. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `ar_r2` | The published Cy2 relaxed T1 adiabatic energy is 1.09 eV. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `ar_c1` | The validated Cy2 calculations determine the vertical S1/T1/T2 ordering and separations together with the relaxed T1 adiabatic energy, supporting a state-energetic interpretation relevant to triplet sensitization. | 四个已有能量、态身份、收敛及上述直接相减支持；不把 Cy2 差值当成 rubrene 的判据，也不将能级解释写成 SOC/ISC 因果已验证。 |
+
+## 5. 不能扩大解释的地方
+
+作者 relaxed T1 为 UDFT，而有效验证为 triplet-response TD 路线。方法开放的当前任务可用此证据；不能写成两实现完全相同。不额外要求未验证 SOC/速率计算。原 group results.json 的 conclusion 曾将 Cy2 的 2T1>S1 与 sensitizer 可行性并列；该历史解释不再用作当前结论的证明，原文件保持只读。修正的是解释对象，不是原能量、容差或计算有效性；也不新增 limitation 声明得分。
+
+参考使用作者知情路线和可能的作者端点，能支持此科学子问题存在真实可行计算链；不要求向被评 agent 公开端点，也不证明任意方法、初猜都必然收敛。任务的公开身份和必要定义须另行自包含核对。普通 limitation 不作为评估成果；本段只是维护档案的事实说明。
+
+两模式共享的作者路线结果不等同于自主模式盲测。历史没有记录的自主假设、候选提出或路线决策，不因格式映射而编造成已经执行；科学子问题计算支持与自主过程能力得分应分开。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_e0791c047a731974",
+  "items": [
+    {
+      "key_point_id": "ar_p1",
+      "key_point_type": "process",
+      "statement": "The submitted investigation identifies the supplied Cy2 cation geometry, charge +1, singlet starting state and omission of iodide counterions, and provides auditable S0 stationarity/frequency evidence.",
+      "expected": "Input identity is retained and S0 validation is explicitly evidenced.",
+      "evidence_ids": [
+        "ev_doc_12faeb9900c2_000283_fbb6424a09c6",
+        "ev_doc_12faeb9900c2_000088_e3402a1f5a87"
+      ]
+    },
+    {
+      "key_point_id": "ar_p2",
+      "key_point_type": "process",
+      "statement": "The calculation distinguishes vertical S1/T1/T2 states from a relaxed T1 state and documents state multiplicity and convergence.",
+      "expected": "Vertical and adiabatic quantities are not conflated.",
+      "evidence_ids": [
+        "ev_doc_12faeb9900c2_000088_e3402a1f5a87",
+        "ev_doc_abac62ae831c_000240_eb03647e9fdc"
+      ]
+    },
+    {
+      "key_point_id": "ar_r1",
+      "key_point_type": "result",
+      "statement": "Cy2 vertical energies are approximately S1 1.8909 eV, T1 1.0556 eV and T2 2.1221 eV under the published computational framework.",
+      "expected": "The three state energies are reported with state labels and units; comparison acknowledges method dependence.",
+      "evidence_ids": [
+        "ev_doc_12faeb9900c2_000177_2042854d666b"
+      ]
+    },
+    {
+      "key_point_id": "ar_r2",
+      "key_point_type": "result",
+      "statement": "The published Cy2 relaxed T1 adiabatic energy is 1.09 eV.",
+      "expected": "A T1 adiabatic energy relative to S0 is reported and clearly distinguished from vertical T1.",
+      "evidence_ids": [
+        "ev_doc_abac62ae831c_000242_6593d5c6384c"
+      ]
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_e0791c047a731974",
+  "items": [
+    {
+      "failure_id": "ar_f1",
+      "condition": "Changes the supplied connectivity, charge, protonation or counterion boundary.",
+      "why_serious": "The calculation no longer addresses Cy2 defined by the task."
+    },
+    {
+      "failure_id": "ar_f2",
+      "condition": "Reports vertical and relaxed energies as if they were the same observable or omits state labels.",
+      "why_serious": "The central excited-state comparison becomes scientifically uninterpretable."
+    },
+    {
+      "failure_id": "ar_f3",
+      "condition": "Invents values for an uncomputed state or claims validation without auditable evidence.",
+      "why_serious": "This defeats reproducibility and makes the result non-evaluable."
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_12faeb9900c2_000283_fbb6424a09c6",
+      "document_id": "doc_12faeb9900c2",
+      "document_role": "supplementary",
+      "location": "SI Section 5, Cy2 S0 Cartesian coordinates and Section 5 labels",
+      "source": "public Cy2 geometry and state input"
+    },
+    {
+      "evidence_id": "ev_doc_12faeb9900c2_000088_e3402a1f5a87",
+      "document_id": "doc_12faeb9900c2",
+      "document_role": "supplementary",
+      "location": "SI Section 2.8 theoretical calculation",
+      "source": "state-calculation boundary and validation context"
+    },
+    {
+      "evidence_id": "ev_doc_12faeb9900c2_000177_2042854d666b",
+      "document_id": "doc_12faeb9900c2",
+      "document_role": "supplementary",
+      "location": "SI Table S3",
+      "source": "Cy2 vertical S1/T1/T2 energies"
+    },
+    {
+      "evidence_id": "ev_doc_abac62ae831c_000242_6593d5c6384c",
+      "document_id": "doc_abac62ae831c",
+      "document_role": "article",
+      "location": "Results and Discussion, excited-state energetics paragraph",
+      "source": "Cy2 adiabatic T1 energy"
+    },
+    {
+      "evidence_id": "ev_doc_abac62ae831c_000240_eb03647e9fdc",
+      "document_id": "doc_abac62ae831c",
+      "document_role": "article",
+      "location": "Main PDF pp5–6, theoretical calculations and state-energy interpretation; rubrene paragraph on p6",
+      "source": "Cy2 S1/T1/T2 energy-gap context. The 2T1>S1 annihilation condition belongs to rubrene, not Cy2; the broader selenium/SOC/ISC interpretation is background, not established by the four-energy subtask alone."
+    },
+    {
+      "evidence_id": "ev_doc_abac62ae831c_000212_608edbbbbd81",
+      "document_id": "doc_abac62ae831c",
+      "document_role": "article",
+      "location": "abstract and central photophysical claim",
+      "source": "scientific significance"
+    }
+  ],
+  "paper_id": "paper_e0791c047a731974"
+}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_e0791c047a731974",
+  "items": [
+    {
+      "conclusion_id": "ar_c1",
+      "claim_role": "final",
+      "expected": "Interpret the four correctly identified energies and the vertical S1−T1 and T2−S1 gaps using their computational evidence. Cy2 energies do not measure SOC/ISC enhancement or establish the annihilator's TTA criterion. Credit the supported energetic findings; do not require an affirmative heavy-atom causal claim or a generic limitation statement.",
+      "evidence_ids": [
+        "ev_doc_12faeb9900c2_000177_2042854d666b",
+        "ev_doc_abac62ae831c_000242_6593d5c6384c",
+        "ev_doc_abac62ae831c_000240_eb03647e9fdc",
+        "ev_doc_abac62ae831c_000212_608edbbbbd81"
+      ],
+      "supporting_key_point_ids": [
+        "ar_p1",
+        "ar_p2",
+        "ar_r1",
+        "ar_r2"
+      ],
+      "statement": "The validated Cy2 calculations determine the vertical S1/T1/T2 ordering and separations together with the relaxed T1 adiabatic energy, supporting a state-energetic interpretation relevant to triplet sensitization."
+    }
+  ]
+}
+
+=== evaluation/task_provenance/contract_regression_20260923.json ===
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_e0791c047a731974",
+  "mode": "autonomous_research",
+  "source": "docs/verification/group_4/paper_e0791c047a731974/report/results.json",
+  "mapping": [],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_ar_s3",
+      "passed": true
+    },
+    {
+      "check": "numeric_ar_s4",
+      "passed": true
+    },
+    {
+      "check": "numeric_ar_s5",
+      "passed": true
+    },
+    {
+      "check": "numeric_ar_s6",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "ar_s3",
+      "observed": [
+        1.8909
+      ],
+      "target": 1.8909,
+      "tolerance": 0.15,
+      "passed": true
+    },
+    {
+      "rule": "ar_s4",
+      "observed": [
+        1.0555
+      ],
+      "target": 1.0556,
+      "tolerance": 0.15,
+      "passed": true
+    },
+    {
+      "rule": "ar_s5",
+      "observed": [
+        2.122
+      ],
+      "target": 2.1221,
+      "tolerance": 0.15,
+      "passed": true
+    },
+    {
+      "rule": "ar_s6",
+      "observed": [
+        1.0103010831580619
+      ],
+      "target": 1.09,
+      "tolerance": 0.15,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 17,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": []
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 已批准修复记录（2026-09-23）
+
+授权：负责人同意 MAINTENANCE_REPORT 第 15 节方案及 D1–D7。正文/SI 为主，验证计算为辅；只在 verified_tasks 修复，无新量化计算、无迁移授权。
+
+已按批准方案分离 PR guidance，取消普通 limitation/停止表态的 required 和独立得分，显式采用 scientific_results 策略；保留真实失败诊断、对象/态/收敛/敏感性证据与原科学数值容差，修复已发现的 [] 选择器并接回必要关键点。
+
+收尾复查：修复清理后的残句及“失败也称 complete”矛盾；保留主结果要求，提供不必虚构数值/结构的早期失败格式。针对主对象重复/缺失与成功状态做契约检查；普通免责声明不作为必需字段或成果。
+
+计算档案已补成有效链、源方法/验证差异、原始输入输出和当前 4 个关键点/1 条科学结论对应；不把 reference 变成 evaluator、不写入虚构计算。
+
+末轮回查删除仍残留在 expected/statement 的必写免责声明措辞；失败说明不再与成功最低点/排序结果等价。保留真实科学量、必要验证和部分过程证据。
+
+## 2026-09-24 Cy2 能量判据与作者/验证路线归属修复
+
+负责人批准末轮建议后，直接核读正文 PDF pp5–6、SI §2.8 与 Table S3：正文 2T1>S1 对象是 rubrene 湮灭剂；Cy2 用 S1−T1、T2−S1 态间距讨论 ISC，单分子四能量本身不能测定增强 SOC/ISC。旧 task 将两者串联、PR 结论泛称检验 heavy-atom 增强，确有对象/解释歧义。
+
+两模式现保留四个能量、原状态/收敛要求及全部数值容差，解释统一为 Cy2 态序与能隙；2T1−S1 仅可选诊断、不独立计分，不要求算 rubrene/SOC/速率，也不增加 limitation 声明。同步 task、schema 字段描述、最终结论及规则、evidence_map、reference；PR task_info 同步。AR 未加入作者机理或数值答案。S1−T1=.8354、T2−S1=.2311 eV 仅是既有能量相减，无新量化步骤或新阈值。
+
+关联核查同时发现 paper_route 的 Authors' implemented route 把本地 TD triplet-root 写成作者方法，现依正文改回 UDFT，并另段准确记本地 TD(Triplets,Root=1) 为方法开放任务允许的验证路线。历史 group results.json 解释保留只读，不能作为 Cy2 证明 rubrene 条件的依据；其实际能量、频率/态身份等有效证据继续使用。测试与版本见 MAINTENANCE_REPORT.md 第20节；无新增量化计算，无目录迁移。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "system",
+              "method",
+              "observables",
+              "validation",
+              "conclusion"
+            ],
+            "properties": {
+              "status": {
+                "const": "complete"
+              },
+              "system": {
+                "type": "object",
+                "required": [
+                  "input_file",
+                  "charge",
+                  "starting_multiplicity",
+                  "atom_count"
+                ],
+                "properties": {
+                  "input_file": {
+                    "type": "string"
+                  },
+                  "charge": {
+                    "type": "integer",
+                    "const": 1
+                  },
+                  "starting_multiplicity": {
+                    "type": "integer",
+                    "const": 1
+                  },
+                  "atom_count": {
+                    "type": "integer",
+                    "const": 62
+                  }
+                }
+              },
+              "method": {
+                "type": "object",
+                "required": [
+                  "software",
+                  "model",
+                  "solvent",
+                  "settings"
+                ],
+                "properties": {
+                  "software": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "solvent": {
+                    "type": "string"
+                  },
+                  "settings": {
+                    "type": "string"
+                  }
+                }
+              },
+              "observables": {
+                "type": "object",
+                "required": [
+                  "vertical",
+                  "adiabatic_t1"
+                ],
+                "properties": {
+                  "vertical": {
+                    "type": "object",
+                    "required": [
+                      "s1",
+                      "t1",
+                      "t2"
+                    ],
+                    "properties": {
+                      "s1": {
+                        "type": "object",
+                        "required": [
+                          "state",
+                          "energy_eV",
+                          "source"
+                        ],
+                        "properties": {
+                          "state": {
+                            "const": "S1"
+                          },
+                          "energy_eV": {
+                            "type": "number"
+                          },
+                          "source": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "t1": {
+                        "type": "object",
+                        "required": [
+                          "state",
+                          "energy_eV",
+                          "source"
+                        ],
+                        "properties": {
+                          "state": {
+                            "const": "T1"
+                          },
+                          "energy_eV": {
+                            "type": "number"
+                          },
+                          "source": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "t2": {
+                        "type": "object",
+                        "required": [
+                          "state",
+                          "energy_eV",
+                          "source"
+                        ],
+                        "properties": {
+                          "state": {
+                            "const": "T2"
+                          },
+                          "energy_eV": {
+                            "type": "number"
+                          },
+                          "source": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "adiabatic_t1": {
+                    "type": "object",
+                    "required": [
+                      "state",
+                      "energy_eV",
+                      "source"
+                    ],
+                    "properties": {
+                      "state": {
+                        "const": "T1_adiabatic"
+                      },
+                      "energy_eV": {
+                        "type": "number"
+                      },
+                      "source": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "s0_stationary",
+                  "frequency_evidence",
+                  "state_identity",
+                  "t1_relaxation",
+                  "checks"
+                ],
+                "properties": {
+                  "s0_stationary": {
+                    "type": "boolean"
+                  },
+                  "frequency_evidence": {
+                    "type": "string"
+                  },
+                  "state_identity": {
+                    "type": "string"
+                  },
+                  "t1_relaxation": {
+                    "type": "string"
+                  },
+                  "checks": {
+                    "type": "string",
+                    "description": "State ordering and vertical S1−T1 and T2−S1 gaps derived from the reported Cy2 energies. Optional 2×T1−S1 is a Cy2 diagnostic, not a sensitization criterion; no SOC/rate/annihilator result or generic limitation statement is required."
+                  }
+                }
+              },
+              "conclusion": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "system",
+              "method",
+              "observables",
+              "validation",
+              "conclusion",
+              "failure_details"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "system": {
+                "type": "object",
+                "required": [
+                  "input_file",
+                  "charge",
+                  "starting_multiplicity",
+                  "atom_count"
+                ],
+                "properties": {
+                  "input_file": {
+                    "type": "string"
+                  },
+                  "charge": {
+                    "type": "integer",
+                    "const": 1
+                  },
+                  "starting_multiplicity": {
+                    "type": "integer",
+                    "const": 1
+                  },
+                  "atom_count": {
+                    "type": "integer",
+                    "const": 62
+                  }
+                }
+              },
+              "method": {
+                "type": "object",
+                "required": [
+                  "software",
+                  "model",
+                  "solvent",
+                  "settings"
+                ],
+                "properties": {
+                  "software": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "solvent": {
+                    "type": "string"
+                  },
+                  "settings": {
+                    "type": "string"
+                  }
+                }
+              },
+              "observables": {
+                "type": "object",
+                "required": [
+                  "unresolved"
+                ],
+                "properties": {
+                  "unresolved": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "s0_stationary",
+                  "frequency_evidence",
+                  "state_identity",
+                  "t1_relaxation",
+                  "checks"
+                ],
+                "properties": {
+                  "s0_stationary": {
+                    "type": "boolean"
+                  },
+                  "frequency_evidence": {
+                    "type": "string"
+                  },
+                  "state_identity": {
+                    "type": "string"
+                  },
+                  "t1_relaxation": {
+                    "type": "string"
+                  },
+                  "checks": {
+                    "type": "string",
+                    "description": "Available state-ordering and energy-gap checks only; do not invent missing energies or additional SOC/rate/annihilator results."
+                  }
+                }
+              },
+              "conclusion": {
+                "type": "string"
+              },
+              "limitations": {
+                "type": "string",
+                "description": "Optional commentary; presence, absence or wording is not scored. Scientific results and specific failure diagnostics are evaluated separately."
+              },
+              "failure_details": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+For the specified selenium-containing heptamethine cyanine cation Cy2, independently determine the low-lying excited-state energetics relevant to 830 nm triplet–triplet-annihilation sensitization. Compute or otherwise defensibly estimate vertical S1, T1 and T2 energies from S0 and the relaxed T1 adiabatic energy in chloroform, validate state identities and convergence, and conclude what the energetics do and do not establish about triplet sensitization.
+
+# Public inputs and scientific boundaries
+
+Use electronic energies consistently: vertical EX = E(X; RS0) − E(S0; RS0) for S1, T1 and T2 at the same S0 geometry; adiabatic T1 = E(T1; RT1) − E(S0; RS0) at their respective relaxed geometries. Do not add ZPE or thermal/free-energy corrections to these electronic gaps. For the S1−T1 and T2−S1 gaps, use the vertical energies at the same S0 geometry. Identify triplet state/spin within the chosen method; a triplet-response method need not use a triplet reference determinant. The optional Cy2 diagnostic 2×T1−S1 may be reported, but it is not a criterion for sensitization.
+
+The sole molecular input is `data/inputs/cy2_s0.xyz`, the 62-atom Cy2 cation S0 Cartesian geometry extracted from SI Section 5. The XYZ comment specifies charge +1, singlet multiplicity 1 and omission of iodide counterions. Use this connectivity, protonation and charge exactly; do not add counterions or change the molecule. Chloroform is the solvent boundary, represented by a defensible continuum or explicit-solvent model. Requested observables are vertical S1, T1 and T2 energies from S0 and relaxed T1 adiabatic energy relative to S0, in eV. Method and software choices are open, but must be reported and justified.
+
+# Required scientific validation/investigation
+
+Validate the molecular identity and starting electronic state, then establish a stationary S0 geometry and report frequency evidence when available. Identify S1, T1 and T2 explicitly and distinguish vertical energies from relaxed-state energies. Relax the triplet T1 state with an appropriate state-specific treatment (an unrestricted triplet determinant or triplet-response optimization) and document convergence and the S0 reference used for the adiabatic gap. Report state ordering and the vertical S1−T1 and T2−S1 gaps in `validation.checks`, and formulate an energetic interpretation from these results. Completion requires the four requested energies and their validation, not a separate SOC, ISC-rate, quantum-yield or annihilator calculation. Incomplete work is submitted with evidence-backed diagnostics and logs.
+
+A complete outcome requires the requested scientific results and their validation evidence. If only part succeeds, use the existing failure/partial pathway and submit completed results plus the specific missing calculations and diagnostics; do not fabricate values. Extra exploratory attempts are allowed and do not invalidate completed main results. General limitations or stopping statements are optional, not scored deliverables.
+
+# Deliverables
+
+For an early or partial failure, a compact alternative submission is `status: bounded_failure` with `failure_report: {reason, missing_endpoint, completed_artifacts}`. Use nonempty reasons, identify the missing calculation, and list only artifacts that exist (the list may be empty if failure preceded computation). Include any available partial results; never fill unavailable scientific values. This branch is a valid submission, not successful completion.
+
+Submit `report/results.json` conforming to `submission_schema.json`, with auditable inputs/logs and a concise conclusion. Include method choices, convergence/state evidence, energy references. If a requested state fails, use the bounded-failure branch and name the unresolved observable instead of fabricating a value.

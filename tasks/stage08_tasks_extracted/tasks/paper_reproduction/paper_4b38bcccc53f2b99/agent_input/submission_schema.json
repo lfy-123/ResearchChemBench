@@ -1,0 +1,43 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "identity_audit", "states", "reference_calculation", "conclusion"],
+    "properties": {
+      "status": {"type": "string"},
+      "identity_audit": {
+        "type": "object",
+        "required": ["record_doi", "selector", "chemical_identity", "retrieved_file_sha256", "charge_multiplicity"]
+      },
+      "states": {
+        "type": "object",
+        "required": ["starting", "oxidized"],
+        "properties": {
+          "starting": {"type": "object", "required": ["optimization_converged", "stationary_point", "thermochemical_terms"]},
+          "oxidized": {"type": "object", "required": ["optimization_converged", "stationary_point", "thermochemical_terms"]}
+        }
+      },
+      "reference_calculation": {"type": "object", "required": ["reference_system", "method", "terms_reported"]},
+      "conclusion": {"type": "string"},
+      "comparison": {"type": "object", "required": ["experimental_boundary", "interpretation"], "properties": {"experimental_boundary": {"type": "string"}, "interpretation": {"type": "string"}}}
+    },
+    "oneOf": [
+      {
+        "required": ["result", "comparison"],
+        "properties": {
+          "status": {"enum": ["success", "completed"]},
+          "result": {"type": "object", "required": ["potential_v"]},
+          "comparison": {"type": "object", "required": ["experimental_boundary", "interpretation"]}
+        }
+      },
+      {
+        "required": ["failure_details"],
+        "properties": {
+          "status": {"enum": ["bounded_failure", "partial", "failed"]},
+          "failure_details": {"type": "object", "required": ["attempted_states", "limiting_cause", "no_fabricated_result"]}
+        }
+      }
+    ]
+  }
+}

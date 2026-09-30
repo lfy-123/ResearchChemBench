@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_60f4c45810428116",
+  "source_locators": [
+    {
+      "document": "main.pdf",
+      "pdf_pages_1_based": [
+        2,
+        3,
+        5
+      ],
+      "use": "Identity/experimental conditions only; do not retrieve target-paper answers."
+    },
+    {
+      "document": "supplementary_001.pdf",
+      "pdf_pages_1_based": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        19,
+        22
+      ],
+      "use": "Identity/experimental conditions only; do not retrieve target-paper answers."
+    }
+  ],
+  "new_control_origin": "Benchmark-authored definitions, explicitly distinguished from source results in task.md; registry graphs are not quantum-optimized reference endpoints.",
+  "limitations": "A source/model-definition error is distinct from missing numerical rate constants. Treating an irreversible 1a loss surrogate Q as a source-established back-quench mechanism invalidates that interpretation. A faithful report of this unresolved gate remains bounded_failure, never scientific pass.",
+  "observation_transcription_audit": {
+    "checked_date": "2026-09-28",
+    "document": "supplementary_001.pdf",
+    "pdf_pages_1_based": [
+      5
+    ],
+    "table": "S2",
+    "source_pdf_sha256": "5a9d2e70dc461cb7731eb715a4251b800c264f87b08b89260bb41d84c6597d62",
+    "correction": "Entry24 1a recovery n.d. -> trace. Entry23 rechecked and remains trace. No numeric observations or censor thresholds changed."
+  }
+}

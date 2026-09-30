@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_2f2aa11ea61a32bb/documents/main.pdf",
+          "sha256": "bfdb4129439627d7d651b864d72f7c08c512af56365e473b538a8460c1e6a694",
+          "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF pp2–3 Fig2/Table1明确toluene；1c较低能长波带与短波最强吸收不能混配。SI p57起为作者优化坐标。",
+          "actual_read_pages_and_sections": "Main pp2–3 complete absorption discussion, Scheme1/Fig2/Table1; SI p2 methods, p57 and following identity coordinate tables."
+        },
+        {
+          "path": "papers/paper_2f2aa11ea61a32bb/documents/supplementary_001.pdf",
+          "sha256": "6187b34d441b880b245cbbbd3350b5a9ca926ba472f56bd2026bad2a0e174983",
+          "locator": "Main pp2-3 Fig2/Table1 explicitly identifies toluene absorption; SI p2 methods, pp57-68 coordinate tables. Current experimental_absorption.json is retained as published input.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF pp2–3 Fig2/Table1明确toluene；1c较低能长波带与短波最强吸收不能混配。SI p57起为作者优化坐标。",
+          "actual_read_pages_and_sections": "Main pp2–3 complete absorption discussion, Scheme1/Fig2/Table1; SI p2 methods, p57 and following identity coordinate tables."
+        }
+      ],
+      "description": "The source compares N,O-bidentate BF2 complexes1a–1d in toluene and discusses their electronic transitions. The selected question concerns these molecular absorption differences, excluding the source’s later substituted crystals and devices. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "group_1有限单体/局部约束/光谱证据已绑定；新C版不直接继承通过且语义judge未校准。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular explanation of the absorption differences among complexes1a–1d in toluene is supported by the supplied observations and an independent investigation? Establish defensible state/band assignments and the limits of any proposed structure–spectrum relationship. A spectral assignment must compare the same kind of observable and show relevant state character/intensity or other sufficient evidence. Explain model-dependent shifts and uncertainty rather than selecting whichever computed root is closest after the fact. Validate the adequacy of structures, methods and analysis for the claims using a defensible route of your choice."
+    }
+  ]
+}

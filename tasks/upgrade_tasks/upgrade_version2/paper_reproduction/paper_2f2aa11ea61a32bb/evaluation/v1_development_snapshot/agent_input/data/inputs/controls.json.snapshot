@@ -1,0 +1,110 @@
+{
+  "common_anchors": {
+    "1a": {
+      "B": [
+        22
+      ],
+      "N": [
+        6
+      ],
+      "O": [
+        21
+      ],
+      "F": [
+        23,
+        24
+      ]
+    },
+    "1b": {
+      "B": [
+        20
+      ],
+      "N": [
+        6
+      ],
+      "O": [
+        19
+      ],
+      "F": [
+        21,
+        22
+      ]
+    },
+    "1c": {
+      "B": [
+        20
+      ],
+      "N": [
+        6
+      ],
+      "O": [
+        19
+      ],
+      "F": [
+        21,
+        22
+      ]
+    },
+    "1d": {
+      "B": [
+        20
+      ],
+      "N": [
+        6
+      ],
+      "O": [
+        19
+      ],
+      "F": [
+        21,
+        22
+      ]
+    }
+  },
+  "common_geometry": "Map B, N, O, two F and adjacent chelate carbons by graph; fix those shared internal distances/angles to a stated released member. Do not impose whole fused-ring bijection.",
+  "solvent": "toluene",
+  "validation_split": "Preselect one published band trend for transfer testing; since public observations are visible call this retrospective unless genuinely preregistered.",
+  "ordered_common_chelate_map": {
+    "1a": [
+      22,
+      6,
+      5,
+      11,
+      12,
+      21
+    ],
+    "1b": [
+      20,
+      6,
+      5,
+      9,
+      10,
+      19
+    ],
+    "1c": [
+      20,
+      6,
+      5,
+      9,
+      10,
+      19
+    ],
+    "1d": [
+      20,
+      6,
+      5,
+      9,
+      10,
+      19
+    ]
+  },
+  "map_slots": [
+    "B",
+    "N",
+    "N_adjacent_C",
+    "aryl_ipso_C",
+    "phenoxy_C",
+    "O"
+  ],
+  "F_map_policy": "Two B-bound F are chemically equivalent; enumerate both permutations when aligning and report chosen mapping, never change charge or geometry to force fit."
+}

@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 1a C11H8BF2NO and 1b/1c/1d C15H10BF2NO; retain their distinct azaarene fusion/connectivity. Primary toluene medium matches experimental_absorption.json and main Fig2/Table1. A gas-phase source baseline is a separate sensitivity, not a toluene measurement. A shared geometry means a mapped local B-N-O/chelate scaffold, not a forced whole-graph atom bijection across different fused isomers. Geometry constraints must be stated and released controls retained.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use neutral singlet 1a C11H8BF2NO and 1b/1c/1d C15H10BF2NO; retain their distinct azaarene fusion/connectivity. Primary toluene medium matches experimental_absorption.json and main Fig2/Table1. A gas-phase source baseline is a separate sensitivity, not a toluene measurement. A shared geometry means a mapped local B-N-O/chelate scaffold, not a forced whole-graph atom bijection across different fused isomers. Geometry constraints must be stated and released controls retained.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxed_monomers",
+      "statement": "Retain low-root tables, full oscillator distribution and NTOs; observed absorption maximum need not be S1 when a dark state is lower. Core rows: 1a, 1b, 1c, 1d. Recompute excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Retain low-root tables, full oscillator distribution and NTOs; observed absorption maximum need not be S1 when a dark state is lower. Core rows: 1a, 1b, 1c, 1d. Recompute excitation_eV, oscillator_strength, CT_distance_A from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_common_geometry",
+      "statement": "Actual shared-chelate constraints with atom correspondence and released pairs are mandatory; four original spectra alone are insufficient. Core rows: 1a_common, 1b_common, 1c_common, 1d_common. Recompute excitation_eV, oscillator_strength, constraint_deformation_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Actual shared-chelate constraints with atom correspondence and released pairs are mandatory; four original spectra alone are insufficient. Core rows: 1a_common, 1b_common, 1c_common, 1d_common. Recompute excitation_eV, oscillator_strength, constraint_deformation_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_spectral_test",
+      "statement": "Separate band energy, intensity and character, with stated broadening/assignment and digitization uncertainty. A retrospective holdout must not be mislabeled a blind prediction. Core rows: electronic_vs_geometry, independent_trend, method_sensitivity. Recompute predicted_shift_eV, observed_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Separate band energy, intensity and character, with stated broadening/assignment and digitization uncertainty. A retrospective holdout must not be mislabeled a blind prediction. Core rows: electronic_vs_geometry, independent_trend, method_sensitivity. Recompute predicted_shift_eV, observed_shift_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

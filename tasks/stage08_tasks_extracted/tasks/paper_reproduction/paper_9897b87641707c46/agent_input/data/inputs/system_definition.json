@@ -1,0 +1,35 @@
+{
+  "system_id": "styrene_hydroboration_truncated_bpy_fe_hydride",
+  "purpose": "Public definition of the molecular system; contains no reference energies, winning candidate, or result-bearing stationary-point geometry.",
+  "reactants": {
+    "styrene": {
+      "formula": "C8H8",
+      "smiles": "C=Cc1ccccc1",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    "pinacolborane_HBpin": {
+      "formula": "C6H13BO2",
+      "smiles": "CC1(C)OB(O1)",
+      "charge": 0,
+      "multiplicity": 1
+    }
+  },
+  "catalyst_model": {
+    "name": "truncated (2,2'-bipyridyl)iron(II) dihydride",
+    "definition": "One Fe(II) atom coordinated by both nitrogens of unsubstituted 2,2'-bipyridine, two terminal hydrides, and two axial tetrahydrofuran ligands in the resting octahedral model. The framework is omitted.",
+    "bipyridine_smiles": "c1ccc(nc1)-c2ccccn2",
+    "thf_smiles": "C1CCOC1",
+    "formal_charge": 0,
+    "spin_multiplicity": 5,
+    "model_boundary": "For the reactive tetrahedral state, axial THF ligands may be dissociated; report explicitly which ligands are present in every computed species. Do not import a result-bearing geometry from the paper."
+  },
+  "environment": {
+    "solvent": "toluene",
+    "temperature_K": 333.15,
+    "standard_state": "state the convention used for relative Gibbs energies"
+  },
+  "energy_zero_definition": "Use the dissociated tetrahedral (bpy)FeH2 active-site state as the zero of the reported relative profile, and state any alternative reference conversion.",
+  "allowed_external_inputs": "No literature or general web search is needed; standard physical constants and the chosen quantum-chemistry implementation are allowed.",
+  "identity_notes": "The names and SMILES identify atom connectivity; hydride count, neutral charge, Fe(II) oxidation state, quintet multiplicity, and THF coordination are mandatory model constraints. Generate and document 3D conformers independently."
+}

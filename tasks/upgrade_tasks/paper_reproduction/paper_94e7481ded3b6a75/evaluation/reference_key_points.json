@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. First version uses source PBNA C24H22B2N2, neutral singlet, with the two mapped B-phenyl torsions. Compute S0 and a tracked S1 on released and identically restrained motion coordinates, primary gas phase with common CH2Cl2 sensitivity. A restrained excited-state point is an intervention, not an unconstrained S1 minimum. Retain all B/N connectivity.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. First version uses source PBNA C24H22B2N2, neutral singlet, with the two mapped B-phenyl torsions. Compute S0 and a tracked S1 on released and identically restrained motion coordinates, primary gas phase with common CH2Cl2 sensitivity. A restrained excited-state point is an intervention, not an unconstrained S1 minimum. Retain all B/N connectivity.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_state_geometry",
+      "statement": "Keep geometric and electronic-state records distinct; S1 and S0 energies must refer to the stated same protocol and geometry. Core rows: S0_free, S1_free, S0_restrained, S1_restrained. Recompute electronic_Eh, torsion_degree, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Keep geometric and electronic-state records distinct; S1 and S0 energies must refer to the stated same protocol and geometry. Core rows: S0_free, S1_free, S0_restrained, S1_restrained. Recompute electronic_Eh, torsion_degree, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_motion_response",
+      "statement": "Inspect NTO/transition densities and local geometry; compute paired effects rather than infer them from frontier orbital pictures. Core rows: vertical_fixed_motion, relaxed_motion. Recompute excitation_change_eV, CT_distance_change_A, relaxation_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Inspect NTO/transition densities and local geometry; compute paired effects rather than infer them from frontier orbital pictures. Core rows: vertical_fixed_motion, relaxed_motion. Recompute excitation_change_eV, CT_distance_change_A, relaxation_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_local_robustness",
+      "statement": "Actual motion/method or medium sensitivity bounds the isolated-molecule claim; no quantum yield, knr or bulk AIE is scored. Core rows: second_torsion_or_method, common_solvent. Recompute primary_effect_eV, control_effect_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Actual motion/method or medium sensitivity bounds the isolated-molecule claim; no quantum yield, knr or bulk AIE is scored. Core rows: second_torsion_or_method, common_solvent. Recompute primary_effect_eV, control_effect_eV, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_input",
+      "type": "semantic",
+      "expected": "CCDC 2433822 identity, neutral singlet and explicit mapping/provenance are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.input_provenance",
+          "$.system",
+          "$.selected_result.atom_mapping_file"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "candidate/protocol coverage and stationary-point validation are documented per selected candidate",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocols_or_candidates",
+          "$.frequency_validation",
+          "$.completion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_minimum",
+      "type": "condition",
+      "expected": "A converged cis local-minimum geometry is established by mapped coordinates and stationary-point evidence. All vibrational modes are accounted for and no unexplained imaginary mode remains; merely reporting an imaginary-mode count or a different conformer does not establish this result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frequency_validation",
+          "$.selected_result.conformer",
+          "$.conclusion"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_geometry",
+      "type": "numeric",
+      "target": 0.004,
+      "unit": "Å",
+      "tolerance": 0.01,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bond_comparison",
+          "$.selected_result.conformer"
+        ],
+        "comparison": "absolute difference for RMSE from exactly the six public experimental pairs, each once, on the explicitly identified cis geometry"
+      },
+      "expected": "Verify the mapped cis local minimum and exactly the six experimental pairs from experimental_bonds.json before comparing RMSE. Recompute nonnegative RMSE and fitted-intercept OLS R² from complete rows; inspect individual residuals as well as correlation. Use the supplied published experimental precision. No exact calculated distances may be inferred from the global metric alone."
+    },
+    {
+      "rule_id": "ar_c1",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "The same validated cis geometry, its mapped N1-C1-C2-N2 orientation, real frequencies and complete six-pair residuals support the local-geometry conclusion. Compare against source RMSE 0.004 Å and OLS R² 0.998 with the stated method/precision boundary. An alternative lower-energy conformer does not refute the existence of this cis local minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bond_comparison",
+          "$.frequency_validation",
+          "$.selected_result",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

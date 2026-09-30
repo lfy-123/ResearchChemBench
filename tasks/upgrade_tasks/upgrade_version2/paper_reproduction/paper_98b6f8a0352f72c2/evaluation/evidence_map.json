@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_98b6f8a0352f72c2",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_98b6f8a0352f72c2/documents/main.pdf",
+          "sha256": "714a568d5e123ebb80f11a9ab57fd85c282648d3f861353b63973f8d8cdf3492",
+          "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p4分别讨论吸收和发射，pp6–7给12d身份；正式DOCX SI另存batch3/evidence，FigS31/S39与TableS1区分实验/理论谱和理论radiative lifetime。",
+          "actual_read_pages_and_sections": "Main pp3–4 Table1/optical discussion and pp7–8 chemical identity/section3.1.4; formal DOCX paragraphs202–218 spectral captions and250 onward complete TableS1 radiative lifetimes."
+        },
+        {
+          "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_98b6f8a0352f72c2_official_si.docx",
+          "sha256": "275ca4700127d3f0cce5b5b9ae3a9d21f157acc0409cb8aa658fb06e4f65a924",
+          "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+          "role": "formal_publisher_SI",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p4分别讨论吸收和发射，pp6–7给12d身份；正式DOCX SI另存batch3/evidence，FigS31/S39与TableS1区分实验/理论谱和理论radiative lifetime。",
+          "actual_read_pages_and_sections": "Main pp3–4 Table1/optical discussion and pp7–8 chemical identity/section3.1.4; formal DOCX paragraphs202–218 spectral captions and250 onward complete TableS1 radiative lifetimes."
+        }
+      ],
+      "description": "The source synthesizes phenazines12a–f and measures solvent-dependent absorption/emission. This bounded task compares the actual dimethylamino12a and diethylamino12d in CHCl3 and EtOAc, where matched emission and lifetime observations are available. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "冻结记录12a/CHCl3 fullTD40已完成、S1与其余S0在途；两介质发射、态映射和所有扩展参考未齐。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular account of the absorption and emission behavior of phenazines12a and12d in chloroform and ethyl acetate is supported by the supplied measurements and a defensible investigation? Determine which structural or electronic interpretations are identifiable and how they relate to the measured fluorescence behavior. Separate absorption, emission, adiabatic gaps and total/radiative lifetimes. State what model and physical evidence support any relaxed-state or kinetic claim. If combining quantum yield and total lifetime, use matched conditions and correct yield units, propagate or disclose uncertainty, and do not treat source theoretical lifetimes as measured values. Choose relevant validation without an imposed torsion/solvent grid."
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "source_result": "docs/verification/group_1/paper_6f9a36fff6964313/report/results.json",
+  "purpose": "Private lossless schema-mapping check of a historical author-route result; not an agent run, new calculation, or evaluator reference.",
+  "mapping": [
+    "Add coverage from the actual three-system/one-conformer record and its explicit limitations.",
+    "Wrap each existing validation and structure_provenance as a single candidate_record / selected_structure; preserve charges, atom identities and original fields."
+  ],
+  "result": {
+    "status": "complete",
+    "method": {
+      "software": "Gaussian16 C.01 (paper Gaussian16 A.03)",
+      "geometry_protocol": "B3LYP-D3BJ/6-31G(d,p), IEFPCM(acetonitrile), unconstrained Tight Opt+Freq, UltraFine grid",
+      "population_protocol": "M062X-D3/def2TZVP, SMD(acetonitrile), Pop=Full on the corresponding validated minimum; raw atomic Mulliken charges, not NPA/ADCH or hydrogen-condensed populations",
+      "solvent": "acetonitrile; IEFPCM for minima, SMD for population single points",
+      "validation_protocol": "Explicit public-SMILES graph/formula, charge/spin, zero imaginary modes, full terminal Gaussian marker; SP-to-minimum pair-distance equality and unique scored-atom environment."
+    },
+    "systems": [
+      {
+        "system_id": "tfap",
+        "structure_provenance": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/qzcli_hpc/tfap_SI631gdp_GD3BJ_redundant_20260915/repair_20260915T075256Z/gaussian.log",
+        "validation": {
+          "converged": true,
+          "minimum_evidence": "17 atoms, 45 real modes; lowest 38.8823 cm-1; zero imaginary modes."
+        },
+        "atom_identity": "{'carbonyl_carbon': {'gaussian_index_1based': 2, 'environment': 'the carbonyl carbon in the C(=O)CF3 substituent', 'neighbor_indices_1based': [1, 3, 7]}}",
+        "charge_provenance": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/local_recovery_20260915/tfap_author_M062X_GD3_def2TZVP_SMD_Mulliken_20260915/gaussian.log",
+        "charges": {
+          "carbonyl_carbon": 0.203728
+        },
+        "candidate_records": [
+          {
+            "candidate_id": "tfap_author_route",
+            "validation": "{\"converged\": true, \"minimum_evidence\": \"17 atoms, 45 real modes; lowest 38.8823 cm-1; zero imaginary modes.\"}",
+            "selection_context": "The one archived validated structure for this system; not a global-minimum or autonomous-search claim."
+          }
+        ],
+        "selected_structure": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/qzcli_hpc/tfap_SI631gdp_GD3BJ_redundant_20260915/repair_20260915T075256Z/gaussian.log"
+      },
+      {
+        "system_id": "ptma_otf",
+        "structure_provenance": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/qzcli_hpc/ptma_otf_SI631gdp_GD3BJ_redundant_20260915/repair_20260915T075531Z/gaussian.log",
+        "validation": {
+          "converged": true,
+          "minimum_evidence": "32 atoms, 90 real modes; lowest 13.2369 cm-1; zero imaginary modes."
+        },
+        "atom_identity": "{'quaternary_nitrogen': {'gaussian_index_1based': 2, 'environment': 'the aryl-bound N bearing three methyl groups', 'neighbor_indices_1based': [1, 3, 4, 5]}}",
+        "charge_provenance": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/local_recovery_20260915/ptma_otf_author_M062X_GD3_def2TZVP_SMD_Mulliken_20260915/gaussian.log",
+        "charges": {
+          "quaternary_nitrogen": 0.040059
+        },
+        "candidate_records": [
+          {
+            "candidate_id": "ptma_otf_author_route",
+            "validation": "{\"converged\": true, \"minimum_evidence\": \"32 atoms, 90 real modes; lowest 13.2369 cm-1; zero imaginary modes.\"}",
+            "selection_context": "The one archived validated structure for this system; not a global-minimum or autonomous-search claim."
+          }
+        ],
+        "selected_structure": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/qzcli_hpc/ptma_otf_SI631gdp_GD3BJ_redundant_20260915/repair_20260915T075531Z/gaussian.log"
+      },
+      {
+        "system_id": "tmtfaba_otf",
+        "structure_provenance": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/qzcli_hpc/tmtfaba_otf_SI631gdp_GD3BJ_redundant_20260915/repair_20260915T080014Z/gaussian.log",
+        "validation": {
+          "converged": true,
+          "minimum_evidence": "37 atoms, 105 real modes; lowest 18.761 cm-1; zero imaginary modes."
+        },
+        "atom_identity": "{'carbonyl_carbon': {'gaussian_index_1based': 9, 'environment': 'the carbonyl carbon in the C(=O)CF3 substituent', 'neighbor_indices_1based': [8, 10, 11]}, 'quaternary_nitrogen': {'gaussian_index_1based': 2, 'environment': 'the aryl-bound N bearing three methyl groups', 'neighbor_indices_1based': [1, 3, 4, 5]}}",
+        "charge_provenance": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/local_recovery_20260915/tmtfaba_otf_author_M062X_GD3_def2TZVP_SMD_Mulliken_20260915/gaussian.log",
+        "charges": {
+          "carbonyl_carbon": 0.198533,
+          "quaternary_nitrogen": 0.058695
+        },
+        "candidate_records": [
+          {
+            "candidate_id": "tmtfaba_otf_author_route",
+            "validation": "{\"converged\": true, \"minimum_evidence\": \"37 atoms, 105 real modes; lowest 18.761 cm-1; zero imaginary modes.\"}",
+            "selection_context": "The one archived validated structure for this system; not a global-minimum or autonomous-search claim."
+          }
+        ],
+        "selected_structure": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/verification/group_1/paper_6f9a36fff6964313/provenance/qzcli_hpc/tmtfaba_otf_SI631gdp_GD3BJ_redundant_20260915/repair_20260915T080014Z/gaussian.log"
+      }
+    ],
+    "comparison": {
+      "carbonyl_difference_tmtfaba_minus_tfap": -0.005195000000000005,
+      "nitrogen_difference_tmtfaba_minus_ptma": 0.018636
+    },
+    "tfap_carbonyl_charge": 0.203728,
+    "tmtfaba_carbonyl_charge": 0.198533,
+    "ptma_nitrogen_charge": 0.040059,
+    "tmtfaba_nitrogen_charge": 0.058695,
+    "conclusion": "At the source two-level method, the sampled bifunctional ion pair has a less positive carbonyl C than TFAP and a more positive quaternary N than PTMA. Interpretation is limited to this population partition and three validated structures; no catalytic barrier or universal cooperation mechanism follows.",
+    "limitations": "Fixed three-system, one validated conformer per system; Mulliken charges depend strongly on basis/geometry and ion-pair orientation. The N difference is larger than the printed paper difference; passing existing absolute tolerances is not exact reproduction. No full catalytic mechanism, NMR shift or universal electronic-cooperation proof. SI FigS7 displays only cation fragments; OTf remains present as the public task explicitly requires, and hidden counterion geometry is not invented. Source A.03 versus actual C.01 and unspecified defaults are disclosed.",
+    "verification_status": {
+      "executability": "READY",
+      "paper_reproduction": "PASS",
+      "evaluation_qualification": "QUALIFIED",
+      "scope": "Current base reproduction only"
+    },
+    "computation_timing": {
+      "successful_gaussian_seconds_sum": 3283.2000000000003,
+      "per_system": [
+        {
+          "system": "tfap",
+          "optfreq_seconds": 97.6,
+          "population_seconds": 50.4
+        },
+        {
+          "system": "ptma_otf",
+          "optfreq_seconds": 356.20000000000005,
+          "population_seconds": 128.7
+        },
+        {
+          "system": "tmtfaba_otf",
+          "optfreq_seconds": 2370.2000000000003,
+          "population_seconds": 280.1
+        }
+      ],
+      "note": "Three population SPs completed naturally during finite local tests; not resubmitted. Original failed/wrong-method attempts and queue time excluded from this successful-route sum."
+    },
+    "coverage": {
+      "candidate_count": 3,
+      "deduplication": "Historical author-route archive contains one independently identified validated structure per fixed system; no broader conformer ensemble or deduplication experiment is claimed.",
+      "stopping_rule": "All three fixed systems have Opt/Freq and the corresponding population single point; this is author-route feasibility evidence, not an autonomous search run.",
+      "sensitivity_assessment": "Only one validated conformer per system is archived. Basis/ion-pair/conformer dependence is explicitly retained as uncertainty; robustness under broader sampling was not established."
+    }
+  },
+  "schema_errors": []
+}

@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "items": [
+    {
+      "key_point_id": "p1",
+      "key_point_type": "process",
+      "statement": "The submission performs a converged geometry optimization of the uniquely defined neutral singlet 4b and preserves atom identity.",
+      "expected_result": "A converged optimized structure with explicit method and coordinates/equivalent artifact, or a truthful bounded-failure report with attempted inputs and diagnostics.",
+      "evidence_ids": [
+        "ev_doc_ca374b59f1ae_000398_9737daa0de07"
+      ],
+      "expected": "The submission performs a converged geometry optimization of the uniquely defined neutral singlet 4b and preserves atom identity."
+    },
+    {
+      "key_point_id": "p2",
+      "key_point_type": "process",
+      "statement": "The optimized structure is validated by harmonic frequencies as a true minimum.",
+      "expected_result": "Frequency calculation performed and minimum classified, or an honestly documented bounded failure with diagnostics.",
+      "evidence_ids": [
+        "ev_doc_ca374b59f1ae_000384_0ec54e303463"
+      ],
+      "expected": "The optimized structure is validated by harmonic frequencies as a true minimum."
+    },
+    {
+      "key_point_id": "p3",
+      "key_point_type": "result",
+      "statement": "Calculated geometry is close to the supplied XRD geometry for named bonds, angles and torsions.",
+      "expected_result": "Complete per-observable values and deviations with aggregate comparison metrics, or a truthful bounded-failure report explaining why comparison could not be completed.",
+      "evidence_ids": [
+        "ev_doc_7d9d8139af59_000211_fcf77b5c1715",
+        "ev_doc_ca374b59f1ae_000403_60a6b484ec20"
+      ],
+      "expected": "Calculated geometry is close to the supplied XRD geometry for named bonds, angles and torsions."
+    }
+  ]
+}

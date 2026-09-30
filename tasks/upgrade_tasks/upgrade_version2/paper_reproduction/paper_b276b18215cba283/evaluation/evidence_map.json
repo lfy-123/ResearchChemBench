@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_b276b18215cba283/documents/main.pdf",
+          "sha256": "389f29d6530237e6642f504587587564347b11765747bb427fc6568960d0b1c4",
+          "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p8 讨论 700 nm 新带和乙醇稀释实验；SI pp15–16 FigsS12/S13 明确单臂简化模型和三臂 cisoid/transoid，CAM-B3LYP/6-31G(d,p)。",
+          "actual_read_pages_and_sections": "Main p8 complete molecular interpretation and observation paragraph; SI pp15–16 FigsS12–S13 and source coordinate identities TablesS8–S11."
+        },
+        {
+          "path": "papers/paper_b276b18215cba283/documents/supplementary_001.pdf",
+          "sha256": "2c5e532a011fe24841808d9dd1c9f5ef653d924992cc1080a13cbc7e7ee09abf",
+          "locator": "Main pp4-5 optical/quatsome discussion; SI pp15-16 FigsS12-S13, pp45-64 Tables S8-S11.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p8 讨论 700 nm 新带和乙醇稀释实验；SI pp15–16 FigsS12/S13 明确单臂简化模型和三臂 cisoid/transoid，CAM-B3LYP/6-31G(d,p)。",
+          "actual_read_pages_and_sections": "Main p8 complete molecular interpretation and observation paragraph; SI pp15–16 FigsS12–S13 and source coordinate identities TablesS8–S11."
+        }
+      ],
+      "description": "The source investigates dye5-loaded quatsomes and uses single-arm/full-dye molecular calculations to examine an additional long-wavelength absorption feature. The task retains the molecular explanation subproblem; it does not ask for vesicle or imaging performance. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "冻结记录有六体系36态密度/NTO/分区；完整 cisoid 极小点及其介质/衍生控制未齐。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular explanation for the long-wavelength absorption behavior of the source three-arm dye is supported by the supplied observations and a defensible molecular investigation? Determine how well the explanation accounts for the full dye and what cannot be established from a simplified model. Define absorption versus emission and the molecular state represented. Validate the computed observable and any structural or excited-state assignment used in the account. Assess assumptions material to transferring a simplified model to the full dye and to interpreting a solution/vesicle observation; decide the checks rather than following a fixed matrix."
+    }
+  ]
+}

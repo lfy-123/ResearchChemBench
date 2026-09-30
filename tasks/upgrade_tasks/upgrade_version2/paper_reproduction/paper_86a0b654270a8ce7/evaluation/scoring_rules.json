@@ -1,0 +1,187 @@
+{
+  "paper_id": "paper_86a0b654270a8ce7",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Confirm full formulas and six-donor coordination identities, including explicitly supplied trans pairs. Match atom IDs through optimization; source textual N/O-trans descriptions conflict and cannot override the graph without evidence. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Confirm full formulas and six-donor coordination identities, including explicitly supplied trans pairs. Match atom IDs through optimization; source textual N/O-trans descriptions conflict and cannot override the graph without evidence."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_evidence",
+      "reference_id": "kp_quantitative_evidence",
+      "type": "semantic",
+      "expected": "Recover a compatible quantitative isomer comparison from genuine molecular evidence with state, solvent, temperature and reference bookkeeping. Distinguish electronic energy from Gibbs free energy and assess whether any stated preference exceeds demonstrated uncertainty. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.operations",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Recover a compatible quantitative isomer comparison from genuine molecular evidence with state, solvent, temperature and reference bookkeeping. Distinguish electronic energy from Gibbs free energy and assess whether any stated preference exceeds demonstrated uncertainty."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_answer",
+      "reference_id": "kp_scientific_answer",
+      "type": "semantic",
+      "expected": "Judge whether the proposed molecular account is supported by relevant evidence and not merely a contact visualization. Alternative stabilization accounts, reversed ordering and unresolved preference are eligible; no stacking mechanism or fixed intervention is obligatory. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Judge whether the proposed molecular account is supported by relevant evidence and not merely a contact visualization. Alternative stabilization accounts, reversed ordering and unresolved preference are eligible; no stacking mechanism or fixed intervention is obligatory."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_validity_and_uncertainty",
+      "reference_id": "kp_validity_and_uncertainty",
+      "type": "semantic",
+      "expected": "Use compatible molecular states and thermodynamic conventions for relative stability. Validate the structures/electronic states used, justify treatment of flexible modes and structural sampling where they affect the conclusion, and assess method/model uncertainty at the claimed resolution. Design checks relevant to your explanation rather than assume a contact proves causation. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validations",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Use compatible molecular states and thermodynamic conventions for relative stability. Validate the structures/electronic states used, justify treatment of flexible modes and structural sampling where they affect the conclusion, and assess method/model uncertainty at the claimed resolution. Design checks relevant to your explanation rather than assume a contact proves causation."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_bounded_conclusion",
+      "reference_id": "kp_bounded_conclusion",
+      "type": "semantic",
+      "expected": "The result is a molecular thermodynamic/explanatory statement, not a synthetic yield prediction. Isolated yield ratios do not prove an equilibrium population or interconversion. A constrained contact change mixes energetic effects unless independently separated; finite stability does not prove emission efficiency or device performance. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. The result is a molecular thermodynamic/explanatory statement, not a synthetic yield prediction. Isolated yield ratios do not prove an equilibrium population or interconversion. A constrained contact change mixes energetic effects unless independently separated; finite stability does not prove emission efficiency or device performance."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "bounded_answer",
+      "type": "semantic",
+      "expected": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability. The result is a molecular thermodynamic/explanatory statement, not a synthetic yield prediction. Isolated yield ratios do not prove an equilibrium population or interconversion. A constrained contact change mixes energetic effects unless independently separated; finite stability does not prove emission efficiency or device performance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.validations",
+          "$.status"
+        ],
+        "comparison": "Check question coverage and evidence, not author agreement or the self-declared completion status."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Confirm full formulas and six-donor coordination identities, including explicitly supplied trans pairs. Match atom IDs through optimization; source textual N/O-trans descriptions conflict and cannot override the graph without evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_evidence",
+      "max_score": 25,
+      "description": "Recover a compatible quantitative isomer comparison from genuine molecular evidence with state, solvent, temperature and reference bookkeeping. Distinguish electronic energy from Gibbs free energy and assess whether any stated preference exceeds demonstrated uncertainty.",
+      "rule_ids": [
+        "rule_quantitative_evidence"
+      ]
+    },
+    {
+      "id": "scientific_answer",
+      "max_score": 25,
+      "description": "Judge whether the proposed molecular account is supported by relevant evidence and not merely a contact visualization. Alternative stabilization accounts, reversed ordering and unresolved preference are eligible; no stacking mechanism or fixed intervention is obligatory.",
+      "rule_ids": [
+        "rule_scientific_answer"
+      ]
+    },
+    {
+      "id": "validity_and_uncertainty",
+      "max_score": 20,
+      "description": "Use compatible molecular states and thermodynamic conventions for relative stability. Validate the structures/electronic states used, justify treatment of flexible modes and structural sampling where they affect the conclusion, and assess method/model uncertainty at the claimed resolution. Design checks relevant to your explanation rather than assume a contact proves causation.",
+      "rule_ids": [
+        "rule_validity_and_uncertainty"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 15,
+      "description": "The result is a molecular thermodynamic/explanatory statement, not a synthetic yield prediction. Isolated yield ratios do not prove an equilibrium population or interconversion. A constrained contact change mixes energetic effects unless independently separated; finite stability does not prove emission efficiency or device performance.",
+      "rule_ids": [
+        "rule_bounded_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_developed_existing_references_scope_limited",
+  "calibrated_expanded_tolerances": false,
+  "scientific_notes": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+  "semantic_judge_calibration": "pending; no new judge or scientific jobs in this development round",
+  "retired_matrix_policy": "V1 files archived as historical .snapshot are never normative for V2. Their valid raw facts may be used only within documented applicability, without requiring their candidate/control grid."
+}

@@ -68,7 +68,7 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
         environment_variable="CHEMGRAPH_VINA_COMMAND" if backend_id == "vina" else "CHEMGRAPH_GNINA_COMMAND",
         arguments=arguments,
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 3600)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")

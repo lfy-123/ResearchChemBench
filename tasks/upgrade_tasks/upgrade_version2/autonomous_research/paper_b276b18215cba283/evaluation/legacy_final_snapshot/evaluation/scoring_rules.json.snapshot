@@ -1,0 +1,70 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "rules": [
+    {
+      "rule_id": "ar_rule_identity",
+      "reference_id": "ar_process_identity",
+      "type": "semantic",
+      "expected": "Both named conformers have explicit identity, neutral singlet charge/multiplicity, and auditable validation. Tie each primary TD calculation to its exact supplied fixed geometry using retained input/output and atom mapping. Separately labeled reoptimization is sensitivity, not a replacement; no new Hessian/hash requirement applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_state",
+      "reference_id": "ar_process_state",
+      "type": "semantic",
+      "expected": "The S1 state and predominantly HOMO-to-LUMO character are explicitly reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_rule_shift",
+      "reference_id": "ar_result_shift",
+      "type": "numeric",
+      "target": -0.08,
+      "unit": "eV",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.shift_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_rule_conclusion",
+      "reference_id": "ar_final_claim",
+      "type": "semantic",
+      "expected": "The validated simplified-model conformers show the source-supported lower energy and red-shifted electronic absorption for the cisoid form. Recompute signed cisoid/transoid energy and excitation differences in the declared convention. Interpret the same physical S1, not a root chosen for target agreement.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures",
+          "$.shift_eV",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

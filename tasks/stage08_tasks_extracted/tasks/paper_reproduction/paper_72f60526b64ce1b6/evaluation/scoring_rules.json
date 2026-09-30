@@ -1,0 +1,76 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "rules": [
+    {
+      "rule_id": "r_state",
+      "reference_id": "kp_process_state",
+      "type": "condition",
+      "expected": "Reported system is charge 0, multiplicity 1, 22 atoms at zero field with reproducible method provenance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system.charge",
+          "$.system.multiplicity",
+          "$.system.atom_count",
+          "$.calculation.field_v",
+          "$.calculation.method",
+          "$.calculation.software"
+        ],
+        "comparison": "expert check of stated system and provenance"
+      }
+    },
+    {
+      "rule_id": "r_validation",
+      "reference_id": "kp_process_validation",
+      "type": "semantic",
+      "expected": "Concrete stationarity/geometry and independent convergence validation are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.geometry_or_stationarity",
+          "$.validation.independent_check",
+          "$.validation.details"
+        ],
+        "comparison": "expert scientific validation"
+      }
+    },
+    {
+      "rule_id": "r_dipole",
+      "reference_id": "kp_result_dipole",
+      "type": "numeric",
+      "target": 2.67,
+      "unit": "Debye",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.calculation.dipole_magnitude_debye"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success outcome only; bounded_failure reports dipole_magnitude_debye as null and is judged for truthful attempted settings and cause under r_state/r_validation/r_conclusion"
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "c_final_dipole",
+      "type": "semantic",
+      "expected": "Validated non-zero intrinsic polarity is concluded, with explicit limitations and no unsupported transport claim.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.text",
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

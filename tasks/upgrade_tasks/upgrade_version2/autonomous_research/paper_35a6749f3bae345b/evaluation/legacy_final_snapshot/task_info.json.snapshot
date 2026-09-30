@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_35a6749f3bae345b",
+  "task_type": "autonomous_research",
+  "title": "Independent computational structure–property comparison of DBC-Ph and DBC-Nap",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The system and observables are fixed, while the agent independently chooses and justifies the computational route and discriminates explanations for substituent effects."
+  ],
+  "paper": {
+    "title": "Effect of para-aryl-substituted N-phenyl groups on the photophysical properties of highly fluorescent dibenzo[c,g]carbazole-based chromophores",
+    "doi": "10.1039/d5ra09166g",
+    "journal": "RSC Advances",
+    "publication_date": "2026-01-28"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Complete DBC-Ph (54 atoms, C32H21N) and DBC-Nap (60 atoms, C36H23N) XYZ/state definitions."
+    },
+    {
+      "path": "data/inputs/dbc_ph_s0_identity.json",
+      "description": "Identity-only atom-mapped chemical graph for the independent unoptimized starter."
+    },
+    {
+      "path": "data/inputs/dbc_nap_s0_identity.json",
+      "description": "Identity-only atom-mapped chemical graph for the independent unoptimized starter."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated calculations, observables, comparison, explanation, scientific conclusion."
+    }
+  ]
+}

@@ -14,7 +14,7 @@ The modeled system is the neutral singlet IPrCuOMe + ortho-quinol-imine reactant
 |---|---|---|---|---|---|---|
 | 1 | Optimize stationary points and locate the addition TS | SM and TS guesses for the neutral complex | Gaussian 16, DFT | B3LYP-D3(BJ)/def2-SVP | SM, TS and PRD stationary-point geometries and frequencies | ev_doc_f3471bee5ceb_000073_7f40c4427d07; ev_doc_f3471bee5ceb_000089_586bf3d2aeb1 |
 | 2 | Confirm TS connectivity | optimized TS | Gaussian 16 IRC | IRC from the optimized TS | connection to reactant and product valleys | ev_doc_f3471bee5ceb_000073_7f40c4427d07 |
-| 3 | Refine electronic energies in solvent | optimized stationary points | Gaussian 16 single points | SMD(DCE)/M06/def2-SVP | solvent-corrected energies | ev_doc_f3471bee5ceb_000073_7f40c4427d07; ev_doc_f3471bee5ceb_000105_ee3b32cffc78 |
+| 3 | Assemble the Scheme 5c free-energy difference | validated SM, TS and PRD | Gaussian 16 frequency thermochemistry | B3LYP-D3(BJ)/def2-SVP gas-phase electronic energies plus consistent thermal corrections | relative G for the addition pathway | Main PDF pp3–4; SI §7.1, §7.3/Table S4 |
 | 4 | Obtain the activation free energy | frequency thermochemistry and refined energies | Gaussian 16 post-processing | relative free energy in kcal/mol | activation free energy and reaction free energy | ev_doc_806c0608b175_000096_3778c58325ea |
 
 ## 4. Validation and analysis protocol
@@ -28,3 +28,7 @@ SI Table S4 gives the SM/TS/PRD electronic and free energies. The main paper rep
 ## 6. Limitations and interpretation boundaries
 
 This is a single modeled complex and a single reported pathway, not a proof that every possible Cu species follows the same route. Barrier values depend on conformer, spin/charge assignment, thermochemical convention and electronic-structure model. The benchmark therefore scores reproducible process validation and the source-reported barrier/conclusion within the declared model boundary.
+
+## Source correction (2026-09-18)
+
+The SMD(DCE)/M06/def2-SVP calculations are the separate alkoxycopper equilibrium in Scheme5d/SI§7.4/TableS5. They are not an energy-refinement step for the Scheme5c addition barrier. Main PDF pp3–4 explicitly distinguishes the branches. SI TableS4 endpoint E/G values are reproduced by the completed gas-phase B3LYP-D3BJ/def2-SVP calculations; do not add M06 solvent corrections to this benchmark observable. No public input, scientific objective, numeric target or tolerance was changed.

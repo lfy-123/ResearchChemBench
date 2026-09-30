@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_relaxed_series",
+      "reference_id": "kp_relaxed_series",
+      "type": "semantic",
+      "expected": "Verify full composition and B/N connectivity, optimize and minimum-validate each complete molecule, then match corresponding bright states by character. Report alternative nearby states so the selected transition cannot be cherry-picked to an experimental peak.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.relaxed_series",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify full composition and B/N connectivity, optimize and minimum-validate each complete molecule, then match corresponding bright states by character. Report alternative nearby states so the selected transition cannot be cherry-picked to an experimental peak. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_common_core",
+      "reference_id": "kp_common_core",
+      "type": "semantic",
+      "expected": "Use solver-generated compound2 core as the common constrained geometry for the four substituents; quantify RMSD and state character. Optimize only permitted peripheral coordinates and label the points constrained. Compare substituent effects at fixed core separately from relaxed geometry changes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.common_core",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Use solver-generated compound2 core as the common constrained geometry for the four substituents; quantify RMSD and state character. Optimize only permitted peripheral coordinates and label the points constrained. Compare substituent effects at fixed core separately from relaxed geometry changes. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_effect_partition",
+      "reference_id": "kp_effect_partition",
+      "type": "semantic",
+      "expected": "Recompute each contrast relative to2 and the relaxed-minus-fixed difference. State how root correspondence, D3 method ambiguity and basis/functional sensitivity affect attribution. Original compound2 root-energy mismatch is an audit item, not justification for selecting a different physical state.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.effect_partition",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Recompute each contrast relative to2 and the relaxed-minus-fixed difference. State how root correspondence, D3 method ambiguity and basis/functional sensitivity affect attribution. Original compound2 root-energy mismatch is an audit item, not justification for selecting a different physical state. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Determine how much of the corresponding transition shift survives a common B2N6 geometry, while bounding state and method ambiguity. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Determine how much of the corresponding transition shift survives a common B2N6 geometry, while bounding state and method ambiguity. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "relaxed_series",
+      "max_score": 25,
+      "description": "Verify full composition and B/N connectivity, optimize and minimum-validate each complete molecule, then match corresponding bright states by character. Report alternative nearby states so the selected transition cannot be cherry-picked to an experimental peak.",
+      "rule_ids": [
+        "r_relaxed_series"
+      ]
+    },
+    {
+      "id": "common_core",
+      "max_score": 20,
+      "description": "Use solver-generated compound2 core as the common constrained geometry for the four substituents; quantify RMSD and state character. Optimize only permitted peripheral coordinates and label the points constrained. Compare substituent effects at fixed core separately from relaxed geometry changes.",
+      "rule_ids": [
+        "r_common_core"
+      ]
+    },
+    {
+      "id": "effect_partition",
+      "max_score": 20,
+      "description": "Recompute each contrast relative to2 and the relaxed-minus-fixed difference. State how root correspondence, D3 method ambiguity and basis/functional sensitivity affect attribution. Original compound2 root-energy mismatch is an audit item, not justification for selecting a different physical state.",
+      "rule_ids": [
+        "r_effect_partition"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Determine how much of the corresponding transition shift survives a common B2N6 geometry, while bounding state and method ambiguity. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "description": "Source-defined molecular identities for independent gas-phase electronic-structure calculations. Systematic names are taken from the Supporting Information; no coordinates or result values are supplied. Connectivity SMILES are included as a machine-readable representation derived from the supplied names and cross-checked against the source formulas.",
+  "state_boundary": {
+    "charge": 0,
+    "multiplicity": 1,
+    "environment": "isolated molecule, vacuum/gas phase",
+    "stereochemistry": "none specified or required by the source structures"
+  },
+  "fragment_definition": {
+    "fragment_1": "phenanthro[9,10-d]imidazole core including the 2-position phenylene linkage atom",
+    "fragment_2": "p-tolyl substituent attached to imidazole N1",
+    "fragment_3": "terminal aromatic group attached at the para position of the phenylene bridge",
+    "fragment_mapping_policy": "The agent may construct the three fragments from the supplied connectivity while preserving these chemical boundaries; no source atom numbering is implied."
+  },
+  "molecules": [
+    {
+      "id": "Ph-mP",
+      "systematic_name": "2-(biphenyl-4-yl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole",
+      "formula": "C34H24N2",
+      "terminal_group": "phenyl",
+      "attachment": "phenylene bridge bonded to phenyl at its 4-position",
+      "connectivity_smiles": "C1(=CC=C(C=C1)C1=NC2=C(N1C1=CC=C(C=C1)C)C1=CC=CC=C1C=1C=CC=CC12)C1=CC=CC=C1",
+      "connectivity_source": "OPSIN name-to-SMILES derivation, formula and atom-count cross-check",
+      "identity_file": "Ph-mP_identity.json",
+      "terminal_bridge_control": {
+        "torsion_atom_ids": [
+          2,
+          1,
+          31,
+          32
+        ],
+        "terminal_atom_ids": [
+          31,
+          32,
+          33,
+          34,
+          35,
+          36
+        ],
+        "target_degrees": 45
+      }
+    },
+    {
+      "id": "Na-mP",
+      "systematic_name": "2-(4-(naphthalen-1-yl)phenyl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole",
+      "formula": "C38H26N2",
+      "terminal_group": "naphthalen-1-yl",
+      "attachment": "phenylene bridge bonded to naphthalen-1-yl",
+      "connectivity_smiles": "C1(=CC=CC2=CC=CC=C12)C1=CC=C(C=C1)C1=NC2=C(N1C1=CC=C(C=C1)C)C1=CC=CC=C1C=1C=CC=CC12",
+      "connectivity_source": "OPSIN name-to-SMILES derivation, formula and atom-count cross-check",
+      "identity_file": "Na-mP_identity.json",
+      "terminal_bridge_control": {
+        "torsion_atom_ids": [
+          12,
+          11,
+          1,
+          2
+        ],
+        "terminal_atom_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "target_degrees": 45
+      }
+    },
+    {
+      "id": "An-mP",
+      "systematic_name": "2-(4-(anthracen-9-yl)phenyl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole",
+      "formula": "C42H28N2",
+      "terminal_group": "anthracen-9-yl",
+      "attachment": "phenylene bridge bonded to anthracen-9-yl",
+      "connectivity_smiles": "C1=CC=CC2=CC3=CC=CC=C3C(=C12)C1=CC=C(C=C1)C1=NC2=C(N1C1=CC=C(C=C1)C)C1=CC=CC=C1C=1C=CC=CC12",
+      "connectivity_source": "OPSIN name-to-SMILES derivation, formula and atom-count cross-check",
+      "identity_file": "An-mP_identity.json",
+      "terminal_bridge_control": {
+        "torsion_atom_ids": [
+          16,
+          15,
+          13,
+          12
+        ],
+        "terminal_atom_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "target_degrees": 45
+      }
+    },
+    {
+      "id": "Py-mP",
+      "systematic_name": "2-(4-(pyren-1-yl)phenyl)-1-(p-tolyl)-1H-phenanthro[9,10-d]imidazole",
+      "formula": "C44H28N2",
+      "terminal_group": "pyren-1-yl",
+      "attachment": "phenylene bridge bonded to pyren-1-yl",
+      "connectivity_smiles": "C1(=CC=C2C=CC3=CC=CC4=CC=C1C2=C34)C3=CC=C(C=C3)C3=NC4=C(N3C3=CC=C(C=C3)C)C3=CC=CC=C3C=3C=CC=CC34",
+      "connectivity_source": "OPSIN name-to-SMILES derivation, formula and atom-count cross-check",
+      "identity_file": "Py-mP_identity.json",
+      "terminal_bridge_control": {
+        "torsion_atom_ids": [
+          18,
+          17,
+          1,
+          2
+        ],
+        "terminal_atom_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "target_degrees": 45
+      }
+    }
+  ]
+}

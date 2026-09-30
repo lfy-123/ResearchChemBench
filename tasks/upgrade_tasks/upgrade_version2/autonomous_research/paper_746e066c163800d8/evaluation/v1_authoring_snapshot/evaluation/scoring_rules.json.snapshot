@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_static_series",
+      "reference_id": "kp_static_series",
+      "type": "semantic",
+      "expected": "For each compound validate geometry, compute the complete static tensor, beta_HRS and DR, and retain raw derivative/response output. Verify unit conversion, permutation symmetry, rigid-frame invariance and orientation quadrature/analytical formula. Compare the 1→3 and5→7 pairs at equal frequency and units.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.static_series",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "For each compound validate geometry, compute the complete static tensor, beta_HRS and DR, and retain raw derivative/response output. Verify unit conversion, permutation symmetry, rigid-frame invariance and orientation quadrature/analytical formula. Compare the 1→3 and5→7 pairs at equal frequency and units. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_twist_control",
+      "reference_id": "kp_twist_control",
+      "type": "semantic",
+      "expected": "Validate and publish the common-core mapping, then compare relaxed5/7 with the identical signed five-torsion control. Give beta_HRS and a state/CT diagnostic on each geometry, separating extension and geometry effects. Do not claim a constrained geometry is a minimum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.twist_control",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Validate and publish the common-core mapping, then compare relaxed5/7 with the identical signed five-torsion control. Give beta_HRS and a state/CT diagnostic on each geometry, separating extension and geometry effects. Do not claim a constrained geometry is a minimum. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_response_calibration",
+      "reference_id": "kp_response_calibration",
+      "type": "semantic",
+      "expected": "Calibrate compound5 static response using field-step or analytic/finite-field comparison and rotation-average convergence. Show how numerical uncertainty affects the paired attribution; a tensor or unit error cannot be hidden in broad tolerance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.response_calibration",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Calibrate compound5 static response using field-step or analytic/finite-field comparison and rotation-average convergence. Show how numerical uncertainty affects the paired attribution; a tensor or unit error cannot be hidden in broad tolerance. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Assess whether the extension contrast survives a common twist and numerically sound tensor treatment. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Assess whether the extension contrast survives a common twist and numerically sound tensor treatment. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "static_series",
+      "max_score": 25,
+      "description": "For each compound validate geometry, compute the complete static tensor, beta_HRS and DR, and retain raw derivative/response output. Verify unit conversion, permutation symmetry, rigid-frame invariance and orientation quadrature/analytical formula. Compare the 1→3 and5→7 pairs at equal frequency and units.",
+      "rule_ids": [
+        "r_static_series"
+      ]
+    },
+    {
+      "id": "twist_control",
+      "max_score": 20,
+      "description": "Validate and publish the common-core mapping, then compare relaxed5/7 with the identical signed five-torsion control. Give beta_HRS and a state/CT diagnostic on each geometry, separating extension and geometry effects. Do not claim a constrained geometry is a minimum.",
+      "rule_ids": [
+        "r_twist_control"
+      ]
+    },
+    {
+      "id": "response_calibration",
+      "max_score": 20,
+      "description": "Calibrate compound5 static response using field-step or analytic/finite-field comparison and rotation-average convergence. Show how numerical uncertainty affects the paired attribution; a tensor or unit error cannot be hidden in broad tolerance.",
+      "rule_ids": [
+        "r_response_calibration"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Assess whether the extension contrast survives a common twist and numerically sound tensor treatment. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_core_reference_scientifically_validated_20260928",
+  "scoring_notes": [
+    "Expanded core reference has been computed and audited; see verified_computation_reference.md/json. Format checks alone do not establish scientific validity. Reference numbers do not define exact-answer tolerances.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

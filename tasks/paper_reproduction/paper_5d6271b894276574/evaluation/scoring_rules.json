@@ -1,1 +1,235 @@
-{"paper_id":"paper_5d6271b894276574","rules":[{"rule_id":"r1","reference_id":"p1","type":"semantic","expected":"Per-complex candidate generation, deduplication, validation and stopping/coverage are explicitly reported.","binding":{"artifact_paths":["report/results.json"],"fields":["$.coverage","$.complexes"],"comparison":"expert semantic comparison keyed by each complex_id"}},{"rule_id":"r2","reference_id":"p2","type":"semantic","expected":"Counterpoise fragment bookkeeping and charge/multiplicity plus stationary-state validation are explicit.","binding":{"artifact_paths":["report/results.json"],"fields":["$.method","$.complexes"],"comparison":"expert semantic comparison keyed by each complex_id"}},{"rule_id":"r3","reference_id":"p3","type":"semantic","expected":"All eight named complex IDs and identities are present.","binding":{"artifact_paths":["report/results.json"],"fields":["$.complexes"],"comparison":"identity and completeness check"}},{"rule_id":"r4","reference_id":"p4","type":"numeric","target":-17.98,"unit":"kcal/mol","tolerance":1.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.complexes[0].interaction_energy_kcal_mol"],"comparison":"For each item with outcome=validated_success, match complex_id and compare interaction_energy_kcal_mol to the named hidden reference; bounded_failure items are not numerically scored."}},{"rule_id":"r5","reference_id":"c1","type":"semantic","expected":"The submitted comparison identifies OTf, BF4 and Br as close to AI2 and the other four anions as less negative, within the report scope.","binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison","$.complexes"],"comparison":"expert semantic comparison tied to named per-complex evidence"}},{"rule_id":"r6","reference_id":"c2","type":"semantic","expected":"The report states the isolated-cluster versus solution limitation.","binding":{"artifact_paths":["report/results.json"],"fields":["$.limitations"],"comparison":"expert semantic comparison"}}]}
+{
+  "paper_id": "paper_5d6271b894276574",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "p1",
+      "type": "semantic",
+      "expected": "Per-complex candidate generation, deduplication, validation and stopping/coverage are explicitly reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage",
+          "$.complexes"
+        ],
+        "comparison": "expert semantic comparison keyed by each complex_id"
+      }
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "p2",
+      "type": "semantic",
+      "expected": "Counterpoise fragment bookkeeping and charge/multiplicity plus stationary-state validation are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.complexes"
+        ],
+        "comparison": "expert semantic comparison keyed by each complex_id"
+      }
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "p3",
+      "type": "semantic",
+      "expected": "All eight named complex IDs and identities are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes"
+        ],
+        "comparison": "identity and completeness check"
+      }
+    },
+    {
+      "rule_id": "r4",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -17.98,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-ai; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_nf2",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -13.13,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-nf2; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_ntf2",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -13.6,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-ntf2; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_nnf2",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -14.18,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-nnf2; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_otf",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -17.54,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-otf; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_bf4",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -17.42,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-bf4; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_dca",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -14.94,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-dca; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r4_ai_br",
+      "reference_id": "p4",
+      "type": "numeric",
+      "target": -18.25,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[*].complex_id",
+          "$.complexes[*].outcome",
+          "$.complexes[*].interaction_energy_kcal_mol"
+        ],
+        "comparison": "Select exactly one item whose complex_id is ai-br; never infer identity from array position. For outcome=validated_success compare its interaction_energy_kcal_mol to this named Table 5 target. Missing/duplicate IDs fail identity completeness. A bounded_failure item is unavailable, receives no numerical agreement credit, and cannot establish complete p4/c1 reproduction. Do not use an AI2-only result to satisfy the other seven comparisons."
+      }
+    },
+    {
+      "rule_id": "r5",
+      "reference_id": "c1",
+      "type": "semantic",
+      "expected": "The submitted comparison identifies OTf, BF4 and Br as close to AI2 and the other four anions as less negative, within the report scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.complexes"
+        ],
+        "comparison": "expert semantic comparison tied to named per-complex evidence"
+      }
+    },
+    {
+      "rule_id": "r6",
+      "reference_id": "c2",
+      "type": "semantic",
+      "expected": "The report states the isolated-cluster versus solution limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

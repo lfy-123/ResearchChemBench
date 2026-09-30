@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use E-configured 4b, 4c, 4h and 4i with the graphs in species_registry.json. 4c/4i contain a carboxylic OH; 4h/4i contain OMe, not phenolic OH. Retain actual C–H donors for 4b/4h and compare the carboxylic O–H and N-linked methylene/methyl sites where present. The DPPH assay is ethanol, room temperature, 30 min, 517 nm; use 298.15 K/1 M for the declared model. SI TableS5 gives IC50 for 4b/c/h/i of 692.52/11.89/26.63/26.15 µM; these are public interpretation constraints, not exact computed-activity targets. 4e is insoluble, not inactive. Use the same solvated proton/electron or explicit acceptor convention throughout thermochemical cycles.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_thermochemical_cycles",
+      "statement": "Real donor sites and charge-balanced cycle closure, not descriptor correlation.",
+      "expected": "Real donor sites and charge-balanced cycle closure, not descriptor correlation. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_decisive_local_paths",
+      "statement": "Matched explicit-acceptor HAT paths spanning acidic and nonacidic structures.",
+      "expected": "Matched explicit-acceptor HAT paths spanning acidic and nonacidic structures. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_activity_boundary",
+      "statement": "Mechanistic discrimination with correct experimental endpoint limits.",
+      "expected": "Mechanistic discrimination with correct experimental endpoint limits. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Invented phenolic OH/phenoxide; using NMR solvent as assay medium; IC50 predicted from a local orbital gap; proton/electron references mixed between cycles; insoluble 4e assigned zero activity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

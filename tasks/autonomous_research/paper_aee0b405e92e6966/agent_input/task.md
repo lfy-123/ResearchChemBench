@@ -1,6 +1,6 @@
 # Scientific objective
 
-Determine the relative stability of the two supplied neutral probe-A proton-placement states and explain the physically meaningful conclusion supported by computation. The research object is the two complete 71-atom structures in the public XYZ files; the scored endpoint is a consistently defined relative energy in kcal mol⁻¹. Develop and discriminate your own computational explanation of any ordering; no author route or proposed mechanism is provided.
+Determine the relative stability of the two supplied neutral probe-A proton-placement states and explain the physically meaningful conclusion supported by computation. The research object is the two complete 73-atom structures (C35H33N3O2) in the public XYZ files; the scored endpoint is a consistently defined relative energy in kcal mol⁻¹. Develop and discriminate your own computational explanation of any ordering; no author route or proposed mechanism is provided.
 
 # Public inputs and scientific boundaries
 

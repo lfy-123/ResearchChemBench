@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct scientific objects and valid computational evidence.",
+      "expected": "Correct full identities, atom/state mapping, environments and energy definitions. Inspect actual jobs, geometries, convergence and curvature/constraint evidence; a self-reported completion or clean optimization log is insufficient. Scientific definition: `systems.json` defines the three complete neutral singlet (Z) molecules. PQCZCS is the phenanthrene-dione analogue, not an alternative name for the anthracene-dione AQCZCS. Their identical C41H32N2O2 formulas do not imply identical connectivity. NPCZCS is C43H39N3O2. Preserve the full alkyl chains, substitution positions and acrylonitrile stereochemistry.\n\nThe core calculation is an isolated monomer; use a common dichloromethane continuum for the primary vertical-excitation comparison and explicitly state the ground-state geometry environment. Define corresponding atoms for the carbazole–appended-acceptor bond and the adjacent ring atoms that define its torsion. Establish a common grid of at least three distinct torsions spanning near-planar, intermediate and substantially twisted geometries, pilot-test chemical validity, and freeze the same grid for all three before the main comparison. Angles are matched controls, not separate per-molecule optima. At each point constrain that torsion and relax other coordinates consistently; retain constraint evidence. These are ground-state constrained geometries for vertical response, not free minima with equilibrium populations.\n\nFor each relaxed structure and retained grid point report at least S1–S5 (energy eV, wavelength nm, oscillator strength), and extend the root window when needed to track the same low-energy/bright states across conditions. Use consistently defined donor, appended acceptor and remaining cyanostilbene fragments for NTO/transition-density or equivalent quantitative CT measures. A frontier-orbital picture or an S1 label alone does not define a CT state. Emission, aggregates, mechanofluorochromism, quantum yield and devices are outside the core task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_geometries",
+      "statement": "Three full identities and relaxed/common-torsion structures.",
+      "expected": "Verify Z stereochemistry, distinct PQ/AQ connectivity, intact chains, mapped junction and shared grid; fixed torsion points are not free minima. Verify NPCZCS C43H39N3O2, AQCZCS/PQCZCS C41H32N2O2 with distinct anthracene/phenanthrene connectivity, full chains and Z stereochemistry, neutral singlet. Each molecule needs a relaxed S0 and the same at-least-three tested torsions: near-planar/intermediate/twisted. Verify exact mapped atom quadruples and constraints. Repeated angles, molecule-specific grids or an optimized coordinate mislabeled fixed angle do not cover the matrix. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_states",
+      "statement": "S1–S5 and any expanded window with E, f and quantitative state character.",
+      "expected": "Inspect TD/NTO outputs, fragments, normalization and all relevant low-energy/bright states. Do not identify CT from a root number or a two-orbital picture alone. Every primary relaxed/grid geometry has S1-S5 actual TD results in the same DCM continuum and an expanded window when needed; match record IDs and count distinct roots, not repeated S1 entries. Verify wavelength/energy conversion, f, NTO/transition-density data and donor/acceptor/remainder normalization for all inference-relevant states. Do not label all S1 CT by expectation; local AQ states are possible. Sensitivity records are separately identified, not counted as primary missing grid cells. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_matched_comparisons",
+      "statement": "Fixed-angle acceptor effects and within-molecule torsion effects on matched states.",
+      "expected": "Verify state correspondence, actual shifts/intensities/CT measures and decisive method sensitivity. Separate a state crossing from an energy shift of the same state; no per-molecule post hoc spectral shifting. Compare different acceptors at identical mapped torsion, and different torsions within each molecule. Verify each left/right state exists and its overlap/density/fragment evidence supports correspondence. Recompute right-minus-left energy/f differences. Distinguish root crossing from one-state shift; quantify at least one actual CT-sensitive alternative-method comparison on decisive matched controls. No molecule-specific post hoc shifts or unsupported extrapolation to aggregate/emission/device effects. Recompute derived quantities from raw evidence.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Evidence-supported hypothesis discrimination and sensitivity.",
+      "expected": "At least two distinguishable explanations are tested through the task-specific interventions, and actual sensitivity changes are quantified. Verify uncertainty can support the stated ordering or ambiguity; no invented result or narrative-only control. Avoid these scientific errors: Confusing PQ with AQ or [M+H]+ with neutral stoichiometry, mixing fragment definitions, assigning CT solely from S1/HOMO–LUMO, using molecule-specific post hoc shifts, or treating constrained structures as populated minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_5d94285cfbd51973",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.methods",
+          "$.evidence_files"
+        ],
+        "comparison": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_descriptor_series",
+      "reference_id": "kp_descriptor_series",
+      "type": "semantic",
+      "expected": "Compute the same isolated-molecule electronic descriptors for all ten systems using a shared method, validated conformer choice and minimum checks. Retain comparable sampling across members. Verify substituted ring positions and report simple RDKit descriptors independently; do not reinterpret Koopmans descriptors as measured IP/EA.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.descriptor_series",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Compute the same isolated-molecule electronic descriptors for all ten systems using a shared method, validated conformer choice and minimum checks. Retain comparable sampling across members. Verify substituted ring positions and report simple RDKit descriptors independently; do not reinterpret Koopmans descriptors as measured IP/EA. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_out_of_fold",
+      "reference_id": "kp_out_of_fold",
+      "type": "semantic",
+      "expected": "For each AZ member retain nine training IDs, train-only preprocessing, coefficients and three predictions. Use exactly the frozen features and fixed regularization, no post-hoc feature selection or dropping outliers. Recompute MAE in ordinal bins and compare the electronic model with physicochemical and mean baselines.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.out_of_fold",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "For each AZ member retain nine training IDs, train-only preprocessing, coefficients and three predictions. Use exactly the frozen features and fixed regularization, no post-hoc feature selection or dropping outliers. Recompute MAE in ordinal bins and compare the electronic model with physicochemical and mean baselines. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_null_and_resolution",
+      "reference_id": "kp_null_and_resolution",
+      "type": "semantic",
+      "expected": "Permute labels and rerun the entire frozen fold procedure; submit all scores and seed. Test dilution/endpoint uncertainty and leave-one-member influence without claiming validation from an in-sample correlation. A null result or baseline dominance is scientifically acceptable.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.null_and_resolution",
+          "$.calculation_records",
+          "$.evidence_files"
+        ],
+        "comparison": "Permute labels and rerun the entire frozen fold procedure; submit all scores and seed. Test dilution/endpoint uncertainty and leave-one-member influence without claiming validation from an in-sample correlation. A null result or baseline dominance is scientifically acceptable. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.sensitivity",
+          "$.hypotheses"
+        ],
+        "comparison": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer. Inspect the referenced native input/output, final mapped structures and analysis code. Recompute reported differences and transformations. A JSON value or literature quotation alone earns no calculated-result credit."
+      },
+      "evidence_policy": "All artifact references must resolve inside the submission; successful job termination, correct object and actual requested property must be independently checked."
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Determine whether the proposed explanation survives the expanded comparisons: Judge whether added electronic information survives honest out-of-fold and assay-resolution controls, with n=10 limitations. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Determine whether the proposed explanation survives the expanded comparisons: Judge whether added electronic information survives honest out-of-fold and assay-resolution controls, with n=10 limitations. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "rule_ids": [
+        "r_identity"
+      ]
+    },
+    {
+      "id": "descriptor_series",
+      "max_score": 25,
+      "description": "Compute the same isolated-molecule electronic descriptors for all ten systems using a shared method, validated conformer choice and minimum checks. Retain comparable sampling across members. Verify substituted ring positions and report simple RDKit descriptors independently; do not reinterpret Koopmans descriptors as measured IP/EA.",
+      "rule_ids": [
+        "r_descriptor_series"
+      ]
+    },
+    {
+      "id": "out_of_fold",
+      "max_score": 20,
+      "description": "For each AZ member retain nine training IDs, train-only preprocessing, coefficients and three predictions. Use exactly the frozen features and fixed regularization, no post-hoc feature selection or dropping outliers. Recompute MAE in ordinal bins and compare the electronic model with physicochemical and mean baselines.",
+      "rule_ids": [
+        "r_out_of_fold"
+      ]
+    },
+    {
+      "id": "null_and_resolution",
+      "max_score": 20,
+      "description": "Permute labels and rerun the entire frozen fold procedure; submit all scores and seed. Test dilution/endpoint uncertainty and leave-one-member influence without claiming validation from an in-sample correlation. A null result or baseline dominance is scientifically acceptable.",
+      "rule_ids": [
+        "r_null_and_resolution"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 15,
+      "description": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "rule_ids": [
+        "r_robustness"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Determine whether the proposed explanation survives the expanded comparisons: Judge whether added electronic information survives honest out-of-fold and assay-resolution controls, with n=10 limitations. Support, refutation and evidence-sufficient indistinguishability are scored equally for scientific reasoning. No expected winner or old scalar agreement is a completion criterion.",
+      "rule_ids": [
+        "r_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "development_pending_expanded_reference_calculations",
+  "scoring_notes": [
+    "Transport/schema validation does not validate scientific conclusions. Expanded references have not been calculated.",
+    "No new numerical reference tolerance is asserted. Compare internal differences with computed numerical, sampling and method uncertainty; calibrate external tolerances only after the reference-validation plan.",
+    "Legacy scalar targets and narrow tolerances are historical evidence only and are not reused as expanded acceptance bands.",
+    "Optional extensions have zero required weight. Honest failure is accepted for audit, not counted as complete or awarded absent-result points."
+  ]
+}

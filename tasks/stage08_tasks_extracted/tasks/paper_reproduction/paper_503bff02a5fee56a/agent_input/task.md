@@ -1,0 +1,22 @@
+# Scientific objective
+Determine whether HMF binds differently to the supplied clean NiO and CoO–NiO(1:3) periodic models, and test whether the interface electronic structure supports a charge-redistribution explanation. Formulate and discriminate plausible adsorption and electronic-structure explanations from the supplied systems alone; do not assume an author hypothesis, candidate direction, mechanism, or outcome. Report adsorption energy E_ads = E(HMF+surface) − E(HMF) − E(surface), in eV, for each named surface, and an interface charge-transfer observable with a clearly defined sign and partition.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that interfacial electronic coupling in the CoO–NiO heterostructure can strengthen HMF adsorption relative to NiO through electron redistribution across the oxide interface. They associate electron-enriched Ni environments with HMF adsorption and activation, but this interpretation should be tested against the computed observables.
+
+**Candidate route or mechanism.**
+A candidate explanation is that charge redistribution from the CoO domain toward the NiO domain changes the electronic character of interfacial Ni sites, producing a distinct and potentially stronger HMF binding state on CoO–NiO than on isolated NiO. Treat this as a proposed comparison of interfacial versus non-interfacial adsorption environments, not as an assumed outcome.
+
+**Discriminating evidence.**
+Discriminate the proposal by comparing validated HMF adsorption energies on the two supplied surfaces and by quantifying interface charge redistribution with a reproducible partition and sign convention. Differential charge-density or related electronic-structure analysis can be used to connect the charge result to the adsorption comparison while separating computed evidence from interpretation.
+
+# Public inputs and scientific boundaries
+The public inputs are `data/inputs/nio.json` (neutral, singlet NiO periodic cell), `data/inputs/coo_nio_13.json` (neutral, singlet CoO–NiO 1:3 periodic cell), and `data/inputs/hmf.json` (neutral singlet HMF, SMILES and unique connectivity). Fractional coordinates, cell lengths/angles, element labels, charge and multiplicity are explicit in the JSON. These are clean starting structures, not optimized or adsorbed geometries; generate candidate HMF placements and conformers yourself. The boundary is one HMF molecule and the two named periodic substrates, with vacuum/slab treatment and electronic-state choices documented by you.
+
+# Required scientific validation/investigation
+For each surface, generate and deduplicate a documented set of chemically distinct HMF placements/orientations and conformers, relax the retained candidates, and identify the lowest-energy validated adsorption state under your stated method. Validate geometry and electronic convergence, cell/vacuum and slab treatment, and ensure the isolated-HMF and clean-surface reference calculations are consistent with the adsorption calculation. Compute E_ads from the stated formula. For the heterostructure, quantify net charge transfer between CoO and NiO domains using a reproducible partition (for example Bader or an explicitly defined alternative), report sign convention and uncertainty/sensitivity. Compare the two E_ads values and test whether the charge result supports the stated explanation; distinguish computed evidence from interpretation. Completion requires either converged validated values for both surfaces and a charge analysis, or a bounded-failure report identifying exactly which calculation/validation could not be completed. Stop when all chemically distinct candidate classes you define have been sampled, duplicate relaxations are eliminated, and additional candidates no longer change the selected state within your reported stability criterion; if resources prevent this, stop with coverage and limitation accounting.
+
+# Deliverables
+Submit `report/results.json` conforming to the submission schema. It must contain system-identified adsorption results for `nio` and `coo_nio_13` (or an explicit bounded-failure branch), raw/reference energies used in each E_ads, candidate identities and validation status, charge-transfer result or bounded failure, method/convergence metadata, coverage/stopping rationale, and a concise conclusion. Include paths to supporting logs/structures if available. Do not report paper reference values as inputs or assumptions.

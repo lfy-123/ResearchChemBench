@@ -1,0 +1,318 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "method",
+          "endpoints",
+          "delta_g_water_binding_source_recipe_kcal_mol",
+          "diagnostic",
+          "interpretation",
+          "conclusion",
+          "thermochemistry"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software_or_code",
+              "model",
+              "solvent",
+              "temperature_K",
+              "standard_state"
+            ],
+            "properties": {
+              "software_or_code": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "model": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "solvent": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "temperature_K": {
+                "type": "number"
+              },
+              "standard_state": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          },
+          "endpoints": {
+            "type": "array",
+            "minItems": 4,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "geometry_path_or_summary",
+                "charge",
+                "multiplicity",
+                "energy",
+                "energy_unit",
+                "converged",
+                "validation_evidence"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "enum": [
+                    "reactant_1",
+                    "product_3",
+                    "im5",
+                    "water"
+                  ],
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "geometry_path_or_summary": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "charge": {
+                  "type": "integer",
+                  "const": 0
+                },
+                "multiplicity": {
+                  "type": "integer",
+                  "const": 1
+                },
+                "energy": {
+                  "type": "number"
+                },
+                "energy_unit": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "converged": {
+                  "type": "boolean"
+                },
+                "validation_evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1
+                }
+              }
+            },
+            "maxItems": 4,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "reactant_1"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "product_3"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "im5"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "name": {
+                      "const": "water"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          },
+          "diagnostic": {
+            "type": "object",
+            "required": [
+              "description",
+              "result",
+              "evidence"
+            ],
+            "properties": {
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "result": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "interpretation": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "conclusion": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+          },
+          "delta_g_water_binding_source_recipe_kcal_mol": {
+            "type": "number"
+          },
+          "thermochemistry": {
+            "type": "object",
+            "required": [
+              "reaction",
+              "standard_state_caveat",
+              "raw_1atm_kcal_mol",
+              "all_solutes_1M_kcal_mol",
+              "bulk_water_from_1M_kcal_mol",
+              "one_species_1atm_to_1M_kcal_mol",
+              "bulk_water_correction_kcal_mol"
+            ],
+            "properties": {
+              "reaction": {
+                "const": "im5 + water -> product_3"
+              },
+              "standard_state_caveat": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "raw_1atm_kcal_mol": {
+                "type": "number"
+              },
+              "all_solutes_1M_kcal_mol": {
+                "type": "number"
+              },
+              "bulk_water_from_1M_kcal_mol": {
+                "type": "number"
+              },
+              "one_species_1atm_to_1M_kcal_mol": {
+                "type": "number"
+              },
+              "bulk_water_correction_kcal_mol": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "failed_object",
+              "attempted_method",
+              "evidence"
+            ],
+            "properties": {
+              "failed_object": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "attempted_method": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+          }
+        }
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "properties": {
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "Optional additional or unsuccessful trials, separate from primary results."
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "development_status": "blocked",
+  "matrix": {
+    "ligand_counts": [
+      0,
+      1,
+      2
+    ],
+    "charges": [
+      0,
+      -1
+    ],
+    "relaxation_protocols": [
+      "free",
+      "fixed_core"
+    ]
+  },
+  "primary_reference_geometry": "R_core^0 = the independently validated neutral n0 PAl12 minimum, mapped atoms 1–13. Use its single aligned Cartesian core for every fixed-core state and n.",
+  "free": "Independently optimize both charge states and compare plausible spin/binding-site candidates. No core restraints on an endpoint asserted to be a free minimum.",
+  "fixed_core": "Freeze mapped atoms 1–13 at R_core^0 and relax ligand atoms separately for each charge state; n0 fixed-core is two electronic single points at the common core. Do not label these constrained states as free minima or transfer free frequencies to them.",
+  "vertical": "At each retained neutral free geometry compute anion energy/density without moving nuclei, on a justified anion state. Evaluate neutral and anion density on the same grid.",
+  "definitions": {
+    "VEA_electronic": "E_neutral(R_neutral)-E_anion(R_neutral)",
+    "AEA_electronic": "E_neutral(R_neutral)-E_anion(R_anion)",
+    "AEA_ZPE": "AEA_electronic+ZPE_neutral(R_neutral)-ZPE_anion(R_anion)",
+    "fixed_core_attachment": "E_neutral(R_core0,R_ligN)-E_anion(R_core0,R_ligA); constrained-core attachment quantity, not a free AEA",
+    "relaxation_contribution": "AEA_electronic-VEA_electronic = E_anion(R_neutral)-E_anion(R_anion), provided energy/state references are explicitly matched",
+    "attachment_density": "rho_anion(R_neutral)-rho_neutral(R_neutral), electron-number density integrates to +1 electron; charge density would have the opposite sign."
+  },
+  "population": "Use the same core atoms 1–13 and ligand A/B partitions with one defined population scheme for both states. Report both charge differences and integrated attachment density; one population charge alone cannot separate polarization from electron localization.",
+  "mechanistic_boundary": "Frozen-core controls diagnose structural relaxation; attachment-density localization plus charge partition can support or challenge ligand acceptance. They do not uniquely isolate an electrostatic Hamiltonian term. Do not claim exclusive polarization from correlations; electrostatic embedding/CDA extensions are optional.",
+  "candidates": "n0: spin and core distortion starts. n1: symmetry-distinct Al approach and ligand torsions. n2: adjacent versus separated shell attachment sites and ligand orientations, deduplicated after relaxation. Include actual collapse/reconstruction logs and distinguish failure from evidence-supported exclusion.",
+  "optional": [
+    "External-field/point-charge electrostatic embedding",
+    "CDA or angular-momentum superatomic projection",
+    "Al13/CAl12 comparison",
+    "graphene",
+    "AIMD",
+    "other boron ligands"
+  ],
+  "gate": "Validate the original complete n2=PAl12[B(C6F5)3]2 neutral/anion DFT minimum pair before the full expansion. Bare n0 and n1 may be lower-cost preparatory diagnostics but do not close this original-object gate.",
+  "historical_developer_gate": "Historical n2 local-minimum evidence permits targeted missing-control validation. The original-object and density gates still require actual submitted evidence; a developer readiness statement is not an agent result."
+}

@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "items": [
+    {
+      "key_point_id": "p1",
+      "key_point_type": "process",
+      "statement": "The agent independently defines and executes a reproducible optimization of neutral singlet 4b.",
+      "expected_result": "A converged optimized structure with explicit method and coordinates/equivalent artifact, or a truthful bounded-failure report with attempted inputs and diagnostics.",
+      "evidence_ids": [
+        "ev_doc_ca374b59f1ae_000398_9737daa0de07"
+      ],
+      "expected": "The agent independently defines and executes a reproducible optimization of neutral singlet 4b."
+    },
+    {
+      "key_point_id": "p2",
+      "key_point_type": "process",
+      "statement": "The stationary point is tested with harmonic frequencies.",
+      "expected_result": "Frequency validation and minimum classification, or a truthful bounded-failure report with diagnostics if incomplete.",
+      "evidence_ids": [
+        "ev_doc_ca374b59f1ae_000384_0ec54e303463"
+      ],
+      "expected": "The stationary point is tested with harmonic frequencies."
+    },
+    {
+      "key_point_id": "p3",
+      "key_point_type": "result",
+      "statement": "Compare every named bond, angle and signed periodic torsion with XRD. The isolated-molecule minimum should reproduce the published DFT geometry, including the main section 3.2 exception that the ethyl group points in the opposite direction. Do not require all signed XRD torsions to be close or minimize their signs independently.",
+      "expected_result": "A complete comparison includes every named geometric observable and its calculation evidence. A failed comparison is a valid partial submission, not an achieved result.",
+      "evidence_ids": [
+        "ev_doc_7d9d8139af59_000211_fcf77b5c1715",
+        "ev_doc_ca374b59f1ae_000403_60a6b484ec20"
+      ],
+      "expected": "Compare every named bond, angle and signed periodic torsion with XRD. The isolated-molecule minimum should reproduce the published DFT geometry, including the main section 3.2 exception that the ethyl group points in the opposite direction. Do not require all signed XRD torsions to be close or minimize their signs independently."
+    }
+  ]
+}

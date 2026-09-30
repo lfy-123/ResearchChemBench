@@ -1,0 +1,104 @@
+{
+  "source_result": "docs/verification/group_1/paper_e31cc7bc7b21b610/report/results.json",
+  "purpose": "Private lossless schema-mapping check of a historical author-route result; not an agent run, new calculation, or evaluator reference.",
+  "mapping": [
+    "Verified zero imaginary_frequency_count maps to imaginary_frequencies=[].",
+    "Join the existing limitations list into a newline-delimited string; retain all statements and original result fields."
+  ],
+  "result": {
+    "status": "complete",
+    "method": {
+      "software": "Gaussian 16 C.01",
+      "electronic_structure": "B3LYP; Ir=SDD basis/ECP, all other atoms=6-31G(d); gas phase",
+      "charge": 0,
+      "multiplicity": 1,
+      "convergence_settings": "Opt Tight + analytic Freq; UltraFine; NoSymm; SCF XQC,Tight,MaxCycle=512. Alpha Cartesian/CalcFC; beta redundant/default Hessian. Numerical controls differ, model chemistry does not."
+    },
+    "isomers": {
+      "cis_alpha": {
+        "name": "cis-alpha-(egan)IrCl",
+        "input_file": "data/inputs/cis_alpha_egan_IrCl.xyz",
+        "status": "success",
+        "normal_termination": true,
+        "optimization_completed": true,
+        "imaginary_frequency_count": 0,
+        "frequency_count": 168,
+        "minimum_frequency_cm1": 28.3214,
+        "energy_hartree": -2204.52499151,
+        "structure_file": "report/structures/cis_alpha_optimized.xyz",
+        "atom_count": 58,
+        "validation_status": "minimum; mapped chemical identity and isomer retained",
+        "evidence": [
+          "provenance/qzcli_hpc/cis_alpha_author_b3lyp_sdd_631gd_optfreq_v2_58atom/hpc_20260911T075318Z_1830377/gaussian.log",
+          "report/structures/cis_alpha_optimized.xyz",
+          "d46c254fa8d01bf786b35280440f228c88e3fa058565cce34cc0fc2650c9cc65"
+        ],
+        "imaginary_frequencies": []
+      },
+      "cis_beta": {
+        "name": "cis-beta-(egan)IrCl",
+        "input_file": "data/inputs/cis_beta_egan_IrCl.xyz",
+        "status": "success",
+        "normal_termination": true,
+        "optimization_completed": true,
+        "imaginary_frequency_count": 0,
+        "frequency_count": 168,
+        "minimum_frequency_cm1": 29.6344,
+        "energy_hartree": -2204.52269915,
+        "structure_file": "report/structures/cis_beta_optimized.xyz",
+        "atom_count": 58,
+        "validation_status": "minimum; mapped chemical identity and isomer retained",
+        "evidence": [
+          "provenance/qzcli_hpc/cis_beta_author_correct_elements_20260914/repair_20260914T123300Z/gaussian.log",
+          "report/structures/cis_beta_optimized.xyz",
+          "10f9c687dbd8d6c331a9aa5cb0a4285a97e465a46223cfb30ec5ef4dab695439"
+        ],
+        "imaginary_frequencies": []
+      }
+    },
+    "relative_energy": {
+      "definition": "E(cis-beta) - E(cis-alpha)",
+      "value": 1.438477617790908,
+      "unit": "kcal/mol"
+    },
+    "lower_energy_identity": "cis-alpha",
+    "conclusion": "Both atom-mapped neutral singlet egan isomers are verified minima. Cis-alpha has the lower gas-phase electronic energy. This comparison establishes an electronic-stability distinction, not an interconversion barrier, rate, solution equilibrium, or free-energy ordering.",
+    "limitations": "Author SI optimized geometries are explicitly public inputs; this task tests reoptimization/validation, not discovery of the isomers.\nThe original beta task had missing H rows and four wrong C/O labels; the current repaired input is checked against SI S26-S27. Historical wrong-identity results are excluded.\nPositive frequency scaling (author 0.9614) does not affect minimum classification; no spectrum is scored here.\nAuthor version/build and every numerical default were not supplied; exact model chemistry is preserved and chosen numerical controls are disclosed.",
+    "verification_status": {
+      "executability": "READY",
+      "paper_reproduction": "PASS",
+      "evaluation_qualification": "QUALIFIED",
+      "recorded_at": "2026-09-15T06:27:47.332188+00:00",
+      "scope": "Current base paper_reproduction package only; no automatic certification of final_verified copies"
+    },
+    "computation_timing": {
+      "successful_route_seconds": 3986,
+      "jobs": {
+        "cis_alpha": {
+          "job_id": "hpc-job-b5dc8115-34d8-4fd6-a3cf-bb9e757334a6",
+          "elapsed_seconds": 2381,
+          "cpu_seconds": 47515.7,
+          "normal_termination_dates": [
+            "Normal termination of Gaussian 16 at Fri Sep 11 08:21:53 2026.",
+            "Normal termination of Gaussian 16 at Fri Sep 11 08:40:51 2026."
+          ]
+        },
+        "cis_beta": {
+          "job_id": "hpc-job-62f49c37-86e7-4553-b973-b13e27907864",
+          "elapsed_seconds": 1605,
+          "cpu_seconds": 31979.4,
+          "normal_termination_dates": [
+            "Normal termination of Gaussian 16 at Mon Sep 14 12:44:27 2026.",
+            "Normal termination of Gaussian 16 at Mon Sep 14 13:04:58 2026."
+          ]
+        }
+      },
+      "beta_local_stability_test_seconds": 1522.9803800117224,
+      "historical_retries_note": "Historical run_metadata/timing files retained; successful-route sum excludes failed/wrong-identity jobs and scheduler wait."
+    },
+    "provenance": [
+      "provenance/correct_identity_closure_20260915.json"
+    ]
+  },
+  "schema_errors": []
+}

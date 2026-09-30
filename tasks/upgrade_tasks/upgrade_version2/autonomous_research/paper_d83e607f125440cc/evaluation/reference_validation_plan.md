@@ -1,0 +1,5 @@
+# V2 evidence and calibration boundary
+
+Audit the historical component-energy arithmetic and spin/state mapping only when used as evidence for the same definitions. Calibrate V2 on actual alternative molecular observables and on source-copy, wrong-channel, mixed-energy, narrative-only, fake-prospective and overextended-yield cases. Evidence-backed insufficiency must remain distinct from missing research. The one existing finite molecular route is sufficient feasibility evidence for content design, not universal scientific validation.
+
+No new scientific computation or semantic judge run was launched during content authoring. Reuse is limited to the exact objects, definitions and conditions in reference_reuse.json. V1 acceptance and historical archive matrices are not V2 requirements. Before scored deployment, independently test claim-conditional validity and evidence scoring on the documented positive/negative cases, audit runner isolation, and calibrate any newly used scientific route. Current file/hash/schema/runtime tests establish implementation only.

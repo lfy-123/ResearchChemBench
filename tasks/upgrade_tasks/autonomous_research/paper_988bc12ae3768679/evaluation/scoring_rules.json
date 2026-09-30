@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Use the neutral mapped C30H20N6O4 parent and explicit candidate seed edits. Do not use former acidic/basic optimized coordinates, which are private. Preserve heavy-atom connectivity, allowing stated proton/bond tautomer rearrangements; charge must equal added proton count for this H+ exchange space. NMR is in DMSO-d6 and optical observations are in the separately reported aqueous pH conditions; compute each in its matching medium rather than treating them as the same solvent. candidate_seeds.json includes one explicit neutral lactim and four proton-site alternatives as unoptimized competitor graphs. All six required starts (including neutral_parent) must be attempted; none is preassigned as an endpoint. Within a fixed proton count compare like-solvated relative G. Across proton counts use a balanced proton-exchange cycle with a declared common acid/base reference and pH chemical-potential convention; raw different-charge total energies are not population rankings. Joint NMR/UV residuals use one predeclared error model per observable across all candidates. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Use the neutral mapped C30H20N6O4 parent and explicit candidate seed edits. Do not use former acidic/basic optimized coordinates, which are private. Preserve heavy-atom connectivity, allowing stated proton/bond tautomer rearrangements; charge must equal added proton count for this H+ exchange space. NMR is in DMSO-d6 and optical observations are in the separately reported aqueous pH conditions; compute each in its matching medium rather than treating them as the same solvent. candidate_seeds.json includes one explicit neutral lactim and four proton-site alternatives as unoptimized competitor graphs. All six required starts (including neutral_parent) must be attempted; none is preassigned as an endpoint. Within a fixed proton count compare like-solvated relative G. Across proton counts use a balanced proton-exchange cycle with a declared common acid/base reference and pH chemical-potential convention; raw different-charge total energies are not population rankings. Joint NMR/UV residuals use one predeclared error model per observable across all candidates. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_candidate_registry",
+      "reference_id": "kp_candidate_registry",
+      "type": "semantic",
+      "expected": "Check charges, H counts, mapping, candidate classes and actual attempted geometries. Both acid and base must contain distinct site/bond alternatives; source endpoint relabeling is insufficient. Evidenced collapse may close a candidate, but missing convergence cannot.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.candidate_registry",
+          "$.calculation_records"
+        ],
+        "comparison": "Check charges, H counts, mapping, candidate classes and actual attempted geometries. Both acid and base must contain distinct site/bond alternatives; source endpoint relabeling is insufficient. Evidenced collapse may close a candidate, but missing convergence cannot."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_joint_evidence",
+      "reference_id": "kp_joint_evidence",
+      "type": "semantic",
+      "expected": "Check measured observations and the different NMR/optical solvent conditions. All retained competing acid/base candidates require both predictions under identical predeclared calibration; collapse must be evidenced, not counted as a missing spectrum. Include neutral-parent NMR calibration. The neutral experimental UV maximum is not supplied: use null for that observation/residual, never an invented value. Reject treating author-calculated shifts as measurements.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.joint_evidence",
+          "$.calculation_records"
+        ],
+        "comparison": "Check measured observations and the different NMR/optical solvent conditions. All retained competing acid/base candidates require both predictions under identical predeclared calibration; collapse must be evidenced, not counted as a missing spectrum. Include neutral-parent NMR calibration. The neutral experimental UV maximum is not supplied: use null for that observation/residual, never an invented value. Reject treating author-calculated shifts as measurements."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_thermodynamic_and_robustness",
+      "reference_id": "kp_thermodynamic_and_robustness",
+      "type": "semantic",
+      "expected": "Recompute cycle energies, charge/proton balances and populations. Gas-phase dianion artifacts do not invalidate a solvated state or prove it stable; distinguish electron binding, solvation and proton equilibria. Accept supported ambiguity after the complete candidate/spectral comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.thermodynamic_and_robustness",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute cycle energies, charge/proton balances and populations. Gas-phase dianion artifacts do not invalidate a solvated state or prove it stable; distinguish electron binding, solvation and proton equilibria. Accept supported ambiguity after the complete candidate/spectral comparison."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Discover which bounded protonation/tautomer candidates, or mixtures, can jointly explain the measured acid/base optical and NMR response of 2a, while testing solvent and proton-reference sensitivity. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Discover which bounded protonation/tautomer candidates, or mixtures, can jointly explain the measured acid/base optical and NMR response of 2a, while testing solvent and proton-reference sensitivity. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "candidate_registry",
+      "max_score": 25,
+      "description": "Explicit proton/tautomer candidates and conformer evidence",
+      "rule_ids": [
+        "rule_candidate_registry"
+      ]
+    },
+    {
+      "id": "joint_evidence",
+      "max_score": 25,
+      "description": "Joint NMR/UV discrimination",
+      "rule_ids": [
+        "rule_joint_evidence"
+      ]
+    },
+    {
+      "id": "thermodynamic_and_robustness",
+      "max_score": 15,
+      "description": "Balanced speciation and robustness",
+      "rule_ids": [
+        "rule_thermodynamic_and_robustness"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Explicit proton/tautomer candidates and conformer evidence",
+      "Joint NMR/UV discrimination",
+      "Balanced speciation and robustness",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "task_type": "autonomous_research",
+  "title": "Independent vacancy energetics investigation for ordered beta-NiAl",
+  "category": "periodic defect energetics",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The Agent must independently formulate the computational route and validate two defect states, while the scientific object remains fixed."
+  ],
+  "paper": {
+    "title": "Thermally driven surface phase separation in intermetallic alloys",
+    "doi": "10.1038/s41467-025-67397-x",
+    "journal": "Nature Communications",
+    "publication_date": "2026-01-19"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained B2 beta-NiAl POSCAR and system definition specifying sites, neutral defects and observables."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated numerical vacancy energetics, comparison and limitations."
+    }
+  ]
+}

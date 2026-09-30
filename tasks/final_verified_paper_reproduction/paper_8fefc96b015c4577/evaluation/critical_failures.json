@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "A successful comparison mixes chemical identities, omits a required channel, or lacks a recoverable mapping between the public molecular graph and optimized structures. Reordering atoms with an explicit valid map is allowed.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_validation",
+      "condition": "The submission claims a transition-state or minimum assignment without frequency evidence, or silently treats a failed optimization as validated.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_reference",
+      "condition": "The submission does not use intermediate B as the common reference or reports barriers without units and provenance.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_fabrication",
+      "condition": "The report fabricates numerical barriers or claims experimental mechanistic proof when the calculation is unresolved.",
+      "severity": "critical"
+    }
+  ]
+}

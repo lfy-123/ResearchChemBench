@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from chemistry_toolbox.src.execution_states import TERMINAL_STATES as TERMINAL_STATUSES, validate_state, QUEUED_STATES, BLOCKED_STATES
+
 import json
 import os
 import subprocess
@@ -28,8 +30,9 @@ from chemistry_toolbox.src.resource_budget import (
 )
 
 from .discovery_models import ActionBatchRequest, ExecutionEventWaitRequest
+from .execution_store import SubmissionConflict, execution_store
 from .supervision_policy import supervision_policy
-from .tracing import execute_traced
+from .tracing import execute_traced, execute_traced_async
 from .workspace import relative_workspace_path, resolve_workspace_output_path
 
 
@@ -38,16 +41,6 @@ ASYNC_ACTION_TOOL_NAMES = (
     "wait_execution_events",
 )
 BATCH_ROOT = Path("outputs") / "action_batches"
-TERMINAL_STATUSES = {
-    "success",
-    "partial_success",
-    "invalid_request",
-    "unsupported",
-    "unavailable",
-    "failed",
-    "timeout",
-    "cancelled",
-}
 
 
 TOOL_DESCRIPTIONS = {
@@ -122,6 +115,10 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
     error = _validation_error(request)
     if error is not None:
         return {"status": "invalid_request", "error": error}
+    from .managed_execution import recovery_enabled, submit_batch
+    if recovery_enabled() or request.submission_key:
+        return submit_batch(request)
+    managed_submission = None
     batch_id = f"batch_{uuid.uuid4().hex}"
     directory = _batch_directory(batch_id, must_exist=False)
     directory.mkdir(parents=True, exist_ok=False)
@@ -167,6 +164,11 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
         "execution_mode": "distributed" if distributed_enabled() else "local",
         "supervisor_parent_pid": os.getpid(),
         "duplicate_input_groups": duplicate_input_groups,
+        "submission_key": request.submission_key,
+        "receipt_id": managed_submission.receipt_id if managed_submission else None,
+        "request_fingerprint": (
+            managed_submission.request_fingerprint if managed_submission else None
+        ),
     }
     status_record = {
         "schema_version": 1,
@@ -185,6 +187,15 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
     status_path = directory / "status.json"
     _atomic_json(request_path, request_record)
     _atomic_json(status_path, status_record)
+    if managed_submission is not None:
+        execution_store().record_job_state(
+            batch_id,
+            "queued",
+            state_payload={
+                "batch_id": batch_id,
+                "status_path": str(status_path),
+            },
+        )
     try:
         with (directory / "supervisor.stdout.log").open("ab") as stdout_handle, (
             directory / "supervisor.stderr.log"
@@ -214,7 +225,19 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
             }
         )
         _atomic_json(status_path, status_record)
+        if managed_submission is not None:
+            execution_store().record_job_state(
+                batch_id,
+                "failed",
+                state_payload={"error": status_record.get("error")},
+            )
         return {"status": "failed", **status_record}
+    if managed_submission is not None:
+        execution_store().record_job_state(
+            batch_id,
+            "launching",
+            state_payload={"supervisor_pid": supervisor.pid},
+        )
     return {
         "status": "success",
         "batch_id": batch_id,
@@ -223,6 +246,12 @@ def _submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
         "backend_id": request.backend_id,
         "item_count": len(items),
         "supervisor_pid": supervisor.pid,
+        "submission_key": request.submission_key,
+        "receipt_id": managed_submission.receipt_id if managed_submission else None,
+        "request_fingerprint": (
+            managed_submission.request_fingerprint if managed_submission else None
+        ),
+        "receipt": managed_submission.as_dict() if managed_submission else None,
         "status_path": relative_workspace_path(status_path),
         "execution_mode": request_record["execution_mode"],
         "scheduling": "largest_cpu_then_memory_first",
@@ -278,8 +307,13 @@ def _item_worker_id(item: dict[str, Any]) -> str | None:
 
 
 def _compact_terminal_item(batch_id: str, item: dict[str, Any]) -> dict[str, Any]:
+    from .result_transport import compact_action_result
+    result = item.get("result") or {}
+    if "action" in result and "execution_feedback" not in result:
+        result = compact_action_result(result)
     return {
         "batch_id": batch_id,
+        "job_id": item.get("job_id"),
         "item_id": item.get("item_id"),
         "batch_index": item.get("batch_index"),
         "status": item.get("status"),
@@ -287,13 +321,15 @@ def _compact_terminal_item(batch_id: str, item: dict[str, Any]) -> dict[str, Any
         "resource_limits": item.get("resource_limits") or {},
         "duration_seconds": item.get("duration_seconds"),
         "finished_at": item.get("finished_at"),
-        "result": item.get("result") or {},
+        "result": result,
+        "execution_feedback": item.get("execution_feedback") or result.get("execution_feedback"),
     }
 
 
 def _compact_active_item(batch_id: str, item: dict[str, Any]) -> dict[str, Any]:
     return {
         "batch_id": batch_id,
+        "job_id": item.get("job_id"),
         "item_id": item.get("item_id"),
         "batch_index": item.get("batch_index"),
         "status": item.get("status"),
@@ -303,12 +339,11 @@ def _compact_active_item(batch_id: str, item: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _read_events(
+def _event_wait_steps(
     request: ExecutionEventWaitRequest,
     *,
     policy: dict[str, int] | None = None,
     monotonic_fn=time.monotonic,
-    sleep_fn=time.sleep,
 ) -> dict[str, Any]:
     settings = dict(policy or supervision_policy())
     started = monotonic_fn()
@@ -328,6 +363,7 @@ def _read_events(
         try:
             batches: list[dict[str, Any]] = []
             state_rows: list[dict[str, Any]] = []
+            remaining_event_slots = 32
             for batch_id in request.batch_ids:
                 status = json.loads(
                     (_batch_directory(batch_id) / "status.json").read_text(
@@ -335,18 +371,21 @@ def _read_events(
                     )
                 )
                 after = int(request.after_sequences.get(batch_id, 0))
-                events = [
+                pending_events = [
                     event
                     for event in status.get("events") or []
                     if int(event.get("sequence") or 0) > after
                 ]
+                events = pending_events[:remaining_event_slots]
+                remaining_event_slots -= len(events)
+                has_more_events = len(events) < len(pending_events)
                 for event in events:
-                    if event.get("type") == "item_finished" and event.get("item_id"):
+                    if event.get("type") in {"item_finished", "result_updated"} and event.get("item_id"):
                         newly_terminal_keys.add((batch_id, str(event["item_id"])))
                 items = status.get("items") or []
                 counts: dict[str, int] = {}
                 for item in items:
-                    item_status = str(item.get("status") or "unknown")
+                    item_status = validate_state(str(item.get("status") or "unknown"))
                     counts[item_status] = counts.get(item_status, 0) + 1
                     state_rows.append(
                         {
@@ -360,15 +399,23 @@ def _read_events(
                     {
                         "batch_id": batch_id,
                         "status": status.get("status"),
-                        "terminal": str(status.get("status"))
-                        in {"success", "partial_success", "failed", "cancelled"},
+                        "terminal": validate_state(str(status.get("status"))) in TERMINAL_STATUSES,
                         "events": events,
-                        "next_sequence": int(status.get("last_sequence") or 0),
+                        "next_sequence": max((int(e.get("sequence") or 0) for e in events), default=after),
+                        "has_more_events": has_more_events,
                         "item_status_counts": counts,
                         "items": items,
                     }
                 )
             resource = _resource_snapshot()
+            blocked = [row for row in state_rows if row["status"] in BLOCKED_STATES]
+            if blocked or any(batch["status"] in BLOCKED_STATES for batch in batches):
+                return {
+                    "status": "failed", "return_reason": "needs_reconciliation",
+                    "error": {"code": "needs_reconciliation", "message": "Reconcile the original batch before waiting."},
+                    "held_items": blocked, "remaining_batch_ids": [b["batch_id"] for b in batches if not b["terminal"]],
+                    "recommended_action": "reconcile_original_jobs",
+                }
         except (OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
             return {
                 "status": "failed",
@@ -429,10 +476,10 @@ def _read_events(
             if settled_elapsed >= settings["settle_seconds"]:
                 return_reason = "settled_state_update"
                 break
-        elif now - started >= settings["heartbeat_seconds"]:
+        elif settings.get("wait_mode", "heartbeat") != "event" and now - started >= settings["heartbeat_seconds"]:
             return_reason = "heartbeat"
             break
-        sleep_fn(settings["poll_interval_seconds"])
+        yield settings["poll_interval_seconds"]
 
     terminal_items: list[dict[str, Any]] = []
     running_items: list[dict[str, Any]] = []
@@ -445,23 +492,29 @@ def _read_events(
             key = (batch_id, str(item.get("item_id")))
             if key in newly_terminal_keys:
                 terminal_items.append(_compact_terminal_item(batch_id, item))
-            elif item.get("status") == "queued":
+            elif item.get("status") in QUEUED_STATES:
                 queued_items.append(_compact_active_item(batch_id, item))
             elif str(item.get("status")) not in TERMINAL_STATUSES:
                 running_items.append(_compact_active_item(batch_id, item))
         transitions.extend(
             {
-                key: event.get(key)
-                for key in ("sequence", "timestamp", "type", "item_id", "status")
-                if key in event
+                "batch_id": batch_id,
+                "job_id": event.get("job_id"),
+                **{
+                    key: event.get(key)
+                    for key in ("sequence", "timestamp", "type", "item_id", "status")
+                    if key in event
+                },
             }
             for event in batch.pop("events")
         )
         batch_summaries.append(batch)
     remaining = [
-        batch["batch_id"] for batch in batch_summaries if not batch["terminal"]
+        batch["batch_id"] for batch in batch_summaries if not batch["terminal"] or batch.get("has_more_events")
     ]
     finished = monotonic_fn()
+    from .result_transport import bound_terminal_items
+    terminal_items = bound_terminal_items(terminal_items)
     aggregation_duration = (
         finished - aggregation_started if aggregation_started is not None else 0
     )
@@ -470,7 +523,7 @@ def _read_events(
     )
     return {
         "status": "success",
-        "return_reason": return_reason,
+        "return_reason": "result_page" if any(b.get("has_more_events") for b in batch_summaries) else return_reason,
         "settled_for_seconds": round(max(0, settled_for), 3),
         "aggregation_duration_seconds": round(max(0, aggregation_duration), 3),
         "wait_duration_seconds": round(max(0, finished - started), 3),
@@ -505,6 +558,11 @@ def _read_events(
     }
 
 
+def _read_events(request, *, policy=None, monotonic_fn=time.monotonic, sleep_fn=time.sleep):
+    from .supervision_wait import run_wait
+    return run_wait(_event_wait_steps(request, policy=policy, monotonic_fn=monotonic_fn), sleep_fn=sleep_fn)
+
+
 def submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
     return execute_traced(
         "submit_action_batch_async",
@@ -514,12 +572,11 @@ def submit_action_batch_async(request: ActionBatchRequest) -> dict[str, Any]:
     )
 
 
-def wait_execution_events(request: ExecutionEventWaitRequest) -> dict[str, Any]:
-    return execute_traced(
-        "wait_execution_events",
-        {"request": request.model_dump(mode="json")},
-        lambda: _read_events(request),
-        capture_artifacts=False,
+async def wait_execution_events(request: ExecutionEventWaitRequest) -> dict[str, Any]:
+    from .supervision_wait import run_wait_async
+    return await execute_traced_async(
+        "wait_execution_events", {"request": request.model_dump(mode="json")},
+        lambda: run_wait_async(_event_wait_steps(request)),
     )
 
 

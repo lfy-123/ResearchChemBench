@@ -1,0 +1,217 @@
+{
+  "reference_key_points.json": {
+    "paper_id": "paper_6f9a36fff6964313",
+    "items": [
+      {
+        "key_point_id": "pr_p1",
+        "key_point_type": "process",
+        "statement": "All three public systems are constructed with the stated connectivity, charge/multiplicity and an auditable geometry/minimum validation record.",
+        "expected_result": "Three identifiable systems; converged optimized structures with minimum evidence or a scientifically documented bounded failure.",
+        "evidence_ids": [
+          "ev_doc_669ea2418368_000060_1f167845caae",
+          "ev_doc_669ea2418368_000124_e2ab044aa609",
+          "ev_doc_669ea2418368_000281_0189b62ccbbf"
+        ],
+        "expected": "All three public systems are constructed with the stated connectivity, charge/multiplicity and an auditable geometry/minimum validation record. Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+      },
+      {
+        "key_point_id": "pr_p2",
+        "key_point_type": "process",
+        "statement": "The four scored atoms are selected by their chemical environments and charges are traceable to the declared population-analysis output.",
+        "expected_result": "Carbonyl C is identified in TMTFABA and TFAP; quaternary N is identified in TMTFABA and PTMA; provenance is supplied.",
+        "evidence_ids": [
+          "ev_doc_669ea2418368_000283_9a95191e3314"
+        ],
+        "expected": "The four scored atoms are selected by their chemical environments and charges are traceable to the declared population-analysis output. Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+      },
+      {
+        "key_point_id": "pr_r1",
+        "key_point_type": "result",
+        "statement": "The four Mulliken charges reproduce the paper's reported values within an initial 0.02 e absolute tolerance.",
+        "expected_result": "TFAP carbonyl C 0.204 e; TMTFABA carbonyl C 0.200 e; PTMA quaternary N 0.036 e; TMTFABA quaternary N 0.040 e.",
+        "evidence_ids": [
+          "ev_doc_e86d3aaecd2b_000253_d6d11a3a02fd"
+        ],
+        "expected": "The four Mulliken charges reproduce the paper's reported values within an initial 0.02 e absolute tolerance. Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+      }
+    ]
+  },
+  "reference_conclusions.json": {
+    "paper_id": "paper_6f9a36fff6964313",
+    "items": [
+      {
+        "conclusion_id": "pr_c1",
+        "claim_role": "final",
+        "evidence_ids": [
+          "ev_doc_e86d3aaecd2b_000253_d6d11a3a02fd"
+        ],
+        "expected": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges.",
+        "supporting_key_point_ids": [
+          "pr_p1",
+          "pr_p2",
+          "pr_r1"
+        ],
+        "statement": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges."
+      }
+    ]
+  },
+  "scoring_rules.json": {
+    "rules": [
+      {
+        "rule_id": "pr_s1",
+        "type": "semantic",
+        "expected": "three systems have auditable validated structures",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems",
+            "$.method"
+          ],
+          "comparison": "expert semantic comparison Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_p1"
+      },
+      {
+        "rule_id": "pr_s2",
+        "type": "semantic",
+        "expected": "atom identity and charge provenance are explicit Keep each value tied to its mapped carbonyl carbon or quaternary-ammonium nitrogen in the complete identified system. Check paired differences against those four values and their signs. PR retains its declared primary protocol; AR retains its allowed model/conformer choices.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.systems"
+          ],
+          "comparison": "expert semantic comparison Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_p2"
+      },
+      {
+        "rule_id": "pr_s3",
+        "type": "numeric",
+        "target": 0.204,
+        "unit": "e",
+        "tolerance": 0.02,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.tfap_carbonyl_charge"
+          ],
+          "comparison": "absolute difference Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_r1"
+      },
+      {
+        "rule_id": "pr_s4",
+        "type": "numeric",
+        "target": 0.2,
+        "unit": "e",
+        "tolerance": 0.02,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.tmtfaba_carbonyl_charge"
+          ],
+          "comparison": "absolute difference Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_r1"
+      },
+      {
+        "rule_id": "pr_s5",
+        "type": "numeric",
+        "target": 0.036,
+        "unit": "e",
+        "tolerance": 0.02,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.ptma_nitrogen_charge"
+          ],
+          "comparison": "absolute difference Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_r1"
+      },
+      {
+        "rule_id": "pr_s6",
+        "type": "numeric",
+        "target": 0.04,
+        "unit": "e",
+        "tolerance": 0.02,
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.tmtfaba_nitrogen_charge"
+          ],
+          "comparison": "absolute difference Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_r1"
+      },
+      {
+        "rule_id": "pr_s7",
+        "type": "semantic",
+        "expected": "The complete ion-pair and TFAP calculations give the four specified atom-resolved Mulliken charges and their paired differences using the defined population protocol and atom environments. Evaluate the electronic comparison against those actual computed charges.",
+        "binding": {
+          "artifact_paths": [
+            "report/results.json"
+          ],
+          "fields": [
+            "$.conclusion"
+          ],
+          "comparison": "expert semantic comparison Primary numeric charges require the stated two-level complete-system Mulliken protocol and correct atom environments; do not apply this gold to other population schemes or a differently defined system."
+        },
+        "reference_id": "pr_c1"
+      }
+    ],
+    "paper_id": "paper_6f9a36fff6964313",
+    "scoring_policy": "dual_axis_100.scientific_results.v1"
+  },
+  "critical_failures.json": {
+    "paper_id": "paper_6f9a36fff6964313",
+    "items": [
+      "wrong molecular connectivity, charge or multiplicity",
+      "reporting a charge without atom identity/provenance",
+      "claiming a minimum without validation evidence",
+      "inventing or exposing hidden reference values in public inputs"
+    ]
+  },
+  "evidence_map.json": {
+    "evidence": [
+      {
+        "evidence_id": "ev_doc_669ea2418368_000060_1f167845caae",
+        "document_id": "doc_669ea2418368",
+        "source": "SI structure characterization of [TMTFABA]OTf"
+      },
+      {
+        "evidence_id": "ev_doc_669ea2418368_000124_e2ab044aa609",
+        "document_id": "doc_669ea2418368",
+        "source": "SI structure characterization of [PTMA]OTf and TFAP"
+      },
+      {
+        "evidence_id": "ev_doc_669ea2418368_000281_0189b62ccbbf",
+        "document_id": "doc_669ea2418368",
+        "source": "SI DFT calculation method"
+      },
+      {
+        "evidence_id": "ev_doc_669ea2418368_000283_9a95191e3314",
+        "document_id": "doc_669ea2418368",
+        "source": "SI single-point Mulliken calculation description"
+      },
+      {
+        "evidence_id": "ev_doc_e86d3aaecd2b_000253_d6d11a3a02fd",
+        "document_id": "doc_e86d3aaecd2b",
+        "source": "Main paper reported Mulliken charges and interpretation"
+      }
+    ],
+    "paper_id": "paper_6f9a36fff6964313"
+  }
+}

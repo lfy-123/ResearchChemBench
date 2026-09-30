@@ -1,0 +1,18 @@
+{
+  "identity": "Hex-bisImP ligand in the supplied ligand_L7_smiles.txt",
+  "source_smiles": "N(=Cc1ccccc1P(c2ccccc2)c2ccccc2)CCCCCCN(=Cc1ccccc1P(c2ccccc2)c2ccccc2)",
+  "index_convention": "0-based RDKit atom indices from the non-canonical source SMILES above; atom labels must be carried through 3-D generation and Cu-complex construction.",
+  "donor_atoms": {
+    "N1": 0,
+    "P1": 8,
+    "N2": 27,
+    "P2": 35
+  },
+  "mapping_rule": "The first N=C(o-Ph2P-phenyl) arm encountered in the supplied SMILES is arm 1 and the second is arm 2. The two arms are chemically symmetry-related; this convention fixes bookkeeping only and does not impose a geometry or energy.",
+  "validation": {
+    "formula": "C44H46N2P2",
+    "ligand_heavy_atom_count": 48,
+    "donor_elements": ["N", "P", "N", "P"],
+    "source_evidence": "papers/paper_65b915907e13618d/documents/main.pdf p. 1; supplementary_001.pdf pp. 2-3, 50-51 and 68-69"
+  }
+}

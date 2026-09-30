@@ -1,0 +1,95 @@
+{
+  "paper_id": "paper_a3968806251093cd",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_identity",
+      "type": "semantic",
+      "expected": "Check input and optimized coordinates against molecule.json and the whole-molecule source-label mapping, not just molecular formula. Require C20H17ClN6OS (46 atoms), correct pyrazole substitution, C8 and N4 opposite across C17=N3, and N5-H rather than S-H. Coordinate rows may change if declared consistently; Cl1 and Cl2 are one atom. No author endpoint or SCXRD coordinates are authorized agent inputs.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.mapping",
+          "$.models[].identity_validation",
+          "$.models[].coordinates"
+        ],
+        "comparison": "Evidence-based semantic and quantitative audit of submitted artifacts. Check input and optimized coordinates against molecule.json and the whole-molecule source-label mapping, not just molecular formula. Require C20H17ClN6OS (46 atoms), correct pyrazole substitution, C8 and N4 opposite across C17=N3, and N5-H rather than S-H. Coordinate rows may change if declared consistently; Cl1 and Cl2 are one atom. No author endpoint or SCXRD coordinates are authorized agent inputs."
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "At least two scientifically justified, independently selected geometry models; the author functional pair is not mandatory. Inspect starting/final coordinates and raw method, optimization and stationarity artifacts. A normal exit or a claim of convergence alone is insufficient. Frequency/Hessian evidence must support minima (or an explicitly justified equivalent test). The primary starts must be the same independently generated conformer, then optimized separately. Extra starts are optional and not a new required search. Historical author-route verification may use private source-informed starts; it is feasibility evidence, not an agent-input exemption.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models[].method",
+          "$.models[].starting_coordinates",
+          "$.models[].calculation_artifacts",
+          "$.models[].stationarity_evidence"
+        ],
+        "comparison": "Evidence-based semantic and quantitative audit of submitted artifacts. At least two scientifically justified, independently selected geometry models; the author functional pair is not mandatory. Inspect starting/final coordinates and raw method, optimization and stationarity artifacts. A normal exit or a claim of convergence alone is insufficient. Frequency/Hessian evidence must support minima (or an explicitly justified equivalent test). The primary starts must be the same independently generated conformer, then optimized separately. Extra starts are optional and not a new required search. Historical author-route verification may use private source-informed starts; it is feasibility evidence, not an agent-input exemption."
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result_geometry",
+      "type": "semantic",
+      "expected": "Require 13 unique bonds, 23 unique angles and 11 unique torsions per primary model (94 rows for a pair), with units, fixed selectors and no duplicates. Re-extract from final coordinates and reproduce MAE/RMSE. Follow geometry_comparison.json: raw signed torsions, circular differences, ONE globally selected reference sign over all 11 torsions per model by minimum SSE then MAE/tie rules, both branch summaries retained. No row-wise reflection, label swaps, subset selection or cross-unit aggregate. Reporting agreement tolerances are 1e-6 Angstrom for bonds and 1e-4 degree for angles/torsions; these are arithmetic precision, not hidden DFT targets or a maximum physical error against experiment. Incomplete sets have null full-set metrics and do not earn full-coverage credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables[]",
+          "$.metrics[]",
+          "$.inversion_comparison[]",
+          "$.mapping",
+          "$.models[].coordinates"
+        ],
+        "comparison": "Evidence-based semantic and quantitative audit of submitted artifacts. Require 13 unique bonds, 23 unique angles and 11 unique torsions per primary model (94 rows for a pair), with units, fixed selectors and no duplicates. Re-extract from final coordinates and reproduce MAE/RMSE. Follow geometry_comparison.json: raw signed torsions, circular differences, ONE globally selected reference sign over all 11 torsions per model by minimum SSE then MAE/tie rules, both branch summaries retained. No row-wise reflection, label swaps, subset selection or cross-unit aggregate. Reporting agreement tolerances are 1e-6 Angstrom for bonds and 1e-4 degree for angles/torsions; these are arithmetic precision, not hidden DFT targets or a maximum physical error against experiment. Incomplete sets have null full-set metrics and do not earn full-coverage credit."
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_comparison",
+      "type": "semantic",
+      "expected": "Check each kind's two metric preferences and the structured overall comparison under the public numerical tie tolerance. Uniform dominance requires no worse metric and at least one better metric; crossing preferences yield mixed; all ties yield indistinguishable_on_reported_metrics. Missing or invalid required data yield unresolved_incomplete, not mixed. A full valid comparison may support any of the three complete outcomes without a predetermined winning method. Different optimized basins must not be represented as pure functional-only effects. A generic limitations paragraph is neither required nor scored.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.metrics[]"
+        ],
+        "comparison": "Evidence-based semantic and quantitative audit of submitted artifacts. Check each kind's two metric preferences and the structured overall comparison under the public numerical tie tolerance. Uniform dominance requires no worse metric and at least one better metric; crossing preferences yield mixed; all ties yield indistinguishable_on_reported_metrics. Missing or invalid required data yield unresolved_incomplete, not mixed. A full valid comparison may support any of the three complete outcomes without a predetermined winning method. Different optimized basins must not be represented as pure functional-only effects. A generic limitations paragraph is neither required nor scored."
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "Award scientific credit for the actual geometry comparison supported by validated calculations, complete requested observables and correct metrics. Uniform, mixed and indistinguishable outcomes can all fully satisfy this conclusion; do not replace missing calculations with a narrative assertion. Do not require the author's methods or ranking. Do not demand exact SI theoretical columns or hidden private witness values. Give partial credit for supported portions when work is incomplete; missing a generic limitation paragraph is not a deduction. This is the only primary scientific conclusion, not four equally weighted outcome labels.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.comparison",
+          "$.models[]",
+          "$.observables[]",
+          "$.metrics[]"
+        ],
+        "comparison": "Evidence-based semantic and quantitative audit of submitted artifacts. Award scientific credit for the actual geometry comparison supported by validated calculations, complete requested observables and correct metrics. Uniform, mixed and indistinguishable outcomes can all fully satisfy this conclusion; do not replace missing calculations with a narrative assertion. Do not require the author's methods or ranking. Do not demand exact SI theoretical columns or hidden private witness values. Give partial credit for supported portions when work is incomplete; missing a generic limitation paragraph is not a deduction. This is the only primary scientific conclusion, not four equally weighted outcome labels."
+      }
+    }
+  ]
+}

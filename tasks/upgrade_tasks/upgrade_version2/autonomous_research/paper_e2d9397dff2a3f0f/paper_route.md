@@ -1,0 +1,7 @@
+# Private source-route and V2 scope record
+
+The source attributes the bda model's behaviour to N–O stabilization in15bda, a6.2kcal/mol opening step viaTS3bda, and a21.9kcal/mol direct NH3-attack barrier; after opening, a downhill electronic scan is interpreted as diffusion-controlled attack (main pp9–10; SI FiguresS55–S57). Forbcs, a dangling sulfonate is proposed to assist proton transfer during N–N formation. These are source assignments to reproduce/audit, not compulsory correct conclusions. SI PDFp47 specifies Gaussian16 B3LYP-D3(BJ), SDD(Ru)/6-31G(d,p) optimization and frequencies, def2-TZVP single points withSMD MeCN and298.15K Gibbs corrections; source standard-state corrections include1atm→1M, solvent concentration19.2M, Fc absolute4.548V and specified proton reference. Keep electrochemical/proton reservoirs distinct from chemical barriers. The supplied source model inventory does not certify a singlet or N–O minimum; raw modes/endpoints are needed for a saddle claim. Additional bda/bcs paired routes were benchmark development choices, not all source calculations.
+
+The shared scientific question is: For the source Ru–bda–Py nitrogen-containing model, what local molecular chemistry can support N–N bond formation with ammonia, and what role, if any, can be established for the ligand environment?
+
+AR does not receive this metadata route through materialize_agent_files. The actual process rubric differs by mode under open_research. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

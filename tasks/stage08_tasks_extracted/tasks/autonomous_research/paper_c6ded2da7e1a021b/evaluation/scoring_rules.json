@@ -1,0 +1,72 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_ar_min",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum.imaginary_frequency_count",
+          "$.minimum.frequency_evidence"
+        ],
+        "comparison": "expert validation"
+      },
+      "expected": "count 0 with evidence",
+      "reference_id": "kp_ar_process_minimum",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_ar_search",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidate_search.generation_rule",
+          "$.candidate_search.stopping_rule",
+          "$.candidates[*].candidate_id",
+          "$.candidates[*].connectivity_evidence"
+        ],
+        "comparison": "expert validation of candidate-level coverage"
+      },
+      "expected": "finite search and candidate-specific connectivity evidence",
+      "reference_id": "kp_ar_process_ts",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_ar_barrier",
+      "unit": "kcal/mol",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.outcome"
+        ],
+        "comparison": "conditional expert validation: when status is validated_success, inspect outcome.barrier.value against the source-backed 44 kcal/mol reference within the stated scientific tolerance; when bounded_failure, do not require a barrier"
+      },
+      "reference_id": "kp_ar_result_barrier",
+      "type": "condition",
+      "expected": "on validated_success, outcome.barrier is reported for the selected validated candidate; on bounded_failure, candidate-level attempts and failure reason are sufficient and no barrier is required"
+    },
+    {
+      "rule_id": "r_ar_conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "high barrier supports stability with limitations",
+      "reference_id": "con_ar_final",
+      "type": "semantic"
+    }
+  ],
+  "paper_id": "paper_c6ded2da7e1a021b"
+}

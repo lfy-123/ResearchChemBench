@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_3c89b494a1645491",
+  "task_type": "autonomous_research",
+  "title": "Independent electronic-structure investigation of Au···Au bonding in a tetranuclear gold(I) cation",
+  "category": "computational inorganic chemistry / autonomous bonding investigation",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate and discriminate plausible bonding explanations for a heavy-atom tetracation.",
+    "The agent must select and validate an electronic-structure/AIM route without a disclosed author protocol.",
+    "Four individually identified Au···Au BCPs and multiple descriptors require coverage and computational provenance."
+  ],
+  "paper": {
+    "title": "Tetranuclear Gold(I) Complexes Bearing Imidazo[1,5-b]pyridazin-7-ylidene Ligands: Synthesis and Catalytic Applications in Nucleophilic Addition to Alkynes",
+    "doi": "10.1021/acs.organomet.5c00453",
+    "journal": "Organometallics",
+    "publication_date": "2026-01-08"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Supplied immutable CCDC 2500223 CIF plus deterministic extraction/state definition for the anion-free tetranuclear Au(I) cation; CCDC retrieval is not scored."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Hypothesis discrimination, validated calculation provenance, geometry/BCP checks, per-contact observables, conclusion."
+    }
+  ]
+}

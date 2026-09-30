@@ -1,0 +1,61 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "6": {
+      "formula": "C17H36OSn",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "pair_6_identity.json"
+    },
+    "7": {
+      "formula": "C16H34O2Sn",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "pair_7_identity.json"
+    },
+    "13": {
+      "formula": "C16H34S2Sn",
+      "charge": 0,
+      "multiplicities": [
+        1
+      ],
+      "identity_file": "pair_13_identity.json"
+    }
+  },
+  "identity_files": [
+    "pair_13_identity.json",
+    "pair_6_identity.json",
+    "pair_7_identity.json"
+  ],
+  "control_definitions": {
+    "pairs": "Optimize two chairs per compound with conformer checks retaining all three n-butyl chains.",
+    "fixed_distance_torsion": "For each compound use the axial geometry, select the lowest-ID Sn-bound butyl carbon. Define torsion C_beta-C_alpha-Sn-C_ring. Keep Sn-C_alpha at its axial equilibrium value and calculate at the baseline torsion plus +/-30 degrees, relaxing other coordinates under constraints.",
+    "fixed_torsion_distance": "Hold the same baseline torsion and calculate Sn-C_alpha at equilibrium +/-0.03 angstrom. These imposed displacements are interventions, not source data or minima.",
+    "orbital_analysis": "Quantify donor/acceptor localization or mixing for the same mapped bonds. NBO is allowed only if callable; a replacement must define and validate its metric instead of labelling it NBO E2."
+  },
+  "observable_definition": "Signed J_total(119Sn,13C)=J_FC+J_SD+J_PSO+J_DSO in Hz, for each mapped Sn–C_butyl bond; arithmetic mean over three bonds. Report raw unscaled J and the exact Hamiltonian/basis. An empirical scale or a relativistic change cannot share an uncalibrated narrow tolerance.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "pair_matrix",
+      "description": "Three full axial/equatorial signed-coupling pairs"
+    },
+    {
+      "id": "geometric_interventions",
+      "description": "Orthogonal distance and torsion interventions"
+    },
+    {
+      "id": "mechanism_test",
+      "description": "Hyperconjugation sufficiency and sulfur exception"
+    }
+  ],
+  "optional_not_scored": "All original carbohydrate substrates, additional sulfur series and proprietary NBO upgrades are optional.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

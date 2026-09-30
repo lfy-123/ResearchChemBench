@@ -13,7 +13,7 @@ The authors modeled a closed-shell, base-associated ensemble of 2a, 5a, and sodi
 | Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
 |---|---|---|---|---|---|---|
 | 1 | Define reference | 2a, 5a, sodium base | Molecular modeling | Deprotonated, sodium-associated singlet | INT1 | ev_doc_3d9c7105809c_001078_1c823dd1b40b; ev_doc_3d9c7105809c_001091_5edb96411500 |
-| 2 | Optimize minimum | INT1 | Gaussian 09, M06-2X/6-31G(d) | Frequencies; SMD(DME) | Validated minimum | ev_doc_3d9c7105809c_001077_7f13f9f52857 |
+| 2 | Optimize minimum | INT1 | Gaussian 09, M06-2X/6-31G(d) | Frequencies; SI specifies SMD for solvation energy corrections, not for geometry optimization | Validated minimum | ev_doc_3d9c7105809c_001077_7f13f9f52857 |
 | 3 | Locate O-site TS | INT1, O-attack guess | Same optimization level | One imaginary mode; IRC | TS1 | ev_doc_3d9c7105809c_001101_3c3aa904fb11; ev_doc_3d9c7105809c_001107_55cf45d84fbb |
 | 4 | Locate C-site TS | INT1, C-attack guess | Same optimization level | One imaginary mode; IRC | TS2 | ev_doc_3d9c7105809c_001116_426c7d3a8ce7; ev_doc_3d9c7105809c_001122_db06c534f633 |
 | 5 | Refine energies | INT1, TS1, TS2 | M06-2X/6-311+G(d,p) | Single points; SMD(DME); thermal corrections | Relative solution barriers | ev_doc_3d9c7105809c_001077_7f13f9f52857 |

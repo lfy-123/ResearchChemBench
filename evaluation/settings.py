@@ -51,18 +51,19 @@ JUDGE_API_BASE = os.environ.get("JUDGE_API_BASE", "")
 JUDGE_API_KEY = os.environ.get("JUDGE_API_KEY", "")
 
 DEFAULT_AGENT_TIMEOUT_SECONDS = int(
-    os.environ.get("RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS", "14400")
+    os.environ.get("RESEARCHCHEMBENCH_AGENT_TIMEOUT_SECONDS", "90000")
 )
 DEFAULT_MCP_TOOL_TIMEOUT_MS = int(
-    # Keep the client deadline beyond the toolbox's 7200 s synchronous ORCA
-    # ceiling so a valid backend result is not misreported as a client timeout.
-    os.environ.get("RESEARCHCHEMBENCH_MCP_TOOL_TIMEOUT_MS", "7500000")
+    # Keep the client deadline five minutes beyond the toolbox's 24-hour
+    # walltime so a valid synchronous result is not misreported as a client
+    # timeout.  Asynchronous native jobs return from submission immediately.
+    os.environ.get("RESEARCHCHEMBENCH_MCP_TOOL_TIMEOUT_MS", "86700000")
 )
 DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS = int(
-    os.environ.get("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", "7200")
+    os.environ.get("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", "86400")
 )
 DEFAULT_FAST_ACTION_TIMEOUT_SECONDS = int(
-    os.environ.get("RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS", "60")
+    os.environ.get("RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS", "86400")
 )
 DEFAULT_AVAILABLE_CPU_CORES = int(
     os.environ.get("RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES", "48")

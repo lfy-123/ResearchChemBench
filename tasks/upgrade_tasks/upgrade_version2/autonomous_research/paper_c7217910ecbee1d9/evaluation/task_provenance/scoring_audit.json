@@ -1,0 +1,29 @@
+{
+  "policy": "dual_axis_100.open_research.v1",
+  "scientific_result_weights": {
+    "identity_states": 20,
+    "acceptance_evidence": 25,
+    "explanation": 25,
+    "uncertainty_scope": 20,
+    "conclusion": 10
+  },
+  "alternative_routes": [
+    "A validated electronic-energy/state investigation can test the family response and a chosen explanation without a prescribed frozen-core matrix. Historical full-size PBE0/def2-SVP n2 logs support the feasibility of this route for selected objects, not overall V2 acceptance.",
+    "An independently justified electronic-structure analysis, including evidence of reconstruction or limits of a proposed account, is eligible for corresponding credit. Its evidence and scope must be adequate; no different method is certified solely by schema acceptance."
+  ],
+  "conditional_requirements": [
+    "Correct complete composition and state for every claimed object.",
+    "Stationarity/search evidence for minimum/lowest-state claims; matched geometry and consistent energy components for the selected affinity definition.",
+    "Appropriate electronic evidence for electronic mechanisms; no universal analysis operation.",
+    "Coverage and uncertainty proportionate to the declared family-level inference."
+  ],
+  "judge_calibration_status": "pending_real_semantic_judge",
+  "schema_tests": "work/check_v2.py; format and artifact-integrity only",
+  "enforcement_layers": {
+    "host_schema": "Official output_contract checks required report files, JSON structure, declared units/enums and conditional fields.",
+    "author_side_checker": "work/check_v2.py alone checks resolved artifact IDs, file existence, SHA256 and selected arithmetic. These checks are not automatically installed in the host.",
+    "judge_review": "Evidence sufficiency, actual chemistry, cross-record scientific comparability, method adequacy and scope require real artifact/judge review; not run or calibrated in this development.",
+    "runtime_pending": "Host artifact integrity integration, reliable tool-event binding and access isolation require coordinator integration/verification."
+  },
+  "no_reference_matrix_required": true
+}

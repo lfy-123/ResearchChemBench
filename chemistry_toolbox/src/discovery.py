@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import difflib
+import os
 import re
 from typing import Any, Literal, Mapping
 
@@ -177,6 +178,10 @@ def _provider_contract(
             backend.supported_system_types.get(action_id, ())
         ),
         "validation_level": backend.validation_levels.get(action_id),
+        "electronic_state_contract": {"model": backend.electronic_state_model,
+            "policy": os.environ.get("RESEARCHCHEMBENCH_ELECTRONIC_STATE_POLICY", "legacy"),
+            "explicit_fields": ["method_spec.charge", "method_spec.multiplicity"],
+            "note": "A strict finite-molecular calculation requires declared state in method_spec or its structure. Overrides are reported; unknown state is not guessed."},
         "resource_constraints": dict(backend.resource_constraints),
         "agent_controllable_parameters": {
             field_path: dict(metadata)
@@ -1004,8 +1009,8 @@ def _compact_action_request_contract(
         "output_contract": complete["output_contract"],
         "usage_notes": usage_notes,
         "retry_policy": (
-            "On invalid_request, correct the reported fields and retry this same Action/Backend "
-            "once. Do not switch providers before applying the diagnostic."
+            "Inspect the error category, affected fields and evidence before deciding on a new calculation. "
+            "A changed request requires a new submission_key; use the original key to recover an existing submission."
         ),
     }
 

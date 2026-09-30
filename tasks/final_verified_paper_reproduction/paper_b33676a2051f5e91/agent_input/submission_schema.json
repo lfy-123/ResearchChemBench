@@ -1,0 +1,125 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "search"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "validated_result",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "method_name",
+          "basis_or_model",
+          "solvent_treatment",
+          "free_energy_convention"
+        ],
+        "properties": {
+          "method_name": {
+            "type": "string"
+          },
+          "basis_or_model": {
+            "type": "string"
+          },
+          "solvent_treatment": {
+            "type": "string"
+          },
+          "free_energy_convention": {
+            "type": "string"
+          }
+        }
+      },
+      "search": {
+        "type": "object",
+        "required": [
+          "candidate_count",
+          "coverage"
+        ],
+        "properties": {
+          "candidate_count": {
+            "type": "integer"
+          },
+          "coverage": {
+            "type": "string"
+          },
+          "stopping_basis": {
+            "type": "string",
+            "description": "Optional commentary; no separate search-stopping explanation is required or scored."
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "validated_result"
+          },
+          "conclusion": {
+            "type": "object",
+            "required": [
+              "channel",
+              "frequency_validation",
+              "connection_validation",
+              "barrier_kcal_mol"
+            ],
+            "properties": {
+              "channel": {
+                "type": "string"
+              },
+              "frequency_validation": {
+                "type": "string"
+              },
+              "connection_validation": {
+                "type": "string"
+              },
+              "barrier_kcal_mol": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "conclusion"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "reason",
+              "attempted_candidates"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "attempted_candidates": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "failure"
+        ]
+      }
+    ]
+  }
+}

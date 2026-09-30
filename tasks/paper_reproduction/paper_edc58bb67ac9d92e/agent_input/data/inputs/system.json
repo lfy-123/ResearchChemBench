@@ -3,5 +3,6 @@
   "boron_reagent": {"id": "boron tribromide", "smiles": "B(Br)(Br)Br", "charge": 0, "multiplicity": 1, "stoichiometry": 2},
   "solvent": {"id": "1,2-dichloroethane", "smiles": "ClCCCl", "dielectric_context": "use a defensible implicit-solvent representation of DCE and report it"},
   "scope": "Model the pre-oxidation sequence from separated substrate + two BBr3 units through adduct, borenium, Wheland and borylation states. Oxidant, base and final deprotection are excluded.",
-  "energy_zero_definition": "Use the separated neutral substrate plus two neutral BBr3 molecules as the reported energy zero."
+  "energy_zero_definition": "Use the separated neutral substrate plus two neutral BBr3 molecules as the reported energy zero.",
+  "overall_barrier_definition": "Measure the overall barrier from adduct A plus the second neutral BBr3 molecule to the highest subsequent validated transition state. Distinguish this difference from the transition-state height above the separated profile zero."
 }

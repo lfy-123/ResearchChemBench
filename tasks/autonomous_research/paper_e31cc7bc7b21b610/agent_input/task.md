@@ -4,7 +4,7 @@ Determine, from first-principles computational chemistry, whether the two suppli
 
 ## Public inputs and scientific boundaries
 
-`data/inputs/cis_alpha_egan_IrCl.xyz` and `data/inputs/cis_beta_egan_IrCl.xyz` are complete Cartesian XYZ definitions of two named cis-(egan)IrCl structures, with element identities and coordinates. Both are neutral closed-shell singlets. The egan ligand is the hydrogen-substituted structure encoded in the files. The boundary is gas-phase electronic energies and stationary-point character; solvent, crystal packing, free energies, kinetics and barriers are excluded.
+`data/inputs/cis_alpha_egan_IrCl.xyz` and `data/inputs/cis_beta_egan_IrCl.xyz` are complete 58-atom Cartesian XYZ definitions of two named cis-(egan)IrCl structures, with element identities and coordinates. The cis-β file contains twelve hydrogen rows restored from the complete SI Cartesian table; `data/inputs/structure_provenance.json` records the repair and original-file hash. Both are neutral closed-shell singlets. The egan ligand is the hydrogen-substituted structure encoded in the files. The boundary is gas-phase electronic energies and stationary-point character; solvent, crystal packing, free energies, kinetics and barriers are excluded.
 
 ## Required scientific validation/investigation
 

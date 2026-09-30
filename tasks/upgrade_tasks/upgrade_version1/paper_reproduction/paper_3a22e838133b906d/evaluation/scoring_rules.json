@@ -1,0 +1,174 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use full source BCy2/o-phenyl phosphonate 2a and deethylated anion3, not only BMe2/OMe surrogate. Full anion is C20H31BO3P, charge-1 singlet; Li+ and MeCN are singlets. Source Li2O2 dimer has two anions, two Li and four MeCN (charge0 singlet). Each Li coordinates the exposed phosphoryl O of both anions and two MeCN N atoms; intramolecular O->B contact remains distinguishable. Use balanced 2 monomer -> dimer and MeCN association cycles. Dealkylation reaction is neutral+LiI -> Li.anion+EtI; do not subtract unlike neutral/anion total energies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use full source BCy2/o-phenyl phosphonate 2a and deethylated anion3, not only BMe2/OMe surrogate. Full anion is C20H31BO3P, charge-1 singlet; Li+ and MeCN are singlets. Source Li2O2 dimer has two anions, two Li and four MeCN (charge0 singlet). Each Li coordinates the exposed phosphoryl O of both anions and two MeCN N atoms; intramolecular O->B contact remains distinguishable. Use balanced 2 monomer -> dimer and MeCN association cycles. Dealkylation reaction is neutral+LiI -> Li.anion+EtI; do not subtract unlike neutral/anion total energies."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_coordination_layers",
+      "reference_id": "kp_coordination_layers",
+      "type": "semantic",
+      "expected": "Maintain full Cy and OEt groups and distinguish dimer versus monomer identities; every geometry needs genuine convergence and frequency/constraint evidence. Core rows: full_anion, Li_anion, Li_anion_2MeCN, crystal_supported_dimer. Recompute P_O_A, B_O_A, electronic_Eh, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.coordination_layers",
+          "$.calculation_records"
+        ],
+        "comparison": "Maintain full Cy and OEt groups and distinguish dimer versus monomer identities; every geometry needs genuine convergence and frequency/constraint evidence. Core rows: full_anion, Li_anion, Li_anion_2MeCN, crystal_supported_dimer. Recompute P_O_A, B_O_A, electronic_Eh, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_balanced_cycles",
+      "reference_id": "kp_balanced_cycles",
+      "type": "semantic",
+      "expected": "Recompute fragment/stoichiometry-balanced differences; explicit LiI/EtI or equivalent balanced deethylation accounting is required, never bare neutral-minus-anion energy. Core rows: Li_association, MeCN_association, dimerization, deethylation. Recompute delta_E_kJ_mol, delta_G_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.balanced_cycles",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute fragment/stoichiometry-balanced differences; explicit LiI/EtI or equivalent balanced deethylation accounting is required, never bare neutral-minus-anion energy. Core rows: Li_association, MeCN_association, dimerization, deethylation. Recompute delta_E_kJ_mol, delta_G_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_truncation_and_mechanism",
+      "reference_id": "kp_truncation_and_mechanism",
+      "type": "semantic",
+      "expected": "A full dimer is required for aggregation credit and paired small/full models for truncation. Local isolated-anion results do not explain the whole salt; no electrolyte performance claims. Core rows: small_vs_full, coordination_vs_aggregation. Recompute P_O_change_A, B_O_change_A, interaction_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.truncation_and_mechanism",
+          "$.calculation_records"
+        ],
+        "comparison": "A full dimer is required for aggregation credit and paired small/full models for truncation. Local isolated-anion results do not explain the whole salt; no electrolyte performance claims. Core rows: small_vs_full, coordination_vs_aggregation. Recompute P_O_change_A, B_O_change_A, interaction_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. A smaller local-only version would need separate scope deletion of aggregation; the present first version retains a mandatory full dimer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. A smaller local-only version would need separate scope deletion of aggregation; the present first version retains a mandatory full dimer."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use full source BCy2/o-phenyl phosphonate 2a and deethylated anion3, not only BMe2/OMe surrogate. Full anion is C20H31BO3P, charge-1 singlet; Li+ and MeCN are singlets. Source Li2O2 dimer has two anions, two Li and four MeCN (charge0 singlet). Each Li coordinates the exposed phosphoryl O of both anions and two MeCN N atoms; intramolecular O->B contact remains distinguishable. Use balanced 2 monomer -> dimer and MeCN association cycles. Dealkylation reaction is neutral+LiI -> Li.anion+EtI; do not subtract unlike neutral/anion total energies.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "coordination_layers",
+      "max_score": 20,
+      "description": "Maintain full Cy and OEt groups and distinguish dimer versus monomer identities; every geometry needs genuine convergence and frequency/constraint evidence. Core rows: full_anion, Li_anion, Li_anion_2MeCN, crystal_supported_dimer. Recompute P_O_A, B_O_A, electronic_Eh, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_coordination_layers"
+      ]
+    },
+    {
+      "id": "balanced_cycles",
+      "max_score": 25,
+      "description": "Recompute fragment/stoichiometry-balanced differences; explicit LiI/EtI or equivalent balanced deethylation accounting is required, never bare neutral-minus-anion energy. Core rows: Li_association, MeCN_association, dimerization, deethylation. Recompute delta_E_kJ_mol, delta_G_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_balanced_cycles"
+      ]
+    },
+    {
+      "id": "truncation_and_mechanism",
+      "max_score": 20,
+      "description": "A full dimer is required for aggregation credit and paired small/full models for truncation. Local isolated-anion results do not explain the whole salt; no electrolyte performance claims. Core rows: small_vs_full, coordination_vs_aggregation. Recompute P_O_change_A, B_O_change_A, interaction_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_truncation_and_mechanism"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. A smaller local-only version would need separate scope deletion of aggregation; the present first version retains a mandatory full dimer.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ]
+}

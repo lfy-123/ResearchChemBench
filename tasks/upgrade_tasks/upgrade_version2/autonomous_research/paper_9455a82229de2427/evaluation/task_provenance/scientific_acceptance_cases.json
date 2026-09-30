@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.262165+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_9455a82229de2427/documents/main.pdf",
+      "sha256": "cb6a4cf501837f252e2ceced551eefe8bcab8ca315fc4577e9daeb0d334476a1",
+      "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p3 单次碰撞条件，p5 给出 38 个产物异构体的作者 PES 分析；SI p3 起列 CBS-QB3(0 K)、Energy、Enthalpy、Free Energy，不能混用。",
+      "actual_read_pages_and_sections": "Main pp3–6 methods, reaction(1), Figs3–5; SI pp2–3 TableS1 and distinct energy definitions."
+    },
+    {
+      "path": "papers/paper_9455a82229de2427/documents/supplementary_001.pdf",
+      "sha256": "27409af9dd2e70aae498d28aec9956049b2fc88bfcd5fa7439d57583ab67edbb",
+      "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p3 单次碰撞条件，p5 给出 38 个产物异构体的作者 PES 分析；SI p3 起列 CBS-QB3(0 K)、Energy、Enthalpy、Free Energy，不能混用。",
+      "actual_read_pages_and_sections": "Main pp3–6 methods, reaction(1), Figs3–5; SI pp2–3 TableS1 and distinct energy definitions."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "An independently generated atom-balanced doublet pathway and product account matches the gas-phase channel and distinguishes accessibility from endpoint stability, using a justified method other than CBS-QB3.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Genuine pathway/product evidence supports more than one accessible product within source energy uncertainty; exclusivity is withheld.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "SiNC5H7 alone is compared with SiN plus isoprene, omitting eliminated H; a thermal free energy is compared to the measured collision-channel energy.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A verified product energy is retained as endpoint information; no route, barrierless mechanism or exclusive branching is claimed.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: Which product structures and formation account are supported for the atomic-hydrogen-loss channel of SiN reacting with isoprene under the supplied single-collision conditions? Establish what is identifiable from a defensible molecular investigation and what alternatives remain unresolved.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Check reactant and derived SiNC5H8/SiNC5H7/H atom conservation, electronic states and mapped connectivity. Product isomers are agent generated; formula agreement is not connectivity verification. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Match energetic quantities to the single-collision observation and disclose ZPE, thermal and electronic-state conventions. A claimed reaction sequence needs actual evidence connecting its structures; a saddle-point or barrierless claim needs appropriate physical validation. Bound conclusions by the explored candidates, inaccessible channels and numerical uncertainty, choosing a defensible validation method. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "Limit conclusions to the observed SiN/isoprene H-loss channel and the searched chemical space. Energetic compatibility alone does not establish a formation route or a branching ratio; do not infer equilibrium abundances at 298 K or general interstellar production rates. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

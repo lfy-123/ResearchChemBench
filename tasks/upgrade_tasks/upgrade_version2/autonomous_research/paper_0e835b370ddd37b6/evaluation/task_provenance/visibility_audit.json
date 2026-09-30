@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "public_files": [
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md",
+    "data/inputs/observations.json",
+    "data/inputs/systems.json",
+    "data/inputs/source_facts.json"
+  ],
+  "public_removals": [
+    {
+      "file": "silylene_1_singlet.xyz/silylene_Vprime_singlet.xyz",
+      "action": "replace coordinate seeds by full neutral connectivity",
+      "reason": "Keep complete source-model identity; avoid inherited optimized states or geometry hints."
+    },
+    {
+      "file": "species_registry.json",
+      "action": "source molecule graphs only",
+      "reason": "Remove matched-HH scan and fragmentation recipes; do not turn source truncation into experimental full molecule."
+    },
+    {
+      "file": "research_matrix.json",
+      "action": "private_snapshot_only",
+      "reason": "No fixed strain/interaction decomposition or HH0.8/1.0/1.2/1.4Å mandatory points."
+    }
+  ],
+  "private_V1_snapshot": true,
+  "private_final_snapshot_retained": true,
+  "source_pdf_exported": false,
+  "PR_guidance_public_only_in_PR": true,
+  "task_info_author_answer_metadata_removed": true,
+  "OS_access_isolation_verified": false,
+  "runtime_isolation_status": "pending",
+  "public_observations_are_not_blind_holdout": true
+}

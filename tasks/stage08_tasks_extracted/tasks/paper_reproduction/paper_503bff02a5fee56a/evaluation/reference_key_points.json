@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_503bff02a5fee56a",
+  "items": [
+    {
+      "key_point_id": "kp_process_inputs",
+      "key_point_type": "process",
+      "statement": "The submission uses the two named periodic cells and neutral singlet HMF with explicit identity and documents candidate generation, deduplication, relaxation and convergence.",
+      "expected": "System IDs and input provenance are explicit; candidate and validation records are present.",
+      "evidence_ids": [
+        "ev_si_tables_s8_s11"
+      ]
+    },
+    {
+      "key_point_id": "kp_process_charge",
+      "key_point_type": "process",
+      "statement": "The interface charge-transfer analysis defines a reproducible partition and sign convention and reports sensitivity or limitations.",
+      "expected": "Charge partition, sign and uncertainty/limitation are stated and tied to the CoO and NiO domains.",
+      "evidence_ids": [
+        "ev_main_fig3_charge"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_adsorption",
+      "key_point_type": "result",
+      "statement": "The computed adsorption energies distinguish the supplied NiO and CoO\u2013NiO(1:3) systems.",
+      "expected": "A system-identified comparison of E_ads values is reported, with formula and units.",
+      "evidence_ids": [
+        "ev_si_table_s6"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_transfer",
+      "key_point_type": "result",
+      "statement": "The heterostructure exhibits net interfacial electron redistribution consistent with the paper\u2019s reported charge analysis.",
+      "expected": "The submitted sign-defined charge-transfer result supports electron redistribution between CoO and NiO, or a scientifically justified bounded-failure limitation.",
+      "evidence_ids": [
+        "ev_main_fig3_charge"
+      ]
+    }
+  ]
+}

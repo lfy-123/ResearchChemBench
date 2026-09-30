@@ -1,0 +1,85 @@
+{
+  "systems": [
+    {
+      "id": "SNaft",
+      "name": "4-amino-N-(naphthalen-2-yl)benzenesulfonamide",
+      "smiles": "Nc1ccc(S(=O)(=O)Nc2ccc3ccccc3c2)cc1",
+      "charge": 0,
+      "multiplicity": 1,
+      "states": [
+        {
+          "id": "V_plus",
+          "torsion_region_deg": [
+            20,
+            80
+          ]
+        },
+        {
+          "id": "V_minus",
+          "torsion_region_deg": [
+            -80,
+            -20
+          ]
+        },
+        {
+          "id": "Z",
+          "torsion_regions_deg": [
+            [
+              -180,
+              -140
+            ],
+            [
+              140,
+              180
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SAntr",
+      "name": "4-amino-N-(anthracen-2-yl)benzenesulfonamide",
+      "smiles": "Nc1ccc(S(=O)(=O)Nc2ccc3cc4ccccc4cc3c2)cc1",
+      "charge": 0,
+      "multiplicity": 1,
+      "states": [
+        {
+          "id": "V_plus",
+          "torsion_region_deg": [
+            20,
+            80
+          ]
+        },
+        {
+          "id": "V_minus",
+          "torsion_region_deg": [
+            -80,
+            -20
+          ]
+        },
+        {
+          "id": "Z",
+          "torsion_regions_deg": [
+            [
+              -180,
+              -140
+            ],
+            [
+              140,
+              180
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "boundary": "Use neutral monomers. The torsion is the signed C-S-N-C dihedral; report the convention used and preserve its sign. Z is one near-trans state identity spanning both sides of the periodic +/-180-degree boundary; torsion_regions_deg is the union of the listed closed intervals. The state regions identify the three requested state identities, not expected energies.",
+  "primary_thermochemistry": {
+    "medium": "methanol continuum, isolated neutral monomer",
+    "temperature_K": 298.15,
+    "pressure_atm": 1.0,
+    "energy": "Electronic energy plus Grimme quasi-RRHO Gibbs thermal correction at 298.15 K and 1 atm, using vibrational-entropy interpolation with reference frequency 100 cm^-1 consistently for all six states. Keep rotational/symmetry conventions explicit.",
+    "relative_reference": "Subtract the lowest G separately for each molecule; report Z-minus-lowest and the V+/V- gap separately.",
+    "other_conditions": "Additional media/thermal treatments are sensitivity results, not interchangeable primary values."
+  }
+}

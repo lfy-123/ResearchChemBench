@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_b1467cd61ca8022d",
+  "task_type": "paper_reproduction",
+  "title": "Independent Li+-TFPM binding-energy test",
+  "category": "computational thermochemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The system is fixed, but the Agent must search and validate multiple Li orientations and TFPM conformers while testing a qualitative chelation hypothesis."
+  ],
+  "paper": {
+    "title": "Rational electrolyte solvent screening for high-energy lithium metal batteries at low temperatures",
+    "doi": "10.1038/s41467-025-67290-7",
+    "journal": "Nature Communications",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit TFPM connectivity and charge/state definitions for the isolated Li+-TFPM system."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated candidate search, energies, binding energy and interpretation."
+    }
+  ]
+}

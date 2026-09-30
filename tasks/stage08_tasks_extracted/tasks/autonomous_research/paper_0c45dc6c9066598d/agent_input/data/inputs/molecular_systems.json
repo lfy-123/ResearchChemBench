@@ -1,0 +1,9 @@
+{
+  "system_definition": "Two neutral isolated molecular models are required: 8OBAF acid and its 1:1 noncovalent complex with 4-cyanopyridine.",
+  "acid": {"id": "8OBAF", "name": "4-octyloxy-2-fluorobenzoic acid", "smiles": "O=C(O)c1c(F)cc(OCCCCCCCC)cc1", "formal_charge": 0, "multiplicity": 1},
+  "acceptor": {"id": "CNPy", "name": "4-cyanopyridine", "smiles": "N#Cc1ccncc1", "formal_charge": 0, "multiplicity": 1},
+  "complex": {"id": "8OBAF:CNPy", "components": ["8OBAF", "CNPy"], "stoichiometry": "1:1", "formal_charge": 0, "multiplicity": 1, "interaction_constraint": "Orient the 8OBAF carboxylic-acid hydroxyl H toward the pyridine ring N as an O-H...N hydrogen-bonded pair; do not create a covalent bond or change either component's connectivity."},
+  "model_boundary": "gas-phase isolated molecules/complex; no solvent, periodic cell, dielectric continuum or bulk alignment is part of the required observable",
+  "observable": "magnitude of the total molecular dipole moment in Debye",
+  "source_basis": "The supplied molecular identities define the computational system; no paper lookup is needed to establish connectivity."
+}

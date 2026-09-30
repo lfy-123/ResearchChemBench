@@ -1,0 +1,7 @@
+# Upgraded author-route and scope record
+
+The authors discuss cyclopropyl strain and double-boat/double-chair organization (main p4/Fig5) and use omegaB97X-D/def2-SVP geometries/frequencies, def2-TZVPP refinement, GoodVibes and selected dynamics. The benchmark keeps two local channels and an explicit same-graph torsional intervention; it does not require all bridged systems or trajectories. Prior two-TS energetics alone did not establish bidirectional connectivity or the proposed causal control.
+
+Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only.
+
+The AR public prompt excludes this route. AR and PR share objects, schema, scientific rubric and completion requirements. Development status: implemented_pending_expanded_reference. Old route and old PASS are historical only in the snapshot.

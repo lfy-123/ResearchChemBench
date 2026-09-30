@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<!-- ##################################################################### -->
+<!-- ### Hier Titel eintragen                                          ### -->
+<!-- ##################################################################### -->
+	<title>Institute for Theoretical Chemistry</title>
+	<meta name="creator" 		content="Michael Dolg">
+	<meta name="Reply-To" 		content="M. Dolg@uni-koeln.de">
+	<meta name="Content-language" content="EN">
+	<meta name="Page-type" content="Bildungseinrichtung">
+	<meta name="robots" content="INDEX,FOLLOW">
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<script src="./clickpse.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		language="en";
+	</script>
+</head>
+
+<body marginheight="0" marginwidth="0">
+
+<!-- ################################################################### -->
+<!--Beginn Inhalt-->
+<!-- ################################################################### -->
+<H2>Energy-consistent Pseudopotentials of the Stuttgart/Cologne Group</h2>
+<br>
+Chose the data format and click an element in the periodic table to get the pseudopotential parameters
+and corresponding optimized valence basis sets ! <br><br>
+
+<table border="0">
+	<tr>
+		<th align="left">Data format:</th>
+		<td>
+                <br>
+			<form>
+				<select name="ECPFormat" size="1" onchange="format=this.form.ECPFormat.options[this.form.ECPFormat.selectedIndex].value" onload="format=this.form.ECPFormat.options[this.form.ECPFormat.selectedIndex].value">
+					<option value="molpro">Molpro</option>
+					<option value="gaussian">Gaussian</option>
+					<option value="turbomole">Turbomole</option>
+					<option value="crystal">Crystal06 and earlier versions</option>
+					<option value="crystal09">Crystal09</option>
+				</select>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+		<td>
+		</td>
+	</tr>
+        <tr>
+		<th align="left"><h4>Periodic system of elements:</th>
+        </tr>
+</table>
+
+<table border="0">
+<!-- Hinweis auf H und He -->
+			<div id="HL" style="visibility:hidden"
+				onmousedown="shownav('HL');"
+				onmouseout="hidenav('HL');">
+				<p style="font-size:large;color:#FF0000;font-weight:bold;text-align:justify">No core, no <b>EC</b>(=core)<b>P</b></p>
+		</div>
+
+		<map name="PeriodensystemMap">
+			<area id="H" shape="rect" coords="10,10,45,40" alt="H"
+			onmousedown="shownav('HL');"
+			onmouseout="hidenav('HL');">
+			<area id="Li" shape="rect" coords="10,40,45,70" href="javascript:zeigElement('Li')" alt="Li">
+			<area id="Na" shape="rect" coords="10,71,45,102" href="javascript:zeigElement('Na')" alt="Na">
+			<area id="K" shape="rect" coords="10,103,45,133" href="javascript:zeigElement('K')" alt="K">
+			<area id="Rb" shape="rect" coords="10,134,45,165" href="javascript:zeigElement('Rb')" alt="Rb">
+			<area id="Cs" shape="rect" coords="10,165,45,196" href="javascript:zeigElement('Cs')" alt="Cs">
+			<area id="Fr" shape="rect" coords="10,196,45,227" href="javascript:zeigElement('Fr')" alt="Fr">
+			<area id="Un" shape="rect" coords="10,196,45,258" href="javascript:zeigElement('Un')" alt="Un">
+
+			<area id="Be" shape="rect" coords="45,40,80,71" href="javascript:zeigElement('Be')" alt="Be">
+			<area id="Mg" shape="rect" coords="45,71,80,102" href="javascript:zeigElement('Mg')" alt="Mg">
+			<area id="Ca" shape="rect" coords="45,102,80,133" href="javascript:zeigElement('Ca')" alt="Ca">
+			<area id="Sr" shape="rect" coords="45,134,80,165" href="javascript:zeigElement('Sr')" alt="Sr">
+			<area id="Ba" shape="rect" coords="45,165,80,196" href="javascript:zeigElement('Ba')" alt="Ba">
+			<area id="Ra" shape="rect" coords="45,196,80,227" href="javascript:zeigElement('Ra')" alt="Ra">
+			<area id="Ux" shape="rect" coords="45,196,80,258" href="javascript:zeigElement('Ux')" alt="Ux">
+
+			<area id="Sc" shape="rect" coords="81,103,116,134" href="javascript:zeigElement('Sc')" alt="Sc">
+			<area id="Y" shape="rect" coords="81,133,116,164" href="javascript:zeigElement('Y')" alt="Y">
+<!--			<area id="La" shape="rect" coords="81,165,116,196" href="javascript:zeigElement('La')" alt="La">   -->
+<!--			<area id="Ac" shape="rect" coords="81,196,116,227" href="javascript:zeigElement('Ac')" alt="Ac">   -->
+			<area id="La" shape="rect" coords="81,257,116,289" href="javascript:zeigElement('La')" alt="La">
+			<area id="Ac" shape="rect" coords="81,289,116,320" href="javascript:zeigElement('Ac')" alt="Ac">
+
+			<area id="Ti" shape="rect" coords="117,103,152,134" href="javascript:zeigElement('Ti')" alt="Ti">
+			<area id="Zr" shape="rect" coords="117,133,152,164" href="javascript:zeigElement('Zr')" alt="Zr">
+			<area id="Hf" shape="rect" coords="117,165,152,196" href="javascript:zeigElement('Hf')" alt="Hf">
+			<area id="Rf" shape="rect" coords="117,196,152,227" href="javascript:zeigElement('Rf')" alt="Rf">
+			<area id="Ce" shape="rect" coords="117,257,152,289" href="javascript:zeigElement('Ce')" alt="Ce">
+			<area id="Th" shape="rect" coords="117,289,152,320" href="javascript:zeigElement('Th')" alt="Th">
+
+			<area id="V" shape="rect" coords="153,103,188,134" href="javascript:zeigElement('V')" alt="V">
+			<area id="Nb" shape="rect" coords="153,133,188,164" href="javascript:zeigElement('Nb')" alt="Nb">
+			<area id="Ta" shape="rect" coords="153,165,188,196" href="javascript:zeigElement('Ta')" alt="Ta">
+			<area id="Ha" shape="rect" coords="153,196,188,227" href="javascript:zeigElement('Ha')" alt="Ha">
+			<area id="Pr" shape="rect" coords="153,257,188,289" href="javascript:zeigElement('Pr')" alt="Pr">
+			<area id="Pa" shape="rect" coords="153,289,188,320" href="javascript:zeigElement('Pa')" alt="Pa">
+
+			<area id="Cr" shape="rect" coords="188,103,223,134" href="javascript:zeigElement('Cr')" alt="Cr">
+			<area id="Mo" shape="rect" coords="188,133,223,164" href="javascript:zeigElement('Mo')" alt="Mo">
+			<area id="W" shape="rect" coords="188,165,223,196" href="javascript:zeigElement('W')" alt="W">
+			<area id="Sg" shape="rect" coords="188,196,223,227" href="javascript:zeigElement('Sg')" alt="Sg">
+			<area id="Nd" shape="rect" coords="188,257,223,289" href="javascript:zeigElement('Nd')" alt="Nd">
+			<area id="U" shape="rect" coords="188,289,223,320" href="javascript:zeigElement('U')" alt="U">
+
+			<area id="Mn" shape="rect" coords="224,103,259,133" href="javascript:zeigElement('Mn')" alt="Mn">
+			<area id="Tc" shape="rect" coords="224,133,259,164" href="javascript:zeigElement('Tc')" alt="Tc">
+			<area id="Re" shape="rect" coords="224,165,259,196" href="javascript:zeigElement('Re')" alt="Re">
+			<area id="Bh" shape="rect" coords="224,196,259,227" href="javascript:zeigElement('Bh')" alt="Bh">
+			<area id="Pm" shape="rect" coords="224,257,259,289" href="javascript:zeigElement('Pm')" alt="Pm">
+			<area id="Np" shape="rect" coords="224,289,259,320" href="javascript:zeigElement('Np')" alt="Np">
+
+			<area id="Fe" shape="rect" coords="259,103,294,133" href="javascript:zeigElement('Fe')" alt="Fe">
+			<area id="Ru" shape="rect" coords="259,133,294,164" href="javascript:zeigElement('Ru')" alt="Ru">
+			<area id="Os" shape="rect" coords="259,165,294,196" href="javascript:zeigElement('Os')" alt="Os">
+			<area id="Hs" shape="rect" coords="259,196,294,227" href="javascript:zeigElement('Hs')" alt="Hs">
+			<area id="Sm" shape="rect" coords="259,257,294,289" href="javascript:zeigElement('Sm')" alt="Sm">
+			<area id="Pu" shape="rect" coords="259,289,294,320" href="javascript:zeigElement('Pu')" alt="Pu">
+
+			<area id="Co" shape="rect" coords="295,103,330,133" href="javascript:zeigElement('Co')" alt="Co">
+			<area id="Rh" shape="rect" coords="295,133,330,164" href="javascript:zeigElement('Rh')" alt="Rh">
+			<area id="Ir" shape="rect" coords="295,165,330,196" href="javascript:zeigElement('Ir')" alt="Ir">
+			<area id="Mt" shape="rect" coords="295,196,330,227" href="javascript:zeigElement('Mt')" alt="Mt">
+			<area id="Eu" shape="rect" coords="295,257,330,289" href="javascript:zeigElement('Eu')" alt="Eu">
+			<area id="Am" shape="rect" coords="295,289,330,320" href="javascript:zeigElement('Am')" alt="Am">
+
+			<area id="Ni" shape="rect" coords="331,103,366,133" href="javascript:zeigElement('Ni')" alt="Ni">
+			<area id="Pd" shape="rect" coords="331,133,366,164" href="javascript:zeigElement('Pd')" alt="Pd">
+			<area id="Pt" shape="rect" coords="331,165,366,196" href="javascript:zeigElement('Pt')" alt="Pt">
+			<area id="Ds" shape="rect" coords="331,196,366,227" href="javascript:zeigElement('Ds')" alt="Ds">
+			<area id="Gd" shape="rect" coords="331,257,366,289" href="javascript:zeigElement('Gd')" alt="Gd">
+			<area id="Cm" shape="rect" coords="331,289,366,320" href="javascript:zeigElement('Cm')" alt="Cm">
+
+			<area id="Cu" shape="rect" coords="366,103,401,133" href="javascript:zeigElement('Cu')" alt="Cu">
+			<area id="Ag" shape="rect" coords="366,133,401,164" href="javascript:zeigElement('Ag')" alt="Ag">
+			<area id="Au" shape="rect" coords="366,165,401,196" href="javascript:zeigElement('Au')" alt="Au">
+			<area id="Rg" shape="rect" coords="366,196,401,227" href="javascript:zeigElement('Rg')" alt="Rg">
+			<area id="Tb" shape="rect" coords="366,257,401,289" href="javascript:zeigElement('Tb')" alt="Tb">
+			<area id="Bk" shape="rect" coords="366,289,401,320" href="javascript:zeigElement('Bk')" alt="Bk">
+
+			<area id="Zn" shape="rect" coords="402,103,437,133" href="javascript:zeigElement('Zn')" alt="Zn">
+			<area id="Cd" shape="rect" coords="402,133,437,164" href="javascript:zeigElement('Cd')" alt="Cd">
+			<area id="Hg" shape="rect" coords="402,165,437,196" href="javascript:zeigElement('Hg')" alt="Hg">
+			<area id="Cn" shape="rect" coords="402,196,437,227" href="javascript:zeigElement('Cn')" alt="Cn">
+			<area id="Dy" shape="rect" coords="402,257,437,289" href="javascript:zeigElement('Dy')" alt="Dy">
+			<area id="Cf" shape="rect" coords="402,289,437,320" href="javascript:zeigElement('Cf')" alt="Cf">
+
+			<area id="B" shape="rect" coords="437,40,472,70" href="javascript:zeigElement('B')" alt="B">
+			<area id="Al" shape="rect" coords="437,71,472,102" href="javascript:zeigElement('Al')" alt="Al">
+			<area id="Ga" shape="rect" coords="437,103,472,133" href="javascript:zeigElement('Ga')" alt="Ga">
+			<area id="In" shape="rect" coords="437,133,472,164" href="javascript:zeigElement('In')" alt="In">
+			<area id="Tl" shape="rect" coords="437,165,472,196" href="javascript:zeigElement('Tl')" alt="Tl">
+			<area id="Ut" shape="rect" coords="437,165,472,227" href="javascript:zeigElement('Ut')" alt="Ut">
+			<area id="Ho" shape="rect" coords="437,257,472,289" href="javascript:zeigElement('Ho')" alt="Ho">
+			<area id="Es" shape="rect" coords="437,289,472,320" href="javascript:zeigElement('Es')" alt="Es">
+
+			<area id="C" shape="rect" coords="473,40,508,70" href="javascript:zeigElement('C')" alt="C">
+			<area id="Si" shape="rect" coords="473,71,508,102" href="javascript:zeigElement('Si')" alt="Si">
+			<area id="Ge" shape="rect" coords="473,103,508,133" href="javascript:zeigElement('Ge')" alt="Ge">
+			<area id="Sn" shape="rect" coords="473,133,508,164" href="javascript:zeigElement('Sn')" alt="Sn">
+			<area id="Pb" shape="rect" coords="473,165,508,196" href="javascript:zeigElement('Pb')" alt="Pb">
+			<area id="Fl" shape="rect" coords="473,165,508,227" href="javascript:zeigElement('Fl')" alt="Fl">
+			<area id="Er" shape="rect" coords="473,257,508,289" href="javascript:zeigElement('Er')" alt="Er">
+			<area id="Fm" shape="rect" coords="473,289,508,320" href="javascript:zeigElement('Fm')" alt="Fm">
+
+			<area id="N" shape="rect" coords="509,40,544,70" href="javascript:zeigElement('N')" alt="N">
+			<area id="P" shape="rect" coords="509,71,544,102" href="javascript:zeigElement('P')" alt="P">
+			<area id="As" shape="rect" coords="509,103,544,133" href="javascript:zeigElement('As')" alt="As">
+			<area id="Sb" shape="rect" coords="509,133,544,164" href="javascript:zeigElement('Sb')" alt="Sb">
+			<area id="Bi" shape="rect" coords="509,165,544,196" href="javascript:zeigElement('Bi')" alt="Bi">
+			<area id="Up" shape="rect" coords="509,165,544,227" href="javascript:zeigElement('Up')" alt="Up">
+			<area id="Tm" shape="rect" coords="509,257,544,289" href="javascript:zeigElement('Tm')" alt="Tm">
+			<area id="Md" shape="rect" coords="509,289,544,320" href="javascript:zeigElement('Md')" alt="Md">
+
+			<area id="O" shape="rect" coords="544,40,579,70" href="javascript:zeigElement('O')" alt="O">
+			<area id="S" shape="rect" coords="544,71,579,102" href="javascript:zeigElement('S')" alt="S">
+			<area id="Se" shape="rect" coords="544,103,579,133" href="javascript:zeigElement('Se')" alt="Se">
+			<area id="Te" shape="rect" coords="544,133,579,164" href="javascript:zeigElement('Te')" alt="Te">
+			<area id="Po" shape="rect" coords="544,165,579,196" href="javascript:zeigElement('Po')" alt="Po">
+			<area id="Lv" shape="rect" coords="544,165,579,227" href="javascript:zeigElement('Lv')" alt="Lv">
+			<area id="Yb" shape="rect" coords="544,257,579,289" href="javascript:zeigElement('Yb')" alt="Yb">
+			<area id="No" shape="rect" coords="544,289,579,320" href="javascript:zeigElement('No')" alt="No">
+
+			<area id="F" shape="rect" coords="580,40,615,70" href="javascript:zeigElement('F')" alt="F">
+			<area id="Cl" shape="rect" coords="580,71,615,102" href="javascript:zeigElement('Cl')" alt="Cl">
+			<area id="Br" shape="rect" coords="580,103,615,133" href="javascript:zeigElement('Br')" alt="Br">
+			<area id="I" shape="rect" coords="580,133,615,164" href="javascript:zeigElement('I')" alt="I">
+			<area id="At" shape="rect" coords="580,165,615,196" href="javascript:zeigElement('At')" alt="At">
+			<area id="Us" shape="rect" coords="580,165,615,227" href="javascript:zeigElement('Us')" alt="Us">
+			<area id="Lu" shape="rect" coords="580,257,615,289" href="javascript:zeigElement('Lu')" alt="Lu">
+			<area id="Lr" shape="rect" coords="580,289,615,320" href="javascript:zeigElement('Lr')" alt="Lr">
+
+			<area id="He" shape="rect" coords="616,10,651,40" alt="He" onmousedown="shownav('HL');" onmouseout="hidenav('HL');">
+			<area id="Ne" shape="rect" coords="616,40,651,70" href="javascript:zeigElement('Ne')" alt="Ne">
+			<area id="Ar" shape="rect" coords="616,71,651,102" href="javascript:zeigElement('Ar')" alt="Ar">
+			<area id="Kr" shape="rect" coords="616,103,651,133" href="javascript:zeigElement('Kr')" alt="Kr">
+			<area id="Xe" shape="rect" coords="616,133,651,164" href="javascript:zeigElement('Xe')" alt="Xe">
+			<area id="Rn" shape="rect" coords="616,165,651,196" href="javascript:zeigElement('Rn')" alt="Rn">
+			<area id="Uo" shape="rect" coords="616,165,651,227" href="javascript:zeigElement('Uo')" alt="Uo">
+		</map>
+		<img src="./pse.gif" width="653" height="326" usemap="#PeriodensystemMap" alt="verweis-sensitives Periodensystem" border=0>
+</table>
+    <!--Ende Inhalt-->
+  </td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+      </table>
+    </td></tr>
+      <tr>
+	  <td valign="bottom" height="15">
+                 <table height="15" width="100%" cellspacing="0" cellpadding="0" border="0" >
+                 <tr>
+                 <tr>
+                 <td class="footer" align="middle" valign="bottom" width="100%">Last change 10.07.2014&nbsp;|
+                 &nbsp;<a href="mailto:m.dolg@uni-koeln.de" class="blacklink">Webmaster</a>&nbsp;|
+                 &nbsp;&copy;&nbsp;University of Cologne&nbsp;|
+                 &nbsp;<a href="http://www.portal.uni-koeln.de/impressum.html" class="blacklink">Impressum</a>
+                 </td>
+                 </tr>
+                 </tr>
+                 </table>
+
+     </td>
+     </tr>
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- Start of SimpleHitCounter Code -->
+<div align="center"><a href="http://www.simplehitcounter.com" target="_blank"><img src="http://simplehitcounter.com/hit.php?uid=1531090&f=255&b=65535" border="0" height="18" width="83" alt="web counter"></a><br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a></div>
+<!-- End of SimpleHitCounter Code -->
+</body>
+</html>

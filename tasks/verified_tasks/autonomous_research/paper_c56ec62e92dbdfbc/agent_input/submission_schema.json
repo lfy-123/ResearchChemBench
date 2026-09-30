@@ -1,0 +1,536 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "coverage",
+      "candidates"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "bounded_failure"
+        ],
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "method": {
+        "type": "object"
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "hypotheses_considered",
+          "candidates_generated",
+          "candidates_advanced",
+          "candidates_validated",
+          "stopping_basis"
+        ],
+        "properties": {
+          "hypotheses_considered": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "hypothesis_id",
+                "description",
+                "disposition",
+                "rationale"
+              ],
+              "properties": {
+                "hypothesis_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "disposition": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "candidates_generated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "candidates_advanced": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "candidates_validated": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "stopping_basis": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "pathway_family",
+            "validation"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "pathway_family": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "product_configuration": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "forming_atom_pair": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "disposition"
+              ],
+              "properties": {
+                "ts_geometry_file": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                },
+                "imaginary_frequency_count": {
+                  "type": "integer"
+                },
+                "imaginary_frequency_value_cm-1": {
+                  "type": "number"
+                },
+                "intended_mode_evidence": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "connectivity_evidence": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "disposition": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "status": {
+                  "enum": [
+                    "validated",
+                    "failed",
+                    "partial"
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "const": "validated"
+                      }
+                    },
+                    "required": [
+                      "status"
+                    ]
+                  },
+                  "then": {
+                    "type": "object",
+                    "required": [
+                      "ts_geometry_file",
+                      "charge",
+                      "multiplicity",
+                      "imaginary_frequency_count",
+                      "imaginary_frequency_value_cm-1",
+                      "intended_mode_evidence",
+                      "connectivity_evidence",
+                      "disposition"
+                    ],
+                    "properties": {
+                      "ts_geometry_file": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "charge": {
+                        "type": "integer"
+                      },
+                      "multiplicity": {
+                        "type": "integer"
+                      },
+                      "imaginary_frequency_count": {
+                        "type": "integer"
+                      },
+                      "imaginary_frequency_value_cm-1": {
+                        "type": "number"
+                      },
+                      "intended_mode_evidence": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "connectivity_evidence": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "disposition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "failed",
+                          "partial"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "status"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "failure_reason"
+                    ],
+                    "properties": {
+                      "failure_reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "not": {
+                      "required": [
+                        "status"
+                      ]
+                    }
+                  },
+                  "then": {
+                    "type": "object",
+                    "required": [
+                      "ts_geometry_file",
+                      "charge",
+                      "multiplicity",
+                      "imaginary_frequency_count",
+                      "imaginary_frequency_value_cm-1",
+                      "intended_mode_evidence",
+                      "connectivity_evidence",
+                      "disposition"
+                    ],
+                    "properties": {
+                      "ts_geometry_file": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "charge": {
+                        "type": "integer"
+                      },
+                      "multiplicity": {
+                        "type": "integer"
+                      },
+                      "imaginary_frequency_count": {
+                        "type": "integer"
+                      },
+                      "imaginary_frequency_value_cm-1": {
+                        "type": "number"
+                      },
+                      "intended_mode_evidence": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "connectivity_evidence": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "disposition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "validation": {
+                    "anyOf": [
+                      {
+                        "properties": {
+                          "status": {
+                            "const": "validated"
+                          }
+                        },
+                        "required": [
+                          "status"
+                        ]
+                      },
+                      {
+                        "not": {
+                          "required": [
+                            "status"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "product_configuration",
+                  "forming_atom_pair"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "selected_R_pathway_id": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "selected_S_pathway_id": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "barrier_R_kcal_mol": {
+        "type": "number"
+      },
+      "barrier_S_kcal_mol": {
+        "type": "number"
+      },
+      "delta_delta_G_dagger_kcal_mol": {
+        "type": "number"
+      },
+      "favored_configuration": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "selectivity_determining_event": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "step_comparison": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "conclusion": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+      },
+      "unresolved_blockers": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "partial_results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "minProperties": 1
+        }
+      },
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "Optional additional or unsuccessful trials, separate from primary results."
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "selected_R_pathway_id",
+          "selected_S_pathway_id",
+          "barrier_R_kcal_mol",
+          "barrier_S_kcal_mol",
+          "delta_delta_G_dagger_kcal_mol",
+          "favored_configuration",
+          "selectivity_determining_event",
+          "step_comparison",
+          "conclusion",
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "success"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "electronic_structure",
+              "thermal_correction",
+              "reference_definition",
+              "temperature_K"
+            ],
+            "properties": {
+              "electronic_structure": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "thermal_correction": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "reference_definition": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "temperature_K": {
+                "type": "number"
+              }
+            }
+          },
+          "candidates": {
+            "minItems": 2
+          }
+        }
+      },
+      {
+        "required": [
+          "unresolved_blockers",
+          "status",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "unresolved_blockers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "selected_R_pathway_id"
+              ]
+            },
+            {
+              "required": [
+                "selected_S_pathway_id"
+              ]
+            },
+            {
+              "required": [
+                "barrier_R_kcal_mol"
+              ]
+            },
+            {
+              "required": [
+                "barrier_S_kcal_mol"
+              ]
+            },
+            {
+              "required": [
+                "delta_delta_G_dagger_kcal_mol"
+              ]
+            },
+            {
+              "required": [
+                "favored_configuration"
+              ]
+            },
+            {
+              "required": [
+                "selectivity_determining_event"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+  }
+}

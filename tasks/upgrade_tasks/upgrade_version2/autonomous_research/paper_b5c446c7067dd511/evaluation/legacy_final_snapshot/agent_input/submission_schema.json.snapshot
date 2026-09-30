@@ -1,0 +1,186 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/methods_and_validation.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "molecules",
+      "hypotheses",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "molecules": {
+        "type": "array",
+        "minItems": 4,
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "validation_status",
+                "states",
+                "delta_s1_t1",
+                "validation_evidence",
+                "state_character",
+                "convergence_evidence",
+                "structure_evidence",
+                "formula",
+                "charge",
+                "multiplicity"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string"
+                },
+                "states": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "label",
+                      "spin",
+                      "energy_eV"
+                    ],
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "spin": {
+                        "type": "string"
+                      },
+                      "energy_eV": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "delta_s1_t1": {
+                  "type": "number"
+                },
+                "validation_evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "state_character": {
+                  "type": "string"
+                },
+                "convergence_evidence": {
+                  "type": "string"
+                },
+                "structure_evidence": {
+                  "type": "string"
+                },
+                "state_diagnostics": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "hot_channel_assessment": {
+                  "type": "string"
+                },
+                "formula": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "validation_status",
+                "validation_evidence",
+                "failure_reason",
+                "coverage_note",
+                "formula",
+                "charge",
+                "multiplicity",
+                "structure_evidence"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string"
+                },
+                "validation_evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "failure_reason": {
+                  "type": "string"
+                },
+                "coverage_note": {
+                  "type": "string"
+                },
+                "formula": {
+                  "type": "string"
+                },
+                "charge": {
+                  "type": "integer"
+                },
+                "multiplicity": {
+                  "type": "integer"
+                },
+                "structure_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "assessment",
+            "evidence"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "assessment": {
+              "type": "string"
+            },
+            "evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string",
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      }
+    }
+  }
+}

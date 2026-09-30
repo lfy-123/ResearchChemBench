@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "items": [
+    {
+      "key_point_id": "ar_process_optimization",
+      "key_point_type": "process",
+      "statement": "The submission independently performs and documents a converged optimization for neutral singlet M3 and validates the stationary point or reports bounded failure.",
+      "expected": "A reproducible optimization with convergence evidence and correct charge/multiplicity, with the required minimum-validation evidence.",
+      "evidence_ids": [
+        "ev_doc_807d3d1df12c_000194_3a3167107ee8"
+      ]
+    },
+    {
+      "key_point_id": "ar_process_axis",
+      "key_point_type": "process",
+      "statement": "The submission constructs a physically justified molecular frame and measures planarity and the shortest chemically relevant N···S contact.",
+      "expected": "Explicit frame/axis construction and object-specific structural metrics from the optimized geometry.",
+      "evidence_ids": [
+        "ev_doc_807d3d1df12c_000028_db19c7557038",
+        "ev_doc_807d3d1df12c_000030_79d6a1267049"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_tensor",
+      "key_point_type": "result",
+      "statement": "The submission reports the complete quadrupole tensor and the component along its independently assigned stacking axis.",
+      "expected": "Qxx, Qyy and stacking-axis component in Debye angstrom, with convention and origin disclosed. Use the raw Cartesian charge second-moment tensor, not the traceless tensor; source SI Table S1 prints Debye, but the dimensional unit used by the task and Gaussian raw quadrupole is Debye angstrom.",
+      "evidence_ids": [
+        "ev_doc_b2705987463b_000041_0d9109c0bce5"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_structure",
+      "key_point_type": "result",
+      "statement": "The submission states whether its independent results support a planar, net-dipole-cancelled quadrupolar description.",
+      "expected": "A calculation-based structural/electrostatic interpretation from the mapped observables and validation evidence.",
+      "evidence_ids": [
+        "ev_doc_807d3d1df12c_000009_b66d2903a01d",
+        "ev_doc_807d3d1df12c_000030_79d6a1267049"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Historical reference boundary
+
+The exact previous file is retained at `legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot`. It describes the old scalar scope only and is NOT an expanded reference.
+
+The 2026-09-27 verification inventory recovered eight historical Gaussian PBE0/def2SVP n2 local-minimum candidates with 81 atoms and 237 positive frequencies. An independent supervisor parse checks raw log/input hashes, stationarity, the P-centered icosahedral Al12 adjacency and both element-labelled ligand graphs. The selected opposite-site neutral doublet and anion singlet retain the complete object; their electronic AEA is 3.9455364457428788 eV and ZPE-corrected AEA is 3.959169350252118 eV. These are historical baseline values, never expanded acceptance targets or tolerances. Native atom order differs from the public map; use the explicit graph mapping in task_provenance/historical_n2_reaudit.json. Other local minima include long Al-B contacts and require candidate-specific attachment interpretation. No global-minimum or shell-orbital claim follows. The later AR GFN2 reconstructed aggregate and unconverged PBEh-3c runs remain invalid intact endpoints, but do not erase the earlier valid Gaussian evidence. The full expanded reference remains pending.
+
+Current status: implemented_pending_expanded_reference; expanded reference not validated. See `reference_validation_plan.md` and `task_provenance/source_review.json`. No new scientific reference calculations.

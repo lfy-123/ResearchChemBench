@@ -1,0 +1,75 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": ["status", "system_validation", "enantiomer_results", "conclusion", "limitations"],
+        "properties": {
+          "status": {"const": "complete"},
+          "system_validation": {"type":"object", "required":["formula","charge","multiplicity","coordinate_atom_count","checks"]},
+          "enantiomer_results": {"type":"array", "minItems":2, "items":{"type":"object", "required":["assignment","similarity","unit","method","conformer_count","validation_evidence","spectrum_provenance"]}},
+          "conclusion": {"type":"object", "required":["supported_assignment","basis","confidence_statement"]},
+          "limitations": {"type":"array", "items":{"type":"string"}}
+        }
+      },
+      {
+        "required": ["status", "system_validation", "failure_report", "limitations"],
+        "properties": {
+          "status": {"const":"bounded_failure"},
+          "system_validation": {"type":"object", "required":["formula","charge","multiplicity","coordinate_atom_count","checks"]},
+          "failure_report": {"type":"object", "required":["failed_calculations","attempted_assignments","evidence_obtained"]},
+          "limitations": {"type":"array", "items":{"type":"string"}}
+        }
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "system_validation": {
+        "type": "object",
+        "required": [
+          "formula",
+          "charge",
+          "multiplicity",
+          "coordinate_atom_count",
+          "checks"
+        ]
+      },
+      "enantiomer_results": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "assignment",
+            "similarity",
+            "unit",
+            "method",
+            "conformer_count",
+            "validation_evidence",
+            "spectrum_provenance"
+          ]
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "supported_assignment",
+          "basis",
+          "confidence_statement"
+        ]
+      },
+      "failure_report": {"type":"object"},
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

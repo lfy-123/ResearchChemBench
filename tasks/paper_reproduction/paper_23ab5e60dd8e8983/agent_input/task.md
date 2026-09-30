@@ -4,7 +4,7 @@ Determine, by an independently planned electronic-structure calculation, the HOM
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/ni_o_qu.smiles` and `data/inputs/system.json`. The molecule is the explicitly specified E-styryl NI(O)-Qu constitution, formula C26H19N2O5, net charge 0, multiplicity 1, with phenoxide anion and N-methylquinolinium cation. The naphthalimide, quinolinium and linker fragments are defined in `system.json`. The physical system is one isolated molecule; no iodide, explicit solvent, biomolecule or crystal is part of the target. Report orbital eigenvalues in eV and spatial/fragment localization. These are model-dependent orbital observables, not experimental excitation energies.
+Use `data/inputs/ni_o_qu.smiles` and `data/inputs/system.json`. The molecule is the explicitly specified E-styryl NI(O)-Qu constitution, formula C26H18N2O5, net charge 0, multiplicity 1, with phenoxide anion and N-methylquinolinium cation. The naphthalimide, quinolinium and linker fragments are defined in `system.json`. The physical system is one isolated molecule; no iodide, explicit solvent, biomolecule or crystal is part of the target. Report orbital eigenvalues in eV and spatial/fragment localization. These are model-dependent orbital observables, not experimental excitation energies.
 
 # Required scientific validation/investigation
 

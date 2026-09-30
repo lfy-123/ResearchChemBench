@@ -1,6 +1,6 @@
 # Scientific objective
 
-Determine harmonic low-frequency lateral Y2 modes of Y2@Ih-C80(CH2Ph) and Y2@D5h-C80(CH2Ph), compare frequencies, and assess spin-lattice-relaxation implications. Lateral means substantial Y2 displacement parallel to the cage inner surface, not Y-Y-axis or framework motion. Atoms 88 and 89 are Y.
+Determine harmonic low-frequency lateral Y2 modes of Y2@Ih-C80(CH2Ph) and Y2@D5h-C80(CH2Ph), compare frequencies, and assess spin-lattice-relaxation implications. Lateral means substantial Y2 displacement parallel to the cage inner surface, not Y-Y-axis or framework motion. Atoms 81 and 82 (one-based XYZ atom records, excluding the two header lines) are Y; verify element labels rather than relying on an unverified index.
 
 The authors qualitatively propose that cage isomerism changes the Y2-motion potential surface and lateral modes help explain T1 differences; independently test this.
 

@@ -1,0 +1,18 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object", "required": ["status", "compounds", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+      "compounds": {"type": "array", "minItems": 4, "items": {"oneOf": [
+        {"type": "object", "required": ["id", "status", "method", "convergence", "dihedrals", "orbital_localization", "validation"], "properties": {
+          "id": {"type": "string", "enum": ["MeAC", "TfAC", "MeACFy", "TfACFy"]}, "status": {"const": "complete"}, "method": {"type": "object", "required": ["software", "method", "basis", "charge", "multiplicity", "structure_provenance"]}, "convergence": {"type": "object", "required": ["optimized", "evidence", "termination_record"]}, "dihedrals": {"type": "object", "required": ["alpha3", "beta1"], "properties": {"alpha3": {"type": "object", "required": ["signed_value_deg", "value_deg", "atom_indices"]}, "beta1": {"type": ["object", "null"], "properties": {"signed_value_deg": {"type": "number"}, "value_deg": {"type": "number"}, "atom_indices": {"type": "array", "minItems": 4, "maxItems": 4}}}}}, "orbital_localization": {"type": "object", "required": ["fragment_definitions", "homo_fragments", "lumo_fragments"]}, "validation": {"type": "object", "required": ["type", "evidence"]}
+        }},
+        {"type": "object", "required": ["id", "status", "failure"], "properties": {"id": {"type": "string", "enum": ["MeAC", "TfAC", "MeACFy", "TfACFy"]}, "status": {"const": "bounded_failure"}, "failure": {"type": "object", "required": ["stage", "evidence", "attempted_remedies", "bounded_conclusion"]}}}
+      ]}},
+      "comparisons": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["pair", "finding", "evidence"]}}, "conclusion": {"type": "string"}, "limitations": {"type": "array", "items": {"type": "string"}}, "failure_summary": {"type": "string"}
+    },
+    "oneOf": [{"required": ["comparisons", "conclusion"], "properties": {"status": {"const": "complete"}}}, {"required": ["failure_summary"], "properties": {"status": {"const": "bounded_failure"}}}]
+  }
+}

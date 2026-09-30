@@ -1,0 +1,385 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "acid",
+          "complex",
+          "method",
+          "conformer_sensitivity",
+          "difference_debye",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete"
+            ]
+          },
+          "acid": {
+            "type": "object",
+            "required": [
+              "id",
+              "dipole_debye",
+              "charge",
+              "multiplicity",
+              "structure",
+              "validation"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "dipole_debye": {
+                "type": "number"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "structure": {
+                "type": "string"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "converged",
+                  "stationary_point",
+                  "evidence"
+                ],
+                "properties": {
+                  "converged": {
+                    "type": "boolean"
+                  },
+                  "stationary_point": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "complex": {
+            "type": "object",
+            "required": [
+              "id",
+              "dipole_debye",
+              "charge",
+              "multiplicity",
+              "structure",
+              "hydrogen_bond_geometry",
+              "validation"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "dipole_debye": {
+                "type": "number"
+              },
+              "charge": {
+                "type": "integer"
+              },
+              "multiplicity": {
+                "type": "integer"
+              },
+              "structure": {
+                "type": "string"
+              },
+              "hydrogen_bond_geometry": {
+                "type": "string"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "converged",
+                  "stationary_point",
+                  "evidence"
+                ],
+                "properties": {
+                  "converged": {
+                    "type": "boolean"
+                  },
+                  "stationary_point": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model_chemistry",
+              "geometry_protocol",
+              "dipole_extraction"
+            ],
+            "properties": {
+              "software": {
+                "type": "string"
+              },
+              "model_chemistry": {
+                "type": "string"
+              },
+              "geometry_protocol": {
+                "type": "string"
+              },
+              "dipole_extraction": {
+                "type": "string"
+              }
+            }
+          },
+          "conformer_sensitivity": {
+            "type": "string"
+          },
+          "difference_debye": {
+            "type": "number"
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure",
+          "conclusion"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "bounded_failure"
+            ]
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "attempted_scope",
+              "reason",
+              "limitation"
+            ],
+            "properties": {
+              "attempted_scope": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      }
+    ]
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "status",
+        "acid",
+        "complex",
+        "method",
+        "conformer_sensitivity",
+        "difference_debye",
+        "conclusion"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete"
+          ]
+        },
+        "acid": {
+          "type": "object",
+          "required": [
+            "id",
+            "dipole_debye",
+            "charge",
+            "multiplicity",
+            "structure",
+            "validation"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "dipole_debye": {
+              "type": "number"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "converged",
+                "stationary_point",
+                "evidence"
+              ],
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "stationary_point": {
+                  "type": "boolean"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "complex": {
+          "type": "object",
+          "required": [
+            "id",
+            "dipole_debye",
+            "charge",
+            "multiplicity",
+            "structure",
+            "hydrogen_bond_geometry",
+            "validation"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "dipole_debye": {
+              "type": "number"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "hydrogen_bond_geometry": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "converged",
+                "stationary_point",
+                "evidence"
+              ],
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "stationary_point": {
+                  "type": "boolean"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "method": {
+          "type": "object",
+          "required": [
+            "software",
+            "model_chemistry",
+            "geometry_protocol",
+            "dipole_extraction"
+          ],
+          "properties": {
+            "software": {
+              "type": "string"
+            },
+            "model_chemistry": {
+              "type": "string"
+            },
+            "geometry_protocol": {
+              "type": "string"
+            },
+            "dipole_extraction": {
+              "type": "string"
+            }
+          }
+        },
+        "difference_debye": {
+          "type": "number"
+        },
+        "conclusion": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "status",
+        "failure",
+        "conclusion"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "bounded_failure"
+          ]
+        },
+        "failure": {
+          "type": "object",
+          "required": [
+            "attempted_scope",
+            "reason",
+            "limitation"
+          ],
+          "properties": {
+            "attempted_scope": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "limitation": {
+              "type": "string"
+            }
+          }
+        },
+        "conclusion": {
+          "type": "string"
+        }
+      }
+    }
+  ]
+}

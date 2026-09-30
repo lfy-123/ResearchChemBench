@@ -676,6 +676,24 @@ software:
       - ["0 molecules converted", "filters or parser rejected every record", "inspect stderr and test one record"]
       - ["stereochemistry or bond order changed", "conversion lacked required chemical metadata", "select a richer format and validate the output scientifically"]
 
+  fcclasses3:
+    display_name: FCclasses3
+    installed_version: "3.0.4"
+    operational_status: runnable_local_user_supplied
+    official_docs: [http://www.iccom.cnr.it/en/fcclasses/, https://github.com/fcclasses/fcclasses3]
+    primary_task: vibronic electronic spectra and non-radiative-rate calculations from explicit state, dipole, and vibrational inputs
+    task_types: [Franck-Condon spectra, Herzberg-Teller spectra, fluorescence, absorption, ECD, intersystem-crossing rates, internal-conversion rates]
+    inputs: [FCclasses3 input file, state files, Hessian/normal-mode files, dipole files]
+    outputs: [spectrum data, rate constants, convergence/diagnostic stdout, requested intermediate files]
+    normal_markers: ["FCclasses finished successfully"]
+    convergence_notes: Process completion is not a scientific convergence test. Verify the selected property/model/dipole treatment, coordinate representation, temperature, broadening, state energies, mode counts, and all declared state/dipole/vibrational inputs.
+    resource_notes: The supplied 3.0.4 executable is a serial native command. Keep the explicit resource limit conservative and run independent spectra as separate jobs; the software itself does not choose a model or rate-chain input.
+    known_errors:
+      - ["Cannot read file", "the input path or referenced FCclasses file is absent", "stage every referenced file with exact relative names and validate the deck before submission"]
+      - ["FCclasses finished with warnings", "the calculation completed but one or more model/input diagnostics were raised", "inspect the full stdout and treat warnings as scientific validation items rather than success"]
+      - ["unknown variable or property", "the deck uses a keyword not supported by the installed release", "consult the installed manual and reduce to a documented 3.0.4 keyword set"]
+      - ["missing state/dipole/Hessian data", "the upstream electronic-structure endpoint is incomplete", "complete the matching state, dipole, and vibrational calculations without substituting proxy data"]
+
   openff_am1bcc:
     display_name: AmberTools antechamber and sqm
     installed_version: AmberTools runtime
@@ -936,13 +954,13 @@ software:
     display_name: SIESTA
     installed_version: 5.4.2
     operational_status: runnable_with_pseudopotentials
-    official_docs: [https://docs.siesta-project.org/projects/siesta/en/latest/, https://siesta-project.org/siesta/]
-    primary_task: localized-basis DFT calculation from an FDF input stream
-    task_types: [single point, geometry optimization, molecular dynamics, bands, DOS, transport preparation]
-    inputs: [input.fdf, pseudopotential files, optional included structure and basis files]
-    outputs: [stdout.log, .XV, .DM, .WFSX, .bands, .DOS and trajectory files]
+    official_docs: [https://docs.siesta-project.org/projects/siesta/en/stable/reference/siesta.html, https://docs.siesta-project.org/projects/siesta/en/stable/reference/tbtrans.html]
+    primary_task: localized-basis DFT and integrated TranSIESTA from FDF input; TBtrans native postprocessing of linked Hamiltonians
+    task_types: [single point, geometry optimization, molecular dynamics, bands, DOS, transport preparation, integrated TranSIESTA, TBtrans postprocessing]
+    inputs: [input.fdf, pseudopotential files, optional included structure and basis files, device and electrode Hamiltonians for transport]
+    outputs: [stdout.log, .XV, .DM, .WFSX, .bands, .DOS and trajectory files, transport Hamiltonians and configured transmission or current outputs]
     normal_markers: ["Job completed", "siesta: Final energy"]
-    convergence_notes: Require SCF convergence and the requested geometry, MD, band, or property completion marker.
+    convergence_notes: Require SCF convergence and the requested geometry, MD, band, or property completion marker. For transport verify electrode and finite-bias self-consistency, energy and k-grid convergence, bias/current signs and consistent Hamiltonian provenance; executable availability or an isolated dipole is not a transport result.
     resource_notes: MPI ranks, mesh cutoff, basis size, k mesh, orbitals, and solver determine CPU and memory. Pseudopotential labels must match ChemicalSpeciesLabel.
     known_errors:
       - ["Cannot find pseudopotential", "species label and staged .psf/.psml filename differ", "stage exact files and match labels"]

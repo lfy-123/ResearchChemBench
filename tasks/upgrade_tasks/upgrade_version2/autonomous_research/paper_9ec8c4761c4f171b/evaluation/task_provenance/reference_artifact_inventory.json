@@ -1,0 +1,183 @@
+{
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "recorded_at": "2026-09-28T17:43:02.182024+00:00",
+  "legacy_summary": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_9ec8c4761c4f171b/evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+    "sha256": "f5186a96d0b9b8e91b40b5972e15e9baf55f80692b005b68f4e08918d8c94b2a",
+    "role": "Read-only historical summary; old PASS and numerical tolerances are not V2 validation."
+  },
+  "applicability_and_limits": "V1 evaluation/legacy_final_snapshot preserves the old6a reference and source evidence. That older NH-pyrazolone computation is method context, not a numerical reference for7a/8a/5g. Source main Table2 and SI7a spectra are reusable experimental observations; source computed structures/spectra remain private conditional references. No expanded independent two-solvent/reference-form calculation was completed by batch2. Main PDF14 and SI PDF155 disagree on the medium assigned to7a14.07ppm. Reuse the two annotations with this unresolved provenance, not as a calibrated single-solvent value or two independent observations.",
+  "existing_files": [
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_chcl3_optfreq/collection.json",
+      "sha256": "a7b4b4a572057964425d276a2dfef83b3f971332365c40a4b19ac76467002d22",
+      "bytes": 5412,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_chcl3_optfreq/input.inp",
+      "sha256": "db4489b3d8dfc45e5061a25eb04816238ad9ce4e5014c0925138f329e0c7aaa0",
+      "bytes": 2009,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_chcl3_optfreq/input.xyz",
+      "sha256": "f7f3cda7700c85c9ce2f7a08d735db22e2c9262408a714baafb855c8dba8f879",
+      "bytes": 2681,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_chcl3_optfreq/input_trj.xyz",
+      "sha256": "5ead69337bea0ed0330b6291fce1f25161c7dbd5575249231f67ccd67d8a2d21",
+      "bytes": 8505,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_chcl3_optfreq/status.json",
+      "sha256": "4999b45126a2d1b1dc50eacd45fd928aacddf59ad8971ad02ba0736f7588fe47",
+      "bytes": 2601,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_chcl3_optfreq_summary.json",
+      "sha256": "74003e69c6bc1ea7e1d8c172ad31891dee2b12f7bcc930ee734e38f97a603d7a",
+      "bytes": 2655,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_gas_optfreq/collection.json",
+      "sha256": "1896a7d8779887d92d7efafe408e78db0015df33acdd68f278e48ead4f8af116",
+      "bytes": 4849,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_gas_optfreq/input.inp",
+      "sha256": "e84b9b1f28889328bcae08dfcb1634d305c954dd6061988bf9e002b7c7cf9d0e",
+      "bytes": 1992,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_gas_optfreq/input.xyz",
+      "sha256": "a07a4d9e0327d32e5138f72063694402fdc94b70e4c82fa19861f9b6abce1695",
+      "bytes": 2681,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_gas_optfreq/input_trj.xyz",
+      "sha256": "6cf3c92fdaa3397a22489e1e9036b22ac4b8f233655ffd3c0c8c54a6d16af127",
+      "bytes": 8505,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_gas_optfreq/status.json",
+      "sha256": "966fc9820c54a8eda582af2fe2df1785b655763f863144cbe8b49f9953ea09ef",
+      "bytes": 2582,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/artifacts/native/6a_gas_optfreq_summary.json",
+      "sha256": "ffc2abd7183e929c34eb5f4a756684e3c1a9af4d1257fcf50209f39e18814737",
+      "bytes": 2901,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_chcl3_optfreq/outputs/execution_jobs/job_82bdfbdb7b1749799d6275a118284ec4/collection.json",
+      "sha256": "a7b4b4a572057964425d276a2dfef83b3f971332365c40a4b19ac76467002d22",
+      "bytes": 5412,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_chcl3_optfreq/outputs/execution_jobs/job_82bdfbdb7b1749799d6275a118284ec4/input.inp",
+      "sha256": "db4489b3d8dfc45e5061a25eb04816238ad9ce4e5014c0925138f329e0c7aaa0",
+      "bytes": 2009,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_chcl3_optfreq/outputs/execution_jobs/job_82bdfbdb7b1749799d6275a118284ec4/input.xyz",
+      "sha256": "f7f3cda7700c85c9ce2f7a08d735db22e2c9262408a714baafb855c8dba8f879",
+      "bytes": 2681,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_chcl3_optfreq/outputs/execution_jobs/job_82bdfbdb7b1749799d6275a118284ec4/input_trj.xyz",
+      "sha256": "5ead69337bea0ed0330b6291fce1f25161c7dbd5575249231f67ccd67d8a2d21",
+      "bytes": 8505,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_chcl3_optfreq/outputs/execution_jobs/job_82bdfbdb7b1749799d6275a118284ec4/status.json",
+      "sha256": "4999b45126a2d1b1dc50eacd45fd928aacddf59ad8971ad02ba0736f7588fe47",
+      "bytes": 2601,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_gas_optfreq/outputs/execution_jobs/job_d9cc03414c9d48c092a46eb2c8cab755/collection.json",
+      "sha256": "1896a7d8779887d92d7efafe408e78db0015df33acdd68f278e48ead4f8af116",
+      "bytes": 4849,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_gas_optfreq/outputs/execution_jobs/job_d9cc03414c9d48c092a46eb2c8cab755/input.inp",
+      "sha256": "e84b9b1f28889328bcae08dfcb1634d305c954dd6061988bf9e002b7c7cf9d0e",
+      "bytes": 1992,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_gas_optfreq/outputs/execution_jobs/job_d9cc03414c9d48c092a46eb2c8cab755/input.xyz",
+      "sha256": "a07a4d9e0327d32e5138f72063694402fdc94b70e4c82fa19861f9b6abce1695",
+      "bytes": 2681,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_gas_optfreq/outputs/execution_jobs/job_d9cc03414c9d48c092a46eb2c8cab755/input_trj.xyz",
+      "sha256": "6cf3c92fdaa3397a22489e1e9036b22ac4b8f233655ffd3c0c8c54a6d16af127",
+      "bytes": 8505,
+      "kind": "existing_native_artifact",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/native_workspace/6a_gas_optfreq/outputs/execution_jobs/job_d9cc03414c9d48c092a46eb2c8cab755/status.json",
+      "sha256": "966fc9820c54a8eda582af2fe2df1785b655763f863144cbe8b49f9953ea09ef",
+      "bytes": 2582,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/report/results.json",
+      "sha256": "6ec66b6d0d1b83753befa128ac38aa44432f37e001b4876968f4b7609f97b724",
+      "bytes": 4061,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    },
+    {
+      "path": "docs/verification/group_6/paper_9ec8c4761c4f171b/verification_report.md",
+      "sha256": "b4c753dad1e57deddc2a8b877c41f9f2cfafb60952b6bc7d4f8c39b253e29c8d",
+      "bytes": 10465,
+      "kind": "existing_report_or_analysis",
+      "content_revalidated_in_this_append": false
+    }
+  ],
+  "unresolved_historical_links": [],
+  "boundary": "The locator/hash audit establishes bytes and existence only. It does not re-run chemistry or certify every historical file. Source paper, historical calculation and synthetic development fixtures remain distinct; no synthetic fixture appears in this inventory.",
+  "new_scientific_calculations_performed": false
+}

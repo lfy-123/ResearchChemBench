@@ -1,0 +1,34 @@
+{
+  "isoprene_map": "C1=C2(C5)-C3=C4; numbered atom-map labels in original SMILES, explicit stable graph IDs in object table",
+  "mapped_smiles": "[CH2:1]=[C:2]([CH3:5])[CH:3]=[CH2:4]",
+  "attack_pairs": [
+    [
+      "Si1",
+      "C1"
+    ],
+    [
+      "Si1",
+      "C4"
+    ],
+    [
+      "N1",
+      "C1"
+    ],
+    [
+      "N1",
+      "C4"
+    ]
+  ],
+  "candidate_rule": "Enumerate graph edits preserving Si1/N1 and all carbon labels. Ring closures join the unattached heteroatom to the opposite terminal carbon; include nonclosure/H-shift alternatives. Tag each removed H explicitly. Product graph not provided; discovery is scored.",
+  "product_composition": {
+    "C": 5,
+    "H": 7,
+    "Si": 1,
+    "N": 1
+  },
+  "intermediate_charge": 0,
+  "intermediate_multiplicity": 2,
+  "product_charge": 0,
+  "product_multiplicity": 1,
+  "energy_zero": "separated_SiN_plus_isoprene_E0_0K"
+}

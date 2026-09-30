@@ -1,0 +1,46 @@
+{
+  "paper_id": "paper_adbbf3d29d1cd737",
+  "items": [
+    {
+      "key_point_id": "pr_p1",
+      "key_point_type": "process",
+      "statement": "The submitted calculation preserves the 12-atom SI Table S2 atom order and explicitly verifies neutral singlet identity before extracting properties.",
+      "expected_result": "Identity check passes with 12 atoms, canonical symbols/rows, charge 0, multiplicity 1, and documented calculation evidence.",
+      "evidence_ids": [
+        "ev_doc_405bea18b067_000011_fbde0cb9d1fd"
+      ],
+      "expected": "Identity check passes with 12 atoms, canonical symbols/rows, charge 0, multiplicity 1, and documented calculation evidence."
+    },
+    {
+      "key_point_id": "pr_p2",
+      "key_point_type": "process",
+      "statement": "Both gas and aqueous calculations are independently converged or a scientifically specific bounded failure is reported, with phase-specific settings and descriptor formulae.",
+      "expected_result": "Two phase records contain reproducible settings, convergence/state evidence, and derivation conventions; no unattempted phase is presented as complete.",
+      "evidence_ids": [
+        "ev_doc_cc114948bfd3_000200_71842d818bc0"
+      ],
+      "expected": "Two phase records contain reproducible settings, convergence/state evidence, and derivation conventions; no unattempted phase is presented as complete."
+    },
+    {
+      "key_point_id": "pr_r1",
+      "key_point_type": "result",
+      "statement": "The descriptor set is reported for both phases with oxygen charges retaining XYZ row identity.",
+      "expected_result": "All requested observables and row_1/row_4/row_6 charges are present or the bounded-failure branch identifies missing fields.",
+      "evidence_ids": [
+        "ev_doc_405bea18b067_000009_2b303c2b8f20",
+        "ev_doc_cc114948bfd3_000200_71842d818bc0"
+      ],
+      "expected": "All requested observables and row_1/row_4/row_6 charges are present or the bounded-failure branch identifies missing fields."
+    },
+    {
+      "key_point_id": "pr_r2",
+      "key_point_type": "result",
+      "statement": "The phase comparison tests the authors' qualitative hypothesis about aqueous stabilization and reduced electrophilicity.",
+      "expected_result": "The conclusion explicitly assesses hardness/electrophilicity and distinguishes computed evidence from interpretation limits.",
+      "evidence_ids": [
+        "ev_doc_cc114948bfd3_000201_f32751fddb52"
+      ],
+      "expected": "The conclusion explicitly assesses hardness/electrophilicity and distinguishes computed evidence from interpretation limits."
+    }
+  ]
+}

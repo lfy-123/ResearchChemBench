@@ -1,0 +1,37 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "scientific_class": "B",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use E-configured 4b, 4c, 4h and 4i with the graphs in species_registry.json. 4c/4i contain a carboxylic OH; 4h/4i contain OMe, not phenolic OH. Retain actual C–H donors for 4b/4h and compare the carboxylic O–H and N-linked methylene/methyl sites where present. The DPPH assay is ethanol, room temperature, 30 min, 517 nm; use 298.15 K/1 M for the declared model. SI TableS5 gives IC50 for 4b/c/h/i of 692.52/11.89/26.63/26.15 µM; these are public interpretation constraints, not exact computed-activity targets. 4e is insoluble, not inactive. Use the same solvated proton/electron or explicit acceptor convention throughout thermochemical cycles.",
+  "panels": {
+    "thermochemical_cycles": {
+      "requirement": "Real donor sites and charge-balanced cycle closure, not descriptor correlation.",
+      "required_cells": [
+        "4b",
+        "4c",
+        "4h",
+        "4i"
+      ]
+    },
+    "decisive_local_paths": {
+      "requirement": "Matched explicit-acceptor HAT paths spanning acidic and nonacidic structures.",
+      "required_cells": [
+        "4c_HAT",
+        "4h_HAT"
+      ]
+    },
+    "activity_boundary": {
+      "requirement": "Mechanistic discrimination with correct experimental endpoint limits.",
+      "required_cells": [
+        "observations_used",
+        "mechanism_assessment",
+        "comparison",
+        "censoring_record",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "精确 IC50 预测、全生物氧化网络不加入。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

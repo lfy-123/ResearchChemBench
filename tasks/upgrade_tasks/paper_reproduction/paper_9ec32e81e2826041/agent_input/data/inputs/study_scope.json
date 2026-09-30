@@ -1,0 +1,22 @@
+{
+  "formula": "C35H43NZn",
+  "charge": 0,
+  "multiplicity": 1,
+  "families": [
+    "perpendicular",
+    "coplanar"
+  ],
+  "primary_method": "PBE0/6-311+G(d,p)",
+  "dispersion_settings": [
+    "D3_on",
+    "D3_off"
+  ],
+  "dispersion_model": "D3(BJ)",
+  "phase": "gas",
+  "temperature_K": 300,
+  "pressure_atm": 1,
+  "primary_TD_method": "TD-PBE0/6-311+G(d,p)",
+  "delta_G_definition": "G_coplanar - G_perpendicular, same method and environment",
+  "cross_geometry_energies": "Electronic only; evaluate both dispersion settings on each distinct relaxed geometry. Shared collapsed endpoints may reuse the same traceable record.",
+  "minimum_root_window": 5
+}

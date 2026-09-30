@@ -1,0 +1,6 @@
+{"paper_id":"paper_a67c753758317933","items":[
+ {"failure_id":"cf_identity","condition":"The submitted calculation uses a different connectivity, charge, multiplicity, tautomer or hydrazone stereoisomer than the public HPY 10a identity.","severity":"scientifically serious","why":"Results would not refer to the target molecule."},
+ {"failure_id":"cf_unvalidated","condition":"No converged structure or no frequency/minimum evidence is supplied, while numerical observables are presented as the target minimum.","severity":"scientifically serious","why":"A saddle point or unconverged geometry cannot support the requested structural conclusion."},
+ {"failure_id":"cf_unmapped","condition":"Dihedral values are reported without four-atom mappings or with mappings that cannot be related to R1/R2/R3 torsions.","severity":"scientifically serious","why":"The scored structural observables are not reproducible or identity-bound."},
+ {"failure_id":"cf_answer_invention","condition":"The report includes hidden SI targets, claims exact paper-method reproduction without actually documenting the calculation, or treats the reference values as public inputs.","severity":"scientifically serious","why":"This invalidates answer isolation and scientific provenance."}
+]}

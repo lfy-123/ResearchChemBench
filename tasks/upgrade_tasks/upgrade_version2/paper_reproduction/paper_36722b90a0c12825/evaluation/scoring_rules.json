@@ -1,0 +1,187 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Confirm full E/Z host connectivity/stereochemistry and charge, chloride/counterion bookkeeping, and all claimed bound/derived models. The same host family is required, but conformers and models are chosen by the agent, not a preset close/open list. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Confirm full E/Z host connectivity/stereochemistry and charge, chloride/counterion bookkeeping, and all claimed bound/derived models. The same host family is required, but conformers and models are chosen by the agent, not a preset close/open list."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_evidence",
+      "reference_id": "kp_quantitative_evidence",
+      "type": "semantic",
+      "expected": "Resolve quantitative claims about E/Z association against the disclosed NMR observations and genuine calculation/analysis records. Verify observable definition, compatible composition, concentration/standard state and uncertainty; compare errors fairly rather than forcing a published difference. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.operations",
+          "$.artifacts"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Resolve quantitative claims about E/Z association against the disclosed NMR observations and genuine calculation/analysis records. Verify observable definition, compatible composition, concentration/standard state and uncertainty; compare errors fairly rather than forcing a published difference."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_answer",
+      "reference_id": "kp_scientific_answer",
+      "type": "semantic",
+      "expected": "Assess whether the submitted molecular explanation actually accounts for the available behavior and survives checks relevant to its assumptions. An evidence-supported negligible/uncertain difference or an account contradicting the source interpretation is eligible; do not require preorganization/distortion/solvent to appear as separate named mechanisms. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Assess whether the submitted molecular explanation actually accounts for the available behavior and survives checks relevant to its assumptions. An evidence-supported negligible/uncertain difference or an account contradicting the source interpretation is eligible; do not require preorganization/distortion/solvent to appear as separate named mechanisms."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_validity_and_uncertainty",
+      "reference_id": "kp_validity_and_uncertainty",
+      "type": "semantic",
+      "expected": "For affinity claims, define the relevant species, thermodynamic or statistical reference, concentration convention and uncertainty. For molecular explanations, provide evidence that tests the asserted relationship rather than equating one favorable structure or contact with an affinity. Validate whatever states, structures or numerical approximations the inference uses; the choice of a scientifically adequate validation route is yours. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.validations",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. For affinity claims, define the relevant species, thermodynamic or statistical reference, concentration convention and uncertainty. For molecular explanations, provide evidence that tests the asserted relationship rather than equating one favorable structure or contact with an affinity. Validate whatever states, structures or numerical approximations the inference uses; the choice of a scientifically adequate validation route is yours."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_bounded_conclusion",
+      "reference_id": "kp_bounded_conclusion",
+      "type": "semantic",
+      "expected": "Restrict the answer to this molecular host/chloride association problem. Do not infer equilibrium E/Z populations from photostationary mixtures, or claim switching performance, universal host ranking or kinetics from static affinity calculations. Clearly label the limits of any finite or continuum model. Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.results"
+        ],
+        "comparison": "Resolve model/result/operation/artifact IDs, check actual files and raw-output values before evaluating this criterion. Restrict the answer to this molecular host/chloride association problem. Do not infer equilibrium E/Z populations from photostationary mixtures, or claim switching performance, universal host ranking or kinetics from static affinity calculations. Clearly label the limits of any finite or continuum model."
+      },
+      "partial_credit": {
+        "full": "All material elements of this claim-supported criterion evidenced and valid.",
+        "partial": "Credit only verified components; reduce for unresolved material ambiguities or limited coverage.",
+        "zero": "No relevant raw evidence, an invalid foundational identity/reference, or purely copied/asserted conclusions."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "bounded_answer",
+      "type": "semantic",
+      "expected": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability. Restrict the answer to this molecular host/chloride association problem. Do not infer equilibrium E/Z populations from photostationary mixtures, or claim switching performance, universal host ranking or kinetics from static affinity calculations. Clearly label the limits of any finite or continuum model.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.validations",
+          "$.status"
+        ],
+        "comparison": "Check question coverage and evidence, not author agreement or the self-declared completion status."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Confirm full E/Z host connectivity/stereochemistry and charge, chloride/counterion bookkeeping, and all claimed bound/derived models. The same host family is required, but conformers and models are chosen by the agent, not a preset close/open list.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_evidence",
+      "max_score": 25,
+      "description": "Resolve quantitative claims about E/Z association against the disclosed NMR observations and genuine calculation/analysis records. Verify observable definition, compatible composition, concentration/standard state and uncertainty; compare errors fairly rather than forcing a published difference.",
+      "rule_ids": [
+        "rule_quantitative_evidence"
+      ]
+    },
+    {
+      "id": "scientific_answer",
+      "max_score": 25,
+      "description": "Assess whether the submitted molecular explanation actually accounts for the available behavior and survives checks relevant to its assumptions. An evidence-supported negligible/uncertain difference or an account contradicting the source interpretation is eligible; do not require preorganization/distortion/solvent to appear as separate named mechanisms.",
+      "rule_ids": [
+        "rule_scientific_answer"
+      ]
+    },
+    {
+      "id": "validity_and_uncertainty",
+      "max_score": 20,
+      "description": "For affinity claims, define the relevant species, thermodynamic or statistical reference, concentration convention and uncertainty. For molecular explanations, provide evidence that tests the asserted relationship rather than equating one favorable structure or contact with an affinity. Validate whatever states, structures or numerical approximations the inference uses; the choice of a scientifically adequate validation route is yours.",
+      "rule_ids": [
+        "rule_validity_and_uncertainty"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 15,
+      "description": "Restrict the answer to this molecular host/chloride association problem. Do not infer equilibrium E/Z populations from photostationary mixtures, or claim switching performance, universal host ranking or kinetics from static affinity calculations. Clearly label the limits of any finite or continuum model.",
+      "rule_ids": [
+        "rule_bounded_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_developed_existing_references_scope_limited",
+  "calibrated_expanded_tolerances": false,
+  "scientific_notes": "Accept scientifically defensible alternative methods and evidence-supported support, refutation or unresolved answers. Judge sufficiency for the actual question and claims; do not require any retired V1 matrix, author winner, fixed hypothesis count or particular software. Full points require linked genuine artifacts that sustain the claim; partial points scale with valid question coverage; absent/invalid evidence receives zero dependent credit. Missing research cannot establish non-identifiability.",
+  "semantic_judge_calibration": "pending; no new judge or scientific jobs in this development round",
+  "retired_matrix_policy": "V1 files archived as historical .snapshot are never normative for V2. Their valid raw facts may be used only within documented applicability, without requiring their candidate/control grid."
+}

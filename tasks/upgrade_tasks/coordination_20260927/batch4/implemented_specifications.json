@@ -1,0 +1,931 @@
+{
+  "paper_3235db287859287e": {
+    "title": "Local oxygen-transfer pathways constrained by isotope observations",
+    "new_class": "C",
+    "boundary": "Use methyl 2-(hydroxy(phenyl)methyl)acrylate 1a and benzenethiol 2a, not benzylthiol. The local reaction uses MeCN, 298.15 K and a declared 1 M solution convention. Experimental context is 1 mmol of each substrate, 5 mL 0.1 M KI, Pt electrodes, 10 mA, room temperature, N2 (main PDF p7). Compare a finite radical/ionic and substrate-O/water-O candidate space. Reservoir species are I−/I radical, H2O, H+/electron with explicitly matched electron/proton chemical potentials; the electrochemical cell is not modeled. The unlabelled product constitution is a comparison endpoint, not an energetic winner. Isotope observations are public constraints, not blind predictions.",
+    "steps": [
+      "Generate atom-balanced local O-transfer candidates starting from the supplied graphs; track substrate hydroxyl oxygen separately from water oxygen. Compare the most competitive substrate-O radical route with an ionic or external-water-O alternative. Do not prescribe an author intermediate as the only starting route.",
+      "Validate decisive paths using relevant modes and bidirectional connections on the same electronic surface. Correct unequal reservoir composition before comparing effective barriers. A monotonic electronic scan is neither a TS nor proof of zero free-energy cost.",
+      "Compare both labelled-oxygen experiments and one OH-protection control; evaluate how each calculation supports, contradicts or leaves open the explanations. E/Z endpoint stability alone is insufficient."
+    ],
+    "author": "The authors propose thiyl-radical addition, iodine capture, an iodide-assisted H relay and cyclic S–O reorganization, with substrate hydroxyl oxygen entering the sulfoxide. Main pp5–7 and SI p100 support this proposal; SI uses Gaussian09, SMD MeCN, 298 K/1 atm, 6-31G(C,H), 6-311G**(O,S), aug-cc-pVDZ-PP(I). The functional is not specified in the extracted SI paragraph, so do not invent one. This benchmark adds independent competing routes and reservoir-balanced barriers; the original E/Z thermochemistry did not establish kinetic selectivity.",
+    "errors": "Wrong sulfur reagent; unbalanced electron/proton or labelled O bookkeeping; E/Z stability asserted as oxygen-transfer mechanism; monotonic scan asserted as barrierless free energy.",
+    "objects": {
+      "molecules": [
+        [
+          "1a",
+          "COC(=O)C(=C)C(O)c1ccccc1",
+          0,
+          1
+        ],
+        [
+          "2a",
+          "Sc1ccccc1",
+          0,
+          1
+        ],
+        [
+          "water",
+          "O",
+          0,
+          1
+        ],
+        [
+          "iodide",
+          "[I-]",
+          -1,
+          1
+        ],
+        [
+          "iodine_radical",
+          "[I]",
+          0,
+          2
+        ],
+        [
+          "thiyl",
+          "[S]c1ccccc1",
+          0,
+          2
+        ],
+        [
+          "OH_protected",
+          "COC(=O)C(=C)C(OC(=O)OC(C)(C)C)c1ccccc1",
+          0,
+          1
+        ]
+      ],
+      "observations": [
+        {
+          "id": "substrate_18O",
+          "observation": "Substrate hydroxyl 18O appears in sulfinyl oxygen",
+          "source": "main p5 Scheme3h; SI pp94–99"
+        },
+        {
+          "id": "water_18O",
+          "observation": "H2(18O) experiment gives unlabelled product",
+          "source": "main p5 Scheme3i"
+        },
+        {
+          "id": "OH_protected",
+          "observation": "Boc-protected OH substrate retains protection; sulfinyl rearrangement suppressed",
+          "source": "main p5 Scheme3g"
+        }
+      ]
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "paths": "Two chemically different, connected local oxygen-transfer routes with common reservoir bookkeeping.",
+      "oxygen_tests": "Atom-source predictions and computed protection perturbation, bound to actual paths.",
+      "path_comparison": "Compare reference-corrected barriers, not merely E/Z product G."
+    }
+  },
+  "paper_4e9774f4128551d3": {
+    "title": "Facial protonation of one silyl-enol precursor",
+    "new_class": "C",
+    "boundary": "The precursor is the tetrasubstituted O-TMS enol ether made from 50: transform C6–C47 to double, C47=O52 to single, replace H7 on C6 by an O52–SiMe3 group; retain all other mapped stereocentres. It is neutral singlet C23H38O3Si. Reprotonate C6 from the two faces using racemic camphorsulfonic acid (CSA), not a bare proton. Model both acid enantiomers in an achiral medium or demonstrate the appropriate symmetry equivalence. Stage 1: HMDS/TMSI in DCM at 23°C. Stage 2: CSA in THF/MeOH at 23°C; SI pp20–21 specifies 6/0.60 mL (10:1), whereas main Scheme5 says 1:1. Use a THF continuum plus one explicit MeOH in every cluster for the primary local model and a MeOH-continuum matched sensitivity; neither is an exact mixed-solvent model. Use 296.15 K and 1 M. Keep CSA− and the protonated silyl ether in the same neutral cluster; downstream desilylation is outside the required path segment.",
+    "steps": [
+      "Construct the mapped silyl enol ether and racemic acid contact conformers. The two faces create alternative configurations at C6, with the other stereocentres fixed.",
+      "Locate both facial proton-transfer saddles for each distinguishable acid enantiomer, inspect O–H/C–H motion and follow both endpoints. Compare local barriers and the common separated enol+acid+MeOH reference, including precursor approach cost.",
+      "Combine racemic-acid contributions only using explicit weighting assumptions; quantify the effect of solvation and precursor conformation. Product cis/trans G is a thermodynamic control, not a kinetic answer."
+    ],
+    "author": "Main p6 proposes soft enolization then CSA protonolysis, giving a nearly balanced cis/trans mixture and permitting recycling; this is not equilibrium control. Source calculations only compare 50/S20 using B3LYP-D3/6-31G(d,p), larger-basis SP and PCM methanol (SI p71). The new face-specific proton-transfer paths are benchmark extensions, not source-validated TSs. Disclose the main/SI THF:MeOH discrepancy rather than selecting the convenient condition.",
+    "errors": "Wrong alpha carbon, source product coordinates passed as independently found TS, omitted acid/counterion, unbalanced silicon/proton inventory, or endpoint G used as kinetic selectivity.",
+    "objects": {
+      "molecules": [
+        [
+          "methanol",
+          "CO",
+          0,
+          1
+        ],
+        [
+          "CSA_connectivity",
+          "CC1(C)C2CCC1(CS(=O)(=O)O)C(=O)C2",
+          0,
+          1
+        ]
+      ],
+      "recipes": [
+        {
+          "id": "enol_TMS",
+          "source": "structure_50 graph derived and checked against main Scheme5",
+          "edits": {
+            "remove_atom_maps": [
+              7
+            ],
+            "bond_orders": [
+              [
+                6,
+                47,
+                2
+              ],
+              [
+                47,
+                52,
+                1
+              ]
+            ],
+            "attach_to_map": 52,
+            "group": "Si(CH3)3",
+            "new_maps_start": 101
+          },
+          "charge": 0,
+          "multiplicity": 1,
+          "formula": "C23H38O3Si"
+        },
+        {
+          "id": "CSA_racemate",
+          "definition": "Use the two enantiomers of the camphor cage, preserving its bridged connectivity; graph and explicit stereo variants are supplied in species_registry.json."
+        }
+      ]
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "facial_paths": "Two faces under racemic CSA with symmetry-supported equivalence allowed through explicit records.",
+      "facial_comparison": "Same-reference facial barrier differences and preorganization.",
+      "racemate_control": "Racemate and solvent-composition sensitivity, without equating endpoint stability and protonation selectivity."
+    }
+  },
+  "paper_60f4c45810428116": {
+    "title": "Identifiability of a finite carbenoid competition network",
+    "new_class": "B",
+    "boundary": "Use precursor 1a in THF, Li-naphthalenide generation, MeOH capture, decomposition and back-quench. SI p5: 0.050 M substrate at 10 mL/min mixed with 0.30 M LiNp at 5 mL/min; the first reactor has substrate 1/30 M and LiNp 0.10 M. MeOH 0.30 M at 5 mL/min is added downstream. Treat reactor dilution explicitly. The source contour uses 23 grid observations and two clogged/missing points; interpolated values are not observations. A finite lumped S→A generation, A→D decomposition, A→Q back-quench and A+MeOH→P capture model is a kinetic reduction only. Microspecies and reservoirs must be specified before microscopic chemical claims. The 25-position source grid (23 observed, two clogged) is supplied as kinetic_observations.json with categorical censoring retained. The measured rearrangement product is 2-methylbenzenemethanethiol 3a, formed after quenching its thiolate. Current release remains blocked by missing independent rate ranges and an identified back-quench sink.",
+    "steps": [
+      "Write the mass-balance ODE and dilution maps, link every parameter range to independent measurement or validated pathway, and distinguish a lumped loss channel from a chemically identified product.",
+      "Fit shared temperature dependence only where identifiable, use profile likelihood or a rank/sensitivity analysis, and propagate independent parameter ranges. Do not fit an independent rate to each condition.",
+      "Hold out complete time/temperature conditions before fitting, report interval predictions and residuals, and distinguish evidence-backed non-identifiability from missing inputs."
+    ],
+    "author": "The source interprets temperature/time competition between generation and degradation; the yield surface is RBF interpolation (SI p6), not a fitted mechanistic model. B3LYP-D3/6-311+G(d,p), SMD THF potentials versus Fc are a thermochemical baseline (SI p19). This benchmark adds an independently parameterized, falsifiable kinetic model and identifiability testing. Neither reduction potentials nor RBF interpolation supply rate constants.",
+    "errors": "RBF interpolation called a mechanism; free rate per condition; fitting holdout data; inventing independent rate bounds; treating clogged observations as measured zeros.",
+    "objects": {
+      "molecules": [
+        [
+          "carbanion_1a",
+          "[CH2-]SCc1ccccc1",
+          -1,
+          1
+        ],
+        [
+          "Li_cation",
+          "[Li+]",
+          1,
+          1
+        ],
+        [
+          "naphthalene",
+          "c1ccc2ccccc2c1",
+          0,
+          1
+        ],
+        [
+          "methanol",
+          "CO",
+          0,
+          1
+        ],
+        [
+          "methoxide",
+          "C[O-]",
+          -1,
+          1
+        ],
+        [
+          "protonated_capture",
+          "CSCc1ccccc1",
+          0,
+          1
+        ],
+        [
+          "rearranged_thiolate",
+          "Cc1ccccc1C[S-]",
+          -1,
+          1
+        ],
+        [
+          "byproduct_3a",
+          "Cc1ccccc1CS",
+          0,
+          1
+        ]
+      ],
+      "network_definition": {
+        "reaction_lumping": [
+          "S -> A",
+          "A -> D",
+          "A -> Q",
+          "A + MeOH -> P + MeO−"
+        ],
+        "warning": "D is the rearranged thiolate (same formula and charge as A), measured as 3a after quench; Q remains an unresolved lumped back-quench sink. Include chloride/naphthalene/electron reservoirs before microscopic generation claims. No invented k values supplied.",
+        "first_mixer_M": {
+          "S": 0.03333333333333333,
+          "LiNp": 0.1
+        },
+        "second_mixer_M": {
+          "S_total": 0.025,
+          "LiNp_total": 0.075,
+          "MeOH": 0.075
+        }
+      }
+    },
+    "blocked": [
+      "Obtain independent generation/back-quench/rearrangement/capture rate intervals or validated barriers. The supplied measured grid and old reduction potentials cannot identify those rates without independent constraints.",
+      "Identify the back-quench sink and its charge/electron bookkeeping; retain it as a lumped loss channel until then. Source 3a identifies the rearrangement product but supplies no independently measured channel rate."
+    ],
+    "notes": "",
+    "panels": {
+      "network": "Conserved finite reaction model and independent rate intervals.",
+      "identifiability": "Numerical sensitivity/rank and parameter profiles; honest bounded ambiguity is allowed after complete analysis.",
+      "holdout": "Predictions for three genuinely held-out measured conditions, with clipping/missingness retained."
+    }
+  },
+  "paper_db6c4e0558113873": {
+    "title": "Copper-mediated and direct chlorine-transfer exits of one allyl radical",
+    "new_class": "C",
+    "boundary": "Freeze allenoate 6b (ethyl 4-phenyl-2-propylbuta-2,3-dienoate), PhSO2Cl and an acac-supported copper local model. Compare C–Cl formation from the CuIII allyl(acac)Cl singlet against chlorine-atom transfer to the matching allyl radical from PhSO2Cl. Include CuII(acac)Cl doublet and CuI(acac) singlet reservoirs as required by the ledger; do not compare isolated Cu-bound and metal-free total energies. Main pp6–8 and SI pp56–65 define the source system. Use MeCN, 313.15 K (experimental 40°C), 1 M; reproduce the former 298.15 K endpoint only as a separately labelled baseline. Full photoredox catalyst and regeneration network are outside this local exit comparison.",
+    "steps": [
+      "Build the allene-derived allyl graph, enumerate both stereochemical approaches and relevant open-shell alternatives, and document Cu oxidation-state/electron bookkeeping. Use the acac ligand, not a bare CuCl shortcut.",
+      "Locate connected C–Cl-forming exits for the Cu path and the direct transfer alternative, with doublet/singlet surfaces and reactant reservoir energies explicitly distinguished.",
+      "Compare effective barriers and lower alternative conformers, including Cu association free energy and stereochemical mapping. Intermediate stability or C–C–C distortion alone cannot determine exit selectivity."
+    ],
+    "author": "The authors propose reduction to CuI, sulfonyl-radical generation, allyl capture by CuII and CuIII reductive elimination; they explain Z preference using Cu-organized allylic geometry. Original B3LYP-D3BJ/LANL2DZ(Cu)/6-31G(d,p) geometries and M06/SDD(Cu)/6-311+G(d,p), SMD MeCN SPs only establish a local intermediate comparison. New exit barriers, radical Cl transfer and spin checks are benchmark additions.",
+    "errors": "Omission of acac or Cu-state electron balance; comparing unlike reservoirs; substituting intermediate G for exit barriers; choosing a TS by its energy instead of atom mapping.",
+    "objects": {
+      "molecules": [
+        [
+          "allene_6b",
+          "CCOC(=O)C(CCC)=C=Cc1ccccc1",
+          0,
+          1
+        ],
+        [
+          "PhSO2Cl",
+          "O=S(=O)(Cl)c1ccccc1",
+          0,
+          1
+        ],
+        [
+          "acac",
+          "CC([O-])=CC(C)=O",
+          -1,
+          1
+        ],
+        [
+          "allyl_radical",
+          "CCOC(=O)C(CCC)=C(S(=O)(=O)c1ccccc1)[CH]c1ccccc1",
+          0,
+          2
+        ],
+        [
+          "sulfonyl_radical",
+          "[S](=O)(=O)c1ccccc1",
+          0,
+          2
+        ]
+      ],
+      "metal_models": [
+        {
+          "id": "CuIII_allyl_acac_Cl",
+          "charge": 0,
+          "multiplicity": 1,
+          "formal_oxidation": 3,
+          "ligands": "one anionic allyl, one bidentate acac−, one Cl−",
+          "construction": "allyl radical carbon binds Cu; retain full 6b/PhSO2 graph; independent conformers only"
+        },
+        {
+          "id": "CuII_acac_Cl",
+          "charge": 0,
+          "multiplicity": 2,
+          "formal_oxidation": 2,
+          "ligands": "acac− and Cl−"
+        },
+        {
+          "id": "CuI_acac",
+          "charge": 0,
+          "multiplicity": 1,
+          "formal_oxidation": 1,
+          "ligands": "acac−"
+        }
+      ]
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "exit_paths": "Cu-organized and free-radical chlorine exits with real endpoint validation.",
+      "reservoir_ledger": "Charge/spin/chemical-potential ledger connecting different molecularities.",
+      "stereochemical_control": "Competing stereochemical exits, conformation and spin sensitivity."
+    }
+  },
+  "paper_e2d9397dff2a3f0f": {
+    "title": "Ru ligand intervention in local N–O cleavage versus ammonia attack",
+    "new_class": "C",
+    "boundary": "The supplied 48-atom Ru-bda-Py starter has charge +1 and singlet multiplicity. Ru is map1, nitrido-derived N10, contacting carboxyl O5, carboxyl C28; the contact under test is N10–O5. There are two pyridines, not one. Freeze a bcs intervention by replacing the dangling C28 carboxylate with sulfonate S28, adding O49 and preserving the pyridyl C27 attachment; the coordinating carboxylate remains intact. Retain overall dianionic bda/bcs ligand convention, two neutral pyridines, nitrido inventory and total cation charge. This graph replacement does not prescribe a stable N–O bonded bcs minimum. Compare N–O opening then NH3 attack against direct NH3 attack on each ligand. Use MeCN 298.15 K, 1 M and the same NH3 reservoir. A 0.5 V vs Fc/pH15.1 source thermodynamic convention applies only when an electron/proton changes; it is not an electron-transfer activation barrier.",
+    "steps": [
+      "First establish the bda N–O coordinate, actual saddle mode and bidirectional endpoints. A transverse imaginary mode is not cleavage evidence.",
+      "Build the single bda→bcs intervention independently. Compare direct ammonia attack and opening-assisted attack with identical total NH3 and proton inventory; report a spontaneous opening or collapse with a mapped path, not an invented saddle.",
+      "Separate electronic barriers, Gibbs barriers and oxidation reaction G. Test decisive conformer/method dependence before attributing a local effect to the ligand or extrapolating to the complete oxidation cycle."
+    ],
+    "author": "Main pp8–10/Figures5–6 proposes that bda stabilizes a conjugated N–O contact, while the sulfonate arm in bcs provides a proton relay. Source B3LYP-D3BJ/SDD(Ru)/6-31G(d,p) Opt/Freq and def2-TZVP/SMD-MeCN SPs (SI p47) distinguish oxidation thermodynamics and N–O chemistry. The old approximately 109.995i mode and 13.8434 kcal/mol are not validated proof of the intended cleavage path. This benchmark requires recalibration and one ligand intervention, not all three full catalytic networks.",
+    "errors": "Transverse single imaginary mode accepted as N–O TS; missing pyridine; wrong ligand charge; oxidation free energy used as activation barrier; arbitrary aqueous pH correction in MeCN; opening-only cost compared to a complete N–N-forming route.",
+    "objects": {
+      "molecules": [
+        [
+          "NH3",
+          "N",
+          0,
+          1
+        ]
+      ],
+      "state_definition": {
+        "reference": {
+          "charge": 1,
+          "multiplicity": 1,
+          "atom_count": 48,
+          "reactive_atoms": [
+            10,
+            5
+          ]
+        },
+        "bcs": {
+          "charge": 1,
+          "multiplicity": 1,
+          "atom_count": 49,
+          "replace_element": {
+            "28": "S"
+          },
+          "add_atoms": [
+            {
+              "map": 49,
+              "element": "O"
+            }
+          ],
+          "graph_edit": "C27-S28; S28 has O4/O5/O49 sulfonate connectivity, charge −1 overall; no pre-imposed N10–O5 bond in bcs. Preserve Ru1,O2,N6,N7,N8,N9 coordination, bda arm C11 and both pyridine graphs."
+        }
+      },
+      "identity_correction": "The original task named state_definition.json but did not include it; this package supplies explicit state_definition.json."
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "local_paths": "For each ligand validate opening, subsequent NH3 attack and the competing direct attack. A lost N–O basin may be documented by a complete collapse profile; never invent a bound bcs minimum.",
+      "ligand_effect": "Compare direct attack with the complete opening-plus-attack sequence ending in the same N–N-connected composition on each ligand. Include every segment and preparation cost; an opening barrier alone is not comparable to the full NH3 attack. Compare only within-ligand barrier differences across ligand formulas.",
+      "mode_identity": "Actual cleavage displacement versus transverse modes; source oxidation G is not a chemical barrier."
+    }
+  },
+  "paper_fcc3c7f2c46a0fbe": {
+    "title": "Site-correct HAT, SET/PT and SPLET competition in four antioxidants",
+    "new_class": "B",
+    "boundary": "Use E-configured 4b, 4c, 4h and 4i with the graphs in species_registry.json. 4c/4i contain a carboxylic OH; 4h/4i contain OMe, not phenolic OH. Retain actual C–H donors for 4b/4h and compare the carboxylic O–H and N-linked methylene/methyl sites where present. The DPPH assay is ethanol, room temperature, 30 min, 517 nm; use 298.15 K/1 M for the declared model. SI TableS5 gives IC50 for 4b/c/h/i of 692.52/11.89/26.63/26.15 µM; these are public interpretation constraints, not exact computed-activity targets. 4e is insoluble, not inactive. Use the same solvated proton/electron or explicit acceptor convention throughout thermochemical cycles.",
+    "steps": [
+      "Enumerate actual hydrogen sites using explicit atom IDs and generate AH, A radical, A− and AH+ radical states with correct charge/multiplicity. Do not construct phenoxide by deleting a methyl group.",
+      "Compute balanced HAT, SET→PT and PT→ET cycles in ethanol for all four molecules; report both E and G. Use explicit DPPH/DPPH-H for a decisive local HAT comparison of an acid and a nonacid (4c and 4h), or a rigorously equivalent matched acceptor control.",
+      "Compare thermodynamic feasibility with actual local path evidence and test solvation/conformer sensitivity. A low HOMO–LUMO gap does not prove the mechanism or exact IC50."
+    ],
+    "author": "The authors used B3LYP/6-311+G(d,p) geometries/descriptors and linked acidic 4c/4i to HAT; discussion of methoxy derivatives invoked SPLET and phenoxide (main pp8–9). That phenoxide explanation must be tested against actual connectivity, not adopted. The new cycles and HAT controls were not computed in the source. The assay medium is ethanol (main p4), not the NMR solvent DMSO or a presumed methanol assay.",
+    "errors": "Invented phenolic OH/phenoxide; using NMR solvent as assay medium; IC50 predicted from a local orbital gap; proton/electron references mixed between cycles; insoluble 4e assigned zero activity.",
+    "objects": {
+      "molecules": [
+        [
+          "4b",
+          "CCN1C(=S)S/C(=C2/SC=C(C)N2C)C1=O",
+          0,
+          1
+        ],
+        [
+          "4c",
+          "O=C(O)CN1C(=S)S/C(=C2/SC=C(C)N2C)C1=O",
+          0,
+          1
+        ],
+        [
+          "4h",
+          "CCN1C(=S)S/C(=C2/SC=C(C)N2c2ccc(OC)cc2)C1=O",
+          0,
+          1
+        ],
+        [
+          "4i",
+          "O=C(O)CN1C(=S)S/C(=C2/SC=C(C)N2c2ccc(OC)cc2)C1=O",
+          0,
+          1
+        ],
+        [
+          "ethanol",
+          "CCO",
+          0,
+          1
+        ],
+        [
+          "DPPH",
+          "[O-][N+](=O)c1cc([N+](=O)[O-])c(N([N](c2ccccc2)c2ccccc2))c([N+](=O)[O-])c1",
+          0,
+          2
+        ]
+      ],
+      "assay_observations": {
+        "source": "main p4 and SI PDFp34 TableS5",
+        "IC50_uM": {
+          "4b": 692.52,
+          "4c": 11.89,
+          "4h": 26.63,
+          "4i": 26.15
+        },
+        "4e": "insoluble, no measured IC50",
+        "conditions": "EtOH; 1.5mL 102µM DPPH + 1.5mL sample; 30min; 517nm"
+      }
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "thermochemical_cycles": "Real donor sites and charge-balanced cycle closure, not descriptor correlation.",
+      "decisive_local_paths": "Matched explicit-acceptor HAT paths spanning acidic and nonacidic structures.",
+      "activity_boundary": "Mechanistic discrimination with correct experimental endpoint limits."
+    }
+  },
+  "paper_0e835b370ddd37b6": {
+    "title": "Matched-coordinate origin of H2 activation barriers",
+    "new_class": "B",
+    "boundary": "Compare complete source silylenes 1, V-prime and carbonyl analogue 4 with H2. All isolated reactants and the closed-shell activation surface are neutral singlets. Main Scheme2 p2 defines 4 as the six-membered lactam analogue of 1: replace the C(Me)2 adjacent to N with C=O while retaining N-phenyl and both SiMe3 groups. Species_registry.json gives the graph; no TS is supplied. Use benzene, 298 K, 1 atm for source-comparable G, and separated silylene+H2 as the common zero for each system. Do not subtract unlike full-system total energies across different formulas.",
+    "steps": [
+      "Construct and validate each reactant, representative approach conformers, H–H activation saddle and both endpoints.",
+      "At the same H–H distances 0.80, 1.00, 1.20 and 1.40 Å, compare frozen-fragment electronic strain and interaction using fragments silylene/H2 with the same singlet states. Report a point as a constrained diagnostic, never a thermal minimum.",
+      "Close strain+interaction against total interaction-from-relaxed-reactants energy and test a decisive functional/conformer control. Determine whether barrier differences arise from deformation, interaction or an inseparable mixture."
+    ],
+    "author": "Source PBE0-D3BJ/def2-TZVP, SMD benzene, frequency/IRC validation (main pp3–5; Table2) motivates donor/acceptor and structural explanations. This benchmark adds the 4 control and matched-coordinate decomposition. PyFrag or Multiwfn may assist; NBO licensing is not mandatory and descriptors cannot replace actual activation paths.",
+    "errors": "Missing 4; different H–H progress compared as an electronic effect; charged or spin-inconsistent fragments; adding frequency corrections to frozen fragments; absent decomposition closure.",
+    "objects": {
+      "molecules": [
+        [
+          "silylene_4",
+          "O=C1CCC([Si](C)(C)C)([Si](C)(C)C)[Si]N1c1ccccc1",
+          0,
+          1
+        ]
+      ],
+      "scan": {
+        "coordinate": "the two appended H2 atoms",
+        "values_angstrom": [
+          0.8,
+          1.0,
+          1.2,
+          1.4
+        ],
+        "fragment_A": "complete silylene",
+        "fragment_B": "H2",
+        "origin": "benchmark-authored matched-coordinate control; source Scheme2 defines 4"
+      }
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "activation_paths": "Three actual H2 activation pathways with shared separated-reactant conventions.",
+      "matched_coordinate_decomposition": "Matched H–H coordinate strain and interaction terms with closure residuals.",
+      "causal_comparison": "Compare signed barriers and decomposition trends; isolated Si descriptors cannot establish causation."
+    }
+  },
+  "paper_9132719dbf91c978": {
+    "title": "H–H formation, H2 release and Pd recoordination",
+    "new_class": "B",
+    "boundary": "Use the full neutral singlet INT-G C39H34OP2Pd reactant. In its fixed map, Pd75 binds hydrides H76/H77 and P1/P41 of XantPhos. Build the H–H saddle, eta2-H2 adduct, separated H2+Pd(XantPhos), and one DMAc-coordinated Pd regeneration endpoint. Keep the XantPhos graph intact. Use DMAc and 298.15 K. Primary ledger: solutes 1 M and H2 at 1 atm; separately report all-species 1 M and H2 pressure sensitivity. Source 1 atm and all-solute 1 M values cannot be combined.",
+    "steps": [
+      "Validate H–H formation and the bound eta2-H2 product by bidirectional path evidence; measure H76–H77 and Pd–H distances.",
+      "Calculate H2 dissociation and DMAc association at the same state/method. Distinguish a barrierless dissociation scan, a bound H2 minimum and an actual separated gas reservoir.",
+      "Use explicit chemical potentials and standard-state corrections to assess whether H–H formation, release or recoordination limits the local regeneration claim. Do not infer turnover frequency or the whole photochemical cycle."
+    ],
+    "author": "The authors propose HAT formation of Pd dihydride INT-G followed by H2 reductive elimination, with a small local barrier (main p4, SI pp10–12/FigS4). The new release/recoordination and pressure controls are benchmark extensions. Historical −1.76058 kcal/mol at 1 atm and +0.133748 with all solutes 1 M refer to different conventions, not conflicting measurements on one scale.",
+    "errors": "Bound H2 called free gas; mixing 1atm/1M terms; deleting XantPhos; small H–H barrier used as proof of spontaneous release or full catalyst turnover.",
+    "objects": {
+      "molecules": [
+        [
+          "H2",
+          "[H][H]",
+          0,
+          1
+        ],
+        [
+          "DMAc",
+          "CC(=O)N(C)C",
+          0,
+          1
+        ]
+      ],
+      "recipes": [
+        {
+          "id": "Pd_XantPhos",
+          "source": "int_g.xyz",
+          "remove_atom_maps": [
+            76,
+            77
+          ],
+          "charge": 0,
+          "multiplicity": 1
+        },
+        {
+          "id": "Pd_XantPhos_DMAc",
+          "definition": "Add one intact DMAc molecule with O coordination to the Pd75 centre; explore independent coordination conformers",
+          "charge": 0,
+          "multiplicity": 1
+        }
+      ]
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "HH_formation": "Connected H–H formation saddle and bound-H2 endpoint.",
+      "release_and_recoordination": "Real separated and re-ligated states, not relabelled eta2-H2.",
+      "standard_state_control": "Explicit H2 pressure and gas/solute standard-state conversions."
+    }
+  },
+  "paper_534ae3b6e2fb695f": {
+    "title": "Does diamine nucleophilicity predict a matched first acylation barrier?",
+    "new_class": "B",
+    "boundary": "Use full ODA, 6FODA, PFMB and TMC mapped graphs. The selected TMC site is acyl C2/Cl3; shift TMC maps by +1000 to avoid molecule-map collisions. For each amine, attack with the lowest-numbered supplied amine N and retain the second NH2 unchanged. Model the same net reaction TMC+diamine→monoamide+HCl, with departing chloride as the proton acceptor and no arbitrary free proton. This first-version local gas-phase model at 298.15 K/1 M is benchmark-authored and does not model the membrane interface. Retain source-comparable isolated gas-phase electronic descriptors on their defined scale as auxiliary tests. No polymer MD or membrane performance is required.",
+    "steps": [
+      "Compare representative attack conformers for all three real diamines at the same TMC group; include tetrahedral addition, elimination and proton-transfer segments as needed for a balanced endpoint.",
+      "Validate the relevant path saddle(s), report the effective maximum relative to common separated reactants, and compare kinetic ordering with global/local descriptors.",
+      "At matched N–C distances, decompose electronic deformation and interaction with fixed fragments. Quantify preorganization and test a decisive conformer/method control before claiming intrinsic electronic causation."
+    ],
+    "author": "Formal publisher SI (117 pages), Note8 pp10–12 describes ORCA5.0.4 B3LYP-D3BJ/def2-SVP geometries and def2-TZVP refinement, with some subsequent all-TZVP wording; keep one primary protocol and disclose this ambiguity. SI pp20–22/Note13 interprets electronic descriptors as ODA>6FODA>PFMB nucleophilicity; these are not acylation TS results. New TMC paths and distortion controls test that explanation. MD/diffusion discussion in SI p32 is separate and not scored here.",
+    "errors": "TMC left context-only; missing HCl/proton inventory; substituting local descriptor for the fixed global index; comparing different acylation stages; inferring membrane filtration from isolated molecular barriers.",
+    "objects": {
+      "reactive_mapping": {
+        "TMC": "source C2/Cl3 plus1000",
+        "ODA_N": 1,
+        "6FODA_N": 7,
+        "PFMB_N": 7,
+        "proton_acceptor": "departing Cl1003",
+        "product_rule": "replace TMC C1002–Cl1003 by C1002–Namine, move one Namine-H to Cl1003; all other graph bonds retained"
+      },
+      "scope_correction": "TMC is a mandatory reactant in this version, not context-only."
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "first_acylation": "Real connected first-acylation paths under identical proton/Cl bookkeeping.",
+      "descriptors_vs_barriers": "Identity-matched descriptor versus barrier comparison; contrary ordering is a valid result.",
+      "distortion_interaction": "Fixed TMC/diamine fragment comparison at matched N–C distances."
+    }
+  },
+  "paper_6f9a36fff6964313": {
+    "title": "Bifunctional versus matched monofunctional control in epoxide ring opening",
+    "new_class": "B",
+    "boundary": "Freeze only the CO2-cycloaddition stage, specifically the KI-promoted opening of styrene oxide. Compare full [TMTFABA]OTf and [PTMA]OTf with identical styrene oxide, K+I−, one explicit H2O and spectator CO2. Primary medium MeCN continuum, 353.15 K/1 M; source mixture is 3mL MeCN/612µL H2O, CO2 2MPa (main Table2). Every cluster is neutral singlet; keep OTf and KI inventories. Use terminal-carbon iodide attack as the matched elementary step and benzylic attack as a finite alternative in each model. CO2 insertion/epoxidation/full turnover are outside this first-version step. Preorganization controls relocate the same cationic catalyst at fixed composition; they are constrained diagnostics.",
+    "steps": [
+      "Construct complete ion-pair clusters and multiple approach conformers. Compare terminal and benzylic ring-opening paths for both catalysts with real mode/endpoint validation.",
+      "Compute common separated-cluster and local barriers, isolate association/preorganization costs and compare a matched fixed-geometry or restrained catalyst-position control.",
+      "Test whether charge-based electronic synergy survives the actual matched barrier/interaction comparison. A small or reversed effect is legitimate; changing population analysis alone is not a reaction control."
+    ],
+    "author": "The authors attribute the improved cycloaddition to the trifluoroacetyl group increasing quaternary-ammonium activation of epoxide; KI is essential (main Tables2–3). Charge protocol: B3LYP-D3BJ/6-31G(d,p), PCM MeCN geometries and M06-2X-D3/def2-TZVP/SMD refinement. Those charge calculations did not validate ring-opening TSs. This benchmark selects only the KI opening segment and matched preorganization controls; H2O2 stoichiometry conflicts in the epoxidation discussion do not enter this version.",
+    "errors": "Missing OTf/KI; unmatched molecular inventories; second reaction stage made mandatory; declaring synergy from tiny charges alone; treating ~15cm−1 mode by absolute cutoff without displacement/convergence checks.",
+    "objects": {
+      "molecules": [
+        [
+          "styrene_oxide",
+          "c1ccccc1C1CO1",
+          0,
+          1
+        ],
+        [
+          "KI",
+          "[K+].[I-]",
+          0,
+          1
+        ],
+        [
+          "water",
+          "O",
+          0,
+          1
+        ],
+        [
+          "CO2",
+          "O=C=O",
+          0,
+          1
+        ]
+      ],
+      "cluster_rule": "one catalyst ion pair + one styrene oxide + KI + one water + one spectator CO2 in every primary cluster",
+      "stage": "CO2 cycloaddition: iodide-promoted epoxide opening only"
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "ring_opening_paths": "Matched real ring-opening competition in one chosen stage.",
+      "preorganization": "Separate organization from local activation; fixed geometry is not a free minimum.",
+      "synergy_comparison": "Actual catalyst intervention and numerical uncertainty; no forced positive synergy."
+    }
+  },
+  "paper_c625cba3ce868eb1": {
+    "title": "Competing six- and seven-membered haloetherification paths",
+    "new_class": "B",
+    "boundary": "Use (R)-4 only for the minimum path matrix, with its full C10H20O3 graph. Primary stage is the source nonenzymatic NBS/Et3N control in DCM (main p7): this supplies an identified brominating reagent and proton acceptor without presuming an enzyme-generated free Br+ species. Model one NBS and one Et3N per substrate in a neutral singlet cluster at 298.15 K/1 M; Et3N is a local proton-relay model, not a claim that the experimental loading was one equivalent. Initial alkene maps2/4, alcohol O21; six-membered closure forms O21–C4, seven-membered closure O21–C2. The actual hydroperoxide oxygens are O23/O24, not row22 (H). The two physically available closures are SIX/SEVEN, correcting the planning document five/six label. Enzymatic aqueous selectivity is contextual, not a required QM/MM result.",
+    "steps": [
+      "Compare bromination at the two alkene faces and subsequent six/seven ring closure under the same NBS/succinimide and Et3N/Et3NH+ inventory.",
+      "Locate connected competitive closure paths with proton transfer to succinimide/Et3N treated explicitly. Include conformational preequilibrium and a common reactant reference.",
+      "Compare the hydroperoxide-polarization rationale with real path evidence; source electrostatic charges propose candidates but cannot establish pathway selectivity."
+    ],
+    "author": "Authors propose hydroperoxide-induced alkene polarization and a bromiranium intermediate; nonenzymatic NBS gives the same profile as CiVCPO (main p3). Main p7 explicitly reports NBS/Et3N in dry DCM, whereas original descriptors used aqueous B3LYP/CBSB7 C-PCM. The new local model uses the identified NBS control and tests six/seven closures. It does not identify the microscopic enzyme brominating species or import a nonexistent five-membered source channel.",
+    "errors": "Wrong ring sizes; row22 treated as hydroperoxide O; Br− used as electrophilic source; failed TS called exclusion; charge asymmetry claimed to establish regioselectivity or enzyme mechanism.",
+    "objects": {
+      "molecules": [
+        [
+          "NBS",
+          "O=C1CCC(=O)N1Br",
+          0,
+          1
+        ],
+        [
+          "Et3N",
+          "CCN(CC)CC",
+          0,
+          1
+        ],
+        [
+          "succinimide",
+          "O=C1CCC(=O)N1",
+          0,
+          1
+        ]
+      ],
+      "mapping_correction": {
+        "alkene": [
+          2,
+          4
+        ],
+        "alcohol_O": 21,
+        "hydroperoxide_O": [
+          23,
+          24
+        ],
+        "six_ring_new_bond": [
+          21,
+          4
+        ],
+        "seven_ring_new_bond": [
+          21,
+          2
+        ]
+      },
+      "source_discrepancy": "NBS is 0.284mmol/6mL =47.3mM; source text prints473mM. Amount/volume define context, not the typo."
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "closure_paths": "Correct graph-derived ring sizes and chemically identified NBS control.",
+      "active_reagent_ledger": "No naked bromide substituted for an electrophilic brominating reagent.",
+      "regioselectivity_test": "Regioselectivity from connected paths, with source/model boundaries explicit."
+    }
+  },
+  "paper_d3b4575397179146": {
+    "title": "SET versus oxygen sensitization necessary conditions for N-methyl oxidation",
+    "new_class": "B",
+    "boundary": "Use all four mapped heptazines and source substrate1a: N-methyl-N-(4-trifluoromethylphenyl)pivalamide. Pilot dFHeptZ/dOMeHeptZ first, then expand the same endpoint contract to dClHeptZ/dMeHeptZ. Use MeCN, 273.15 K, substrate0.1M, O2 1atm, 456nm source conditions; solute free energies use1M. Include substrate radical cation (charge+1,doublet), catalyst radical anion (−1,doublet), O2 triplet ground state, singlet oxygen and superoxide (−1,doublet). SET compares S+PC*→S+radical+PC−radical. EnT compares catalyst triplet deactivation with triplet-O2→singlet-O2; E00 and triplet gaps are not vertical S1 energies. A shared SCE reference may be used, but direct reaction G avoids arbitrary absolute-electrode shifts.",
+    "steps": [
+      "Validate neutral/redox states and track physical excitations by NTO or equivalent character, including root-window expansion when needed. Separate E00, vertical excitation and relaxed triplet gap.",
+      "Compute balanced SET thermodynamics and oxygen sensitization thresholds for all four catalysts, including regeneration feasibility with oxygen; retain explicit charge/spin and reference conventions.",
+      "Use available oxygen/quenching constraints and actual method/state sensitivity to judge necessary conditions. If both routes are thermodynamically possible, state that thermochemistry alone cannot select the mechanism or predict yield."
+    ],
+    "author": "Authors used B3LYP/6-311+G(d,p) geometries and TD-PBE0/6-311+G(d,p), IEFPCM MeCN, 18 singlet roots (SI p19) and interpret weak visible bands through substituent-dependent orbitals. Main Fig4 gives 1a, O2/MeCN/0°C and456nm conditions. The new substrate/O2 redox and triplet cycles were not established by the four vertical-state calculations; they test necessary conditions only.",
+    "errors": "Wrong substrate or oxygen state; E00 equated to vertical S1; unmatched potential references; thermodynamic feasibility asserted as exclusive mechanism or exact yield.",
+    "objects": {
+      "molecules": [
+        [
+          "substrate_1a",
+          "CC(C)(C)C(=O)N(C)c1ccc(C(F)(F)F)cc1",
+          0,
+          1
+        ],
+        [
+          "triplet_O2",
+          "[O][O]",
+          0,
+          3
+        ],
+        [
+          "singlet_O2",
+          "O=O",
+          0,
+          1
+        ],
+        [
+          "superoxide",
+          "[O-][O]",
+          -1,
+          2
+        ]
+      ],
+      "state_recipes": "Vertical/adiabatic catalyst anions and substrate cation keep their neutral atom graph; use charge−1/+1, multiplicity2. Verify singlet oxygen with an appropriate open-shell/multiconfigurational treatment or calibrated experimental state gap; closed-shell DFT O2 alone is not automatically accurate."
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "photoredox_matrix": "Four catalysts on a common SET/EnT and redox/state reference.",
+      "oxygen_states": "Correct oxygen state energetics and spin identity.",
+      "mechanism_discrimination": "Fair possibility of both routes being feasible; no exact oxidation-yield prediction."
+    }
+  },
+  "paper_ef26687d63a37e29": {
+    "title": "Propagation versus backbiting in a defined organoboron chain end",
+    "new_class": "B",
+    "boundary": "Retain the source phosphine and PA/PO zwitterion identities, but do not mistake them for a growing polycarbonate chain. The new finite active chain model is PA-derived acylphosphonium with a two-PO/one-CO2 segment and terminal O−, net-neutral singlet with internal P+/O−. species_registry.json supplies its complete graph and a matched no-PA chain. Include one Et3B bound to the chain O and one free Et3B for incoming PO activation, consistent with the local 1:2 catalyst inventory. Compare CO2 insertion/PO propagation with backbiting to a cyclic carbonate, retaining the shortened chain coproduct. Use THF continuum 353.15K, solutes1M, CO2 fugacity convention explicitly stated; source neat/THF dilution is represented only by a declared concentration control, not a bulk polymer model.",
+    "steps": [
+      "Audit original free/PO/PA graphs and construct the explicit short-chain extension. Map the terminal alkoxide, carbonate carbon and neighbouring PO carbons for propagation/backbite.",
+      "Locate one connected propagation sequence and one backbiting path for PA and no-PA models. For propagation take the effective maximum of CO2 insertion and PO opening, not the lower convenient step.",
+      "Propagate standard-state and a tenfold PO concentration decrease into effective competition using computed barriers. Separate concentration terms from barrier uncertainty; no freely fitted polymerization network or molecular-weight prediction."
+    ],
+    "author": "The source attributes dilution tolerance to phosphonium/chain-oxygen interactions and Et3B association; original B3LYP-D3BJ/6-31G(d), ADCH (SI pp4–5) compared only free phosphine/PO/PA local models. The added short-chain graphs, propagation/backbite barriers and concentration competition are benchmark extensions. They must not be attributed to already validated author calculations.",
+    "errors": "Original initiator adduct presented as growing carbonate chain; missing Et3B or coproduct; wrong P+/O− bookkeeping; independent fitted rate for each dilution; isolated P charge used as polymer selectivity proof.",
+    "objects": {
+      "molecules": [
+        [
+          "Et3B",
+          "CCB(CC)CC",
+          0,
+          1
+        ],
+        [
+          "PO",
+          "CC1CO1",
+          0,
+          1
+        ],
+        [
+          "CO2",
+          "O=C=O",
+          0,
+          1
+        ],
+        [
+          "PA_chain",
+          "CCN(CC)[P+](N(CC)CC)(N(CC)CC)C(=O)c1ccccc1C(=O)OCC(C)OC(=O)OCC(C)[O-]",
+          0,
+          1
+        ],
+        [
+          "noPA_chain",
+          "CCN(CC)[P+](N(CC)CC)(N(CC)CC)CC(C)OC(=O)OCC(C)[O-]",
+          0,
+          1
+        ]
+      ],
+      "chain_origin": "Benchmark minimal oligomer: source PA/PO graph extended with exact PO/CO2 insertion connectivity. The PA versus noPA pair is a composite structural intervention, not pure electrostatics."
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "chain_paths": "Actual short-chain propagation/backbite with two Et3B reservoirs.",
+      "chain_end_audit": "Explicit chain connectivity, charge separation and coproduct balance.",
+      "concentration_test": "A retained concentration control with a transparent uncertainty range."
+    }
+  },
+  "paper_0dc85595cab7bc0a": {
+    "title": "Two-stage photocyclization candidates with explicit accessibility limits",
+    "new_class": "C",
+    "boundary": "Start from independently displaced C30H22 precursor1-cis, neutral singlet. Preserve the mapped graph. Each Mallory closure joins an ortho position on each aryl flank of one vinyl bridge; enumerate symmetry-inequivalent pairs at both vinyl sites, then second-stage alternatives. Initial nonoxidative closure conserves C30H22; dehydrogenative oxidation removes two specifically mapped H atoms per stage. Compare G only within equal-composition layers or include the same H2/oxidant reservoir explicitly. Primary molecular model gas phase298.15K/1atm; DCM sensitivity may be used. Select one critical closure from each stage for S0 constrained-path and vertical excited-state tracking. Do not demand full nonadiabatic trajectories. If a calibrated excited-state path is unavailable, complete the declared S0/state diagnostic and limit the conclusion to supported candidate sets and ground-state constraints.",
+    "steps": [
+      "Apply a finite graph-based two-stage candidate rule, include both aryl-flank choices and relevant cis/conformer alternatives, deduplicate by map-preserving graph equivalence and retain exclusions.",
+      "Refine advanced candidates at DFT with stationary validation and composition-separated relative G. Supply explicit oxidation/H atom bookkeeping, not absolute energies across different hydrogen counts.",
+      "For representative first/second closures, inspect a mapped forming-bond coordinate on a declared state surface with state-character tracking. A lowest ground-state product alone cannot prove photochemical reachability or unique photoproduct."
+    ],
+    "author": "Source main p2/Fig2 and SI pp9–11 compare omegaB97X-D/def2-TZVP intermediate G and LUMO site density/phase for sequential Mallory oxidation/cyclization. The authors infer selectivity; those ground-state comparisons do not establish excited-surface access. New representative path/state diagnostics deliberately constrain the strength of the conclusion. Full SHARC dynamics and exact branching ratios remain optional.",
+    "errors": "Comparing raw total energies across H counts; source terminal structures or product names leaked as independent discoveries; lowest S0 product asserted as uniquely photoaccessible; static LUMO picture substituted for state/path evidence.",
+    "objects": {
+      "candidate_rule": "For either mapped vinyl pair29–33 or31–35, take each aryl ipso neighbour and enumerate their two ortho neighbours; propose new C–C bond between those ortho sites, with valence-consistent dihydro closure. Enumerate both symmetry-inequivalent closures and continue every retained first-layer constitution into the second stage. Oxidation removes the two hydrogens on the newly joined aromatic carbons and restores aromatic bond order; record their maps and H2 reservoir."
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "candidate_layers": "Two-stage chemically distinct candidate coverage and auditable same-formula energy comparisons.",
+      "accessibility_diagnostics": "Real representative closure profiles and physical-state tracking; S0 diagnostics cannot establish a unique photoproduct.",
+      "supported_set": "Conclusion remains an evidence-supported candidate set unless a separate calibrated photochemical extension is supplied."
+    }
+  },
+  "paper_a3892396b1843698": {
+    "title": "Connected sigmatropic paths and a controlled preorganization intervention",
+    "new_class": "C",
+    "boundary": "Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only.",
+    "steps": [
+      "Use more than one independent initial approach for both rearrangements, validate reaction-coordinate modes and both endpoints, preserving atom/bond mapping.",
+      "Perform both paths from the geometric preorganization control, including preparation energy and release/collapse evidence. If relaxation returns to the original family, document that collapse and do not invent a separate minimum or free-energy barrier.",
+      "Report electronic and Gibbs barriers separately and compare the total common-reference cost. Negative electronic differences are not negative activation G. Static evidence alone cannot establish a trajectory branching ratio."
+    ],
+    "author": "The authors discuss cyclopropyl strain and double-boat/double-chair organization (main p4/Fig5) and use omegaB97X-D/def2-SVP geometries/frequencies, def2-TZVPP refinement, GoodVibes and selected dynamics. The benchmark keeps two local channels and an explicit same-graph torsional intervention; it does not require all bridged systems or trajectories. Prior two-TS energetics alone did not establish bidirectional connectivity or the proposed causal control.",
+    "errors": "Wrong bond map; unconnected TS; constrained point called a free minimum; negative electronic difference called negative activation free energy; ignoring preparation cost or double counting conformer weights.",
+    "objects": {
+      "bond_edits": {
+        "33": {
+          "break": [
+            [
+              1,
+              2
+            ]
+          ],
+          "form": [
+            [
+              10,
+              13
+            ]
+          ],
+          "pi_shift": "1–8 and2–11 become double;8–10 and11–13 become single"
+        },
+        "55": {
+          "break": [
+            [
+              1,
+              2
+            ]
+          ],
+          "form": [
+            [
+              16,
+              20
+            ]
+          ],
+          "pi_shift": "1–8,10–14,2–11,13–18 become double;8–10,14–16,11–13,18–20 become single"
+        }
+      },
+      "geometric_control": {
+        "torsions": [
+          [
+            10,
+            8,
+            1,
+            2
+          ],
+          [
+            13,
+            11,
+            2,
+            1
+          ]
+        ],
+        "targets_deg": [
+          [
+            120,
+            -120
+          ],
+          [
+            -120,
+            120
+          ]
+        ],
+        "retain_graph": true,
+        "release_before_stationarity_classification": true
+      }
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "rearrangement_paths": "Both original and matched geometric-control paths, allowing evidenced collapse of the control.",
+      "preorganization": "Quantify geometric preparation, distinguish constraints from free stationary points.",
+      "channel_response": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence."
+    }
+  },
+  "paper_8fefc96b015c4577": {
+    "title": "Tether–solvent competition in radical aryl cyclization",
+    "new_class": "C",
+    "boundary": "Use the short C21H24F2NO4S radical and long C22H26F2NO4S homologue, both charge0/doublet. The sole long-chain edit inserts CH2 between short-map13 (N-benzyl carbon) and aromatic ipso14, retaining the radical at map10 and every other atom. For each chain independently compare DMSO and1,2-DCE at298.15K/1atm and two aryl closures: radical10 to either ortho carbon of the N-alkyl-tethered aryl or arenesulfonyl aryl ring. System-specific separated-reactant and uncyclized-radical zeros must be distinguished. Source experimental protocols also change additives; this solvent cross is a controlled model and does not isolate all experimental causes.",
+    "steps": [
+      "Generate deduplicated conformers and two aryl-connectivity families for each of the four chain/solvent combinations. Do not reuse author TS coordinates or source atom row numbers from a different ordering.",
+      "Validate both paths in each condition by real modes and bidirectional endpoints; compare local and common-zero G including conformer preparation.",
+      "Compare chain/solvent double differences and matched-coordinate geometric strain proxies. Probe a decisive method/low-frequency/conformer uncertainty, allowing close competition instead of requiring a significant reversal."
+    ],
+    "author": "Main Scheme3c p4 compares benzyl-aryl versus sulfonyl-aryl closure and attributes tether effects to strain/electronics. SI p34 uses B3LYP-D3/def2-TZVPP, SMD DMSO for short and DCE for long. Source local long-chain gap is only about0.52kcal/mol, so a robust reversal is not guaranteed. The full solvent cross and bidirectional connections are new required controls, while full photoredox/additive networks remain outside scope.",
+    "errors": "Missing cross-solvent corner or competing path; comparing unlike-composition total energies; wrong atom-order migration; forcing a small source gap sign; ignoring additive confounding or asserting a product ratio from one TS pair.",
+    "objects": {
+      "molecules": [
+        [
+          "long_radical",
+          "CCOC(=O)C(F)(F)C[CH]CN(CCc1ccccc1)S(=O)(=O)c1ccc(C)cc1",
+          0,
+          2
+        ]
+      ],
+      "homology_mapping": "retain short maps1–53; delete bond13–14; insert CH2 map54 with H55/H56 and bonds13–54–14. No other atom or radical position changes.",
+      "candidate_sites": {
+        "short_radical": 10,
+        "short_alkyl_aryl_ortho": [
+          15,
+          19
+        ],
+        "short_sulfonyl_aryl_ortho": [
+          24,
+          29
+        ]
+      },
+      "conditions": [
+        "DMSO",
+        "1,2-dichloroethane"
+      ]
+    },
+    "blocked": null,
+    "notes": "",
+    "panels": {
+      "crossed_paths": "Full2×2×2 local competition; eight combinations are not eight engine calls.",
+      "factorial_contrasts": "Double differences of within-system channel G barriers, never unlike absolute total energies.",
+      "strain_and_robustness": "Actual matched-progress deformation and long-chain sensitivity, with no forced sign."
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "result",
+      "statement": "Correct mapped molecules and charge-conserving Au devices",
+      "expected": "Check all three graphs, full formulas, removed H21/H22, Au inventories and source-to-device mappings. Inspect actual lead/cell/anchor definitions and allowed executable chain; net device charge differs from an isolated thiolate formal charge. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_transport",
+      "key_point_type": "result",
+      "statement": "True self-consistent zero and positive/negative bias transport",
+      "expected": "Require each configured junction at 0 and ±0.5 V, lead self-energy dependencies, T(E,V) and raw converged SCF outputs. Reintegrate signed currents and check mu_L-mu_R=eV; uniform fields and dipoles cannot substitute. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_controls",
+      "key_point_type": "result",
+      "statement": "Matched bridge, molecular reversal and unilateral-contact tests",
+      "expected": "Verify all bridge contrasts plus AD_reversed and AD_left_gap_plus_0p2A with fixed laboratory leads, mapping and measured contact changes. Recalculate delta currents and assess confounding geometric strain. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Lead, energy, k-grid and screening uncertainty",
+      "expected": "Check actual refined k/quadrature and thicker-screening calculations, zero-current floor and integrations. Ratio denominator below the measured uncertainty yields documented bounds, not a forced ratio. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "key_point_type": "result",
+      "statement": "Polarity hypothesis tested against device evidence",
+      "expected": "Tie dipole, transmission-window and potential-drop evidence to a falsifiable interpretation. Reject general device claims based on isolated scalar agreement. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    }
+  ]
+}

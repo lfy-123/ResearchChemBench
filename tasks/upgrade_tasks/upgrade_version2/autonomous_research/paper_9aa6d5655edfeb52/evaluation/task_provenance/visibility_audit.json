@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "public_files": [
+    "data/inputs/objects.json",
+    "data/inputs/observations.json",
+    "resources.md",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "task_info_is_runtime_visible": true,
+  "bibliographic_metadata_redacted_in_both_modes": true,
+  "author_route_public_only_in_PR": true,
+  "old_public_and_evaluator_archived_private": true,
+  "runtime_isolation_status": "pending; physical public export is not filesystem isolation",
+  "public_transformations": [
+    "Keep fused2a complete topology and source THF observations; remove optimized geometry and target orbital/state assignment.",
+    "Remove the mandatory Br-containing precursor1a comparison, which was a builder extension with a compositional confound rather than the source photophysical comparator.",
+    "Remove cage-C-C restrained/released grid and preassigned cage-motion/CT causal explanation from public and private requirements."
+  ],
+  "new_structures_generated_as_source_answers": false
+}

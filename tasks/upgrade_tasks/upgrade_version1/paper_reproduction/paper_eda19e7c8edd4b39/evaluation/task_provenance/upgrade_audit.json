@@ -1,0 +1,95 @@
+{
+  "batch": 5,
+  "date": "2026-09-27",
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "mode": "paper_reproduction",
+  "source": "tasks/final_verified_paper_reproduction/paper_eda19e7c8edd4b39",
+  "source_package_content_sha256": "a1a9d234bcdac258be7495ca51824a742812142eaffb9d10ef7a9d7500e84581",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/beta_nial_b2_primitive.poscar": {
+      "sha256": "fa9155e2fbc232d911539aa2271a57ea4f5881676246f47d1f8b375a8695e5d7",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/beta_nial_b2_primitive.poscar.snapshot"
+    },
+    "agent_input/data/inputs/system_definition.json": {
+      "sha256": "1a20b9a90f86dff34027bb33d5f7269618a429b2a0075857e53a5162d99c4368",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/system_definition.json.snapshot"
+    },
+    "agent_input/submission_schema.json": {
+      "sha256": "6f1b00d9f42617bd5dec9c59f92f7acb572eac0a5b85215a44ea63375a2a2b07",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot"
+    },
+    "agent_input/task.md": {
+      "sha256": "9fbf6581c2e0b237e0679b49fdb165df24e319201e6ee78f2177e4d576bf910a",
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot"
+    },
+    "evaluation/critical_failures.json": {
+      "sha256": "1856150e96364ddabbe1aabca841d4564600ed728830afe50b214509bdcaf37f",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot"
+    },
+    "evaluation/evidence_map.json": {
+      "sha256": "ca09ac00b184db1892a69c2cc6c14ddfc170ce74666c8a358512c8ce96d5de15",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot"
+    },
+    "evaluation/reference_conclusions.json": {
+      "sha256": "753156ccec5eef7e4ba065d5256e6c2c1f8b27d9bb7bcc7b13a89596de079b2d",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot"
+    },
+    "evaluation/reference_key_points.json": {
+      "sha256": "368e667916a10fff7d108afed33e0fed9028c9b3a4f21ccd3c4c2da736d5c602",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot"
+    },
+    "evaluation/scoring_rules.json": {
+      "sha256": "a37387b704833e150ce0242d37233513fbeaf6b99abd8a5a295c1b631b7c2c4c",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "sha256": "edcc08ec4d798b396204968a42d5b4efe6d4f836d2920d7499f52cf6463e9189",
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot"
+    },
+    "package_manifest.json": {
+      "sha256": "999bfee9e53f8748269ec0004a0bd0ff19e7db535b2b3acbdb763fb88de6ff6a",
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot"
+    },
+    "paper_route.md": {
+      "sha256": "263ca9fae269624d2ea0cf1679e50264d7614729a8529d6cfd1be38aef8f9b04",
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot"
+    },
+    "task_info.json": {
+      "sha256": "1167647ba07eff213438713b662fbdbf659a646f41d17ac7ff22c8f69348e397",
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_eda19e7c8edd4b39/documents/main.pdf",
+      "sha256": "c9db7c7771ae5db69a41f10aa75967d88c1932e7146b1929d0f245a61e9da6bf",
+      "pages": [
+        7,
+        8
+      ],
+      "total_pages": 11
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_eda19e7c8edd4b39.publisher_si.pdf",
+      "sha256": "59d72a5ef0ce8a23a1aeb442f43e5c69e8b78eca9bae8db3ab84ff48185e1239",
+      "sections": "Relevant methods, experimental observations and identity blocks; see source review."
+    },
+    {
+      "path": "docs/evalution/update/paper_eda19e7c8edd4b39.md",
+      "sha256": "4bb9060f96996dcd6d087db8187712b4c9ec25fd397275a8b1339ca557716e8b",
+      "role": "First-version specification, not scientific evidence"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "short_checks": "Connectivity/formula/stoichiometry checks and synthetic format regressions only.",
+  "input_blockers": [],
+  "new_reference_gaps": [
+    "New surface, phase, balanced-cycle and convergence references have not been computed.",
+    "Native model/PAW/basis settings require a demonstrated pilot; source numerical defaults are not inferred from the installed engine."
+  ],
+  "source_read_claim": "Relevant full-text pages/sections were read; list is not a claim that every page was scientifically revalidated."
+}

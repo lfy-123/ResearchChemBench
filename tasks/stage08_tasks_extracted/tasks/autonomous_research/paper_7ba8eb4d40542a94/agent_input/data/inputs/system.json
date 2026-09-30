@@ -1,0 +1,17 @@
+{
+  "components": [
+    {"id": "imidazole", "input_file": "imidazole.xyz", "molecules": 1},
+    {"id": "salicylic_acid", "input_file": "salicylic_acid.xyz", "molecules": 1}
+  ],
+  "complex_stoichiometry": "one imidazole plus one salicylic acid",
+  "total_charge": 0,
+  "spin_multiplicity": 1,
+  "electronic_state": "closed-shell neutral singlet",
+  "connectivity": {
+    "imidazole": "five-membered ring N1-C2-N3-C4-C5-N1 with N1-H; C2, C4, and C5 each bear one H",
+    "salicylic_acid": "benzene ring bearing adjacent carboxylic-acid and phenolic substituents; carboxyl carbon bonded to C(=O)O-H and phenolic oxygen bonded to H; four aromatic C-H sites"
+  },
+  "environment": "isolated gas-phase molecular complex; no solvent or periodic boundary",
+  "interaction_energy_definition": "E(complex) - E(imidazole monomer) - E(salicylic_acid monomer), using one consistent electronic-structure protocol and energy unit",
+  "required_candidate_identity": "retain a stable candidate identifier, optimized geometry, and the intermolecular donor/acceptor contacts used to distinguish duplicates"
+}

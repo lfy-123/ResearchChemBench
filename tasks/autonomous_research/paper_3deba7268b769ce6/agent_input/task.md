@@ -4,7 +4,7 @@ For the uniquely specified singly deprotonated E-imine dye-3 chromophore in impl
 
 # Public inputs and scientific boundaries
 
-`data/inputs/dye3_phenolate.smiles` is authoritative for connectivity and formal charge: the E-imine of 4-aminophenol and 4′-nitro-[1,1′-biphenyl]-4-carbaldehyde, singly deprotonated at phenol (net charge −1). `data/inputs/system_spec.json` fixes charge −1, singlet multiplicity 1, dichloromethane implicit continuum (ε=9.08, n=1.424), and the target state definition. Generate 3-D coordinates and document stereochemical/conformer choices. This is a vertical electronic-structure task; solvent dynamics, vibronic spectra, photochemistry, and ensemble claims are outside scope. No author route, software, model chemistry, reference value, or selected geometry is supplied; propose and justify the approach yourself.
+`data/inputs/dye3_phenolate.smiles` is authoritative for connectivity and formal charge: the E-imine of 4-aminophenol and 4-(5-nitrothiophen-2-yl)benzaldehyde, singly deprotonated at phenol (net charge −1). `data/inputs/system_spec.json` fixes charge −1, singlet multiplicity 1, dichloromethane implicit continuum (ε=9.08, n=1.424), and the target state definition. Generate 3-D coordinates and document stereochemical/conformer choices. This is a vertical electronic-structure task; solvent dynamics, vibronic spectra, photochemistry, and ensemble claims are outside scope. No author route, software, model chemistry, reference value, or selected geometry is supplied; propose and justify the approach yourself.
 
 # Required scientific validation/investigation
 

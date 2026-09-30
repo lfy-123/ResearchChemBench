@@ -1,0 +1,119 @@
+{
+  "paper_id": "paper_d42963d9843c70ea",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_01",
+      "type": "semantic",
+      "expected": "all three named states have explicit identity, outcome, structure and state-specific validation/convergence records",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_02",
+      "type": "semantic",
+      "expected": "disclosed reproducible method, convergence, reciprocal-space basis and orbital evidence for each applicable state",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.states[*].convergence_evidence",
+          "$.states[*].electronic_sampling",
+          "$.states[*].extrema_or_crossing",
+          "$.states[*].orbital_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_01",
+      "type": "condition",
+      "expected": "semiconducting",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].id",
+          "$.states[*].gap_result.classification"
+        ],
+        "comparison": "equals semiconducting"
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_result_02",
+      "type": "condition",
+      "expected": "metallic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].id",
+          "$.states[*].gap_result.classification"
+        ],
+        "comparison": "equals metallic"
+      }
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_result_03",
+      "type": "semantic",
+      "expected": "zero-gap semimetal and Te near-Fermi evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].id",
+          "$.states[*].gap_result.classification",
+          "$.states[*].orbital_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r6",
+      "reference_id": "pr_final_01",
+      "type": "semantic",
+      "expected": "strain-dependent gap closure pattern",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r7",
+      "reference_id": "pr_limit_01",
+      "type": "semantic",
+      "expected": "method and source numerical-limit caveat",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

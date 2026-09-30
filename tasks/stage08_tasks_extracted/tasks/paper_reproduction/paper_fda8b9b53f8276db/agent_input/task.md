@@ -1,0 +1,27 @@
+# Scientific objective
+
+For the isolated neutral singlet molecule 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline (compound 1), determine computationally whether a defensible ground-state optimized structure is a vibrationally stable stationary point and quantify how its explicitly atom-mapped intramolecular bond lengths compare with the public crystal geometry. Independently formulate the calculation and any plausible conformer/protocol alternatives; the task does not provide an author mechanism or preferred method.
+
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors propose that the isolated free ligand has a stable optimized ground-state geometry and that its intramolecular bond lengths should correspond closely to those in the single-crystal structure. They also recognize that the pyridine-ring orientation may differ between an isolated molecule and the packed crystal because crystal packing is absent from the isolated-molecule model.
+
+**Candidate route or mechanism.**
+A relevant author-supported route is to begin from the deposited crystal molecular geometry, optimize the neutral singlet isolated molecule with a density-functional method, and assess the resulting stationary point. The comparison concerns the free-ligand optimized structure versus the deposited intramolecular crystal geometry; it does not require modeling periodic packing.
+
+**Discriminating evidence.**
+The claim is tested by a reproducible geometry optimization followed by harmonic vibrational analysis, together with an explicit atom mapping and quantitative comparison of corresponding bond lengths. The mapped bond table and aggregate agreement metrics distinguish a stable, crystal-consistent geometry from an unsupported or poorly matched structure.
+
+# Public inputs and scientific boundaries
+
+The sole molecular input is `data/inputs/ccdc_record.json`: controlled CCDC record 2433822 (DOI 10.5517/ccdc.csd.cc2mpldb), compound 1. Retrieve it through the allowed CCDC connector, select the molecular component for 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline, preserve deposited connectivity and atom identities, and document any deterministic removal of crystallographic solvent or symmetry mates. Use charge 0 and multiplicity 1. The physical boundary is one isolated molecule and the comparison boundary is intramolecular bond lengths in the deposited crystal component. Measure Cartesian optimized coordinates, harmonic frequencies, number of imaginary modes, and bond lengths in Å. Periodic packing, solvent effects, and any paper/SI optimized geometry or result are outside the public problem. Do not use the paper, SI or general web as a source of input or answer.
+
+# Required scientific validation/investigation
+
+Propose and execute a reproducible optimization protocol, recording software, method, basis/pseudopotential, charge, multiplicity, convergence and environment. If you explore conformers or protocols, generate candidates by stated transformations or searches, deduplicate them by connectivity and a stated geometry criterion, retain candidate IDs and per-candidate validation context, and justify advancement and stopping from observed outcomes. Verify the reported structure with a Hessian/frequency calculation or a justified equivalent; report all imaginary frequencies and failures. Define an unambiguous atom mapping from the deposited component to each optimized candidate, list every compared bond by endpoint identity, and calculate RMSE and linear-fit R² (MAE may also be reported). Completion requires a converged optimized structure plus frequency validation and mapped bond comparison; the submitted report must contain the corresponding candidate selection, quantitative observations and conclusion. Stop when this completion condition is met and report candidate/protocol coverage and limitations. A result that cannot be traced to the public record and submitted files is incomplete.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. Include system and input provenance, independent protocol, candidate list and selection rationale if applicable, optimized coordinates or a truthful failure branch, frequencies/imaginary-mode count, per-bond mapped observations and aggregate metrics, validation artifact paths, conclusion, search coverage/stopping statement, and limitations. Use explicit units and submitted precision for every numeric result.

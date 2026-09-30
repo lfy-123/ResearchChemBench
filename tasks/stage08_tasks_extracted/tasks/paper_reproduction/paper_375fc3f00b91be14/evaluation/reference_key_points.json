@@ -1,0 +1,53 @@
+{
+  "paper_id": "paper_375fc3f00b91be14",
+  "items": [
+    {
+      "key_point_id": "pr_process_states",
+      "key_point_type": "process",
+      "evidence_ids": [
+        "ev_doc_a0c4a37e604c_000275_b1752101b307"
+      ],
+      "expected": "Four chemically balanced state records with charge 0/+1 and singlet multiplicity, with explicit validation context.",
+      "statement": "The submission identifies neutral and singly protonated E,E and Z,Z PyDIG as distinct charge- and multiplicity-defined states and preserves isomer identity through calculation."
+    },
+    {
+      "key_point_id": "pr_process_thermo",
+      "key_point_type": "process",
+      "evidence_ids": [
+        "ev_doc_a0c4a37e604c_000307_66eaa72a9f6a",
+        "ev_doc_a0c4a37e604c_000310_585cb17a6baf",
+        "ev_doc_a0c4a37e604c_000312_8169bcfa467c"
+      ],
+      "expected": "A reproducible thermochemical bookkeeping description linking neutral and conjugate-acid free energies to pKa.",
+      "statement": "The submission derives pKa from a consistent free-energy cycle and discloses solvent, proton, standard-state and equivalent-site conventions."
+    },
+    {
+      "key_point_id": "pr_result_ee",
+      "key_point_type": "result",
+      "evidence_ids": [
+        "ev_doc_1a05be7c2f10_000240_0dff6643b2ca"
+      ],
+      "expected": "7.04 log units.",
+      "statement": "The computed aqueous pKa for the lowest-energy E,E form is approximately the source-reported value."
+    },
+    {
+      "key_point_id": "pr_result_zz",
+      "key_point_type": "result",
+      "evidence_ids": [
+        "ev_doc_1a05be7c2f10_000241_83877aa4932f"
+      ],
+      "expected": "9.60 log units.",
+      "statement": "The computed aqueous pKa for the lowest-energy Z,Z form is approximately the source-reported value."
+    },
+    {
+      "key_point_id": "pr_result_delta",
+      "key_point_type": "result",
+      "evidence_ids": [
+        "ev_doc_1a05be7c2f10_000240_0dff6643b2ca",
+        "ev_doc_1a05be7c2f10_000241_83877aa4932f"
+      ],
+      "expected": "\u0394pKa = 2.56 log units, Z,Z minus E,E.",
+      "statement": "The computed basicity change is positive and approximately the source-reported difference."
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_ar_identity",
+      "expected": "Both records preserve public identity and state.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific verification"
+      },
+      "reference_id": "kp_ar_process_identity",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_ar_minimum",
+      "expected": "Each successful record has convergence and zero imaginary modes or justified equivalent.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific verification"
+      },
+      "reference_id": "kp_ar_process_minimum",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_ar_A",
+      "expected": "HOMO energy for system_A. Select homo_energy_eV from the unique record id=system_A; never infer identity from array order or value proximity. Duplicate or missing identities do not establish coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": -5.03,
+      "unit": "eV",
+      "tolerance": 0.3,
+      "reference_id": "kp_ar_result_A",
+      "type": "numeric"
+    },
+    {
+      "rule_id": "r_ar_B",
+      "expected": "HOMO energy for system_B. Select homo_energy_eV from the unique record id=system_B; never infer identity from array order or value proximity. Duplicate or missing identities do not establish coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": -5.18,
+      "unit": "eV",
+      "tolerance": 0.3,
+      "reference_id": "kp_ar_result_B",
+      "type": "numeric"
+    },
+    {
+      "rule_id": "r_ar_final",
+      "expected": "Submitted values support a more negative HOMO for system_B than system_A. Check the signed difference against both same-protocol values after identity matching; a pair of wide individual tolerances alone does not establish ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_ar_final",
+      "type": "semantic"
+    }
+  ],
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

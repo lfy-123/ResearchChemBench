@@ -1,0 +1,1433 @@
+{
+  "release_reconciliation": {
+    "molecules": [
+      {
+        "molecule_id": "ODA",
+        "xyz_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_identity_corrected_retry/1_20260903T002322Z_422/input.xyz",
+        "cdft_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/CDFT.txt",
+        "global_nucleophilicity_eV": 4.0898,
+        "homo_eV": -5.0314,
+        "reference_homo_eV_from_printed_output": -9.1212,
+        "nitrogen_local_nucleophilicity": [
+          {
+            "atom_map_id": 1,
+            "value": 0.30109,
+            "unit": "e*eV"
+          },
+          {
+            "atom_map_id": 11,
+            "value": 0.30159,
+            "unit": "e*eV"
+          }
+        ],
+        "ring_plane_angle_deg": 70.47042260289922,
+        "linker_torsions": [
+          {
+            "atom_map_ids": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "angle_deg": 41.818160709037436
+          },
+          {
+            "atom_map_ids": [
+              5,
+              6,
+              7,
+              8
+            ],
+            "angle_deg": 41.593385976400526
+          }
+        ],
+        "atom_mapping": [
+          {
+            "map_id": 1,
+            "xyz_index_1based": 1,
+            "element": "N"
+          },
+          {
+            "map_id": 2,
+            "xyz_index_1based": 2,
+            "element": "C"
+          },
+          {
+            "map_id": 3,
+            "xyz_index_1based": 3,
+            "element": "C"
+          },
+          {
+            "map_id": 4,
+            "xyz_index_1based": 4,
+            "element": "C"
+          },
+          {
+            "map_id": 5,
+            "xyz_index_1based": 5,
+            "element": "C"
+          },
+          {
+            "map_id": 6,
+            "xyz_index_1based": 6,
+            "element": "O"
+          },
+          {
+            "map_id": 7,
+            "xyz_index_1based": 7,
+            "element": "C"
+          },
+          {
+            "map_id": 8,
+            "xyz_index_1based": 8,
+            "element": "C"
+          },
+          {
+            "map_id": 9,
+            "xyz_index_1based": 9,
+            "element": "C"
+          },
+          {
+            "map_id": 10,
+            "xyz_index_1based": 10,
+            "element": "C"
+          },
+          {
+            "map_id": 11,
+            "xyz_index_1based": 11,
+            "element": "N"
+          },
+          {
+            "map_id": 12,
+            "xyz_index_1based": 12,
+            "element": "C"
+          },
+          {
+            "map_id": 13,
+            "xyz_index_1based": 13,
+            "element": "C"
+          },
+          {
+            "map_id": 14,
+            "xyz_index_1based": 14,
+            "element": "C"
+          },
+          {
+            "map_id": 15,
+            "xyz_index_1based": 15,
+            "element": "C"
+          }
+        ],
+        "mapping_check": {
+          "all_mapped_elements_match": true,
+          "heavy_atom_edges": [
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              14
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              14,
+              15
+            ]
+          ],
+          "distance_graph_matches": true,
+          "covalent_radii_multiplier": 1.25,
+          "scope": "Element and heavy-atom connectivity; not an energy-based identity match."
+        },
+        "plane_fits": [
+          {
+            "atom_map_ids": [
+              2,
+              3,
+              4,
+              5,
+              14,
+              15
+            ],
+            "rms_residual_A": 0.0023850851240419194,
+            "max_absolute_residual_A": 0.0034441058293984586
+          },
+          {
+            "atom_map_ids": [
+              7,
+              8,
+              9,
+              10,
+              12,
+              13
+            ],
+            "rms_residual_A": 0.002374956541133262,
+            "max_absolute_residual_A": 0.0033901644467907942
+          }
+        ],
+        "optimization": {
+          "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_identity_corrected_retry/1_20260903T002322Z_422/orca_stdout.log",
+          "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_identity_corrected_retry/1_20260903T002322Z_422/input.inp",
+          "route": "! B3LYP D3BJ def2-SVP Opt Freq TightSCF",
+          "charge": 0,
+          "multiplicity": 1,
+          "normal_termination": true,
+          "final_electronic_energy_Eh": -648.42126855698,
+          "optimization_completed": true,
+          "frequency_validation": {
+            "source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_identity_corrected_retry/1_20260903T002322Z_422/input.hess",
+            "count_3N": 81,
+            "frequencies_cm_1": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              12.393976726134124,
+              37.770549203546324,
+              62.96846021417479,
+              142.74940370819957,
+              162.14629382053894,
+              271.3781971054838,
+              289.0075361665432,
+              290.3135354644289,
+              305.63449019504213,
+              344.95733729922847,
+              370.16470704013426,
+              401.8780548017877,
+              427.4991977579865,
+              432.57068266943793,
+              439.3434252030886,
+              503.62367258686226,
+              508.75210060021396,
+              514.3411592083066,
+              557.7600933069385,
+              561.8731336659102,
+              594.4110036009118,
+              654.5885863846589,
+              656.4325446717179,
+              723.0162751780139,
+              729.3876007378992,
+              763.0991842827252,
+              817.376111745672,
+              820.8917816876628,
+              821.276150033177,
+              850.2908588851537,
+              856.5036119652418,
+              864.2207974152059,
+              898.495914441125,
+              958.2727252095922,
+              960.482168016063,
+              969.6021382488834,
+              970.8567811367245,
+              1019.6275541805574,
+              1020.4346800817996,
+              1074.64220978123,
+              1076.0443989009711,
+              1133.233013304717,
+              1134.2997571881667,
+              1170.8188438166005,
+              1173.7458097009685,
+              1239.9868908278095,
+              1282.3661946183297,
+              1307.6203455051634,
+              1319.9299570465234,
+              1323.7395119806654,
+              1340.543668921939,
+              1364.6824327618579,
+              1374.8426879613705,
+              1472.0677445050223,
+              1478.7605116334419,
+              1542.5166733232666,
+              1557.9101996380193,
+              1627.26659888879,
+              1628.8229308821608,
+              1633.4842634294644,
+              1643.813944593244,
+              1684.799985553264,
+              1690.1499308152418,
+              3164.2233691086194,
+              3164.6216450342927,
+              3166.1887222281807,
+              3166.3579288932647,
+              3199.889866091743,
+              3200.008056889336,
+              3200.1566154210973,
+              3200.41158294291,
+              3561.5269562337426,
+              3561.6353764578566,
+              3661.690984052192,
+              3661.8535076732906
+            ],
+            "imaginary_count": 0,
+            "minimum_vibrational_frequency_cm_1": 12.393976726134124,
+            "translation_rotation_count": 6
+          }
+        },
+        "multiwfn": {
+          "execution_record": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/cdft_multiwfn_short_20260903T023945Z.json",
+          "stdout": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/cdft_run.out",
+          "stdin": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/multiwfn_input.txt",
+          "route": "Multiwfn 2026.7.15 CDFT menu 22 -> option 2; ORCA B3LYP-D3BJ/def2-TZVP AIM WFN",
+          "probes": {
+            "N": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_N_wfn_cdft_tzvp_sp/1_20260903T023708Z_270/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_N_wfn_cdft_tzvp_sp/1_20260903T023708Z_270/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF AIM",
+              "charge": 0,
+              "multiplicity": 1,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -649.134395928474,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/N.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 4.870019274516579e-07
+            },
+            "Nminus1": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_Nminus1_cdft_tzvp_sp/1_20260903T020048Z_578/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_Nminus1_cdft_tzvp_sp/1_20260903T020048Z_578/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF SP AIM",
+              "charge": 1,
+              "multiplicity": 2,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -648.893308983215,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/N-1.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 2.822757938503173e-08
+            },
+            "Nplus1": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_Nplus1_cdft_tzvp_sp/1_20260903T020048Z_578/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_Nplus1_cdft_tzvp_sp/1_20260903T020048Z_578/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF SP AIM",
+              "charge": -1,
+              "multiplicity": 2,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -649.097189539648,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/N+1.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 2.822757938503173e-08
+            }
+          }
+        },
+        "nitrogen_charge_probes": [
+          {
+            "atom_map_id": 1,
+            "q_N_e": -0.1727,
+            "q_Nplus1_e": -0.198,
+            "q_Nminus1_e": -0.0991,
+            "f_minus_e": 0.0736
+          },
+          {
+            "atom_map_id": 11,
+            "q_N_e": -0.1728,
+            "q_Nplus1_e": -0.198,
+            "q_Nminus1_e": -0.099,
+            "f_minus_e": 0.0737
+          }
+        ]
+      },
+      {
+        "molecule_id": "6FODA",
+        "xyz_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_identity_corrected_retry/1_20260903T002322Z_345/input.xyz",
+        "cdft_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/CDFT.txt",
+        "global_nucleophilicity_eV": 3.4532,
+        "homo_eV": -5.668,
+        "reference_homo_eV_from_printed_output": -9.1212,
+        "nitrogen_local_nucleophilicity": [
+          {
+            "atom_map_id": 7,
+            "value": 0.27352,
+            "unit": "e*eV"
+          },
+          {
+            "atom_map_id": 19,
+            "value": 0.27024,
+            "unit": "e*eV"
+          }
+        ],
+        "ring_plane_angle_deg": 85.69997719167627,
+        "linker_torsions": [
+          {
+            "atom_map_ids": [
+              2,
+              3,
+              12,
+              13
+            ],
+            "angle_deg": 56.89971715582461
+          },
+          {
+            "atom_map_ids": [
+              3,
+              12,
+              13,
+              14
+            ],
+            "angle_deg": -123.84129374630152
+          }
+        ],
+        "atom_mapping": [
+          {
+            "map_id": 1,
+            "xyz_index_1based": 1,
+            "element": "C"
+          },
+          {
+            "map_id": 2,
+            "xyz_index_1based": 2,
+            "element": "C"
+          },
+          {
+            "map_id": 3,
+            "xyz_index_1based": 3,
+            "element": "C"
+          },
+          {
+            "map_id": 4,
+            "xyz_index_1based": 4,
+            "element": "C"
+          },
+          {
+            "map_id": 5,
+            "xyz_index_1based": 5,
+            "element": "C"
+          },
+          {
+            "map_id": 6,
+            "xyz_index_1based": 6,
+            "element": "C"
+          },
+          {
+            "map_id": 7,
+            "xyz_index_1based": 7,
+            "element": "N"
+          },
+          {
+            "map_id": 8,
+            "xyz_index_1based": 8,
+            "element": "C"
+          },
+          {
+            "map_id": 9,
+            "xyz_index_1based": 9,
+            "element": "F"
+          },
+          {
+            "map_id": 10,
+            "xyz_index_1based": 10,
+            "element": "F"
+          },
+          {
+            "map_id": 11,
+            "xyz_index_1based": 11,
+            "element": "F"
+          },
+          {
+            "map_id": 12,
+            "xyz_index_1based": 12,
+            "element": "O"
+          },
+          {
+            "map_id": 13,
+            "xyz_index_1based": 13,
+            "element": "C"
+          },
+          {
+            "map_id": 14,
+            "xyz_index_1based": 14,
+            "element": "C"
+          },
+          {
+            "map_id": 15,
+            "xyz_index_1based": 15,
+            "element": "C"
+          },
+          {
+            "map_id": 16,
+            "xyz_index_1based": 16,
+            "element": "C"
+          },
+          {
+            "map_id": 17,
+            "xyz_index_1based": 17,
+            "element": "C"
+          },
+          {
+            "map_id": 18,
+            "xyz_index_1based": 18,
+            "element": "C"
+          },
+          {
+            "map_id": 19,
+            "xyz_index_1based": 19,
+            "element": "N"
+          },
+          {
+            "map_id": 20,
+            "xyz_index_1based": 20,
+            "element": "C"
+          },
+          {
+            "map_id": 21,
+            "xyz_index_1based": 21,
+            "element": "F"
+          },
+          {
+            "map_id": 22,
+            "xyz_index_1based": 22,
+            "element": "F"
+          },
+          {
+            "map_id": 23,
+            "xyz_index_1based": 23,
+            "element": "F"
+          }
+        ],
+        "mapping_check": {
+          "all_mapped_elements_match": true,
+          "heavy_atom_edges": [
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              13,
+              14
+            ],
+            [
+              13,
+              18
+            ],
+            [
+              14,
+              15
+            ],
+            [
+              14,
+              20
+            ],
+            [
+              15,
+              16
+            ],
+            [
+              16,
+              17
+            ],
+            [
+              16,
+              19
+            ],
+            [
+              17,
+              18
+            ],
+            [
+              20,
+              21
+            ],
+            [
+              20,
+              22
+            ],
+            [
+              20,
+              23
+            ]
+          ],
+          "distance_graph_matches": true,
+          "covalent_radii_multiplier": 1.25,
+          "scope": "Element and heavy-atom connectivity; not an energy-based identity match."
+        },
+        "plane_fits": [
+          {
+            "atom_map_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "rms_residual_A": 0.0028278361301915787,
+            "max_absolute_residual_A": 0.004434620893356199
+          },
+          {
+            "atom_map_ids": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              18
+            ],
+            "rms_residual_A": 0.002796100235439014,
+            "max_absolute_residual_A": 0.004413893295145328
+          }
+        ],
+        "optimization": {
+          "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_identity_corrected_retry/1_20260903T002322Z_345/orca_stdout.log",
+          "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_identity_corrected_retry/1_20260903T002322Z_345/input.inp",
+          "route": "! B3LYP D3BJ def2-SVP Opt Freq TightSCF",
+          "charge": 0,
+          "multiplicity": 1,
+          "normal_termination": true,
+          "final_electronic_energy_Eh": -1321.767692844629,
+          "optimization_completed": true,
+          "frequency_validation": {
+            "source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_identity_corrected_retry/1_20260903T002322Z_345/input.hess",
+            "count_3N": 99,
+            "frequencies_cm_1": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              26.608320690148346,
+              29.944842126815168,
+              39.481131260571175,
+              48.01039000863653,
+              52.60457128449022,
+              100.20580437533269,
+              111.31000906331869,
+              118.70178546533974,
+              136.59496194474414,
+              159.43761625911665,
+              183.02633745101758,
+              252.8334503011462,
+              277.53019645863566,
+              290.8506505961293,
+              314.5011290069096,
+              315.93219290490293,
+              316.6685671022986,
+              320.1441317218475,
+              350.4993171446798,
+              366.5816354230268,
+              371.39688055765663,
+              388.2987395048852,
+              400.12255515333436,
+              455.740929763391,
+              470.4332566253283,
+              479.65765572132807,
+              485.68947190952184,
+              496.27130801425835,
+              503.7519554123792,
+              516.7887798595922,
+              527.5567975505755,
+              547.38307197746,
+              569.4185654177272,
+              591.5771500987305,
+              632.0893604903814,
+              656.2811684567075,
+              656.6089080029386,
+              681.8326142348412,
+              684.1324293564603,
+              736.8420807099503,
+              752.5408284290195,
+              760.2586214075931,
+              761.0491582043601,
+              792.5781810223554,
+              841.938929812894,
+              859.5585539165404,
+              869.6826200779556,
+              896.16151901966,
+              896.33932546047,
+              935.7758869757965,
+              938.3557641669763,
+              976.594009972228,
+              978.3644437376958,
+              1065.74776172344,
+              1068.0051318959152,
+              1088.3651651719133,
+              1089.7570600980832,
+              1151.2929124437983,
+              1154.9405685959825,
+              1179.7136211650893,
+              1181.8013373230608,
+              1204.572857234543,
+              1205.8266479044808,
+              1242.4127509245525,
+              1257.0367434476134,
+              1282.4861268183327,
+              1288.4519517630933,
+              1293.5939243965863,
+              1319.9383110297322,
+              1361.1980908330409,
+              1362.2862412021298,
+              1386.3155725312713,
+              1389.7376271400938,
+              1494.4057727461884,
+              1497.4234603709442,
+              1537.5983493866747,
+              1554.6110113358914,
+              1626.620331060679,
+              1628.771255985172,
+              1640.8925013518483,
+              1650.5986117365505,
+              1687.399797169328,
+              1692.4097135002003,
+              3172.5254782665374,
+              3172.7689596600367,
+              3202.871764989223,
+              3202.913236535723,
+              3215.309410739072,
+              3216.4853175453113,
+              3572.5505777269527,
+              3572.7046416281105,
+              3676.7151214353303,
+              3676.7601126798845
+            ],
+            "imaginary_count": 0,
+            "minimum_vibrational_frequency_cm_1": 26.608320690148346,
+            "translation_rotation_count": 6
+          }
+        },
+        "multiwfn": {
+          "execution_record": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/cdft_multiwfn_short_20260903T023945Z.json",
+          "stdout": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/cdft_run.out",
+          "stdin": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/multiwfn_input.txt",
+          "route": "Multiwfn 2026.7.15 CDFT menu 22 -> option 2; ORCA B3LYP-D3BJ/def2-TZVP AIM WFN",
+          "probes": {
+            "N": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_N_wfn_cdft_tzvp_sp/1_20260903T023708Z_501/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_N_wfn_cdft_tzvp_sp/1_20260903T023708Z_501/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF AIM",
+              "charge": 0,
+              "multiplicity": 1,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -1323.288326206454,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/N.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 4.903026897817853e-07
+            },
+            "Nminus1": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_Nminus1_cdft_tzvp_sp/1_20260903T020048Z_270/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_Nminus1_cdft_tzvp_sp/1_20260903T020048Z_270/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF SP AIM",
+              "charge": 1,
+              "multiplicity": 2,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -1323.025537844224,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/N-1.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 2.9263349965447105e-08
+            },
+            "Nplus1": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_Nplus1_cdft_tzvp_sp/1_20260903T020048Z_424/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_Nplus1_cdft_tzvp_sp/1_20260903T020048Z_424/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF SP AIM",
+              "charge": -1,
+              "multiplicity": 2,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -1323.275120427617,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/N+1.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 2.9263349965447105e-08
+            }
+          }
+        },
+        "nitrogen_charge_probes": [
+          {
+            "atom_map_id": 7,
+            "q_N_e": -0.1642,
+            "q_Nplus1_e": -0.1894,
+            "q_Nminus1_e": -0.085,
+            "f_minus_e": 0.0792
+          },
+          {
+            "atom_map_id": 19,
+            "q_N_e": -0.164,
+            "q_Nplus1_e": -0.1893,
+            "q_Nminus1_e": -0.0857,
+            "f_minus_e": 0.0783
+          }
+        ]
+      },
+      {
+        "molecule_id": "PFMB",
+        "xyz_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_identity_corrected_retry/1_20260903T002331Z_422/input.xyz",
+        "cdft_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/CDFT.txt",
+        "global_nucleophilicity_eV": 3.3447,
+        "homo_eV": -5.7765,
+        "reference_homo_eV_from_printed_output": -9.1212,
+        "nitrogen_local_nucleophilicity": [
+          {
+            "atom_map_id": 7,
+            "value": 0.28815,
+            "unit": "e*eV"
+          },
+          {
+            "atom_map_id": 18,
+            "value": 0.28822,
+            "unit": "e*eV"
+          }
+        ],
+        "ring_plane_angle_deg": 78.42035588301448,
+        "linker_torsions": [
+          {
+            "atom_map_ids": [
+              2,
+              3,
+              12,
+              13
+            ],
+            "angle_deg": -78.3072810940974
+          }
+        ],
+        "atom_mapping": [
+          {
+            "map_id": 1,
+            "xyz_index_1based": 1,
+            "element": "C"
+          },
+          {
+            "map_id": 2,
+            "xyz_index_1based": 2,
+            "element": "C"
+          },
+          {
+            "map_id": 3,
+            "xyz_index_1based": 3,
+            "element": "C"
+          },
+          {
+            "map_id": 4,
+            "xyz_index_1based": 4,
+            "element": "C"
+          },
+          {
+            "map_id": 5,
+            "xyz_index_1based": 5,
+            "element": "C"
+          },
+          {
+            "map_id": 6,
+            "xyz_index_1based": 6,
+            "element": "C"
+          },
+          {
+            "map_id": 7,
+            "xyz_index_1based": 7,
+            "element": "N"
+          },
+          {
+            "map_id": 8,
+            "xyz_index_1based": 8,
+            "element": "C"
+          },
+          {
+            "map_id": 9,
+            "xyz_index_1based": 9,
+            "element": "F"
+          },
+          {
+            "map_id": 10,
+            "xyz_index_1based": 10,
+            "element": "F"
+          },
+          {
+            "map_id": 11,
+            "xyz_index_1based": 11,
+            "element": "F"
+          },
+          {
+            "map_id": 12,
+            "xyz_index_1based": 12,
+            "element": "C"
+          },
+          {
+            "map_id": 13,
+            "xyz_index_1based": 13,
+            "element": "C"
+          },
+          {
+            "map_id": 14,
+            "xyz_index_1based": 14,
+            "element": "C"
+          },
+          {
+            "map_id": 15,
+            "xyz_index_1based": 15,
+            "element": "C"
+          },
+          {
+            "map_id": 16,
+            "xyz_index_1based": 16,
+            "element": "C"
+          },
+          {
+            "map_id": 17,
+            "xyz_index_1based": 17,
+            "element": "C"
+          },
+          {
+            "map_id": 18,
+            "xyz_index_1based": 18,
+            "element": "N"
+          },
+          {
+            "map_id": 19,
+            "xyz_index_1based": 19,
+            "element": "C"
+          },
+          {
+            "map_id": 20,
+            "xyz_index_1based": 20,
+            "element": "F"
+          },
+          {
+            "map_id": 21,
+            "xyz_index_1based": 21,
+            "element": "F"
+          },
+          {
+            "map_id": 22,
+            "xyz_index_1based": 22,
+            "element": "F"
+          }
+        ],
+        "mapping_check": {
+          "all_mapped_elements_match": true,
+          "heavy_atom_edges": [
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              12,
+              17
+            ],
+            [
+              13,
+              14
+            ],
+            [
+              13,
+              19
+            ],
+            [
+              14,
+              15
+            ],
+            [
+              15,
+              16
+            ],
+            [
+              15,
+              18
+            ],
+            [
+              16,
+              17
+            ],
+            [
+              19,
+              20
+            ],
+            [
+              19,
+              21
+            ],
+            [
+              19,
+              22
+            ]
+          ],
+          "distance_graph_matches": true,
+          "covalent_radii_multiplier": 1.25,
+          "scope": "Element and heavy-atom connectivity; not an energy-based identity match."
+        },
+        "plane_fits": [
+          {
+            "atom_map_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "rms_residual_A": 0.0008888022268784756,
+            "max_absolute_residual_A": 0.0014042369717475447
+          },
+          {
+            "atom_map_ids": [
+              12,
+              13,
+              14,
+              15,
+              16,
+              17
+            ],
+            "rms_residual_A": 0.0008082459800154548,
+            "max_absolute_residual_A": 0.0013021480173588073
+          }
+        ],
+        "optimization": {
+          "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_identity_corrected_retry/1_20260903T002331Z_422/orca_stdout.log",
+          "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_identity_corrected_retry/1_20260903T002331Z_422/input.inp",
+          "route": "! B3LYP D3BJ def2-SVP Opt Freq TightSCF",
+          "charge": 0,
+          "multiplicity": 1,
+          "normal_termination": true,
+          "final_electronic_energy_Eh": -1246.648099778219,
+          "optimization_completed": true,
+          "frequency_validation": {
+            "source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_identity_corrected_retry/1_20260903T002331Z_422/input.hess",
+            "count_3N": 96,
+            "frequencies_cm_1": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              38.438757662129404,
+              40.85445245790267,
+              49.059247045894516,
+              50.93090718692553,
+              54.95808633711723,
+              120.04297871261078,
+              134.58341418525214,
+              148.71852659604738,
+              159.414959189864,
+              191.87239789296345,
+              203.79077315536043,
+              240.61606470786367,
+              304.8710397699469,
+              307.41669342368806,
+              318.54403854120466,
+              339.7363042390083,
+              341.58102430195004,
+              345.1215368822196,
+              364.8776055476841,
+              368.5417020006704,
+              399.30287218548636,
+              406.1808248921802,
+              452.6920512233531,
+              457.1935692401929,
+              469.3580299456767,
+              474.64532732051777,
+              498.56960213285095,
+              507.6283738419041,
+              546.9554146858189,
+              556.1141043088518,
+              566.8377343848358,
+              597.9804326741274,
+              601.9960698703528,
+              661.5630719842238,
+              663.119734187818,
+              681.3402016663684,
+              684.3432417222557,
+              713.7546310457034,
+              760.7042219161024,
+              762.3986182690713,
+              771.214198787692,
+              778.0313997064862,
+              847.8364175601614,
+              851.5959877857433,
+              898.1490378153072,
+              898.4378156130118,
+              928.351525504057,
+              937.9215240337802,
+              981.9141770668441,
+              984.2031887943552,
+              1017.9744921381624,
+              1067.561323574861,
+              1082.8907697618583,
+              1086.3296757681585,
+              1102.1177966663804,
+              1157.3183682361814,
+              1158.1666224490143,
+              1166.8079969498558,
+              1180.6388276924984,
+              1204.1967431165626,
+              1210.4570047086318,
+              1272.2644519164778,
+              1273.7560489412442,
+              1289.0318985738534,
+              1293.868018171475,
+              1318.778231176154,
+              1357.4260736823135,
+              1361.1842736411631,
+              1374.8617620453435,
+              1382.2620722656602,
+              1485.5337495304145,
+              1491.4822983145814,
+              1533.0910179856146,
+              1567.4501373796534,
+              1619.4885388295718,
+              1624.6586473452007,
+              1628.5826653135066,
+              1630.8376604770463,
+              1686.7653146795788,
+              1688.7129670069094,
+              3169.971882008272,
+              3170.2359252963124,
+              3200.711098718653,
+              3201.056234212629,
+              3202.913903917764,
+              3203.0349310901074,
+              3575.902745637647,
+              3576.1936038677704,
+              3682.315305803801,
+              3682.6569411325054
+            ],
+            "imaginary_count": 0,
+            "minimum_vibrational_frequency_cm_1": 38.438757662129404,
+            "translation_rotation_count": 6
+          }
+        },
+        "multiwfn": {
+          "execution_record": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/cdft_multiwfn_short_20260903T023800Z.json",
+          "stdout": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/cdft_run.out",
+          "stdin": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/multiwfn_input.txt",
+          "route": "Multiwfn 2026.7.15 CDFT menu 22 -> option 2; ORCA B3LYP-D3BJ/def2-TZVP AIM WFN",
+          "probes": {
+            "N": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_N_wfn_cdft_tzvp_sp/1_20260903T022724Z_501/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_N_wfn_cdft_tzvp_sp/1_20260903T022724Z_501/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF AIM",
+              "charge": 0,
+              "multiplicity": 1,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -1248.079334810547,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/N.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 4.866680078929875e-07
+            },
+            "Nminus1": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_Nminus1_cdft_tzvp_sp/1_20260903T021617Z_578/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_Nminus1_cdft_tzvp_sp/1_20260903T021617Z_578/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF SP AIM",
+              "charge": 1,
+              "multiplicity": 2,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -1247.811729819743,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/N-1.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 2.8266131657517235e-08
+            },
+            "Nplus1": {
+              "output": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_Nplus1_cdft_tzvp_sp/1_20260903T020049Z_347/orca_stdout.log",
+              "input": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_Nplus1_cdft_tzvp_sp/1_20260903T020049Z_347/input.inp",
+              "route": "! B3LYP D3BJ def2-TZVP TightSCF SP AIM",
+              "charge": -1,
+              "multiplicity": 2,
+              "normal_termination": true,
+              "final_electronic_energy_Eh": -1248.060676495473,
+              "optimization_completed": false,
+              "wfn_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/N+1.wfn",
+              "same_neutral_geometry": true,
+              "maximum_coordinate_difference_A": 2.8266131657517235e-08
+            }
+          }
+        },
+        "nitrogen_charge_probes": [
+          {
+            "atom_map_id": 7,
+            "q_N_e": -0.1602,
+            "q_Nplus1_e": -0.1874,
+            "q_Nminus1_e": -0.0741,
+            "f_minus_e": 0.0862
+          },
+          {
+            "atom_map_id": 18,
+            "q_N_e": -0.1602,
+            "q_Nplus1_e": -0.1873,
+            "q_Nminus1_e": -0.074,
+            "f_minus_e": 0.0862
+          }
+        ]
+      }
+    ],
+    "new_quantum_calculations": false,
+    "agent_visible": false,
+    "calibration": "The public fixed TCE HOMO is an approved benchmark convention, not a uniquely recovered author formula.",
+    "rounding": "CDFT charges/HOMO/global N have four decimals, local N five. Do not demand exact multiplication of independently rounded printed values."
+  },
+  "paper_id": "paper_534ae3b6e2fb695f",
+  "record_type": "existing_output_arithmetic_replay",
+  "new_quantum_calculations": false,
+  "agent_visible": false,
+  "generated_by": "scripts/replay_three_boundary_observables.py",
+  "purpose": "Archive corrections and existing-output checks only; evaluator key points/conclusions/rules remain the scoring authority.",
+  "molecules": [
+    {
+      "molecule_id": "ODA",
+      "xyz_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/ODA_identity_corrected_retry/1_20260903T002322Z_422/input.xyz",
+      "cdft_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_ODA_identity_corrected/CDFT.txt",
+      "global_nucleophilicity_eV": 4.0898,
+      "homo_eV": -5.0314,
+      "reference_homo_eV_from_printed_output": -9.1212,
+      "nitrogen_local_nucleophilicity": [
+        {
+          "atom_map_id": 1,
+          "value": 0.30109,
+          "unit": "e*eV"
+        },
+        {
+          "atom_map_id": 11,
+          "value": 0.30159,
+          "unit": "e*eV"
+        }
+      ],
+      "ring_plane_angle_deg": 70.47042260289922,
+      "linker_torsions": [
+        {
+          "atom_map_ids": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "angle_deg": 41.818160709037436
+        },
+        {
+          "atom_map_ids": [
+            5,
+            6,
+            7,
+            8
+          ],
+          "angle_deg": 41.593385976400526
+        }
+      ]
+    },
+    {
+      "molecule_id": "6FODA",
+      "xyz_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/6FODA_identity_corrected_retry/1_20260903T002322Z_345/input.xyz",
+      "cdft_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_6FODA_identity_corrected/CDFT.txt",
+      "global_nucleophilicity_eV": 3.4532,
+      "homo_eV": -5.668,
+      "reference_homo_eV_from_printed_output": -9.1212,
+      "nitrogen_local_nucleophilicity": [
+        {
+          "atom_map_id": 7,
+          "value": 0.27352,
+          "unit": "e*eV"
+        },
+        {
+          "atom_map_id": 19,
+          "value": 0.27024,
+          "unit": "e*eV"
+        }
+      ],
+      "ring_plane_angle_deg": 85.69997719167627,
+      "linker_torsions": [
+        {
+          "atom_map_ids": [
+            2,
+            3,
+            12,
+            13
+          ],
+          "angle_deg": 56.89971715582461
+        },
+        {
+          "atom_map_ids": [
+            3,
+            12,
+            13,
+            14
+          ],
+          "angle_deg": -123.84129374630152
+        }
+      ]
+    },
+    {
+      "molecule_id": "PFMB",
+      "xyz_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/provenance/qzcli_hpc/PFMB_identity_corrected_retry/1_20260903T002331Z_422/input.xyz",
+      "cdft_source": "docs/verification/group_6/paper_534ae3b6e2fb695f/artifacts/multiwfn/cdft_PFMB_identity_corrected/CDFT.txt",
+      "global_nucleophilicity_eV": 3.3447,
+      "homo_eV": -5.7765,
+      "reference_homo_eV_from_printed_output": -9.1212,
+      "nitrogen_local_nucleophilicity": [
+        {
+          "atom_map_id": 7,
+          "value": 0.28815,
+          "unit": "e*eV"
+        },
+        {
+          "atom_map_id": 18,
+          "value": 0.28822,
+          "unit": "e*eV"
+        }
+      ],
+      "ring_plane_angle_deg": 78.42035588301448,
+      "linker_torsions": [
+        {
+          "atom_map_ids": [
+            2,
+            3,
+            12,
+            13
+          ],
+          "angle_deg": -78.3072810940974
+        }
+      ]
+    }
+  ],
+  "corrections": [
+    "Global N uses a TCE HOMO reference, not a vertical total-energy difference.",
+    "PFMB central bond is 3-12, not 4-12; ether torsions are continuous bonded paths.",
+    "Ring-plane angles and individual linker torsions are distinct observables; source four-atom numbers are not ring-plane targets."
+  ]
+}

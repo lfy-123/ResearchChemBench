@@ -1,0 +1,154 @@
+{
+  "paper_id": "paper_d83e607f125440cc",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_chemical_accounting",
+      "reference_id": "kp_chemical_accounting",
+      "type": "semantic",
+      "expected": "Check neutral identity against supplied SMILES and every modeled species against actual inputs/outputs; verify formula, mapped atoms, charge, electron/spin accounting and environment. If a transformation is used, independently balance all components and references. An SMe/OMe label mismatch or substituent loss invalidates dependent differences. Full credit needs the identity validity necessary to the submitted explanation, not every state in the V1 route.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.systems",
+          "$.methods",
+          "$.records"
+        ],
+        "comparison": "Check neutral identity against supplied SMILES and every modeled species against actual inputs/outputs; verify formula, mapped atoms, charge, electron/spin accounting and environment. If a transformation is used, independently balance all components and references. An SMe/OMe label mismatch or substituent loss invalidates dependent differences. Full credit needs the identity validity necessary to the submitted explanation, not every state in the V1 route."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_molecular_findings",
+      "reference_id": "kp_molecular_findings",
+      "type": "semantic",
+      "expected": "Inspect native scientific outputs and reproducible analyses, recompute reported values and confirm method suitability. Results must distinguish relevant behavior across the chemical comparison actually used. Source BDE/spin numbers or copied old scalar values earn no new evidence credit. If ionization/dissociation is reported, require coherent component energies and definitions; if spin/localization is invoked, require the stated partition and actual mapped data. Equally relevant valid observables may earn the same credit without these particular calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.records",
+          "$.results",
+          "$.claims"
+        ],
+        "comparison": "Inspect native scientific outputs and reproducible analyses, recompute reported values and confirm method suitability. Results must distinguish relevant behavior across the chemical comparison actually used. Source BDE/spin numbers or copied old scalar values earn no new evidence credit. If ionization/dissociation is reported, require coherent component energies and definitions; if spin/localization is invoked, require the stated partition and actual mapped data. Equally relevant valid observables may earn the same credit without these particular calculations."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_explanatory_discrimination",
+      "reference_id": "kp_explanatory_discrimination",
+      "type": "semantic",
+      "expected": "Judge whether the chosen comparison can challenge the explanation rather than merely restate the SMe observation. Require actual evidence connecting any cause claimed to the oxidation contrast and addressing material confounding for that claim. An electronic descriptor correlation is not a proved rate-controlling step. Supported rejection, competing interpretations or demonstrated insufficiency can earn full credit when evidentially decisive. Do not require two hypotheses, SMe/OMe solvent controls or a designated heldout compound.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.models",
+          "$.results",
+          "$.claims",
+          "$.research_log"
+        ],
+        "comparison": "Judge whether the chosen comparison can challenge the explanation rather than merely restate the SMe observation. Require actual evidence connecting any cause claimed to the oxidation contrast and addressing material confounding for that claim. An electronic descriptor correlation is not a proved rate-controlling step. Supported rejection, competing interpretations or demonstrated insufficiency can earn full credit when evidentially decisive. Do not require two hypotheses, SMe/OMe solvent controls or a designated heldout compound."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_reliability_and_limits",
+      "reference_id": "kp_reliability_and_limits",
+      "type": "semantic",
+      "expected": "Check stationarity/curvature only where minima are claimed, spin consistency where open-shell species are used, and comparable references where phases or states differ. Require a justified treatment or bound of the dominant uncertainty for the actual explanation, backed by calculations/analyses where necessary. Electronic continuum differences cannot be mislabeled solution free energies. Appropriate analytical bounds or evidence-based restricted claims are accepted; no fixed solvent, functional, conformer count or test matrix is required.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.records",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Check stationarity/curvature only where minima are claimed, spin consistency where open-shell species are used, and comparable references where phases or states differ. Require a justified treatment or bound of the dominant uncertainty for the actual explanation, backed by calculations/analyses where necessary. Electronic continuum differences cannot be mislabeled solution free energies. Appropriate analytical bounds or evidence-based restricted claims are accepted; no fixed solvent, functional, conformer count or test matrix is required."
+      },
+      "evidence_policy": "Resolve submitted IDs and actual file/hash/locator links. Recompute derived quantities and check native scientific validity conditional on the claim. Do not score a missing reference operation as failure unless necessary to the claim; no author winner is required."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Conclude what the investigation establishes about the SMe oxidation contrast and what it cannot distinguish. Trace every main statement to valid findings and their scope. Full credit is possible for an evidence-supported alternative, refutation or bounded unresolved answer, without matching the sulfur/BDE interpretation. No full scientific credit for a copied source scalar, absent calculations labeled ambiguity, or molecular descriptors promoted to catalytic rate/yield/full-network proof. Partial claims earn only their supported coverage; honest execution failure is not fabrication.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.conclusion",
+          "$.limitations",
+          "$.results",
+          "$.missing_work"
+        ],
+        "comparison": "Conclude what the investigation establishes about the SMe oxidation contrast and what it cannot distinguish. Trace every main statement to valid findings and their scope. Full credit is possible for an evidence-supported alternative, refutation or bounded unresolved answer, without matching the sulfur/BDE interpretation. No full scientific credit for a copied source scalar, absent calculations labeled ambiguity, or molecular descriptors promoted to catalytic rate/yield/full-network proof. Partial claims earn only their supported coverage; honest execution failure is not fabrication."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "chemical_accounting",
+      "max_score": 15,
+      "description": "Chemically valid representations of the compared benzyl-alcohol systems and any selected transformations. Check neutral identity against supplied SMILES and every modeled species against actual inputs/outputs; verify formula, mapped atoms, charge, electron/spin accounting and environment. If a transformation is used, independently balance all components and references. An SMe/OMe label mismatch or substituent loss invalidates dependent differences. Full credit needs the identity validity necessary to the submitted explanation, not every state in the V1 route.",
+      "rule_ids": [
+        "rule_chemical_accounting"
+      ]
+    },
+    {
+      "id": "molecular_findings",
+      "max_score": 30,
+      "description": "Traceable molecular evidence relevant to the observed oxidation contrast. Inspect native scientific outputs and reproducible analyses, recompute reported values and confirm method suitability. Results must distinguish relevant behavior across the chemical comparison actually used. Source BDE/spin numbers or copied old scalar values earn no new evidence credit. If ionization/dissociation is reported, require coherent component energies and definitions; if spin/localization is invoked, require the stated partition and actual mapped data. Equally relevant valid observables may earn the same credit without these particular calculations.",
+      "rule_ids": [
+        "rule_molecular_findings"
+      ]
+    },
+    {
+      "id": "explanatory_discrimination",
+      "max_score": 25,
+      "description": "Evidence that establishes the reach or failure of the proposed molecular explanation. Judge whether the chosen comparison can challenge the explanation rather than merely restate the SMe observation. Require actual evidence connecting any cause claimed to the oxidation contrast and addressing material confounding for that claim. An electronic descriptor correlation is not a proved rate-controlling step. Supported rejection, competing interpretations or demonstrated insufficiency can earn full credit when evidentially decisive. Do not require two hypotheses, SMe/OMe solvent controls or a designated heldout compound.",
+      "rule_ids": [
+        "rule_explanatory_discrimination"
+      ]
+    },
+    {
+      "id": "reliability_and_limits",
+      "max_score": 20,
+      "description": "Validity and uncertainty sufficient for the magnitude and interpretation claimed. Check stationarity/curvature only where minima are claimed, spin consistency where open-shell species are used, and comparable references where phases or states differ. Require a justified treatment or bound of the dominant uncertainty for the actual explanation, backed by calculations/analyses where necessary. Electronic continuum differences cannot be mislabeled solution free energies. Appropriate analytical bounds or evidence-based restricted claims are accepted; no fixed solvent, functional, conformer count or test matrix is required.",
+      "rule_ids": [
+        "rule_reliability_and_limits"
+      ]
+    },
+    {
+      "id": "bounded_conclusion",
+      "max_score": 10,
+      "description": "Conclude what the investigation establishes about the SMe oxidation contrast and what it cannot distinguish. Trace every main statement to valid findings and their scope. Full credit is possible for an evidence-supported alternative, refutation or bounded unresolved answer, without matching the sulfur/BDE interpretation. No full scientific credit for a copied source scalar, absent calculations labeled ambiguity, or molecular descriptors promoted to catalytic rate/yield/full-network proof. Partial claims earn only their supported coverage; honest execution failure is not fabrication.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "V2_content_development_with_bounded_V1_reuse_not_V2_scientific_acceptance",
+  "scoring_notes": [
+    "Apply each criterion to demonstrated evidence: zero for unsupported assertions; partial credit proportional to valid, relevant findings; full credit requires its entire evidential purpose, not completion of a reference workflow.",
+    "Negative, alternative and demonstrated non-identifiable answers can earn full applicable credit; claimed failure or uncertainty alone cannot. Do not renormalize away missing work.",
+    "Conditional examples are validity requirements only if that observable or causal claim is made. Source numerical targets are not universal tolerances.",
+    "Scientific semantics, alternative-route calibration, blind AR trials and execution isolation remain pending. Synthetic fixture success is not science.",
+    "The process axis is the actually loaded shared open_research AR/PR rubric, not an extra package-local rubric."
+  ]
+}

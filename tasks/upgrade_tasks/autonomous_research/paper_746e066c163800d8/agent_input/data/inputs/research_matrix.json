@@ -1,0 +1,478 @@
+{
+  "paper_id": "paper_746e066c163800d8",
+  "scope": "Explain static hyper-Rayleigh first-hyperpolarizability differences for compounds 1, 3, 5 and 7 by separating π-extension and common-core twist, while validating tensor units, orientation averaging and response convergence.",
+  "species": [
+    {
+      "id": "1",
+      "mapped_smiles": "[c:1]1([H:2])[c:3]([H:4])[c:5]([H:6])[c:7]([H:8])[c:9]2[c:10]([H:11])[c:12]([H:13])[c:14]3[c:15]([H:16])[c:17]([H:18])[c:19]4[c:20]([H:21])[c:22]([H:23])[c:24]5[c:25]([H:26])[c:27]([H:28])[c:29]6[c:30]([H:31])[c:32]([H:33])[c:34]7[c:35]([H:36])[c:37]([H:38])[c:39]([H:40])[c:41]([H:42])[c:43]7[c:44]6[c:45]5[c:46]4[c:47]3[c:48]12",
+      "formula": "C30H18",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "SI Cartesian coordinates (PDF pp40 onward), graph-only transcription checked against main Fig1; source optimized coordinates withheld.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "3",
+      "mapped_smiles": "[c:1]1([H:2])[c:3]([H:4])[c:5]([H:6])[c:51]([H:52])[c:35]2[c:34]1[c:33]1[c:32]3[c:31]4[c:30]5[c:29]6[c:27]([H:28])[c:25]([H:26])[c:23]([H:24])[c:55]([H:56])[c:40]6[c:53]([H:54])[c:22]6[c:20]([H:21])[c:18]([H:19])[c:16]([H:17])[c:15]([c:39]65)[c:41]([H:42])[c:38]4[c:43]([H:44])[c:45]([H:46])[c:37]3[c:47]([H:48])[c:14]3[c:12]([H:13])[c:10]([H:11])[c:8]([H:9])[c:7]([c:36]31)[c:49]2[H:50]",
+      "formula": "C36H20",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "SI Cartesian coordinates (PDF pp40 onward), graph-only transcription checked against main Fig1; source optimized coordinates withheld.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "5",
+      "mapped_smiles": "[c:1]1([H:2])[c:3]([H:4])[c:5]([H:6])[c:7]2[c:8]([H:9])[c:10]([H:11])[c:12]([H:13])[c:14]3[c:15]4[c:16]([H:17])[c:18]([H:19])[c:20]([H:21])[c:22]5[c:23]6[c:24]([H:25])[c:26]([H:27])[c:28]([H:29])[c:30]7[c:31]8[c:32]([H:33])[c:34]([H:35])[c:36]([H:37])[c:38]9[c:39]%10[c:40]([H:41])[c:42]([H:43])[c:44]([H:45])[c:46]%11[c:47]%12[c:48]([H:49])[c:50]([H:51])[c:52]([H:53])[c:54]%13[c:55]([H:56])[c:57]([H:58])[c:59]([H:60])[c:61]([c:62]([c:63]([c:64]([c:65]([c:66]1[c:67]23)[c:68]45)[c:69]67)[c:70]89)[c:71]%10%11)[c:72]%12%13",
+      "formula": "C48H24",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "SI Cartesian coordinates (PDF pp40 onward), graph-only transcription checked against main Fig1; source optimized coordinates withheld.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "7",
+      "mapped_smiles": "[c:1]1([H:2])[c:3]([H:4])[c:5]([H:6])[c:7]2[c:8]([H:9])[c:10]([H:11])[c:12]([H:13])[c:14]3[c:15]4[c:16]([H:17])[c:18]([H:19])[c:20]5[c:21]6[c:22]7[c:23]([c:24]([H:25])[c:75]([H:76])[c:26]8[c:27]9[c:62]%10[c:31]%11[c:30]([c:28]([H:29])[c:73]9[H:74])[c:69]([H:70])[c:71]([H:72])[c:33]9[c:32]%11[c:63]%11[c:38]([c:36]([H:37])[c:34]9[H:35])[c:39]9[c:40]([H:41])[c:42]([H:43])[c:44]([H:45])[c:46]%12[c:47]([H:48])[c:49]([H:50])[c:51]([H:52])[c:53]([c:54]%11[c:55]%10[c:56]([c:57]([c:58]1[c:59]23)[c:60]46)[c:61]78)[c:64]9%12)[c:67]([H:68])[c:65]5[H:66]",
+      "formula": "C52H24",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "SI Cartesian coordinates (PDF pp40 onward), graph-only transcription checked against main Fig1; source optimized coordinates withheld.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "paired_comparisons": [
+      {
+        "from": "1",
+        "to": "3",
+        "atom_map_pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            7,
+            51
+          ],
+          [
+            9,
+            35
+          ],
+          [
+            48,
+            34
+          ],
+          [
+            47,
+            33
+          ],
+          [
+            46,
+            32
+          ],
+          [
+            45,
+            31
+          ],
+          [
+            44,
+            30
+          ],
+          [
+            43,
+            29
+          ],
+          [
+            41,
+            27
+          ],
+          [
+            39,
+            25
+          ],
+          [
+            37,
+            23
+          ],
+          [
+            35,
+            55
+          ],
+          [
+            34,
+            40
+          ],
+          [
+            32,
+            53
+          ],
+          [
+            30,
+            22
+          ],
+          [
+            29,
+            39
+          ],
+          [
+            27,
+            15
+          ],
+          [
+            25,
+            41
+          ],
+          [
+            24,
+            38
+          ],
+          [
+            22,
+            43
+          ],
+          [
+            20,
+            45
+          ],
+          [
+            19,
+            37
+          ],
+          [
+            17,
+            47
+          ],
+          [
+            15,
+            14
+          ],
+          [
+            14,
+            36
+          ],
+          [
+            12,
+            7
+          ],
+          [
+            10,
+            49
+          ]
+        ],
+        "meaning": "Deterministic common heavy-atom correspondence; symmetry-equivalent alternatives are allowed if explicitly mapped. Unmatched atoms are the intervention. Match uses element/ring topology, not a claim of unchanged bond orders.",
+        "search_timed_out": false
+      },
+      {
+        "from": "5",
+        "to": "7",
+        "atom_map_pairs": [
+          [
+            1,
+            1
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            7,
+            7
+          ],
+          [
+            67,
+            59
+          ],
+          [
+            66,
+            58
+          ],
+          [
+            65,
+            57
+          ],
+          [
+            64,
+            56
+          ],
+          [
+            63,
+            55
+          ],
+          [
+            62,
+            54
+          ],
+          [
+            61,
+            53
+          ],
+          [
+            59,
+            51
+          ],
+          [
+            57,
+            49
+          ],
+          [
+            55,
+            47
+          ],
+          [
+            54,
+            46
+          ],
+          [
+            72,
+            64
+          ],
+          [
+            47,
+            39
+          ],
+          [
+            46,
+            38
+          ],
+          [
+            71,
+            63
+          ],
+          [
+            39,
+            32
+          ],
+          [
+            38,
+            31
+          ],
+          [
+            70,
+            62
+          ],
+          [
+            31,
+            27
+          ],
+          [
+            30,
+            26
+          ],
+          [
+            69,
+            61
+          ],
+          [
+            23,
+            22
+          ],
+          [
+            22,
+            21
+          ],
+          [
+            68,
+            60
+          ],
+          [
+            15,
+            15
+          ],
+          [
+            14,
+            14
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            10,
+            10
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            18,
+            18
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            23
+          ],
+          [
+            26,
+            24
+          ],
+          [
+            28,
+            75
+          ],
+          [
+            32,
+            73
+          ],
+          [
+            34,
+            28
+          ],
+          [
+            36,
+            30
+          ],
+          [
+            40,
+            33
+          ],
+          [
+            42,
+            34
+          ],
+          [
+            44,
+            36
+          ],
+          [
+            48,
+            40
+          ],
+          [
+            50,
+            42
+          ],
+          [
+            52,
+            44
+          ]
+        ],
+        "meaning": "Deterministic common heavy-atom correspondence; symmetry-equivalent alternatives are allowed if explicitly mapped. Unmatched atoms are the intervention. Match uses element/ring topology, not a claim of unchanged bond orders.",
+        "search_timed_out": false
+      }
+    ],
+    "core_control": "Use exactly matched_inner_rim paths/quadruples and the +20° signed targets in both 5 and 7. Compare against independently relaxed structures. Verify each consecutive pair is bonded and preserve correspondence; no source terminal torsions are provided.",
+    "beta_definition": "Use beta_HRS=sqrt(<beta_ZZZ^2>+<beta_XZZ^2>) for isotropic orientations; DR=<beta_ZZZ^2>/<beta_XZZ^2>. State tensor permutation assumptions; either analytical invariants or reproducible rotation quadrature are acceptable. Report convergence under denser rotation sampling and a rigid rotation of the molecular frame.",
+    "unit": "1 atomic unit of first hyperpolarizability = 8.6393e-33 esu; document convention and any factorial factors.",
+    "response_calibration": "Compound5: analytic response versus finite field, or finite-field h/2,h,2h with h chosen from a stable linear-response window. Record field sign and energy/dipole derivatives. Never silently import source tabulated beta.",
+    "matched_inner_rim": {
+      "5_path": [
+        1,
+        66,
+        65,
+        64,
+        63,
+        62,
+        61,
+        59
+      ],
+      "7_path": [
+        1,
+        58,
+        57,
+        56,
+        55,
+        54,
+        53,
+        51
+      ],
+      "5_quadruples": [
+        [
+          1,
+          66,
+          65,
+          64
+        ],
+        [
+          66,
+          65,
+          64,
+          63
+        ],
+        [
+          65,
+          64,
+          63,
+          62
+        ],
+        [
+          64,
+          63,
+          62,
+          61
+        ],
+        [
+          63,
+          62,
+          61,
+          59
+        ]
+      ],
+      "7_quadruples": [
+        [
+          1,
+          58,
+          57,
+          56
+        ],
+        [
+          58,
+          57,
+          56,
+          55
+        ],
+        [
+          57,
+          56,
+          55,
+          54
+        ],
+        [
+          56,
+          55,
+          54,
+          53
+        ],
+        [
+          55,
+          54,
+          53,
+          51
+        ]
+      ],
+      "target_signed_degrees": [
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "definition": "Ordered mapped graph paths; signed +20° is a benchmark geometry intervention, not an equilibrium value. Its all-negative mirror is equivalent in gas-phase scalar HRS if used consistently."
+    }
+  },
+  "source_notes": [
+    "Main Fig1, PDF p2 structures inspected visually; pp3–4 define HRS and computation.",
+    "SI pp40 onward give connectivities extracted from coordinate blocks; pp37–38 computed beta tables stay private."
+  ],
+  "molecular_boundary": "Only four specified molecules, neutral singlets in the gas-phase source baseline. Source coordinates were used privately to transcribe connectivity; no optimized answer coordinates are supplied. Static response (ω=0) is not interchangeable with dynamic response at 4556 nm. A single Cartesian beta component is not beta_HRS. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "The other 42 members, dynamic response at 4556 nm and material-design extrapolation are optional future extensions."
+}

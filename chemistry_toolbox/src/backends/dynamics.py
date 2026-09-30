@@ -70,7 +70,7 @@ def _run_sharc_trajectory(request: dict[str, Any]) -> dict[str, Any]:
     sharc_bin = Path(command[0]).expanduser().resolve().parent
     scratch = directory / "scratch"
     scratch.mkdir(exist_ok=True)
-    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 7200))
+    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 86400))
     completed = run_external(
         executable="sharc.x",
         environment_variable="CHEMGRAPH_SHARC_COMMAND",
@@ -445,7 +445,7 @@ def _gromacs(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         executable="gmx", environment_variable="CHEMGRAPH_GROMACS_COMMAND",
         arguments=["grompp", "-f", str(mdp_path), "-c", str(coordinates), "-p", str(topology), "-o", str(tpr), "-maxwarn", "0"],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "grompp.stdout.log").write_text(grompp["stdout"], encoding="utf-8")
     (directory / "grompp.stderr.log").write_text(grompp["stderr"], encoding="utf-8")
@@ -456,7 +456,7 @@ def _gromacs(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     mdrun = run_external(
         executable="gmx", environment_variable="CHEMGRAPH_GROMACS_COMMAND",
         arguments=["mdrun", "-deffnm", "segment"], directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "mdrun.stdout.log").write_text(mdrun["stdout"], encoding="utf-8")
     (directory / "mdrun.stderr.log").write_text(mdrun["stderr"], encoding="utf-8")
@@ -552,7 +552,7 @@ def _lammps(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     completed = run_external(
         executable="lmp", environment_variable="CHEMGRAPH_LAMMPS_COMMAND",
         arguments=["-in", str(input_path)], directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -1287,7 +1287,7 @@ def _plumed(request: dict[str, Any]) -> dict[str, Any]:
         executable="plumed", environment_variable="CHEMGRAPH_PLUMED_COMMAND",
         arguments=arguments,
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -1782,7 +1782,7 @@ def _mmpbsa_calculate(action_id: str, request: dict[str, Any]) -> dict[str, Any]
     expect_decomposition = action_id == "calculate_end_state_energy_decomposition"
     if expect_decomposition:
         arguments.extend(["-do", "FINAL_DECOMP_MMPBSA.dat", "-deo", "FINAL_DECOMP_MMPBSA.csv"])
-    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 7200))
+    walltime = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
     completed = run_external(
         executable="gmx_MMPBSA",
         arguments=arguments,

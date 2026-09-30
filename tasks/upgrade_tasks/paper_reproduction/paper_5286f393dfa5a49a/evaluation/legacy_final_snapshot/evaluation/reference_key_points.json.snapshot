@@ -1,0 +1,59 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_identity",
+      "key_point_type": "process",
+      "statement": "Identity and labels are preserved.",
+      "expected": "Each of crystal, (RRRR)-MM and (SSSS)-MM is individually identified with 138 atoms, C80H42Cl4N4O8, charge 0 and multiplicity 1.",
+      "evidence_ids": [
+        "ev_doc_05b0b4a3e168_000110_235b920cd59e",
+        "ev_doc_05b0b4a3e168_000192_ea99a81e069f"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ]
+      }
+    },
+    {
+      "key_point_id": "kp_pr_process_validation",
+      "key_point_type": "process",
+      "statement": "Comparable validation is documented.",
+      "expected": "All three supplied fixed geometries have individually identified, converged wB97M-V/def2-TZVP/SMD(DCM) single-point electronic energies. Separate relaxed/alternative-method results. Stationary-point character is not required for the primary fixed-geometry comparison and must not be fabricated.",
+      "evidence_ids": [
+        "ev_doc_05b0b4a3e168_000110_235b920cd59e",
+        "ev_doc_05b0b4a3e168_000192_ea99a81e069f"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ]
+      }
+    },
+    {
+      "key_point_id": "kp_pr_result_difference",
+      "key_point_type": "result",
+      "statement": "The RRRR/SSSS relative energy is reported when computable.",
+      "expected": "In the complete branch, the signed difference and a relative-energy entry identifying both labels are supplied; in bounded failure, the unavailable comparison is explained.",
+      "evidence_ids": [
+        "ev_doc_05b0b4a3e168_000110_235b920cd59e",
+        "ev_doc_05b0b4a3e168_000192_ea99a81e069f"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ]
+      }
+    }
+  ]
+}

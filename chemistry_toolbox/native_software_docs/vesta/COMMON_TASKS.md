@@ -49,7 +49,7 @@ Only collect outputs produced by the same job or by explicitly linked parent job
 | Artifact validity | Required files exist, are non-empty, and can be parsed | Files with expected names only |
 
 ## Software-specific end markers
-- `headless GUI remained healthy for bounded smoke`
+- `headless command completed`
 - `export completed`
 
 ## Scientific convergence notes

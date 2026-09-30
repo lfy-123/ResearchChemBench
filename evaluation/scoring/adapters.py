@@ -8,7 +8,12 @@ from typing import Any
 
 from ..repository import load_private_reference, load_submission_schema, load_task_package
 from ..schemas.task import GroundTruth
-from .dual_axis import DUAL_AXIS_POLICY_ID, dual_axis_policy, process_rubric
+from .dual_axis import (
+    DUAL_AXIS_POLICY_ID, RESULTS_POLICY_ID, OPEN_RESEARCH_POLICY_ID,
+    dual_axis_policy, process_rubric,
+)
+from .rules import associate_rules
+from ..contracts.scientific_rubric import scientific_rubric
 
 
 class EvaluatorAdapterError(RuntimeError):
@@ -44,13 +49,16 @@ def _runtime_contract(
 ) -> dict[str, Any]:
     conclusions = reference["reference_conclusions.json"]["items"]
     rules = reference["scoring_rules.json"]["rules"]
-    rules_by_reference: dict[str, list[dict[str, Any]]] = {}
-    for rule in rules:
-        rules_by_reference.setdefault(str(rule["reference_id"]), []).append(rule)
+    authored_policy = reference["scoring_rules.json"].get("scoring_policy")
+    if authored_policy not in (None, DUAL_AXIS_POLICY_ID, RESULTS_POLICY_ID, OPEN_RESEARCH_POLICY_ID):
+        raise EvaluatorReferenceInvalid(f"unknown authored scoring_policy:{authored_policy}")
+    scientific_results = authored_policy == RESULTS_POLICY_ID
+    open_research = authored_policy == OPEN_RESEARCH_POLICY_ID
+    rule_table = associate_rules(reference)
     conclusion_rubric: list[dict[str, Any]] = []
     for conclusion, maximum in zip(conclusions, _weights(len(conclusions))):
         conclusion_id = str(conclusion["conclusion_id"])
-        authored_rules = rules_by_reference.get(conclusion_id, [])
+        authored_rules = [entry["rule"] for entry in rule_table if conclusion_id in entry["conclusion_ids"]]
         evidence = list(
             dict.fromkeys(
                 path
@@ -73,6 +81,11 @@ def _runtime_contract(
         else _text(item)
         for item in reference["critical_failures.json"]["items"]
     ]
+    authored_rubric = scientific_rubric(reference["scoring_rules.json"])
+    if authored_rubric is not None:
+        conclusion_rubric = [{"id": item["id"], "max_score": item["max_score"], "statement": item["description"],
+                             "acceptance_rule": json.dumps({"rule_ids": item["rule_ids"]}), "rule_ids": item["rule_ids"],
+                             "required_evidence": submission["required_files"]} for item in authored_rubric]
     runtime = {
         "expected_tool_calls": [],
         "expected_result": {
@@ -86,25 +99,31 @@ def _runtime_contract(
             "paper_reproduction" if task_type == "paper_reproduction" else "autonomous_discovery"
         ),
         "score_max": 100,
-        "scoring_rubric": process_rubric(reproduction=task_type == "paper_reproduction"),
+        "scoring_rubric": process_rubric(
+            reproduction=task_type == "paper_reproduction", scientific_results=scientific_results,
+            open_research=open_research,
+        ),
         "scientific_conclusion_rubric": conclusion_rubric,
-        "dual_axis_scoring_policy": dual_axis_policy(),
+        "dual_axis_scoring_policy": dual_axis_policy(
+            scientific_results=scientific_results, open_research=open_research
+        ),
         "critical_failures": failures,
         "judge_instructions": (
             "Apply the task-authored scoring rules to submitted artifacts, then score the "
             "research process independently."
         ),
         "reference_evidence": reference,
+        "rule_table": rule_table,
     }
     return GroundTruth.model_validate(runtime).model_dump(mode="json")
 
 
-def load_runtime_evaluation(*, paper_id: str, task_type: str) -> RuntimeEvaluation:
-    package = load_task_package(paper_id=paper_id, task_type=task_type)
+def load_runtime_evaluation(*, paper_id: str, task_type: str, repository=None) -> RuntimeEvaluation:
+    package = load_task_package(paper_id=paper_id, task_type=task_type, repository=repository)
     reference = load_private_reference(
-        paper_id=paper_id, task_type=task_type, evaluator_context=True
+        paper_id=paper_id, task_type=task_type, evaluator_context=True, repository=repository
     )
-    submission = load_submission_schema(paper_id=paper_id, task_type=task_type)
+    submission = load_submission_schema(paper_id=paper_id, task_type=task_type, repository=repository)
     try:
         ground_truth = _runtime_contract(
             task_type=task_type, reference=reference, submission=submission
@@ -115,8 +134,8 @@ def load_runtime_evaluation(*, paper_id: str, task_type: str) -> RuntimeEvaluati
         ) from exc
     return RuntimeEvaluation(
         ground_truth=ground_truth,
-        adapter_id="split-computational-evaluator.v1",
-        policy_id=DUAL_AXIS_POLICY_ID,
+        adapter_id="split-computational-evaluator.v3-flat" if reference["scoring_rules.json"].get("scientific_rubric") else "split-computational-evaluator.v2",
+        policy_id=ground_truth["dual_axis_scoring_policy"]["policy_id"],
         task_type=task_type,
         package_content_sha256=package.package_content_sha256,
     )

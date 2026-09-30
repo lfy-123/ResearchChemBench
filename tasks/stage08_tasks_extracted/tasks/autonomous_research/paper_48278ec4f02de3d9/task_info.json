@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_48278ec4f02de3d9",
+  "task_type": "autonomous_research",
+  "title": "Autonomous discovery of the Rh keto-VCP mechanism",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate and discriminate multiple mechanism hypotheses without an author-route hint.",
+    "The open stationary-point search requires coverage, deduplication, validation, and a defensible stopping decision."
+  ],
+  "paper": {
+    "title": "Development and Mechanism of Rh-Catalyzed Keto-(5 + 1 + 2) Reaction of Keto-Vinylcyclopropanes and CO, and Answering Why Rh-Catalyzed Keto-(5 + 2) Reaction of Keto-Vinylcyclopropanes Fails",
+    "doi": "10.1021/jacs.5c15273",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-05"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit XYZ inputs for substrate 1t, [Rh(CO)2Cl]2 catalyst, and CO."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Hypotheses, candidate ledger, validated energy profiles, coverage, limitations, and final mechanism conclusion."
+    }
+  ]
+}

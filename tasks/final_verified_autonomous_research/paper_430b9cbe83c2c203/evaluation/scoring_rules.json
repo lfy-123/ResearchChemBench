@@ -1,0 +1,91 @@
+{
+  "paper_id": "paper_430b9cbe83c2c203",
+  "rules": [
+    {
+      "rule_id": "r_stationary",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers",
+          "$.conformers[*].stationary"
+        ],
+        "comparison": "expert validation of per-conformer diagnostics"
+      },
+      "reference_id": "kp_process_stationary",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion."
+    },
+    {
+      "rule_id": "r_shifts",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.methods.reference",
+          "$.conformers[*].se_sites",
+          "$.conformers[*].shifts_ppm",
+          "$.comparison"
+        ],
+        "comparison": "expert validation of per-site shifts and observed-feature comparison"
+      },
+      "reference_id": "kp_process_observable",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion. Verify site-to-atom correspondence, common-method Me2Se shielding reference, shielding-to-shift sign and per-site residuals. Do not absorb unexplained mismatch into an undocumented fitted offset."
+    },
+    {
+      "rule_id": "r_energy",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.relative_energy.value_kcal_mol",
+          "$.relative_energy.uncertainty"
+        ],
+        "comparison": "condition: near-degenerate within 1 kcal/mol or justified bounded failure"
+      },
+      "reference_id": "kp_result_energy",
+      "type": "condition",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion. Check which physical energy is compared, cis/trans identity, sign, units and the common reference before interpreting relative stability."
+    },
+    {
+      "rule_id": "r_assignment",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.assignment",
+          "$.comparison.evidence",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_signals",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion. Large residuals from an uncalibrated method do not by themselves exclude a chemical structure. Separate numerical fit, assignment evidence and uncertainty; a negative answer is not automatically successful reproduction."
+    },
+    {
+      "rule_id": "r_final",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers",
+          "$.comparison",
+          "$.relative_energy",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_assignment",
+      "type": "semantic",
+      "expected": "The validated cis/trans triselenide geometries, relative energy and three site-resolved 77Se shifts support or reject the weak-signal assignment under the approved semiquantitative comparison. Explicitly account for site-wise residuals and assignment support instead of treating a qualitative conclusion as full numerical agreement. Preserve the authored semiquantitative scope; do not invent a new ppm threshold."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

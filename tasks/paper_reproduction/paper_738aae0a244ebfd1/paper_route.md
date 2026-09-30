@@ -2,11 +2,11 @@
 
 ## 1. Scientific objective and author claim
 
-The paper uses gas-phase quantum chemistry to characterize bis(2-ammonium-2-methyl-1-propanol) trifluoroacetate (AMP-TFA). Its computational claim is that the optimized ion-pair structure is electronically stable and has a UV absorption dominated by a frontier-orbital excitation. The reported observables are a positive-minimum vibrational check, the HOMO/LUMO energies and gap, and the dominant TD-DFT excitation.
+The paper uses gas-phase quantum chemistry to characterize bis(2-ammonium-2-methyl-1-propanol) trifluoroacetate (AMP-TFA). Its computational claim is that the optimized ion-pair structure is electronically stable and has a UV absorption dominated by a frontier-orbital excitation. The reported observables are a positive-minimum vibrational check, the HOMO/LUMO energies and gap, and the first listed TD-DFT excitation and a separate intensity comparison.
 
 ## 2. System and model boundary
 
-The modeled species is one neutral ion pair, [(CH3)2C(NH3+)CH2OH][CF3COO−], formula C6H12F3NO3, singlet. The crystal is triclinic P-1 and the 100 K structure is the authors' starting geometry; the supplied SI identifies datablock A545_100 and reports two formula units per asymmetric unit. The gas-phase calculation treats the isolated ion pair, not the periodic crystal or a solvent.
+The author-calculated model in Figure 2b is a neutral cluster of two AMP cations and two trifluoroacetate anions, formula C12H24F6N2O6, singlet, 50 atoms and 212 electrons (main p4). C6H12F3NO3 is one formula unit, not the whole calculated cluster. The crystal is triclinic P-1 and the 100 K structure is the authors' starting geometry; the supplied SI identifies datablock A545_100 and reports two formula units per asymmetric unit. The gas-phase calculation treats the isolated bis-ion-pair cluster, not the periodic crystal or a solvent.
 
 ## 3. Authors' implemented computational route
 
@@ -19,12 +19,17 @@ The modeled species is one neutral ion pair, [(CH3)2C(NH3+)CH2OH][CF3COO−], fo
 
 ## 4. Validation and analysis protocol
 
-The authors state that the harmonic calculation has no negative frequency and call the resulting structure a global minimum. They inspect the HOMO/LUMO energies and identify the strongest listed UV transition by its wavelength, oscillator strength, and orbital contribution. The paper reports HOMO = -9.617 eV, LUMO = -3.608 eV, gap = 6.008 eV, and a HOMO-to-LUMO transition at 271.84 nm with 100% contribution and oscillator strength 0.0008. The article also reports dipole, polarizability, and hyperpolarizability, but these are outside the constructed benchmark's scored core.
+The authors state that the harmonic calculation has no negative frequency and call the resulting structure a global minimum. They inspect the HOMO/LUMO energies and discuss the first listed HOMO-to-LUMO UV transition. The claim that this state is strongest conflicts with Table 4: its f=0.0008 is below the second state f=0.0013. The task binds 271.84 nm to the first/lowest-energy listed singlet, not to the maximum-intensity state. The paper reports HOMO = -9.617 eV, LUMO = -3.608 eV, gap = 6.008 eV, and a HOMO-to-LUMO transition at 271.84 nm with 100% contribution and oscillator strength 0.0008. The article also reports dipole, polarizability, and hyperpolarizability, but these are outside the constructed benchmark's scored core.
 
 ## 5. Private reference results
 
-The hidden reference gap is 6.008 eV. The hidden reference dominant transition is 271.84 nm, assigned as HOMO→LUMO and π→π* with 100% major contribution. The minimum-validation reference is zero imaginary frequencies. These values are sourced from the abstract, Section 3.4/Table 5, and Section 3.3/Table 4.
+The hidden reference gap is 6.008 eV. The hidden reference first/lowest-energy listed singlet is 271.84 nm, assigned as HOMO→LUMO and π→π* with 100% major contribution. The minimum-validation reference is zero imaginary frequencies. These values are sourced from the abstract, Section 3.4/Table 5, and Section 3.3/Table 4.
 
 ## 6. Limitations and interpretation boundaries
 
 The article does not publish the coordinate-bearing CIF in the supplied SI, only its check report. The released task therefore uses a connectivity-complete ion-pair SMILES and permits the Agent to generate starting conformers; exact reproduction of the authors' crystal-derived orientation is not required. The benchmark evaluates the stated gas-phase observables and does not treat the reported gap as an experimental band gap or a periodic-solid property.
+
+
+## 2026-09-23 factual definition correction
+
+Main physical page 7, Section 3.3/Table 4 contradicts the abstract/conclusion wording that calls 271.84 nm the most intense transition. Both public task modes, result schema and evaluator now distinguish lowest excitation energy from maximum oscillator strength. Reference 271.84±10 nm and gap 6.008±0.5 eV are unchanged. This is not an author erratum, and it does not resolve the calculated gap mismatch or establish benchmark qualification.

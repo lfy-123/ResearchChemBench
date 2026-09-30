@@ -1,0 +1,127 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": ["completion_status", "host_results", "investigation", "conclusion"],
+        "properties": {
+          "completion_status": {"const": "complete"},
+          "host_results": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "host_id",
+            "surface_model",
+            "initial_state",
+            "final_state",
+            "barrier_eV",
+            "barrier_uncertainty_eV"
+          ],
+          "properties": {
+            "host_id": {
+              "type": "string"
+            },
+            "surface_model": {
+              "type": "string"
+            },
+            "initial_state": {
+              "type": "string"
+            },
+            "final_state": {
+              "type": "string"
+            },
+            "barrier_eV": {
+              "type": "number"
+            },
+            "barrier_uncertainty_eV": {
+              "type": "number"
+            }
+          }
+        }
+      },
+          "investigation": {
+        "type": "object",
+        "required": [
+          "candidate_generation",
+          "candidate_validation",
+          "path_validation",
+          "coverage_and_stopping"
+        ],
+        "properties": {
+          "candidate_generation": {
+            "type": "string"
+          },
+          "candidate_validation": {
+            "type": "string"
+          },
+          "path_validation": {
+            "type": "string"
+          },
+          "coverage_and_stopping": {
+            "type": "string"
+          }
+        }
+      },
+          "conclusion": {
+        "type": "object",
+        "required": [
+          "barrier_ordering",
+          "barrier_difference_eV",
+          "rate_limiting_step",
+          "interpretation",
+          "limitations"
+        ],
+        "properties": {
+          "barrier_ordering": {
+            "type": "string"
+          },
+          "barrier_difference_eV": {
+            "type": "number"
+          },
+          "rate_limiting_step": {
+            "type": "string"
+          },
+          "interpretation": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": ["completion_status", "host_results", "investigation", "bounded_failure", "conclusion"],
+        "properties": {
+          "completion_status": {"const": "bounded_failure"},
+          "host_results": {
+            "type": "array", "minItems": 2,
+            "items": {"type": "object", "required": ["host_id", "surface_model", "initial_state", "final_state"],
+              "properties": {"host_id": {"type": "string"}, "surface_model": {"type": "string"}, "initial_state": {"type": "string"}, "final_state": {"type": "string"}}}
+          },
+          "investigation": {
+            "type": "object", "required": ["candidate_generation", "candidate_validation", "path_validation", "coverage_and_stopping"],
+            "properties": {"candidate_generation": {"type": "string"}, "candidate_validation": {"type": "string"}, "path_validation": {"type": "string"}, "coverage_and_stopping": {"type": "string"}}
+          },
+          "bounded_failure": {
+            "type": "object", "required": ["unresolved_stage", "attempted_candidates", "available_measurements"],
+            "properties": {"unresolved_stage": {"type": "string"}, "attempted_candidates": {"type": "string"}, "available_measurements": {"type": "string"}}
+          },
+          "conclusion": {
+            "type": "object", "required": ["barrier_ordering", "rate_limiting_step", "interpretation", "limitations"],
+            "properties": {"barrier_ordering": {"type": "string"}, "rate_limiting_step": {"type": "string"}, "interpretation": {"type": "string"}, "limitations": {"type": "string"}}
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,881 @@
+
+=== task_info.json ===
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "task_type": "autonomous_research",
+  "title": "Independent exchange-gap study of Cu paddlewheel models",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The object is fixed but each dimer needs open-shell modeling, geometry construction, validation, and an independently justified series interpretation."
+  ],
+  "paper": {
+    "title": "Photopatternable Thermochromism Enabled by an Anthracene Heterodimer Ligand",
+    "doi": "10.1021/jacs.5c22789",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-02-13"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed component and assembly definitions for the three model dimers."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Per-system computed gaps, populations, validation and independent conclusion."
+    }
+  ]
+}
+
+=== paper_route.md ===
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+The paper tests whether the electronics of axial 4-substituted pyridines tune the singlet–triplet magnetic exchange gap of Cu(II) paddlewheel model complexes. The authors claim that electron-donating substituents strengthen antiferromagnetic coupling, producing a modestly lower thermally populated triplet fraction.
+
+## 2. System and model boundary
+
+The computational models are isolated neutral Cu2(AnCOO)4(4-RPy)2 paddlewheel complexes, with R = H, CH3, and OCH3. AnCOO is the 9-anthracenecarboxylate bridge; each Cu(II) is represented in the dimer and each axial site is capped by 4-RPy. The singlet is open-shell/multireference, so the triplet geometry is used as the equilibrium structural approximation. The reported observable is the singlet–triplet gap J in cm^-1 and the triplet population A at 300 K.
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+| 1 | Obtain equilibrium model structures | Cu2(AnCOO)4(4-RPy)2 starting structures | ORCA 6.0.1 triplet DFT geometry optimization | B3LYP, def2-SVP, D3BJ, def2/J, RIJCOSX/COSX | Optimized triplet geometries | ev_doc_dc21c53cc060_000276_2b1aa068d3a2; ev_doc_dc21c53cc060_000278_2c7144eead6e |
+| 2 | Compute singlet–triplet gaps | Optimized triplet geometries | PySCF-forge multicollinear SF-TDDFT | B3LYP/def2-SVP, def2-svp-jkfit; unrestricted Sz=1 triplet reference; no TDA for reported SF-TDDFT | J for H, Me, OMe | ev_doc_dc21c53cc060_000280_7e773e530c68; ev_doc_dc21c53cc060_000282_da1c7a4829d0 |
+| 3 | Relate coupling to thermochromic spin population | J values | Boltzmann/Bleaney-style expression | A=100·3 exp(J/kT)/(1+3 exp(J/kT)); T=300 K | A and substituent trend | ev_doc_7a54bf831714_000383_2feb94e7f8e6; ev_doc_7a54bf831714_000384_7a2b2cd78ddd |
+
+## 4. Validation and analysis protocol
+
+The SI benchmarks functional, basis-set, and geometry sensitivity for R=H and reports close agreement between SF-TDDFT and SF-TDA, triple-zeta Cu calculations, and CASSCF-optimized geometry. The paper compares calculated and measured J values for all three pyridines and evaluates the relative trend against Hammett substituent constants. The triplet population is evaluated from the reported J convention and temperature expression.
+
+## 5. Private reference results
+
+SI Table S4 reports calculated J/A: H −335 cm^-1/37.6%, CH3 −342/36.8%, OCH3 −345/36.4%; measured values: H −367/34.0%, CH3 −383/32.3%, OCH3 −381/32.5%.
+
+## 6. Limitations and interpretation boundaries
+
+The models omit the extended MOF lattice and use triplet geometries for an intrinsically multireference singlet. Numerical agreement is therefore a method-reproduction target, not proof that the isolated model uniquely predicts the solid-state material. Sign conventions must be stated explicitly; this task uses the paper's negative-J convention.
+
+=== evaluation/scoring_rules.json ===
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "rules": [
+    {
+      "rule_id": "r_proc",
+      "reference_id": "kp_proc",
+      "type": "semantic",
+      "expected": "All three named systems have explicit state, convergence, sign, and sensitivity records.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation",
+          "$.systems[0].validation",
+          "$.systems[1].validation",
+          "$.systems[2].validation"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "r_j_h",
+      "reference_id": "kp_j",
+      "type": "numeric",
+      "target": -335,
+      "unit": "cm^-1",
+      "tolerance": 20,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[0].J_cm_minus_1"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_j_me",
+      "reference_id": "kp_j",
+      "type": "numeric",
+      "target": -342,
+      "unit": "cm^-1",
+      "tolerance": 20,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[1].J_cm_minus_1"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_j_ome",
+      "reference_id": "kp_j",
+      "type": "numeric",
+      "target": -345,
+      "unit": "cm^-1",
+      "tolerance": 20,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[2].J_cm_minus_1"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pop_h",
+      "reference_id": "kp_pop",
+      "type": "numeric",
+      "target": 37.6,
+      "unit": "percent",
+      "tolerance": 2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[0].triplet_population_300K_percent"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pop_me",
+      "reference_id": "kp_pop",
+      "type": "numeric",
+      "target": 36.8,
+      "unit": "percent",
+      "tolerance": 2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[1].triplet_population_300K_percent"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_pop_ome",
+      "reference_id": "kp_pop",
+      "type": "numeric",
+      "target": 36.4,
+      "unit": "percent",
+      "tolerance": 2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[2].triplet_population_300K_percent"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_trend",
+      "reference_id": "kp_trend",
+      "type": "semantic",
+      "expected": "Conclusion accurately describes the submitted three-system calculated series.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "con_final",
+      "type": "semantic",
+      "expected": "Final conclusion is evidence-based and limited to the isolated model and chosen method.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "evaluation_instructions": "Score real computational evidence and correctly identified scientific results. Ordinary limitations/stopping prose is optional and unscored. Partial or failed calculations receive only credit supported by completed work; a valid failure submission is not a completed scientific result. Additional attempts do not invalidate a successful main result. Apply all retained identity/state/condition rules and assess distinct completed observables within each conclusion without inventing additional targets or changing authored tolerances."
+}
+
+=== evaluation/verified_computation_reference.md ===
+# 已验证成功计算参考 — paper_0cd74ae20ab933f3 / autonomous_research
+
+整理日期：2026-09-23。本文件只记录既有成功的科学计算链，属于 evaluator 私有档案，不是评分规则，也不是 agent 必须照做的脚本。未在本次维护中新增量化计算；失败/重试不计入下列成功结果。
+
+## 1. 来源与实际范围（Group 6）
+
+正文 PDF p6；SI PDF pp5–6方法、p35敏感性、p36表。
+
+[论文正文](../../../../papers/paper_0cd74ae20ab933f3/documents/main.pdf)；[当前成功结果与证据索引](../../../../runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260918_closure/report/results.json)。
+[补充材料 supplementary_001.pdf](../../../../papers/paper_0cd74ae20ab933f3/documents/supplementary_001.pdf)
+
+## 2. 真实有效计算流程
+
+1. 从正式 SI triplet 几何取 R_H/R_CH3/R_OCH3 三个孤立中性 Cu2(AnCOO)4(4-RPy)2；验图连接和元素，128/134/136原子。历史在 author geometries 上求能，不声称从当前 public connectivity 新优化或做频率。
+2. PySCF2.13.1/forge B3LYP/def2-SVP、def2-svp-jkfit density fitting；UKS triplet Sz=1，grid3、20 collinear samples，final SCF1e−9，SF10 roots1e−5。保留真实 PySCF logs/checkpoints，而非 Gaussian终止标记。
+3. 用各 spin-flipped roots 的 S²独立赋 lowest singlet/triplet，以 J=(ES−ET)×219474.63136314 cm⁻¹；TDA 不拿 UKS reference 代替其 triplet root。J=−334.373525/−341.412046/−344.582322。
+4. 按 triplet三重简并，P=100×3exp[J/(kBT)]/[1+3exp[J/(kBT)]]，300K 得37.636230/36.847290/36.49420%。H full-SF 实算控制 J=−344.221852/P=36.534274；这是一项方法敏感性，不谎称 Me/OMe 也做 full-SF。
+
+## 3. 有效产物与原始输入/输出
+
+- [results.json（20260918_closure）](../../../../runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260918_closure/report/results.json)
+- [results.json（20260921_acceptance）](../../../../runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260921_acceptance/report/results.json)
+
+下列日志/后处理由上述有效链索引。输入取同目录 input.com/input.inp（存在时直链）；路径本身不是通过判据，科学量与步骤见第2节。
+
+- [production/R_CH3/pyscf.log](../../../../runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260915_author_xyz/production/R_CH3/pyscf.log)
+- [production/R_H/pyscf.log](../../../../runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260915_author_xyz/production/R_H/pyscf.log)
+- [production/R_OCH3/pyscf.log](../../../../runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260915_author_xyz/production/R_OCH3/pyscf.log)
+
+## 4. 当前 evaluator 对应关系
+
+以下对应是证据核对，不是本轮运行 LLM judge 的评分，也不宣称复现了 AR 的自主探索过程。
+
+| 项目 | 当前要求 | 本参考支持方式 |
+|---|---|---|
+| `kp_proc` | The investigation treats the three named Cu2 dimers as neutral paddlewheel models, uses a triplet reference for the open-shell calculation, and reports a traceable singlet–triplet gap protocol for every derivative. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_j` | The calculated singlet–triplet gaps are approximately −335, −342, and −345 cm^-1 for R=H, CH3, and OCH3, respectively. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_pop` | The calculated 300 K triplet populations are 37.6%, 36.8%, and 36.4% for R=H, CH3, and OCH3. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `kp_trend` | The three calculated systems can be compared consistently by their J values and 300 K populations, with any directional relationship stated only from the submitted calculations. | 第2节的身份、有效计算、观测量及第3节原始证据；只认已完成量，不用免责声明替代。 |
+| `con_final` | The calculated isolated-model series gives a reproducible substituent-dependent exchange result, with J and 300 K populations reported for all three specified derivatives and interpretation limited to the computed model. | 上述关键点与实际数值/物理解释共同支持；源值和验证值不混写。 |
+
+## 5. 不能扩大解释的地方
+
+只支持当前三个孤立模型的 gap/热布居和系列关系；原作者数据与实验对比不取代真实量化。公开没有原作者 triplet endpoint。
+
+参考使用作者知情路线和可能的作者端点，能支持此科学子问题存在真实可行计算链；不要求向被评 agent 公开端点，也不证明任意方法、初猜都必然收敛。任务的公开身份和必要定义须另行自包含核对。普通 limitation 不作为评估成果；本段只是维护档案的事实说明。
+
+两模式共享的作者路线结果不等同于自主模式盲测。历史没有记录的自主假设、候选提出或路线决策，不因格式映射而编造成已经执行；科学子问题计算支持与自主过程能力得分应分开。
+
+=== evaluation/reference_key_points.json ===
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "items": [
+    {
+      "key_point_id": "kp_proc",
+      "key_point_type": "process",
+      "statement": "The investigation treats the three named Cu2 dimers as neutral paddlewheel models, uses a triplet reference for the open-shell calculation, and reports a traceable singlet–triplet gap protocol for every derivative.",
+      "expected": "All three IDs are covered with explicit charge/spin, state identity, convergence evidence, and a defined J sign convention.",
+      "evidence_ids": [
+        "ev_doc_dc21c53cc060_000276_2b1aa068d3a2",
+        "ev_doc_dc21c53cc060_000280_7e773e530c68"
+      ]
+    },
+    {
+      "key_point_id": "kp_j",
+      "key_point_type": "result",
+      "statement": "The calculated singlet–triplet gaps are approximately −335, −342, and −345 cm^-1 for R=H, CH3, and OCH3, respectively.",
+      "expected": "Submitted J values reproduce those three calculated SI targets within the rule tolerance.",
+      "evidence_ids": [
+        "ev_doc_dc21c53cc060_000568_c8690f05a5d9"
+      ]
+    },
+    {
+      "key_point_id": "kp_pop",
+      "key_point_type": "result",
+      "statement": "The calculated 300 K triplet populations are 37.6%, 36.8%, and 36.4% for R=H, CH3, and OCH3.",
+      "expected": "Submitted populations reproduce the three calculated SI targets within the rule tolerance.",
+      "evidence_ids": [
+        "ev_doc_dc21c53cc060_000568_c8690f05a5d9"
+      ]
+    },
+    {
+      "key_point_id": "kp_trend",
+      "key_point_type": "result",
+      "statement": "The three calculated systems can be compared consistently by their J values and 300 K populations, with any directional relationship stated only from the submitted calculations.",
+      "expected": "Conclusion reports the calculated series direction or explicitly states that no robust direction was established.",
+      "evidence_ids": [
+        "ev_doc_7a54bf831714_000383_2feb94e7f8e6",
+        "ev_doc_dc21c53cc060_000568_c8690f05a5d9"
+      ]
+    }
+  ]
+}
+
+=== evaluation/critical_failures.json ===
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "items": [
+    {
+      "failure_id": "cf_identity",
+      "condition": "System IDs, ligand identities, charge, or spin state are swapped or chemically inconsistent.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_no_validation",
+      "condition": "Results are given without convergence/state evidence or without distinguishing calculated from measured quantities.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_leakage",
+      "condition": "Submission claims experimental or periodic-MOF conclusions as if established by the isolated calculations.",
+      "severity": "major"
+    }
+  ]
+}
+
+=== evaluation/evidence_map.json ===
+{"paper_id":"paper_0cd74ae20ab933f3","evidence":[{"evidence_id":"ev_doc_dc21c53cc060_000276_2b1aa068d3a2","source":"SI, Computational Methods: triplet geometry optimization with ORCA."},{"evidence_id":"ev_doc_dc21c53cc060_000280_7e773e530c68","source":"SI, Computational Methods: multicollinear SF-TDDFT setup."},{"evidence_id":"ev_doc_7a54bf831714_000383_2feb94e7f8e6","source":"Main paper, thermochromism theory discussion and calculated trend."},{"evidence_id":"ev_doc_dc21c53cc060_000568_c8690f05a5d9","source":"SI Table S4: calculated and measured J and triplet populations."}]}
+
+=== evaluation/reference_conclusions.json ===
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "items": [
+    {
+      "conclusion_id": "con_final",
+      "claim_role": "final",
+      "statement": "The calculated isolated-model series gives a reproducible substituent-dependent exchange result, with J and 300 K populations reported for all three specified derivatives and interpretation limited to the computed model.",
+      "expected": "A final conclusion is supported by the submitted per-system results, states the observed direction if one is found, and uses the declared isolated-model observables consistently.",
+      "supporting_key_point_ids": [
+        "kp_proc",
+        "kp_j",
+        "kp_pop",
+        "kp_trend"
+      ],
+      "evidence_ids": [
+        "ev_doc_7a54bf831714_000383_2feb94e7f8e6",
+        "ev_doc_dc21c53cc060_000568_c8690f05a5d9"
+      ]
+    }
+  ]
+}
+
+=== evaluation/task_provenance/contract_regression_20260923.json ===
+{
+  "date": "2026-09-23",
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "mode": "autonomous_research",
+  "source": "runs/hold_verification/group_6/paper_0cd74ae20ab933f3/20260918_closure/report/results.json",
+  "mapping": [
+    "Real 09-18 closure mapped to current systems schema, preserving S/T root, geometry and sensitivity facts"
+  ],
+  "synthetic_process_fields_used_for_format_only": false,
+  "checks": [
+    {
+      "check": "historical_fields_with_disclosed_mapping_schema",
+      "passed": true
+    },
+    {
+      "check": "no_generic_disclaimers_required",
+      "passed": true
+    },
+    {
+      "check": "additional_failure_does_not_break_success",
+      "passed": true
+    },
+    {
+      "check": "early_failure_needs_no_invented_result",
+      "passed": true
+    },
+    {
+      "check": "partial_failure_with_available_evidence",
+      "passed": true
+    },
+    {
+      "check": "failure_cannot_claim_complete",
+      "passed": true
+    },
+    {
+      "check": "empty_object_rejected",
+      "passed": true
+    },
+    {
+      "check": "wrong_or_duplicate_main_identity_rejected",
+      "passed": true
+    },
+    {
+      "check": "scientific_results_policy",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_j_h",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_j_me",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_j_ome",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pop_h",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pop_me",
+      "passed": true
+    },
+    {
+      "check": "numeric_r_pop_ome",
+      "passed": true
+    },
+    {
+      "check": "original_numeric_targets_tolerances_unchanged",
+      "passed": true
+    },
+    {
+      "check": "all_scoring_selectors_resolve_on_result_evidence",
+      "passed": true
+    },
+    {
+      "check": "reference_links_exist",
+      "passed": true
+    },
+    {
+      "check": "no_public_symlinks",
+      "passed": true
+    }
+  ],
+  "numeric_rule_replay": [
+    {
+      "rule": "r_j_h",
+      "observed": [
+        -334.3735252659845
+      ],
+      "target": -335,
+      "tolerance": 20,
+      "passed": true
+    },
+    {
+      "rule": "r_j_me",
+      "observed": [
+        -341.4120457906486
+      ],
+      "target": -342,
+      "tolerance": 20,
+      "passed": true
+    },
+    {
+      "rule": "r_j_ome",
+      "observed": [
+        -344.58232169224055
+      ],
+      "target": -345,
+      "tolerance": 20,
+      "passed": true
+    },
+    {
+      "rule": "r_pop_h",
+      "observed": [
+        37.6362295496755
+      ],
+      "target": 37.6,
+      "tolerance": 2,
+      "passed": true
+    },
+    {
+      "rule": "r_pop_me",
+      "observed": [
+        36.847292755439156
+      ],
+      "target": 36.8,
+      "tolerance": 2,
+      "passed": true
+    },
+    {
+      "rule": "r_pop_ome",
+      "observed": [
+        36.49419835376705
+      ],
+      "target": 36.4,
+      "tolerance": 2,
+      "passed": true
+    }
+  ],
+  "unbound_fields": [],
+  "boundary": "Static contract, actual-result arithmetic and documented field-mapping tests only. No new quantum calculation, real LLM judge, blind agent run or deployment isolation test.",
+  "shared_runner_checks": [
+    {
+      "case": "complete",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "extra_attempt",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "early_failure",
+      "expected_valid": true,
+      "actual_valid": true,
+      "passed": true,
+      "error_count": 0,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    },
+    {
+      "case": "invalid_empty",
+      "expected_valid": false,
+      "actual_valid": false,
+      "passed": true,
+      "error_count": 12,
+      "boundary": "Test fixture only; scientific fields from disclosed mapping; AR process additions, where required, are synthetic."
+    }
+  ],
+  "input_sanity": []
+}
+
+=== evaluation/task_provenance/maintenance_audit.md ===
+# 已批准修复记录（2026-09-23）
+
+授权：负责人同意 MAINTENANCE_REPORT 第 15 节方案及 D1–D7。正文/SI 为主，验证计算为辅；只在 verified_tasks 修复，无新量化计算、无迁移授权。
+
+已按批准方案分离 PR guidance，取消普通 limitation/停止表态的 required 和独立得分，显式采用 scientific_results 策略；保留真实失败诊断、对象/态/收敛/敏感性证据与原科学数值容差，修复已发现的 [] 选择器并接回必要关键点。
+
+公开 J=ES−ET 和带三重简并的 300 K 百分比公式；明确主数组 H/CH3/OCH3 唯一顺序并在 schema 固定，保留额外尝试路径，不修改参考值。
+
+收尾复查：修复清理后的残句及“失败也称 complete”矛盾；保留主结果要求，提供不必虚构数值/结构的早期失败格式。针对主对象重复/缺失与成功状态做契约检查；普通免责声明不作为必需字段或成果。
+
+计算档案已补成有效链、源方法/验证差异、原始输入输出和当前 4 个关键点/1 条科学结论对应；不把 reference 变成 evaluator、不写入虚构计算。
+
+=== agent_input/submission_schema.json ===
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "anyOf": [
+      {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "systems",
+              "validation",
+              "conclusion"
+            ],
+            "properties": {
+              "status": {
+                "const": "success"
+              },
+              "systems": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "status",
+                    "geometry_provenance",
+                    "J_cm_minus_1",
+                    "triplet_population_300K_percent",
+                    "units",
+                    "method",
+                    "validation"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": "complete"
+                    },
+                    "geometry_provenance": {
+                      "type": "string"
+                    },
+                    "J_cm_minus_1": {
+                      "type": "number"
+                    },
+                    "triplet_population_300K_percent": {
+                      "type": "number"
+                    },
+                    "units": {
+                      "type": "object",
+                      "required": [
+                        "J",
+                        "population",
+                        "temperature"
+                      ],
+                      "properties": {
+                        "J": {
+                          "const": "cm^-1"
+                        },
+                        "population": {
+                          "const": "percent"
+                        },
+                        "temperature": {
+                          "const": "K"
+                        }
+                      }
+                    },
+                    "method": {
+                      "type": "string"
+                    },
+                    "validation": {
+                      "type": "object",
+                      "required": [
+                        "convergence",
+                        "state_identity",
+                        "sign_convention",
+                        "population_expression",
+                        "sensitivity",
+                        "stability_or_frequency"
+                      ],
+                      "properties": {
+                        "convergence": {
+                          "type": "string"
+                        },
+                        "state_identity": {
+                          "type": "string"
+                        },
+                        "sign_convention": {
+                          "type": "string"
+                        },
+                        "population_expression": {
+                          "type": "string"
+                        },
+                        "sensitivity": {
+                          "type": "string"
+                        },
+                        "stability_or_frequency": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "maxItems": 3,
+                "prefixItems": [
+                  {
+                    "properties": {
+                      "id": {
+                        "const": "R_H"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "id": {
+                        "const": "R_CH3"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "id": {
+                        "const": "R_OCH3"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                ]
+              },
+              "validation": {
+                "type": "string"
+              },
+              "conclusion": {
+                "type": "string"
+              },
+              "attempts": {
+                "type": "array"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "status",
+              "systems_attempted",
+              "diagnostics",
+              "conclusion"
+            ],
+            "properties": {
+              "status": {
+                "const": "bounded_failure"
+              },
+              "systems_attempted": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "status",
+                    "attempted_scope",
+                    "diagnostics"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "attempted_scope": {
+                      "type": "string"
+                    },
+                    "diagnostics": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "diagnostics": {
+                "type": "string"
+              },
+              "conclusion": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "required": [
+          "status",
+          "failure_report"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure_report": {
+            "type": "object",
+            "required": [
+              "reason",
+              "missing_endpoint",
+              "completed_artifacts"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "completed_artifacts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+
+=== agent_input/task.md ===
+# Scientific objective
+
+For the three explicitly identified neutral Cu2(AnCOO)4(4-RPy)2 molecular dimers (R = H, CH3, OCH3), independently determine the singlet–triplet exchange gap J (cm^-1), the triplet population at 300 K (%), and whether the substituent series exhibits a systematic relationship in the calculated coupling.
+
+# Public inputs and scientific boundaries
+
+Use J=ES−ET (negative for a lower singlet), in cm^-1. The triplet population at 300 K is 100×3 exp[J/(kBT)]/{1+3 exp[J/(kBT)]}; with J in cm^-1 use kB=0.69503476 cm^-1/K. The factor 3 is triplet spin degeneracy. For unambiguous scoring, the complete `systems` array contains exactly R_H, R_CH3, R_OCH3 in that order, once each. Put additional attempts separately. At least one methodological sensitivity check is required, not necessarily a new control for every derivative.
+
+Use `data/inputs/model_systems.json`, which uniquely identifies the three derivatives, component SMILES, paddlewheel assembly, charge, reference triplet multiplicity, target states, and units. Construct 3-D geometries from the connectivity. The boundary is the isolated dimer, not the periodic MOF or experimental measurement. Define the J sign convention and the energy-to-population expression used.
+
+# Required scientific validation/investigation
+
+For each named system, generate and deduplicate at least one valid geometry, establish a triplet reference, and calculate the lowest singlet and triplet energies with a defensible open-shell method. Record convergence, spin/state identity, and any stability or frequency check. Perform at least one justified sensitivity check and explain why the three-system coverage is sufficient for the stated relationship (or state what cannot be inferred). Completion requires traceable results for all three systems; incomplete work uses a diagnostic failure record.
+
+# Completion and allowed outcomes
+
+Submit a successful result only when all three named systems have the requested gap and
+population plus the required validation records and series interpretation. If a system or the
+sensitivity check cannot be completed after the attempted scope, submit the bounded-failure
+branch with the covered systems, attempted calculations, diagnostics, and the specific missing
+result; do not invent numeric values or placeholder structures.
+
+A complete outcome requires the requested scientific results and their validation evidence. If only part succeeds, use the existing failure/partial pathway and submit completed results plus the specific missing calculations and diagnostics; do not fabricate values. Extra exploratory attempts are allowed and do not invalidate completed main results. General limitations or stopping statements are optional, not scored deliverables.
+
+# Deliverables
+
+For an early or partial failure, a compact alternative submission is `status: bounded_failure` with `failure_report: {reason, missing_endpoint, completed_artifacts}`. Use nonempty reasons, identify the missing calculation, and list only artifacts that exist (the list may be empty if failure preceded computation). Include any available partial results; never fill unavailable scientific values. This branch is a valid submission, not successful completion.
+
+Submit `report/results.json` with per-system identity, geometry provenance, J, 300 K population, units, method, validation (including sign convention and population expression), coverage/status, and conclusion. A bounded-failure branch is valid only with attempted scope and diagnostics.
+
+=== agent_input/data/inputs/model_systems.json ===
+{
+  "systems": [
+    {
+      "id": "R_H",
+      "substituent": "H",
+      "axial_ligand": "pyridine",
+      "axial_ligand_smiles": "c1ccncc1"
+    },
+    {
+      "id": "R_CH3",
+      "substituent": "CH3",
+      "axial_ligand": "4-methylpyridine",
+      "axial_ligand_smiles": "Cc1ccncc1"
+    },
+    {
+      "id": "R_OCH3",
+      "substituent": "OCH3",
+      "axial_ligand": "4-methoxypyridine",
+      "axial_ligand_smiles": "COc1ccncc1"
+    }
+  ],
+  "core_assembly": {
+    "name": "Cu2(AnCOO)4(4-RPy)2",
+    "bridge_ligand": "9-anthracenecarboxylate anion, four carboxylate bridges in a Cu2 paddlewheel",
+    "bridge_ligand_smiles": "O=C([O-])c1c2ccccc2cc2ccccc12",
+    "axial_binding": "one pyridine N bound axially to each Cu",
+    "total_charge": 0,
+    "spin_multiplicity": 3,
+    "states": "lowest singlet and triplet states of the dimer",
+    "units": {
+      "energy": "cm^-1",
+      "temperature": "K",
+      "population": "percent"
+    }
+  },
+  "observables": {
+    "J_definition": "J = E_S - E_T; negative J denotes a lower singlet; report cm^-1.",
+    "triplet_population": "100 * 3 * exp(J/(kBT)) / (1 + 3 * exp(J/(kBT))); T=300 K, kB=0.69503476 cm^-1/K when J is in cm^-1.",
+    "main_result_order": [
+      "R_H",
+      "R_CH3",
+      "R_OCH3"
+    ],
+    "additional_attempts": "Record outside the three-entry systems array."
+  }
+}

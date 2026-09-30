@@ -1,0 +1,86 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_pr_kp_states",
+      "type": "semantic",
+      "expected": "Both required electronic states and sulfur atom identity are explicitly preserved.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_process_states"
+    },
+    {
+      "rule_id": "r_pr_kp_validation",
+      "type": "semantic",
+      "expected": "State-specific convergence/stationary-point diagnostics are reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].validation",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_process_validation"
+    },
+    {
+      "rule_id": "r_pr_kp_distances",
+      "type": "numeric",
+      "expected": "Signed delta_d = d_cation - d_neutral in angstrom; the reference change is a contraction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.distance_change.value_angstrom"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_pr_result_distances",
+      "target": -0.073,
+      "unit": "angstrom",
+      "tolerance": 0.2
+    },
+    {
+      "rule_id": "r_pr_con_final",
+      "type": "semantic",
+      "expected": "Oxidation of norDTCO contracts the S16-S17 separation. The comparison uses both validated state geometries and the signed radical-cation-minus-neutral distance difference to assess the odd-electron S-S interaction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_final"
+    },
+    {
+      "rule_id": "r_pr_distance_arithmetic",
+      "reference_id": "kp_pr_result_distances",
+      "type": "condition",
+      "expected": "Both distances are nonnegative and traceable to the same mapped S16/S17 pair in the two validated geometries. The submitted delta equals d_cation-d_neutral to the reported precision and is negative. A positive or zero change does not reproduce contraction, even when inside the numeric tolerance. Do not compare an absolute S-S distance to the delta target.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.distance_change"
+        ],
+        "comparison": "expert identity, geometry, signed arithmetic and direction check"
+      }
+    }
+  ],
+  "paper_id": "paper_0de37d01e35c27df",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

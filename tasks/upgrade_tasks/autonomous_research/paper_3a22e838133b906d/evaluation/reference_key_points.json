@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_3a22e838133b906d",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use full source BCy2/o-phenyl phosphonate 2a and deethylated anion3, not only BMe2/OMe surrogate. Full anion is C20H31BO3P, charge-1 singlet; Li+ and MeCN are singlets. Source Li2O2 dimer has two anions, two Li and four MeCN (charge0 singlet). Each Li coordinates the exposed phosphoryl O of both anions and two MeCN N atoms; intramolecular O->B contact remains distinguishable. Use balanced 2 monomer -> dimer and MeCN association cycles. Dealkylation reaction is neutral+LiI -> Li.anion+EtI; do not subtract unlike neutral/anion total energies.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use full source BCy2/o-phenyl phosphonate 2a and deethylated anion3, not only BMe2/OMe surrogate. Full anion is C20H31BO3P, charge-1 singlet; Li+ and MeCN are singlets. Source Li2O2 dimer has two anions, two Li and four MeCN (charge0 singlet). Each Li coordinates the exposed phosphoryl O of both anions and two MeCN N atoms; intramolecular O->B contact remains distinguishable. Use balanced 2 monomer -> dimer and MeCN association cycles. Dealkylation reaction is neutral+LiI -> Li.anion+EtI; do not subtract unlike neutral/anion total energies.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_coordination_layers",
+      "statement": "Maintain full Cy and OEt groups and distinguish dimer versus monomer identities; every geometry needs genuine convergence and frequency/constraint evidence. Core rows: full_anion, Li_anion, Li_anion_2MeCN, crystal_supported_dimer. Recompute P_O_A, B_O_A, electronic_Eh, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Maintain full Cy and OEt groups and distinguish dimer versus monomer identities; every geometry needs genuine convergence and frequency/constraint evidence. Core rows: full_anion, Li_anion, Li_anion_2MeCN, crystal_supported_dimer. Recompute P_O_A, B_O_A, electronic_Eh, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_balanced_cycles",
+      "statement": "Recompute fragment/stoichiometry-balanced differences; explicit LiI/EtI or equivalent balanced deethylation accounting is required, never bare neutral-minus-anion energy. Core rows: Li_association, MeCN_association, dimerization, deethylation. Recompute delta_E_kJ_mol, delta_G_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Recompute fragment/stoichiometry-balanced differences; explicit LiI/EtI or equivalent balanced deethylation accounting is required, never bare neutral-minus-anion energy. Core rows: Li_association, MeCN_association, dimerization, deethylation. Recompute delta_E_kJ_mol, delta_G_kJ_mol, distortion_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_truncation_and_mechanism",
+      "statement": "A full dimer is required for aggregation credit and paired small/full models for truncation. Local isolated-anion results do not explain the whole salt; no electrolyte performance claims. Core rows: small_vs_full, coordination_vs_aggregation. Recompute P_O_change_A, B_O_change_A, interaction_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "A full dimer is required for aggregation credit and paired small/full models for truncation. Local isolated-anion results do not explain the whole salt; no electrolyte performance claims. Core rows: small_vs_full, coordination_vs_aggregation. Recompute P_O_change_A, B_O_change_A, interaction_change_kJ_mol from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

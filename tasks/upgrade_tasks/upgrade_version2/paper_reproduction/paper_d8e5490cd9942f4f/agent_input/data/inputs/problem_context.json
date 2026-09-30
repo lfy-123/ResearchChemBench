@@ -1,0 +1,23 @@
+{
+  "problem": "How does lanthanide identity affect the coordination and conformational preferences of [Ln-KHQ]+ in water for Ln = La, Tb and Lu, and how firmly can those preferences be established?",
+  "facts": [
+    "La and Lu solution NMR indicate chemically equivalent pendant arms under their reported complex-forming conditions; this does not uniquely assign a conformation.",
+    "Source La NMR was measured in D2O at pD6.5; Lu complex formation depended on pD, with full conversion reported by pD9.",
+    "Optional numerical ECP/basis resources are supplied with source hashes. A 4f-in-core pseudosinglet describes its explicit-electron model and does not assert physical Tb spin zero."
+  ],
+  "scope": "Use the complete KHQ dianion C32H38N4O6(2−) and one La(III), Tb(III) or Lu(III), yielding [Ln-KHQ]+. Investigate aqueous coordination under a declared temperature and standard state; source thermodynamic context is 298 K. Distinguish this +1 species from the protonated +2 crystalline [La-HKHQ]2+ and from hydrolyzed species. Any added or removed water/proton must be accounted for chemically.",
+  "data_files": [
+    "KHQ_identity.json",
+    "La_7s6p5d_5s4p3d.gbs",
+    "La_ECP46MWB.ecp",
+    "Lu_7s6p5d_5s4p3d.gbs",
+    "Lu_ECP60MWB.ecp",
+    "Tb_7s6p5d_5s4p3d.gbs",
+    "Tb_ECP54MWB.ecp",
+    "ecp_basis_manifest.json"
+  ],
+  "resource_facts": "The platform supplies registered chemistry actions, native-software execution and selected Python runtimes. Inspect their actual capabilities and allocated resources. No specialist interface, license, cost or total compute budget is guaranteed by this task.",
+  "known_input_limits": [
+    "No calibrated universal Ln solvent cavity radius or aqueous reference free energy is supplied. Model-dependent uncertainty in solvation and low-frequency entropy remains to be established by the chosen study."
+  ]
+}

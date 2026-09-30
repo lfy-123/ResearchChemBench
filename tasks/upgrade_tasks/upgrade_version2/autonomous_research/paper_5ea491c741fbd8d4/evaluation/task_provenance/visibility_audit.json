@@ -1,0 +1,28 @@
+{
+  "public_paths": [
+    "agent_input/**",
+    "task_info.json through load_public_task"
+  ],
+  "author_route_only": "paper_reproduction/agent_input/task.md",
+  "private_paths": [
+    "evaluation/**",
+    "paper_route.md"
+  ],
+  "redaction": "Source article title/DOI/journal fields intentionally blank in both modes because task_info is publicly loadable. Full identity retained in private source_scope and baseline snapshots.",
+  "removed_routes": [
+    {
+      "file": "agent_input/task.md; data/inputs/controls.json",
+      "issue": "预设面积/最短接触作为稳定化代理；两种固定邻居截断、Hirshfeld面积与五能量CP路线。"
+    },
+    {
+      "file": "agent_input/submission_schema.json",
+      "issue": "hypotheses.minItems=2及surface/neighbors/cutoff_control矩阵。"
+    },
+    {
+      "file": "evaluation/scoring_rules.json",
+      "issue": "强制old邻居集合、own/ghost能量与截断扰动，无效地排除能回答同一晶体问题的不同证据。"
+    }
+  ],
+  "runtime_isolation_status": "pending_environment_access_control",
+  "boundary": "Export selection and content inspection do not demonstrate filesystem/network isolation. AR must not access paper/SI/private evidence/PR workspace."
+}

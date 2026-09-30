@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_d7967e22bb965daa",
+  "task_type": "paper_reproduction",
+  "title": "Quartet migratory-insertion barriers in Fe-catalyzed hydrodisilylation",
+  "category": "reaction mechanism and regioselectivity",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Four fixed chemical channels require independently generated TS guesses, successful searches and consistent local-reference frequency/free-energy validation.",
+    "The Agent must independently choose and defend computational details while comparing a small candidate set."
+  ],
+  "paper": {
+    "title": "Iron-Catalyzed Synthesis of Unsymmetrical Disilanes",
+    "doi": "10.1021/jacs.5c18484",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two given neutral quartet 68-atom INT2 reactants and four mapped insertion-channel definitions. TS coordinates are not public; construct guesses independently."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-candidate frequencies and relative barriers, ordering, provenance, limitations and final mechanistic conclusion."
+    }
+  ]
+}

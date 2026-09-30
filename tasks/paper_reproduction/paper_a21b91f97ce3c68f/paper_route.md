@@ -6,7 +6,7 @@ The paper tests whether one-bond ^119Sn–^13C couplings in anomeric tributyltin
 
 ## 2. System and model boundary
 
-The benchmark system is the neutral singlet, axial galactose-derived tributyltin structure labelled 1a (43 atoms), with the SnBu3 group bonded at the anomeric carbon. The reported observable is ^1J(^119Sn–^13C_Bu), the average one-bond coupling over the three Sn–butyl carbon pairs; the anomeric Sn–C coupling and NBO donor terms are secondary analyses.
+The benchmark system is the neutral singlet, axial galactose-derived tributyltin structure labelled 1a (62 atoms), with the SnBu3 group bonded at the anomeric carbon. The reported observable is ^1J(^119Sn–^13C_Bu), the average one-bond coupling over the three Sn–butyl carbon pairs; the anomeric Sn–C coupling and NBO donor terms are secondary analyses.
 
 ## 3. Authors' implemented computational route
 

@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_3691fc282908cc05",
+  "rules": [
+    {
+      "rule_id": "r_process",
+      "reference_id": "kp_process_ts_validation",
+      "type": "semantic",
+      "expected": "Exactly one imaginary frequency and explicit reactant/product pathway validation are present for the selected candidate.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].validation",
+          "$.candidates[*].imaginary_frequencies_cm1"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_barrier",
+      "reference_id": "kp_result_barrier",
+      "type": "numeric",
+      "target": 19.9,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_pathway",
+      "type": "semantic",
+      "expected": "A pathway assignment and viability conclusion are supported by the submitted calculations and validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.pathway_assignment"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limitation",
+      "reference_id": "c_limitation",
+      "type": "semantic",
+      "expected": "Model and search limitations are explicitly reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

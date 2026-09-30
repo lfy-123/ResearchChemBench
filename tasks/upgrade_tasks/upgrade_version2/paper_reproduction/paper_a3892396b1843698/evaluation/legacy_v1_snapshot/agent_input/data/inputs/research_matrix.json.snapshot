@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "scientific_class": "C",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use full C11H14 3a singlet gas-phase298.15K/1atm. Source mapped reactive sequences are cyclopropyl bond1–2, left butadienyl1–8–10–14–16 and right2–11–13–18–20. [3,3] forms10–13; [5,5] forms16–20 while breaking1–2 and shifting corresponding pi bonds. Compare the original relaxed precursor with an explicitly geometric opposite-sign torsional control: constrain torsions10–8–1–2 and13–11–2–1 to the alternative opposite-sign ±120° values, report the relaxed precursor-to-constrained preparation cost, then search/follow both rearrangement channels. This is a geometric intervention on the same composition, not a claimed synthesized bridged derivative. Release all constraints before classifying true TS/minima; constrained profiles are diagnostics only.",
+  "panels": {
+    "rearrangement_paths": {
+      "requirement": "Both original and matched geometric-control paths, allowing evidenced collapse of the control.",
+      "required_cells": [
+        "relaxed_33",
+        "relaxed_55",
+        "preorganized_33",
+        "preorganized_55"
+      ]
+    },
+    "preorganization": {
+      "requirement": "Quantify geometric preparation, distinguish constraints from free stationary points.",
+      "required_cells": [
+        "torsions_file",
+        "constraint_definition",
+        "preparation_E_kcal_mol",
+        "release_evidence_file",
+        "local_vs_common_zero_file",
+        "evidence_files"
+      ]
+    },
+    "channel_response": {
+      "requirement": "Intervention response with electronic/Gibbs separation and genuine endpoint evidence.",
+      "required_cells": [
+        "33_intervention",
+        "55_intervention"
+      ]
+    }
+  },
+  "optional_not_required": "短轨迹只在静态证据提示分叉且模型可校准时加入，不强制大规模动力学。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

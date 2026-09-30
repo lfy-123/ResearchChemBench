@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_a45d7e9815bcf075",
+  "items": [
+    {
+      "key_point_id": "p1",
+      "key_point_type": "process",
+      "statement": "PDB 3I40 identity and mapping are preserved.",
+      "expected": "Explicit PDB 3I40 chains A/B and atom mapping.",
+      "evidence_ids": [
+        "ev_doc_368a79886ed7_000013_20f1f610b941"
+      ]
+    },
+    {
+      "key_point_id": "p2",
+      "key_point_type": "process",
+      "statement": "Fragments and cap exclusion are explicit.",
+      "expected": "Primary 51 C-alpha centers, whole-residue any-atom cutoff membership, prepared-geometry mapping, caps and exclusion recorded; genuine fragment wavefunctions support the stitched quantities.",
+      "evidence_ids": [
+        "ev_doc_cd8dfb426e8c_000025_96be81d97064"
+      ]
+    },
+    {
+      "key_point_id": "p3",
+      "key_point_type": "result",
+      "statement": "Three disulfide-pair correlations are evaluated from real fragment calculations.",
+      "expected": "Separate Cys6A-Cys11A, Cys7A-Cys7B and Cys20A-Cys19B with numeric evidence and coverage; incomplete evidence is partial, not a successful endpoint.",
+      "evidence_ids": [
+        "ev_doc_368a79886ed7_000022_6e6a7dd155aa"
+      ]
+    },
+    {
+      "key_point_id": "p4",
+      "key_point_type": "result",
+      "statement": "Radius affects Glu17A-Arg22B recovery.",
+      "expected": "Compute and explain the named-contact radius response with actual 4/5/6 Angstrom coverage under the public construction. The author-prepared response is a reference observation; check preparation-dependent differences against real memberships and calculations, not a mandatory binary slogan.",
+      "evidence_ids": [
+        "ev_doc_368a79886ed7_000060_c89b71717d5e"
+      ]
+    }
+  ]
+}

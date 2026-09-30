@@ -1,6 +1,8 @@
 {
   "type": "object",
-  "required": ["status"],
+  "required": [
+    "status"
+  ],
   "properties": {
     "status": {
       "type": "string",
@@ -152,8 +154,54 @@
     }
   },
   "oneOf": [
-    {"required":["status","method","optimization","frequency_validation","comparisons","metrics","conclusion","limitations"],"properties":{"status":{"const":"complete"}}},
-    {"required":["status","failure","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["diagnostics","attempted_steps"],"properties":{"diagnostics":{"type":"string"},"attempted_steps":{"type":"array","items":{"type":"string"}}}}}}
+    {
+      "required": [
+        "status",
+        "method",
+        "optimization",
+        "frequency_validation",
+        "comparisons",
+        "metrics",
+        "conclusion",
+        "limitations"
+      ],
+      "properties": {
+        "status": {
+          "const": "complete"
+        }
+      }
+    },
+    {
+      "required": [
+        "status",
+        "failure",
+        "conclusion",
+        "limitations"
+      ],
+      "properties": {
+        "status": {
+          "const": "bounded_failure"
+        },
+        "failure": {
+          "type": "object",
+          "required": [
+            "diagnostics",
+            "attempted_steps"
+          ],
+          "properties": {
+            "diagnostics": {
+              "type": "string"
+            },
+            "attempted_steps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
   ],
   "additionalProperties": true,
   "required_files": [
@@ -162,7 +210,11 @@
   "primary_result_file": "report/results.json",
   "result_schema": {
     "type": "object",
-    "required": ["status", "conclusion", "limitations"],
+    "required": [
+      "status",
+      "conclusion",
+      "limitations"
+    ],
     "properties": {
       "status": {
         "type": "string",
@@ -227,13 +279,9 @@
             "type": "array",
             "items": {
               "type": "number"
-    },
-    "oneOf": [
-      {"required":["status","method","optimization","frequency_validation","comparisons","metrics","conclusion","limitations"],"properties":{"status":{"const":"complete"}}},
-      {"required":["status","failure","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["diagnostics","attempted_steps"],"properties":{"diagnostics":{"type":"string"},"attempted_steps":{"type":"array","items":{"type":"string"}}}}}}
-    ]
-  }
-}
+            }
+          }
+        }
       },
       "comparisons": {
         "type": "array",
@@ -319,8 +367,48 @@
     },
     "additionalProperties": true,
     "oneOf": [
-      {"required":["method","optimization","frequency_validation","comparisons","metrics"],"properties":{"status":{"const":"complete"}}},
-      {"required":["failure"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["diagnostics","attempted_steps"],"properties":{"diagnostics":{"type":"string"},"attempted_steps":{"type":"array","items":{"type":"string"}}}}}}
+      {
+        "required": [
+          "method",
+          "optimization",
+          "frequency_validation",
+          "comparisons",
+          "metrics"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          }
+        }
+      },
+      {
+        "required": [
+          "failure"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+          "failure": {
+            "type": "object",
+            "required": [
+              "diagnostics",
+              "attempted_steps"
+            ],
+            "properties": {
+              "diagnostics": {
+                "type": "string"
+              },
+              "attempted_steps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     ]
   }
 }

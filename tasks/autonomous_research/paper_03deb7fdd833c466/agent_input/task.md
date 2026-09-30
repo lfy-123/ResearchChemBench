@@ -4,7 +4,7 @@ Determine computationally how converting the supplied Schiff base HL from its ne
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/hl_system.json`. It uniquely defines E-HL and the protonated azomethine-N state (the N directly bonded to the -CH- group in -CH=N-N=C(fluorenylidene)), including connectivity, stereochemistry, charge and singlet multiplicity. CCDC 2483407 is an optional controlled starting-geometry source. The model boundary is isolated molecules without explicit solvent, acid, counterion or crystal packing. Observables are optimized geometry, HOMO/LUMO energies, HOMO–LUMO gap in eV, and qualitative orbital-density localization. The experimental boundary is only the question of support for an acid-induced red shift; do not claim a spectrum from a ground-state gap alone.
+Use `data/inputs/hl_system.json`. It uniquely defines E-HL and the protonated azomethine-N state (the N directly bonded to the -CH- group in -CH=N-N=C(fluorenylidene)), including SMILES, connectivity, stereochemistry, charge and singlet multiplicity. CCDC 2483407 is provenance for an optional crystal geometry only; no CIF is supplied or required, and CCDC database retrieval is not required or scored. Generate the evaluated isolated-molecule geometries from the supplied SMILES. The model boundary is isolated molecules without explicit solvent, acid, counterion or crystal packing. Observables are optimized geometry, HOMO/LUMO energies, HOMO–LUMO gap in eV, and qualitative orbital-density localization. The experimental boundary is only the question of support for an acid-induced red shift; do not claim a spectrum from a ground-state gap alone.
 
 # Required scientific validation/investigation
 

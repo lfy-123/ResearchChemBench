@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use the four complete named source molecules. Ph-mP and An-mP are the fixed representative pair for the detailed intervention. Use a common gas-phase baseline and identical fragment and state-energy definitions. Use the full mapped graphs and terminal_bridge_control quadruples in molecular_identities.json; no predicted high-triplet channel index is specified for autonomous research. For a matched physical Tn, delta_STn=E(S1;R_S0)-E(Tn;R_S0). Report SOC norms in cm^-1 and neighboring Tn±1 spacings at the same geometry and Hamiltonian. Energy/SOC support necessary channel prerequisites; neither is an absolute RISC rate or quantum yield. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_series_states",
+      "statement": "Four-member matched state windows with high-state SOC",
+      "expected": "Check actual SOC matrix and NTO outputs; fragment weights must normalize consistently. Do not assume author Tn labels remain physical states when method or geometry changes.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_representative_controls",
+      "statement": "Representative root-window and geometry interventions",
+      "expected": "Require independent enlarged-window and frozen-torsion outputs. Root permutation is handled through state-density matching, not forced energy ordering.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_channel_competition",
+      "statement": "Competing high-state channels and bounded inference",
+      "expected": "Compare direct coupling, energy proximity and state character together. Adjacent triplet internal conversion can compete even when S1/Tn gaps are small; its rate is not computed by a spacing. Accept rejection/ambiguity after the required evidence.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject high-state selection solely by author index, absent SOC outputs, mismatched geometries/solvents, non-normalized fragment populations or a rate/efficiency inferred from a small gap alone.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

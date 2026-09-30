@@ -1,0 +1,116 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "mapping_policy": "Atom maps are local to each named object; remap explicitly when combining objects. New chemically valid objects may be constructed for the stated question. No list of mechanisms or stable intermediates is implied.",
+  "species": [
+    {
+      "id": "NH3",
+      "smiles": "N",
+      "mapped_smiles": "[N:1]([H:2])([H:3])[H:4]",
+      "formula": "H3N",
+      "charge": 0,
+      "multiplicity": 1,
+      "map_namespace": "NH3",
+      "atoms": [
+        {
+          "map_id": 1,
+          "element": "N",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 2,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 3,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        },
+        {
+          "map_id": 4,
+          "element": "H",
+          "formal_charge": 0,
+          "radical_electrons": 0
+        }
+      ],
+      "bonds": [
+        {
+          "atoms": [
+            1,
+            2
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            3
+          ],
+          "order": 1.0
+        },
+        {
+          "atoms": [
+            1,
+            4
+          ],
+          "order": 1.0
+        }
+      ],
+      "origin": "Molecular identity from the source system; the supplied graph defines composition/connectivity, not a certified stationary point. See source_facts.json for source scope and conditions."
+    },
+    {
+      "id": "bda_ligand",
+      "smiles": "O=C([O-])c1cccc(-c2cccc(C(=O)[O-])n2)n1",
+      "charge": -2,
+      "multiplicity": 1,
+      "origin": "2,2'-bipyridine-6,6'-dicarboxylate constitution, source bda ligand"
+    },
+    {
+      "id": "bcs_ligand",
+      "smiles": "O=C([O-])c1cccc(-c2cccc(S(=O)(=O)[O-])n2)n1",
+      "charge": -2,
+      "multiplicity": 1,
+      "origin": "Source mixed carboxylate/sulfonate bipyridyl ligand, not a prescribed control"
+    },
+    {
+      "id": "pyridine",
+      "smiles": "c1ccncc1",
+      "charge": 0,
+      "multiplicity": 1,
+      "origin": "Source axial model ligand"
+    },
+    {
+      "id": "MeCN",
+      "smiles": "CC#N",
+      "charge": 0,
+      "multiplicity": 1,
+      "origin": "Solvent"
+    }
+  ],
+  "complex_inventory": {
+    "id": "Ru_bda_Py_N",
+    "composition": "RuC22H16N5O4",
+    "net_charge": 1,
+    "components": {
+      "Ru": 1,
+      "bda_ligand": 1,
+      "pyridine": 2,
+      "additional_N": 1
+    },
+    "coordination_definition": "The bipyridyl N,N donor framework and two pyridine ligands define the source model; carboxylate coordination, geometry, N bonding, spin and electronic assignment must be established. Do not impose a pre-existing N–O bond as a measured fact."
+  },
+  "available_analogue": {
+    "id": "Ru_bcs_Py_N",
+    "components": {
+      "Ru": 1,
+      "bcs_ligand": 1,
+      "pyridine": 2,
+      "additional_N": 1
+    },
+    "net_charge": 1,
+    "representation": "Same source local N inventory with bcs; use only if relevant to your explanation. No mandatory paired-path matrix."
+  }
+}

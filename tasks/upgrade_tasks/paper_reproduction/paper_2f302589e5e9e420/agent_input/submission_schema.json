@@ -1,0 +1,1205 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sensitivity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "numerical_settings": {
+            "type": "string",
+            "minLength": 1
+          },
+          "energy_and_thermal_conventions": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "primary",
+          "numerical_settings",
+          "energy_and_thermal_conventions"
+        ],
+        "additionalProperties": false
+      },
+      "calculation_records": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "record_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "system": {
+              "type": "string",
+              "minLength": 1
+            },
+            "species": {
+              "type": "string",
+              "minLength": 1
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "const": 0
+            },
+            "multiplicity": {
+              "const": 1
+            },
+            "method_key": {
+              "type": "string",
+              "minLength": 1
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "kind": {
+              "enum": [
+                "minimum",
+                "constrained",
+                "single_point",
+                "atomic",
+                "failed"
+              ]
+            },
+            "geometry_file": {
+              "$ref": "#/$defs/artifact"
+            },
+            "job_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "log_file": {
+              "$ref": "#/$defs/artifact"
+            },
+            "energies": {
+              "type": "object",
+              "properties": {
+                "electronic_Eh": {
+                  "type": "number"
+                },
+                "ZPE_Eh": {
+                  "type": "number"
+                },
+                "thermal_G_correction_Eh": {
+                  "type": "number"
+                },
+                "G_Eh": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "electronic_Eh"
+              ],
+              "additionalProperties": false
+            },
+            "validation": {
+              "type": "object",
+              "properties": {
+                "identity_and_atom_map": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "convergence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "curvature_or_constraint_evidence": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "imaginary_frequencies_cm_1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 0
+                },
+                "charge_spin_checks": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "identity_and_atom_map",
+                "convergence",
+                "curvature_or_constraint_evidence",
+                "charge_spin_checks"
+              ],
+              "additionalProperties": false
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "record_id",
+            "system",
+            "species",
+            "formula",
+            "charge",
+            "multiplicity",
+            "method_key",
+            "environment",
+            "kind",
+            "job_id",
+            "log_file",
+            "validation",
+            "evidence_files"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "minimum",
+                      "constrained",
+                      "single_point",
+                      "atomic"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "energies",
+                  "geometry_file"
+                ]
+              }
+            }
+          ]
+        },
+        "minItems": 0
+      },
+      "results": {
+        "type": "object"
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "hypothesis_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "proposition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discriminating_observation": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "enum": [
+                "supported",
+                "refuted",
+                "unresolved"
+              ]
+            },
+            "result_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "assessment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "hypothesis_id",
+            "proposition",
+            "discriminating_observation",
+            "outcome",
+            "result_record_ids",
+            "assessment",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 2
+      },
+      "sensitivity": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "alternative_record_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "quantity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "alternative_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "change": {
+              "type": "number"
+            },
+            "scientific_effect": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_files": {
+              "$ref": "#/$defs/evidence_files"
+            }
+          },
+          "required": [
+            "question",
+            "baseline_record_ids",
+            "alternative_record_ids",
+            "quantity",
+            "baseline_value",
+            "alternative_value",
+            "unit",
+            "change",
+            "scientific_effect",
+            "evidence_files"
+          ],
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "conclusion": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supporting_record_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "scope_and_uncertainty": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "claim",
+          "supporting_record_ids",
+          "scope_and_uncertainty"
+        ],
+        "additionalProperties": false
+      },
+      "failure_report": {
+        "type": "object",
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "evidence_files": {
+        "$ref": "#/$defs/evidence_files"
+      }
+    },
+    "required": [
+      "status",
+      "methods",
+      "calculation_records",
+      "conclusion",
+      "evidence_files"
+    ],
+    "additionalProperties": false,
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "results": {
+            "type": "object",
+            "properties": {
+              "conformers": {
+                "type": "object",
+                "properties": {
+                  "EPI1": {
+                    "type": "object",
+                    "properties": {
+                      "common_backbone_map": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "search_and_deduplication": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "released_minima": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "record_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "conformer_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "relative_G_kJ_mol": {
+                              "type": "number"
+                            },
+                            "dipole_D": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "degeneracy": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "OH_mode_index": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "OH_frequency_cm_1": {
+                              "type": "number"
+                            },
+                            "OH_mode_assignment": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "OH_mode_file": {
+                              "$ref": "#/$defs/artifact"
+                            },
+                            "OH_geometry": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "record_id",
+                            "conformer_id",
+                            "relative_G_kJ_mol",
+                            "dipole_D",
+                            "degeneracy",
+                            "OH_mode_index",
+                            "OH_frequency_cm_1",
+                            "OH_mode_assignment",
+                            "OH_mode_file",
+                            "OH_geometry",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "common_backbone_map",
+                      "search_and_deduplication",
+                      "released_minima",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "EPI2": {
+                    "type": "object",
+                    "properties": {
+                      "common_backbone_map": {
+                        "$ref": "#/$defs/artifact"
+                      },
+                      "search_and_deduplication": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "released_minima": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "record_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "conformer_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "relative_G_kJ_mol": {
+                              "type": "number"
+                            },
+                            "dipole_D": {
+                              "type": "number",
+                              "minimum": 0
+                            },
+                            "degeneracy": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "OH_mode_index": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "OH_frequency_cm_1": {
+                              "type": "number"
+                            },
+                            "OH_mode_assignment": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "OH_mode_file": {
+                              "$ref": "#/$defs/artifact"
+                            },
+                            "OH_geometry": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "evidence_files": {
+                              "$ref": "#/$defs/evidence_files"
+                            }
+                          },
+                          "required": [
+                            "record_id",
+                            "conformer_id",
+                            "relative_G_kJ_mol",
+                            "dipole_D",
+                            "degeneracy",
+                            "OH_mode_index",
+                            "OH_frequency_cm_1",
+                            "OH_mode_assignment",
+                            "OH_mode_file",
+                            "OH_geometry",
+                            "evidence_files"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "common_backbone_map",
+                      "search_and_deduplication",
+                      "released_minima",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "EPI1",
+                  "EPI2"
+                ],
+                "additionalProperties": false
+              },
+              "ensembles": {
+                "type": "object",
+                "properties": {
+                  "EPI1": {
+                    "type": "object",
+                    "properties": {
+                      "temperature_K": {
+                        "const": 298.15
+                      },
+                      "thermal_and_degeneracy_policy": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "members": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "conformer_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "relative_G_kJ_mol": {
+                              "type": "number"
+                            },
+                            "degeneracy": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "weight": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            },
+                            "dipole_D": {
+                              "type": "number",
+                              "minimum": 0
+                            }
+                          },
+                          "required": [
+                            "conformer_id",
+                            "relative_G_kJ_mol",
+                            "degeneracy",
+                            "weight",
+                            "dipole_D"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "mean_mu_squared_D2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "temperature_K",
+                      "thermal_and_degeneracy_policy",
+                      "members",
+                      "mean_mu_squared_D2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "EPI2": {
+                    "type": "object",
+                    "properties": {
+                      "temperature_K": {
+                        "const": 298.15
+                      },
+                      "thermal_and_degeneracy_policy": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "members": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "conformer_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "relative_G_kJ_mol": {
+                              "type": "number"
+                            },
+                            "degeneracy": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "weight": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            },
+                            "dipole_D": {
+                              "type": "number",
+                              "minimum": 0
+                            }
+                          },
+                          "required": [
+                            "conformer_id",
+                            "relative_G_kJ_mol",
+                            "degeneracy",
+                            "weight",
+                            "dipole_D"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      },
+                      "mean_mu_squared_D2": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "evidence_files": {
+                        "$ref": "#/$defs/evidence_files"
+                      }
+                    },
+                    "required": [
+                      "temperature_K",
+                      "thermal_and_degeneracy_policy",
+                      "members",
+                      "mean_mu_squared_D2",
+                      "evidence_files"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "delta_mean_mu_squared_D2": {
+                    "type": "number"
+                  },
+                  "percent_change_relative_to_EPI1": {
+                    "type": "number"
+                  },
+                  "single_vs_ensemble_comparison": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_files": {
+                    "$ref": "#/$defs/evidence_files"
+                  }
+                },
+                "required": [
+                  "EPI1",
+                  "EPI2",
+                  "delta_mean_mu_squared_D2",
+                  "percent_change_relative_to_EPI1",
+                  "single_vs_ensemble_comparison",
+                  "evidence_files"
+                ],
+                "additionalProperties": false
+              },
+              "interventions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "control_type": {
+                      "enum": [
+                        "OH_orientation",
+                        "matched_backbone"
+                      ]
+                    },
+                    "design_and_atom_map": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "record_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "uniqueItems": true
+                    },
+                    "constraints_and_release": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "geometric_measurements": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "dipole_values_D": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "minItems": 2
+                    },
+                    "delta_dipole_D": {
+                      "type": "number"
+                    },
+                    "interpretation": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "control_type",
+                    "design_and_atom_map",
+                    "record_ids",
+                    "constraints_and_release",
+                    "geometric_measurements",
+                    "dipole_values_D",
+                    "delta_dipole_D",
+                    "interpretation",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 2,
+                "allOf": [
+                  {
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "control_type"
+                      ],
+                      "properties": {
+                        "control_type": {
+                          "const": "OH_orientation"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  },
+                  {
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "control_type"
+                      ],
+                      "properties": {
+                        "control_type": {
+                          "const": "matched_backbone"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  }
+                ]
+              }
+            },
+            "required": [
+              "conformers",
+              "ensembles",
+              "interventions"
+            ],
+            "additionalProperties": false
+          },
+          "methods": {
+            "required": [
+              "sensitivity"
+            ]
+          },
+          "calculation_records": {
+            "contains": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "minimum",
+                    "constrained",
+                    "single_point",
+                    "atomic"
+                  ]
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "conclusion": {
+            "properties": {
+              "supporting_record_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "required": [
+          "results",
+          "hypotheses",
+          "sensitivity"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_report"
+        ]
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "artifact": {
+        "type": "string",
+        "pattern": "^(?:\\./)?(outputs|code|data)/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))(?!/)[^\\r\\n\\\\]+$",
+        "description": "Workspace-relative path to a real artifact; no absolute, parent-traversal or external private paths."
+      },
+      "evidence_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(?:\\./)?(outputs|code|data)/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))(?!/)[^\\r\\n\\\\]+$",
+          "description": "Workspace-relative path to a real artifact; no absolute, parent-traversal or external private paths."
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "transition_set": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string",
+            "minLength": 1
+          },
+          "geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "method_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "root": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "energy_eV": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "wavelength_nm": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "oscillator_strength": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "physical_state_label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "character": {
+                  "type": "object",
+                  "properties": {
+                    "method_and_fragments": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "metrics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "definition": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "evidence_files": {
+                            "$ref": "#/$defs/evidence_files"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "value",
+                          "unit",
+                          "definition",
+                          "evidence_files"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 1
+                    },
+                    "assignment": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "NTO_or_transition_density_file": {
+                      "$ref": "#/$defs/artifact"
+                    },
+                    "evidence_files": {
+                      "$ref": "#/$defs/evidence_files"
+                    }
+                  },
+                  "required": [
+                    "method_and_fragments",
+                    "metrics",
+                    "assignment",
+                    "NTO_or_transition_density_file",
+                    "evidence_files"
+                  ],
+                  "additionalProperties": false
+                },
+                "evidence_files": {
+                  "$ref": "#/$defs/evidence_files"
+                }
+              },
+              "required": [
+                "root",
+                "energy_eV",
+                "wavelength_nm",
+                "oscillator_strength",
+                "physical_state_label",
+                "evidence_files"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 5,
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 1
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 2
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 3
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 4
+                    }
+                  }
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "root"
+                  ],
+                  "properties": {
+                    "root": {
+                      "const": 5
+                    }
+                  }
+                },
+                "minContains": 1
+              }
+            ]
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "system",
+          "geometry_record_id",
+          "TD_record_id",
+          "method_key",
+          "environment",
+          "states",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      },
+      "state_comparison": {
+        "type": "object",
+        "properties": {
+          "comparison_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_geometry_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_TD_record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "left_root": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "right_root": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "state_matching_criterion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state_correspondence_metric": {
+            "type": "number"
+          },
+          "metric_definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delta_energy_eV": {
+            "type": "number"
+          },
+          "delta_oscillator_strength": {
+            "type": "number"
+          },
+          "character_change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "interpretation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_files": {
+            "$ref": "#/$defs/evidence_files"
+          }
+        },
+        "required": [
+          "comparison_id",
+          "left_geometry_record_id",
+          "right_geometry_record_id",
+          "left_TD_record_id",
+          "right_TD_record_id",
+          "left_root",
+          "right_root",
+          "state_matching_criterion",
+          "state_correspondence_metric",
+          "metric_definition",
+          "delta_energy_eV",
+          "delta_oscillator_strength",
+          "character_change",
+          "interpretation",
+          "evidence_files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "description": "Complete means the expanded investigation is submitted, not that JSON validity establishes scientific correctness. Honest bounded failures must not invent uncomputed values. Every referenced record and evidence file must exist; the evaluator verifies arithmetic, identity and coverage."
+  }
+}

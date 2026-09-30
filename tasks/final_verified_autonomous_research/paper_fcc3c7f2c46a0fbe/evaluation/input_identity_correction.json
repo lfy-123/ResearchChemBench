@@ -1,0 +1,20 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "status": "confirmed",
+  "source": "Main PDF p.3 section 2.5.2 names (E)-4b; SI PDF p.30 Table S1 and pp.31-32 Tables S2-S3 establish the labelled ring connectivity.",
+  "old_smiles": "CCN1C(=O)SC(=S)C1=C2N(C)C(C)=CS2",
+  "corrected_smiles": "CCN1C(=S)S/C(=C2/SC=C(C)N2C)C1=O",
+  "rhodanine_cycle": [
+    "N2",
+    "C1",
+    "S1",
+    "C4",
+    "C7",
+    "N2"
+  ],
+  "carbonyl": "C7=O1",
+  "thiocarbonyl": "C1=S3",
+  "exocyclic_double_bond": "C4=C3 (E)",
+  "reason": "The old SMILES put S between the carbonyl and thiocarbonyl carbons and placed the exocyclic carbon next to N. The SI requires N2-C1(=S3)-S1-C4-C7(=O1)-N2. Formula alone cannot detect this isomer error.",
+  "history": "Current released input corrected; old agent workspaces, frozen inputs and scores are unchanged. Old runs must be interpreted under their own input snapshot."
+}

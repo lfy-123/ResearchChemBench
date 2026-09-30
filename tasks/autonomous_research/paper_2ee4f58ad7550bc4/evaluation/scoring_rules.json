@@ -1,1 +1,109 @@
-{"paper_id":"paper_2ee4f58ad7550bc4","rules":[{"rule_id":"ar_r1","reference_id":"ar_process_identity","type":"semantic","expected":"Traceable named structures, states, spins and Cu identity.","binding":{"artifact_paths":["report/results.json"],"fields":["$.systems","$.systems[].label","$.systems[].source_record_id","$.systems[].states"],"comparison":"expert process comparison"}},{"rule_id":"ar_r2","reference_id":"ar_process_validation","type":"semantic","expected":"Convergence and consistent charge-partitioning validation or explicit bounded failure.","binding":{"artifact_paths":["report/results.json"],"fields":["$.systems[].validation_status","$.systems[].states[].convergence_status","$.validation_evidence","$.comparison"],"comparison":"expert process comparison"}},{"rule_id":"ar_r3","reference_id":"ar_result_values","type":"numeric","target":0.0299,"unit":"dimensionless f_k+","tolerance":0.01,"binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison.fukui_1","$.comparison.fukui_2"],"comparison":"absolute difference after matching documented system order when comparison is validated_complete"}},{"rule_id":"ar_r4","reference_id":"ar_result_conclusion","type":"semantic","expected":"The independent interpretation supports greater Cu electrophilicity for complex 2 and clearly limits mechanistic claims.","binding":{"artifact_paths":["report/results.json"],"fields":["$.comparison","$.interpretation","$.limitations"],"comparison":"expert semantic comparison"}},{"rule_id":"ar_r5","reference_id":"ar_final_conclusion","type":"semantic","expected":"Final conclusion states 2>1, consistency with activity ordering, and model limitations.","binding":{"artifact_paths":["report/results.json"],"fields":["$.interpretation","$.limitations"],"comparison":"expert semantic comparison"}}]}
+{
+  "paper_id": "paper_2ee4f58ad7550bc4",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_identity",
+      "type": "semantic",
+      "expected": "Traceable identity mapping system 1=complex 1=Br=2453269 and system 2=complex 2=Cl=2453268, parity-compatible charge/multiplicity pairs 0/2 and -1/1, Cu identity, and disclosure that the executable spins repair the source-reported 3/2 pair.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.systems[].label",
+          "$.systems[].source_record_id",
+          "$.systems[].states",
+          "$.limitations"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "Convergence and consistent charge-partitioning validation or explicit bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].validation_status",
+          "$.systems[].states[].convergence_status",
+          "$.validation_evidence",
+          "$.comparison"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3_complex1",
+      "reference_id": "ar_result_values",
+      "type": "numeric",
+      "target": 0.0182,
+      "unit": "dimensionless f_k+",
+      "tolerance": 0.01,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.fukui_1"
+        ],
+        "comparison": "absolute difference after matching complex identity order (1=Br=2453269; 2=Cl=2453268) when comparison is validated_complete"
+      }
+    },
+    {
+      "rule_id": "ar_r3_complex2",
+      "reference_id": "ar_result_values",
+      "type": "numeric",
+      "target": 0.0299,
+      "unit": "dimensionless f_k+",
+      "tolerance": 0.01,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.fukui_2"
+        ],
+        "comparison": "absolute difference after matching complex identity order (1=Br=2453269; 2=Cl=2453268) when comparison is validated_complete"
+      }
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_conclusion",
+      "type": "semantic",
+      "expected": "The independent interpretation supports greater Cu electrophilicity for complex 2 and clearly limits mechanistic claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison",
+          "$.interpretation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final_conclusion",
+      "type": "semantic",
+      "expected": "Final conclusion states 2>1, consistency with activity ordering, and model limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

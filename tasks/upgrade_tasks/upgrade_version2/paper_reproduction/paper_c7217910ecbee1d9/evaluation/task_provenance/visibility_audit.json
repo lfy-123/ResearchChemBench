@@ -1,0 +1,32 @@
+{
+  "public_paths": [
+    "agent_input/**",
+    "task_info.json through load_public_task"
+  ],
+  "author_route_only": "paper_reproduction/agent_input/task.md",
+  "private_paths": [
+    "evaluation/**",
+    "paper_route.md"
+  ],
+  "redaction": "Source article title/DOI/journal fields intentionally blank in both modes because task_info is publicly loadable. Full identity retained in private source_scope and baseline snapshots.",
+  "removed_routes": [
+    {
+      "file": "task.md; controls.json",
+      "issue": "预给定位/弛豫两解释、vertical/frozen-core/density矩阵、先n2后其他路线；是指定执行。"
+    },
+    {
+      "file": "system_specification.json",
+      "issue": "固定doublet/quartet和singlet/triplet搜索下界；指定所有P–Al距离/图报告及配位接近方式。"
+    },
+    {
+      "file": "submission_schema.json",
+      "issue": "命名端点和固定控制分支，把自选证据锁为参考路线。"
+    },
+    {
+      "file": "evaluation/scoring_rules.json",
+      "issue": "按全部矩阵计完成；n2旧xTB失败曾误覆盖已有完整DFT证据。"
+    }
+  ],
+  "runtime_isolation_status": "pending_environment_access_control",
+  "boundary": "Export selection and content inspection do not demonstrate filesystem/network isolation. AR must not access paper/SI/private evidence/PR workspace."
+}

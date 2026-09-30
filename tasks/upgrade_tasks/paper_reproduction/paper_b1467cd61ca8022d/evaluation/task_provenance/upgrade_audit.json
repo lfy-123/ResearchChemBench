@@ -1,0 +1,169 @@
+{
+  "source": "tasks/final_verified_paper_reproduction/paper_b1467cd61ca8022d",
+  "source_package_sha256": "d5fe6fd9e38dc7f4ada2156b5d133968111e4ce0b4d5dea2a549d257156c4b98",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/tfpm_system.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/tfpm_system.json.snapshot",
+      "sha256": "ec3e75b3a9a18d66d85584f5a2e29180669e154a761d798850e7b1513737f006"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "53f47e9a522f33fb7480779bf988078883a2d22db597f1b51abcb3d0c9b26616"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "5a39892e1ce9a734a541869a4ab96b18f87697b8f19f9caec67f9a918fa1c0c2"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "6d8e66f582e047852d2e9869d1c40c7cc6a6137d52b8baaf1521407b328b2a01"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "3aa3dfc63fac501aee5b53343c870124a71ba5a3600808f95bfc9e5d4be21d84"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "850fc39608c803c9f0355863ca194cd10c852251c674472e04d9a322de0f60ff"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "499f771e82575f11b84783f4170a695117e5d95643710cf5af7ca0744f490b5c"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "1c9aa844a0249778f5ae27bf97359cd99323c159651aec762d440f946534b442"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "0994712958d6cc7f7d7002b763ebbbe89a39b42d9cf93d2539c3bdb00d12b211"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "0c4c4754c95fca523a4ed23579a253f1334836658ced08501177b9a5324e2ce4"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "380a5c6d6c9647bdc5c3c5edb56625367ba1879ed25e79e606d223b9db7d738c"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "c59b4364000683e2b5fe553e140a918d8729ec99a766f89a7f5d546149329e77"
+    }
+  },
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "implementation_date": "2026-09-27",
+  "batch": 3,
+  "source_docs": [
+    {
+      "path": "docs/evalution/update/paper_b1467cd61ca8022d.md",
+      "sha256": "c4b33c9586c7a70b6184c0519d5de2622f48c9281768dd40454075a67e1903ee"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_implementation_guide_20260927.md",
+      "sha256": "dc0aced12520c76725dcf03e1b28f7af498484612778705f4b9a14b0e87d8423"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_20260927.md",
+      "sha256": "d0548e8909bded7d2c40c7e46de1971f289179f26148c82cae6e8c70edf8e573"
+    },
+    {
+      "path": "docs/evalution/update/upgrade_guidance_review_manifest_20260927.json",
+      "sha256": "c8c9228700df45dc67edce41d119f6e9f237eb49d0fea77d00d2da330edbe283"
+    },
+    {
+      "path": "papers/paper_b1467cd61ca8022d/documents/main.pdf",
+      "sha256": "5d8206d63bf9546ab21cd825a8b6401671658eb2b405a2a6f4d2512b9079a058",
+      "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+      "role": "source_original_scope_not_expanded_reference"
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_b1467cd61ca8022d_official_si.pdf",
+      "sha256": "990e77372a82e68e2f69c340c32bad64e4f83a0d2065a48f55751e312ea3b155",
+      "locator": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+      "role": "formal_publisher_SI"
+    }
+  ],
+  "old_class": "A",
+  "new_class": "B",
+  "new_scientific_engine_starts": 0,
+  "scientific_reference_validated": false,
+  "blocker": null,
+  "input_preparation": "Mapped graph extraction and formula/charge checks only; source optimized coordinates are not public new answers.",
+  "first_version_spec": {
+    "matrix": "PM/BM/TFPM/TFBM 与 LiFSI 的固定计量有限簇，配对不同 O/F 配位和阴离子竞争；各比较总组成一致或写平衡交换循环。",
+    "accept": "提交配位几何、电子作用能/畸变及频率，统一 Eb、ESP 与原子电荷定义；比较双描述符是否经真实配位控制仍成立。ESP eV 色标不是 RESP 电荷。",
+    "optional": "2 M 体相 RDF/CN/MD 是独立扩展，未启用时不应在评分中出现必需 RDF。",
+    "pilot": "先核对 LiFSI/溶剂计量和一个竞争簇；体相须另有力场、电荷和采样验证。"
+  },
+  "reference_gaps": [
+    "All new core matrix numeric references",
+    "Stationary-state/path validation",
+    "Method/conformer uncertainty calibration",
+    "Independent upgraded trial"
+  ],
+  "source_evidence_read": "Main pp2-5,12 Fig2/methods; formal publisher SI pp5-8 FigsS5-S8 and p36 TableS1. Local supplementary_001 is a peer-review file, not the formal scientific SI.",
+  "source_baseline_gate": "最低题不要求 RDF/CN；体相模块需独立力场、电荷与采样验证",
+  "historical_evidence_review": [
+    {
+      "path": "workspaces/codex_gpt56/paper_b1467cd61ca8022d_20260922_005558_943721/runs/cli_runs/batch_20260922_005600_d5adcd/autonomous_research-paper_b1467cd61ca8022d-codex-20260922_005600-1a8492/results.json",
+      "sha256": "c436f81d2de9d29dc4ef721901180cc94b4b5025f4e0abc2e3a26b5ccb4481da",
+      "json_top_keys": [
+        "schema_version",
+        "result_type",
+        "generated_at",
+        "task",
+        "run",
+        "agent",
+        "judge",
+        "score",
+        "scoring",
+        "tools",
+        "process_metrics",
+        "tokens"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    },
+    {
+      "path": "workspaces/codex_gpt56/paper_b1467cd61ca8022d_20260922_005558_943721/runs/cli_runs/batch_20260922_005600_d5adcd/autonomous_research-paper_b1467cd61ca8022d-codex-20260922_005600-1a8492/report/results.json",
+      "sha256": "3178ec37076948de67f71786d31abf6480267fa28677d4ee6d1b7e0aa4e187f2",
+      "json_top_keys": [
+        "status",
+        "candidates",
+        "selected_candidate_id",
+        "energies",
+        "binding_energy_eV",
+        "binding_energy_hartree",
+        "binding_energy_definition",
+        "sign_convention",
+        "validation",
+        "method",
+        "coverage",
+        "selected_candidate_rationale"
+      ],
+      "use": "Historical baseline only; no expanded scientific reference or new PASS."
+    }
+  ],
+  "supervisor_contract_repairs": [
+    {
+      "at": "2026-09-27T12:39:16.781221+00:00",
+      "issue": "prelaunch_failure_requires_fake_job",
+      "previous_package_content_sha256": "5ba7c38c03676d0bc2bec29a9b8a07141603edc7bbdac99bb76487984aa802a1",
+      "changes": [
+        "zero-launch diagnostics allowed",
+        "complete requirements preserved",
+        "density-analysis records do not invent energy or geometry"
+      ],
+      "scientific_thresholds_changed": false,
+      "new_scientific_computations": 0
+    }
+  ],
+  "supervisor_repairs": [
+    {
+      "date": "2026-09-27",
+      "id": "benign_relative_paths",
+      "change": "Accept ./outputs and internal ./; reject any .. traversal. Scientific fields, matrices and scoring unchanged."
+    }
+  ]
+}

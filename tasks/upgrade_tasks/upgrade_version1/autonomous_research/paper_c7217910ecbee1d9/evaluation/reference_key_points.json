@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "result",
+      "statement": "Full core/ligand identity and correct charge-spin states",
+      "expected": "Verify all 13/47/81-atom mapped structures, intact ligand covalent graph, complete shell and electron parity. Check unrestricted state quality and candidate coverage; formula equality alone does not preserve framework identity. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_attachment",
+      "key_point_type": "result",
+      "statement": "Free and vertical attachment energetics across ligand count",
+      "expected": "Trace neutral/anion free minima, vertical anion and state selection. Recompute AEA/VEA/ZPE and relaxation separately from logs. Never use reconstructed-aggregate AEA or swap vertical and adiabatic references. Evidenced exclusion needs actual converged reconstruction/minimum/state-coverage evidence, null invalid AEA and honest bounds. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_core_control",
+      "key_point_type": "result",
+      "statement": "Common-core frozen versus relaxed comparison",
+      "expected": "Verify identical mapped n0-neutral core coordinates in all constrained cases, actual constraints and ligand-only relaxation; inspect electronic energy differences and compare them to the free and vertical quantities. No transferred thermal correction or claim of spontaneous stability from restraint. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_density",
+      "key_point_type": "result",
+      "statement": "Added-electron localization and core/ligand population",
+      "expected": "Inspect exported neutral/vertical-anion densities on identical nuclear geometry/grid; integrate added electron number and consistent fragment charges. Check normalization and grid sensitivity, distinguish ordinary ground-state ligand charge transfer from localization of the added electron. Neither a charge scheme nor structural core retention alone proves superatomic-shell preservation or exclusive polarization. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "key_point_type": "result",
+      "statement": "Ligand-count trends and quantitative falsification/sensitivity",
+      "expected": "Both n1−n0 and n2−n1 controls must be evaluated or excluded by sufficient computation. Support/refutation/ambiguity follows actual uncertainty. Missing DFT endpoints or one failed optimization do not establish absence; evidence-based collapse is acceptable. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "extension",
+        "readiness_review"
+      ]
+    }
+  ]
+}

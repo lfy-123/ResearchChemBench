@@ -4,7 +4,7 @@ Determine which of the two enantiomeric assignments of neutral compound 2 (formu
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system.json` and `data/inputs/compound2_conformer_2a.xyz`. The XYZ file is the complete 74-atom starting geometry; formula, charge, multiplicity, units and VCD window are explicit. You may generate conformers and computational models, but do not use the paper, SI or general web. The measured quantity is VCD similarity for each enantiomer; omit or explicitly handle the solvent-absorption region near 1330 cm-1.
+Use `data/inputs/system.json`, `data/inputs/compound2_conformer_2a.xyz`, and the supplied plotted experimental traces in `data/inputs/experimental_vcd_traces.csv` (with provenance in `experimental_vcd_traces_provenance.json`). The XYZ file is the complete 70-atom starting geometry for C30H34O6; formula, charge, multiplicity, units and VCD window are explicit. You may generate conformers and computational models, but do not use the paper, SI or general web. The measured quantity is VCD similarity for each enantiomer against the supplied CDCl3/C6D6 plotted traces; omit or explicitly handle the solvent-absorption region near 1330 cm-1 and report that the traces are digitized plotted observations rather than raw instrument data.
 
 # Required scientific validation/investigation
 

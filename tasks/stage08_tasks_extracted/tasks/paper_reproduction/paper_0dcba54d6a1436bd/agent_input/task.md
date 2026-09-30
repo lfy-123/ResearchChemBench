@@ -1,0 +1,26 @@
+# Scientific objective
+
+Compute and validate the lowest five singlet vertical excitations of the two public neutral molecules NPCZCS and AQCZCS. Report excitation energy (eV), wavelength (nm), oscillator strength, dominant orbital configuration, and an evidence-based interpretation of whether S1 is ICT-like or locally excited.
+
+## Author-provided scientific guidance
+
+**Author hypothesis or claim.**
+The authors interpret the carbazole fragment as the electron donor and the appended diketone-containing acceptor as the electron acceptor. They propose that spatial separation of frontier orbitals and excited-state electron and hole density would support an intramolecular charge-transfer (ICT) interpretation for these emitters.
+
+**Candidate route or mechanism.**
+For the S1 assignment, examine a donor-to-acceptor excitation from the carbazole-centered region toward the appended diketone/cyanostilbene acceptor region as a proposed candidate, and compare it with a locally excited transition whose hole and particle remain on the same fragment. Treat the proposal as a hypothesis to test separately for NPCZCS and AQCZCS.
+
+**Discriminating evidence.**
+Use state-resolved orbital configurations together with frontier-orbital, natural-transition-orbital, transition-density, fragment-charge, or justified equivalent analyses. Compare hole/particle localization and charge redistribution for S1, while checking that the tracked vertical states and oscillator strengths are internally consistent.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/systems.json`. Each identity, formula, charge 0, and singlet multiplicity is fixed. The physical system is an isolated monomer; solvent effects may be represented by a stated continuum model. The measured targets are vertical singlet excitation observables, not relaxed emission, aggregate, or solid-state properties. Use the public system identities and inputs as the system definition, and generate and test your own explanations of the excited-state character.
+
+# Required scientific validation/investigation
+
+For each molecule, generate a defensible starting structure, optimize the ground state, and validate it as a minimum or explicitly report failure. Compute and identify S1–S5, retaining state labels and orbital/configuration evidence. Perform NTO, transition-density, fragment-charge, or an explicitly justified equivalent analysis for S1. The calculation is complete when both named molecules have a documented geometry/minimum status and either five tracked singlet states with all requested observables and S1 evidence, or a bounded-failure report with concrete diagnostics and any honestly obtained partial states. Do not invent missing numerical values or interpretations. Stop after those conditions are met; do not expand to other compounds. Report software, method, basis, solvent treatment, convergence settings, and any sensitivity checks.
+
+# Deliverables
+
+Write `report/results.json` conforming to the submission schema. Include per-system validation, per-state observables, dominant configurations, analysis evidence, comparison/interpretation, and limitations. A bounded-failure branch is allowed only with concrete diagnostics and partial results.

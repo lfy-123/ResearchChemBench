@@ -1,0 +1,177 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Check all three graphs, full formulas, removed H21/H22, Au inventories and source-to-device mappings. Inspect actual lead/cell/anchor definitions and allowed executable chain; net device charge differs from an isolated thiolate formal charge. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.isolated",
+          "$.results.devices",
+          "$.calculation_records",
+          "$.prerequisite_checks"
+        ],
+        "comparison": "Check all three graphs, full formulas, removed H21/H22, Au inventories and source-to-device mappings. Inspect actual lead/cell/anchor definitions and allowed executable chain; net device charge differs from an isolated thiolate formal charge. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_transport",
+      "reference_id": "kp_transport",
+      "type": "semantic",
+      "expected": "Require each configured junction at 0 and ±0.5 V, lead self-energy dependencies, T(E,V) and raw converged SCF outputs. Reintegrate signed currents and check mu_L-mu_R=eV; uniform fields and dipoles cannot substitute. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.devices",
+          "$.calculation_records"
+        ],
+        "comparison": "Require each configured junction at 0 and ±0.5 V, lead self-energy dependencies, T(E,V) and raw converged SCF outputs. Reintegrate signed currents and check mu_L-mu_R=eV; uniform fields and dipoles cannot substitute. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_controls",
+      "reference_id": "kp_controls",
+      "type": "semantic",
+      "expected": "Verify all bridge contrasts plus AD_reversed and AD_left_gap_plus_0p2A with fixed laboratory leads, mapping and measured contact changes. Recalculate delta currents and assess confounding geometric strain. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.comparisons",
+          "$.results.isolated",
+          "$.results.devices"
+        ],
+        "comparison": "Verify all bridge contrasts plus AD_reversed and AD_left_gap_plus_0p2A with fixed laboratory leads, mapping and measured contact changes. Recalculate delta currents and assess confounding geometric strain. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_robustness",
+      "reference_id": "kp_robustness",
+      "type": "semantic",
+      "expected": "Check actual refined k/quadrature and thicker-screening calculations, zero-current floor and integrations. Ratio denominator below the measured uncertainty yields documented bounds, not a forced ratio. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.numerical_checks",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual refined k/quadrature and thicker-screening calculations, zero-current floor and integrations. Ratio denominator below the measured uncertainty yields documented bounds, not a forced ratio. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Tie dipole, transmission-window and potential-drop evidence to a falsifiable interpretation. Reject general device claims based on isolated scalar agreement. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.results.comparisons"
+        ],
+        "comparison": "Tie dipole, transmission-window and potential-drop evidence to a falsifiable interpretation. Reject general device claims based on isolated scalar agreement. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "A complete matched comparison supports, refutes or leaves indistinguishable the stated explanations within measured uncertainty. All required controls must have real, correctly identified results; missing calculations and open prerequisites cannot be called scientific indistinguishability. While this package remains incomplete and references uncalibrated, report development assessments only, never a publishable upgraded PASS.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.prerequisite_checks"
+        ],
+        "comparison": "A complete matched comparison supports, refutes or leaves indistinguishable the stated explanations within measured uncertainty. All required controls must have real, correctly identified results; missing calculations and open prerequisites cannot be called scientific indistinguishability. While this package remains incomplete and references uncalibrated, report development assessments only, never a publishable upgraded PASS."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Correct mapped molecules and charge-conserving Au devices",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "transport",
+      "max_score": 30,
+      "description": "True self-consistent zero and positive/negative bias transport",
+      "rule_ids": [
+        "rule_transport"
+      ]
+    },
+    {
+      "id": "controls",
+      "max_score": 25,
+      "description": "Matched bridge, molecular reversal and unilateral-contact tests",
+      "rule_ids": [
+        "rule_controls"
+      ]
+    },
+    {
+      "id": "robustness",
+      "max_score": 10,
+      "description": "Lead, energy, k-grid and screening uncertainty",
+      "rule_ids": [
+        "rule_robustness"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 10,
+      "description": "Polarity hypothesis tested against device evidence",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported bounded scientific judgement",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "pending_transport_pilot_and_expanded_reference",
+  "release_ready": false,
+  "numerical_reference_policy": {
+    "expanded_targets": null,
+    "expanded_tolerances": null,
+    "calibration": "Freeze only after real pilot/full-matrix evidence and method/numerical uncertainty review."
+  },
+  "scoring_notes": [
+    "No upgraded scientific PASS while release prerequisites/reference remain open.",
+    "Ordinary honest failure is not fabrication, but failure reporting cannot replace a missing scored endpoint.",
+    "A source-author ranking is not required; demonstrated refutation or uncertainty is acceptable.",
+    "Old scalar-only work, fabricated endpoints, wrong identities/states and incompatible energy/bias zeros invalidate dependent claims."
+  ]
+}

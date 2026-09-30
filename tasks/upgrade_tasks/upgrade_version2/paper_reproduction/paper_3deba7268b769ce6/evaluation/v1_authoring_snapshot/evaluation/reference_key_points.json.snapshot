@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_3deba7268b769ce6",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_continuum",
+      "key_point_type": "result",
+      "statement": "Minimum-validate both dye graphs in toluene, ethyl acetate and methanol at a shared continuum protocol. Report a state window, energies/f and NTO or equivalent electron-hole descriptors. Follow corresponding character rather than silently comparing root1 to a different state. Check a diffuse basis sensitivity for the anion.",
+      "expected": "Minimum-validate both dye graphs in toluene, ethyl acetate and methanol at a shared continuum protocol. Report a state window, energies/f and NTO or equivalent electron-hole descriptors. Follow corresponding character rather than silently comparing root1 to a different state. Check a diffuse basis sensitivity for the anion.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_micro_solvation",
+      "key_point_type": "result",
+      "statement": "Use exactly one MeOH in both cluster placements with explicit atom correspondence and state matching. Separate relaxed cluster changes from fixed-geometry electronic differences. Demonstrated collapse/dissociation is an outcome; if using a constrained remote geometry do not assign Boltzmann population or claim it is a minimum.",
+      "expected": "Use exactly one MeOH in both cluster placements with explicit atom correspondence and state matching. Separate relaxed cluster changes from fixed-geometry electronic differences. Demonstrated collapse/dissociation is an outcome; if using a constrained remote geometry do not assign Boltzmann population or claim it is a minimum.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_heldout_and_attribution",
+      "key_point_type": "result",
+      "statement": "Preserve a pre-holdout protocol artifact; calculate methanol residuals without per-dye refitting. Contrast continuum-only, specific-interaction and state-switch explanations using the controlled differences. Quantify uncertainty and avoid identifying an exact inversion threshold from three solvents.",
+      "expected": "Preserve a pre-holdout protocol artifact; calculate methanol residuals without per-dye refitting. Contrast continuum-only, specific-interaction and state-switch explanations using the controlled differences. Quantify uncertainty and avoid identifying an exact inversion threshold from three solvents.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

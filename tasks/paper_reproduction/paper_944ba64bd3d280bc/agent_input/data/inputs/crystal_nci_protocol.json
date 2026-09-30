@@ -1,0 +1,16 @@
+{
+  "version": "2026-09-25",
+  "authority": "User-approved crystal-scope completion; exact author Fig5 finite cluster/settings unavailable.",
+  "inputs": {
+    "E-H2bte": "ccdc_1872388.cif",
+    "Z-H2bte": "ccdc_2474069.cif"
+  },
+  "geometry": "Expand asymmetric unit and space-group symmetry. Complete symmetry-crossing covalent bonds before contact enumeration. Preserve crystal heavy coordinates and supplied H positions; no pair optimization.",
+  "neighbours": "All unique pairs with minimum intermolecular heavy-atom distance<=4.2A around every crystallographically independent molecule. Increase integer translation shells until successive-shell pair signatures agree. Include multiplicity and all central molecule identities; no reference-based subset.",
+  "equivalence": "Element-labelled full distance signature at1e-5A, verify formula/graph and source transformations; do not confuse deduplication with coordination multiplicity.",
+  "quantum": "Use the same B3LYP-D3BJ/6-311+G(d,p) single-point level for every frozen32atom neutral singlet pair, both gas andPCM-methanol. No geometry optimization or imaginary-frequency claim for frozen experimental pairs. Version may be current installed Gaussian with version recorded.",
+  "nci": "Density-based RDG/sign(lambda2)rho on matched grids, RDG0.5 isosurface, density cutoff0.05au, sign(lambda2)rho scale[-0.05,0.05]au. Initial spacing0.2bohr with at least0.15bohr refinement for representative Hbond and stacking classes. Record box, grid points, masks, units, filehashes. These settings define this benchmark, not unpublished source values.",
+  "comparison": "Keep intramolecular ESP/LOL separate from pairNCI. Report all pair classes and occurrence weights. Compare contact types/topology and per-central-molecule summaries, NOT raw totals from unequalZprime or differing number of plots. Require conclusion robustness to grid andgas/PCM; otherwise report unverified.",
+  "uncertainty": "Experimental ridingH lengths, finite-pair vsbulk boundary and unknown original author cluster remain explicit. Do not claim descriptors prove macroscopic sensitivity causality.",
+  "no_reference_numeric_answers_in_public_protocol": true
+}

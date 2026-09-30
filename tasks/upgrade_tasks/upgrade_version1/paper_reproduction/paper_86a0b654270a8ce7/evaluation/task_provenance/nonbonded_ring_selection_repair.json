@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-28T14:28:36.004128+00:00",
+  "source_sha256": "3acda1d9208a27e5d23e21a3a52d3bc6a285d7384b19d77c67a1e050cd0c0bfc",
+  "source_location": "Main PDF page2 section2.2, NHC phenyl vs salen naphthyl",
+  "original_rule": "Choose closest two aromatic rings from each reconstructed graph; publish all ring atom IDs and centroid/normal definitions. Compare same rings in contact-separated and released structures.",
+  "new_rule": "Use the nonbonded source motif: the six-carbon phenyl ring of the cyclometalated NHC ligand versus a fused six-carbon naphthyl ring of the salen ligand. Remove Ir and coordination edges to identify the two covalent ligand components. Among eligible naphthyl cycles choose the nearest centroid, without fitting a target distance or selecting by energy; publish all eligible ring IDs and distances, then freeze the chosen atom IDs for contact-separated and released comparisons. Exclude directly connected rings within one ligand. Publish centroid and plane-normal definitions; retain distortion and all other geometry changes.",
+  "before_package_sha256": "5577a2026b7bab2fe35ea417c296506fd6102c1d711f56350d4c9f52bc5ffd19",
+  "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_86a0b654270a8ce7/analysis/nonbonded_ring_selection_repair.json",
+  "evidence_sha256": "ddb8cfb04ea591e6ded6a6799676594ecef4c04e833b5dd0c9f4788c13dab8e9",
+  "public_calculated_targets_added": false,
+  "scope": "Fix mis-selection of covalently connected NHC rings; same original isomer/stacking question and matrix."
+}

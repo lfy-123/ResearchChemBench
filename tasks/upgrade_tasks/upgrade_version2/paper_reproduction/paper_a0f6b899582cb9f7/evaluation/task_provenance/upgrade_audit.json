@@ -1,0 +1,36 @@
+{
+  "paper_id": "paper_a0f6b899582cb9f7",
+  "task_type": "paper_reproduction",
+  "version": 2,
+  "old_class": {
+    "old": "A",
+    "v1": "B"
+  },
+  "autonomy": "source_bounded_open_research_C",
+  "status": "content_developed_reference_judge_isolation_pending",
+  "baseline_package": "tasks/upgrade_tasks/upgrade_version1/paper_reproduction/paper_a0f6b899582cb9f7",
+  "baseline_package_content_sha256": "1ce32a2238dc0450a83433c98d16c3a700c2b1269173876967deb000f8c14177",
+  "baseline_manifest_sha256": "25faed6bb8feadaf9e41febd339fb60d95bc0200887548ed4c51a86099552d74",
+  "baseline_snapshot": {
+    "path": "tasks/upgrade_tasks/upgrade_version1/_backup_metadata/snapshot_manifest.json",
+    "sha256": "6aec7a6cf2b705fb9700e949fb90323c4f972ee954ca16979b7c7a3082152915",
+    "inventory_sha256": "581cb229336b2938a0d1e71cb87005e6ecf62b7cb814837abeab4090f9eb1666"
+  },
+  "plan": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/plans/paper_a0f6b899582cb9f7.json",
+  "plan_sha256": "196c615a16fee6d8d60e174c32e985787c722f3ed7d5cc810bf0445db89c7d4c",
+  "plan_created_before_copy": true,
+  "public_changes": [
+    "Keep M3 connectivity; replace its optimized geometry and tensor answers by graph-only identity.",
+    "Provide only cropped Fig1a chemical structures for parent PM6/BTP-eC9; exclude Fig1b ESP and Fig1c optimized complexes/energies.",
+    "Retire the mandatory BDD/core/full-pi fragment ladder, face/edge configurations, decomposition terms and tensor targets; previous explicit graphs remain private reusable models."
+  ],
+  "new_scientific_calculations_performed": false,
+  "new_scientific_engine_starts": 0,
+  "scientifically_validated": false,
+  "judge_calibration_status": "pending",
+  "runtime_isolation_status": "pending",
+  "blockers": [],
+  "created_at_utc": "2026-09-28T16:43:55.918009+00:00",
+  "mutable_evidence_fix_at_utc": "2026-09-28T16:44:58.807844+00:00",
+  "offline_existing_output_observation_at_utc": "2026-09-28T17:32:47.575226+00:00"
+}

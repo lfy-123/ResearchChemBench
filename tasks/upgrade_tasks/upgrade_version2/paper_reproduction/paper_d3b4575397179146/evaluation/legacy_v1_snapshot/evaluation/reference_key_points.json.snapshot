@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_d3b4575397179146",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, chemical bookkeeping and valid evidence.",
+      "expected": "Inspect species_registry, every input/geometry mapping and real raw log. Verify stoichiometry, charge/multiplicity, method/state, stationarity or constrained label, and consistent thermochemistry. Use all four mapped heptazines and source substrate1a: N-methyl-N-(4-trifluoromethylphenyl)pivalamide. Pilot dFHeptZ/dOMeHeptZ first, then expand the same endpoint contract to dClHeptZ/dMeHeptZ. Use MeCN, 273.15 K, substrate0.1M, O2 1atm, 456nm source conditions; solute free energies use1M. Include substrate radical cation (charge+1,doublet), catalyst radical anion (−1,doublet), O2 triplet ground state, singlet oxygen and superoxide (−1,doublet). SET compares S+PC*→S+radical+PC−radical. EnT compares catalyst triplet deactivation with triplet-O2→singlet-O2; E00 and triplet gaps are not vertical S1 energies. A shared SCE reference may be used, but direct reaction G avoids arbitrary absolute-electrode shifts.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_photoredox_matrix",
+      "statement": "Four catalysts on a common SET/EnT and redox/state reference.",
+      "expected": "Four catalysts on a common SET/EnT and redox/state reference. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_oxygen_states",
+      "statement": "Correct oxygen state energetics and spin identity.",
+      "expected": "Correct oxygen state energetics and spin identity. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_mechanism_discrimination",
+      "statement": "Fair possibility of both routes being feasible; no exact oxidation-yield prediction.",
+      "expected": "Fair possibility of both routes being feasible; no exact oxidation-yield prediction. Recompute quantities from identified raw jobs and evidence files. Check all required named matrix cells; prose or a legacy scalar cannot replace this endpoint. A scientific ambiguity is valid only after the relevant controls exist. Non-saddle/collapse alternatives require actual profiles and both endpoints, not failed optimization. A same-basin comparison may omit nonexistent independent numeric operands only after separate complete searches, mapped identity and stationarity demonstrate collapse; this never excuses a missing control. New numerical reference and tolerances are pending; never choose a preferred value or broaden a legacy tolerance to excuse wrong identity.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "statement": "Discriminating control and quantitative robustness.",
+      "expected": "Use actual changed-model results and at least two falsifiable explanations. Recalculate sensitivity differences and relate uncertainty to ordering/support sets. Wrong substrate or oxygen state; E00 equated to vertical S1; unmatched potential references; thermodynamic feasibility asserted as exclusive mechanism or exact yield.",
+      "evidence_ids": [
+        "source_1",
+        "source_2",
+        "upgrade_design"
+      ]
+    }
+  ]
+}

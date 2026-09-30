@@ -1,0 +1,246 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "source_documents": [
+    {
+      "path": "papers/paper_36722b90a0c12825/documents/main.pdf",
+      "sha256": "ba5c030e4e408007aba517f664a257a4703fb5119f70452d93f1120cac8a0ee1",
+      "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p4：AB-mTTA-(1,3)Ph 的 E/Z 结合强度接近；SI2 p16：B3LYP-D3BJ/6-31G*、acetone PCM、298.15 K 及结合常数定义。SI1 为四个作者结合构象的坐标。",
+      "actual_read_pages_and_sections": "Main PDF pp3–4 Figs3–5; SI1 pp1–8 molecular identity; SI2 pp6–7,15–16 including complete binding table and method paragraph."
+    },
+    {
+      "path": "papers/paper_36722b90a0c12825/documents/supplementary_001.pdf",
+      "sha256": "ddb684896fb0ac2f2a1eee1c681fb4ec4071a27834966f9f53342e1bf6603069",
+      "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p4：AB-mTTA-(1,3)Ph 的 E/Z 结合强度接近；SI2 p16：B3LYP-D3BJ/6-31G*、acetone PCM、298.15 K 及结合常数定义。SI1 为四个作者结合构象的坐标。",
+      "actual_read_pages_and_sections": "Main PDF pp3–4 Figs3–5; SI1 pp1–8 molecular identity; SI2 pp6–7,15–16 including complete binding table and method paragraph."
+    },
+    {
+      "path": "papers/paper_36722b90a0c12825/documents/supplementary_002.pdf",
+      "sha256": "7357d277c10ad1081614f77286650c562c4ca7bc841ffd273c8d27cc232f95be",
+      "locator": "Main PDF pp3-4 Figs3-5; coordinate SI1 pp2-8; SI2 pp6-7,15-16, Table S2 and DFT section.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p4：AB-mTTA-(1,3)Ph 的 E/Z 结合强度接近；SI2 p16：B3LYP-D3BJ/6-31G*、acetone PCM、298.15 K 及结合常数定义。SI1 为四个作者结合构象的坐标。",
+      "actual_read_pages_and_sections": "Main PDF pp3–4 Figs3–5; SI1 pp1–8 molecular identity; SI2 pp6–7,15–16 including complete binding table and method paragraph."
+    }
+  ],
+  "source_question": "Source study: reversible light-switchable triazole hosts couple anion binding to photoisomerization. The bounded subproblem is AB-mTTA-(1,3)Ph chloride association in acetone, rather than all source hosts or switching kinetics.",
+  "task_question": "What molecular account of chloride association by the E and Z forms of AB-mTTA-(1,3)Ph is supported by the available solution measurements and an independent investigation? Determine what can be established about the relationship between photoisomeric identity and affinity, and the limits of that account.",
+  "scope_mappings": [
+    {
+      "element": "system and observed association",
+      "source": "main PDF pp3–4, Figs3–5; SI2 pp6–7,15 TableS2",
+      "classification": "source experiment and molecular identity"
+    },
+    {
+      "element": "starting graph/stereochemistry",
+      "source": "SI1 coordinate identities pp2–8, checked against complete formula",
+      "classification": "coordinate-derived topology only; optimized geometry withheld"
+    },
+    {
+      "element": "author method",
+      "source": "SI2 p16 DFT section and TablesS3–S6",
+      "classification": "PR only author protocol; temperature conventions disclosed"
+    },
+    {
+      "element": "open evidence-based question",
+      "source": "same molecular association issue; freedom of design is benchmark framing",
+      "classification": "builder formulation without additional material/phenomenon"
+    }
+  ],
+  "public_facts_and_constraints": "The supplied atom-indexed graphs define E and Z AB-mTTA-(1,3)Ph (C48H26F12N14, neutral singlets), chloride and the tetrabutylammonium counterion. Experimental NMR titrations use TBACl in acetone-d6 at the two stated host concentrations. The observation table contains association constants and their reported errors, not unseen predictions. Modeling concerns this host/anion system near ambient conditions; report the exact conditions and standard state of any quantitative comparison. Other source host families and photoisomerization rates are outside this bounded question.",
+  "agent_decisions": [
+    "Choose which molecular hypotheses or models could explain the observed E/Z association behavior without being given a cause.",
+    "Choose structures, sampling, electronic/solution treatment and informative comparisons; justify which uncertainties limit an affinity or causal claim.",
+    "Decide whether a quantitative difference is identifiable at the evidence resolution and revise the account when evidence conflicts."
+  ],
+  "source_exceptions": [],
+  "builder_model_disclosures": [],
+  "old_scope_corrections": [
+    "Retain E/Z complete starting molecular graphs, chloride and TBA composition; remove the preassembled bound objects as an obligatory research inventory.",
+    "Replace controls.json (fixed binding equations and intervention axes) with neutral context and the two actual SI Table S2 E/Z observation pairs, including reported errors and acetone-d6 conditions.",
+    "Remove source coordinate/energy answers and prescribed conformer labels from AR; archive all V1 material privately, keep public topology/stereochemistry only.",
+    "Replace fixed species_ensembles/binding_cycle/intervention rows and hypothesis-count requirement with freely named models, operations, quantitative evidence and claims.",
+    "Neutralize title, difficulty reasons, bibliography and all public instructions; retain real author protocol only in PR guidance."
+  ],
+  "feasibility_evidence": {
+    "source_freeze": {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_3/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "393ef0676047c72d24d249a13e6fbdcc47f954dec7e5276a6269e1ba84e353bf"
+    },
+    "frozen_V1_packages": {
+      "autonomous_research": "c160acf508cc201ff9dfb76df24f1a691c2667145611179243474acb9013af30",
+      "paper_reproduction": "3bf6d96eaecbaaeac2b6df14a2adc79375135e94163e7adbe0ef46ff68990495"
+    },
+    "reported_scientific_status": "needs_work",
+    "scope": "保留旧 E 构象与冻结交接的 E 先导为局部证据；完整 E/Z 自由—结合及不确定性参考尚缺。",
+    "unfinished": [
+      "E/Z自由/Cl结合完整循环、close/open构象与标准态/BSSE/介质控制未完成；SI完整E/Z图已准备，E先导保留。"
+    ],
+    "artifacts": [
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_36722b90a0c12825/fe008babd431a49b_status.json.snapshot",
+        "sha256": "fe008babd431a49b0e93d940517cedce4b78b6234162b072fca80314a042c807",
+        "role": "historical_verification_record_not_V2_acceptance",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/status.json",
+        "previous_recorded_sha256": "fe008babd431a49b0e93d940517cedce4b78b6234162b072fca80314a042c807",
+        "bytes": 530,
+        "observed_at_utc": "2026-09-28T16:44:58.462461+00:00",
+        "original_is_mutable": true,
+        "hash_changed_since_previous_record": false,
+        "role_at_observation": "frozen_file_bytes_only_not_new_scientific_acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_36722b90a0c12825/f7dcb7ebe1490ab8_stdout.log.snapshot",
+        "sha256": "f7dcb7ebe1490ab85511aed86965941d926bb305ba4d412f8122c901b0b354be",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/outputs/E_bound_close_B3LYPD3BJ_631Gd_PCMacetone_strict_optfreq_a2/stdout.log",
+        "bytes": 53982,
+        "observed_at_utc": "2026-09-28T17:32:46.485568+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_36722b90a0c12825/1065fda389382031_stdout.log.snapshot",
+        "sha256": "1065fda389382031bfece5ad65479c82df68a37ff665bbc68c240b6018ffa3a4",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/outputs/E_free_from_close_B3LYPD3BJ_631Gd_PCMacetone_optfreq_a1/stdout.log",
+        "bytes": 1195350,
+        "observed_at_utc": "2026-09-28T17:32:46.511512+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      },
+      {
+        "path": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_36722b90a0c12825/4897325faa9de2d7_stdout.log.snapshot",
+        "sha256": "4897325faa9de2d7393fbc0505b29c1508933ce210ded336b31f90c848254277",
+        "original_path": "docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/outputs/chloride_B3LYPD3BJ_631Gd_PCMacetone_SP_a1/stdout.log",
+        "bytes": 21828,
+        "observed_at_utc": "2026-09-28T17:32:46.531375+00:00",
+        "original_is_mutable": true,
+        "role": "existing_native_raw_log_offline_review",
+        "role_at_observation": "Existing file bytes; no new job or scientific acceptance"
+      }
+    ],
+    "existing_attempts": [
+      {
+        "case_id": "E_free_from_close_B3LYPD3BJ_631Gd_PCMacetone_optfreq_a1",
+        "scientific_identity": "paper_36722b90a0c12825|E_free_from_close_B3LYPD3BJ_631Gd_PCMacetone_optfreq_a1",
+        "location": "HPC",
+        "job_id": "hpc-job-69aee826-006f-45b8-a3e5-93418b3d441f",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "platform_status": "QUEUEING",
+        "state": "accepted",
+        "started_at": null,
+        "last_checked_at": "2026-09-28T15:05:30.284885+00:00",
+        "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/inputs/E_free_from_close_B3LYPD3BJ_631Gd_PCMacetone_optfreq_a1/input.com",
+        "input_sha256": "37d831ebbdb371dcf052c3179628f02e058155f6a61689f64f1266e4e79af23a",
+        "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/outputs/E_free_from_close_B3LYPD3BJ_631Gd_PCMacetone_optfreq_a1",
+        "frozen_contract": "61c6a4733f9a6af03d96f867a6b99ee214c79e6d86ed1d660f46b792a6810fd8",
+        "native_state": {
+          "phase": null,
+          "host": null,
+          "pid": null,
+          "wrapper_pid": null,
+          "started_at": null,
+          "finished_at": null,
+          "normal_termination": null,
+          "return_code": null,
+          "exit_code": null,
+          "scientific_pass": null
+        },
+        "ongoing_engine": true,
+        "platform_active": true,
+        "handoff_instruction": "Preserve existing work and output; no resubmission or termination. Subsequent collection requires separate authorized workflow."
+      },
+      {
+        "case_id": "E_bound_close_B3LYPD3BJ_631Gd_PCMacetone_strict_optfreq_a2",
+        "scientific_identity": "paper_36722b90a0c12825|E_bound_close_B3LYPD3BJ_631Gd_PCMacetone_strict_optfreq_a2",
+        "location": "HPC",
+        "job_id": "hpc-job-fffbd34c-a5ad-42e0-85a3-a582a65b0eb1",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "platform_status": "QUEUEING",
+        "state": "accepted",
+        "started_at": null,
+        "last_checked_at": "2026-09-28T15:05:30.284885+00:00",
+        "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/inputs/E_bound_close_B3LYPD3BJ_631Gd_PCMacetone_strict_optfreq_a2/input.com",
+        "input_sha256": "1d0d502d4edd0b4383ef1904e17989fc30ae4b8e0887111d61727ec94b3c43c9",
+        "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/outputs/E_bound_close_B3LYPD3BJ_631Gd_PCMacetone_strict_optfreq_a2",
+        "frozen_contract": "61c6a4733f9a6af03d96f867a6b99ee214c79e6d86ed1d660f46b792a6810fd8",
+        "native_state": {
+          "phase": null,
+          "host": null,
+          "pid": null,
+          "wrapper_pid": null,
+          "started_at": null,
+          "finished_at": null,
+          "normal_termination": null,
+          "return_code": null,
+          "exit_code": null,
+          "scientific_pass": null
+        },
+        "ongoing_engine": true,
+        "platform_active": true,
+        "handoff_instruction": "Preserve existing work and output; no resubmission or termination. Subsequent collection requires separate authorized workflow."
+      },
+      {
+        "case_id": "chloride_B3LYPD3BJ_631Gd_PCMacetone_SP_a1",
+        "scientific_identity": "paper_36722b90a0c12825|chloride_B3LYPD3BJ_631Gd_PCMacetone_SP_a1",
+        "location": "HPC",
+        "job_id": "hpc-job-758a054c-be22-4ceb-be7f-b7f1b41ccf8b",
+        "pid": null,
+        "process_start_ticks": null,
+        "host": null,
+        "platform_status": "QUEUEING",
+        "state": "accepted",
+        "started_at": null,
+        "last_checked_at": "2026-09-28T15:05:30.284885+00:00",
+        "input": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/inputs/chloride_B3LYPD3BJ_631Gd_PCMacetone_SP_a1/input.com",
+        "input_sha256": "83aeac76cfdaf027424bd78d44b75f2c56e8d9ea37bd0e15e724f96908c25c01",
+        "output_dir": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_3/papers/paper_36722b90a0c12825/outputs/chloride_B3LYPD3BJ_631Gd_PCMacetone_SP_a1",
+        "frozen_contract": "61c6a4733f9a6af03d96f867a6b99ee214c79e6d86ed1d660f46b792a6810fd8",
+        "native_state": {
+          "phase": null,
+          "host": null,
+          "pid": null,
+          "wrapper_pid": null,
+          "started_at": null,
+          "finished_at": null,
+          "normal_termination": null,
+          "return_code": null,
+          "exit_code": null,
+          "scientific_pass": null
+        },
+        "ongoing_engine": true,
+        "platform_active": true,
+        "handoff_instruction": "Preserve existing work and output; no resubmission or termination. Subsequent collection requires separate authorized workflow."
+      }
+    ],
+    "new_scientific_jobs_started": 0,
+    "new_scientific_reference_verified": false,
+    "immutable_observation": {
+      "observed_at_utc": "2026-09-28T16:44:58.462461+00:00",
+      "snapshot_root": "docs/upgrade_tasks_v2_review_20260928/authoring/batch3/work/frozen_evidence/paper_36722b90a0c12825",
+      "source_files_read_only": true,
+      "original_attempt_status_fields": "Historical handoff observations at their own recorded times; current copied native status bytes may be later and do not update scientific acceptance.",
+      "current_files_not_assumed_immutable": true,
+      "new_scientific_jobs": 0
+    },
+    "offline_native_inventory_note": "Additional already-existing native output bytes read once and frozen. Historical attempt states retain their original times. No collection controller or chemistry engine started. Old missing mandatory matrices are historical V1 gaps, not V2 route requirements."
+  },
+  "limitations": [
+    "Experimental reported ± errors have no covariance/error-distribution information in the supplied table; do not invent confidence levels.",
+    "Expanded E/Z molecular reference and actual semantic-judge calibration remain pending.",
+    "Execution filesystem isolation and blind-agent behavior have not been verified; observations are public, so this is retrospective explanation."
+  ],
+  "source_scope_verified": true,
+  "new_scientific_calculations_performed": false
+}

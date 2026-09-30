@@ -1,0 +1,132 @@
+{
+  "paper_id": "paper_98b6f8a0352f72c2",
+  "kind": "author_review_casebook_not_scientific_data",
+  "created_at_utc": "2026-09-28T17:37:47.600065+00:00",
+  "source_documents": [
+    {
+      "path": "papers/paper_98b6f8a0352f72c2/documents/main.pdf",
+      "sha256": "714a568d5e123ebb80f11a9ab57fd85c282648d3f861353b63973f8d8cdf3492",
+      "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+      "role": "source_original_scope_not_expanded_reference",
+      "material_type": "main_article",
+      "review_locator": "正文 PDF p4分别讨论吸收和发射，pp6–7给12d身份；正式DOCX SI另存batch3/evidence，FigS31/S39与TableS1区分实验/理论谱和理论radiative lifetime。",
+      "actual_read_pages_and_sections": "Main pp3–4 Table1/optical discussion and pp7–8 chemical identity/section3.1.4; formal DOCX paragraphs202–218 spectral captions and250 onward complete TableS1 radiative lifetimes."
+    },
+    {
+      "path": "tasks/upgrade_tasks/coordination_20260927/batch3/evidence/paper_98b6f8a0352f72c2_official_si.docx",
+      "sha256": "275ca4700127d3f0cce5b5b9ae3a9d21f157acc0409cb8aa658fb06e4f65a924",
+      "locator": "Main pp3-5 optical tables/Figs and pp7-8 section3.1.4; formal publisher DOCX FigsS31-S39/TableS1 (downloaded and read in batch evidence), member12d synthesis/identity main pp6-7.",
+      "role": "formal_publisher_SI",
+      "material_type": "authentic_supplementary_material",
+      "review_locator": "正文 PDF p4分别讨论吸收和发射，pp6–7给12d身份；正式DOCX SI另存batch3/evidence，FigS31/S39与TableS1区分实验/理论谱和理论radiative lifetime。",
+      "actual_read_pages_and_sections": "Main pp3–4 Table1/optical discussion and pp7–8 chemical identity/section3.1.4; formal DOCX paragraphs202–218 spectral captions and250 onward complete TableS1 radiative lifetimes."
+    }
+  ],
+  "reference_status": "expectations_defined_semantic_calibration_pending",
+  "binding": "Structured IDs/files/numbers use submission contract; scientific expectations bind the live reference key points. These examples are not hidden required calculation routes.",
+  "cases": [
+    {
+      "case_id": "valid_alternative",
+      "scenario": "Correct phenazine 12a/12d identities and state/observable definitions support a molecular account of the disclosed solvent-dependent photophysics without required torsion or S1 grids.",
+      "expected_judgment": "Eligible for supported scientific credit if stated evidence exists; no automatic full score.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "evidenced_unresolved",
+      "scenario": "Actual molecular optical evidence remains insufficient to separate proposed nonradiative accounts; measured total lifetime and computed radiative lifetime are kept distinct.",
+      "expected_judgment": "Eligible for full credit for adequately covered question and justified limits, conditional on genuine evidence; uncertainty alone is insufficient.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "paper_specific_invalid_inference",
+      "scenario": "SI Table S1 theoretical radiative lifetime is equated to measured total fluorescence lifetime, or a UV S1 is forced to be the visible absorption band.",
+      "expected_judgment": "Invalidate affected dependent claims; preserve unrelated valid evidence.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_scientific_answer",
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "bounded_partial",
+      "scenario": "A reliable absorption calculation is retained without claiming emission yield, total lifetime or a fully identified relaxation mechanism.",
+      "expected_judgment": "Credit only established coverage and honest diagnosis; no blanket completion.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "legacy_or_prose_only",
+      "scenario": "Only an old scalar or fluent repetition of the source explanation is supplied for: What molecular account of the absorption and emission behavior of phenazines12a and12d in chloroform and ethyl acetate is supported by the supplied measurements and a defensible investigation? Determine which structural or electronic interpretations are identifiable and how they relate to the measured fluorescence behavior.",
+      "expected_judgment": "No scientific credit for unsupported dependent claims.",
+      "reference_key_points": [
+        "kp_quantitative_evidence",
+        "kp_scientific_answer"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "wrong_object_state_or_reference",
+      "scenario": "Verify12a dimethylamino and12d diethylamino complete graphs; do not substitute the source12b/12e ring-methyl analogues. Track molecular and electronic-state identity across media and geometries rather than assuming an S1 label has identical character. Deliberately violate one applicable identity/state/reference while leaving the prose coherent.",
+      "expected_judgment": "Dependent result and scientific-answer credit invalid until corrected.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "claim_relevant_validity",
+      "scenario": "Separate absorption, emission, adiabatic gaps and total/radiative lifetimes. State what model and physical evidence support any relaxed-state or kinetic claim. If combining quantum yield and total lifetime, use matched conditions and correct yield units, propagate or disclose uncertainty, and do not treat source theoretical lifetimes as measured values. Choose relevant validation without an imposed torsion/solvent grid. Submit the relevant asserted quantity without the evidence needed for that assertion.",
+      "expected_judgment": "Do not require a prescribed route; withhold unsupported dependent credit.",
+      "reference_key_points": [
+        "kp_validity_and_uncertainty"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "scope_excess",
+      "scenario": "A vertical absorption energy is not a relaxed emission energy or an emitting-state assignment. A theoretical radiative lifetime is not a measured total fluorescence lifetime; do not infer a nonradiative mechanism, yield or sensor/device performance from an oscillator strength alone. Bound any molecular explanation by its actual state, solvent and sampling evidence. Assert the excluded conclusion from a local scalar.",
+      "expected_judgment": "Reject the overextended claim; retain supported bounded results.",
+      "reference_key_points": [
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "failed_work_as_equivalence",
+      "scenario": "Failed/absent operations are labeled evidence of scientific equivalence or non-identifiability.",
+      "expected_judgment": "Reject false completion. Partial/diagnostic records remain admissible.",
+      "reference_key_points": [
+        "kp_scientific_answer",
+        "kp_bounded_conclusion"
+      ],
+      "actual_semantic_judge_run": false
+    },
+    {
+      "case_id": "fabricated_artifact_or_source",
+      "scenario": "Alter a reported raw value, hash, model mapping or source observation while retaining a plausible report.",
+      "expected_judgment": "Affected evidence fails integrity/extraction checks; apply fabrication policy when established.",
+      "reference_key_points": [
+        "kp_identity",
+        "kp_quantitative_evidence"
+      ],
+      "actual_semantic_judge_run": false
+    }
+  ],
+  "new_scientific_jobs": 0
+}

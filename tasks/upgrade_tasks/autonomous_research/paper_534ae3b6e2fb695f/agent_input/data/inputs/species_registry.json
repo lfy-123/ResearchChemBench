@@ -1,0 +1,16 @@
+{
+  "paper_id": "paper_534ae3b6e2fb695f",
+  "coordinate_policy": "Only given reactant starters; new graph definitions are not optimized minima or TSs. Explicit atom maps, charge and multiplicity take priority over distance-based bond guesses.",
+  "species": [],
+  "construction_definitions": {
+    "reactive_mapping": {
+      "TMC": "source C2/Cl3 plus1000",
+      "ODA_N": 1,
+      "6FODA_N": 7,
+      "PFMB_N": 7,
+      "proton_acceptor": "departing Cl1003",
+      "product_rule": "replace TMC C1002–Cl1003 by C1002–Namine, move one Namine-H to Cl1003; all other graph bonds retained"
+    },
+    "scope_correction": "TMC is a mandatory reactant in this version, not context-only."
+  }
+}

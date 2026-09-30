@@ -14,7 +14,7 @@ import httpx
 
 from ..proxy import configure_pubchem_proxy_environment
 from ..environment_layout import software_root
-from .common import failed, module_version, partial_success, request_parts, success, unavailable, unsupported
+from .common import failed, module_version, partial_success, request_parts, resolve_input_file, success, unavailable, unsupported
 
 
 ACTIONS = {
@@ -22,7 +22,7 @@ ACTIONS = {
     "search_catalysis_records", "lookup_nist_webbook_species",
     "resolve_chemical_identity", "retrieve_compound_properties",
     "retrieve_compound_structure",
-    "search_similar_compounds", "search_substructures",
+    "search_similar_compounds", "search_substructures", "retrieve_crystal_structure",
 }
 
 
@@ -813,6 +813,86 @@ def _pubchem_structure(request: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+def _ccdc_structure(request: dict[str, Any]) -> dict[str, Any]:
+    """Retrieve a pinned CCDC record or parse an explicit CIF export.
+
+    CSD data and the official CCDC Python API are proprietary.  The open
+    adapter therefore accepts an Agent-staged CIF (or ``CCDC_CIF_ROOT``) and
+    reports a bounded unavailable result when no licensed source is present;
+    it never guesses coordinates from a record id.
+    """
+    inputs, _method, settings = request_parts(request)
+    query = inputs.get("query")
+    if isinstance(query, str):
+        query = {"record_id": query}
+    if not isinstance(query, dict):
+        raise ValueError("query must be {record_id, optional cif_path}")
+    record_id = str(query.get("record_id") or "").strip()
+    if not record_id:
+        raise ValueError("query.record_id is required")
+    component_policy = str(settings.get("component_policy") or "full_crystal")
+    hydrogen_policy = str(settings.get("hydrogen_policy") or "as_deposited")
+    if component_policy != "full_crystal":
+        return unsupported(
+            "The generic CCDC adapter currently returns the full deposited periodic crystal only; "
+            "unique-molecule extraction requires an explicit, separately audited component-selection workflow"
+        )
+    if hydrogen_policy != "as_deposited":
+        return unsupported(
+            "The generic CCDC adapter preserves deposited hydrogens only; hydrogen addition/removal "
+            "requires an explicit, separately audited structure-transformation workflow"
+        )
+    cif_value = query.get("cif_path") or query.get("file_path")
+    path = None
+    if cif_value:
+        path = resolve_input_file(cif_value)
+    else:
+        root = os.environ.get("CCDC_CIF_ROOT", "").strip()
+        if root:
+            candidate = Path(root).expanduser().resolve() / f"{record_id}.cif"
+            if candidate.is_file():
+                path = candidate
+    if path is None:
+        try:
+            import ccdc  # type: ignore  # noqa: F401
+        except ImportError:
+            return unavailable(
+                f"CCDC record {record_id} is unavailable: provide a licensed CSD/CCDC Python API or an explicit CIF export",
+                install="Install the licensed CCDC Python API in the workflows runtime and configure its license, or stage <record_id>.cif under the workspace.",
+            )
+        return unavailable(
+            f"CCDC Python API is installed but no record retrieval adapter is configured for {record_id}; stage a CIF export",
+        )
+    try:
+        from pymatgen.core import Structure
+        structure = Structure.from_file(str(path))
+    except Exception as exc:
+        raise RuntimeError(f"Unable to parse CIF for CCDC record {record_id}: {exc}") from exc
+    payload = {
+        "record_id": record_id,
+        "source": "explicit_cif_export",
+        "source_path": str(path),
+        "formula": structure.composition.reduced_formula,
+        "lattice": {
+            "matrix_angstrom": structure.lattice.matrix.tolist(),
+            "abc_angstrom": [float(v) for v in structure.lattice.abc],
+            "angles_deg": [float(v) for v in structure.lattice.angles],
+        },
+        "space_group": structure.get_space_group_info(),
+        "sites": [
+            {"index": i + 1, "element": str(site.specie), "position_angstrom": [float(v) for v in site.coords]}
+            for i, site in enumerate(structure.sites)
+        ],
+        "component_policy": component_policy,
+        "hydrogen_policy": hydrogen_policy,
+    }
+    return success(
+        payload,
+        backend_version="pymatgen-" + (module_version("pymatgen") or "unknown"),
+        provenance={"record_id": record_id, "source_path": str(path), "licensed_api_used": False},
+    )
+
+
 def _bounded_pubchem_json(
     url: str,
     *,
@@ -1129,6 +1209,8 @@ def execute(action_id: str, backend_id: str, request: dict[str, Any]) -> dict[st
             return _catalysis_hub(request)
         if action_id == "lookup_nist_webbook_species" and backend_id == "nist_webbook":
             return _nist_webbook(request)
+        if action_id == "retrieve_crystal_structure" and backend_id == "ccdc":
+            return _ccdc_structure(request)
         return unsupported(f"Unsupported data action/backend combination: {action_id}/{backend_id}")
     except _RemoteServiceUnavailable as exc:
         result = failed(str(exc), code="remote_service_unavailable", retryable=True)

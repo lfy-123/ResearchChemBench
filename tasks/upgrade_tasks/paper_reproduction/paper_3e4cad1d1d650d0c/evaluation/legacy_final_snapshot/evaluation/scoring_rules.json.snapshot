@@ -1,0 +1,88 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_pr_identity",
+      "expected": "Both named records preserve public identity, charge, multiplicity, and no-counterion boundary.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific verification"
+      },
+      "reference_id": "kp_pr_process_identity",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_pr_minimum",
+      "expected": "Each reported successful system has convergence and zero imaginary modes or a justified equivalent test.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific verification"
+      },
+      "reference_id": "kp_pr_process_minimum",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_pr_homo_1a",
+      "expected": "HOMO energy for 1a_anion. Select homo_energy_eV from the unique record id=1a_anion; never infer identity from array order or value proximity. Duplicate or missing identities do not establish coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": -5.03,
+      "unit": "eV",
+      "tolerance": 0.3,
+      "reference_id": "kp_pr_result_1a",
+      "type": "numeric"
+    },
+    {
+      "rule_id": "r_pr_homo_1e",
+      "expected": "HOMO energy for 1e_anion. Select homo_energy_eV from the unique record id=1e_anion; never infer identity from array order or value proximity. Duplicate or missing identities do not establish coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*]"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": -5.18,
+      "unit": "eV",
+      "tolerance": 0.3,
+      "reference_id": "kp_pr_result_1e",
+      "type": "numeric"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "expected": "Submitted values support substituent-dependent HOMO tuning and a more negative value for the para-CF3 system. Check the signed difference against both same-protocol values after identity matching; a pair of wide individual tolerances alone does not establish ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_final_tuning",
+      "type": "semantic"
+    }
+  ],
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -1,0 +1,335 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/structures",
+    "report/figures"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "species",
+      "conclusion",
+      "contact_summary",
+      "charge_summary"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "optimization",
+          "frequency",
+          "charge_analysis",
+          "mapping_notes"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "optimization": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "string"
+          },
+          "charge_analysis": {
+            "type": "string"
+          },
+          "mapping_notes": {
+            "type": "string",
+            "description": "Input-to-output atom mapping for each species, including tracked O49/P46, graph-defined alphaH/betaH sets, selected nearest H and any exact ties. The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+          }
+        }
+      },
+      "species": {
+        "type": "array",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "status"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "computed",
+                "failed"
+              ]
+            }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "structure_file": {
+                  "type": "string"
+                },
+                "imaginary_frequency_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "distances": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "label",
+                      "atom_indices",
+                      "value_angstrom"
+                    ],
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "description": "Use O_P_A, O_alphaH_A or O_betaH_A for primary contacts. Other contacts must have distinct auxiliary labels."
+                      },
+                      "atom_indices": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      },
+                      "value_angstrom": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "description": "Primary O_P_A/O_alphaH_A/O_betaH_A pairs use the same tracked O49. Give selected pairs and values, and label auxiliary contacts separately. The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+                },
+                "charges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "atom_index",
+                      "role",
+                      "value_e"
+                    ],
+                    "properties": {
+                      "atom_index": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "role": {
+                        "type": "string"
+                      },
+                      "value_e": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "description": "Report all N-ethyl alphaH/betaH ADCH charges with atom mappings. Highlighted contact-H values must use the same nearest H atoms selected by the public O49 distance rule on that species; no hidden source-selected H is required. The free species has no O contact selection. Preserve signed per-site values; any means are auxiliary, not replacements for individual sites."
+                },
+                "mep_observation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "structure_file",
+                "imaginary_frequency_count",
+                "distances",
+                "charges",
+                "mep_observation"
+              ]
+            },
+            {
+              "properties": {
+                "failure_reason": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "missing_observables": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "failure_reason"
+              ]
+            }
+          ]
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "mechanistic_claim",
+          "supporting_observations",
+          "confidence"
+        ],
+        "properties": {
+          "mechanistic_claim": {
+            "type": "string"
+          },
+          "supporting_observations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "alternative_or_scope": {
+            "type": "string",
+            "description": "Optional commentary; not an independent scoring requirement."
+          },
+          "confidence": {
+            "type": "string"
+          }
+        }
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional commentary; omission or an empty value does not affect scientific or process scores."
+      },
+      "contact_summary": {
+        "type": "object",
+        "required": [
+          "PO",
+          "PA"
+        ],
+        "properties": {
+          "PO": {
+            "type": "object",
+            "required": [
+              "O_P_A",
+              "O_alphaH_A",
+              "O_betaH_A"
+            ],
+            "properties": {
+              "O_P_A": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "Distance from O49 to P46 in angstrom; preserve selected atom indices in species[].distances and the input-to-output map in method.mapping_notes."
+              },
+              "O_alphaH_A": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "Minimum distance from O49 to the graph-defined N-ethyl alphaH set in angstrom; preserve selected atom indices in species[].distances and the input-to-output map in method.mapping_notes."
+              },
+              "O_betaH_A": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "Minimum distance from O49 to the graph-defined N-ethyl betaH set in angstrom; preserve selected atom indices in species[].distances and the input-to-output map in method.mapping_notes."
+              }
+            },
+            "description": "PO primary values from one optimized geometry and the same tracked O49. Null means unavailable in a documented bounded failure, not zero or another contact."
+          },
+          "PA": {
+            "type": "object",
+            "required": [
+              "O_P_A",
+              "O_alphaH_A",
+              "O_betaH_A"
+            ],
+            "properties": {
+              "O_P_A": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "Distance from O49 to P46 in angstrom; preserve selected atom indices in species[].distances and the input-to-output map in method.mapping_notes."
+              },
+              "O_alphaH_A": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "Minimum distance from O49 to the graph-defined N-ethyl alphaH set in angstrom; preserve selected atom indices in species[].distances and the input-to-output map in method.mapping_notes."
+              },
+              "O_betaH_A": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "Minimum distance from O49 to the graph-defined N-ethyl betaH set in angstrom; preserve selected atom indices in species[].distances and the input-to-output map in method.mapping_notes."
+              }
+            },
+            "description": "PA primary values from one optimized geometry and the same tracked O49. Null means unavailable in a documented bounded failure, not zero or another contact."
+          }
+        },
+        "description": "The primary contact oxygen is input atom-map ID 49 in each of PO and PA; P is ID 46. PA O49 is the oxygen drawn as C48=O49 in the supplied mapped graph, not O50 or acyl O51. Track the designated input atoms under documented equivalent renumbering; do not exchange oxygens based on distances or target agreement. Use the same O49 for O_P_A and both H contacts on each optimized geometry; select the nearest H separately within all N-ethyl alphaH and betaH graph-defined sets. Break exact H-distance ties by the smallest input atom-map ID and disclose the tie. No averaging or minimization across different oxygens. Verify summaries against species[].distances and method.mapping_notes; keep other O/H contacts as auxiliary evidence."
+      },
+      "charge_summary": {
+        "type": "object",
+        "required": [
+          "free",
+          "PO",
+          "PA"
+        ],
+        "properties": {
+          "free": {
+            "type": "object",
+            "required": [
+              "P_e"
+            ],
+            "properties": {
+              "P_e": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            }
+          },
+          "PO": {
+            "type": "object",
+            "required": [
+              "P_e"
+            ],
+            "properties": {
+              "P_e": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            }
+          },
+          "PA": {
+            "type": "object",
+            "required": [
+              "P_e"
+            ],
+            "properties": {
+              "P_e": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

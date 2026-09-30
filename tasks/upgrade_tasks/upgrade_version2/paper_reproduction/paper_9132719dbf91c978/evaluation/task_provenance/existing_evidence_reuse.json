@@ -1,0 +1,749 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "items": [
+    {
+      "path": "docs/verification/group_4/paper_9132719dbf91c978/provenance/terminal_h2_closure_20260923/result.json",
+      "sha256": "71ae33985e006817eb1fe4c8ef9e39f590d75c2bab9498c329685e0cd88d1be4",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/verification/group_4/paper_9132719dbf91c978/report/results.json",
+      "sha256": "4cd2a9c8752df8c9eb112007c63dc0f5ec62ec5ee07cf657b3907f371d2e8b4e",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_6/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "733d1efabb39deac239f2318d48fc7385a9faa720b2a206bfeede892b4a158fa",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_9132719dbf91c978",
+        "title": "Pd 成氢、释放与 DMAc 再配位",
+        "disposition": "needs_work",
+        "interim": true,
+        "scientifically_validated": false,
+        "current_package_hashes": {
+          "AR": "57c057854774088d9f905c09cc5f014775f46bcf471ed1aff1b3d41b29f268b8",
+          "PR": "86afbf185444ec493d87a3c5629b97e206da113e8686d5ab216c70329927e9b1"
+        },
+        "current_combined_sha256": "78cb9d0896154d12a78101ead7b5a904a06e0b6b497e421a12beedb8960cfbcb",
+        "binding_checks": [
+          {
+            "mode": "AR",
+            "current_path": "tasks/upgrade_tasks/autonomous_research/paper_9132719dbf91c978",
+            "package_content_sha256": "57c057854774088d9f905c09cc5f014775f46bcf471ed1aff1b3d41b29f268b8",
+            "manifest_sha256": "3b1ff10b2e747126a4988bafe923a40dbe41363142ab6b9f1045b78d5bd58ac8",
+            "checked_manifest_entry_count": 29,
+            "binding_source": "docs/upgrade_tasks_verification/coordination/ready/paper_9132719dbf91c978.json",
+            "matches_current_binding": true,
+            "mismatch": [],
+            "official_payload_hash_recomputed": true
+          },
+          {
+            "mode": "PR",
+            "current_path": "tasks/upgrade_tasks/paper_reproduction/paper_9132719dbf91c978",
+            "package_content_sha256": "86afbf185444ec493d87a3c5629b97e206da113e8686d5ab216c70329927e9b1",
+            "manifest_sha256": "7b4255a960153fbefc8e13ce82896d0a44266ab908d9fa6f23021e9c9e1c06cb",
+            "checked_manifest_entry_count": 29,
+            "binding_source": "docs/upgrade_tasks_verification/coordination/ready/paper_9132719dbf91c978.json",
+            "matches_current_binding": true,
+            "mismatch": [],
+            "official_payload_hash_recomputed": true
+          }
+        ],
+        "scientific_summary": "PdDMAc A高层MN15完成，同映射/末态图及SCF验收，E=-2677.17358603Eh；B PBE0-D3BJ未提交输入资源从20/100降为4/16，科学route/几何/阈值字节保持并留快照，已成功派发。其余A/B配对保持原作业，后续统一标准态与捕获热力学。 MN15构型A捕获ΔG=+0.40249、释放并捕获+0.41407kcal/mol，元素守恒与代数闭合；DMAc参考1M、H2气相1atm，不推断动力学或纯溶剂活度。",
+        "remaining": "再配位端点/高层单点及 PBE0-D3BJ/TZVP 敏感性，统一压力与标准态循环",
+        "scientific_review_reports": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/progress.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/progress.md",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/evaluator_mapping.json"
+        ],
+        "raw_evidence": [
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/legacy/independent_reaudit.json",
+            "sha256": "c2b4c562a081bb143a026e742cc282066500d5a457c0273cf467d967b3a71c7d"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/partial_thermodynamic_ledger.json",
+            "sha256": "c5247d29e90ba3188d02289aa08614d1ef6a1cdcc12b5e3a1911490c504e4b76"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/provenance/method_sensitivity_preparation.json",
+            "sha256": "f5abf8e00d749228fa56150b51b37641fbbda22d29f02218a96a35ec47724c36"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/H2_release_method_sensitivity.json",
+            "sha256": "a0c4780f89bbcd684609e40fad5d279dfb26f62a2225d1977ef21ca88eb80518"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/takeover_returned_outputs.json",
+            "sha256": "08fd54a84556506dbd5f3005c6df15f64168c57f02d2c2ffe319d3b5d2ae46c0"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/PdDMAc_minima_audit.json",
+            "sha256": "78c4d0525e273e00cab399d1db86626de920cdf5b0c1b133d46b335f9861a40d"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/capture_cycle_interim.json",
+            "sha256": "00e79ab9376e49c09f117c9d9c55e5506db5763f97581d6f351574f5bf74c2c8"
+          }
+        ],
+        "check_outputs": [
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/legacy/independent_reaudit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/partial_thermodynamic_ledger.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/provenance/method_sensitivity_preparation.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/H2_release_method_sensitivity.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/takeover_returned_outputs.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/PdDMAc_minima_audit.json",
+          "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/capture_cycle_interim.json"
+        ],
+        "AR_status": "incomplete",
+        "PR_status": "incomplete",
+        "evaluator_status": "final submission not yet evaluated",
+        "active_jobs": [
+          {
+            "scientific_case_id": "PdDMAc_B_MN15_TZ_DMAC_sp",
+            "job_id": "hpc-job-c0b44815-023b-40a0-9cfb-1cfbdc372b86",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "QUEUEING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T13:58:08.696483+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "f6b836c2c6fffc70a110d823862ccbf0436cbb40636b688e0122d20395484ca7",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_MN15_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790603888000",
+              "resources_prepared_at": "1790604505000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [],
+            "checkpoint_paths": [],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "PdDMAc_A_PBE0D3_TZ_DMAC_sp",
+            "job_id": "hpc-job-83a36a19-8861-4962-8156-19accf1c16e2",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "QUEUEING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:03:59.900287+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "2c1ce258d14725262ed7d3fcee4d481add764127820402d378fb175f39afe282",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790604239000",
+              "resources_prepared_at": "1790604878000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [],
+            "checkpoint_paths": [],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "PdDMAc_B_PBE0D3_TZ_DMAC_sp",
+            "job_id": "hpc-job-b75fa40a-0240-4195-a4ae-e5c036fe7744",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:39:52.757457+00:00",
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "6a0698afe6992a93b16303849b620261fd1471a0bddb5ff3902f592ea0abfbc1",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790606392000",
+              "resources_prepared_at": "1790607014000",
+              "started_at": "1790607160000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_PBE0D3_TZ_DMAC_sp/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_PBE0D3_TZ_DMAC_sp/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          }
+        ],
+        "attempts": [
+          {
+            "scientific_case_id": "DMAc_source_optfreq",
+            "job_id": "hpc-job-dd18173e-7d40-402d-8d9f-035ff21d0d64",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T03:45:14.495185+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "19e377dc35ef8b7cf855d292d68b7b174695d2ce155b24359b161419801143a1",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_source_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790567114000",
+              "finished_at": "1790567619000",
+              "released_at": "1790567646000",
+              "resources_prepared_at": "1790567228000",
+              "started_at": "1790567421000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T03:52:43Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_source_optfreq/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_source_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_source_optfreq/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_source_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_source_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "PdDMAc_A_source_optfreq",
+            "job_id": "hpc-job-af833c9b-7858-4799-ab1b-9f1f56c7cc81",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T03:45:15.219108+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "41eb038455e3725174f1631a39d6cdc8aed426b2be29f0718f3d5ab8b3e37a50",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_source_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790567115000",
+              "finished_at": "1790586139000",
+              "released_at": "1790586185000",
+              "resources_prepared_at": "1790567230000",
+              "started_at": "1790567492000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T09:01:20Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_source_optfreq/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_source_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_source_optfreq/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_source_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_source_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "H2_MN15_gas_sp",
+            "job_id": "hpc-job-569e1bcf-2623-421f-9690-7a33eaee38dd",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T03:54:18.475187+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "9539b7c772d9b6ea669659f4a19d3b1d2ccf8913a74bfe17e823d543fb202d6e",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_MN15_gas_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790567658000",
+              "finished_at": "1790567914000",
+              "released_at": "1790567941000",
+              "resources_prepared_at": "1790567774000",
+              "started_at": "1790567861000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T03:58:09Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_MN15_gas_sp/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_MN15_gas_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_MN15_gas_sp/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_MN15_gas_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_MN15_gas_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "DMAc_MN15_DMAC_sp",
+            "job_id": "hpc-job-46a0051e-eb3c-49ff-878f-8f13220ae647",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T04:01:37.736514+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "90d642faddaeae9aeead2d150ed6340dfe50141decbef53c70a955cf0c62dfbc",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_MN15_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790568097000",
+              "finished_at": "1790569202000",
+              "released_at": "1790569229000",
+              "resources_prepared_at": "1790568212000",
+              "started_at": "1790569108000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T04:19:23Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_MN15_DMAC_sp/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_MN15_DMAC_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_MN15_DMAC_sp/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_MN15_DMAC_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_MN15_DMAC_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "boundH2_MN15_DMAC_sp",
+            "job_id": "hpc-job-f7763c34-dd14-48bb-aa4c-07ed0a797312",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T05:46:56.146927+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "72135219d9f9c729a2e287ba4132303849df0227bd5381d211667b34407ff4cd",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_MN15_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790574416000",
+              "finished_at": "1790576668000",
+              "released_at": "1790576694000",
+              "resources_prepared_at": "1790574553000",
+              "started_at": "1790574613000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:24:00Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_MN15_DMAC_sp/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_MN15_DMAC_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_MN15_DMAC_sp/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_MN15_DMAC_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_MN15_DMAC_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "PdDMAc_B_source_optfreq",
+            "job_id": "hpc-job-d62c62b9-3083-4c41-a45a-d4d02676a9cb",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T05:46:56.888936+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "5fcbca3623a5c9d2fd590df1e9d9187bbd6c498d638e79d83a10cfa2a699490a",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_source_optfreq/attempt_01",
+            "timeline": {
+              "created_at": "1790574416000",
+              "finished_at": "1790595952000",
+              "released_at": "1790596090000",
+              "resources_prepared_at": "1790574554000",
+              "started_at": "1790574613000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T11:43:22Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_source_optfreq/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_source_optfreq/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_source_optfreq/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_source_optfreq/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_source_optfreq/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "H2_PBE0D3_TZ_gas_sp",
+            "job_id": null,
+            "pid": 1169019,
+            "process_start_ticks": "1614546878",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "e313292726cf3f6fd0566b5e9d36deab8d84fcfc55a3fe6f89f5f9d3ed375506",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_PBE0D3_TZ_gas_sp/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:05:36.730716+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_PBE0D3_TZ_gas_sp/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_PBE0D3_TZ_gas_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_PBE0D3_TZ_gas_sp/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_PBE0D3_TZ_gas_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/H2_PBE0D3_TZ_gas_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "DMAc_PBE0D3_TZ_DMAC_sp",
+            "job_id": null,
+            "pid": 1212363,
+            "process_start_ticks": "1614554533",
+            "host": "lfy-54-cpu-1--bd39998ea947-4njffkzazb",
+            "status": "completed_native_review_required",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": null,
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "6ce74cf6d3e8ea00b16dbf04d6344d7de724c4cbfbda234721d32dabf2b845ca",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": null,
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:07:32.396929+00:00",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_PBE0D3_TZ_DMAC_sp/attempt_01/stdout.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_PBE0D3_TZ_DMAC_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_PBE0D3_TZ_DMAC_sp/attempt_01/run.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_PBE0D3_TZ_DMAC_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/DMAc_PBE0D3_TZ_DMAC_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "boundH2_PBE0D3_TZ_DMAC_sp",
+            "job_id": "hpc-job-1a9a41c8-7239-4a38-94cc-c60272915a05",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T06:24:49.364812+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "f5355aea51d5a7487eb1dfafd38b04abfb7e9878a949bd3698352820e30b2aa9",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790576689000",
+              "finished_at": "1790579430000",
+              "released_at": "1790579455000",
+              "resources_prepared_at": "1790576828000",
+              "started_at": "1790576889000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T07:09:58Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_PBE0D3_TZ_DMAC_sp/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_PBE0D3_TZ_DMAC_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_PBE0D3_TZ_DMAC_sp/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_PBE0D3_TZ_DMAC_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/boundH2_PBE0D3_TZ_DMAC_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "Pd0_PBE0D3_TZ_DMAC_sp",
+            "job_id": "hpc-job-b5e1df15-2f08-4db6-b4ce-74ae30b3f940",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T06:24:50.320639+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "4c78d2b3004376a68e5f385136c6540f1dba3ad0fbb68b36abf0bf2a4a3c5ddb",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/Pd0_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790576690000",
+              "finished_at": "1790578827000",
+              "released_at": "1790578854000",
+              "resources_prepared_at": "1790576829000",
+              "started_at": "1790576890000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T06:59:44Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/Pd0_PBE0D3_TZ_DMAC_sp/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/Pd0_PBE0D3_TZ_DMAC_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/Pd0_PBE0D3_TZ_DMAC_sp/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/Pd0_PBE0D3_TZ_DMAC_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/Pd0_PBE0D3_TZ_DMAC_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "PdDMAc_A_MN15_TZ_DMAC_sp",
+            "job_id": "hpc-job-db6e32d5-441a-48c1-a931-1ba627a9f482",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "SUCCEEDED",
+            "last_observed_at": "2026-09-28T14:59:13.282490+00:00",
+            "submitted_at": "2026-09-28T13:21:43.340623+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "c23317d606f01128501cc068daa4a542bd58a958f4e475666cd55421cc9895ca",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_MN15_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790601703000",
+              "finished_at": "1790606116000",
+              "released_at": "1790606279000",
+              "resources_prepared_at": "1790602283000",
+              "started_at": "1790602993000"
+            },
+            "native_return_code": 0,
+            "native_finished_at": "2026-09-28T14:32:23Z",
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_MN15_TZ_DMAC_sp/attempt_01/gaussian.log",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_MN15_TZ_DMAC_sp/attempt_01/native_audit.json",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_MN15_TZ_DMAC_sp/attempt_01/status.json"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_MN15_TZ_DMAC_sp/attempt_01/state.chk",
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_MN15_TZ_DMAC_sp/attempt_01/state.fchk"
+            ],
+            "active_or_unresolved_at_handoff": false,
+            "disposition": "Preserve terminal artifacts; no rerun."
+          },
+          {
+            "scientific_case_id": "PdDMAc_B_MN15_TZ_DMAC_sp",
+            "job_id": "hpc-job-c0b44815-023b-40a0-9cfb-1cfbdc372b86",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "QUEUEING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T13:58:08.696483+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "f6b836c2c6fffc70a110d823862ccbf0436cbb40636b688e0122d20395484ca7",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_MN15_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790603888000",
+              "resources_prepared_at": "1790604505000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [],
+            "checkpoint_paths": [],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "PdDMAc_A_PBE0D3_TZ_DMAC_sp",
+            "job_id": "hpc-job-83a36a19-8861-4962-8156-19accf1c16e2",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "QUEUEING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:03:59.900287+00:00",
+            "threads": 20,
+            "memory_gib": 100,
+            "input_sha256": "2c1ce258d14725262ed7d3fcee4d481add764127820402d378fb175f39afe282",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_A_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790604239000",
+              "resources_prepared_at": "1790604878000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [],
+            "checkpoint_paths": [],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          },
+          {
+            "scientific_case_id": "PdDMAc_B_PBE0D3_TZ_DMAC_sp",
+            "job_id": "hpc-job-b75fa40a-0240-4195-a4ae-e5c036fe7744",
+            "pid": null,
+            "process_start_ticks": null,
+            "host": null,
+            "status": "RUNNING",
+            "last_observed_at": "2026-09-28T15:05:04.174374+00:00",
+            "submitted_at": "2026-09-28T14:39:52.757457+00:00",
+            "threads": 4,
+            "memory_gib": 16,
+            "input_sha256": "6a0698afe6992a93b16303849b620261fd1471a0bddb5ff3902f592ea0abfbc1",
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_PBE0D3_TZ_DMAC_sp/attempt_01",
+            "timeline": {
+              "created_at": "1790606392000",
+              "resources_prepared_at": "1790607014000",
+              "started_at": "1790607160000"
+            },
+            "native_return_code": null,
+            "native_finished_at": null,
+            "native_logs": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_PBE0D3_TZ_DMAC_sp/attempt_01/gaussian.log"
+            ],
+            "checkpoint_paths": [
+              "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/outputs/PdDMAc_B_PBE0D3_TZ_DMAC_sp/attempt_01/state.chk"
+            ],
+            "active_or_unresolved_at_handoff": true,
+            "disposition": "Preserve existing job; collect results under separately assigned ownership. UNKNOWN or absent PID on another host does not authorize resubmission."
+          }
+        ],
+        "prepared_not_submitted": [],
+        "known_new_native_allocated_core_hours": 271.791,
+        "resource_totals_complete": false,
+        "unresolved_issues": [
+          "再配位端点/高层单点及 PBE0-D3BJ/TZVP 敏感性，统一压力与标准态循环"
+        ],
+        "package_repair_status": "No new task-package mutation during this resumed segment; frozen package binding checked above.",
+        "packages_frozen": true,
+        "development_handoff_ready": true,
+        "scientific_validation_complete": false,
+        "freeze_disposition": "Release task-package write ownership for content-development handoff. Scientific gaps remain; no new jobs or package writes by this controller."
+      },
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "allowed_use": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/legacy/independent_reaudit.json",
+      "sha256": "c2b4c562a081bb143a026e742cc282066500d5a457c0273cf467d967b3a71c7d",
+      "frozen_sha256": "c2b4c562a081bb143a026e742cc282066500d5a457c0273cf467d967b3a71c7d",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/partial_thermodynamic_ledger.json",
+      "sha256": "c5247d29e90ba3188d02289aa08614d1ef6a1cdcc12b5e3a1911490c504e4b76",
+      "frozen_sha256": "c5247d29e90ba3188d02289aa08614d1ef6a1cdcc12b5e3a1911490c504e4b76",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/provenance/method_sensitivity_preparation.json",
+      "sha256": "f5abf8e00d749228fa56150b51b37641fbbda22d29f02218a96a35ec47724c36",
+      "frozen_sha256": "f5abf8e00d749228fa56150b51b37641fbbda22d29f02218a96a35ec47724c36",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/H2_release_method_sensitivity.json",
+      "sha256": "a0c4780f89bbcd684609e40fad5d279dfb26f62a2225d1977ef21ca88eb80518",
+      "frozen_sha256": "a0c4780f89bbcd684609e40fad5d279dfb26f62a2225d1977ef21ca88eb80518",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/takeover_returned_outputs.json",
+      "sha256": "08fd54a84556506dbd5f3005c6df15f64168c57f02d2c2ffe319d3b5d2ae46c0",
+      "frozen_sha256": "08fd54a84556506dbd5f3005c6df15f64168c57f02d2c2ffe319d3b5d2ae46c0",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/PdDMAc_minima_audit.json",
+      "sha256": "78c4d0525e273e00cab399d1db86626de920cdf5b0c1b133d46b335f9861a40d",
+      "frozen_sha256": "78c4d0525e273e00cab399d1db86626de920cdf5b0c1b133d46b335f9861a40d",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_6/papers/paper_9132719dbf91c978/report/capture_cycle_interim.json",
+      "sha256": "00e79ab9376e49c09f117c9d9c55e5506db5763f97581d6f351574f5bf74c2c8",
+      "frozen_sha256": "00e79ab9376e49c09f117c9d9c55e5506db5763f97581d6f351574f5bf74c2c8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+      "scope": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+      "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "SourceINT-G/full-XantPhos coordinates and previous localH2 andDMAc computations support a manageable molecular problem. Existing solvent-capture thermochemistry remains a partial model result, not a validated complete recovery route. Full ligand SMILES formulaC39H32OP2 was checked offline; no scientific job was started.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Full Pd/XantPhos inventory, MN15/def2-TZVP SMD DMAc single points on PBE0-D3BJ/SVP geometry baseline; partial 298.15 K ledger uses DMAc solute 1 M and H2 gas 1 atm.",
+    "allowed": "Reuse version-bound H2-release/capture thermodynamic entries and mapped minima with exact phase/standard states. Keep interim and sensitivity records explicitly interim.",
+    "not_supported": "A single DMAc capture free energy does not establish pure-solvent activity, a rate, full turnover or completed method sensitivity. Historical queued/prepared work is not a result."
+  },
+  "new_scientific_calculations_performed": false
+}

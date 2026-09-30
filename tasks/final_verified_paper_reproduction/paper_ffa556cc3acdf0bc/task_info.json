@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_ffa556cc3acdf0bc",
+  "task_type": "paper_reproduction",
+  "title": "Independent DP4+ relative-configuration assignment of pyrethalkaline A",
+  "category": "quantum-chemical NMR stereochemical assignment",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The candidates and observables are fixed, but the Agent must choose and validate a defensible NMR/DP4+ workflow and conformer treatment."
+  ],
+  "paper": {
+    "title": "Discovery of pyrethalkalines A and B as potent analgesics with unprecedented chemical skeletons dual targeting TRPM8 and Kv1.2 ion channels",
+    "doi": "10.1016/j.cclet.2025.111938",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-04-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Experimental shifts, two relative-configuration candidates with two conformers each (four complete XYZ geometries), and input manifest."
+    },
+    {
+      "path": "data/inputs/carbon_label_mapping.json",
+      "description": "Identity-only mapping of experimental carbon labels to all four candidate XYZ atom lists."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computational comparison and relative-configuration conclusion."
+    }
+  ]
+}

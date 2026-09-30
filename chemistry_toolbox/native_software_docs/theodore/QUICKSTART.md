@@ -23,15 +23,15 @@ generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + 
 The runner creates an isolated job directory and executes the resolved binary there without a shell. Relative paths in arguments and input files resolve from that directory, not from the benchmark workspace root. `source_path` is workspace-relative; `target_path` is job-relative. Stage nested dependencies explicitly. The runner captures `request.json`, `stdout.log`, `stderr.log`, status, hashes, and collected artifacts.
 
 ## Input mode
-The primary executable is `theodore` and its input mode is `arguments`.
+The primary executable is `theodore_compat` and its input mode is `arguments`.
 Required inputs: `orbital`, `dens_ana.in`.
 Expected outputs: stdout/stderr or task-dependent outputs only.
 Example classification: `scientific_template`.
-Output behavior: Writes state-character tables, charge-transfer metrics, plots, and requested analysis files.
+Output behavior: Uses the explicit theodore-reader-1 adapter for known ORCA tables. Preserves native scientific analysis and missing-data errors; does not rerun calculations.
 
 ## Native command template
 ```bash
-theodore analyze_tden -f dens_ana.in
+theodore_compat analyze_tden -f dens_ana.in
 ```
 Run that command only inside a directory containing the exact referenced files. The toolbox resolves the executable itself; do not embed shell redirection, pipes, `cd`, or environment activation in `arguments`.
 
@@ -39,7 +39,7 @@ Run that command only inside a directory containing the exact referenced files. 
 ```json
 {
   "software_id": "theodore",
-  "executable": "theodore",
+  "executable": "theodore_compat",
   "arguments": [
     "analyze_tden",
     "-f",

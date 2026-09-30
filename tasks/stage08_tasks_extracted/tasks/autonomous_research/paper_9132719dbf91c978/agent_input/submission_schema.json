@@ -1,0 +1,213 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "method",
+      "investigation",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "input_path"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "input_path": {
+            "type": "string"
+          }
+        }
+      },
+      "stationary_point": {
+        "type": "object",
+        "required": [
+          "minimum_n_imaginary",
+          "ts_n_imaginary",
+          "ts_frequency_cm1"
+        ],
+        "properties": {
+          "minimum_n_imaginary": {
+            "type": "integer"
+          },
+          "ts_n_imaginary": {
+            "type": "integer"
+          },
+          "ts_frequency_cm1": {
+            "type": "number"
+          }
+        }
+      },
+      "barrier": {
+        "type": "object",
+        "required": [
+          "value_kcal_mol",
+          "reference_state",
+          "uncertainty_kcal_mol"
+        ],
+        "properties": {
+          "value_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "reference_state": {
+            "type": "string"
+          },
+          "uncertainty_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "connection_evidence": {
+        "type": "object",
+        "required": [
+          "method",
+          "supports_both_endpoints"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "supports_both_endpoints": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "electronic_structure",
+          "solvent",
+          "thermal_convention"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "electronic_structure": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "thermal_convention": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "investigation": {
+        "type": "object",
+        "required": [
+          "attempts",
+          "completion_basis",
+          "stopping_criterion"
+        ],
+        "properties": {
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "label",
+                "outcome",
+                "material_to_conclusion"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string"
+                },
+                "material_to_conclusion": {
+                  "type": "boolean"
+                },
+                "diagnostics": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "completion_basis": {
+            "type": "string"
+          },
+          "stopping_criterion": {
+            "type": "string"
+          }
+        }
+      },
+      "failure_report": {
+        "type": "object",
+        "required": [
+          "reason",
+          "attempted_search",
+          "available_diagnostics"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "attempted_search": {
+            "type": "string"
+          },
+          "available_diagnostics": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "stationary_point",
+          "barrier",
+          "connection_evidence"
+        ]
+      },
+      {
+        "required": [
+          "failure_report"
+        ]
+      }
+    ]
+  }
+}

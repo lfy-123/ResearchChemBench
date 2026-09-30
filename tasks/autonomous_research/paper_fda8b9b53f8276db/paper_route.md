@@ -1,5 +1,7 @@
 # Private paper route
 
+> Packaging note (2026-08-30): CCDC 2433822 is now supplied directly as `agent_input/data/inputs/ccdc_2433822.cif`; database retrieval is not scored. Molecular-component selection, atom mapping and geometry comparison remain evaluated work.
+
 ## 1. Scientific objective and author claim
 
 The authors used DFT to test whether the isolated free ligand 6,7-dimethyl-2-(pyridin-2-yl)quinoxaline (compound 1) has a stable optimized geometry consistent with its single-crystal structure. They claim that most optimized bond lengths agree within 0.002–0.006 Å, with bond-length RMSE 0.004 Å and linear-fit R² 0.998, and that vibrational analysis gives a local minimum with no imaginary frequencies.
@@ -28,3 +30,7 @@ The reported ligand-1 bond-length RMSE is 0.004 Å; the reported regression is d
 ## 6. Limitations and interpretation boundaries
 
 This is a molecule-versus-crystal-geometry validation, not a prediction of crystal packing, polymorphism, solution structure, or experimental spectroscopy. Alternative defensible computational methods may be reported, but comparison must identify method sensitivity and cannot claim exact reproduction if the input record, atom mapping, or observable definition changes. The authors' gas-phase conformer can differ in ring orientation from the packed crystal.
+
+## 2026-09-18 source-domain clarification
+
+SI TableS2 S10-S11 has six paired experimental/theoretical distances for ligand1; C6-C6A1 has an experimental entry only. The six pairs independently reconstruct the printed RMSE and all three regression coefficients. The public task now fixes these six deposited-label bonds as the primary observable, while preserving wider comparisons. The numeric target0.004 and tolerance0.01 are unchanged. This is a source-proven observable correction, not an approved goal reduction or use of a more favorable computed subset. Source cis is a local minimum; neither source nor this audit proves a global minimum.

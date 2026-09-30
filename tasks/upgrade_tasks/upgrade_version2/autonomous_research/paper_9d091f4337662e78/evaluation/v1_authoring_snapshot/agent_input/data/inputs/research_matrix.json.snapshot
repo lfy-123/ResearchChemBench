@@ -1,0 +1,38 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "scope": "Determine the supported absolute-configuration set at mapped stereocenter17 of compound1 from independently searched R/S conformer ensembles and experimental ECD, using a held-out spectral band and explicit sampling/broadening uncertainty.",
+  "species": [
+    {
+      "id": "candidate_R",
+      "mapped_smiles": "[cH:1]1[cH:3][c:5]([OH:19])[c:7]2[c:9]([cH:11]1)[C@H:17]([CH2:21][c:23]1[c:25]([CH3:37])[n:27][c:29](/[CH:39]=[CH:41]/[c:43]3[cH:45][cH:47][cH:49][c:51]([OH:6])[c:53]3[CH2:2][OH:4])[c:31]([CH3:35])[n:33]1)[O:15][CH2:13]2",
+      "formula": "C24H24N2O4",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Source connectivity; absolute center17 intentionally enumerated both ways, no winning configuration or conformers supplied.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "candidate_S",
+      "mapped_smiles": "[cH:1]1[cH:3][c:5]([OH:19])[c:7]2[c:9]([cH:11]1)[C@@H:17]([CH2:21][c:23]1[c:25]([CH3:37])[n:27][c:29](/[CH:39]=[CH:41]/[c:43]3[cH:45][cH:47][cH:49][c:51]([OH:6])[c:53]3[CH2:2][OH:4])[c:31]([CH3:35])[n:33]1)[O:15][CH2:13]2",
+      "formula": "C24H24N2O4",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Source connectivity; absolute center17 intentionally enumerated both ways, no winning configuration or conformers supplied.",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "unassigned_connectivity": "[c:1]1([H:8])[c:3]([H:10])[c:5]([O:19][H:20])[c:7]2[c:9]([c:11]1[H:12])[C:17]([H:18])([C:21]([H:22])([c:23]1[c:25]([C:37]([H:32])([H:34])[H:36])[n:27][c:29](/[C:39]([H:38])=[C:41](\\[H:40])[c:43]3[c:45]([H:42])[c:47]([H:44])[c:49]([H:46])[c:51]([O:6][H:54])[c:53]3[C:2]([O:4][H:52])([H:48])[H:50])[c:31]([C:35]([H:26])([H:28])[H:30])[n:33]1)[H:24])[O:15][C:13]2([H:14])[H:16]",
+    "ensemble": "Generate independent R and S searches (no optimization from the three old answer-like conformers), record seeds and coverage. Low-cost sampling may use xTB/CREST or systematic torsions; refine a converged set with consistent DFT frequencies/free energies at298.15K. Increase search/cutoff until population/spectral changes stabilize; retaining only the old three conformers is not coverage.",
+    "stereochemistry": "Check CIP17 and mirror pairing after every optimization. Mirror-related electronic/free energies should match within numerical uncertainty; opposite ECD sign, not energy ranking, is the relevant control.",
+    "thermochemistry": "Use one gas or solution ensemble free-energy convention across both hypotheses; baseline qRRHO 100cm^-1 at298.15K and1M, disclose solvent treatment. TD-ECD in methanol. Check50/100cm^-1 and energy-window/population cutoff sensitivity.",
+    "spectral_freeze": "Before judging the heldout205–239nm band, freeze functional, sign, broadening (baseline Gaussian0.20eV FWHM; sensitivity0.15/0.25eV), and zero energy shift. Permit only an explicitly preregistered UV-based global correction independent of ECD assignment, applied equally to both. 241–395nm is a diagnostic tail, not permission to tune a candidate-specific sign/shift.",
+    "score": "Compare shape, sign and uncertainty-calibrated residuals with experimental points; molecular ECD intensity may need concentration uncertainty. Return {R}, {S} or {R,S} only after both full core ensembles and sensitivity tests. Never force a unique label if observations/models cannot separate them."
+  },
+  "source_notes": [
+    "Main PDF p4 Figure2 black experimental trace only; p6 experimental ECD/UV; p7 computational workflow.",
+    "SI p5 TableS1 used privately to assess incompleteness of the old three-conformer scope."
+  ],
+  "molecular_boundary": "The known connectivity and E alkene are fixed; stereocenter17 is the only unresolved absolute label. The two enantiomers in achiral methanol are separate hypotheses, not one Boltzmann equilibrium. No author conformers, assignment or computed ECD are public. Digitized experimental observations have finite plot-reading precision. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Other natural products, synthetic routes and pharmacology are outside this version."
+}

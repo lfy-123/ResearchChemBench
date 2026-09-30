@@ -1,0 +1,221 @@
+{
+  "batch": 4,
+  "reviewed_at": "2026-09-27T11:56:46.200182+00:00",
+  "status": "changes_requested",
+  "scope": "Parent read all16 source-specific boundaries, matrix and evaluator criteria; verified mapping/stoichiometry/reference repairs and optional scope",
+  "papers": [
+    {
+      "paper_id": "paper_3235db287859287e",
+      "expected_matrix": "只选源一个底物的局部氧转移，列有限自由基/离子和不同氧来源候选，保持同位素原子映射与电子/质子守恒。",
+      "parent_scientific_review": "Substrate-O/water-O isotope constraints, OH protection and two connected radical/ionic local routes with reservoir accounting make oxygen-source inference testable; E/Z product stability alone excluded.",
+      "implemented_panels": [
+        "paths",
+        "oxygen_tests",
+        "path_comparison"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_4e9774f4128551d3",
+      "expected_matrix": "固定一个硅化前体、实际质子源及再质子化阶段；两面进攻与必要前体构象比较，条件按反应阶段分列。",
+      "parent_scientific_review": "Explicit mapped O-TMS precursor and racemic CSA, both faces plus common reactant zero and mixed-solvent sensitivity test kinetic selection. Main/SI1:1 versus10:1 discrepancy disclosed.",
+      "implemented_panels": [
+        "facial_paths",
+        "facial_comparison",
+        "racemate_control"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_60f4c45810428116",
+      "expected_matrix": "第一版 B 固定一个源底物的生成、回淬、分解、捕获有限竞争网络，使用可追溯独立参数区间；检验温度/停留时间趋势。",
+      "parent_scientific_review": "Finite conserved reaction network, independent rate ranges, identifiability and true holdout required; remains blocked because RBF yield interpolation/potentials do not supply rates.",
+      "implemented_panels": [
+        "network",
+        "identifiability",
+        "holdout"
+      ],
+      "source_evidence": null,
+      "development_status": "blocked",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_db6c4e0558113873",
+      "expected_matrix": "一个 allene/磺酰氯及论文 Cu 配体的局部竞争出口，比较 Cu 参与与可行氯转移路径，有限开壳层/构象空间。",
+      "parent_scientific_review": "Acac-supported CuIII allyl exits versus matched free-radical Cl transfer include CuI/CuII reservoirs, conformer/stereo and spin accounting; intermediate G cannot replace exit barrier.",
+      "implemented_panels": [
+        "exit_paths",
+        "reservoir_ledger",
+        "stereochemical_control"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_e2d9397dff2a3f0f",
+      "expected_matrix": "先恢复源 Ru N–O 关键步骤的正确端点，再只选一个明确配体干预比较局部主/竞争路径；MeCN 电子/质子参考固定。",
+      "parent_scientific_review": "Correct Ru-bda starter with two pyridines, explicit bda→bcs graph edit and NH3 ledger; N-O displacement/connection must distinguish real cleavage from transverse imaginary mode.",
+      "implemented_panels": [
+        "local_paths",
+        "ligand_effect",
+        "mode_identity"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_fcc3c7f2c46a0fbe",
+      "expected_matrix": "4b/c/h/i 先逐原子确认真实可失 H 位点；限定实际测量介质，对 HAT、SET/PT、SPLET 写守恒的有限循环并做决定性局部路径。",
+      "parent_scientific_review": "Four actual H-donor graphs, ethanol HAT/SET-PT/SPLET cycles and explicit DPPH controls test chemistry instead of invented phenoxide; insoluble assay data not treated as inactivity.",
+      "implemented_panels": [
+        "thermochemical_cycles",
+        "decisive_local_paths",
+        "activity_boundary"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_0e835b370ddd37b6",
+      "expected_matrix": "源 1/V′/4 的 H₂ 活化，保持苯介质、298 K、分离反应物共同零点；沿相同 H–H 坐标比较形变和相互作用。",
+      "parent_scientific_review": "Three actual silylenes including source4, connected H2 activation and matched H-H strain/interaction closure; independent Si descriptors do not establish mechanism.",
+      "implemented_panels": [
+        "activation_paths",
+        "matched_coordinate_decomposition",
+        "causal_comparison"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_9132719dbf91c978",
+      "expected_matrix": "原 Pd 二氢化物→结合 η²-H₂→分离 H₂/再配位有限步骤，实际溶剂、浓度和气体标准态明确，保留局部和全局零点。",
+      "parent_scientific_review": "Full Pd/XantPhos H-H formation, bound H2, separated H2 and DMAc recoordination with 1atm/1M accounting distinguish local saddle from release/turnover.",
+      "implemented_panels": [
+        "HH_formation",
+        "release_and_recoordination",
+        "standard_state_control"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_534ae3b6e2fb695f",
+      "expected_matrix": "真实 TMC 与论文三种胺的同一首步酰化，固定质子接收体、Cl 离去与介质；代表进攻构象与变形/相互作用对照。",
+      "parent_scientific_review": "TMC becomes actual shared reactant for ODA/6FODA/PFMB, proton/Cl-HCl ledger and matched-coordinate decomposition link descriptors to first-acylation paths only.",
+      "implemented_panels": [
+        "first_acylation",
+        "descriptors_vs_barriers",
+        "distortion_interaction"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_6f9a36fff6964313",
+      "expected_matrix": "首版明确只选环氧化或 CO₂ 环加成一个阶段，固定双功能与匹配单功能模型；实际 TS 与预组织控制同计量。",
+      "parent_scientific_review": "One KI-promoted epoxide-opening stage, full catalyst/OTf/KI/H2O/CO2 inventory, terminal/benzylic competition and preorganization test bifunctional effect without forcing synergy.",
+      "implemented_panels": [
+        "ring_opening_paths",
+        "preorganization",
+        "synergy_comparison"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_c625cba3ce868eb1",
+      "expected_matrix": "先核对实际活性卤化/质子物种，在一个源底物上比较五/六元成环及必要质子转移；阶段一为有界 B，路径搜索有足够参考后才 C。",
+      "parent_scientific_review": "Mapped closures correctly six/seven rings; source NBS/Et3N control identifies bromination/proton reservoirs. Hydroperoxide O23/O24 map correction preserved.",
+      "implemented_panels": [
+        "closure_paths",
+        "active_reagent_ledger",
+        "regioselectivity_test"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_d3b4575397179146",
+      "expected_matrix": "论文四个催化剂先用一对试点，配一个有完整条件的 N-甲基氧化底物；统一溶剂、电位参考与氧物种，比较 SET/EnT 必要条件。",
+      "parent_scientific_review": "Four heptazines, real substrate/O2 states and common-reference SET/EnT cycles separate thermodynamic necessary conditions from exclusive mechanism or exact yield.",
+      "implemented_panels": [
+        "photoredox_matrix",
+        "oxygen_states",
+        "mechanism_discrimination"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_ef26687d63a37e29",
+      "expected_matrix": "固定 Et₃B、实际链端及 PO/CO₂/PA 计量，先选代表传播与回咬路径；浓度以明确标准态进入小网络。",
+      "parent_scientific_review": "Complete short carbonate chain and two Et3B reservoirs, propagation/backbiting plus no-PA/concentration control distinguish active chain from initiator adduct; coproduct balance required.",
+      "implemented_panels": [
+        "chain_paths",
+        "chain_end_audit",
+        "concentration_test"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_0dc85595cab7bc0a",
+      "expected_matrix": "保留两阶段有限位点/连接搜索，加入临界几何/构象候选；代表闭环步骤必须说明使用哪个光/基态势面。",
+      "parent_scientific_review": "Two-layer mapped Mallory candidate enumeration and composition-specific energies plus representative state/path diagnostics; conclusion bounded to supported candidates, unique photoproduct explicitly unproven.",
+      "implemented_panels": [
+        "candidate_layers",
+        "accessibility_diagnostics",
+        "supported_set"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_a3892396b1843698",
+      "expected_matrix": "原两个重排通道补多初猜与双向端点，再对正文一桥连变体或明确受控几何重复匹配比较。",
+      "parent_scientific_review": "Connected [3,3]/[5,5] routes and same-graph opposite-sign torsion intervention include preparation and release costs; constrained points and negative electronic gaps cannot masquerade as activation G.",
+      "implemented_panels": [
+        "rearrangement_paths",
+        "preorganization",
+        "channel_response"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    },
+    {
+      "paper_id": "paper_8fefc96b015c4577",
+      "expected_matrix": "两链长×DMSO/DCE 两溶剂，每个条件比较两类迁移路径；各路径多构象并以同体系的共同前体和分离反应物分别列账。",
+      "parent_scientific_review": "Short/long tethers×DMSO/DCE×two aryl closures with same-reference contrasts, strain and uncertainty cover full2×2×2 design without forcing small source gap sign.",
+      "implemented_panels": [
+        "crossed_paths",
+        "factorial_contrasts",
+        "strain_and_robustness"
+      ],
+      "source_evidence": null,
+      "development_status": "implemented_pending_expanded_reference",
+      "review_status": "content_review_complete_pending_contract_repairs"
+    }
+  ],
+  "common_findings": [
+    "Require a truthful zero-engine bounded_failure for missing input before job creation."
+  ],
+  "scientific_reference_validation": false,
+  "path_note": "Worker corrected actual .. traversal. Dot-segment normalization that does not escape root is not a release requirement."
+}

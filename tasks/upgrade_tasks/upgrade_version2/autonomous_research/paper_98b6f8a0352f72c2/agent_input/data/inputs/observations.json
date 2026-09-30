@@ -1,0 +1,68 @@
+{
+  "source": "main PDF p3 Table1 and footnotes",
+  "absorption_concentration_M": 2e-05,
+  "emission_lifetime_concentration_M": 5e-06,
+  "lifetime_excitation_nm": 441,
+  "yield_unit": "percent; divide by100 before using as a probability",
+  "rows": [
+    {
+      "compound": "12a",
+      "solvent": "CHCl3",
+      "absorption_bands_nm": [
+        282,
+        315,
+        436
+      ],
+      "emission_peak_nm": 613,
+      "fluorescence_yield_percent": 14.0,
+      "yield_reported_error_percentage_points": 0.12,
+      "total_fluorescence_lifetime_ns": 5.2,
+      "lifetime_reported_error_ns": 0.55
+    },
+    {
+      "compound": "12d",
+      "solvent": "CHCl3",
+      "absorption_bands_nm": [
+        280,
+        328,
+        451
+      ],
+      "emission_peak_nm": 643,
+      "fluorescence_yield_percent": 14.0,
+      "yield_reported_error_percentage_points": 0.13,
+      "total_fluorescence_lifetime_ns": 4.7,
+      "lifetime_reported_error_ns": 0.15
+    },
+    {
+      "compound": "12a",
+      "solvent": "EtOAc",
+      "absorption_bands_nm": [
+        279,
+        317,
+        420
+      ],
+      "emission_peak_nm": 643,
+      "fluorescence_yield_percent": 12.0,
+      "yield_reported_error_percentage_points": 0.15,
+      "total_fluorescence_lifetime_ns": 2.4,
+      "lifetime_reported_error_ns": 0.94
+    },
+    {
+      "compound": "12d",
+      "solvent": "EtOAc",
+      "absorption_bands_nm": [
+        277,
+        318,
+        439
+      ],
+      "emission_peak_nm": 661,
+      "fluorescence_yield_percent": 11.0,
+      "yield_reported_error_percentage_points": 0.02,
+      "total_fluorescence_lifetime_ns": 3.45,
+      "lifetime_reported_error_ns": 0.35
+    }
+  ],
+  "uncertainty": "Per-row errors are transcribed from Table1; its footnote separately describes duplicate lifetime measurements with ±5% and derived rates with ±10%. No covariance or harmonized error model is supplied. Do not silently replace one convention by the other.",
+  "temperature": "No precise common numeric temperature is assigned from the supplied measurement table.",
+  "visibility": "Public observations, not held-out predictions; no calculated state assignments, preferred mechanism or theoretical lifetimes supplied."
+}

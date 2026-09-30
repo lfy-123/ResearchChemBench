@@ -8,6 +8,8 @@ Use only the two molecular systems in `data/inputs/systems.json`: their names, S
 
 ## Required scientific validation/investigation
 
+Z denotes a single near-trans identity on a periodic dihedral: its accepted signed regions are −180 to −140 degrees or +140 to +180 degrees. Retain and report the actual signed angle; do not relabel a negative near-trans value as positive or merge V(+) with V(−).
+
 For each molecule, generate or optimize structures in all three stated torsion regions and retain one clearly identified representative per region. Explain how duplicate structures were detected and how each representative was advanced. Optimize each retained structure with a documented quantum-chemical method and convergence settings. Validate every reported endpoint as a minimum using a vibrational analysis (zero imaginary frequencies) or an explicitly justified equivalent stationary-point test; if a requested state cannot be validated, report that bounded failure and its cause. Compute Gibbs free energies consistently for all six states, subtract the per-molecule minimum, and report the signed torsions and the validation evidence. Completion requires either (a) all six states optimized, validated, and compared, or (b) a bounded-failure report naming every missing state and documenting the attempted search. Stop after each of the six torsion regions has at least one converged representative and no new distinct validated minimum is found in that same region after two independent starting structures, or earlier only with a documented computational limitation. Do not use the paper, SI, general web, or hidden reference values.
 
 ## Deliverables

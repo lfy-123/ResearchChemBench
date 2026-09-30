@@ -1,0 +1,7 @@
+# Private source-route and V2 scope record
+
+The authors sought cis material despite calculations favouring trans-50 by 2.32 kcal/mol. They report that reversible epimerization gave trans, whereas isolated silyl-enol-ether protonolysis with (±)-CSA gave 1.1:1 trans:cis. Their DFT comparison is a product thermodynamic rationale, not a calculated protonation mechanism. SI p71 specifies Gaussian09, B3LYP-D3/6-31G(d,p) optimization, B3LYP-D3/6-311++G(d,p) single points and IEF-PCM methanol (epsilon32.63), with thermal corrections; tables S35–S38 provide structures/frequencies. Reproduce/audit that disclosed baseline and assess its explanatory limits. A solvent inconsistency remains between main Scheme5 and SI pp20–21; document which interpretation is used. Acid-face pathways, single-MeOH clusters and mandatory weighted kinetic matrices were added by the benchmark, not established by the source.
+
+The shared scientific question is: What molecular explanation of the stereochemical outcome of the reported 50 → silyl enol ether → ketoester sequence is supported by reproducible evidence, and how securely can that explanation be related to the experimental conditions?
+
+AR does not receive this metadata route through materialize_agent_files. The actual process rubric differs by mode under open_research. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

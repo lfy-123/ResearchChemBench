@@ -1,0 +1,21 @@
+# Scientific objective
+
+For the uniquely specified singly deprotonated E-imine dye-3 chromophore in implicit dichloromethane, independently determine the lowest-energy visible singlet Franck–Condon excitation from an optimized ground-state structure and establish its electronic character. Report the energy in kcal/mol, oscillator strength when available, and a defensible donor/acceptor interpretation. The research object is exactly the molecule in `data/inputs/dye3_phenolate.smiles`; do not replace it with another positional isomer.
+
+# Public inputs and scientific boundaries
+
+For this task, the primary visible comparison window is 400–700 nm (inclusive), an operational benchmark definition rather than a paper-reported numerical result. Select the lowest-energy singlet within that window, not the brightest root or the root nearest a reference; use its computed electronic character to interpret, not to preselect, the result. If no root falls within the window, report the computed roots and a partial/failure outcome rather than silently substituting a UV state. A band shifted across a window boundary may be discussed separately with its physical correspondence; it is not an automatic alternative main result. Retain the lower-lying roots needed to justify the assignment. Report donor, acceptor and bridge contributions with the same declared partition; bridge delocalization is allowed and no hidden >50% acceptor threshold applies.
+
+`data/inputs/dye3_phenolate.smiles` is authoritative for connectivity and formal charge: the E-imine of 4-aminophenol and 4-(5-nitrothiophen-2-yl)benzaldehyde, singly deprotonated at phenol (net charge −1). `data/inputs/system_spec.json` fixes charge −1, singlet multiplicity 1, dichloromethane implicit continuum (ε=9.08, n=1.424), and the target state definition. Generate 3-D coordinates and document stereochemical/conformer choices. This is a vertical electronic-structure task; solvent dynamics, vibronic spectra, photochemistry, and ensemble claims are outside scope. No author route, software, model chemistry, reference value, or selected geometry is supplied; propose and justify the approach yourself.
+
+# Required scientific validation/investigation
+
+Formulate and execute a reproducible computational investigation within the fixed boundary. Optimize at least one ground-state geometry and validate it as a minimum with a frequency, Hessian, or a justified equivalent. Generate and discriminate any additional plausible conformers or low-lying singlet states needed to make the lowest visible-state assignment credible; deduplicate structures and retain identity and validation context for every candidate actually compared. Compute the selected vertical excitation and use transition-density, orbital, attachment/detachment, natural-transition-orbital, or an equally explicit analysis to determine where electron density leaves and arrives. Report coverage, convergence, state-selection criteria. Completion requires a converged validated candidate and an independently supported electronic assignment.
+
+A complete outcome requires the requested scientific results and their validation evidence. If only part succeeds, use the existing failure/partial pathway and submit completed results plus the specific missing calculations and diagnostics; do not fabricate values. Extra exploratory attempts are allowed and do not invalidate completed main results. General limitations or stopping statements are optional, not scored deliverables.
+
+# Deliverables
+
+For an early or partial failure, a compact alternative submission is `status: bounded_failure` with `failure_report: {reason, missing_endpoint, completed_artifacts}`. Use nonempty reasons, identify the missing calculation, and list only artifacts that exist (the list may be empty if failure preceded computation). Include any available partial results; never fill unavailable scientific values. This branch is a valid submission, not successful completion.
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include candidate identities and validation context, the selected state and energy, computational provenance, and a final conclusion grounded in the reported electronic evidence. A bounded failure must report attempted candidates/calculations and a specific failure cause rather than fabricating a result.

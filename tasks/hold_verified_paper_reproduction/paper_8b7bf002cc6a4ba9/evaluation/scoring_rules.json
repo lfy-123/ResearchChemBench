@@ -1,0 +1,88 @@
+{
+  "paper_id": "paper_8b7bf002cc6a4ba9",
+  "rules": [
+    {
+      "rule_id": "pr_rule_process",
+      "reference_id": "pr_process",
+      "type": "semantic",
+      "expected": "Candidate-level generation, deduplication, optimization/convergence and energy-reference evidence is documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/validation.json"
+        ],
+        "fields": [
+          "$"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": "status=complete; for status=bounded_failure, assess only critical-failure identity/scope and the process/coverage report, and do not require preferred selections or AB>AL ordering."
+    },
+    {
+      "rule_id": "pr_rule_al",
+      "reference_id": "pr_al_folded",
+      "type": "semantic",
+      "expected": "The selected AL candidate is a validated compact/folded conformer with close terminal-group geometry.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected.AL",
+          "$.candidates[*]"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": "status=complete; for status=bounded_failure, assess only critical-failure identity/scope and the process/coverage report, and do not require preferred selections or AB>AL ordering."
+    },
+    {
+      "rule_id": "pr_rule_ab",
+      "reference_id": "pr_ab_extended",
+      "type": "semantic",
+      "expected": "The selected AB candidate is a validated open/extended conformer with separated terminal groups.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.selected.AB",
+          "$.candidates[*]"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": "status=complete; for status=bounded_failure, assess only critical-failure identity/scope and the process/coverage report, and do not require preferred selections or AB>AL ordering."
+    },
+    {
+      "rule_id": "pr_rule_dipole",
+      "reference_id": "pr_dipole_trend",
+      "type": "ordering",
+      "expected": "selected AB dipole is greater than selected AL dipole",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*]"
+        ],
+        "comparison": "compare dipole values for the candidates named by $.selected.AL and $.selected.AB"
+      },
+      "applicability": "status=complete; for status=bounded_failure, assess only critical-failure identity/scope and the process/coverage report, and do not require preferred selections or AB>AL ordering."
+    },
+    {
+      "rule_id": "pr_rule_final",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "The final conclusion contains the reported conformational and dipole trend and limits interpretation to the molecular calculation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": "status=complete; for status=bounded_failure, assess only critical-failure identity/scope and the process/coverage report, and do not require preferred selections or AB>AL ordering."
+    }
+  ]
+}

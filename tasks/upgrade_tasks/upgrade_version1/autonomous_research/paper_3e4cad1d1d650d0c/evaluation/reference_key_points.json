@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_3e4cad1d1d650d0c",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_oxidation_cycle",
+      "key_point_type": "result",
+      "statement": "Calculate and minimum-validate all four donor/radical states in DMSO; record electronic/thermal terms, radical spin contamination and a common solution standard state. Recompute the anchored relative cycle and compare its ordering with HOMO ordering. Never use gas ΔSCF directly as a solution potential.",
+      "expected": "Calculate and minimum-validate all four donor/radical states in DMSO; record electronic/thermal terms, radical spin contamination and a common solution standard state. Recompute the anchored relative cycle and compare its ordering with HOMO ordering. Never use gas ΔSCF directly as a solution potential.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_excited_ET",
+      "key_point_type": "result",
+      "statement": "Use the measured crossings and one-electron convention to compute Eox* and ΔGET for both donors with the same acceptor and SCE zero. Distinguish electrochemical uncertainty, dissociative reduction and equilibrium free energies.",
+      "expected": "Use the measured crossings and one-electron convention to compute Eox* and ΔGET for both donors with the same acceptor and SCE zero. Distinguish electrochemical uncertainty, dissociative reduction and equilibrium free energies.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_quenching_challenge",
+      "key_point_type": "result",
+      "statement": "Freeze the redox cycle before evaluating the intensity/lifetime challenge. Use the supplied original Figure3 crop to test dynamic and static/association explanations. A numerical lifetime-change upper bound must explicitly be a plot-resolution estimate, with axis/marker calibration and analysis evidence; it is not an instrument uncertainty. If a quantitative bound cannot be justified, submit lifetime_evidence_kind=qualitative_only and lifetime_change_fraction=null with the supported qualitative challenge and its resolution limit. Raw individual lifetime measurements and errors are unavailable and must not be invented. Favorable ΔGET does not settle the quenching mechanism or yield.",
+      "expected": "Freeze the redox cycle before evaluating the intensity/lifetime challenge. Use the supplied original Figure3 crop to test dynamic and static/association explanations. A numerical lifetime-change upper bound must explicitly be a plot-resolution estimate, with axis/marker calibration and analysis evidence; it is not an instrument uncertainty. If a quantitative bound cannot be justified, submit lifetime_evidence_kind=qualitative_only and lifetime_change_fraction=null with the supported qualitative challenge and its resolution limit. Raw individual lifetime measurements and errors are unavailable and must not be invented. Favorable ΔGET does not settle the quenching mechanism or yield.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,449 @@
+
+=== PDF PAGE 1 ===
+               pubs.acs.org/joc                                                                                                                                         Article
+
+      Hyperconjugation Controls One-Bond Carbon−Tin Coupling
+      Constants in Anomeric Tin Compounds: A Theoretical Study
+         Kyle Fisch and Maciej A. Walczak*
+
+
+                      Cite This: J. Org. Chem. 2026, 91, 1657−1665                      Read Online
+
+
+
+                                                                                                                                                                                            sı  Supporting Information      ACCESS                Metrics & More                       Article Recommendations    *
+
+         ABSTRACT: One-bond 119Sn−13C couplings in organostannanes
+             are sensitive to local stereoelectronic effects, yet quantitative rules        articles.
+              linking hyperconjugation to 1J(Sn−C) remain limited, especially at
+            anomeric centers. We combine DFT studies with NBO analysis(UTC).
+             across 77 cyclic scaffolds, including matched axial/equatorial (α/β)        published
+           anomeric  pairs,  to  relate  antiperiplanar donor →σ*(C−Sn)03:43:44share        delocalization to 1J(Sn−C). Validation against 1J(C−H) bench-
+at         marks reproduces Perlin-type axial/equatorial differences and the
+2026            classical  reversal  in  1,3-dithianes. 1J(Sn−C)  scales  with  the
+9,         magnitude  of  donation.  Pairwise  comparisons  are  equally          legitimately              diagnostic: across 27 α/β (axial/equatorial) pairs, equatorial isomers show larger couplings in 92% of cases, and ΔJ correlates
+  to       with Δdonation, rationalizing the β > α hierarchy. Ring-size controls reveal a geometric signature consistent with known ring sizeMarch   how        relationships with coupling constants: as the size of the ring increases, 1J(C−H) decreases. Incorporation of sulfur in the ring canon
+  on        cause the β > α 1J(Sn−C) behavior observed in most other cyclic scaffolds to invert with axial 1J(Sn−C) being greater than
+UNIV           equatorial 1J(Sn−C). A single-parameter empirical scaling (J(corr) = −1.419·J(calc)) improves absolute agreement with experiment      options       without perturbing trends and brings negative calculated 1J(Sn−C) to the experimentally derived positive 1J(Sn−C). Collectively,
+   for        these results deliver a practical, mechanistic framework for predicting tin−carbon coupling constants and assigning the anomericGANDHI          configuration in anomeric organotin compounds.
+
+
+                                                                               D-glucose with the now-canonical “Perlin effect”, wherein axial
+                                             C−H bonds at C1 display smaller 1J(C−H) than equatorialMAHATMA      ■INTRODUCTIONOrganotin reagents occupy a  distinctive niche  in modern
+via          organic  synthesis,  serving  both  as  nucleophiles  in  cross-      analogues.9 Wolfe and  co-workers  later  rationalized  these
+            coupling1 and  as  stereoelectronic  probes2  in complex       effects  in  terms  of bond  lengths, bond  strengths, and
+            molecular  settings.  Since  the  first  reports  of  palladium-      stereoelectronic interactions that modulate the Fermi-contact
+             catalyzed couplings of allyltributyltin in 1977, organostannanes     term  of  the  coupling.10 Complementary  computationalDownloaded         have been applied widely to form C(sp2)−C(sp3) and other      analyses by Juaristi, Cuevas, and others connected longer C−                                https://pubs.acs.org/sharingguidelines     C−C bonds  with  high  efficiency and  functional-group   H bonds arising from the better donor ability of antiperiplanar
+   See         tolerance.3,4 In  parallel with these  synthetic advances, the      lone pairs or σ bonds to smaller 1J(C−H), establishing a clear
+                field has witnessed the maturation  of  stereospecific  cross-       link among hyperconjugation, bond  metrics, and coupling
+             couplings that exploit configurationally stable, enantioenriched      constants  in  cyclohexanes and  related  heterocycles.11  In
+             organometallic  nucleophiles  to  transfer  stereochemical  in-      carbohydrates, these tools have long been used for conforma-
+            formation through Pd-catalyzed transmetalation and reductive       tional analysis and assignment of anomeric configuration.12,13
+             elimination steps.5 Our laboratory has leveraged this platform      Hyperconjugation having significant contribution to spin−spin
+              in carbohydrate space-anomeric SnBu3 nucleophiles participate      coupling constants has been minimally contested.14 A much
+              in stereoretentive arylations to deliver aryl C-glycosides with      larger body  of  evidence  exists  using  stereoelectronic
+              excellent control, providing both practical access to bioactive                                                                                    interactions  as  explanation  for  the  observed  relationship
+             motifs and a window into stereoelectronic influences at the                                                                     between stereochemistry and 1J(C−H) values, frequently in
+            anomeric center.6,7
+           An intriguing observation emerged from these and other
+              studies: larger 1J(Sn−C) values are observed for β anomers      Received:  October 18, 2025
+                                                                                  Revised:   December 29, 2025             across multiple hexose scaffolds, with differences that can be
+                                                                               Accepted:  January 8, 2026           modest (41−55 Hz) for glucose and striking for mannose (up
+                                                                                  Published: January 21, 2026             to ∼99  Hz).8 Such  trends  parallel  a  deeper body  of
+              stereoelectronic phenomena at the anomeric position reported
+           by Perlin and Casu which correlate 13C and 1H NMR data of
+
+
+                                            © 2026 American Chemical Society                                                                     https://doi.org/10.1021/acs.joc.5c02630
+                                                                         1657                                                                                          J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 2 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+
+
+
+
+Figure 1. (A). Experimentally derived 1J(Sn−C) values. (B) Stereoelectronic model of the anomeric effect and the simplified molecular orbital
+diagram. (C) Stereoelectronic interactions of focus in this study on exocyclic organic stannanes.
+
+carbohydrates.12,15,16 Other work proposed the s-character of      such a picture requires computational methods capable of
+the σ*C−H  orbital, which  is at  least in part controlled by      accurately reproducing NMR spin−spin couplings involving
+hyperconjugation responsible for the observed Perlin effect.17      heavy  p-block  elements.  Conventional  split-valence and
+  The α/β dependence  of  1J(119Sn−13C)  in  anomeric      correlation-consistent basis sets optimized for energies and
+stannanes presents an opportunity to interrogate how classical      geometries  can  perform  admirably  for many  main-group
+anomeric stereoelectronic effects propagate into a heavy-atom      properties but often fall short for J couplings of heavy atoms
+bond. The coupling constants for such systems with tin have      because the Fermi-contact term depends sensitively on core−
+been found experimentally and are shown in Figure 1A. The      valence  polarization and  relativistic  effects.28,29  All-electron
+anomeric  effect  is commonly framed  as nX →σ*C−X      treatments augmented with scalar relativistic corrections, such
+delocalization that stabilizes axial electronegative substituents      as the zero-order regular approximation (ZORA), have proven
+on a pyranose ring (Figure 1B), with parallel alignment of                                                                         essential  for  reliable  119Sn  chemical  shifts and  coupling
+donor and acceptor orbitals being a prerequisite for effective       constants.30,31  Although  the  Hamiltonian  used  herein  is
+molecular orbital mixing (Figure 1B). In anomeric stannanes,                                                                            nonrelativistic, DFT protocols that combine hybrid functionals
+however,  additional  hyperconjugative  pathways become                                                               with  triple-ζ ZORA-compatible basis  sets have reproduced
+relevant: σ- or n-donors antiperiplanar to the C−Sn bond                                                                1J(119Sn−13C) and 2J(119Sn−1H) in diverse organotin com-
+can delocalize into σ*(Sn−C) (Figure 1C), with the potential
+                                                        pounds (R3−Sn−(R′), where R = Me, and R′ = cycloalkane,27to alter the s-character at carbon and tin and thereby tune the
+                                                                          butyl, di- and tetramethyltin compounds,32 and tin halides33),Fermi-contact contribution to 1J(119Sn−13C).18 Within  this
+                                                                 lending confidence  that with  judicious benchmarking and,qualitative framework, stronger donation into σC−Sn is expected
+                                                         where necessary, empirical scaling, one can achieve quantita-to  lengthen and weaken  the C−Sn bond and  reduce
+1J(119Sn−13C);  conversely, diminished donation should  in-       tive agreement with the experiment. Best-practice guidance
+                                                                       further emphasizes method validation against reference datacrease the coupling. The empirical finding that β anomers
+                                                        and  careful  consideration  of  solvation, though continuumtypically  exhibit  larger  1J(119Sn−13C)  than α anomers  is
+                                                         models  often  exert  only modest  influence on one-bondtherefore consistent with a model in which the α configuration
+                                                                         couplings,28,34 an observation which our results here reinforce.enables more effective antiperiplanar donation (e.g., from O
+lone  pairs  or σ(C−H))  into σ(C−Sn)),  while  the β     NBO  analysis  offers  a  natural  bridge between  stereo-
+                                                                       electronic hypotheses and computed observables. By quantify-configuration attenuates this interaction.10,11
+  While NMR studies on organotin compounds have been      ing second-order perturbation stabilization energies associated
+well  established,19−23  including  use  in  recent  synthetic      with donor →σ* interactions, NBO provides a chemically
+publications,24−26  systematic and  quantitative  connections       intuitive measure of hyperconjugation that can be correlated
+between hyperconjugation and one-bond 119Sn−13C couplings      with trends in bond lengths, hybridization, and ultimately J
+in carbohydrate-derived stannanes remain sparse. Vasella and       couplings.12,14−17,35,36 This analysis has been extended to more
+co-workers noted substantial anomer-dependent differences in       specific systems such as diboron compounds37 and NHCs.38
+1J(119Sn−13Cano)  in  stannoglycosides  prepared  via  carbene      This NHC study also highlights the utility of using coupling
+insertion,8 and our  previous work documented analogous      constants to explain σ-donation within a class of molecules. In
+trends  in  1J(119Sn−13CBu). More  broadly,  Karplus-type      the  context  of anomeric  stannanes and  carbohydrate-like
+relationships have been explored for vicinal 119Sn−13C and      heterocycles, this framework allows one to assess how variation
+119Sn−1H  couplings  in  simple  organotin(IV)  derivatives,       in ring heteroatom identity (N, O, Si, P, and S), ring size, and
+underscoring the sensitivity of tin couplings to geometry and      substituent orientation modulates the magnitude of n/σ →
+electronic structure.27 Yet, despite clear qualitative signals, a      σC−Sn  delocalization  and,  in  turn,  1J(119Sn−13C).  It  also
+predictive  physical  picture  that  ties donor−acceptor  inter-       rationalizes known  “reversals” in axial−equatorial 1J(C−H)
+actions  at C1 to 1J(119Sn−13C) across  structurally  diverse,      differences for rings bearing multiple third-row heteroatoms
+heteroatom-rich rings has not been established. Advancing        (e.g., 1,3-dithianes), where exceptionally strong nX/σC−X →
+
+                                                             1658                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 3 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+Table 1. Experimental and Calculated 1J(C1/Cano‑H) Coupling Constants
+
+
+
+
+
+σC−H donation lengthens the equatorial C−H bond and inverts       differentially impact 119Sn and 1H one-bond couplings. Given
+the usual Perlin pattern.                                 known behavior of pseudoaxial C−H bonds to be longer in
+  The  present  study  aims  to  formalize  these  qualitative     five-membered rings, and being correlated to smaller 1J(C−H)
+connections  into  a  quantitative,  transferable  model. We       values,15,16 it was deemed worthwhile to investigate the effect
+combine DFT calculations of 1J(119Sn−13C) and 1J(C−H)      of ring size on 1J(119Sn−13C) values. The results substantiate a
+for a series of anomeric SnBu3 derivatives and representative      coherent  picture   increased  antiperiplanar  donation  into
+heterocycles with NBO analyses of key antiperiplanar donor →     σ*C−Sn  correlates with reduced one-bond 119Sn−13C cou-
+σ*C−Sn interactions. First, we benchmark computed 1J(C−H)       plings, rationalizing the observed β>α hierarchy and revealing
+values  against  experimental  data  for  related  scaffolds  to      systematic perturbations across ring systems and donor classes.
+establish  that  the method  reproduces  canonical  axial−
+equatorial differences associated with the Perlin effect. Second,            AND DISCUSSIONwe  interrogate how the magnitude and  identity  of donor   ■RESULTS                                         We began by benchmarking  the  computational  protocol
+orbitals correlate with calculated 1J(119Sn−13C) across α/β      against one-bond C−H couplings, which provide a sensitive
+pairs and across families of O-, Si-, P-, and S-containing rings,      readout  of  local  stereoelectronic  effects and  hybridization
+paying special attention to molecules with reverse behavior      (Table 1). Across a diverse set of SnBu3-substituted cyclic
+that illuminate mechanistic limits (e.g., cationic donors and       scaffolds,  the computed 1J(C−H)  values  agreed  with
+strongly donating third-row heteroatoms). Third, we compare      experimental constants for the corresponding unsubstituted
+computed 119Sn couplings to available experimental values for      analogues to within a few Hertz for most noncarbohydrate
+anomeric stannanes and assess the need for a simple linear       rings (maximum absolute deviation 8 Hz) and within 8 Hz for
+scaling to reconcile absolute magnitudes.33 Finally, we consider      monosaccharides, where  available  literature  values  were
+ring-size effects in small carbocycles and oxygen heterocycles,     measured in water rather than organic solvent. Crucially, the
+where  ring  strain  perturbs bond  hybridization and may      axial−equatorial  differences (ΔJ(ax−eq)) were reproduced
+
+                                                             1659                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 4 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+
+
+
+
+Figure 2. Summary of structures calculated in this work.
+
+quantitatively (typical deviations 1.0−5.9 Hz), including the      strength  of  antiperiplanar donor →σ*(C−Sn)  interactions
+sign reversal at C2 in 1,3-dithiane (ΔJ(ax−eq) < 0). This      quantified by NBO second-order stabilization energies. When
+reversal is classically attributed to strong nX →σ* donation     1J(Sn−CBu) was plotted against the sum of antiperiplanar n/σ
+from third-row heteroatoms and has long served as a stress test     →σ*(C−Sn) donations, a clear inverse relationship emerged:
+for Perlin-type logic.11,14 The ability of our density functional/      stronger donation accompanied couplings smaller in magni-
+relativistic protocol to recover these  subtle  yet  diagnostic      tude (Table 2). Scaffolds in which one antiperiplanar donor is
+patterns  gives  us  confidence  that  it  captures  the  stereo-      a lone pair (e.g., axial piperidine, axial 2-methoxytetrahydro-
+electronic  effects  required  for  interpreting  heavy-atom      pyran)  clustered  at high donation/low   |J|, whereas motifs
+couplings. Computation reproduces  unsubstituted coupling     dominated by σ(C−X) donors fell at low donation/large |J|. This
+constants with high fidelity (Jcalc = 1.0515*Jexp −2.1899, R2 =      agrees  with  a  simple  stereoelectronic  picture  in which
+0.984, MAE = 5.5, MaxErr = 9). The inclusion of a tin group      increased population of σ*(C−Sn) lengthens and “softens” the
+perturbs this (Jcalc = 0.4967*Jexp + 69.827, R2 = 0.612, MAE =    C−Sn bond and diminishes the Fermi-contact term.39
+8.0, MaxErr = 22), indicating the effect heavy elements have        Carbohydrate and  carbohydrate-like  structures formed a
+locally on coupling constants (for more details, see Figure S1).       distinct and internally coherent subset within this correlation
+ We next examined computed one-bond couplings to carbon      space. Across anomeric stannanes derived from representative
+in the butyl substituent 1J(Sn−CBu) for a series of molecules      hexoses, all equatorial (β) congeners exhibited larger 1J(119Sn−
+represented in Figure  2. As  is common for heavy p-block     CBu) than their axial (α) epimers by roughly 12−23 Hz, while
+nuclei, absolute errors versus experiment were  larger than      the axial isomers consistently showed greater antiperiplanar
+those for C−H couplings (differences up to a factor of 2), and      donation. This β > α hierarchy in  |J| mirrors the qualitative
+the calculated DFT values were negative under the quantum-       logic used to rationalize C−H Perlin effects but is now applied
+chemical sign convention (Table 2). In terms of conforma-      to a heavy-atom bond whose σ* acceptor  lies along the
+tional NMR analysis, coupling constant magnitude is relevant.     anomeric C−Sn vector rather than C−H. Two systematic
+Herein, coupling constants are reported as negative, although      exceptions  qualified  this simple  picture   cationic H-donor
+experiments usually report these values as positive. Never-      species (hexahydropyrilium, 24a/24e) with  axial 1J(Sn−C)
+theless, the rank ordering across the matched experiment1,8      values smaller by 1 Hz in the equatorial structure consistent
+and, more  importantly  for  mechanistic  inference,  the      with  overall reduced donor  ability, and  5-substituted  1,3-
+magnitudes of 1J(119Sn−CBu) varied systematically with the      dithiane (13a/13e) displayed an inverted Δ|J|, tracking with
+
+                                                             1660                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 5 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+Table 2. Calculated Orbital Interactions vs. Calculated 1J(Sn−C) Coupling Constants
+
+
+
+
+
+     axial        donor →σ*(Sn−Cano)      average 1Jax(Sn−CBu)       equatorial        donor →σ*(Sn−Cano)      average 1Jeq(Sn−CBu)
+  structures            (kcal/mol)                (Hz)                structures              (kcal/mol)                (Hz)             1Jax−1Jeq (Hz)
+    1a                    10.1                 −217                1e                       4.2                 −229              12
+    2a                      4.2                 −215                2e                       9.9                 −234              19
+    3a                      9.9                 −220                3e                       4.4                 −236              16
+    4a                      4.4                 −211                4e                       7.3                 −232              21
+    5a                      7.3                 −211                5e                       4.5                 −229              18
+    6a                      4.5                 −200                6e                     10.7                 −223              23
+    7a                    10.7                 −194                7e                       4.5                 −230              36
+    8a                      4.5                 −227                8e                     10.9                 −229               2
+    9a                    10.9                 −207                9e                       4.2                 −226              19
+    10a                     4.2                 −211              10e                     11.3                 −230              18
+    11a                  11.3                 −214              11e                       4.4                 −231              18
+    12a                     4.4                 −217              12e                     20.5                 −239              22
+    13a                  20.5                 −227              13e                       3.8                 −220           −8
+    14a                     3.8                 −218              14e                       6.9                 −233              15
+    15a                     6.9                 −222              15e                       3.2                 −230               8
+    16a                     3.2                 −210              16e                     14.6                 −215               5
+    17a                  14.6                 −224              17e                       4.1                 −227               3
+    18a                     4.1                 −207              18e                       9.9                 −218              11
+    19a                     9.9                 −173              19e                       3.5                 −217              45
+    20a                     3.5                 −224              20e                       6.9                 −228               3
+    21a                     6.9                 −214              21e                       4.1                 −227              12
+    22a                     4.1                 −192              22e                       6.5                 −210              18
+    23a                     6.5                 −181              23e                       3.3                 −210              28
+    24a                     3.3                 −239              24e                       7.6                 −238           −1
+    25a                     7.6                 −236              25e                       5.2                 −237               1
+    26a                     5.2                 −238              26e                       7.0                 −239               1
+    27a                     7.0                 −234              27e                       3.7                 −237               3
+
+the unusually strong third-row donor environment in this ring.      average, to an ∼2 Hz decrease in J relative to the equatorial
+This is consistent with past literature whereby strong σC−S →      partner.
+σ*C−Heq was proposed to be responsible for the observation of     We also interrogated geometric sensitivity independent of
+smaller equatorial 1J(C−H) values, called the “reversed Perlin     donor identity by using variable size rings. Three-membered
+effect.”39                                                          carbocycles and oxygen heterocycles (cyclopropane, oxirane)
+  The axial/equatorial pairs support the mechanistic picture      deliver  the  largest  couplings (−236  and −237  Hz,
+by  removing  between-family  variability.  In  this  subset,       respectively), four-membered  rings  (cyclobutane,  oxetane)
+equatorial isomers show larger  |J| in 92% (25/27) of cases,      depress them (−218 and −216 Hz, respectively), and five-
+with a mean Δ|J|(eq−ax) of 13.7 ± 11.5 Hz (SD). Conversely,     membered rings give lower values (cyclopentane −216 Hz,
+axial  isomers  consistently  exhibit  greater  antiperiplanar    THF −210 Hz) (Table 3). The trend continues in the 6-
+donation with a mean Δdonation(eq−ax) of −4.6 kcal/mol. A     membered cycloalkane, but not in the oxygen heterocycle. This
+regression of pairwise differences quantifies the stereochemical        is likely due to the deflated J-value for the pseudoaxial Sn
+trade-off: ΔJ = −2.34·Δdonation +2.8136, R2 = 0.601, where Δ     group in structure o5a.
+denotes (equatorial−axial). Thus, every additional ∼1 kcal/        Because heavy-atom couplings are sensitive to core−valence
+mol of donation stabilized in the axial isomer corresponds, on      polarization and  relativistic  effects, we  also  considered
+
+                                                             1661                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 6 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+Table 3. 1J(Sn−CBu/Cano) Values of Variable Size Cyclic Compounds
+
+
+
+
+
+calibration  to improve  the  absolute  accuracy.  Based on      antiperiplanar donation lowers the coupling by ∼2 Hz per
+structures with  experimental C1/C2−Sn  data,1,8  a  simple      kcal/mol. This can guide the design of anomeric stannanes for
+linear  correction,  J(corrected) = −1.419 ×  J(calculated),       stereospecific cross-coupling by mapping how proximal donors
+allowed us to connect calculated and experimental values (see        (e.g.,  ring  heteroatoms and  substituent  lone  pairs)  tune
+Table S2 for details). This empirical scaling is consistent with      σ*(C−Sn) accessibility. Second, paired (axial/equatorial or α/
+best practices for 119Sn NMR parameters33   relativistic DFT     β  configuration)  analyses  provide an  internal  calibration
+(here, B3LYP/TZP-ZORA  for couplings on B3LYP/Def2-     between donation magnitude and calculated 1J values that is
+TZVPP geometries) captures most of the physics but often      robust  to  global  offsets and  can  assist  configurational
+benefits from a single-parameter correction, especially when      assignment when  only  relative  data  are  available.  Third,
+sign conventions differ or when vibrational/solvent effects are     1J(119Sn−C)  analysis  offers  a complementary  probe  for
+not explicitly included.                                          geometric questions: its sensitivity to ring strain follows the
+  The Coulomb method for calculation of coupling constants      expected trend from C−H in 1J(Sn−CBu), but not 1J(Sn−
+by Wolfe was applied to the data set of 6-membered rings.10       Cano), which  warrants  further  investigation  into both  the
+The equation L = A + Bq1q2 + C/r was modeled, where A, B,      computational method used and under-investigated anomeric-
+and C are empirically derived constants, q1 and q2 are the       like stannanes.
+charges of the bonded atoms, and r is the interatomic distance.       Beyond enriching the physical understanding of couplings in
+NBO charges were used, and bond distances were taken from      carbohydrate-derived stannanes, establishing a quantitative link
+optimized structures. After regression analysis was performed,     between hyperconjugation and 1J(119Sn−13C) has  practical
+A, B, and C were found to be 5746, 124, and −12719,      consequences. Reliable computation of 119Sn couplings can aid
+respectively. Between DFT calculation and Coulomb-based      configurational assignment of anomeric stannanes and related
+calculation, the R2 was found to be 0.826 with an MAE of 4.7      intermediates and  provide  a  sensitive  in  silico probe  of
+Hz. The Coulomb model used by Wolfe to predict coupling      stereoelectronic  environments  at C1  that complements
+constants based on charges and interatomic distances has      experimental NMR. More broadly, the approach  illustrates
+significant predictive capabilities, at least through compounds    how calibrated relativistic DFT, interpreted through an NBO
+containing tin, a heavy p-block element.                                lens, can expose the stereoelectronic levers that govern heavy-
+  These calculations offer several practical outcomes. First, a     atom couplings in complex, heteroatom-dense motifs, a theme
+single NBO  snapshot  provides  a  first-order  predictor  of      with implications for organometallic reactivity, conformational
+1J(119Sn−C)  across  diverse  scaffolds:  increasing  accessible       analysis, and mechanism-based molecular design.
+
+                                                             1662                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 7 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+  Finally, we  acknowledge  the  limitations  as  absolute     Author
+predictions for heavy-atom couplings can benefit from explicit                                                               Kyle Fisch −Department of Chemistry, University of
+spin−orbit treatments40 (beyond  scalar ZORA) and  vibra-                                                                        Colorado, Boulder, Colorado 80309, United States
+tional correction,41 especially given our use of flexible butyl
+                                                        Complete contact information is available at:groups as tin substituents and diverse OH ring substituents.
+                                                                  https://pubs.acs.org/10.1021/acs.joc.5c02630Nevertheless, the current computationally economical setup
+captures the qualitative physics across a broad chemical space
+and, with a single empirical scaling, attains practical predictive     Notes
+fidelity. Other parameters, such as implicit solvent models and     The authors declare no competing financial interest.
+other stereoelectronic, electronic, and geometric parameters,
+were calculated but were found to be  less correlated with
+1J(Sn−CBu), such as the Sn−Cano bond distance or not novel,                                    ■ACKNOWLEDGMENTS
+such as the well-established correlation between bond distance      This work was supported by the National Science Foundation
+and 1J values (for details, see Figure S2 and Table S1).          (CHE-2246828). This work utilized the Alpine high perform-
+  In sum, by anchoring the  analysis  in a validated C−H      ance computing  resource  at  the  University  of Colorado
+benchmark, correlating 1J(Sn−C) with NBO descriptors and      Boulder. Alpine is jointly funded by the University of Colorado
+comparing coupling constants with existing data, we establish a      Boulder, the University of Colorado Anschutz, and Colorado
+unified stereoelectronic picture of the anomeric tin coupling      State University, with support from NSF grants OAC-2201538
+constant. Increased antiperiplanar donation into σ*(Sn−C)     and OAC-2322260.
+lowers   |J|  until  very  strong,  third-row  sulfur  donors  are
+introduced; α/β (axial/equatorial) differences  arise  directlyfrom  differential  access  to  this  donation, and  ring  strain    ■REFERENCES                                                                     (1) Zhu, F.; Rodriguez, J.; Yang, T.; Kevlishvili, I.; Miller, E.; Yi, D.;
+modulates |J| in a manner that mostly follows C−H analogues.                                                                              O’Neill, S.; Rourke, M.  J.; Liu, P.; Walczak, M. A. Glycosyl Cross-
+These insights should serve both as mechanistic guidance for                                                                Coupling  of Anomeric  Nucleophiles:  Scope, Mechanism, and
+interpreting  experimental  tin NMR  in  heteroatom-rich       Applications in the Synthesis of Aryl C-Glycosides.  J. Am. Chem.
+molecules and as a rational design lever  for  stereospecific        Soc. 2017, 139, 17908−17922.
+cross-couplings  that  capitalize on the unique  reactivity  of       (2) Dong, H.; Zhou, Y.; Pan, X.; Cui, F.; Liu, W.; Liu, J.; Ramström,
+anomeric stannanes.                                            O. Stereoelectronic Control in Regioselective Carbohydrate Protec-
+                                                                                     tion. J. Org. Chem. 2012, 77, 1457−1467.
+                                                                     (3) Kosugi, M.; Sasazawa, K.; Shimizu, Y.; Migita, T. Reactions of
+                                                                                   Allyltin Compounds  III.  Allylation  of  Aromatic  Halides With■METHODSAll DFT calculations were performed with Gaussian16.42 Structures                                                                                    Allyltributyltin in The Presence of Tetrakis(Triphenylphosphine)-were  subjected  to CREST43  conformational  searching  with  the                                                                        Palladium(0). Chem. Lett. 1977, 6, 301−302.GFN2-xTB semiempirical method.44 The lowest energy conformer
+                                                                     (4) Beletskaya, I. P. The cross-coupling reactions of organic halides
+that was axial or equatorial was selected for further calculation. The
+                                                                      with organic derivatives of  tin, mercury and copper catalyzed by
+low energy conformers were optimized, and NBO calculations were
+                                                                          palladium. J. Organomet. Chem. 1983, 250, 551−564.performed at B3LYP45/Def2TZVPP46 in the gas phase. Single point
+                                                                     (5) Ma,  X.; Murray,  B.; Biscoe, M. R.  Stereoselectivity in Pd-energies and coupling constants of 1H, 13C, and 119Sn were calculated
+                                                                             catalysed cross-coupling reactions of enantioenriched nucleophiles.at B3LYP45/TZP-ZORA47 with orbital coefficients taken from the
+                                                                         Nat. Rev. Chem. 2020, 4, 584−599.basis set exchange.48 The CPCM solvent model34 with water and
+                                                                     (6) Zhu, F.; Yang, T. Y.; Walczak, M. A. Glycosyl  Stille Cross-chloroform was included in some structures, but coupling constants
+                                                                  Coupling with Anomeric Nucleophiles  - A General Solution to acalculated with and without solvent deviated by less than 1 Hz from
+                                                                    Long-Standing Problem of Stereocontrolled Synthesis of C-Glyco-coupling constants calculated in the gas phase and are omitted. All
+optimized geometries and  single  point  energies  are  available  in        sides. Synlett 2017, 28, 1510−1516.
+Supporting Information.                                                (7) Zhu, F.; Rourke, M. J.; Yang, T.; Rodriguez, J.; Walczak, M. A.
+                                                                 Highly  Stereospecific  Cross-Coupling  Reactions  of Anomeric
+                                                                    Stannanes for the Synthesis of C-Aryl Glycosides. J. Am. Chem. Soc.            CONTENT
+                                                                   2016, 138, 12049−12052.■ASSOCIATEDData Availability Statement                                        (8) Uhlmann, P.; Nanz, D.; Bozó, E.; Vasella, A.; Glycosylidene, C.
+                                                                       Glycosylidene Carbenes. Part 18. Insertion of glycosylidene carbenesThe data underlying this study are available in the published
+                                                                             into the SnH bond of tributyl- and triphenylstannane: A synthesis of
+article and its Supporting Information.                                                                            stannoglycosides. Helv. Chim. Acta 1994, 77, 1430−1440.
+*sı  Supporting Information                                        (9) Perlin, A. S.; Casu, B. Carbon-13 and proton magnetic resonance
+                                                                            spectra of D-glucose-13C. Tetrahedron Lett. 1969, 10, 2921−2924.The Supporting Information  is  available  free of charge  at
+                                                                    (10) Wolfe, S.; Pinto, B. M.; Varma, V.; Leung, R. Y. N. The Perlin
+https://pubs.acs.org/doi/10.1021/acs.joc.5c02630.
+                                                                                   Effect: bond  lengths, bond  strengths, and the  origins  of  stereo-
+     Computational details, additional studies, and Cartesian       electronic effects upon one-bond C−H coupling constants. Can.  J.
+      coordinates (PDF)                                        Chem. 1990, 68, 1051−1062.
+                                                                    (11) Cuevas, G.; Juaristi, E. Manifestation of Stereoelectronic Effects
+                                                           on the Calculated Carbon−Hydrogen Bond Lengths and One Bond
+          INFORMATION                                          1JC‑H NMR Coupling Constants  in  Cyclohexane, Six-Membered■AUTHORCorresponding Author                                                Heterocycles, and Cyclohexanone Derivatives. J. Am. Chem. Soc. 2002,
+                                                                        124, 13088−13096.
+  Maciej A. Walczak −Department of Chemistry, University of       (12) Tvaroska, I.; Taravel, F. R. Carbon-Proton Coupling Constants
+     Colorado, Boulder, Colorado 80309, United States;               In The  Conformational  Analysis  of  Sugar  Molecules.  In  Adv.
+      orcid.org/0000-0002-8049-0817;                              Carbohydr. Chem. Biochem.; Horton, D., Ed.; Academic Press, 1995;
+    Email: maciej.walczak@colorado.edu                              Vol. 51, pp 15−61.
+
+                                                             1663                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 8 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+ (13) Kozina, M. P.; Mastryukov, V. S.; Mil’vitskaya, E. M. The Strain       (33) Bagno, A.; Casella, G.; Saielli, G. Relativistic DFT Calculation
+Energy, Geometrical Structure, and Spin−Spin Coupling Constants of       of 119Sn Chemical Shifts and Coupling Constants in Tin Compounds.
+Cyclic Hydrocarbons. Russ. Chem. Rev. 1982, 51, 765.                                 J. Chem. Theory Comput. 2006, 2, 37−46.
+ (14)  Cuevas,  G.;  Juaristi,  E.;  Vela,  A.  Rationalization  of  the       (34)  Cossi, M.; Rega,  N.;  Scalmani,  G.; Barone, V.  Energies,
+anomalous 1H NMR chemical shifts in 1,3-diheterocyclohexanes.  J.       structures, and electronic properties of molecules in solution with the
+Mol. Struct. THEOCHEM 1997, 418, 231−241.                  C-PCM solvation model. J. Comput. Chem. 2003, 24, 669−681.
+ (15) Church, T.  J.; Carmichael,  I.; Serianni, A. S. 13C−1H and       (35) Tsipis, A. C.; Tsipis, C. A. Anomeric and Perlin Effect Ladders
+13C−13C Spin-Coupling Constants in Methyl β-d-Ribofuranoside and       for  2-Substituted  2-Fluorotetrahydro-2H-pyrans  Using  Sensitive
+                                                                                  Structural, Energetic, and NMR Probes. J. Phys. Chem. A 2021, 125,Methyl  2-Deoxy-β-d-erythro-  pentofuranoside:  Correlations  with
+                                                              7457−7472.Molecular Structure and Conformation.  J. Am. Chem.  Soc. 1997,
+                                                               (36)  Tsipis,  A.  C.  Robust  fluorine  effects on  molecular119, 8946−8964.
+                                                                     conformations  of  2-amino-2-fluorotetrahydro-2H-pyrans:  fluorine- (16) Serianni, A. S.; Wu, J.; Carmichael, I. One-bond 13C-1H spin-
+                                                                                   Perlin-like vs. Perlin effects. New J. Chem. 2022, 46, 13940−13952.coupling constants in aldofuranosyl rings: effect of conformation on
+                                                                    (37) Perras, F. A.; Bryce, D. L. Boron−boron J coupling constants
+coupling magnitude. J. Am. Chem. Soc. 1995, 117, 8645−8650.
+                                                                             are unique probes of electronic structure: a solid-state NMR and
+ (17) Peruchena, N. M.; Contreras, R. H. Theoretical analysis of
+                                                                      molecular orbital study. Chem. Sci. 2014, 5, 2428−2437.
+interactions affecting 1J (CH) NMR couplings in an sp3 hybridized
+                                                                    (38) Gupta, R.; Frison, G. Correlation Between NMR Coupling
+carbon atom. Part 1. The exo-anomeric effect in 3-methoxy-1,2,4,5-                                                                     Constants and σ-Donating Properties of N-Heterocyclic Carbenes
+tetroxane. J. Mol. Struct. THEOCHEM 1995, 338, 25−30.                                                               and Their Derivatives. Chem.   Eur. J. 2025, 31, No. e202403403.
+ (18) Purcell, K. F.; Martin, R. L. Localized spin orbital view of Fermi                                                                    (39) Juaristi, E.; Cuevas, G.; Vela, A. Stereoelectronic Interpretation
+contact coupling of geminal nuclear spins. J. Am. Chem. Soc. 1973, 95,                                                                                  for the Anomalous 1H NMR Chemical Shifts and One-Bond C-H
+7956−7961.                                                                  Coupling Constants (Perlin Effects) in 1,3-Dioxanes, 1,3-Oxathianes,
+ (19) Mitchell, T. N. Carbon-13 NMR investigations on organotin                                                               and 1,3-Dithianes. Spectroscopic and Theoretical Observations. J. Am.
+compounds. J. Organomet. Chem. 1973, 59, 189−197.                  Chem. Soc. 1994, 116, 5796−5804.
+ (20) Sair, U.; Thakur, A. 119Sn NMR spectral data of organotin(IV)       (40)  Autschbach,   J.;  Ziegler,  T.  Nuclear  spin−spin  coupling
+complexes −A review. Mater. Today Proc. 2022, 50, 1862−1866.          constants from  regular approximate  relativistic  density  functional
+ (21) Wrackmeyer, B.; Kehr, G.; Sebald, A.; Kümmerlen, J. Organotin       calculations. II. Spin−orbit coupling effects and anisotropies. J. Chem.
+cations stabilized by π coordination −synthesis and NMR studies in       Phys. 2000, 113, 9410−9418.
+solution and in the solid state. Chem. Ber. 1992, 125, 1597−1603.         (41) Gleeson, R.; Aggelund, P. A.; Østergaard, F. C.; Schaltz, K. F.;
+ (22) Sutton, P. G.; Harrington, C. F.; Fairman, B.; Evans, E. H.;       Sauer, S. P. A. Exploring Alternate Methods for the Calculation of
+Ebdon,  L.;  Catterick, T. The  small-scale preparation and NMR      High-Level Vibrational Corrections of NMR Spin−Spin Coupling
+characterization of isotopically enriched organotin compounds. Appl.       Constants. J. Chem. Theory Comput. 2024, 20, 1228−1243.
+Organometal. Chem. 2000, 14, 691−700.                                (42) Frisch, M. J.; Trucks, G. W.; Schlegel, H. B.; Scuseria, G. E.;
+ (23) Smith, P. J.; Tupčiauskas, A. P., Chemical Shifts of 119Sn Nuclei      Robb, M. A.; Cheeseman, J. R.; Scalmani, G.; Barone, V.; Petersson,
+in Organotin Compounds. In Annu. Rep. NMR Spectrosc., Webb, G.      G. A.; Nakatsuji, H.; Li, X.; Caricato, M.; Marenich, A. V.; Bloino, J.;
+A., Ed. Academic Press: 1978; Vol. 8, pp 291−370.                        Janesko, B. G.; Gomperts, R.; Mennucci, B.; Hratchian, H. P.; Ortiz, J.
+ (24) Kumar, M.; Nayek, H.  P. Organotin(IV) Compounds  as       V.; Izmaylov, A. F.; Sonnenberg, J. L.; Williams; Ding, F.; Lipparini,
+Catalysts for the Solvent-Free Synthesis of Naphthofurans. Organo-        F.;  Egidi,  F.; Goings,  J.; Peng,  B.; Petrone,  A.; Henderson,  T.;
+metallics 2024, 43, 2906−2915.                                         Ranasinghe, D.; Zakrzewski, V. G.; Gao,  J.; Rega, N.; Zheng, G.;
+ (25) Vieriu, S.-M.; Someşan, A.-A.; Silvestru, C.; Licarete, E.; Banciu,       Liang, W.; Hada, M.; Ehara, M.; Toyota, K.; Fukuda, R.; Hasegawa, J.;
+M.; Varga, R. A. Synthesis, structural characterization and in vitro       Ishida, M.; Nakajima, T.; Honda, Y.; Kitao, O.; Nakai, H.; Vreven, T.;
+antiproliferative  effects  of  novel  organotin(IV) compounds  with       Throssell, K.; Montgomery,  J.  A.,  Jr.;  Peralta,  J.  E.; Ogliaro,  F.;
+nicotinate and isonicotinate moieties on carcinoma cells. New J. Chem.       Bearpark, M. J.; Heyd, J. J.; Brothers, E. N.; Kudin, K. N.; Staroverov,
+2021, 45, 1020−1028.                                                  V. N.; Keith, T. A.; Kobayashi, R.; Normand,  J.; Raghavachari, K.;
+ (26) Tan, Y.; Zhang, Z.; Liu, J.; Tan, Y.; Jiang, W. Syntheses, crystal       Rendell, A. P.; Burant,  J. C.; Iyengar, S. S.; Tomasi,  J.; Cossi, M.;
+structures, and anticancer activities of organotin carboxylates based on      Millam, J. M.; Klene, M.; Adamo, C.; Cammi, R.; Ochterski, J. W.;
+                                                                         Martin, R. L.; Morokuma, K.; Farkas, O.; Foresman, J. B.; Fox, D. J.Alrestatin. J. Mol. Struct. 2025, 1322, 140697.
+                                                                      Gaussian 16; Rev. C.01: Wallingford, CT, 2016. (27) Casella, G.; Ferrante, F.; Saielli, G. Karplus-Type Dependence
+of Vicinal 119Sn-13C and 119Sn-1H Spin-Spin Couplings in Organotin-       (43) Pracht, P.; Grimme, S.; Bannwarth, C.; Bohle, F.; Ehlert, S.;
+                                                                 Feldmann, G.; Gorges,  J.;  Müller, M.; Neudecker,  T.;  Plett, C.;(IV) Derivatives: A DFT Study. Eur. J. Org Chem. 2009, 2009, 3526−
+                                                                             Spicher, S.; Steinbach, P.; Wesołowski, P. A.; Zeller, F. CRESTCR-
+3534.
+                                                    EST  A program  for  the  exploration  of  low-energy  molecular (28) Bursch, M.; Mewes,  J.-M.; Hansen,  A.; Grimme,  S. Best-
+                                                                      chemical space. J. Chem. Phys. 2024, 160, 114110.
+Practice DFT  Protocols  for  Basic  Molecular  Computational
+                                                                    (44) Bannwarth, C.; Ehlert, S.; Grimme, S. GFN2-xTBGFN2-xTB
+Chemistry. Angew. Chem., Int. Ed. 2022, 134, No. e202205735.
+                                                     An Accurate and Broadly Parametrized Self-Consistent Tight-Binding
+ (29) Rusakova, I. L. Quantum Chemical Approaches to the Calculation
+                                                       Quantum Chemical Method  with  Multipole  Electrostatics and
+of NMR Parameters: From Fundamentals to Recent Advances Magneto-                                                                 Density-Dependent  Dispersion  Contributions. JCTC  2019,  15,
+chemistry, 2022; p 50.                                                              1652−1671.
+ (30) Enevoldsen,  T.;  Visscher,  L.; Saue,  T.;  Jensen, H.  J.  A.;                                                                    (45) Reiher, M.; Salomon, O.; Artur Hess, B. Reparameterization of
+Oddershede,  J. Relativistic four-component calculations of indirect                                                                       hybrid functionals based on energy differences of states of different
+nuclear spin−spin couplings in MH4 (M = C, Si, Ge, Sn, Pb) and        multiplicity. Theor. Chem. Acc. 2001, 107, 48−55.
+Pb(CH3)3H. J. Chem. Phys. 2000, 112, 3493−3498.                      (46) Weigend, F.; Ahlrichs, R. Balanced basis sets of split valence,
+ (31) Komorovsky,  S.; Jakubowska, K.;  Świder,  P.; Repisky, M.;        triple zeta valence and quadruple zeta valence quality for H to Rn:
+Jaszuński, M. NMR Spin−Spin Coupling Constants Derived from      Design and assessment of accuracy. Phys. Chem. Chem. Phys. 2005, 7,
+Relativistic Four-Component DFT Theory   Analysis and  Visual-      3297−3305.
+ization. J. Phys. Chem. A 2020, 124, 5157−5169.                         (47) Canal Neto, A.; Ferreira, I. B.; Jorge, F. E.; de Oliveira, A. Z.
+ (32)  Casella,  G.;  Ferrante,  F.;  Saielli, G. DFT  Calculation  of       All-electron triple zeta basis sets for ZORA calculations: Application
+1J(119Sn,13C) and  2J(119Sn,1H)  Coupling  Constants  in  Di- and       in studies of atoms and molecules. Chem. Phys.  Lett. 2021, 771,
+Trimethyltin(IV) Compounds. Inorg. Chem. 2008, 47, 4796−4807.        138548.
+
+                                                             1664                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665
+=== PDF PAGE 9 ===
+The Journal of Organic Chemistry                                     pubs.acs.org/joc                                             Article
+
+ (48) Pritchard, B.  P.; Altarawy, D.; Didier,  B.; Gibson, T. D.;
+Windus, T.  L. New  Basis Set Exchange: An Open, Up-to-Date
+Resource for the Molecular Sciences Community. J. Chem. Inf. Model.
+2019, 59, 4814−4820.
+
+
+
+
+
+                                                             1665                                                         https://doi.org/10.1021/acs.joc.5c02630
+                                                                                                                                                                                                                                                 J. Org. Chem. 2026, 91, 1657−1665

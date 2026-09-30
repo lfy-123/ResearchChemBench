@@ -1,8 +1,60 @@
-{"paper_id":"paper_25cf900788ed833f","items":[
-{"key_point_id":"ar_process_system","key_point_type":"process","statement":"The submitted calculation preserves neutral singlet 1bb and the implicit DCM boundary and documents the chosen computational model.","expected":"The report identifies the supplied SMILES, charge 0, multiplicity 1, DCM, software and method choices.","evidence_ids":["ev_doc_dbe092df0646_000490_0522253e0e0e","ev_doc_dbe092df0646_000102_835f33d51a7b"]},
-{"key_point_id":"ar_process_validation","key_point_type":"process","statement":"The selected lowest transition is supported by convergence and an independent validation check tied to the submitted structure/state.","expected":"A reproducible state-selection rule and at least one concrete independent check are reported; bounded failure is documented honestly if convergence fails.","evidence_ids":["ev_doc_dbe092df0646_000109_560fc138c1e1"]},
-{"key_point_id":"ar_result_energy","key_point_type":"result","statement":"The source-reported lowest-energy transition of 1bb in DCM has excitation energy 4.3134 eV.","expected":"4.3134 eV for the lowest transition.","evidence_ids":["ev_doc_dbe092df0646_000109_560fc138c1e1"]},
-{"key_point_id":"ar_result_wavelength","key_point_type":"result","statement":"The source-reported lowest-energy transition of 1bb in DCM has wavelength 287.44 nm.","expected":"287.44 nm.","evidence_ids":["ev_doc_dbe092df0646_000109_560fc138c1e1"]},
-{"key_point_id":"ar_result_strength","key_point_type":"result","statement":"The source-reported oscillator strength is 0.3412 and transition dipole is 3.2290 D.","expected":"f = 0.3412 and transition dipole = 3.2290 D.","evidence_ids":["ev_doc_dbe092df0646_000109_560fc138c1e1"]},
-{"key_point_id":"ar_result_character","key_point_type":"result","statement":"The lowest transition is predominantly π→π* in the NTO interpretation.","expected":"The report assigns predominantly π→π* character and explains the orbital evidence.","evidence_ids":["ev_doc_dbe092df0646_000164_0a50cdbbd2c8"]}
-]}
+{
+  "paper_id": "paper_25cf900788ed833f",
+  "items": [
+    {
+      "key_point_id": "ar_process_system",
+      "key_point_type": "process",
+      "statement": "The submitted calculation preserves neutral singlet 1bb and the implicit DCM boundary and documents the chosen computational model.",
+      "expected": "The report identifies the supplied SMILES, charge 0, multiplicity 1, DCM, software and method choices.",
+      "evidence_ids": [
+        "ev_doc_dbe092df0646_000490_0522253e0e0e",
+        "ev_doc_dbe092df0646_000102_835f33d51a7b"
+      ]
+    },
+    {
+      "key_point_id": "ar_process_validation",
+      "key_point_type": "process",
+      "statement": "The selected lowest transition is supported by convergence and an independent validation check tied to the submitted structure/state.",
+      "expected": "A reproducible state-selection rule and at least one concrete independent check are reported; bounded failure is documented honestly if convergence fails.",
+      "evidence_ids": [
+        "ev_doc_dbe092df0646_000109_560fc138c1e1"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_energy",
+      "key_point_type": "result",
+      "statement": "The source-reported lowest-energy transition of 1bb in DCM has excitation energy 4.3134 eV.",
+      "expected": "4.3134 eV for the lowest transition.",
+      "evidence_ids": [
+        "ev_doc_dbe092df0646_000109_560fc138c1e1"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_wavelength",
+      "key_point_type": "result",
+      "statement": "The source-reported lowest-energy transition of 1bb in DCM has wavelength 287.44 nm.",
+      "expected": "287.44 nm.",
+      "evidence_ids": [
+        "ev_doc_dbe092df0646_000109_560fc138c1e1"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_strength",
+      "key_point_type": "result",
+      "statement": "The source-reported oscillator strength is 0.3412 and Table4 D-column value is 3.2290 (numerically |mu|^2 in atomic units, not Debye).",
+      "expected": "f = 0.3412 and Table4 D-column value = 3.2290; compare a Debye magnitude only after sqrt(D)*2.541746 conversion.",
+      "evidence_ids": [
+        "ev_doc_dbe092df0646_000109_560fc138c1e1"
+      ]
+    },
+    {
+      "key_point_id": "ar_result_character",
+      "key_point_type": "result",
+      "statement": "The lowest transition is predominantly π→π* in the NTO interpretation.",
+      "expected": "The report assigns predominantly π→π* character and explains the orbital evidence.",
+      "evidence_ids": [
+        "ev_doc_dbe092df0646_000164_0a50cdbbd2c8"
+      ]
+    }
+  ]
+}

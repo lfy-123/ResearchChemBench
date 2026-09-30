@@ -1,0 +1,138 @@
+{
+  "origin": "Benchmark ideal crystal prototypes, not retrieved source CIF or relaxed answers",
+  "B2": {
+    "basis": [
+      {
+        "element": "Ni",
+        "fractional": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "element": "Al",
+        "fractional": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    ],
+    "a_start_angstrom": 2.89
+  },
+  "L12_Ni3Al": {
+    "basis": [
+      {
+        "element": "Al",
+        "fractional": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "element": "Ni",
+        "fractional": [
+          0,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "element": "Ni",
+        "fractional": [
+          0.5,
+          0,
+          0.5
+        ]
+      },
+      {
+        "element": "Ni",
+        "fractional": [
+          0.5,
+          0.5,
+          0
+        ]
+      }
+    ],
+    "a_start_angstrom": 3.57,
+    "note": "Lattice guess only; optimize independently"
+  },
+  "reservoirs": {
+    "Ni": "ferromagnetic fcc Ni conventional lattice start 3.52 angstrom",
+    "Al": "fcc Al conventional lattice start 4.05 angstrom",
+    "fcc_basis": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0.5,
+        0.5
+      ],
+      [
+        0.5,
+        0,
+        0.5
+      ],
+      [
+        0.5,
+        0.5,
+        0
+      ]
+    ]
+  },
+  "bulk_controls": {
+    "baseline_supercell": [
+      2,
+      2,
+      2
+    ],
+    "larger_supercell": [
+      3,
+      3,
+      3
+    ],
+    "vacancy_sites": [
+      "remove Ni basis0",
+      "remove Al basis1"
+    ],
+    "identity": "Record each atom as (ix,iy,iz,basis) before deletion"
+  },
+  "slabs": {
+    "orientations": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0
+      ]
+    ],
+    "surface_supercell": [
+      2,
+      2
+    ],
+    "baseline_layers": 7,
+    "thicker_layers": 9,
+    "vacuum_start_angstrom": 15,
+    "vacuum_control_angstrom": 20,
+    "100_terminations": [
+      "Ni",
+      "Al"
+    ],
+    "110_termination": "mixed stoichiometric",
+    "mapping": "Use bulk integer cell/basis labels plus layer index. Archive exact generated slabs and count every atom.",
+    "symmetry": "Use inversion-equivalent two-face symmetric slabs where possible. Nonstoichiometric symmetric (100) terminations require chemical potentials. For asymmetric slabs account for two inequivalent surfaces and dipole correction; never assign a single surface energy from their sum.",
+    "relaxation": "Hold central layer bulk-like; relax outer layers; converge thickness before interpreting surface energy."
+  },
+  "exchange": "For each termination exchange a surface Ni with a central-layer Al and a surface Al with central-layer Ni when each species is present; preserve composition and report signed E_exchanged-E_clean. Absence of species in top plane is handled by topmost layer containing that species, reported explicitly.",
+  "transfer": "Remove one species from a separate bulk cell and add it to a slab at candidate top/bridge/hollow sites; sum energies bulk-vacancy + slab-adatom - pristine-bulk - pristine-slab. Same species/atom count overall; no reservoirs needed for this balanced cycle.",
+  "phase_scope": "Compare L12 Ni3Al bulk grand potential with B2 under the same reservoirs. This is a phase thermodynamic competitor, not a modeled coherent precipitate/interface."
+}

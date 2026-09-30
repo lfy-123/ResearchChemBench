@@ -1,0 +1,143 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Authenticate CCDC2445596 source bytes, measured cell/space group, composition, occupancy/disorder and graph-to-CIF mapping. Check each investigated representation and its relationship to the source. Do not accept arbitrary placed dimers or checkCIF images as crystal coordinates. Geometry relaxation may be a deliberate study but cannot be silently substituted for measured packing. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.source_structure",
+          "$.investigated_entities",
+          "$.artifact_index"
+        ],
+        "comparison": "Authenticate CCDC2445596 source bytes, measured cell/space group, composition, occupancy/disorder and graph-to-CIF mapping. Check each investigated representation and its relationship to the source. Do not accept arbitrary placed dimers or checkCIF images as crystal coordinates. Geometry relaxation may be a deliberate study but cannot be silently substituted for measured packing. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_quantitative_support",
+      "reference_id": "kp_quantitative_support",
+      "type": "semantic",
+      "expected": "Check numerical definitions, object coverage and raw evidence appropriate to the submitted analysis. Area claims need a valid area measure rather than atom-pair counts; energy claims need consistent composition, geometry, states and energy reference with demonstrated numerical/basis adequacy. These are conditional standards, not a requirement to compute both surface areas and energies. No fixed cutoff, CP sequence, pair count or surface method is mandatory. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.methods",
+          "$.execution_records",
+          "$.investigated_entities"
+        ],
+        "comparison": "Check numerical definitions, object coverage and raw evidence appropriate to the submitted analysis. Area claims need a valid area measure rather than atom-pair counts; energy claims need consistent composition, geometry, states and energy reference with demonstrated numerical/basis adequacy. These are conditional standards, not a requirement to compute both surface areas and energies. No fixed cutoff, CP sequence, pair count or surface method is mandatory. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_scientific_interpretation",
+      "reference_id": "kp_scientific_interpretation",
+      "type": "semantic",
+      "expected": "Assess whether the submitted evidence can support, falsify or limit its intermolecular interpretation. Inspect selection and relevant neglected interactions or modeling confounds in relation to the claim, not a preselected contact list. An alternative physical analysis may earn full credit. Geometric overlap or high contact frequency alone is not an interaction-energy decomposition or causal stabilization proof. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.packing_assessment",
+          "$.claims",
+          "$.comparisons"
+        ],
+        "comparison": "Assess whether the submitted evidence can support, falsify or limit its intermolecular interpretation. Inspect selection and relevant neglected interactions or modeling confounds in relation to the claim, not a preselected contact list. An alternative physical analysis may earn full credit. Geometric overlap or high contact frequency alone is not an interaction-energy decomposition or causal stabilization proof. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty_limits",
+      "reference_id": "kp_uncertainty_limits",
+      "type": "semantic",
+      "expected": "Evaluate uncertainty from actual data quality and the chosen representation, numerical analysis and coverage. Require a quantitative or justified bounded resolution where differences support a claim; do not invent a universal tolerance. A finite molecular interaction analysis cannot alone establish bulk free energy or biological activity. Unavailable coordinates are a prerequisite failure, not evidence that mechanisms are indistinguishable. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.quantitative_observations",
+          "$.packing_assessment",
+          "$.conclusion"
+        ],
+        "comparison": "Evaluate uncertainty from actual data quality and the chosen representation, numerical analysis and coverage. Require a quantitative or justified bounded resolution where differences support a claim; do not invent a universal tolerance. A finite molecular interaction analysis cannot alone establish bulk free energy or biological activity. Unavailable coordinates are a prerequisite failure, not evidence that mechanisms are indistinguishable. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the specified question within the explicitly investigated domain. Supported, refuted and evidence-sufficient unresolved conclusions are eligible for equal credit. Scope reductions must be explicit; untested parts cannot be generalized. Distinguish complete scientific non-identifiability from missing input or failed calculations. Do not require any author-specific hypothesis count, control matrix, method, winner or numerical answer. Historical package PASS is not V2 evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.addressed_scope",
+          "$.artifact_index"
+        ],
+        "comparison": "Answer the specified question within the explicitly investigated domain. Supported, refuted and evidence-sufficient unresolved conclusions are eligible for equal credit. Scope reductions must be explicit; untested parts cannot be generalized. Distinguish complete scientific non-identifiability from missing input or failed calculations. Do not require any author-specific hypothesis count, control matrix, method, winner or numerical answer. Historical package PASS is not V2 evidence."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Authentic source crystal and correctly related representations",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "quantitative_support",
+      "max_score": 25,
+      "description": "Reproducible, relevant quantitative evidence",
+      "rule_ids": [
+        "rule_quantitative_support"
+      ]
+    },
+    {
+      "id": "scientific_interpretation",
+      "max_score": 25,
+      "description": "Evidence discriminates the proposed packing explanation",
+      "rule_ids": [
+        "rule_scientific_interpretation"
+      ]
+    },
+    {
+      "id": "uncertainty_limits",
+      "max_score": 20,
+      "description": "Claim-appropriate uncertainty and scientific scope",
+      "rule_ids": [
+        "rule_uncertainty_limits"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-proportionate answer and explicit limits",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "calibration_status": "pending_real_semantic_judge_and_expanded_reference",
+  "deployment_disposition": "input_blocked_do_not_deploy",
+  "scoring_boundary": "Offline schema/artifact validation does not certify scientific conclusions. Exact or broad numerical equivalence requires reference-specific justification; no blanket tolerance. Credit independent valid parts, but invalidate dependent claims when their evidence fails. Operator-caused missing mandatory public input is a task prerequisite defect: exclude such a run from agent capability comparisons rather than assigning a low science score for the unavailable input. Package disposition is an operator instruction, not an implemented host dispatch gate."
+}

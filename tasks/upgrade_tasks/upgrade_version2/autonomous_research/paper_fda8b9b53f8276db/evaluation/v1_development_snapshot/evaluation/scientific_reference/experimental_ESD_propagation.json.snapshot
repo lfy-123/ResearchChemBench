@@ -1,0 +1,226 @@
+{
+  "reported_marginal_ESD_A": [
+    0.001,
+    0.001,
+    0.001,
+    0.001,
+    0.001,
+    0.001
+  ],
+  "experimental_covariance": "not provided",
+  "method": "First-order delta-method propagation; diagonal covariance is an explicitly labeled approximation. Worst-correlation SD is sum(abs(gradient_i)*ESD_i), not a hard interval. No crystallographic significance claim from rounding-only bounds.",
+  "states": {
+    "legacy_cis_gas": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.2563783412397025,
+        0.13297648790830924,
+        0.06612231974071922,
+        0.11390848304932893,
+        0.164183107102686,
+        -0.19735924132665145
+      ],
+      "RMSE_SD_independent_ESD_A": 0.0004082482904638631,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0009309279803673973
+    },
+    "legacy_trans_gas": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.17758972257343553,
+        0.07981058335931754,
+        0.009244488902519788,
+        0.06775389164979481,
+        0.23102460792791174,
+        -0.26591428696065955
+      ],
+      "RMSE_SD_independent_ESD_A": 0.00040824829046386303,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0008313375813736389
+    },
+    "cis_gas": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.25627956619892617,
+        0.1328043643577116,
+        0.06620643561070012,
+        0.11395525915593957,
+        0.16415275596020848,
+        -0.19757335581550006
+      ],
+      "RMSE_SD_independent_ESD_A": 0.0004082482904638631,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.000930971737098986
+    },
+    "trans_gas": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.1790214611582549,
+        0.07901243759094344,
+        0.00828750341653157,
+        0.06758623278906256,
+        0.23127642369492363,
+        -0.2650465092861197
+      ],
+      "RMSE_SD_independent_ESD_A": 0.00040824829046386303,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0008302305679358359
+    },
+    "cis_MeCN": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.2896830556928827,
+        0.16761042749808555,
+        -0.05321850445491441,
+        0.04821444347991533,
+        0.13068349518066766,
+        -0.180061436226302
+      ],
+      "RMSE_SD_independent_ESD_A": 0.0004082482904638631,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0008694713625327676
+    },
+    "trans_MeCN": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.2283644074574492,
+        0.14737331382891974,
+        -0.09644043591892432,
+        0.012698255823929517,
+        0.16213148693992266,
+        -0.23884900670885173
+      ],
+      "RMSE_SD_independent_ESD_A": 0.00040824829046386303,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0008858569066779972
+    },
+    "gas_fixed": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.33012485448308576,
+        0.017283237406115107,
+        0.0194981950678501,
+        0.046804622823165054,
+        0.12177306865098662,
+        -0.19996500755570057
+      ],
+      "RMSE_SD_independent_ESD_A": 0.00040824829046386303,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0007354489859869032
+    },
+    "MeCN_fixed": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.34884887657475216,
+        0.030130668658798414,
+        -0.059106264956297234,
+        -0.0024122853468171632,
+        0.0925596748068687,
+        -0.17887595620245306
+      ],
+      "RMSE_SD_independent_ESD_A": 0.000408248290463863,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0007119337265459868
+    },
+    "cis_grid": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.2563783412397025,
+        0.13297648790830924,
+        0.06612231974071922,
+        0.11390848304932893,
+        0.164183107102686,
+        -0.19735924132665145
+      ],
+      "RMSE_SD_independent_ESD_A": 0.0004082482904638631,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0009309279803673973
+    },
+    "trans_grid": {
+      "RMSE_gradient_wrt_experimental_lengths": [
+        -0.17758972257343553,
+        0.07981058335931754,
+        0.009244488902519788,
+        0.06775389164979481,
+        0.23102460792791174,
+        -0.26591428696065955
+      ],
+      "RMSE_SD_independent_ESD_A": 0.00040824829046386303,
+      "RMSE_SD_max_arbitrary_correlation_first_order_A": 0.0008313375813736389
+    }
+  },
+  "contrasts": {
+    "gas_torsion": {
+      "difference_A": 0.001851818910328872,
+      "gradient_wrt_common_experimental_lengths": [
+        -0.0738452882841596,
+        -0.11552112695159648,
+        -0.04670824054285003,
+        -0.06715063633277452,
+        -0.042379687309221856,
+        -0.0023916517402005066
+      ],
+      "SD_independent_ESD_A": 0.00016519952470548033,
+      "SD_max_arbitrary_correlation_first_order_A": 0.00034799663116080303,
+      "reported_direction_is_deterministic_computed_contrast": true,
+      "statistical_significance_claim": false
+    },
+    "MeCN_torsion": {
+      "difference_A": 0.002033124026516317,
+      "gradient_wrt_common_experimental_lengths": [
+        -0.059165820881869446,
+        -0.13747975883928715,
+        -0.005887760501382823,
+        -0.0506267288267325,
+        -0.03812382037379895,
+        0.0011854800238489394
+      ],
+      "SD_independent_ESD_A": 0.00016264636758726522,
+      "SD_max_arbitrary_correlation_first_order_A": 0.0002924693694469198,
+      "reported_direction_is_deterministic_computed_contrast": true,
+      "statistical_significance_claim": false
+    },
+    "gas_trans_minus_cis": {
+      "difference_A": -0.0010459009344860322,
+      "gradient_wrt_common_experimental_lengths": [
+        0.07725810504067127,
+        -0.05379192676676815,
+        -0.057918932194168556,
+        -0.04636902636687701,
+        0.06712366773471515,
+        -0.06747315347061966
+      ],
+      "SD_independent_ESD_A": 0.000153053221795269,
+      "SD_max_arbitrary_correlation_first_order_A": 0.0003699348115738198,
+      "reported_direction_is_deterministic_computed_contrast": true,
+      "statistical_significance_claim": false
+    },
+    "MeCN_trans_minus_cis": {
+      "difference_A": -0.0006718698722593579,
+      "gradient_wrt_common_experimental_lengths": [
+        0.06131864823543351,
+        -0.020237113669165807,
+        -0.043221931464009905,
+        -0.03551618765598581,
+        0.031447991759255,
+        -0.058787570482549734
+      ],
+      "SD_independent_ESD_A": 0.00010836976960898858,
+      "SD_max_arbitrary_correlation_first_order_A": 0.00025052944326639975,
+      "reported_direction_is_deterministic_computed_contrast": true,
+      "statistical_significance_claim": false
+    },
+    "cis_MeCN_minus_gas": {
+      "difference_A": -0.0004953346266916925,
+      "gradient_wrt_common_experimental_lengths": [
+        -0.03340348949395655,
+        0.03480606314037396,
+        -0.11942494006561453,
+        -0.06574081567602424,
+        -0.03346926077954082,
+        0.017511919589198066
+      ],
+      "SD_independent_ESD_A": 0.00014945997806087297,
+      "SD_max_arbitrary_correlation_first_order_A": 0.00030435648874470815,
+      "reported_direction_is_deterministic_computed_contrast": true,
+      "statistical_significance_claim": false
+    },
+    "trans_MeCN_minus_gas": {
+      "difference_A": -0.00012130356446501825,
+      "gradient_wrt_common_experimental_lengths": [
+        -0.04934294629919431,
+        0.0683608762379763,
+        -0.10472793933545589,
+        -0.05488797696513305,
+        -0.06914493675500097,
+        0.026197502577267995
+      ],
+      "SD_independent_ESD_A": 0.00016295980627880006,
+      "SD_max_arbitrary_correlation_first_order_A": 0.00037266217817002854,
+      "reported_direction_is_deterministic_computed_contrast": true,
+      "statistical_significance_claim": false
+    }
+  }
+}

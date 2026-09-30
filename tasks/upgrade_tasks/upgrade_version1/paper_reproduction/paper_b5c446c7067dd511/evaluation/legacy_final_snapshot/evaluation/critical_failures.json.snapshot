@@ -1,0 +1,20 @@
+{
+  "paper_id": "paper_b5c446c7067dd511",
+  "items": [
+    {
+      "failure_id": "cf_pr_wrong_system",
+      "condition": "A result is assigned to an ambiguous or incorrect connectivity, charge or multiplicity, or molecule IDs are not preserved.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_pr_unvalidated_states",
+      "condition": "Reported gaps cannot be traced to completed calculations with state labels, units and arithmetic checks, or the report silently mixes inconsistent state definitions.",
+      "severity": "scientifically serious"
+    },
+    {
+      "failure_id": "cf_pr_answer_claim",
+      "condition": "The required state-character conclusion is asserted without matching state-resolved computational evidence, or a RISC rate is represented as calculated when it was not calculated.",
+      "severity": "scientifically serious"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "task_type": "autonomous_research",
+  "title": "Independent computational comparison of two cis-(egan)IrCl structures",
+  "category": "computational_chemistry",
+  "difficulty": "easy",
+  "difficulty_reasons": [
+    "The scientific objects and observables are fixed; the agent mainly plans a defensible calculation, validates both endpoints and reports the comparison."
+  ],
+  "paper": {
+    "title": "d5dt02509e 2088..2099 ++",
+    "doi": "10.1039/d5dt02509e",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two self-contained source-provided 58-atom XYZ geometries for the named neutral singlet cis-alpha and cis-beta (egan)IrCl complexes; the task compares their electronic energies, not discovery of their structures."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured computational results, method, validation, energy difference, ordering, conclusion and limitations."
+    }
+  ]
+}

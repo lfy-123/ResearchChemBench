@@ -1,0 +1,69 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "scope": "Determine whether dispersion, the aromatic C–H···O contact, or entropy/solvation explains the V(+), V(−), and Z conformational balance of SNaft and SAntr, using independent basin searches and paired fixed/relaxed interventions.",
+  "species": [
+    {
+      "id": "SNaft",
+      "mapped_smiles": "[NH2:1][c:2]1[cH:3][cH:4][c:5]([S:6](=[O:7])(=[O:8])[NH:9][c:10]2[cH:11][cH:12][c:13]3[cH:14][cH:15][cH:16][cH:17][c:18]3[cH:19]2)[cH:20][cH:21]1",
+      "formula": "C16H14N2O2S",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    },
+    {
+      "id": "SAntr",
+      "mapped_smiles": "[NH2:1][c:2]1[cH:3][cH:4][c:5]([S:6](=[O:7])(=[O:8])[NH:9][c:10]2[cH:11][cH:12][c:13]3[cH:14][c:15]4[cH:16][cH:17][cH:18][cH:19][c:20]4[cH:21][c:22]3[cH:23]2)[cH:24][cH:25]1",
+      "formula": "C20H16N2O2S",
+      "charge": 0,
+      "multiplicity": 1,
+      "source": "Benchmark identity transcribed from cited structural definition",
+      "atom_mapping": "Integer atom maps identify graph atoms; retain maps across generated coordinates. Add explicit hydrogens deterministically and record their parent map. No reference geometry is supplied."
+    }
+  ],
+  "controls": {
+    "torsion_and_contact_maps": {
+      "SNaft": {
+        "CSNC_maps": [
+          5,
+          6,
+          9,
+          10
+        ],
+        "sulfonyl_O_maps": [
+          7,
+          8
+        ],
+        "aryl_CH_donor_maps": [
+          11,
+          19
+        ]
+      },
+      "SAntr": {
+        "CSNC_maps": [
+          5,
+          6,
+          9,
+          10
+        ],
+        "sulfonyl_O_maps": [
+          7,
+          8
+        ],
+        "aryl_CH_donor_maps": [
+          11,
+          23
+        ]
+      }
+    },
+    "baseline": "R2SCAN/def2-TZVP with documented D3(BJ) switch; vacuum and methanol continuum at 298.15K. Use identical RRHO/quasi-RRHO correction convention (Grimme interpolation 100 cm^-1 baseline) and 1 atm reference throughout; report any 1M conversion separately.",
+    "dispersion": "For each system/environment evaluate D3-on and D3-off at the same geometries and also relax each from every basin. Fixed-geometry ΔED3 is an electronic control; relaxed ΔG includes geometry/entropy changes.",
+    "contact_intervention": "For each molecule retain the mapped CSNC/common-core geometry while moving the closest mapped PAH C-H donor away from sulfonyl oxygen; use restrained H···O>=3.5 Å and compare to contact-capable geometry with same restraint budget. Report all changed torsions and restraint energies. This perturbs contact and strain, so is not a pure isolated hydrogen-bond energy.",
+    "weights": "Normalize only distinct minimum endpoints. Deduplicate merges; constrain no artificial V/Z minimum. Include low-frequency cutoff sensitivity 50 vs100 cm^-1."
+  },
+  "source_notes": [
+    "Main conformational/interactions discussion including C–H···O contact; SI pp8–10 TableS8 vacuum electronic and Gibbs values are distinct reference quantities."
+  ],
+  "molecular_boundary": "Neutral singlet molecules only. Initialize CSNC torsions in V(+) 20–80°, V(−) −80 to −20°, and Z |torsion| 140–180°; these labels are starting basins, not guaranteed distinct minima. Compare free energies only within the same molecule/environment and electronic protocol. C–H···O, not an assumed N–H···O contact, is the source interaction at issue. All required comparisons are core; the optional extension listed below is not a completion condition. A documented failure is a valid submission but is not scientific completion. Evidence-supported collapse of an initialized basin, or inability to distinguish explanations after completing the core matrix, is scientifically admissible. An unattempted core comparison cannot be replaced by an uncertainty statement.",
+  "optional_not_required": "Different protonation states, charges and antifungal pharmacology must not be mixed into the same ensemble."
+}

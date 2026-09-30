@@ -188,6 +188,15 @@ def api_run_trace(run_id: str):
     return jsonify(load_tool_trace(workspace))
 
 
+@app.route("/api/runs/<run_id>/progress")
+def api_run_progress(run_id: str):
+    workspace = get_run_workspace(run_id)
+    if workspace is None:
+        return jsonify({"error": "Run not found"}), 404
+    from ..provenance.progress_snapshot import build_progress_snapshot
+    return jsonify(build_progress_snapshot(workspace))
+
+
 @app.route("/api/runs/<run_id>/stream")
 def api_run_stream(run_id: str):
     workspace = get_run_workspace(run_id)
@@ -198,8 +207,9 @@ def api_run_stream(run_id: str):
     meta_path = workspace / "_meta.json"
 
     def generate():
-        output_offset = 0
-        trace_offset = 0
+        from ..provenance.progress_snapshot import JsonlCursor, build_progress_snapshot
+        cursors = {"output": JsonlCursor(), "trace": JsonlCursor()}
+        last_progress = -100
         keepalive = 0
         while True:
             for event_type, path, offset_name in (
@@ -208,20 +218,23 @@ def api_run_stream(run_id: str):
             ):
                 if not path.exists():
                     continue
-                lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
-                offset = output_offset if offset_name == "output" else trace_offset
-                for line in lines[offset:]:
+                for line in cursors[offset_name].read(path):
                     payload = {"stream": event_type, "line": line}
                     yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
-                if offset_name == "output":
-                    output_offset = len(lines)
-                else:
-                    trace_offset = len(lines)
+            if time.monotonic() - last_progress >= 5:
+                snapshot = build_progress_snapshot(workspace)
+                yield f"data: {json.dumps({'stream': 'progress', 'progress': snapshot}, ensure_ascii=False)}\n\n"
+                last_progress = time.monotonic()
 
             if meta_path.exists():
                 try:
                     meta = json.loads(meta_path.read_text(encoding="utf-8"))
-                    if meta.get("status") in {"completed", "failed"}:
+                    if meta.get("status") in {"completed", "failed", "cancelled", "timeout", "stopped", "budget_exhausted", "suspended_infrastructure", "recovery_blocked"}:
+                        # Finished historical logs may exceed one bounded read.
+                        # Drain the remaining pages before closing the stream.
+                        if any(path.exists() and cursor.offset < path.stat().st_size
+                               for path, cursor in ((output_path, cursors["output"]), (trace_path, cursors["trace"]))):
+                            continue
                         yield f"data: {json.dumps({'stream': 'system', 'status': meta['status']})}\n\n"
                         break
                 except (json.JSONDecodeError, OSError):

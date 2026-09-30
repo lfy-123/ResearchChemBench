@@ -6,15 +6,15 @@ The authors use electronic-structure calculations to rationalize why selenium-in
 
 ## 2. System and model boundary
 
-The modeled species is the Cy2 cation, excluding the two iodide counterions, with the SI Cartesian S0 structure as the starting geometry. The calculations use chloroform continuum solvation. The relevant states are singlet ground state S0, lowest singlet excited state S1, and lowest triplet states T1 and T2. The reported T1 adiabatic energy is relative to S0.
+The modeled species is the Cy2 cation, with no iodide counterion, with the SI Cartesian S0 structure as the starting geometry. The calculations use chloroform continuum solvation. The relevant states are singlet ground state S0, lowest singlet excited state S1, and lowest triplet states T1 and T2. The reported T1 adiabatic energy is relative to S0.
 
 ## 3. Authors' implemented computational route
 
 | Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
 |---|---|---|---|---|---|---|
-| 1 | Optimize ground-state structure | Cy2 S0 coordinates, iodides omitted | Gaussian 16 DFT | B3LYP/6-31G(d,p); SMD chloroform; SDD for iodine and def2TZVP for selenium | optimized S0 geometry and vibrational analysis | ev_doc_12faeb9900c2_000087_bfb5062814ef; ev_doc_12faeb9900c2_000088_e3402a1f5a87; ev_doc_12faeb9900c2_000283_fbb6424a09c6 |
+| 1 | Optimize ground-state structure | Cy2 S0 coordinates, iodides omitted | Gaussian 16 DFT | B3LYP/6-31G(d,p); SMD chloroform; def2TZVP for the two Se atoms; Cy2 has no iodine, so the general SI iodine/SDD clause is inactive | optimized S0 geometry and vibrational analysis | ev_doc_12faeb9900c2_000087_bfb5062814ef; ev_doc_12faeb9900c2_000088_e3402a1f5a87; ev_doc_12faeb9900c2_000283_fbb6424a09c6 |
 | 2 | Compute vertical excited states | optimized S0 geometry | Gaussian 16 TDDFT | same functional, solvent and heavy-element basis treatment | vertical S1, T1, T2 energies and transitions | ev_doc_12faeb9900c2_000088_e3402a1f5a87; ev_doc_12faeb9900c2_000177_2042854d666b |
-| 3 | Relax the lowest triplet | optimized S0 geometry and T1 state | Gaussian 16 unrestricted/TDDFT excited-state optimization | same model boundary and solvent | relaxed T1 geometry and adiabatic T1 energy | ev_doc_abac62ae831c_000240_eb03647e9fdc; ev_doc_abac62ae831c_000242_6593d5c6384c |
+| 3 | Relax the lowest triplet | optimized S0 geometry and T1 state | Gaussian 16 TDDFT triplet-root optimization on the singlet reference (TD=Triplets,Root=1); not unrestricted ground-state DFT at multiplicity 3 | same model boundary and solvent | relaxed T1 geometry and adiabatic T1 energy | ev_doc_abac62ae831c_000240_eb03647e9fdc; ev_doc_abac62ae831c_000242_6593d5c6384c |
 | 4 | Interpret photophysics | computed states and orbital/electron-hole descriptors | Multiwfn/GaussView analysis plus comparison with kinetics | compare state gaps, selenium contributions and ISC-related observations | mechanistic interpretation of selenium-enhanced triplet formation | ev_doc_abac62ae831c_000212_608edbbbbd81; ev_doc_abac62ae831c_000240_eb03647e9fdc |
 
 ## 4. Validation and analysis protocol

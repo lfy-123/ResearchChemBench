@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "task_type": "autonomous_research",
+  "title": "Gas-phase frontier-orbital investigation of an E-isoxazolone",
+  "category": "quantum chemistry / electronic structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The Agent must independently choose a defensible model and discriminate conformers before evaluating the fixed orbital observables.",
+    "Robust interpretation requires stationary-point validation and assessment of conformer or model sensitivity."
+  ],
+  "paper": {
+    "title": "Structural and computational investigation of the novel isoxazole derivative: Investigation of interactions by X-ray crystallography, DFT, molecular docking",
+    "doi": "10.1016/j.molstruc.2026.145359",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-04-25"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Exact connectivity, E stereochemistry, charge, multiplicity, gas-phase boundary, units, and gap definition for compound 1a."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable independent investigation, validation, orbital results or bounded-failure evidence, and conclusion."
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "paper_id": "paper_94b0a8ae694590ea",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "type": "semantic",
+      "expected": "All three molecules are identified with neutral-singlet state or bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.molecules",
+          "$.molecules[].name",
+          "$.molecules[].charge",
+          "$.molecules[].multiplicity",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_identity"
+    },
+    {
+      "rule_id": "r_validation",
+      "type": "semantic",
+      "expected": "Method, state, convergence/validation and stopping are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.validation",
+          "$.molecules[].validation_evidence",
+          "$.coverage",
+          "$.stopping_rule"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_validation"
+    },
+    {
+      "rule_id": "r_levels",
+      "type": "semantic",
+      "expected": "Reported values reproduce the source pattern in eV.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].name",
+          "$.molecules[].homo_eV",
+          "$.molecules[].lumo_eV",
+          "$.molecules[].units"
+        ],
+        "comparison": "expert numeric comparison"
+      },
+      "reference_id": "kp_result_levels"
+    },
+    {
+      "rule_id": "r_order",
+      "type": "semantic",
+      "expected": "2(C8Ph)-TTA is highest for both levels and claims are bounded.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ordering",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_ordering"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "Final level pattern agrees with source.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "conclusion_final_levels"
+    },
+    {
+      "rule_id": "r_lim",
+      "type": "semantic",
+      "expected": "Isolated evidence is distinguished from interface proof.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "conclusion_limitations"
+    }
+  ]
+}

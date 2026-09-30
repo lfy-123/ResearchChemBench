@@ -15,6 +15,10 @@ from typing import Any, Iterator, Mapping
 AVAILABLE_CPU_CORES_ENV = "RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES"
 AVAILABLE_MEMORY_MB_ENV = "RESEARCHCHEMBENCH_AVAILABLE_MEMORY_MB"
 AVAILABLE_GPU_COUNT_ENV = "RESEARCHCHEMBENCH_AVAILABLE_GPU_COUNT"
+# Optional shared allocation scope for several otherwise independent task
+# workspaces on the same host.  The ordinary evaluator behavior remains
+# workspace-local unless this variable is explicitly set by an orchestrator.
+GLOBAL_RESOURCE_ALLOCATION_ROOT_ENV = "RESEARCHCHEMBENCH_GLOBAL_RESOURCE_ALLOCATION_ROOT"
 
 DEFAULT_AVAILABLE_CPU_CORES = 48
 DEFAULT_AVAILABLE_MEMORY_MB = 204_800
@@ -194,7 +198,11 @@ def _workspace_root() -> Path:
 
 
 def _budget_directory() -> Path:
-    path = _workspace_root() / "outputs" / ".resource_budget"
+    global_root = os.environ.get(GLOBAL_RESOURCE_ALLOCATION_ROOT_ENV, "").strip()
+    if global_root:
+        path = Path(global_root).expanduser().resolve() / ".resource_budget"
+    else:
+        path = _workspace_root() / "outputs" / ".resource_budget"
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -209,6 +217,55 @@ def _add_resources(total: dict[str, int], resources: Mapping[str, Any]) -> None:
         total[name] += normalized[name]
 
 
+def _active_status_paths() -> Iterator[Path]:
+    """Yield active-job status candidates in the configured allocation scope.
+
+    Normal benchmark runs isolate each task workspace.  A host-level
+    orchestrator may explicitly opt several independent workspaces into one
+    allocation root; in that mode CPU *and* memory accounting must scan the
+    same shared scope used by CPU-id selection.
+    """
+
+    global_root = os.environ.get(GLOBAL_RESOURCE_ALLOCATION_ROOT_ENV, "").strip()
+    if global_root:
+        root = Path(global_root).expanduser().resolve()
+        yield from root.rglob("outputs/execution_jobs/job_*/status.json")
+        return
+    jobs = _workspace_root() / "outputs" / "execution_jobs"
+    if jobs.is_dir():
+        yield from jobs.glob("job_*/status.json")
+
+
+def _status_uses_current_cpu_pool(status: Mapping[str, Any]) -> bool:
+    """Return whether a shared-scope job belongs to this process's CPU pool.
+
+    Group-level orchestrators may isolate new work on a disjoint CPU range
+    while legacy jobs continue naturally on the old range.  Shared accounting
+    must not charge those legacy jobs against the new pool's aggregate quota.
+    A record without explicit CPU ids is retained conservatively.
+    """
+    if status.get("recovery_managed"):
+        return False  # Charged by the persistent reservation, never by both.
+    if not os.environ.get(GLOBAL_RESOURCE_ALLOCATION_ROOT_ENV, "").strip():
+        return True
+    cpu_ids = [
+        int(item)
+        for item in (status.get("resource_allocation") or {}).get("cpu_ids") or []
+    ]
+    if not cpu_ids or not hasattr(os, "sched_getaffinity"):
+        return True
+    if set(cpu_ids) & set(os.sched_getaffinity(0)):
+        return True
+
+    # Records outside the orchestrator's affinity range belong to the legacy
+    # pool (typically jobs that survived a server migration).  They may still
+    # be running and are deliberately left untouched, but charging them to
+    # the new pool's evaluator quota would prevent any recovery work from
+    # being scheduled.  Physical host capacity is checked independently by
+    # the operator; this function only defines the shared *allocation scope*.
+    return False
+
+
 def _process_exists(pid: int) -> bool:
     try:
         os.kill(pid, 0)
@@ -218,17 +275,15 @@ def _process_exists(pid: int) -> bool:
 
 
 def active_resource_usage() -> dict[str, int]:
-    root = _workspace_root()
     total = _zero_resources()
-    jobs = root / "outputs" / "execution_jobs"
-    if jobs.is_dir():
-        for path in jobs.glob("job_*/status.json"):
-            try:
-                status = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError, TypeError):
-                continue
-            if str(status.get("status", "")).casefold() in ACTIVE_JOB_STATES:
-                _add_resources(total, status.get("resource_limits") or {})
+    for path in _active_status_paths():
+        try:
+            status = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, TypeError):
+            continue
+        if (str(status.get("status", "")).casefold() in ACTIVE_JOB_STATES and
+                _status_uses_current_cpu_pool(status)):
+            _add_resources(total, status.get("resource_limits") or {})
     reservations = _budget_directory() / "reservations"
     if reservations.is_dir():
         for path in reservations.glob("*.json"):
@@ -237,7 +292,7 @@ def active_resource_usage() -> dict[str, int]:
                 pid = int(reservation.get("pid") or 0)
             except (OSError, json.JSONDecodeError, TypeError, ValueError):
                 continue
-            if pid > 0 and _process_exists(pid):
+            if reservation.get("owner_id") or (pid > 0 and _process_exists(pid)):
                 _add_resources(total, reservation.get("resource_limits") or {})
             else:
                 path.unlink(missing_ok=True)
@@ -247,36 +302,33 @@ def active_resource_usage() -> dict[str, int]:
 def active_resource_jobs() -> list[dict[str, Any]]:
     """Return the active jobs and transient reservations consuming the task budget."""
 
-    root = _workspace_root()
     records: list[dict[str, Any]] = []
-    jobs = root / "outputs" / "execution_jobs"
-    if jobs.is_dir():
-        for path in sorted(jobs.glob("job_*/status.json")):
-            try:
-                status = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError, TypeError):
-                continue
-            state = str(status.get("status", "")).casefold()
-            if state not in ACTIVE_JOB_STATES:
-                continue
-            records.append(
-                {
-                    "record_type": "execution_job",
-                    "job_id": status.get("job_id") or path.parent.name,
-                    "job_type": status.get("job_type"),
-                    "status": state,
-                    "label": (status.get("metadata") or {}).get("label"),
-                    "resource_limits": normalize_resource_limits(
-                        status.get("resource_limits") or {}
-                    ),
-                    "resource_allocation": dict(
-                        status.get("resource_allocation") or {}
-                    ),
-                    "submitted_at": status.get("submitted_at"),
-                    "supervisor_pid": status.get("supervisor_pid"),
-                    "release_condition": "job reaches success, failed, timeout, or cancelled",
-                }
-            )
+    for path in sorted(_active_status_paths()):
+        try:
+            status = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, TypeError):
+            continue
+        state = str(status.get("status", "")).casefold()
+        if state not in ACTIVE_JOB_STATES or not _status_uses_current_cpu_pool(status):
+            continue
+        records.append(
+            {
+                "record_type": "execution_job",
+                "job_id": status.get("job_id") or path.parent.name,
+                "job_type": status.get("job_type"),
+                "status": state,
+                "label": (status.get("metadata") or {}).get("label"),
+                "resource_limits": normalize_resource_limits(
+                    status.get("resource_limits") or {}
+                ),
+                "resource_allocation": dict(
+                    status.get("resource_allocation") or {}
+                ),
+                "submitted_at": status.get("submitted_at"),
+                "supervisor_pid": status.get("supervisor_pid"),
+                "release_condition": "job reaches success, failed, timeout, or cancelled",
+            }
+        )
     reservations = _budget_directory() / "reservations"
     if reservations.is_dir():
         for path in sorted(reservations.glob("*.json")):
@@ -285,7 +337,7 @@ def active_resource_jobs() -> list[dict[str, Any]]:
                 pid = int(reservation.get("pid") or 0)
             except (OSError, json.JSONDecodeError, TypeError, ValueError):
                 continue
-            if pid <= 0 or not _process_exists(pid):
+            if not reservation.get("owner_id") and (pid <= 0 or not _process_exists(pid)):
                 path.unlink(missing_ok=True)
                 continue
             records.append(
@@ -358,7 +410,51 @@ def _gpu_pool(budget: ResourceBudget) -> list[str]:
 def _active_allocations() -> tuple[set[int], set[str]]:
     used_cpu_ids: set[int] = set()
     used_gpu_ids: set[str] = set()
-    for record in active_resource_jobs():
+    global_root = os.environ.get(GLOBAL_RESOURCE_ALLOCATION_ROOT_ENV, "").strip()
+    if global_root:
+        records: list[dict[str, Any]] = []
+        for path in _active_status_paths():
+            try:
+                status = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError, TypeError):
+                continue
+            state = str(status.get("status", "")).casefold()
+            if state not in ACTIVE_JOB_STATES or not _status_uses_current_cpu_pool(status):
+                continue
+            records.append(
+                {
+                    "resource_limits": normalize_resource_limits(
+                        status.get("resource_limits") or {}
+                    ),
+                    "resource_allocation": dict(
+                        status.get("resource_allocation") or {}
+                    ),
+                }
+            )
+        reservations = _budget_directory() / "reservations"
+        if reservations.is_dir():
+            for path in reservations.glob("*.json"):
+                try:
+                    reservation = json.loads(path.read_text(encoding="utf-8"))
+                    pid = int(reservation.get("pid") or 0)
+                except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                    continue
+                if not reservation.get("owner_id") and (pid <= 0 or not _process_exists(pid)):
+                    path.unlink(missing_ok=True)
+                    continue
+                records.append(
+                    {
+                        "resource_limits": normalize_resource_limits(
+                            reservation.get("resource_limits") or {}
+                        ),
+                        "resource_allocation": dict(
+                            reservation.get("resource_allocation") or {}
+                        ),
+                    }
+                )
+    else:
+        records = active_resource_jobs()
+    for record in records:
         allocation = record.get("resource_allocation") or {}
         cpu_ids = [int(item) for item in allocation.get("cpu_ids") or []]
         gpu_ids = [str(item) for item in allocation.get("gpu_ids") or []]
@@ -382,11 +478,20 @@ def reserve_resources(
     *,
     kind: str,
     label: str,
+    owner_id: str | None = None,
 ) -> ResourceReservation:
     requested = normalize_resource_limits(resources)
     budget = evaluation_resource_budget()
     validate_resource_limits(requested, budget=budget)
     with _budget_lock():
+        directory = _budget_directory() / "reservations"
+        directory.mkdir(parents=True, exist_ok=True)
+        stable_path = directory / ("managed_" + uuid.uuid5(uuid.NAMESPACE_URL, owner_id).hex + ".json") if owner_id else None
+        if stable_path and stable_path.exists():
+            previous = json.loads(stable_path.read_text())
+            if previous["resource_limits"] != requested:
+                raise ValueError("persistent reservation resource mismatch")
+            return ResourceReservation(stable_path, requested, previous["resource_allocation"])
         reserved = active_resource_usage()
         if any(
             reserved[name] + requested[name] > int(getattr(budget, name))
@@ -420,23 +525,13 @@ def reserve_resources(
         }
         directory = _budget_directory() / "reservations"
         directory.mkdir(parents=True, exist_ok=True)
-        path = directory / f"reservation_{uuid.uuid4().hex}.json"
-        path.write_text(
-            json.dumps(
-                {
-                    "schema_version": 1,
-                    "pid": os.getpid(),
-                    "kind": kind,
-                    "label": label,
-                    "resource_limits": requested,
-                    "resource_allocation": allocation,
-                },
-                indent=2,
-                ensure_ascii=False,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
+        path = stable_path or directory / f"reservation_{uuid.uuid4().hex}.json"
+        from .recovery_io import atomic_json
+        atomic_json(path, {
+            "schema_version": 2, "pid": os.getpid(), "owner_id": owner_id,
+            "kind": kind, "label": label, "resource_limits": requested,
+            "resource_allocation": allocation,
+        })
     return ResourceReservation(
         path=path,
         resource_limits=requested,
@@ -448,6 +543,7 @@ __all__ = [
     "AVAILABLE_CPU_CORES_ENV",
     "AVAILABLE_GPU_COUNT_ENV",
     "AVAILABLE_MEMORY_MB_ENV",
+    "GLOBAL_RESOURCE_ALLOCATION_ROOT_ENV",
     "DEFAULT_AVAILABLE_CPU_CORES",
     "DEFAULT_AVAILABLE_GPU_COUNT",
     "DEFAULT_AVAILABLE_MEMORY_MB",

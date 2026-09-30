@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_988bc12ae3768679",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct objects, states, definitions and raw evidence.",
+      "expected": "Use the neutral mapped C30H20N6O4 parent and explicit candidate seed edits. Do not use former acidic/basic optimized coordinates, which are private. Preserve heavy-atom connectivity, allowing stated proton/bond tautomer rearrangements; charge must equal added proton count for this H+ exchange space. NMR is in DMSO-d6 and optical observations are in the separately reported aqueous pH conditions; compute each in its matching medium rather than treating them as the same solvent. candidate_seeds.json includes one explicit neutral lactim and four proton-site alternatives as unoptimized competitor graphs. All six required starts (including neutral_parent) must be attempted; none is preassigned as an endpoint. Within a fixed proton count compare like-solvated relative G. Across proton counts use a balanced proton-exchange cycle with a declared common acid/base reference and pH chemical-potential convention; raw different-charge total energies are not population rankings. Joint NMR/UV residuals use one predeclared error model per observable across all candidates. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_candidate_registry",
+      "statement": "Explicit proton/tautomer candidates and conformer evidence",
+      "expected": "Check charges, H counts, mapping, candidate classes and actual attempted geometries. Both acid and base must contain distinct site/bond alternatives; source endpoint relabeling is insufficient. Evidenced collapse may close a candidate, but missing convergence cannot.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_joint_evidence",
+      "statement": "Joint NMR/UV discrimination",
+      "expected": "Check measured observations and the different NMR/optical solvent conditions. All retained competing acid/base candidates require both predictions under identical predeclared calibration; collapse must be evidenced, not counted as a missing spectrum. Include neutral-parent NMR calibration. The neutral experimental UV maximum is not supplied: use null for that observation/residual, never an invented value. Reject treating author-calculated shifts as measurements.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_thermodynamic_and_robustness",
+      "statement": "Balanced speciation and robustness",
+      "expected": "Recompute cycle energies, charge/proton balances and populations. Gas-phase dianion artifacts do not invalidate a solvated state or prove it stable; distinguish electron binding, solvation and proton equilibria. Accept supported ambiguity after the complete candidate/spectral comparison.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Falsification and robustness based on actual controls.",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject answer geometries as discovered candidates, unequal atom counts without balanced cycles, source calculated shifts passed off as measurements, fitting each observable to unrelated species without a population model, or gas dianion failure called proof of solution instability.",
+      "evidence_ids": [
+        "source_documents",
+        "extension"
+      ]
+    }
+  ]
+}

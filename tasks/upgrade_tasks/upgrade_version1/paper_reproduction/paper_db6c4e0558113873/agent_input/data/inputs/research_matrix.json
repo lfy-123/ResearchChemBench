@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_db6c4e0558113873",
+  "scientific_class": "C",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Freeze allenoate 6b (ethyl 4-phenyl-2-propylbuta-2,3-dienoate), PhSO2Cl and an acac-supported copper local model. Compare C–Cl formation from the CuIII allyl(acac)Cl singlet against chlorine-atom transfer to the matching allyl radical from PhSO2Cl. Include CuII(acac)Cl doublet and CuI(acac) singlet reservoirs as required by the ledger; do not compare isolated Cu-bound and metal-free total energies. Main pp6–8 and SI pp56–65 define the source system. Use MeCN, 313.15 K (experimental 40°C), 1 M; reproduce the former 298.15 K endpoint only as a separately labelled baseline. Full photoredox catalyst and regeneration network are outside this local exit comparison.",
+  "panels": {
+    "exit_paths": {
+      "requirement": "Cu-organized and free-radical chlorine exits with real endpoint validation.",
+      "required_cells": [
+        "Cu_exit_a",
+        "Cu_exit_b",
+        "direct_Cl_transfer"
+      ]
+    },
+    "reservoir_ledger": {
+      "requirement": "Charge/spin/chemical-potential ledger connecting different molecularities.",
+      "required_cells": [
+        "balanced_equations_file",
+        "oxidation_states_file",
+        "association_G_kcal_mol",
+        "effective_comparison",
+        "evidence_files"
+      ]
+    },
+    "stereochemical_control": {
+      "requirement": "Competing stereochemical exits, conformation and spin sensitivity.",
+      "required_cells": [
+        "forming_atom_pairs",
+        "configurations_file",
+        "conformer_barrier_spread_kcal_mol",
+        "comparison",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "全光/金属双催化闭环、所有底物不加入。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

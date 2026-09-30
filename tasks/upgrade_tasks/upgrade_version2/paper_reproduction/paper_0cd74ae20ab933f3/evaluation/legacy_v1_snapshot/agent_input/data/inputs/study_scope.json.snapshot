@@ -1,0 +1,64 @@
+{
+  "paper_id": "paper_0cd74ae20ab933f3",
+  "development_status": "implemented_pending_expanded_reference",
+  "objects": {
+    "R_H": {
+      "formula": "C70H46Cu2N2O8",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "assembly": "Cu2 + four 9-anthracenecarboxylate anions + two identical neutral 4-R-pyridines",
+      "identity_file": "model_systems.json"
+    },
+    "R_CH3": {
+      "formula": "C72H50Cu2N2O8",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "assembly": "Cu2 + four 9-anthracenecarboxylate anions + two identical neutral 4-R-pyridines",
+      "identity_file": "model_systems.json"
+    },
+    "R_OCH3": {
+      "formula": "C72H50Cu2N2O10",
+      "charge": 0,
+      "multiplicities": [
+        1,
+        3
+      ],
+      "assembly": "Cu2 + four 9-anthracenecarboxylate anions + two identical neutral 4-R-pyridines",
+      "identity_file": "model_systems.json"
+    }
+  },
+  "identity_files": [
+    "model_systems.json"
+  ],
+  "control_definitions": {
+    "common_core": "Use the triplet-relaxed R_H Cu2O8C4 carboxylate core and both axial N positions as the shared frozen coordinate set. Map exactly these atoms, retain all ligands and relax remaining coordinates consistently. Report held and released coordinates. Alternative equivalent common-core choices require the same full three-member comparison.",
+    "factorization": "Compare substitution within the common core and within independently relaxed cores. A frozen intervention is not a free minimum.",
+    "calibration": "R_H representative: BS projection versus an available spin-adapted CASSCF or independently calibrated spin-flip method on the same geometry; inspect active orbitals and natural occupations."
+  },
+  "observable_definition": "J=E_S-E_T in cm^-1, equivalent to H=-J S1.S2 for two S=1/2 sites; P_T(300 K)=100*3*exp[J/(0.69503476*300)]/(1+3*exp[J/(0.69503476*300)]). Project BS energies with documented <S^2>; no silent J versus 2J conversion.",
+  "experimental_conditions": {},
+  "required_comparisons": [
+    {
+      "id": "exchange_matrix",
+      "description": "Three-member relaxed/common-core exchange matrix"
+    },
+    {
+      "id": "spin_calibration",
+      "description": "Representative spin-model calibration"
+    },
+    {
+      "id": "effect_comparison",
+      "description": "Quantified electronic/geometric effects and unresolved rankings"
+    }
+  ],
+  "optional_not_scored": "Specialized PySCF-forge algorithms, full magnetization curves and MOF photochemistry are not required.",
+  "input_blockers": [],
+  "source_note": "Molecular identities, benchmark-defined starts and explicitly labelled measured observations are authorized inputs. Graph provenance identifies chemical identity only; state labels, optimized added geometries and predicted outputs are withheld. See task.md for the common scientific scope.",
+  "public_private_boundary": "Identity/connectivity and declared measured observations are public. Author optimized new candidate geometries, computed rankings, reference outputs and legacy PASS archives are private."
+}

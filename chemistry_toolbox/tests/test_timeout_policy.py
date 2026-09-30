@@ -2,6 +2,53 @@ from __future__ import annotations
 
 from chemistry_toolbox.src import service
 from chemistry_toolbox.src.models import ActionRequest, ResourceLimits
+from chemistry_toolbox.src.timeout_policy import (
+    DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS,
+    DEFAULT_FAST_ACTION_TIMEOUT_SECONDS,
+    compute_action_timeout_seconds,
+    fast_action_timeout_seconds,
+    native_software_timeout_seconds,
+    native_timeout_policy_record,
+    unbounded_native_software_ids,
+)
+
+
+def test_all_action_walltime_defaults_are_24_hours(monkeypatch):
+    monkeypatch.delenv("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", raising=False)
+    monkeypatch.delenv("RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS", raising=False)
+    assert DEFAULT_COMPUTE_ACTION_TIMEOUT_SECONDS == 86400
+    assert DEFAULT_FAST_ACTION_TIMEOUT_SECONDS == 86400
+    assert compute_action_timeout_seconds() == 86400
+    assert fast_action_timeout_seconds() == 86400
+    assert native_software_timeout_seconds("orca") == 86400
+
+
+def test_implicit_fast_default_respects_explicit_compute_override(monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", "7200")
+    monkeypatch.delenv("RESEARCHCHEMBENCH_FAST_ACTION_TIMEOUT_SECONDS", raising=False)
+    assert fast_action_timeout_seconds() == 7200
+
+
+def test_native_unbounded_policy_is_evaluator_selected(monkeypatch):
+    monkeypatch.setenv(
+        "RESEARCHCHEMBENCH_UNBOUNDED_NATIVE_SOFTWARE_IDS", "gaussian,open-babel"
+    )
+    assert unbounded_native_software_ids() == frozenset({"gaussian", "open_babel"})
+    assert native_software_timeout_seconds("gaussian") is None
+    assert native_timeout_policy_record("gaussian") == {
+        "execution_class": "compute",
+        "software_id": "gaussian",
+        "timeout_seconds": None,
+        "walltime_unbounded": True,
+        "source": "evaluation_policy_unbounded_native_software",
+        "agent_controllable": False,
+    }
+
+
+def test_native_jobs_keep_compute_timeout_when_not_selected(monkeypatch):
+    monkeypatch.setenv("RESEARCHCHEMBENCH_COMPUTE_ACTION_TIMEOUT_SECONDS", "17")
+    monkeypatch.delenv("RESEARCHCHEMBENCH_UNBOUNDED_NATIVE_SOFTWARE_IDS", raising=False)
+    assert native_software_timeout_seconds("orca") == 17
 
 
 H2 = {

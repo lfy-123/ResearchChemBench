@@ -6,7 +6,7 @@ The paper uses DFT to validate a local structural model for the bromobismuthate 
 
 ## 2. System and model boundary
 
-The experimental material is monoprotonated (C10H13N4)+[BiBr4]−·2H2O in monoclinic P21/n (Z′=1, Z=4). The full authors’ model contains one [BiBr4]− anion, one organic cation and two water molecules; the released benchmark narrows the public computational object to the source-supported five-atom BiBr4 fragment so that all public coordinates are explicit and unambiguous.
+The experimental material is monoprotonated (C10H13N4)+[BiBr4]−·2H2O in monoclinic P21/n (Z′=1, Z=4). The authors’ model contains one [BiBr4]− anion, one organic cation and two water molecules. The corrected v1 benchmark uses this full 38-atom neutral-singlet formula-unit cluster. The original five-atom fragment is retained only as v0 diagnostic evidence because it cannot provide the requested six-mode comparison.
 
 ## 3. Authors' implemented computational route
 
@@ -27,4 +27,4 @@ The SI reports Bi–Br distances 2.6812, 3.1803, 2.8596, 2.7151, 3.0211 and 2.87
 
 ## 6. Limitations and interpretation boundaries
 
-The public benchmark does not score the omitted organic/water coordinates, electronic properties, periodic-chain energetics, or a unique mechanism. A gas-phase fragment cannot reproduce crystal packing or extended-chain effects; conclusions must be limited to local Bi–Br geometry and low-frequency vibrational behavior.
+The corrected benchmark includes the organic cation and two waters required by the author model, but it remains a finite cluster rather than a periodic solid. It does not score electronic properties, periodic-chain energetics, or a unique mechanism; conclusions remain limited to local Bi–Br geometry and low-frequency vibrational behavior.

@@ -1,0 +1,196 @@
+{
+  "paper_id": "paper_eda19e7c8edd4b39",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_eda19e7c8edd4b39/documents/main.pdf",
+          "sha256": "c9db7c7771ae5db69a41f10aa75967d88c1932e7146b1929d0f245a61e9da6bf",
+          "pages": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "total_pages": 11
+        },
+        {
+          "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_eda19e7c8edd4b39.publisher_si.pdf",
+          "sha256": "59d72a5ef0ce8a23a1aeb442f43e5c69e8b78eca9bae8db3ab84ff48185e1239",
+          "sections": "Actual publisher supplementary figures S1–S6; papers-directory supplementary_001 is a peer-review file and is not used as the scientific SI.",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ],
+      "scope": "Source material establishes problem, identities and bounded reference claims. See private source_scope_audit."
+    },
+    {
+      "evidence_id": "historical_evidence",
+      "source": {
+        "freeze_handoff": {
+          "validation_group_not_authoring_batch": 5,
+          "handoff_path": "docs/upgrade_tasks_v2_review_20260928/group_5/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+          "handoff_sha256": "b48a083f8b5cd4e6db80cf8adc372cf2b27b2e96143b1d7ca26108952729dc4b",
+          "recorded_at_utc": "2026-09-28T15:05:46.703865+00:00",
+          "scientific_disposition": "needs_work",
+          "completed_evidence_summary": "旧八VASP端点已审；同晶胞铁磁Ni比旧近零磁态低0.06086eV/atom。新Ni/Al/B2/L12四种520eV/k12晶胞全收敛，残余压力≤0.01kbar；全部九个k16/展宽/独立Ni磁种子静态控制原生完成。需要合并数值收敛及相稳定审查，尚无新表面矩阵。",
+          "unfinished_scientific_or_input_work": [
+            "Ni/Al/B2/L12晶胞、磁性与统一能量/展宽/k点校准",
+            "两尺寸空位与合格Ni-rich储库；旧3³/4³等价控制映射",
+            "三终止表面守恒循环、位点搜索、层数/真空/k点和L12比较"
+          ],
+          "not_a_content_dispatch_gate": true,
+          "job_status_refreshed_this_turn": false
+        },
+        "v1_reference_plan": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_eda19e7c8edd4b39/evaluation/reference_validation_plan.md",
+        "applicability": "已有统一晶胞/磁种子和收敛控制原生输出，尚缺有效表面矩阵；静态能量不证明有限温度动力学。",
+        "new_scientific_calculations_performed": false,
+        "raw_evidence": [
+          {
+            "case_id": "nial_fcc_ni_fm_fixedcell450_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_fcc_ni_fm_fixedcell450_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.044719240326020454
+          },
+          {
+            "case_id": "nial_ni_fm_cell520_k12_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_ni_fm_cell520_k12_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.19631422899249526
+          },
+          {
+            "case_id": "nial_al_cell520_k12_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_al_cell520_k12_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.05398976450579034
+          },
+          {
+            "case_id": "nial_b2_cell520_k12_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_b2_cell520_k12_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.06865401623149713
+          },
+          {
+            "case_id": "nial_l12_cell520_k12_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_l12_cell520_k12_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.18729868717698586
+          },
+          {
+            "case_id": "nial_common_cell_audit_v1",
+            "job_id": null,
+            "status": "finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_common_cell_audit_v1",
+            "normal_termination": null,
+            "allocated_core_hours": 5.7351796680854425e-05
+          },
+          {
+            "case_id": "nial_ni_fm_static520_k16_s010_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_ni_fm_static520_k16_s010_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.14869979952565499
+          },
+          {
+            "case_id": "nial_ni_fm_static520_k16_s005_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_ni_fm_static520_k16_s005_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.14999788981344964
+          },
+          {
+            "case_id": "nial_ni_fm_static520_k16_s010_seed05_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_ni_fm_static520_k16_s010_seed05_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.15213155133028824
+          },
+          {
+            "case_id": "nial_al_static520_k16_s010_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_al_static520_k16_s010_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.05945872850923074
+          },
+          {
+            "case_id": "nial_al_static520_k16_s005_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_al_static520_k16_s005_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.053020772172345056
+          },
+          {
+            "case_id": "nial_b2_static520_k16_s010_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_b2_static520_k16_s010_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.051269600292046864
+          },
+          {
+            "case_id": "nial_b2_static520_k16_s005_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_b2_static520_k16_s005_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.05045512754884031
+          },
+          {
+            "case_id": "nial_l12_static520_k16_s010_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_l12_static520_k16_s010_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.14179921874569523
+          },
+          {
+            "case_id": "nial_l12_static520_k16_s005_v1",
+            "job_id": null,
+            "status": "engine_finished",
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/outputs/nial_l12_static520_k16_s005_v1",
+            "normal_termination": true,
+            "allocated_core_hours": 0.13757194204255938
+          }
+        ],
+        "evidence_audits": [
+          "docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/report/common_cell_native_audit.json",
+          "docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/report/fcc_Ni_magnetic_start_control.json",
+          "docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/report/fcc_Ni_reservoir_impact.json",
+          "docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/legacy/eight_vasp_endpoint_audit.json",
+          "docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/legacy/native_log_audit.json",
+          "docs/upgrade_tasks_verification/group_5/papers/paper_eda19e7c8edd4b39/legacy/attempt_inventory.json"
+        ],
+        "precise_artifact_inventory": "evaluation/task_provenance/evidence_reuse_inventory.json",
+        "inventory_boundary": "File existence/hash establishes provenance only. Historical job status is a dated recorded observation, not a live platform check. V1 matrices are historical designs, not mandatory V2 evaluation routes."
+      },
+      "scope": "Read-only historical work with explicit applicability limits; not blanket V2 acceptance."
+    }
+  ],
+  "judge_calibration_status": "pending",
+  "numerical_tolerance_policy": "No new universal tolerance is asserted. Judge quantitative significance against the submission error evidence and the specific reference conditions."
+}

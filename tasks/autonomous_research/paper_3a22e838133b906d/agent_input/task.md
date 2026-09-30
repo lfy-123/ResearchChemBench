@@ -4,7 +4,7 @@ Determine, from independent computation on the supplied neutral and monoanionic 
 
 ## Public inputs and scientific boundaries
 
-Use `data/inputs/neutral.xyz` (C10H16BO3P, charge 0, singlet) and `data/inputs/anion.xyz` (C9H13BO3P, charge −1, singlet), with the SI atom order. P is atom 11; O1/O2/O3 are atoms 12/13/14; B is atom 21 in neutral and atom 18 in anion. Measure P–O1, P–O2, P–O3 and O1···B in Å. The models are isolated gas-phase species without Li+, solvent, crystal packing or bulky experimental substituents. The external boundary is only the paper's reported crystallographic neutral/salt distance change, used as an experimental comparison rather than a hidden target structure.
+Use `data/inputs/neutral.xyz` (C10H16BO3P, charge 0, singlet) and `data/inputs/anion.xyz` (C9H13BO3P, charge −1, singlet), with the SI atom order. P is atom 11; O1/O2/O3 are atoms 12/13/14; B is atom 21 in neutral and atom 18 in anion. Measure P–O1, P–O2, P–O3 and O1···B in Å. The models are isolated gas-phase species without Li+, solvent, crystal packing or bulky experimental substituents. The external boundary is the observed crystallographic neutral/salt distance change in `data/inputs/experimental_crystal_boundary.json`, used as an experimental comparison rather than a hidden target structure.
 
 ## Required scientific validation/investigation
 

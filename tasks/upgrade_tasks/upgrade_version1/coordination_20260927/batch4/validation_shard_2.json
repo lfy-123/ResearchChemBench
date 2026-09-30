@@ -1,0 +1,4138 @@
+{
+  "date": "2026-09-27",
+  "batch": 4,
+  "status": "passed",
+  "paper_ids": [
+    "paper_e2d9397dff2a3f0f",
+    "paper_fcc3c7f2c46a0fbe",
+    "paper_0e835b370ddd37b6",
+    "paper_9132719dbf91c978"
+  ],
+  "paper_count": 4,
+  "package_count": 8,
+  "checks": 963,
+  "repository_mode": "full_roots",
+  "scientific_calculations_run": 0,
+  "LLM_judge_run": false,
+  "boundary": "Official package/runtime/public export and synthetic format regression plus graph consistency. No scientific reference or calibrated judge validation. Nominal in-range wrong states/references require raw-evidence scientific adjudication; schema acceptance never confers scientific PASS.",
+  "package_hashes": {
+    "autonomous_research/paper_e2d9397dff2a3f0f": {
+      "package_content_sha256": "1b9cf6cfd838f8af1d35981b13883a1355e70b20e2471f485e88c450ec320911",
+      "package_manifest_sha256": "5d06e654c8c1b4bca53c3c1c75a82e2024d79f787c37af22db5b2bc2b7312b98"
+    },
+    "paper_reproduction/paper_e2d9397dff2a3f0f": {
+      "package_content_sha256": "7a423c7be0a12b48ddbdb24bd498118601670ee21a70302bef97bdcbec0a9229",
+      "package_manifest_sha256": "dca790943086067217c4379d6b438cfad5162184057bc897ce97734a1694f6d3"
+    },
+    "autonomous_research/paper_fcc3c7f2c46a0fbe": {
+      "package_content_sha256": "aed0c8c3b52df342469de7d7182d70279e67f38be535614817e2ec25af492780",
+      "package_manifest_sha256": "dec4150dd8abba5cfbfe283eb9fc708dc996853a194e1bd703c8f993bc272849"
+    },
+    "paper_reproduction/paper_fcc3c7f2c46a0fbe": {
+      "package_content_sha256": "d3873d0563c8d04632fe7969e874fe6f4364332fd1104acf09ed7649d8a1a2b3",
+      "package_manifest_sha256": "d01bd6079d4e1c696ac2a0df04b6df386dc013da21b313bee87477266faacba2"
+    },
+    "autonomous_research/paper_0e835b370ddd37b6": {
+      "package_content_sha256": "75e0464649ac923a75df72107587664805194ba53e80e7abdc6cb3eac68a3454",
+      "package_manifest_sha256": "4430428eb5659810cb15aeaf77f457ad8eba3345a4e886705b91b5ff7060c510"
+    },
+    "paper_reproduction/paper_0e835b370ddd37b6": {
+      "package_content_sha256": "24ab0e3e7ea404426ad7f319b06b38c0650f40640cfd26152aa9a845fbc63bb6",
+      "package_manifest_sha256": "09742d960a47921cac3d008a58f42219afd36ce89953190bd7938dd0449c9b16"
+    },
+    "autonomous_research/paper_9132719dbf91c978": {
+      "package_content_sha256": "57c057854774088d9f905c09cc5f014775f46bcf471ed1aff1b3d41b29f268b8",
+      "package_manifest_sha256": "3b1ff10b2e747126a4988bafe923a40dbe41363142ab6b9f1045b78d5bd58ac8"
+    },
+    "paper_reproduction/paper_9132719dbf91c978": {
+      "package_content_sha256": "86afbf185444ec493d87a3c5629b97e206da113e8686d5ab216c70329927e9b1",
+      "package_manifest_sha256": "7b4255a960153fbefc8e13ce82896d0a44266ab908d9fa6f23021e9c9e1c06cb"
+    }
+  },
+  "results": [
+    {
+      "test": "32_assigned_packages_load",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_file_set_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:submission_guide.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:data/inputs/reference.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:data/inputs/state_definition.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:public_parity:data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:scientific_evaluator_parity:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:scientific_evaluator_parity:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:scientific_evaluator_parity:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:scientific_evaluator_parity:critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:scientific_evaluator_parity:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:author_guidance_only_PR",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:same_scientific_task",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:scientific_English",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:synthetic_complete_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:refuted_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:not_distinguishable_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:empty_new_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_panel_rejected:local_paths",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_scientific_cell_rejected:local_paths",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_panel_rejected:ligand_effect",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_scientific_cell_rejected:ligand_effect",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_panel_rejected:mode_identity",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_scientific_cell_rejected:mode_identity",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:path_without_reverse_connection_rejected:results.local_paths.bda_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:collapse_format_accepted:results.local_paths.bda_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_collapse_rejected:results.local_paths.bda_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:path_without_reverse_connection_rejected:results.local_paths.bda_attack_after_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:collapse_format_accepted:results.local_paths.bda_attack_after_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_collapse_rejected:results.local_paths.bda_attack_after_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:path_without_reverse_connection_rejected:results.local_paths.bda_direct_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:collapse_format_accepted:results.local_paths.bda_direct_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_collapse_rejected:results.local_paths.bda_direct_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:path_without_reverse_connection_rejected:results.local_paths.bcs_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:collapse_format_accepted:results.local_paths.bcs_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_collapse_rejected:results.local_paths.bcs_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:path_without_reverse_connection_rejected:results.local_paths.bcs_attack_after_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:collapse_format_accepted:results.local_paths.bcs_attack_after_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_collapse_rejected:results.local_paths.bcs_attack_after_opening",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:path_without_reverse_connection_rejected:results.local_paths.bcs_direct_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:collapse_format_accepted:results.local_paths.bcs_direct_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_collapse_rejected:results.local_paths.bcs_direct_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:same_basin_comparison_format_accepted:results.ligand_effect.within_ligand.bda.opening_then_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_same_basin_rejected:results.ligand_effect.within_ligand.bda.opening_then_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:same_basin_comparison_format_accepted:results.ligand_effect.within_ligand.bda.direct_vs_sequential",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_same_basin_rejected:results.ligand_effect.within_ligand.bda.direct_vs_sequential",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:same_basin_comparison_format_accepted:results.ligand_effect.within_ligand.bcs.opening_then_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_same_basin_rejected:results.ligand_effect.within_ligand.bcs.opening_then_attack",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:same_basin_comparison_format_accepted:results.ligand_effect.within_ligand.bcs.direct_vs_sequential",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_same_basin_rejected:results.ligand_effect.within_ligand.bcs.direct_vs_sequential",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:same_basin_comparison_format_accepted:results.ligand_effect.intervention",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unevidenced_same_basin_rejected:results.ligand_effect.intervention",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:out_of_contract_charge_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:out_of_contract_multiplicity_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:complete_all_failed_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_raw_energy_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:outputs/../evaluation/hidden.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:outputs/sub/../../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:/tmp/answer.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:evaluation/reference.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:outputs//../secret",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:./outputs/../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:outputs/./../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:outputs//name",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:unsafe_evidence_path_rejected:outputs/name\n",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:ordinary_relative_evidence_path_accepted:./outputs/SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:ordinary_relative_evidence_path_accepted:outputs/./SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:ordinary_relative_evidence_path_accepted:./data/./SYNTHETIC.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:ordinary_relative_evidence_path_accepted:code/SYNTHETIC.py",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:old_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:missing_readable_report_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:honest_failure_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_diagnostic_failure_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_missing_stage_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_missing_diagnostic_files_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_missing_cause_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_missing_missing_endpoints_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_scientific_engine_starts_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_successful_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_failed_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_restart_count_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_allocated_cores_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_summed_job_wall_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_false_cpu_core_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:complete_without_real_records_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_claimed_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:zero_launch_claimed_actual_methods_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:bounded_failure_not_supported_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:failure_without_diagnostics_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:agent_input/data/inputs/state_definition.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:agent_input/data/inputs/reference.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/author_results/target_author_ts.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/task_provenance/quality_repair_provenance.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:autonomous_research:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:agent_input/data/inputs/state_definition.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:agent_input/data/inputs/reference.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:agent_input/data/inputs/state_definition.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/author_results/target_author_ts.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/task_provenance/quality_repair_provenance.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:paper_reproduction:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_file_set_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:submission_guide.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:data/inputs/compound_4b.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:data/inputs/geometry_comparison.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:public_parity:data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:scientific_evaluator_parity:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:scientific_evaluator_parity:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:scientific_evaluator_parity:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:scientific_evaluator_parity:critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:scientific_evaluator_parity:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:author_guidance_only_PR",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:same_scientific_task",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:scientific_English",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:synthetic_complete_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:refuted_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:not_distinguishable_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:empty_new_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_panel_rejected:thermochemical_cycles",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_scientific_cell_rejected:thermochemical_cycles",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_panel_rejected:decisive_local_paths",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_scientific_cell_rejected:decisive_local_paths",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_panel_rejected:activity_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_scientific_cell_rejected:activity_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:path_without_reverse_connection_rejected:results.decisive_local_paths.4c_HAT",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:collapse_format_accepted:results.decisive_local_paths.4c_HAT",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unevidenced_collapse_rejected:results.decisive_local_paths.4c_HAT",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:path_without_reverse_connection_rejected:results.decisive_local_paths.4h_HAT",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:collapse_format_accepted:results.decisive_local_paths.4h_HAT",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unevidenced_collapse_rejected:results.decisive_local_paths.4h_HAT",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:same_basin_comparison_format_accepted:results.activity_boundary.comparison",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unevidenced_same_basin_rejected:results.activity_boundary.comparison",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:out_of_contract_charge_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:out_of_contract_multiplicity_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:complete_all_failed_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_raw_energy_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:outputs/../evaluation/hidden.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:outputs/sub/../../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:/tmp/answer.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:evaluation/reference.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:outputs//../secret",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:./outputs/../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:outputs/./../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:outputs//name",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:unsafe_evidence_path_rejected:outputs/name\n",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:ordinary_relative_evidence_path_accepted:./outputs/SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:ordinary_relative_evidence_path_accepted:outputs/./SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:ordinary_relative_evidence_path_accepted:./data/./SYNTHETIC.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:ordinary_relative_evidence_path_accepted:code/SYNTHETIC.py",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:old_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:missing_readable_report_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:honest_failure_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_diagnostic_failure_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_missing_stage_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_missing_diagnostic_files_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_missing_cause_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_missing_missing_endpoints_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_scientific_engine_starts_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_successful_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_failed_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_restart_count_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_allocated_cores_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_summed_job_wall_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_false_cpu_core_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:complete_without_real_records_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_claimed_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:zero_launch_claimed_actual_methods_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:bounded_failure_not_supported_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:failure_without_diagnostics_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:agent_input/data/inputs/compound_4b.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:agent_input/data/inputs/geometry_comparison.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:agent_input/data/inputs/compound_4b.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:agent_input/data/inputs/geometry_comparison.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/input_identity_correction.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:autonomous_research:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:agent_input/data/inputs/compound_4b.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:agent_input/data/inputs/geometry_comparison.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:agent_input/data/inputs/compound_4b.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:agent_input/data/inputs/geometry_comparison.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/input_identity_correction.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:paper_reproduction:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_file_set_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:submission_guide.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:data/inputs/silylene_1_singlet.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:data/inputs/h2.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:data/inputs/silylene_Vprime_singlet.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:public_parity:data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:scientific_evaluator_parity:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:scientific_evaluator_parity:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:scientific_evaluator_parity:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:scientific_evaluator_parity:critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:scientific_evaluator_parity:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:author_guidance_only_PR",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:same_scientific_task",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:scientific_English",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:synthetic_complete_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:refuted_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:not_distinguishable_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:empty_new_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_panel_rejected:activation_paths",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_scientific_cell_rejected:activation_paths",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_panel_rejected:matched_coordinate_decomposition",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_scientific_cell_rejected:matched_coordinate_decomposition",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_panel_rejected:causal_comparison",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_scientific_cell_rejected:causal_comparison",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:path_without_reverse_connection_rejected:results.activation_paths.1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:collapse_format_accepted:results.activation_paths.1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unevidenced_collapse_rejected:results.activation_paths.1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:path_without_reverse_connection_rejected:results.activation_paths.V_prime",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:collapse_format_accepted:results.activation_paths.V_prime",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unevidenced_collapse_rejected:results.activation_paths.V_prime",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:path_without_reverse_connection_rejected:results.activation_paths.4",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:collapse_format_accepted:results.activation_paths.4",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unevidenced_collapse_rejected:results.activation_paths.4",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:same_basin_comparison_format_accepted:results.causal_comparison.4_minus_1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unevidenced_same_basin_rejected:results.causal_comparison.4_minus_1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:same_basin_comparison_format_accepted:results.causal_comparison.V_prime_minus_1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unevidenced_same_basin_rejected:results.causal_comparison.V_prime_minus_1",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:out_of_contract_charge_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:out_of_contract_multiplicity_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:complete_all_failed_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_raw_energy_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:outputs/../evaluation/hidden.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:outputs/sub/../../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:/tmp/answer.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:evaluation/reference.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:outputs//../secret",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:./outputs/../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:outputs/./../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:outputs//name",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:unsafe_evidence_path_rejected:outputs/name\n",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:ordinary_relative_evidence_path_accepted:./outputs/SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:ordinary_relative_evidence_path_accepted:outputs/./SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:ordinary_relative_evidence_path_accepted:./data/./SYNTHETIC.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:ordinary_relative_evidence_path_accepted:code/SYNTHETIC.py",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:old_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_readable_report_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:honest_failure_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_diagnostic_failure_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_missing_stage_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_missing_diagnostic_files_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_missing_cause_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_missing_missing_endpoints_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_scientific_engine_starts_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_successful_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_failed_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_restart_count_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_allocated_cores_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_summed_job_wall_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_false_cpu_core_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:complete_without_real_records_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_claimed_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:zero_launch_claimed_actual_methods_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:bounded_failure_not_supported_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:failure_without_diagnostics_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:missing_matched_HH_point_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:agent_input/data/inputs/h2.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:agent_input/data/inputs/silylene_1_singlet.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:agent_input/data/inputs/silylene_Vprime_singlet.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/task_provenance/maintenance_audit.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:autonomous_research:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:agent_input/data/inputs/h2.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:agent_input/data/inputs/silylene_1_singlet.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:agent_input/data/inputs/silylene_Vprime_singlet.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/task_provenance/maintenance_audit.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:paper_reproduction:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_file_set_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_parity:submission_guide.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_parity:submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_parity:data/inputs/int_g.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_parity:data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_parity:data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:public_parity:data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:scientific_evaluator_parity:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:scientific_evaluator_parity:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:scientific_evaluator_parity:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:scientific_evaluator_parity:critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:scientific_evaluator_parity:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:author_guidance_only_PR",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:same_scientific_task",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:scientific_English",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:synthetic_complete_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:refuted_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:not_distinguishable_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:empty_new_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_panel_rejected:HH_formation",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_scientific_cell_rejected:HH_formation",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_panel_rejected:release_and_recoordination",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_scientific_cell_rejected:release_and_recoordination",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_panel_rejected:standard_state_control",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_scientific_cell_rejected:standard_state_control",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:path_without_reverse_connection_rejected:results.HH_formation",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:collapse_format_accepted:results.HH_formation",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unevidenced_collapse_rejected:results.HH_formation",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:out_of_contract_charge_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:out_of_contract_multiplicity_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:complete_all_failed_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_raw_energy_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:outputs/../evaluation/hidden.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:outputs/sub/../../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:/tmp/answer.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:evaluation/reference.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:outputs//../secret",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:./outputs/../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:outputs/./../hidden",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:outputs//name",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:unsafe_evidence_path_rejected:outputs/name\n",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:ordinary_relative_evidence_path_accepted:./outputs/SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:ordinary_relative_evidence_path_accepted:outputs/./SYNTHETIC.log",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:ordinary_relative_evidence_path_accepted:./data/./SYNTHETIC.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:ordinary_relative_evidence_path_accepted:code/SYNTHETIC.py",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:old_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:missing_readable_report_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:honest_failure_format_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_diagnostic_failure_accepted",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_missing_stage_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_missing_diagnostic_files_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_missing_cause_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_missing_missing_endpoints_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_scientific_engine_starts_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_successful_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_failed_jobs_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_restart_count_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_allocated_cores_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_summed_job_wall_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_false_cpu_core_hours_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:complete_without_real_records_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_claimed_matrix_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:zero_launch_claimed_actual_methods_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:bounded_failure_not_supported_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:failure_without_diagnostics_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:agent_input/data/inputs/int_g.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/task_provenance/maintenance_audit.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:autonomous_research:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:official_validate",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:evaluation/task_provenance/upgrade_audit.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:agent_input/data/inputs/public_sources.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:agent_input/data/inputs/research_matrix.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:json:agent_input/data/inputs/species_registry.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:official_hash",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:runtime_adapter",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:export_exact_agent_input",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:no_private_export",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:agent_input/data/inputs/int_g.xyz",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/task_provenance/maintenance_audit.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:evaluation/verified_computation_reference.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:package_manifest.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:paper_route.md",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:snapshot:task_info.json",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:new_science_not_fabricated",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:honest_development_status",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:paper_reproduction:source_pages_recorded",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:1a:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:1a:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:1a:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C11H12O3",
+        "expected": "C11H12O3"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:1a:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:1a:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:1a:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:2a:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:2a:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:2a:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C6H6S",
+        "expected": "C6H6S"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:2a:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:2a:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:2a:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:water:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:water:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:water:formula",
+      "passed": true,
+      "detail": {
+        "observed": "H2O",
+        "expected": "H2O"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:water:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:water:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:water:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodide:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodide:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodide:formula",
+      "passed": true,
+      "detail": {
+        "observed": "I-",
+        "expected": "I-"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodide:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodide:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodine_radical:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodine_radical:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodine_radical:formula",
+      "passed": true,
+      "detail": {
+        "observed": "I",
+        "expected": "I"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodine_radical:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:iodine_radical:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:thiyl:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:thiyl:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:thiyl:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C6H5S",
+        "expected": "C6H5S"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:thiyl:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:thiyl:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:thiyl:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:OH_protected:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:OH_protected:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:OH_protected:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C16H20O5",
+        "expected": "C16H20O5"
+      }
+    },
+    {
+      "test": "paper_3235db287859287e:identity:OH_protected:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:OH_protected:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:identity:OH_protected:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:methanol:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:methanol:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:methanol:formula",
+      "passed": true,
+      "detail": {
+        "observed": "CH4O",
+        "expected": "CH4O"
+      }
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:methanol:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:methanol:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:methanol:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:CSA_connectivity:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:CSA_connectivity:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:CSA_connectivity:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C10H16O4S",
+        "expected": "C10H16O4S"
+      }
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:CSA_connectivity:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:CSA_connectivity:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:CSA_connectivity:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:50_graph:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:50_graph:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:50_graph:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C20H30O3",
+        "expected": "C20H30O3"
+      }
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:50_graph:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:50_graph:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:50_graph:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:enol_TMS:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:enol_TMS:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:enol_TMS:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C23H38O3Si",
+        "expected": "C23H38O3Si"
+      }
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:enol_TMS:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:identity:enol_TMS:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:carbanion_1a:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:carbanion_1a:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:carbanion_1a:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C8H9S-",
+        "expected": "C8H9S-"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:carbanion_1a:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:carbanion_1a:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:carbanion_1a:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:Li_cation:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:Li_cation:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:Li_cation:formula",
+      "passed": true,
+      "detail": {
+        "observed": "Li+",
+        "expected": "Li+"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:Li_cation:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:Li_cation:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:naphthalene:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:naphthalene:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:naphthalene:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C10H8",
+        "expected": "C10H8"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:naphthalene:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:naphthalene:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:naphthalene:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methanol:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methanol:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methanol:formula",
+      "passed": true,
+      "detail": {
+        "observed": "CH4O",
+        "expected": "CH4O"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methanol:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methanol:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methanol:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methoxide:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methoxide:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methoxide:formula",
+      "passed": true,
+      "detail": {
+        "observed": "CH3O-",
+        "expected": "CH3O-"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methoxide:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methoxide:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:methoxide:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:protonated_capture:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:protonated_capture:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:protonated_capture:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C8H10S",
+        "expected": "C8H10S"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:protonated_capture:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:protonated_capture:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:protonated_capture:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:rearranged_thiolate:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:rearranged_thiolate:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:rearranged_thiolate:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C8H9S-",
+        "expected": "C8H9S-"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:rearranged_thiolate:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:rearranged_thiolate:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:rearranged_thiolate:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:byproduct_3a:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:byproduct_3a:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:byproduct_3a:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C8H10S",
+        "expected": "C8H10S"
+      }
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:byproduct_3a:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:byproduct_3a:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:identity:byproduct_3a:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allene_6b:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allene_6b:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allene_6b:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C15H18O2",
+        "expected": "C15H18O2"
+      }
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allene_6b:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allene_6b:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allene_6b:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:PhSO2Cl:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:PhSO2Cl:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:PhSO2Cl:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C6H5ClO2S",
+        "expected": "C6H5ClO2S"
+      }
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:PhSO2Cl:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:PhSO2Cl:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:PhSO2Cl:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:acac:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:acac:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:acac:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C5H7O2-",
+        "expected": "C5H7O2-"
+      }
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:acac:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:acac:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:acac:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allyl_radical:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allyl_radical:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allyl_radical:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C21H23O4S",
+        "expected": "C21H23O4S"
+      }
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allyl_radical:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allyl_radical:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:allyl_radical:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:sulfonyl_radical:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:sulfonyl_radical:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:sulfonyl_radical:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C6H5O2S",
+        "expected": "C6H5O2S"
+      }
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:sulfonyl_radical:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:sulfonyl_radical:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:identity:sulfonyl_radical:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:NH3:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:NH3:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:NH3:formula",
+      "passed": true,
+      "detail": {
+        "observed": "H3N",
+        "expected": "H3N"
+      }
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:NH3:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:NH3:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:NH3:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:identity:reference:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4b:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4b:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4b:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C10H12N2OS3",
+        "expected": "C10H12N2OS3"
+      }
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4b:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4b:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4b:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4c:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4c:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4c:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C10H10N2O3S3",
+        "expected": "C10H10N2O3S3"
+      }
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4c:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4c:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4c:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4h:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4h:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4h:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C16H16N2O2S3",
+        "expected": "C16H16N2O2S3"
+      }
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4h:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4h:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4h:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4i:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4i:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4i:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C16H14N2O4S3",
+        "expected": "C16H14N2O4S3"
+      }
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4i:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4i:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:4i:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:ethanol:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:ethanol:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:ethanol:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C2H6O",
+        "expected": "C2H6O"
+      }
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:ethanol:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:ethanol:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:ethanol:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:DPPH:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:DPPH:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:DPPH:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C18H12N5O6",
+        "expected": "C18H12N5O6"
+      }
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:DPPH:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:DPPH:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:identity:DPPH:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_4:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_4:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_4:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C16H27NOSi3",
+        "expected": "C16H27NOSi3"
+      }
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_4:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_4:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_4:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:h2:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_1_singlet:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_1_singlet:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_Vprime_singlet:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:identity:silylene_Vprime_singlet:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:H2:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:H2:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:H2:formula",
+      "passed": true,
+      "detail": {
+        "observed": "H2",
+        "expected": "H2"
+      }
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:H2:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:H2:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:H2:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:DMAc:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:DMAc:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:DMAc:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C4H9NO",
+        "expected": "C4H9NO"
+      }
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:DMAc:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:DMAc:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:DMAc:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:identity:int_g:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:styrene_oxide:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:styrene_oxide:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:styrene_oxide:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C8H8O",
+        "expected": "C8H8O"
+      }
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:styrene_oxide:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:styrene_oxide:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:styrene_oxide:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:KI:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:KI:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:KI:formula",
+      "passed": true,
+      "detail": {
+        "observed": "IK",
+        "expected": "IK"
+      }
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:KI:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:KI:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:water:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:water:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:water:formula",
+      "passed": true,
+      "detail": {
+        "observed": "H2O",
+        "expected": "H2O"
+      }
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:water:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:water:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:water:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:CO2:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:CO2:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:CO2:formula",
+      "passed": true,
+      "detail": {
+        "observed": "CO2",
+        "expected": "CO2"
+      }
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:CO2:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:CO2:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:identity:CO2:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:NBS:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:NBS:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:NBS:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C4H4BrNO2",
+        "expected": "C4H4BrNO2"
+      }
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:NBS:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:NBS:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:NBS:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:Et3N:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:Et3N:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:Et3N:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C6H15N",
+        "expected": "C6H15N"
+      }
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:Et3N:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:Et3N:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:Et3N:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:succinimide:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:succinimide:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:succinimide:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C4H5NO2",
+        "expected": "C4H5NO2"
+      }
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:succinimide:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:succinimide:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:succinimide:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C10H20O3",
+        "expected": "C10H20O3"
+      }
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_4_R:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C8H16O",
+        "expected": "C8H16O"
+      }
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:identity:compound_7:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:substrate_1a:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:substrate_1a:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:substrate_1a:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C13H16F3NO",
+        "expected": "C13H16F3NO"
+      }
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:substrate_1a:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:substrate_1a:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:substrate_1a:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:triplet_O2:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:triplet_O2:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:triplet_O2:formula",
+      "passed": true,
+      "detail": {
+        "observed": "O2",
+        "expected": "O2"
+      }
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:triplet_O2:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:triplet_O2:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:triplet_O2:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:singlet_O2:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:singlet_O2:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:singlet_O2:formula",
+      "passed": true,
+      "detail": {
+        "observed": "O2",
+        "expected": "O2"
+      }
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:singlet_O2:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:singlet_O2:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:singlet_O2:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:superoxide:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:superoxide:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:superoxide:formula",
+      "passed": true,
+      "detail": {
+        "observed": "O2-",
+        "expected": "O2-"
+      }
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:superoxide:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:superoxide:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:identity:superoxide:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et3B:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et3B:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et3B:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C6H15B",
+        "expected": "C6H15B"
+      }
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et3B:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et3B:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et3B:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PO:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PO:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PO:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C3H6O",
+        "expected": "C3H6O"
+      }
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PO:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PO:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PO:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:CO2:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:CO2:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:CO2:formula",
+      "passed": true,
+      "detail": {
+        "observed": "CO2",
+        "expected": "CO2"
+      }
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:CO2:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:CO2:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:CO2:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PA_chain:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PA_chain:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PA_chain:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C27H46N3O7P",
+        "expected": "C27H46N3O7P"
+      }
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PA_chain:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PA_chain:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:PA_chain:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:noPA_chain:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:noPA_chain:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:noPA_chain:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C19H42N3O4P",
+        "expected": "C19H42N3O4P"
+      }
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:noPA_chain:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:noPA_chain:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:noPA_chain:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et2N3P:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et2N3P_PA:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:identity:Et2N3P_PO:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C30H22",
+        "expected": "C30H22"
+      }
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:identity:precursor_1_cis:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C11H14",
+        "expected": "C11H14"
+      }
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:identity:3a:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:long_radical:parse",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:long_radical:charge",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:long_radical:formula",
+      "passed": true,
+      "detail": {
+        "observed": "C22H26F2NO4S",
+        "expected": "C22H26F2NO4S"
+      }
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:long_radical:complete_unique_maps",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:long_radical:electron_spin_parity",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:long_radical:bond_endpoints_exist",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:identity:radical_starter:xyz_atom_count",
+      "passed": true
+    },
+    {
+      "test": "harziane:enol_formula",
+      "passed": true
+    },
+    {
+      "test": "harziane:CSA_enantiomer_pair",
+      "passed": true,
+      "detail": [
+        "[CH3:1][C:2]1([CH3:3])[C@H:4]2[CH2:5][CH2:6][C@:7]1([CH2:8][S:9](=[O:10])(=[O:11])[OH:12])[C:13](=[O:14])[CH2:15]2",
+        "[CH3:1][C:2]1([CH3:3])[C@@H:4]2[CH2:5][CH2:6][C@@:7]1([CH2:8][S:9](=[O:10])(=[O:11])[OH:12])[C:13](=[O:14])[CH2:15]2"
+      ]
+    },
+    {
+      "test": "antioxidant:DPPH_radical_formula",
+      "passed": true
+    },
+    {
+      "test": "antioxidant:4b:actual_OH_identity",
+      "passed": true
+    },
+    {
+      "test": "antioxidant:4c:actual_OH_identity",
+      "passed": true
+    },
+    {
+      "test": "antioxidant:4h:actual_OH_identity",
+      "passed": true
+    },
+    {
+      "test": "antioxidant:4i:actual_OH_identity",
+      "passed": true
+    },
+    {
+      "test": "Ru:changed_ligand_inventory",
+      "passed": true
+    },
+    {
+      "test": "Pd:full_hydride_inventory",
+      "passed": true
+    },
+    {
+      "test": "radical:long_complete_homologous_atoms",
+      "passed": true
+    },
+    {
+      "test": "radical:homologous_formula",
+      "passed": true,
+      "detail": {
+        "C": 22,
+        "O": 4,
+        "F": 2,
+        "N": 1,
+        "S": 1,
+        "H": 26
+      }
+    },
+    {
+      "test": "radical:sole_CH2_insertion",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:old_answer_XYZ_private",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:old_answer_XYZ_private",
+      "passed": true
+    },
+    {
+      "test": "paper_3235db287859287e:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_4e9774f4128551d3:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_60f4c45810428116:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_db6c4e0558113873:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_e2d9397dff2a3f0f:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_fcc3c7f2c46a0fbe:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_0e835b370ddd37b6:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_9132719dbf91c978:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_534ae3b6e2fb695f:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_6f9a36fff6964313:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_c625cba3ce868eb1:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_d3b4575397179146:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_ef26687d63a37e29:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_0dc85595cab7bc0a:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_a3892396b1843698:three_core_panels",
+      "passed": true
+    },
+    {
+      "test": "paper_8fefc96b015c4577:three_core_panels",
+      "passed": true
+    }
+  ]
+}

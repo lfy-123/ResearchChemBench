@@ -1,6 +1,6 @@
 # Scientific objective
 
-Test the paper’s qualitative proposal that N-benzoyl carbazole coordinates to BBr3, undergoes bromide transfer involving a second BBr3, then intramolecular electrophilic C–H borylation and deprotonation. Independently plan and execute calculations to obtain the validated free-energy profile in dichloroethane, the activation free energy for the C–H borylation transition state, the overall barrier from the separated reference state, and the rate-determining step. Do not assume the paper’s numerical values or optimized geometries.
+Test the paper’s qualitative proposal that N-benzoyl carbazole coordinates to BBr3, undergoes bromide transfer involving a second BBr3, then intramolecular electrophilic C–H borylation and deprotonation. Independently plan and execute calculations to obtain the validated free-energy profile in dichloroethane, the activation free energy for the C–H borylation transition state, the overall barrier from adduct A plus the second BBr3 to the highest subsequent validated transition state, and the rate-determining step. Keep the full profile referenced to separated substrate plus two BBr3 molecules. Do not assume the paper’s numerical values or optimized geometries.
 
 # Public inputs and scientific boundaries
 

@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_e31cc7bc7b21b610/documents/main.pdf",
+          "sha256": "d10f786f46a66110c6c194aac86b204d3e34dc8be7d608d5c2557be4dd91f5d0",
+          "pages": [
+            4,
+            8,
+            9,
+            10
+          ],
+          "total_pages": 12
+        },
+        {
+          "path": "papers/paper_e31cc7bc7b21b610/documents/supplementary_001.pdf",
+          "sha256": "8160f45b57e772b48642e1e20d0ddddb8e64c97146b96bb942b33584b6cae2ec",
+          "pages": [
+            20,
+            22,
+            27,
+            28,
+            29,
+            30
+          ],
+          "total_pages": 30
+        }
+      ],
+      "scope": "Source material establishes problem, identities and bounded reference claims. See private source_scope_audit."
+    },
+    {
+      "evidence_id": "historical_evidence",
+      "source": {
+        "freeze_handoff": {
+          "validation_group_not_authoring_batch": 6,
+          "handoff_path": "docs/upgrade_tasks_v2_review_20260928/group_6/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+          "handoff_sha256": "733d1efabb39deac239f2318d48fc7385a9faa720b2a206bfeede892b4a158fa",
+          "recorded_at_utc": "2026-09-28T15:08:44.745913+00:00",
+          "scientific_disposition": "needs_work",
+          "completed_evidence_summary": "正确114原子截短二核先导已从平台停止后的最后有效SCF几何恢复，作业3fbad7fc在运行；完整210原子模型及自旋对照已准备，受先导质量门约束",
+          "unfinished_scientific_or_input_work": "先导验证后做完整/截短、关联及自旋矩阵",
+          "not_a_content_dispatch_gate": true,
+          "job_status_refreshed_this_turn": false
+        },
+        "v1_reference_plan": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_e31cc7bc7b21b610/evaluation/reference_validation_plan.md",
+        "applicability": "114 原子截短模型在途先导不应冒充源 Hap 或完整 210 原子验证；V2 模型取舍先做来源/资源论证，避免无必要增加整套计算。",
+        "new_scientific_calculations_performed": false,
+        "source_model_correction": "Historical114-atom work remains a benchmark-added model only; source54-atom Hap model and210-atom experiment are distinguished.",
+        "precise_artifact_inventory": "evaluation/task_provenance/evidence_reuse_inventory.json",
+        "inventory_boundary": "File existence/hash establishes provenance only. Historical job status is a dated recorded observation, not a live platform check. V1 matrices are historical designs, not mandatory V2 evaluation routes."
+      },
+      "scope": "Read-only historical work with explicit applicability limits; not blanket V2 acceptance."
+    }
+  ],
+  "judge_calibration_status": "pending",
+  "numerical_tolerance_policy": "No new universal tolerance is asserted. Judge quantitative significance against the submission error evidence and the specific reference conditions."
+}

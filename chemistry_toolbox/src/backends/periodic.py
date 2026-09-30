@@ -73,7 +73,7 @@ def _run_yambo(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     job_name = str(settings["job_name"]).strip()
     if not re.fullmatch(r"[A-Za-z0-9_.-]+(?:,[A-Za-z0-9_.-]+)*", job_name):
         raise ValueError("job_name must be a comma-separated list of safe Yambo job names")
-    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 7200))
+    timeout = int(request.get("resource_limits", {}).get("walltime_seconds", 86400))
     completed = run_external(
         executable="yambo",
         environment_variable="CHEMGRAPH_YAMBO_COMMAND",
@@ -381,7 +381,7 @@ def _vaspkit_home(directory: Path, replacements: dict[str, str] | None = None) -
 def _run_vaspkit_action(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
     directory = output_directory(action_id, "vaspkit")
-    timeout_seconds = int((request.get("resource_limits") or {}).get("walltime_seconds", 1800))
+    timeout_seconds = int((request.get("resource_limits") or {}).get("walltime_seconds", 86400))
 
     if action_id == "generate_vasp_kpoint_mesh":
         resolution = float(settings["reciprocal_space_resolution_inverse_angstrom"])
@@ -493,7 +493,7 @@ def _run_airss(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
     directory = output_directory(action_id, "airss")
     timeout_seconds = int(
-        request.get("resource_limits", {}).get("walltime_seconds", 7200)
+        request.get("resource_limits", {}).get("walltime_seconds", 86400)
     )
 
     if action_id == "generate_crystal_structure_candidates":
@@ -606,7 +606,7 @@ def _run_tdep(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, _method, settings = request_parts(request)
     directory = output_directory(action_id, "tdep")
     timeout_seconds = int(
-        request.get("resource_limits", {}).get("walltime_seconds", 7200)
+        request.get("resource_limits", {}).get("walltime_seconds", 86400)
     )
     _stage_tdep_file(inputs["unit_cell_file"], directory, "infile.ucposcar")
 
@@ -1083,7 +1083,7 @@ def _run_qe(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     completed = run_external(
         executable="pw.x", environment_variable="CHEMGRAPH_QE_COMMAND",
         arguments=["-in", str(input_path)], directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -1308,7 +1308,7 @@ def _run_cp2k(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     completed = run_external(
         executable="cp2k", environment_variable="CHEMGRAPH_CP2K_COMMAND",
         arguments=["-i", str(input_path)], directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -1745,7 +1745,7 @@ def _run_simple_periodic(backend_id: str, action_id: str, request: dict[str, Any
     completed = run_external(
         executable=executable, environment_variable=variable, arguments=arguments,
         directory=directory, stdin_text=stdin_text,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 7200)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -2767,7 +2767,7 @@ def _run_vasp(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             arguments=[],
             directory=directory,
             timeout_seconds=int(
-                request.get("resource_limits", {}).get("walltime_seconds", 7200)
+                request.get("resource_limits", {}).get("walltime_seconds", 86400)
             ),
         )
     else:
@@ -2787,7 +2787,7 @@ def _run_vasp(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
                 arguments=["-np", str(cores), *vasp_command],
                 directory=directory,
                 timeout_seconds=int(
-                    request.get("resource_limits", {}).get("walltime_seconds", 7200)
+                    request.get("resource_limits", {}).get("walltime_seconds", 86400)
                 ),
             )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
@@ -2887,7 +2887,7 @@ def _shengbte_thermal_conductivity(request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_SHENGBTE_COMMAND",
         arguments=[],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     (directory / "stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "stderr.log").write_text(completed["stderr"], encoding="utf-8")

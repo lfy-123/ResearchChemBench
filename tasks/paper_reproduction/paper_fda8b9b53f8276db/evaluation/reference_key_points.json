@@ -1,1 +1,43 @@
-{"paper_id":"paper_fda8b9b53f8276db","items":[{"key_point_id":"pr_process_input","key_point_type":"process","statement":"The investigation uses CCDC 2433822 for compound 1 with explicit mapping, charge and multiplicity.","expected":"CCDC 2433822, neutral singlet and reproducible mapping are reported.","evidence_ids":["ev_doc_ffa109983c32_000414_72a75ac26297"]},{"key_point_id":"pr_process_minimum","key_point_type":"process","statement":"The optimized structure is checked by vibrational analysis.","expected":"Frequency/Hessian evidence and imaginary-mode count are reported.","evidence_ids":["ev_doc_ffa109983c32_000100_5237824e897a","ev_doc_ffa109983c32_000314_f58897638e8d"]},{"key_point_id":"pr_result_minimum","key_point_type":"result","statement":"The free ligand optimized structure is reported as a local minimum with no imaginary frequencies.","expected":"Conclusion reports stationary-point status and observed imaginary-mode count.","evidence_ids":["ev_doc_ffa109983c32_000100_5237824e897a"]},{"key_point_id":"pr_result_geometry","key_point_type":"result","statement":"Free-ligand bond lengths agree closely with crystal data; reported RMSE is 0.004 Å and R² is 0.998.","expected":"Mapped bond table and aggregate metrics are supplied with scope limitations.","evidence_ids":["ev_doc_ffa109983c32_000102_94c6ad17fc35","ev_doc_ffa109983c32_000105_9fb4f0f5ebe3"]}]}
+{
+  "paper_id": "paper_fda8b9b53f8276db",
+  "items": [
+    {
+      "key_point_id": "pr_process_input",
+      "key_point_type": "process",
+      "statement": "The investigation uses CCDC 2433822 for compound 1 with explicit mapping, charge and multiplicity.",
+      "expected": "CCDC 2433822, neutral singlet and reproducible mapping are reported.",
+      "evidence_ids": [
+        "ev_doc_ffa109983c32_000414_72a75ac26297"
+      ]
+    },
+    {
+      "key_point_id": "pr_process_minimum",
+      "key_point_type": "process",
+      "statement": "The optimized structure is checked by vibrational analysis.",
+      "expected": "Frequency/Hessian evidence and imaginary-mode count are reported.",
+      "evidence_ids": [
+        "ev_doc_ffa109983c32_000100_5237824e897a",
+        "ev_doc_ffa109983c32_000314_f58897638e8d"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_minimum",
+      "key_point_type": "result",
+      "statement": "The free ligand optimized structure is reported as a local minimum with no imaginary frequencies.",
+      "expected": "Conclusion reports stationary-point status and observed imaginary-mode count.",
+      "evidence_ids": [
+        "ev_doc_ffa109983c32_000100_5237824e897a"
+      ]
+    },
+    {
+      "key_point_id": "pr_result_geometry",
+      "key_point_type": "result",
+      "statement": "Free-ligand bond lengths agree closely with crystal data; reported RMSE is 0.004 Å and R² is 0.998.",
+      "expected": "Mapped primary six-bond comparison (C1-C2,C2-C3,N1-C1,N2-C2,N3-C3,C1-C10), fitted OLS R², and separately labelled broader sensitivities; isolated-molecule limitations stated.",
+      "evidence_ids": [
+        "ev_doc_ffa109983c32_000102_94c6ad17fc35",
+        "ev_doc_ffa109983c32_000105_9fb4f0f5ebe3"
+      ]
+    }
+  ]
+}

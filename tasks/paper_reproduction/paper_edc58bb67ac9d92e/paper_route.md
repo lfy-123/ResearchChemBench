@@ -16,11 +16,11 @@ The modeled substrate is N-benzoyl carbazole (1a), with BBr3 as Lewis acid/reage
 | 2 | Classify stationary points | optimized structures | Gaussian 16 frequency calculations | same level; minima all real frequencies, TS one imaginary frequency | validated minima/TS | ev_doc_79a5a57845fc_000558_20ba990e5306; ev_doc_79a5a57845fc_000564_703253fcedb4 |
 | 3 | Verify TS connectivity | TS A–B and TS B–C | Gaussian 16 IRC | forward/reverse IRC to adjacent minima | connectivity assignments | ev_doc_79a5a57845fc_000560_0cd17c6fd8f6; ev_doc_79a5a57845fc_000564_703253fcedb4 |
 | 4 | Refine energies | validated optimized structures | Gaussian 16 single points | M06-2X/6-311+G(d,p) for non-Br with SDD for Br; SMD DCE | refined electronic energies | ev_doc_79a5a57845fc_000561_1a11171e547b; ev_doc_79a5a57845fc_000584_233b2989d5cc |
-| 5 | Assemble profile | thermal corrections and refined energies | free-energy analysis | Gibbs free energies in DCE; relative to separated 1a + 2 BBr3 as defined by profile | step barriers, overall barrier, rate-determining step | ev_doc_333ef975639c_000123_7327214cd7d2; ev_doc_333ef975639c_000183_4ad97f53c6f3 |
+| 5 | Assemble profile | thermal corrections and refined energies | free-energy analysis | Gibbs free energies in DCE; profile zero is separated 1a + 2 BBr3; overall barrier is TS B-C minus A + BBr3 | step barriers, overall barrier, rate-determining step | ev_doc_333ef975639c_000123_7327214cd7d2; ev_doc_333ef975639c_000183_4ad97f53c6f3; main Scheme 4, PDF page 6 |
 
 ## 4. Validation and analysis protocol
 
-Every reported minimum was checked for zero imaginary frequencies and every reported transition state for exactly one. IRC calculations were used to establish that each TS joins the intended neighboring states. The free-energy profile was interpreted by comparing each transition-state free energy with its preceding minimum and by identifying the largest barrier from the initial separated reactants.
+Every reported minimum was checked for zero imaginary frequencies and every reported transition state for exactly one. IRC calculations were used to establish that each TS joins the intended neighboring states. Local barriers compare each transition-state free energy with its preceding minimum. The reported overall barrier is measured from populated adduct A plus the second BBr3 to TS B-C: Scheme 4 gives 11.4 - (-10.2) = 21.6 kcal/mol. The full profile retains separated 1a + 2 BBr3 as its zero. The controlling transition state must be interpreted using the connected profile; choosing the largest local barrier alone does not establish the overall bottleneck.
 
 ## 5. Private reference results
 

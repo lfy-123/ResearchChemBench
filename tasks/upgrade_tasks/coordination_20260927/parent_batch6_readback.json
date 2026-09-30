@@ -1,0 +1,648 @@
+{
+  "status": "passed",
+  "papers": 3,
+  "checks": 138,
+  "failure_count": 0,
+  "scientific_reference_validation": false,
+  "LLM_judge_run": false,
+  "packages": [
+    {
+      "paper_id": "paper_5ea491c741fbd8d4",
+      "modes": {
+        "autonomous_research": {
+          "status": "blocked",
+          "package_hash": "b3f35bee9581792e8688a91601a3d2f894dfd9cb8434c61076d49aa98cbfb380",
+          "key_points": 5,
+          "conclusions": 1,
+          "rules": 6,
+          "new_scientific_calculations_performed": false
+        },
+        "paper_reproduction": {
+          "status": "blocked",
+          "package_hash": "89eb0e537fcf4f8bf4914bb628dc9b8843014daf318c1c68de342e4a4af37f51",
+          "key_points": 5,
+          "conclusions": 1,
+          "rules": 6,
+          "new_scientific_calculations_performed": false
+        }
+      }
+    },
+    {
+      "paper_id": "paper_72f60526b64ce1b6",
+      "modes": {
+        "autonomous_research": {
+          "status": "blocked",
+          "package_hash": "60c50d170fff1fef8a8fb608c092c1876aa5ebaa65eb6cd5fd44032e7e606d62",
+          "key_points": 5,
+          "conclusions": 1,
+          "rules": 6,
+          "new_scientific_calculations_performed": false
+        },
+        "paper_reproduction": {
+          "status": "blocked",
+          "package_hash": "941a27a68971838fa93222db137a0f400086190dfeb135ead0169b9aec3e474d",
+          "key_points": 5,
+          "conclusions": 1,
+          "rules": 6,
+          "new_scientific_calculations_performed": false
+        }
+      }
+    },
+    {
+      "paper_id": "paper_c7217910ecbee1d9",
+      "modes": {
+        "autonomous_research": {
+          "status": "blocked",
+          "package_hash": "cb5dcadef42729bda5e1040c11b27fc6f0159db3ad69a3507b05ea6374c137f1",
+          "key_points": 5,
+          "conclusions": 1,
+          "rules": 6,
+          "new_scientific_calculations_performed": false
+        },
+        "paper_reproduction": {
+          "status": "blocked",
+          "package_hash": "e6bd398d0bf8e23d2ab30bd0cbee91bec323eb025b507f1876c3950c710da065",
+          "key_points": 5,
+          "conclusions": 1,
+          "rules": 6,
+          "new_scientific_calculations_performed": false
+        }
+      }
+    }
+  ],
+  "results": [
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:official_package_validation",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:scientific_weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:valid_json_schema",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:artifact_paths_no_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:machine_and_readable_results",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:empty_submission_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:empty_complete_results_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:legacy_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:exact_public_export",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:private_files_not_exported",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:upgrade_audit_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:reference_stage_not_claimed_verified",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:reference_plan_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:source_snapshot_hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:expanded_from_final:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:expanded_from_final:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:expanded_from_final:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:expanded_from_final:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:expanded_from_final:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:autonomous_research:author_guidance_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:official_package_validation",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:scientific_weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:valid_json_schema",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:artifact_paths_no_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:machine_and_readable_results",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:empty_submission_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:empty_complete_results_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:legacy_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:exact_public_export",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:private_files_not_exported",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:upgrade_audit_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:reference_stage_not_claimed_verified",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:reference_plan_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:source_snapshot_hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:expanded_from_final:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:expanded_from_final:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:expanded_from_final:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:expanded_from_final:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:expanded_from_final:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paper_reproduction:author_guidance_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paired_public_data_and_contract",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paired_scientific_evaluator:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paired_scientific_evaluator:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paired_scientific_evaluator:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paired_scientific_evaluator:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_5ea491c741fbd8d4:paired_scientific_evaluator:critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:official_package_validation",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:scientific_weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:valid_json_schema",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:artifact_paths_no_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:machine_and_readable_results",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:empty_submission_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:empty_complete_results_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:legacy_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:exact_public_export",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:private_files_not_exported",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:upgrade_audit_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:reference_stage_not_claimed_verified",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:reference_plan_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:source_snapshot_hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:expanded_from_final:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:expanded_from_final:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:expanded_from_final:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:expanded_from_final:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:expanded_from_final:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:autonomous_research:author_guidance_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:official_package_validation",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:scientific_weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:valid_json_schema",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:artifact_paths_no_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:machine_and_readable_results",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:empty_submission_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:empty_complete_results_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:legacy_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:exact_public_export",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:private_files_not_exported",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:upgrade_audit_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:reference_stage_not_claimed_verified",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:reference_plan_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:source_snapshot_hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:expanded_from_final:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:expanded_from_final:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:expanded_from_final:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:expanded_from_final:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:expanded_from_final:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paper_reproduction:author_guidance_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paired_public_data_and_contract",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paired_scientific_evaluator:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paired_scientific_evaluator:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paired_scientific_evaluator:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paired_scientific_evaluator:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_72f60526b64ce1b6:paired_scientific_evaluator:critical_failures.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:official_package_validation",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:scientific_weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:valid_json_schema",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:artifact_paths_no_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:machine_and_readable_results",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:empty_submission_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:empty_complete_results_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:legacy_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:exact_public_export",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:private_files_not_exported",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:upgrade_audit_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:reference_stage_not_claimed_verified",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:reference_plan_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:source_snapshot_hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:expanded_from_final:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:expanded_from_final:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:expanded_from_final:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:expanded_from_final:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:expanded_from_final:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:autonomous_research:author_guidance_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:official_package_validation",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:scientific_weights_100",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:valid_json_schema",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:artifact_paths_no_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:machine_and_readable_results",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:empty_submission_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:empty_complete_results_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:legacy_scalar_only_rejected",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:exact_public_export",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:private_files_not_exported",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:upgrade_audit_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:reference_stage_not_claimed_verified",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:reference_plan_exists",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:source_snapshot_hashes",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:expanded_from_final:agent_input/task.md",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:expanded_from_final:agent_input/submission_schema.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:expanded_from_final:evaluation/reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:expanded_from_final:evaluation/reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:expanded_from_final:evaluation/scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paper_reproduction:author_guidance_boundary",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paired_public_data_and_contract",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paired_scientific_evaluator:reference_key_points.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paired_scientific_evaluator:reference_conclusions.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paired_scientific_evaluator:scoring_rules.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paired_scientific_evaluator:evidence_map.json",
+      "passed": true
+    },
+    {
+      "test": "paper_c7217910ecbee1d9:paired_scientific_evaluator:critical_failures.json",
+      "passed": true
+    }
+  ]
+}

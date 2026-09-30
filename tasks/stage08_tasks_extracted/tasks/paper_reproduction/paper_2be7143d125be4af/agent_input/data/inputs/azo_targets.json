@@ -1,0 +1,10 @@
+{
+  "system": "Azo-R neutral closed-shell recognition molecules",
+  "molecules": [
+    {"id":"Azo-pNO2","smiles":"COc1cc(OC)cc(OCC#C)c1N=Nc1ccc([N+](=O)[O-])cc1","charge":0,"multiplicity":1,"azo_bond_atoms":["N_azo_left","N_azo_right"],"alpha_nitrogen":"N_azo_right"},
+    {"id":"Azo-pCN","smiles":"COc1cc(OC)cc(OCC#C)c1N=Nc1ccc(C#N)cc1","charge":0,"multiplicity":1,"azo_bond_atoms":["N_azo_left","N_azo_right"],"alpha_nitrogen":"N_azo_right"}
+  ],
+  "atom_role_rule":"In each SMILES, N_azo_left is the azo nitrogen attached to the dimethoxy/propargyloxy ring and N_azo_right is the azo nitrogen attached to the para-substituted phenyl ring. Preserve this mapping after atom indexing.",
+  "bde_definition":"Homolytic dissociation of the mapped azo N=N bond into the two neutral radical fragments at consistent electronic states; report the convention and fragment states.",
+  "scope":"No paper or general-web lookup is needed; conformers and computational method are selected and justified by the Agent."
+}

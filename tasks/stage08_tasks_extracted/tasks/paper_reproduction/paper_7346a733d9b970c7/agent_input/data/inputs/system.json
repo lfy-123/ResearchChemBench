@@ -1,0 +1,10 @@
+{
+  "system_name": "cyclohexane_cyclohexyl_reference",
+  "species": [
+    {"id": "cyclohexyl_radical", "file": "cyclohexyl_radical.xyz", "smiles": "[CH]1CCCCC1", "charge": 0, "multiplicity": 2, "formula": "C6H11", "role": "open-shell C-centered species after C-H homolysis"},
+    {"id": "hydrogen_atom", "file": "hydrogen_atom.xyz", "smiles": "[H]", "charge": 0, "multiplicity": 2, "formula": "H", "role": "homolytic hydrogen-atom fragment"},
+    {"id": "cyclohexane", "file": "cyclohexane.xyz", "smiles": "C1CCCCC1", "charge": 0, "multiplicity": 1, "formula": "C6H12", "role": "closed-shell C-H reference"}
+  ],
+  "observable": "C-H bond dissociation enthalpy in kcal/mol, evaluated as H(cyclohexyl radical)+H(H atom)-H(cyclohexane)",
+  "boundary": "Use the supplied connectivity and stoichiometry; generate and document conformers and computational settings independently. Do not use paper or SI text as an input during the investigation."
+}

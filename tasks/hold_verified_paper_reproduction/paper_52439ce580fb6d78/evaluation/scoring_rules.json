@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_52439ce580fb6d78",
+  "rules": [
+    {
+      "rule_id": "r_process",
+      "reference_id": "kp_process",
+      "type": "semantic",
+      "expected": "Workflow evidence covers relaxation/convergence, magnetic comparison, and explicit SOC K/K-prime sampling.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.magnetic_analysis.candidates",
+          "$.validation.soc_check"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_split",
+      "reference_id": "kp_result",
+      "type": "numeric",
+      "target": 137,
+      "unit": "meV",
+      "tolerance": 25,
+      "applicability": {"field": "$.completion_status", "equals": "complete"},
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.valley_analysis.absolute_splitting_meV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+        "expected": "For a complete outcome, conclusion supports FM order and measurable SOC valley splitting and states methodological limitations; for bounded_failure, it honestly states the limitation and does not claim an uncomputed result.",
+      "applicability": {"field": "$.completion_status", "values": ["complete", "bounded_failure"]},
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.failure_details"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

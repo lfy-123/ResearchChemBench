@@ -1,0 +1,5 @@
+# Private author route and version boundary
+
+Source main p.4 used gas-phase Gaussian16 B3LYP, SDD on Ir and6-31G* on other atoms. For the dimer the actual calculated model is (A,C)-(Hap)4Ir2, Hap=1,2-C6H4(NH)O,54 atoms; egan truncations were used for other mononuclear complexes. Main pp.8–9 argues that ligand redox activity and relative orientation create net Ir–Ir π bonding. The source S4 minimum has Ir–Ir2.599 Å; the constrained C2h structure has2.724 Å and9.7 kcal/mol higher free energy. SI pp.22,29 identify C2h as a first-order saddle (17.1i cm−1), not a second stable conformer. Frequency plots use scaling0.9614; SI coordinate energies are raw optimized energies, not automatically the9.7 kcal/mol free-energy difference. The experimental2.5584(4) Å and crude MOS-derived2.34 bond-order estimate are conditional observations/interpretations, not mandatory computational truth. The V1 full/egan pair and fixed perturbations are benchmark additions, not the published Hap protocol.
+
+Source article identifiers are retained privately in the V1 snapshot; they are omitted from public task_info to avoid title/DOI answer lookup.

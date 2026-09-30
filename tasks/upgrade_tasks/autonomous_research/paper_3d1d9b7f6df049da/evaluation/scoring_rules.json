@@ -1,0 +1,181 @@
+{
+  "paper_id": "paper_3d1d9b7f6df049da",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Retain the complete 96-atom molecules, including the C87H7 adduct and two Y atoms (source XYZ rows 81 and 82, one-based). Both neutral molecules have a doublet electronic state. This is a molecular EPR-tensor task; a Gd substitution is not an equivalent electronic model. In a common molecule-fixed Cartesian frame, dT/dQ=[T(+h)-T(-h)]/(2h) for T=g or hyperfine A, with mass-weighted normal coordinate Q and units declared. Compare h/2. Report n=1/(exp(hc nu/kT)-1) and n(n+1) separately from the derivative-based coupling; use positive vibrational frequencies. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.calculation_records",
+          "$.reference_definition"
+        ],
+        "comparison": "Retain the complete 96-atom molecules, including the C87H7 adduct and two Y atoms (source XYZ rows 81 and 82, one-based). Both neutral molecules have a doublet electronic state. This is a molecular EPR-tensor task; a Gd substitution is not an equivalent electronic model. In a common molecule-fixed Cartesian frame, dT/dQ=[T(+h)-T(-h)]/(2h) for T=g or hyperfine A, with mass-weighted normal coordinate Q and units declared. Compare h/2. Report n=1/(exp(hc nu/kT)-1) and n(n+1) separately from the derivative-based coupling; use positive vibrational frequencies. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_mode_assignment",
+      "reference_id": "kp_mode_assignment",
+      "type": "semantic",
+      "expected": "Inspect mass normalization, removed rigid modes, Y–Y axis and projection table. Frequency agreement without eigenvectors is insufficient.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.mode_assignment",
+          "$.calculation_records"
+        ],
+        "comparison": "Inspect mass normalization, removed rigid modes, Y–Y axis and projection table. Frequency agreement without eigenvectors is insufficient."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_tensor_derivatives",
+      "reference_id": "kp_tensor_derivatives",
+      "type": "semantic",
+      "expected": "Recalculate finite differences from raw tensors and mode normalization. Keep frames and spin states consistent. Require real smaller-step outputs; check electronic noise relative to derivative signal.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.tensor_derivatives",
+          "$.calculation_records"
+        ],
+        "comparison": "Recalculate finite differences from raw tensors and mode normalization. Keep frames and spin states consistent. Require real smaller-step outputs; check electronic noise relative to derivative signal."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_thermal_and_frame_controls",
+      "reference_id": "kp_thermal_and_frame_controls",
+      "type": "semantic",
+      "expected": "Check n(n+1), same temperature and frequency units. Weighted derivative norm is a stated proxy, not a computed relaxation rate. A larger Bose factor alone does not identify a stronger spin–phonon interaction.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.thermal_and_frame_controls",
+          "$.calculation_records"
+        ],
+        "comparison": "Check n(n+1), same temperature and frequency units. Weighted derivative norm is a stated proxy, not a computed relaxation rate. A larger Bose factor alone does not identify a stronger spin–phonon interaction."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.results"
+        ],
+        "comparison": "Check distinct hypotheses against actual paired results and inspect quantitative changes under the sensitivity intervention. Uncomputed endpoints cannot be relabelled indistinguishable. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2."
+      },
+      "evidence_policy": "Inspect real raw logs, models and analysis. Recompute all differences and verify named comparison coverage. Schema validity is not scientific validity."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "con_expanded",
+      "type": "semantic",
+      "expected": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether lateral Y–Y motion has distinctive spin–phonon coupling relative to longitudinal and cage motion, and separate tensor derivatives from thermal mode weighting in the two cage isomers. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.sensitivity"
+        ],
+        "comparison": "Accept supported, refuted or evidence-sufficient indistinguishable conclusions from the complete required matrix. Determine whether lateral Y–Y motion has distinctive spin–phonon coupling relative to longitudinal and cage motion, and separate tensor derivatives from thermal mode weighting in the two cage isomers. Reject singlet Y2 models, Gd substitution, wrong atom indices, occupation-only claims of coupling, inconsistent tensor frames/units, or interpreting these derivatives as measured T1/T2. No scientific completion from legacy scalars, missing controls or failed jobs. Reference calibration is pending; no fabricated numeric threshold applies."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct objects, states, definitions and raw evidence.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "mode_assignment",
+      "max_score": 25,
+      "description": "Mode eigenvectors and reproducible displacement classification",
+      "rule_ids": [
+        "rule_mode_assignment"
+      ]
+    },
+    {
+      "id": "tensor_derivatives",
+      "max_score": 25,
+      "description": "Six central tensor derivatives with step control",
+      "rule_ids": [
+        "rule_tensor_derivatives"
+      ]
+    },
+    {
+      "id": "thermal_and_frame_controls",
+      "max_score": 15,
+      "description": "Occupation versus coupling and rotational covariance",
+      "rule_ids": [
+        "rule_thermal_and_frame_controls"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Falsification and robustness based on actual controls.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported conclusion within the validated scope.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "implemented_pending_expanded_reference",
+  "completion_gate": {
+    "requirements": [
+      "Identity, charge/spin, atom mapping, the stated observable definition and genuine raw evidence.",
+      "Mode eigenvectors and reproducible displacement classification",
+      "Six central tensor derivatives with step control",
+      "Occupation versus coupling and rotational covariance",
+      "An actually computed sensitivity and an evidence-supported conclusion."
+    ],
+    "missing_core_endpoint": "Scientific completion is false regardless of presentation/format credit.",
+    "blocked_input": []
+  },
+  "scoring_notes": [
+    "Development evaluator. Numerical tolerances require the expanded reference and independent run.",
+    "Score demonstrated coverage and correct calculation, never author agreement. Accept evidence-backed equivalent controls that preserve the same scientific factors and endpoint coverage; a changed method does not waive validation.",
+    "Do not promote bounded_failure to a scientific pass. Evidence-backed candidate collapse may satisfy the searched-candidate requirement, but failed numerical convergence alone cannot."
+  ]
+}

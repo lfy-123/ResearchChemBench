@@ -4,7 +4,7 @@ Determine whether a computational free-energy profile for styrene hydroboration 
 
 # Public inputs and scientific boundaries
 
-Use `data/inputs/system_definition.json`. It defines styrene (C8H8, `C=Cc1ccccc1`), HBpin (C6H13BO2, `CC1(C)OB(O1)`), and a neutral truncated molecular catalyst consisting of unsubstituted 2,2'-bipyridine bound through both nitrogens to Fe(II), two hydrides, and two axial THF ligands in the resting state. Use a quintet electronic state for Fe-containing species unless a documented state comparison motivates a different state; report all deviations. The framework is omitted. Use implicit toluene at 333.15 K and state the standard-state convention used for relative Gibbs energies. No paper/SI coordinates, result structures, reference values, or literature search are required or permitted.
+Use `data/inputs/system_definition.json`. It defines styrene (C8H8, `C=Cc1ccccc1`), HBpin (C6H13BO2, `CC1(C)OB([H])OC1(C)C`), and a neutral truncated molecular catalyst consisting of unsubstituted 2,2'-bipyridine bound through both nitrogens to Fe(II), two hydrides, and two axial THF ligands in the resting state. Use a quintet electronic state for Fe-containing species unless a documented state comparison motivates a different state; report all deviations. The framework is omitted. Use implicit toluene at 333.15 K and state the standard-state convention used for relative Gibbs energies. No paper/SI coordinates, result structures, reference values, or literature search are required or permitted.
 
 # Required scientific validation/investigation
 

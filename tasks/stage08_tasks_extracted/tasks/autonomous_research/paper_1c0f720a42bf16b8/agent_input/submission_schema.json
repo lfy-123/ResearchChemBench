@@ -1,0 +1,161 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/methods.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "identity",
+      "coverage",
+      "interpretation",
+      "limitations"
+    ],
+    "oneOf": [
+      {
+        "properties": {"status": {"const": "success"}},
+        "required": ["validation", "observables"]
+      },
+      {
+        "properties": {"status": {"const": "bounded_failure"}},
+        "required": ["failure_reason", "unavailable_observables"]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": ["success", "bounded_failure"]
+      },
+      "identity": {
+        "type": "object",
+        "required": [
+          "compound_id",
+          "formula",
+          "charge",
+          "multiplicity",
+          "smiles"
+        ]
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "starting_conformer_count",
+          "unique_conformer_count",
+          "generation_method",
+          "stopping_condition"
+        ]
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "ground_state_converged",
+          "ground_state_stationary",
+          "excited_state_converged",
+          "excited_state_identity",
+          "td_states_computed"
+        ]
+      },
+      "observables": {
+        "type": "object",
+        "required": [
+          "ground_dipole_D",
+          "excited_dipole_D",
+          "torsions_deg",
+          "homo_eV",
+          "lumo_eV",
+          "gap_eV",
+          "bright_transition"
+        ],
+        "properties": {
+          "ground_dipole_D": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "excited_dipole_D": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "torsions_deg": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ]
+            }
+          },
+          "homo_eV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "lumo_eV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "gap_eV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bright_transition": {
+            "type": "object",
+            "required": [
+              "wavelength_nm",
+              "oscillator_strength",
+              "assignment",
+              "dominant_percentage"
+            ],
+            "properties": {
+              "wavelength_nm": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "oscillator_strength": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "dominant_percentage": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "assignment": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "interpretation": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "failure_reason": {
+        "type": "string"
+      },
+      "unavailable_observables": {
+        "type": "array",
+        "items": {"type": "string"}
+      }
+    }
+  }
+}

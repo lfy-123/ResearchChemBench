@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "title": "Dispersion, C–H···O contact and entropy in sulfonamide conformer selection",
+  "status": "implemented_pending_expanded_reference",
+  "packages": [
+    {
+      "path": "tasks/upgrade_tasks/autonomous_research/paper_8d8940710de08f7f",
+      "task_type": "autonomous_research",
+      "package_content_sha256": "46785fce1669f71f314b0562e1e3461852edf38d953ae53e7e024e29742c30a0"
+    },
+    {
+      "path": "tasks/upgrade_tasks/paper_reproduction/paper_8d8940710de08f7f",
+      "task_type": "paper_reproduction",
+      "package_content_sha256": "3ee4940ea22fa4c26b0988389a1d83dcd8936439224afe5fab5eaccdfa3669df"
+    }
+  ],
+  "new_reference_gaps": "Matched D3 switches, methanol basins, contact-disfavoring electronic controls and thermal sensitivity remain uncalculated.",
+  "blockers": [],
+  "source_review": {
+    "paper_main": "Computational study p5 inspected: R2SCAN/def2-TZVP/def2/J scans, no source D3 declaration; ωB97M-V/methanol density analysis is separate. Conformer/interaction discussion inspected, including the actual aromatic C–H···O donor and scans.",
+    "paper_si": "TableS8 vacuum energy/entropy/G values inspected; baseline gap is not mechanically reused."
+  },
+  "source_corrections": [
+    "The operative contact is PAH C–H···O, not an N–H···O assumption.",
+    "V labels are initial basin hypotheses; empirical collapse is permitted.",
+    "Source R2SCAN has no declared D3 correction; D3 on/off is a new intervention. Source ωB97M-V/methanol density analysis and SI vacuum E/G are kept separate."
+  ],
+  "check_summary": "Package-specific checks pending final batch regression; no scientific validation claimed."
+}

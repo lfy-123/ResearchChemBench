@@ -1,0 +1,68 @@
+{
+  "paper_id": "paper_f9d09d28c7d9adaa",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_convergence",
+      "key_point_type": "process",
+      "statement": "Each submitted molecular optimization is converged or transparently reported as bounded failure, with charge/multiplicity and atom-index provenance recorded.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000178_642424ea9cff"
+      ],
+      "expected": "Four traceable per-molecule convergence records and validation evidence."
+    },
+    {
+      "key_point_id": "kp_ar_angle_alpha3",
+      "key_point_type": "result",
+      "statement": "The α3 donor-acridine/π-bridge dihedral magnitudes are approximately 89.17°, 87.11°, 87.11° and 88.70° for MeAC, TfAC, MeACFy and TfACFy.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000045_07848638b61c"
+      ],
+      "expected": "Values close to the reported four-molecule sequence, with explicit atom definitions."
+    },
+    {
+      "key_point_id": "kp_ar_angle_beta1",
+      "key_point_type": "result",
+      "statement": "The source beta1 values are 87.11° (MeACFy) and 88.02° (TfACFy); the public measurement is the mapped aryl-plane angle.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000045_07848638b61c"
+      ],
+      "expected": "Use both specified least-squares planes, normalized normals, acos(abs(dot)) and 0–90 degrees, with output atom mapping and plane residuals. Compare to the source with the disclosed operational-definition boundary. No beta1 is required for MeAC or TfAC; a four-anchor torsion is not this observation."
+    },
+    {
+      "key_point_id": "kp_ar_orbitals",
+      "key_point_type": "result",
+      "statement": "HOMO is mainly acridine. MeAC/MeACFy LUMO is mainly phenanthrimidazole/bridge; the CF3 members shift LUMO density toward the short-axis substituted aryl.",
+      "evidence_ids": [
+        "ev_doc_539505645b47_000046_cc9e54afbd63"
+      ],
+      "expected": "Evaluate mapped fragment localization separately for each compound, including the source distinction between Me and CF3 members. Do not demand core/bridge dominance for all four. FMO is supporting evidence and cannot establish the S1 CT/LE decomposition; no numerical axis metric is required."
+    },
+    {
+      "key_point_id": "kp_ar_s1",
+      "key_point_type": "result",
+      "statement": "SI Table S1 S1 energies are 3.0446, 2.9162, 3.0716 and 2.9552 eV for MeAC, TfAC, MeACFy and TfACFy.",
+      "expected": "Identify the lowest singlet on the selected S0 geometry for every compound using actual root/spin evidence and report energy and oscillator strength. Inspect quantitative source deviations and method/conformer comparability; a bright higher root is not S1.",
+      "evidence_ids": [
+        "ev_si_s1_states"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_nto",
+      "key_point_type": "result",
+      "statement": "The authors analyze S1 hole/electron NTO pairs and their separated and overlapping fragment contributions.",
+      "expected": "All four S1 NTO records must be linked to the same TD root and geometry, with pair weights, orbital artifacts and mapped hole/electron interpretation. Neither ground-state HOMO/LUMO nor a verbal HLCT label substitutes for NTO evidence.",
+      "evidence_ids": [
+        "ev_si_s1_nto"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_ifct",
+      "key_point_type": "result",
+      "statement": "Source S1 CT/LE (%) is MeAC 46.60/53.40, TfAC 58.94/41.06, MeACFy 45.95/54.05, TfACFy 56.42/43.58.",
+      "expected": "Assess all four numeric decompositions with the three public fragments including H, the stated population partition, a complete directed matrix and consistent normalization. Quantify deviations from the source. Source trends are larger CT for CF3 and slightly larger LE for Fy, but small differences require uncertainty context. Same-level local verification recovers those trends with CT 36.990, 51.745, 36.492, 49.955%, not exact source percentages: no narrow quantitative acceptance tolerance has been established. A qualitative match alone is not exact quantitative reproduction, and claimed source numbers without raw analysis are unsupported.",
+      "evidence_ids": [
+        "ev_si_s1_ifct"
+      ]
+    }
+  ]
+}

@@ -3,8 +3,8 @@ software_id: siesta
 versions: ["5.4.2"]
 topics: ["troubleshooting", "errors", "preflight"]
 aliases: ["SIESTA", "siesta"]
-inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files"]
-outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files"]
+inputs: ["input.fdf", "pseudopotential files", "optional included structure and basis files", "device and electrode Hamiltonians for transport"]
+outputs: ["stdout.log", ".XV", ".DM", ".WFSX", ".bands", ".DOS and trajectory files", "transport Hamiltonians and configured transmission or current outputs"]
 last_smoke_tested: "2026-08-06"
 generated_from: chemistry_toolbox/config/native_software_manual_profiles.yaml + chemistry_toolbox/config/native_software_example_contracts.yaml
 ---

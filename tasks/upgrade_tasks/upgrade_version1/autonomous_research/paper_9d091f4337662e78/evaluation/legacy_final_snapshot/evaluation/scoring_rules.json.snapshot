@@ -1,0 +1,144 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "condition",
+      "expected": "All three initial classes are attempted. Complete results contain three distinct minimum-validated members of the specified set, identified from final geometry/mapping. Record basin changes and count duplicate endpoints once. Partial/ambiguous coverage is not complete verification.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].id",
+          "$.conformers[*].minimum_validation",
+          "$.initial_attempts",
+          "$.conformers[*].endpoint_evidence"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "ar_process_minima"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "condition",
+      "expected": "Temperature, formula and three-member normalization scope are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.temperature_K",
+          "$.normalization"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "ar_process_population"
+    },
+    {
+      "rule_id": "ar_r3_energy",
+      "type": "numeric",
+      "expected": "Compare the unique successful final conformer chemically corresponding to source 1-1 with the unchanged target/tolerance. Establish correspondence from molecular graph, atom mapping and final geometry, never from energy proximity, filename, array position or initial label. Duplicate, missing or ambiguous endpoints provide no numerical agreement evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].id",
+          "$.conformers[*].status",
+          "$.conformers[*].relative_gibbs_kcal_mol",
+          "$.conformers[*].initial_ids",
+          "$.conformers[*].endpoint_evidence",
+          "$.initial_attempts"
+        ],
+        "comparison": "absolute difference after expert final-geometry identity matching to source 1-1; submitted id names the endpoint but does not itself establish source identity"
+      },
+      "reference_id": "ar_result_values",
+      "target": 0,
+      "unit": "kcal/mol",
+      "tolerance": 0.5
+    },
+    {
+      "rule_id": "ar_r3_energy_1_2",
+      "type": "numeric",
+      "expected": "Compare the unique successful final conformer chemically corresponding to source 1-2 with the unchanged target/tolerance. Establish correspondence from molecular graph, atom mapping and final geometry, never from energy proximity, filename, array position or initial label. Duplicate, missing or ambiguous endpoints provide no numerical agreement evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].id",
+          "$.conformers[*].status",
+          "$.conformers[*].relative_gibbs_kcal_mol",
+          "$.conformers[*].initial_ids",
+          "$.conformers[*].endpoint_evidence",
+          "$.initial_attempts"
+        ],
+        "comparison": "absolute difference after expert final-geometry identity matching to source 1-2; submitted id names the endpoint but does not itself establish source identity"
+      },
+      "reference_id": "ar_result_values",
+      "target": 0.6804861,
+      "unit": "kcal/mol",
+      "tolerance": 0.5
+    },
+    {
+      "rule_id": "ar_r3_energy_1_3",
+      "type": "numeric",
+      "expected": "Compare the unique successful final conformer chemically corresponding to source 1-3 with the unchanged target/tolerance. Establish correspondence from molecular graph, atom mapping and final geometry, never from energy proximity, filename, array position or initial label. Duplicate, missing or ambiguous endpoints provide no numerical agreement evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].id",
+          "$.conformers[*].status",
+          "$.conformers[*].relative_gibbs_kcal_mol",
+          "$.conformers[*].initial_ids",
+          "$.conformers[*].endpoint_evidence",
+          "$.initial_attempts"
+        ],
+        "comparison": "absolute difference after expert final-geometry identity matching to source 1-3; submitted id names the endpoint but does not itself establish source identity"
+      },
+      "reference_id": "ar_result_values",
+      "target": 0.771969325,
+      "unit": "kcal/mol",
+      "tolerance": 0.5
+    },
+    {
+      "rule_id": "ar_r3_population",
+      "type": "condition",
+      "expected": "Complete means exactly three distinct required final conformers, not three initial files. Match final identities chemically, count duplicates once, and recompute Boltzmann populations from submitted Gibbs energies at 298.15 K. Require the sum to be 100% and the source-1-1-corresponding endpoint to be most populated. Do not compare against the 16-conformer source ensemble percentages. For a missing or ambiguous member, status is partial and full-subset populations, sum and most_populated_conformer are null.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.conformers",
+          "$.method.temperature_K",
+          "$.normalization",
+          "$.most_populated_conformer"
+        ],
+        "comparison": "expert endpoint identity/deduplication check and submitted-energy Boltzmann arithmetic; never match identity by energy proximity"
+      },
+      "reference_id": "ar_process_population"
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "The three named conformers are chemically distinct validated minima with consistent relative Gibbs energies at 298.15 K. Their ordering and populations are evaluated using normalization over those three members; additional conformers may be reported separately. Use only evidence-backed initial-to-final mappings and retained attempts. A rewritten historical JSON without missing search/endpoint evidence cannot establish new coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.most_populated_conformer",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_bounded"
+    }
+  ],
+  "paper_id": "paper_9d091f4337662e78",
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

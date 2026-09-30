@@ -1,1 +1,221 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","result_schema":{"type":"object","required":["status","systems","comparison","sensitivity","conclusion"],"properties":{"status":{"type":"string"},"systems":{"type":"array","minItems":2,"items":{"oneOf":[{"type":"object","required":["system_id","geometry_status","frequency_status","probe_definition","ring_values","mean_nics_ppm","evidence"],"properties":{"system_id":{"enum":["4a","4c"]},"geometry_status":{"type":"string"},"frequency_status":{"type":"string"},"probe_definition":{"type":"string"},"ring_values":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"object","required":["ring_id","nics_ppm"],"properties":{"ring_id":{"type":"string"},"nics_ppm":{"type":"number"}}}},"mean_nics_ppm":{"type":"number"},"evidence":{"type":"array","items":{"type":"string"}}}},{"type":"object","required":["system_id","geometry_status","frequency_status","failure_step","attempted_route","evidence","limitation"],"properties":{"system_id":{"enum":["4a","4c"]},"geometry_status":{"type":"string"},"frequency_status":{"type":"string"},"failure_step":{"type":"string"},"attempted_route":{"type":"string"},"evidence":{"type":"array","items":{"type":"string"}},"limitation":{"type":"string"}}}]}},"comparison":{"oneOf":[{"type":"object","required":["ordering","difference_ppm","statement"],"properties":{"ordering":{"type":"string"},"difference_ppm":{"type":"number"},"statement":{"type":"string"}}},{"type":"object","required":["ordering","statement"],"properties":{"ordering":{"type":"string"},"statement":{"type":"string"}}}]},"sensitivity":{"type":"object","required":["performed","details"],"properties":{"performed":{"type":"boolean"},"details":{"type":"string"}}},"conclusion":{"type":"string"}}}}
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "comparison",
+      "sensitivity",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "system_id",
+                "geometry_status",
+                "frequency_status",
+                "probe_definition",
+                "ring_values",
+                "mean_nics_ppm",
+                "evidence"
+              ],
+              "properties": {
+                "system_id": {
+                  "enum": [
+                    "4a",
+                    "4c"
+                  ]
+                },
+                "geometry_status": {
+                  "type": "string"
+                },
+                "frequency_status": {
+                  "type": "string"
+                },
+                "probe_definition": {
+                  "type": "string"
+                },
+                "ring_values": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "ring_id",
+                      "nics_ppm"
+                    ],
+                    "properties": {
+                      "ring_id": {
+                        "type": "string"
+                      },
+                      "nics_ppm": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "mean_nics_ppm": {
+                  "type": "number"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "system_id",
+                "geometry_status",
+                "frequency_status",
+                "failure_step",
+                "attempted_route",
+                "evidence",
+                "limitation"
+              ],
+              "properties": {
+                "system_id": {
+                  "enum": [
+                    "4a",
+                    "4c"
+                  ]
+                },
+                "geometry_status": {
+                  "type": "string"
+                },
+                "frequency_status": {
+                  "type": "string"
+                },
+                "failure_step": {
+                  "type": "string"
+                },
+                "attempted_route": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "limitation": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "allOf": [
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "system_id"
+              ],
+              "properties": {
+                "system_id": {
+                  "const": "4a"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          },
+          {
+            "contains": {
+              "type": "object",
+              "required": [
+                "system_id"
+              ],
+              "properties": {
+                "system_id": {
+                  "const": "4c"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        ]
+      },
+      "comparison": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "ordering",
+              "difference_ppm",
+              "statement"
+            ],
+            "properties": {
+              "ordering": {
+                "type": "string"
+              },
+              "difference_ppm": {
+                "type": "number"
+              },
+              "statement": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "ordering",
+              "statement"
+            ],
+            "properties": {
+              "ordering": {
+                "type": "string"
+              },
+              "statement": {
+                "type": "string"
+              }
+            },
+            "not": {
+              "required": [
+                "difference_ppm"
+              ]
+            }
+          }
+        ]
+      },
+      "sensitivity": {
+        "type": "object",
+        "required": [
+          "performed",
+          "details"
+        ],
+        "properties": {
+          "performed": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    }
+  }
+}

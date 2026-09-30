@@ -1,0 +1,50 @@
+{
+  "paper_id": "paper_b276b18215cba283",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "statement": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the neutral singlet single-arm C26H27NO3 and complete three-arm C66H69N3O3 graphs. Cisoid/transoid are mapped torsional families on each exocyclic arm, not a change of composition. Primary gas-phase calculations permit direct comparison with the source; a common ethanol continuum is the environment sensitivity, not a model of a membrane. Each full-model result requires arm partitions and matched transition densities.",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use the neutral singlet single-arm C26H27NO3 and complete three-arm C66H69N3O3 graphs. Cisoid/transoid are mapped torsional families on each exocyclic arm, not a change of composition. Primary gas-phase calculations permit direct comparison with the source; a common ethanol continuum is the environment sensitivity, not a model of a membrane. Each full-model result requires arm partitions and matched transition densities.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxed_models",
+      "statement": "Retain at least four low roots in the three-arm model with NTO and arm-resolved transition-density fractions; do not equate root labels across models. Core rows: single_transoid, single_cisoid, three_transoid, three_cisoid. Recompute excitation_eV, oscillator_strength, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Retain at least four low roots in the three-arm model with NTO and arm-resolved transition-density fractions; do not equate root labels across models. Core rows: single_transoid, single_cisoid, three_transoid, three_cisoid. Recompute excitation_eV, oscillator_strength, G_Eh from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_arm_geometry_control",
+      "statement": "Extract mapped arm from full geometry under a declared cap rule; compare frozen and relaxed arm and complete model. Preserve graph/partition/constraint files. Core rows: single_on_three_transoid, single_on_three_cisoid, three_fixed_arm. Recompute excitation_eV, oscillator_strength, interarm_transfer_fraction from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit. For single_on_three_transoid and single_on_three_cisoid, interarm_transfer_fraction is null with metric_applicability_reason: the capped single-arm object has no second arm. Excitation, oscillator strength and the mapped frozen-arm calculation remain mandatory. The three_fixed_arm row still requires a numeric interarm transfer fraction from the full three-arm transition density, with explicit fragment partitions and normalization; null is forbidden there.",
+      "expected": "Extract mapped arm from full geometry under a declared cap rule; compare frozen and relaxed arm and complete model. Preserve graph/partition/constraint files. Core rows: single_on_three_transoid, single_on_three_cisoid, three_fixed_arm. Recompute excitation_eV, oscillator_strength, interarm_transfer_fraction from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit. For single_on_three_transoid and single_on_three_cisoid, interarm_transfer_fraction is null with metric_applicability_reason: the capped single-arm object has no second arm. Excitation, oscillator strength and the mapped frozen-arm calculation remain mandatory. The three_fixed_arm row still requires a numeric interarm transfer fraction from the full three-arm transition density, with explicit fragment partitions and normalization; null is forbidden there.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_transfer_and_medium",
+      "statement": "Quantify whether transfer survives medium, state mapping and method/conformer uncertainty; actual full-model data are mandatory. No membrane or two-photon mechanism inferred. Core rows: gas_transfer, ethanol_transfer. Recompute single_shift_eV, three_shift_eV, difference_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "expected": "Quantify whether transfer survives medium, state mapping and method/conformer uncertainty; actual full-model data are mandatory. No membrane or two-photon mechanism inferred. Core rows: gas_transfer, ethanol_transfer. Recompute single_shift_eV, three_shift_eV, difference_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    },
+    {
+      "key_point_id": "kp_discrimination",
+      "statement": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "evidence_ids": [
+        "source_main_si",
+        "benchmark_design"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "systems": [
+    {
+      "id": "NPCZCS",
+      "name": "(Z)-3-(6-(2-butyl-1,3-dioxo-2,3-dihydro-1H-benzo[de]isoquinolin-6-yl)-9-hexyl-9H-carbazol-3-yl)-2-phenylacrylonitrile",
+      "formula": "C43H39N3O2",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "AQCZCS",
+      "name": "(Z)-3-(6-(9,10-dioxo-9,10-dihydroanthracen-2-yl)-9-hexyl-9H-carbazol-3-yl)-2-phenylacrylonitrile",
+      "formula": "C41H32N2O2",
+      "charge": 0,
+      "multiplicity": 1
+    },
+    {
+      "id": "PQCZCS",
+      "name": "(Z)-3-(6-(9,10-dioxo-9,10-dihydrophenanthren-3-yl)-9-hexyl-9H-carbazol-3-yl)-2-phenylacrylonitrile",
+      "formula": "C41H32N2O2",
+      "charge": 0,
+      "multiplicity": 1
+    }
+  ],
+  "source_note": "Full systematic names define the authorized molecular identities; no optimized answer geometry, state assignment or spectral target is supplied.",
+  "model_boundary": {
+    "primary_vertical_excitation_medium": "dichloromethane continuum",
+    "geometry_environment": "Declare and use consistently",
+    "stereochemistry": "Z acrylonitrile",
+    "minimum_root_window": 5
+  },
+  "torsion_control": {
+    "junction": "carbazole–appended diketone acceptor bond",
+    "grid": "At least three common distinct angles spanning near-planar/intermediate/substantially twisted, pilot-tested and fixed before comparison",
+    "fragments": [
+      "carbazole donor",
+      "appended acceptor",
+      "remaining cyanostilbene"
+    ]
+  }
+}

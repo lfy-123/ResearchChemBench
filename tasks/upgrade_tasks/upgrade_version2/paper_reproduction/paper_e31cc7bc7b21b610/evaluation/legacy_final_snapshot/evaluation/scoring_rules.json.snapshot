@@ -1,0 +1,71 @@
+{
+  "paper_id": "paper_e31cc7bc7b21b610",
+  "rules": [
+    {
+      "rule_id": "r_pr_alpha_process",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.cis_alpha"
+        ],
+        "comparison": "expert check of item identity and validation Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "condition",
+      "reference_id": "kp_pr_process_alpha",
+      "expected": "The cis-alpha item reports its input identity, optimization method/state, energy and explicit stationary-point validation."
+    },
+    {
+      "rule_id": "r_pr_beta_process",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers.cis_beta"
+        ],
+        "comparison": "expert check of item identity and validation Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "condition",
+      "reference_id": "kp_pr_process_beta",
+      "expected": "The cis-beta item reports its input identity, optimization method/state, energy and explicit stationary-point validation."
+    },
+    {
+      "rule_id": "r_pr_energy",
+      "target": 1.44,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.relative_energy.value"
+        ],
+        "comparison": "absolute difference Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "numeric",
+      "reference_id": "kp_pr_result_energy"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers",
+          "$.relative_energy",
+          "$.lower_energy_identity",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison Check the existing numeric tolerance jointly with positive E(beta)-E(alpha), alpha lower, and consistency with both submitted absolute electronic energies. A small negative value inside the numerical interval does not reproduce the reference ordering; do not change the original tolerance or weights."
+      },
+      "type": "semantic",
+      "reference_id": "con_pr_final",
+      "expected": "The two specified gas-phase structures are compared on electronic energy, with cis-alpha lower and positive E(beta)-E(alpha). The difference and ordering must be consistent with both absolute electronic energies. Recompute E(beta)-E(alpha) in the reported units from both absolute electronic energies. A numeric tolerance window that overlaps zero does not establish the required positive direction."
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

@@ -6,7 +6,7 @@ The authors use a simplified polyene model (cal-1) to explain EtzB-catalysed for
 
 ## 2. System and model boundary
 
-The model is the neutral singlet cal-1 polyene/allylic alcohol and the explicitly modelled reagent pool cal-1 + 2 mCPBA + HOAc + H2O + HO−. The reported profile is a 298 K Gibbs free-energy profile for stationary points and branch alternatives in water; protein/environment effects are not represented.
+The model is the neutral singlet 27-atom cal-1 polyene/allylic alcohol printed in SI p.73 and the explicitly modelled reagent pool cal-1 + 2 mCPBA + HOAc + H2O + HO−. The reported profile is a 298 K Gibbs free-energy profile for stationary points and branch alternatives in water; protein/environment effects are not represented. The legacy public 52-atom input was malformed (overlapping/duplicated coordinates) and is retained as a v0 task-package error audit only.
 
 ## 3. Authors' implemented computational route
 

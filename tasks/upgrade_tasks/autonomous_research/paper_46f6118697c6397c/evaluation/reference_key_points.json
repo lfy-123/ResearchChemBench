@@ -1,0 +1,60 @@
+{
+  "paper_id": "paper_46f6118697c6397c",
+  "items": [
+    {
+      "key_point_id": "kp_identity",
+      "key_point_type": "process",
+      "statement": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "expected": "Verify every supplied molecular graph, atom correspondence, charge/spin and environment against actual inputs and outputs; minimum claims require frequency evidence; constrained geometries are not minima.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_relaxed_series",
+      "key_point_type": "result",
+      "statement": "Verify full composition and B/N connectivity, optimize and minimum-validate each complete molecule, then match corresponding bright states by character. Report alternative nearby states so the selected transition cannot be cherry-picked to an experimental peak.",
+      "expected": "Verify full composition and B/N connectivity, optimize and minimum-validate each complete molecule, then match corresponding bright states by character. Report alternative nearby states so the selected transition cannot be cherry-picked to an experimental peak.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_common_core",
+      "key_point_type": "result",
+      "statement": "Use solver-generated compound2 core as the common constrained geometry for the four substituents; quantify RMSD and state character. Optimize only permitted peripheral coordinates and label the points constrained. Compare substituent effects at fixed core separately from relaxed geometry changes.",
+      "expected": "Use solver-generated compound2 core as the common constrained geometry for the four substituents; quantify RMSD and state character. Optimize only permitted peripheral coordinates and label the points constrained. Compare substituent effects at fixed core separately from relaxed geometry changes.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_effect_partition",
+      "key_point_type": "result",
+      "statement": "Recompute each contrast relative to2 and the relaxed-minus-fixed difference. State how root correspondence, D3 method ambiguity and basis/functional sensitivity affect attribution. Original compound2 root-energy mismatch is an audit item, not justification for selecting a different physical state.",
+      "expected": "Recompute each contrast relative to2 and the relaxed-minus-fixed difference. State how root correspondence, D3 method ambiguity and basis/functional sensitivity affect attribution. Original compound2 root-energy mismatch is an audit item, not justification for selecting a different physical state.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    },
+    {
+      "key_point_id": "kp_robustness",
+      "key_point_type": "result",
+      "statement": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "expected": "Recompute the declared sensitivity comparison from raw evidence. Freeze fitting/selection choices before holdout evaluation where required. Propagate method, state matching, sampling and numerical uncertainty without fitting a tolerance to the answer.",
+      "evidence_ids": [
+        "paper_main",
+        "paper_si",
+        "benchmark_extension"
+      ]
+    }
+  ]
+}

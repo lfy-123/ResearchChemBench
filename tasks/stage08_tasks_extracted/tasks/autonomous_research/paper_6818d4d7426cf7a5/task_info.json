@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_6818d4d7426cf7a5",
+  "task_type": "autonomous_research",
+  "title": "Autonomous mechanistic investigation of Ni-catalyzed glycosyl C–Ge selectivity",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate hypotheses, search multiple anomeric pathway candidates, validate them and justify stopping and coverage."
+  ],
+  "paper": {
+    "title": "Stereoselective C(sp3)-Si/Ge bond formation via nickel-catalyzed decarboxylative couplings",
+    "doi": "10.1016/j.chempr.2025.102713",
+    "journal": "Chem",
+    "publication_date": "2026-02-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit XYZ precursor geometries for the glycosyl NHPI model, Ni(0)L model and common radical-addition precursor; coordinates in Å and atom order fixed."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Hypotheses, validated pathway search, barriers, comparison, uncertainty, stopping record and conclusion conforming to submission_schema.json."
+    }
+  ]
+}

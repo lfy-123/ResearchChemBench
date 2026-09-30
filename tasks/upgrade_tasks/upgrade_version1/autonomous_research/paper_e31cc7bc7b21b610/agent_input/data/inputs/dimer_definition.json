@@ -1,0 +1,34 @@
+{
+  "full_dimer": {
+    "formula": "C88H104Ir2N4O12",
+    "charge": 0,
+    "multiplicities": [
+      1,
+      3
+    ],
+    "ligands": [
+      "Egan_A",
+      "Egan_B"
+    ],
+    "metal_ids": [
+      "Ir_A",
+      "Ir_B"
+    ]
+  },
+  "truncated_dimer": {
+    "formula": "C56H40Ir2N4O12",
+    "charge": 0,
+    "multiplicities": [
+      1,
+      3
+    ],
+    "ligands": [
+      "egan_A",
+      "egan_B"
+    ]
+  },
+  "mapping": "Prefix all ligand atom IDs by A/ or B/. Four tert-butyl removals per ligand are listed in Egan_identity.json; retain all remaining heavy atoms and replace deleted substituents by H. Derive one-to-one retained-heavy mapping by graph isomorphism, report it.",
+  "fragments": "For each dimer split into neutral (ligand)Ir_A and neutral (ligand)Ir_B doublets, multiplicity2; compare their opposite-spin-coupled singlet and triplet whole dimers. Fixed neutral doublet fragments define this benchmark energy decomposition, not formal localized oxidation states.",
+  "geometry_control": "For both sizes scan Ir-Ir distance at R_eq and R_eq+0.2 and +0.5 angstrom with rigid neutral fragments; same relative twist. Compare a 30-degree relative twist at fixed R_eq. Retain mapped ligand coordinates.",
+  "source_boundary": "Full Egan-to-egan pair is a benchmark extension of source Hap simplification. No crystal/optimized coordinates, measured Ir-Ir bond length or electronic state winner is provided. Source Hap4Ir2 may be used only as optional additional calibration."
+}

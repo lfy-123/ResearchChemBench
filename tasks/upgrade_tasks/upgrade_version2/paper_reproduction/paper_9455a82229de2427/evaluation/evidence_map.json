@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_9455a82229de2427",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_9455a82229de2427/documents/main.pdf",
+          "sha256": "cb6a4cf501837f252e2ceced551eefe8bcab8ca315fc4577e9daeb0d334476a1",
+          "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p3 单次碰撞条件，p5 给出 38 个产物异构体的作者 PES 分析；SI p3 起列 CBS-QB3(0 K)、Energy、Enthalpy、Free Energy，不能混用。",
+          "actual_read_pages_and_sections": "Main pp3–6 methods, reaction(1), Figs3–5; SI pp2–3 TableS1 and distinct energy definitions."
+        },
+        {
+          "path": "papers/paper_9455a82229de2427/documents/supplementary_001.pdf",
+          "sha256": "27409af9dd2e70aae498d28aec9956049b2fc88bfcd5fa7439d57583ab67edbb",
+          "locator": "Main PDF pp3-8 computational details, Fig3 energy distribution and reaction PES; SI p2 Table S1 and pp3-15 CBS-QB3 coordinates/energies.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p3 单次碰撞条件，p5 给出 38 个产物异构体的作者 PES 分析；SI p3 起列 CBS-QB3(0 K)、Energy、Enthalpy、Free Energy，不能混用。",
+          "actual_read_pages_and_sections": "Main pp3–6 methods, reaction(1), Figs3–5; SI pp2–3 TableS1 and distinct energy definitions."
+        }
+      ],
+      "description": "The source studies which SiNC5H7 products and formation mechanisms are consistent with crossed-beam SiN + isoprene scattering. The task retains that gas-phase reaction and its energetic experimental constraints. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "冻结记录有四个 CBS 端点及在途 i2；TS/IRC 或无垒连续路径未齐备，不新增提交。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "Which product structures and formation account are supported for the atomic-hydrogen-loss channel of SiN reacting with isoprene under the supplied single-collision conditions? Establish what is identifiable from a defensible molecular investigation and what alternatives remain unresolved. Match energetic quantities to the single-collision observation and disclose ZPE, thermal and electronic-state conventions. A claimed reaction sequence needs actual evidence connecting its structures; a saddle-point or barrierless claim needs appropriate physical validation. Bound conclusions by the explored candidates, inaccessible channels and numerical uncertainty, choosing a defensible validation method."
+    }
+  ]
+}

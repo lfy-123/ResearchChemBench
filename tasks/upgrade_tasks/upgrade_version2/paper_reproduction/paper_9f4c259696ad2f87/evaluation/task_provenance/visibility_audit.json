@@ -1,0 +1,22 @@
+{
+  "paper_id": "paper_9f4c259696ad2f87",
+  "public_files": [
+    "data/inputs/objects.json",
+    "data/inputs/observations.json",
+    "resources.md",
+    "submission_guide.md",
+    "submission_schema.json",
+    "task.md"
+  ],
+  "task_info_is_runtime_visible": true,
+  "bibliographic_metadata_redacted_in_both_modes": true,
+  "author_route_public_only_in_PR": true,
+  "old_public_and_evaluator_archived_private": true,
+  "runtime_isolation_status": "pending; physical public export is not filesystem isolation",
+  "public_transformations": [
+    "Retain free PXX1/PXX2/acid graphs; remove preassembled0/1/2 acid matrix and the source-unsupported second-acid PXX1 requirement.",
+    "Release only measured absorption maxima and titration facts with conditions; withhold optimized adducts, calculated energies and CT assignment.",
+    "Remove frozen acid-removal controls, fixed binding cycles and mandatory mechanism names from scientific requirements."
+  ],
+  "new_structures_generated_as_source_answers": false
+}

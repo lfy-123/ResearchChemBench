@@ -1,0 +1,92 @@
+{
+  "paper_id": "paper_6943bfe5eeaa42b8",
+  "rules": [
+    {
+      "rule_id": "r_geometry",
+      "reference_id": "kp_geometry",
+      "type": "condition",
+      "expected": "Geometry convergence and molecular identity/conformer provenance are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.geometry_converged",
+          "$.workflow.geometry.converged",
+          "$.workflow.geometry.method"
+        ],
+        "comparison": "expert verification"
+      }
+    },
+    {
+      "rule_id": "r_state",
+      "reference_id": "kp_state",
+      "type": "condition",
+      "expected": "The lowest singlet S1 is explicitly identified and the excitation calculation is complete.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.workflow.excited_state.state_label",
+          "$.workflow.excited_state.state_characterization",
+          "$.workflow.excited_state.completed",
+          "$.validation.state_verified"
+        ],
+        "comparison": "expert verification"
+      }
+    },
+    {
+      "rule_id": "r_analysis",
+      "reference_id": "kp_analysis",
+      "type": "condition",
+      "expected": "Hole–electron analysis is linked to the same excitation and validated as finite and positive.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.workflow.hole_electron_analysis.same_excitation_as_state",
+          "$.workflow.hole_electron_analysis.completed",
+          "$.validation.analysis_verified",
+          "$.result.finite_positive"
+        ],
+        "comparison": "expert verification"
+      }
+    },
+    {
+      "rule_id": "r_dindex",
+      "reference_id": "kp_result",
+      "type": "numeric",
+      "target": 2.25,
+      "unit": "angstrom",
+      "tolerance": 0.35,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.result.d_index_angstrom"
+        ],
+        "comparison": "absolute difference for completed submissions; bounded-failure branch is accepted only with no fabricated result"
+      }
+    },
+    {
+      "rule_id": "r_conclusion",
+      "reference_id": "c_final_ict",
+      "type": "semantic",
+      "expected": "The correctly identified m-NH2 molecule yields a reproducible S0-to-S1 charge-transfer D-index in water, supported by the optimized ground-state geometry, explicit S1 identity and hole-electron spatial analysis. Evaluate the specified single-system descriptor, not a new m-versus-p ordering.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation.conclusion",
+          "$.interpretation.scope"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

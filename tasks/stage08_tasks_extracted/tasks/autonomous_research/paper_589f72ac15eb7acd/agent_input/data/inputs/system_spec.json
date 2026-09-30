@@ -1,0 +1,9 @@
+{
+  "series": "neutral Fe(II) complexes with a fixed tetradentate ligand and three specified cis monodentate pseudohalide variants",
+  "common_ligand": {"id":"LPh-TDA","systematic_name":"1-(5-phenyl-1,3,4-thiadiazol-2-yl)-N,N-bis(pyridin-2-ylmethyl)methanamine","connectivity":"a neutral tertiary amine N is bonded to two pyridin-2-ylmethyl groups and one (5-phenyl-1,3,4-thiadiazol-2-yl)methyl group; the Fe-binding donor set is the tertiary amine N, both pyridyl N atoms, and the thiadiazole ring N adjacent to substituted C2", "formula":"C22H19N5S", "charge":0},
+  "variants": [{"id":"C1","auxiliary":"two NCS- ligands, Fe-bound through terminal N"},{"id":"C2","auxiliary":"two NCSe- ligands, Fe-bound through terminal N"},{"id":"C3","auxiliary":"two NCBH3- ligands, Fe-bound through nitrile N"}],
+  "metal_center": {"element":"Fe","oxidation_state":2,"coordination":"octahedral cis; four LPh-TDA donors and two auxiliary N donors","complex_charge":0},
+  "states": [{"id":"HS","multiplicity":5},{"id":"LS","multiplicity":1}],
+  "quantity": "E_el^iso = E(HS) - E(LS) between optimized states for each named variant, in kJ/mol",
+  "scope": "independent computational investigation; no paper-specific method is prescribed"
+}

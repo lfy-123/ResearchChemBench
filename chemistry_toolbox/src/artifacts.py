@@ -6,16 +6,15 @@ import hashlib
 import json
 import os
 import re
-import threading
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
 from .models import ArtifactRef
+from .recovery_io import file_lock
 
 
-_LOCK = threading.Lock()
 _ARTIFACT_ID_PATTERN = re.compile(r"^art_[0-9a-f]{32}$")
 
 
@@ -70,14 +69,62 @@ class ArtifactStore:
         self.directory.mkdir(parents=True, exist_ok=True)
 
     def _append_index(self, reference: ArtifactRef) -> None:
-        record = {
-            **reference.model_dump(mode="json"),
-            "created_at": datetime.now(timezone.utc).isoformat(),
-        }
-        with _LOCK:
-            self.index_path.parent.mkdir(parents=True, exist_ok=True)
+        self.import_reference(reference)
+
+    def _path(self, value: str | Path) -> Path:
+        candidate = Path(value)
+        candidate = candidate if candidate.is_absolute() else self.root / candidate
+        try:
+            relative = candidate.relative_to(self.root)
+            resolved = candidate.resolve()
+            resolved.relative_to(self.root)
+        except ValueError as exc:
+            raise ValueError(f"Artifact path escapes workspace: {value}") from exc
+        cursor = self.root
+        for part in relative.parts:
+            cursor = cursor / part
+            if cursor.is_symlink():
+                raise ValueError(f"Artifact symlink is not allowed: {value}")
+        if not resolved.is_file():
+            raise FileNotFoundError(f"Artifact file does not exist: {value}")
+        return resolved
+
+    def resolve(self, reference: str | dict[str, Any] | ArtifactRef) -> ArtifactRef:
+        """Resolve compact or complete refs without discarding their metadata."""
+        if isinstance(reference, str):
+            return self.find(reference)
+        if isinstance(reference, dict) and set(reference) == {"artifact_id"}:
+            return self.find(str(reference["artifact_id"]))
+        item = ArtifactRef.model_validate(reference)
+        try:
+            existing = self.find(item.artifact_id)
+        except KeyError:
+            return item
+        if existing != item:
+            raise ValueError(f"Artifact reference conflict: {item.artifact_id}")
+        return existing
+
+    def import_reference(self, reference: dict[str, Any] | ArtifactRef) -> ArtifactRef:
+        """Idempotently register a verified ref in this workspace's index."""
+        item = ArtifactRef.model_validate(reference)
+        if _sha256(self._path(item.path)) != item.sha256:
+            raise ValueError(f"Artifact hash mismatch: {item.artifact_id}")
+        with file_lock(self.index_path.with_suffix(".lock")):
+            try:
+                existing = self._find_unlocked(item.artifact_id)
+            except KeyError:
+                pass
+            else:
+                if existing != item:
+                    raise ValueError(f"Artifact reference conflict: {item.artifact_id}")
+                return existing
+            record = {**item.model_dump(mode="json"),
+                      "created_at": datetime.now(timezone.utc).isoformat()}
             with self.index_path.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+        return item
 
     def put_json(
         self,
@@ -99,7 +146,7 @@ class ArtifactStore:
             semantic_type=semantic_type,
             media_type="application/json",
             sha256=_sha256(path),
-            path=relative_workspace_path(path),
+            path=str(path.relative_to(self.root)),
             producer_action=producer_action,
             producer_backend=producer_backend,
             parent_artifact_ids=list(parent_artifact_ids),
@@ -117,7 +164,7 @@ class ArtifactStore:
         media_type: str = "application/octet-stream",
         parent_artifact_ids: Iterable[str] = (),
     ) -> ArtifactRef:
-        path = resolve_workspace_path(path_value, must_exist=True)
+        path = self._path(path_value)
         if not path.is_file():
             raise ValueError(f"Artifact path is not a regular file: {path}")
         reference = ArtifactRef(
@@ -125,7 +172,7 @@ class ArtifactStore:
             semantic_type=semantic_type,
             media_type=media_type,
             sha256=_sha256(path),
-            path=relative_workspace_path(path),
+            path=str(path.relative_to(self.root)),
             producer_action=producer_action,
             producer_backend=producer_backend,
             parent_artifact_ids=list(parent_artifact_ids),
@@ -134,23 +181,21 @@ class ArtifactStore:
         return reference
 
     def load(self, reference: str | dict[str, Any] | ArtifactRef) -> Any:
-        if isinstance(reference, ArtifactRef):
-            item = reference
-        elif isinstance(reference, dict):
-            if set(reference) == {"artifact_id"}:
-                item = self.find(str(reference["artifact_id"]))
-            else:
-                item = ArtifactRef.model_validate(reference)
-        else:
-            item = self.find(reference)
-        path = resolve_workspace_path(item.path, must_exist=True)
+        item = self.resolve(reference)
+        path = self._path(item.path)
         if _sha256(path) != item.sha256:
             raise ValueError(f"Artifact hash mismatch: {item.artifact_id}")
         if item.media_type == "application/json" or path.suffix.lower() == ".json":
             return json.loads(path.read_text(encoding="utf-8"))
-        return {"path": relative_workspace_path(path), "artifact": item.model_dump(mode="json")}
+        return {"path": str(path.relative_to(self.root)), "artifact": item.model_dump(mode="json")}
 
     def find(self, artifact_id: str) -> ArtifactRef:
+        # Readers share the writers' short index lock, so a concurrent export
+        # cannot expose a partly appended JSON record to another job.
+        with file_lock(self.index_path.with_suffix(".lock")):
+            return self._find_unlocked(artifact_id)
+
+    def _find_unlocked(self, artifact_id: str) -> ArtifactRef:
         if not self.index_path.is_file():
             raise KeyError(f"Unknown ArtifactRef: {artifact_id}")
         for line in reversed(self.index_path.read_text(encoding="utf-8").splitlines()):
@@ -179,7 +224,7 @@ def canonicalize_artifact_refs(
 
     artifact_store = store or ArtifactStore()
     if isinstance(value, ArtifactRef):
-        return value.model_dump(mode="json")
+        return artifact_store.resolve(value).model_dump(mode="json")
     if isinstance(value, str) and _ARTIFACT_ID_PATTERN.fullmatch(value):
         return artifact_store.find(value).model_dump(mode="json")
     if isinstance(value, dict):
@@ -188,7 +233,7 @@ def canonicalize_artifact_refs(
                 return artifact_store.find(str(value["artifact_id"])).model_dump(mode="json")
             required = {"artifact_id", "semantic_type", "media_type", "sha256", "path"}
             if required <= set(value):
-                return ArtifactRef.model_validate(value).model_dump(mode="json")
+                return artifact_store.resolve(value).model_dump(mode="json")
             missing = sorted(required - set(value))
             extra = sorted(set(value) - {"artifact_id"})
             raise ValueError(

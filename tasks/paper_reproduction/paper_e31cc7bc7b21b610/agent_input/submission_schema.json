@@ -1,1 +1,20 @@
-{"required_files":["report/results.json"],"primary_result_file":"report/results.json","result_schema":{"type":"object","required":["status","method","isomers","relative_energy","lower_energy_identity","conclusion","limitations"],"properties":{"status":{"type":"string","const":"complete"},"method":{"type":"object","required":["software","electronic_structure","charge","multiplicity","convergence_settings"],"properties":{"software":{"type":"string"},"electronic_structure":{"type":"string"},"charge":{"type":"integer"},"multiplicity":{"type":"integer"},"convergence_settings":{"type":"string"}}},"isomers":{"type":"object","required":["cis_alpha","cis_beta"],"properties":{"cis_alpha":{"$ref":"#/$defs/isomer"},"cis_beta":{"$ref":"#/$defs/isomer"}}},"relative_energy":{"type":"object","required":["definition","value","unit"],"properties":{"definition":{"type":"string"},"value":{"type":"number"},"unit":{"type":"string"}}},"lower_energy_identity":{"type":"string"},"conclusion":{"type":"string"},"limitations":{"type":"string"},"provenance":{"type":"array","items":{"type":"string"}}},"$defs":{"isomer":{"type":"object","required":["name","input_file","energy_hartree","imaginary_frequencies","validation_status"],"properties":{"name":{"type":"string"},"input_file":{"type":"string"},"energy_hartree":{"type":"number"},"imaginary_frequencies":{"type":"array","items":{"type":"number"}},"validation_status":{"type":"string"},"notes":{"type":"string"}}}}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "method", "isomers", "relative_energy", "lower_energy_identity", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "partial", "bounded_failure"]},
+      "method": {"type": "object", "required": ["software", "electronic_structure", "charge", "multiplicity", "convergence_settings"], "properties": {"software": {"type": "string"}, "electronic_structure": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "convergence_settings": {"type": "string"}}},
+      "isomers": {"type": "object", "required": ["cis_alpha", "cis_beta"], "properties": {"cis_alpha": {"$ref": "#/$defs/isomer"}, "cis_beta": {"$ref": "#/$defs/isomer"}}},
+      "relative_energy": {"type": "object", "required": ["definition", "value", "unit"], "properties": {"definition": {"type": "string"}, "value": {"type": ["number", "null"]}, "unit": {"type": "string"}}},
+      "lower_energy_identity": {"type": "string"},
+      "conclusion": {"type": "string"},
+      "limitations": {"type": ["string", "array"], "items": {"type": "string"}},
+      "provenance": {"type": "array", "items": {"type": "string"}}
+    },
+    "$defs": {"isomer": {"type": "object", "required": ["name", "input_file", "status", "normal_termination", "optimization_completed", "imaginary_frequency_count", "energy_hartree", "evidence"], "properties": {"name": {"type": "string"}, "input_file": {"type": "string"}, "status": {"type": "string"}, "normal_termination": {"type": "boolean"}, "optimization_completed": {"type": "boolean"}, "imaginary_frequency_count": {"type": "integer", "minimum": 0}, "frequency_count": {"type": "integer", "minimum": 0}, "energy_hartree": {"type": ["number", "null"]}, "imaginary_frequencies": {"type": "array", "items": {"type": "number"}}, "validation_status": {"type": "string"}, "evidence": {"type": "array", "minItems": 1, "items": {"type": "string"}}}}}
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+    "result_schema": {"type":"object","required":["status","provenance","candidates","search_coverage","failed_attempts","duplicates_rejected","stopping_reason","route_comparison","limitations"],"properties":{
+    "status":{"type":"string"},
+    "provenance":{"type":"object","required":["method","software","charge","multiplicity","solvent_model","dispersion","geometry_frequency_settings"],"properties":{"method":{"type":"string"},"software":{"type":"string"},"charge":{"type":"integer"},"multiplicity":{"type":"integer"},"solvent_model":{"type":"string"},"dispersion":{"type":"string"},"geometry_frequency_settings":{"type":"string"}}},
+    "candidates":{"type":"array","items":{"type":"object","required":["candidate_id","route","validation_status","relative_energy_kcal_mol","convergence_evidence","frequency_evidence","endpoint_connectivity_evidence","atom_mapping","attempt_outcome"],"properties":{"candidate_id":{"type":"string"},"route":{"type":"string"},"validation_status":{"type":"string"},"relative_energy_kcal_mol":{"type":["number","null"]},"convergence_evidence":{"type":"string"},"frequency_evidence":{"type":"string"},"endpoint_connectivity_evidence":{"type":"string"},"atom_mapping":{"type":"string"},"attempt_outcome":{"type":"string"},"imaginary_frequencies_cm-1":{"type":"array","items":{"type":"number"}},"connectivity_evidence":{"type":"string"}}}},
+    "search_coverage":{"type":"string"},"failed_attempts":{"type":"array","items":{"type":"string"}},"duplicates_rejected":{"type":"array","items":{"type":"string"}},"stopping_reason":{"type":"string"},
+    "route_comparison":{"type":"object","required":["direct_HAT","OO_cleavage_first","conclusion"],"properties":{"direct_HAT":{"type":"object","required":["barrier_kcal_mol","validation_evidence"],"properties":{"barrier_kcal_mol":{"type":["number","null"]},"validation_evidence":{"type":"string"}}},"OO_cleavage_first":{"type":"object","required":["cleavage_barrier_kcal_mol","HAT_barrier_kcal_mol","validation_evidence"],"properties":{"cleavage_barrier_kcal_mol":{"type":["number","null"]},"HAT_barrier_kcal_mol":{"type":["number","null"]},"validation_evidence":{"type":"string"}}},"conclusion":{"type":"string"}}},
+    "limitations":{"type":"string"}
+  }}
+}

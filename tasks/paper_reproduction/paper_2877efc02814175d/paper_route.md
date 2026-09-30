@@ -6,13 +6,13 @@ The paper studies DQCS, a coumarin/8-hydroxyquinoline Schiff-base fluorescent pr
 
 ## 2. System and model boundary
 
-The modeled objects are the optimized 1:1 DQCS+Cd2+, DQCS+Co2+, and DQCS+Ni2+ complexes in implicit DMSO. The SI supplies 65-center Cartesian geometries for each complex (Tables S1–S3); each is reported as charge +2, singlet, multiplicity 1. The paper also analyzes free DQCS, but the public benchmark is restricted to the three complete SI complex coordinate sets.
+The modeled objects are the optimized 1:1 DQCS+Cd2+, DQCS+Co2+, and DQCS+Ni2+ complexes in implicit DMSO. SI Tables S1–S3 supply 65-center Cartesian geometries: Cd is charge +2, singlet, multiplicity 1; Co is charge +2, doublet, multiplicity 2; Ni is charge +2, singlet, multiplicity 1. Table S2 explicitly states the Co doublet; legacy uniform-singlet metadata was a transcription error, not an author requirement. The paper also analyzes free DQCS, but the public benchmark is restricted to the three complete SI complex coordinate sets.
 
 ## 3. Authors' implemented computational route
 
 | Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
 |---|---|---|---|---|---|---|
-| 1 | Optimize ground-state structures | DQCS and 1:1 Cd, Co, Ni complexes | Gaussian 09 W DFT | B3LYP; 6-311G(d,p) for DQCS and LanL2DZ for metal complexes; DMSO solvent model; complexes +2, singlet | Optimized geometries | ev_doc_f3c1f276c075_000011_aa7b58aaaa7c; ev_doc_f3c1f276c075_000038_05dc405900f0; ev_doc_d0597d980d95_000090_10e60c44cd36 |
+| 1 | Optimize ground-state structures | DQCS and 1:1 Cd, Co, Ni complexes | Gaussian 09 W DFT | B3LYP; 6-311G(d,p) for DQCS and LanL2DZ for metal complexes; DMSO solvent model; complexes +2, Cd/Ni singlet and Co doublet | Optimized geometries | ev_doc_f3c1f276c075_000011_aa7b58aaaa7c; ev_doc_f3c1f276c075_000038_05dc405900f0; SI Tables S1–S3, especially S2 p12 |
 | 2 | Obtain orbital and reactivity properties | Optimized structures | Gaussian 09 W DFT | Same functional/basis/solvent assignment | HOMO/LUMO, ESP and global descriptors | ev_doc_f3c1f276c075_000069_6f226cc1ee15; ev_doc_f3c1f276c075_000071_cdb032ea4a26 |
 | 3 | Population analysis | Optimized structures | Gaussian 09 W Mulliken analysis | Same DFT settings | Atomic charge distributions | ev_doc_d0597d980d95_000006_d3e829133845; ev_doc_d0597d980d95_000007_bcbab7f470dd |
 | 4 | Excited-state analysis | Optimized structures | Gaussian 09 W TD-DFT | First ten singlet states; same system-specific basis assignment and DMSO | Excitation energies, wavelengths, oscillator strengths, transitions | ev_doc_f3c1f276c075_000041_fab44350f40e; ev_doc_d0597d980d95_000003_5e35edb4ae81 |

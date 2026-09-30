@@ -232,7 +232,8 @@ def _job_event(sequence: int, tool: str, result: dict, job_id: str) -> dict:
         ("success", 1, 0, 0),
         ("failed", 0, 1, 0),
         ("timeout", 0, 1, 0),
-        ("running", 0, 1, 1),
+        ("cancelled", 0, 1, 0),
+        ("running", 0, 0, 1),
     ],
 )
 def test_managed_job_metrics_use_observed_terminal_state(
@@ -262,7 +263,7 @@ def test_managed_job_metrics_use_observed_terminal_state(
     assert metrics["managed_scientific_attempt_count"] == 1
     assert metrics["successful_managed_scientific_calls"] == successes
     assert metrics["failed_managed_scientific_calls"] == failures
-    assert metrics["incomplete_managed_scientific_calls"] == incomplete
+    assert metrics["active_managed_scientific_calls"] == incomplete
 
 
 def test_unobserved_queued_managed_job_is_not_counted_as_success():
@@ -279,8 +280,8 @@ def test_unobserved_queued_managed_job_is_not_counted_as_success():
     )
 
     assert metrics["successful_managed_scientific_calls"] == 0
-    assert metrics["failed_managed_scientific_calls"] == 1
-    assert metrics["incomplete_managed_scientific_calls"] == 1
+    assert metrics["failed_managed_scientific_calls"] == 0
+    assert metrics["active_managed_scientific_calls"] == 1
 
 
 def test_wait_execution_jobs_updates_states_and_supervision_metrics() -> None:
@@ -332,7 +333,7 @@ def test_wait_execution_jobs_updates_states_and_supervision_metrics() -> None:
     assert metrics["execution_job_wait_transition_count"] == 1
     assert metrics["execution_job_wait_terminal_count"] == 1
     assert metrics["successful_managed_scientific_calls"] == 1
-    assert metrics["incomplete_managed_scientific_calls"] == 1
+    assert metrics["active_managed_scientific_calls"] == 1
 
 
 def test_wait_execution_events_counts_as_internal_supervision() -> None:
@@ -404,7 +405,7 @@ def test_managed_job_metrics_read_complete_saved_result_when_preview_is_truncate
 
     assert metrics["successful_managed_scientific_calls"] == 0
     assert metrics["failed_managed_scientific_calls"] == 1
-    assert metrics["incomplete_managed_scientific_calls"] == 0
+    assert metrics["active_managed_scientific_calls"] == 0
 
 
 def test_invalid_trace_limits_are_rejected_before_tool_execution(

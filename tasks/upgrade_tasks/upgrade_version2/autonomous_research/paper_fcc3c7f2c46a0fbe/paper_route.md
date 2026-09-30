@@ -1,0 +1,7 @@
+# Private source-route and V2 scope record
+
+The authors use Gaussian09 gas-phase B3LYP/6-311+G(d,p) geometries/frequencies, frontier-orbital descriptors and MEP (mainp5). They suggest HAT for acidic4c/4i and SPLET involving a 'phenoxide' for methoxyphenyl derivatives (mainp8), while noting that orbital descriptors fail to rationalize the acid-compound activity difference (p9). The actual4h/4i structures have methoxy, not phenolic OH; audit this interpretation rather than inventing a phenol. Source descriptions do not report full thermochemical cycles or DPPH transition states. Reproduce/audit the descriptor baseline and evaluate how far it supports the assay interpretation; any additional reaction/state study is new validation. Preserve the TableS5 versus prose IC50 discrepancy. Main PDF p8 says compound 4e could not be dissolved in the assay solvent; it is not a measured zero-activity control. Compounds 4h/4i lack a phenolic OH, so an obligatory phenoxide/SPLET route is not chemically justified by those identities.
+
+The shared scientific question is: Which molecular explanation, if any, is supported for the different DPPH-scavenging responses of4b,4c,4h and4i, and what can these data and reproducible molecular evidence actually establish?
+
+AR does not receive this metadata route through materialize_agent_files. The actual process rubric differs by mode under open_research. The shared scientific criteria accept adequate non-author evidence; prior V1 matrices are archived and inactive.

@@ -1,0 +1,68 @@
+{
+  "mapped_smiles": "[Se:1]([Se:2][Se:3][c:10]1[c:11]([F:19])[c:13]([F:18])[c:15]([F:17])[c:14]([F:16])[c:12]1[F:20])[c:4]1[c:5]([F:25])[c:7]([F:24])[c:9]([F:23])[c:8]([F:22])[c:6]1[F:21]",
+  "formula": "C12F10Se3",
+  "atom_count": 25,
+  "charge": 0,
+  "multiplicity": 1,
+  "conformers": {
+    "cis.xyz": {
+      "id": "cis",
+      "torsion_windows": [
+        {
+          "atom_ids": [
+            4,
+            1,
+            2,
+            3
+          ],
+          "degrees": [
+            -140,
+            -40
+          ]
+        },
+        {
+          "atom_ids": [
+            1,
+            2,
+            3,
+            10
+          ],
+          "degrees": [
+            40,
+            140
+          ]
+        }
+      ]
+    },
+    "trans.xyz": {
+      "id": "trans",
+      "torsion_windows": [
+        {
+          "atom_ids": [
+            4,
+            1,
+            2,
+            3
+          ],
+          "degrees": [
+            -140,
+            -40
+          ]
+        },
+        {
+          "atom_ids": [
+            1,
+            2,
+            3,
+            10
+          ],
+          "degrees": [
+            -140,
+            -40
+          ]
+        }
+      ]
+    }
+  },
+  "description": "Topology and coarse conformer identity only. Atom-map numbers are one-based XYZ row identities; the supplied XYZ files are independently embedded, unoptimized starters. Identity windows distinguish the named initial conformer classes and are not constraints to impose during optimization. No endpoint coordinates, optimized torsion targets, energies or ordering are provided."
+}

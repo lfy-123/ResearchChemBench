@@ -1,25 +1,267 @@
 {
-  "required_files": ["report/results.json"],
+  "required_files": [
+    "report/results.json"
+  ],
   "primary_result_file": "report/results.json",
   "result_schema": {
     "type": "object",
-    "required": ["status", "methodology", "validation_summary", "steps", "conclusion", "limitations"],
+    "required": [
+      "status",
+      "methodology",
+      "validation_summary",
+      "conclusion",
+      "limitations"
+    ],
     "properties": {
-      "status": {"type": "string"},
-      "methodology": {"type": "string"},
-      "validation_summary": {"type": "string"},
+      "status": {
+        "type": "string"
+      },
+      "methodology": {
+        "type": "string"
+      },
+      "validation_summary": {
+        "type": "string"
+      },
       "steps": {
         "type": "object",
-        "required": ["addition", "cyclization", "capture"],
+        "required": [
+          "addition",
+          "cyclization",
+          "capture"
+        ],
         "properties": {
-          "addition": {"type": "object", "required": ["barrier_kcal_mol", "unit", "preceding_state", "following_state", "frequency_evidence", "connectivity_evidence", "energy_definition"], "properties": {"barrier_kcal_mol": {"type": "number"}, "unit": {"type": "string"}, "preceding_state": {"type": "string"}, "following_state": {"type": "string"}, "frequency_evidence": {"type": "string"}, "connectivity_evidence": {"type": "string"}, "energy_definition": {"type": "string"}}},
-          "cyclization": {"type": "object", "required": ["barrier_kcal_mol", "unit", "preceding_state", "following_state", "frequency_evidence", "connectivity_evidence", "energy_definition"], "properties": {"barrier_kcal_mol": {"type": "number"}, "unit": {"type": "string"}, "preceding_state": {"type": "string"}, "following_state": {"type": "string"}, "frequency_evidence": {"type": "string"}, "connectivity_evidence": {"type": "string"}, "energy_definition": {"type": "string"}}},
-          "capture": {"type": "object", "required": ["barrier_kcal_mol", "unit", "preceding_state", "following_state", "frequency_evidence", "connectivity_evidence", "energy_definition"], "properties": {"barrier_kcal_mol": {"type": "number"}, "unit": {"type": "string"}, "preceding_state": {"type": "string"}, "following_state": {"type": "string"}, "frequency_evidence": {"type": "string"}, "connectivity_evidence": {"type": "string"}, "energy_definition": {"type": "string"}}}
+          "addition": {
+            "type": "object",
+            "required": [
+              "barrier_kcal_mol",
+              "unit",
+              "preceding_state",
+              "following_state",
+              "frequency_evidence",
+              "connectivity_evidence",
+              "energy_definition"
+            ],
+            "properties": {
+              "barrier_kcal_mol": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "preceding_state": {
+                "type": "string"
+              },
+              "following_state": {
+                "type": "string"
+              },
+              "frequency_evidence": {
+                "type": "string"
+              },
+              "connectivity_evidence": {
+                "type": "string"
+              },
+              "energy_definition": {
+                "type": "string"
+              }
+            }
+          },
+          "cyclization": {
+            "type": "object",
+            "required": [
+              "barrier_kcal_mol",
+              "unit",
+              "preceding_state",
+              "following_state",
+              "frequency_evidence",
+              "connectivity_evidence",
+              "energy_definition"
+            ],
+            "properties": {
+              "barrier_kcal_mol": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "preceding_state": {
+                "type": "string"
+              },
+              "following_state": {
+                "type": "string"
+              },
+              "frequency_evidence": {
+                "type": "string"
+              },
+              "connectivity_evidence": {
+                "type": "string"
+              },
+              "energy_definition": {
+                "type": "string"
+              }
+            }
+          },
+          "capture": {
+            "type": "object",
+            "required": [
+              "barrier_kcal_mol",
+              "unit",
+              "preceding_state",
+              "following_state",
+              "frequency_evidence",
+              "connectivity_evidence",
+              "energy_definition"
+            ],
+            "properties": {
+              "barrier_kcal_mol": {
+                "type": "number"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "preceding_state": {
+                "type": "string"
+              },
+              "following_state": {
+                "type": "string"
+              },
+              "frequency_evidence": {
+                "type": "string"
+              },
+              "connectivity_evidence": {
+                "type": "string"
+              },
+              "energy_definition": {
+                "type": "string"
+              }
+            }
+          }
         }
       },
-      "conclusion": {"type": "string"},
-      "limitations": {"type": "string"}
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "failed_steps": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "addition",
+            "cyclization",
+            "capture"
+          ]
+        }
+      },
+      "attempted_candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "step",
+            "outcome",
+            "evidence"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "step": {
+              "enum": [
+                "addition",
+                "cyclization",
+                "capture"
+              ]
+            },
+            "outcome": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "validation_records": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "check",
+            "outcome",
+            "evidence"
+          ],
+          "properties": {
+            "check": {
+              "type": "string",
+              "minLength": 1
+            },
+            "outcome": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "stopping_rationale": {
+        "type": "string",
+        "minLength": 1
+      }
     },
-    "additionalProperties": true
+    "additionalProperties": true,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "bounded_failure"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "required": [
+            "failed_steps",
+            "attempted_candidates",
+            "validation_records",
+            "stopping_rationale"
+          ],
+          "not": {
+            "required": [
+              "steps"
+            ]
+          }
+        },
+        "else": {
+          "required": [
+            "steps"
+          ]
+        }
+      }
+    ]
   }
 }

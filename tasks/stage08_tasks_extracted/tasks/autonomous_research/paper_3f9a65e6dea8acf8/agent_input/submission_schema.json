@@ -1,0 +1,32 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": ["status", "success"],
+        "properties": {
+          "status": {"const": "success"},
+          "success": {
+            "type": "object",
+            "required": ["identity", "method", "minimum_validation", "homo_eV", "lumo_eV", "gap_eV", "hardness_eV", "electrophilicity_eV", "formula_check", "uncertainty_limitations", "conclusion"],
+            "properties": {
+              "identity": {"type": "object", "required": ["name", "formula", "charge", "multiplicity", "geometry_provenance"], "properties": {"name": {"type": "string"}, "formula": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "geometry_provenance": {"type": "string"}}},
+              "method": {"type": "object", "required": ["software", "optimization", "single_point", "solvent", "convergence", "orbital_sign_convention", "units", "conformer_coverage", "selection_rule"], "properties": {"software": {"type": "string"}, "optimization": {"type": "string"}, "single_point": {"type": "string"}, "solvent": {"type": "string"}, "convergence": {"type": "string"}, "orbital_sign_convention": {"type": "string"}, "units": {"type": "string"}, "conformer_coverage": {"type": "string"}, "selection_rule": {"type": "string"}}},
+              "minimum_validation": {"type": "object", "required": ["no_imaginary_frequencies", "evidence"], "properties": {"no_imaginary_frequencies": {"type": "boolean"}, "evidence": {"type": "string"}}},
+              "homo_eV": {"type": "number"}, "lumo_eV": {"type": "number"}, "gap_eV": {"type": "number"}, "hardness_eV": {"type": "number"}, "electrophilicity_eV": {"type": "number"}, "formula_check": {"type": "string"}, "uncertainty_limitations": {"type": "string"}, "conclusion": {"type": "string"}
+            }
+          }
+        }
+      },
+      {
+        "required": ["status", "failure"],
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "failure": {"type": "object", "required": ["diagnostic", "limitation", "identity"], "properties": {"diagnostic": {"type": "string"}, "limitation": {"type": "string"}, "identity": {"type": "string"}}}
+        }
+      }
+    ]
+  }
+}

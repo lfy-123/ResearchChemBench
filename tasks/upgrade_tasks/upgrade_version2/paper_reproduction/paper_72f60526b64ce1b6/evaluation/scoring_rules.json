@@ -1,0 +1,145 @@
+{
+  "paper_id": "paper_72f60526b64ce1b6",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Check the supplied Group A graph, full stoichiometry, source terminal-H convention, atom mapping and actual Au111 lead/contact/central-region definitions. Verify charge and occupation consistently for an open system. Different geometries are permitted research choices; quantify whether their differences confound any bridge-only claim. Do not require a fixed Au atom count or predefined contact perturbation. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.devices",
+          "$.methods",
+          "$.artifact_index"
+        ],
+        "comparison": "Check the supplied Group A graph, full stoichiometry, source terminal-H convention, atom mapping and actual Au111 lead/contact/central-region definitions. Verify charge and occupation consistently for an open system. Different geometries are permitted research choices; quantify whether their differences confound any bridge-only claim. Do not require a fixed Au atom count or predefined contact perturbation. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_transport_evidence",
+      "reference_id": "kp_transport_evidence",
+      "type": "semantic",
+      "expected": "Inspect raw transport calculations, source/device dependencies, bias chemical potentials, current sign and applicable model validity. A rectification claim needs direction-resolved evidence at comparable bias magnitude or a scientifically justified equivalent definition, sufficient to resolve the claim. The numerical domain/approximation must support that claim; a deliberately simpler valid transport model can receive credit only within its demonstrated domain. Do not force DFT-NEGF, one code, temperature, zero bias or the old three-point grid when not scientifically necessary. Isolated dipoles, orbital gaps or field energies alone cannot stand in for device currents. Recompute stated ratios or bounds from actual data. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.transport_points",
+          "$.rectification_assessments",
+          "$.execution_records",
+          "$.quantitative_observations"
+        ],
+        "comparison": "Inspect raw transport calculations, source/device dependencies, bias chemical potentials, current sign and applicable model validity. A rectification claim needs direction-resolved evidence at comparable bias magnitude or a scientifically justified equivalent definition, sufficient to resolve the claim. The numerical domain/approximation must support that claim; a deliberately simpler valid transport model can receive credit only within its demonstrated domain. Do not force DFT-NEGF, one code, temperature, zero bias or the old three-point grid when not scientifically necessary. Isolated dipoles, orbital gaps or field energies alone cannot stand in for device currents. Recompute stated ratios or bounds from actual data. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_explanation",
+      "reference_id": "kp_explanation",
+      "type": "semantic",
+      "expected": "Assess whether the chosen calculations discriminate or falsify the submitted explanation of bridge dependence and address relevant confounding differences. A family-wide bridge claim must be supported across the necessary family domain; a focal analysis cannot silently generalize. Do not require dipole prediction, molecular reversal, a particular contact test or an author trend. Correlation alone must not be promoted to an established causal mechanism. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.comparisons",
+          "$.quantitative_observations",
+          "$.devices"
+        ],
+        "comparison": "Assess whether the chosen calculations discriminate or falsify the submitted explanation of bridge dependence and address relevant confounding differences. A family-wide bridge claim must be supported across the necessary family domain; a focal analysis cannot silently generalize. Do not require dipole prediction, molecular reversal, a particular contact test or an author trend. Correlation alone must not be promoted to an established causal mechanism. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_uncertainty",
+      "reference_id": "kp_uncertainty",
+      "type": "semantic",
+      "expected": "Require uncertainty and validity appropriate to the chosen transport representation and declared claims, using real resolution or bounds. Check current floor, near-zero denominators and energy/bias reference consistency. Refined sampling, alternate descriptions or other justified tests may establish adequacy; no universal k/integration/layer matrix is mandatory. Bare-electrode convergence and command availability cannot certify a device or macroscopic performance. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.transport_points",
+          "$.rectification_assessments",
+          "$.claims",
+          "$.methods"
+        ],
+        "comparison": "Require uncertainty and validity appropriate to the chosen transport representation and declared claims, using real resolution or bounds. Check current floor, near-zero denominators and energy/bias reference consistency. Refined sampling, alternate descriptions or other justified tests may establish adequacy; no universal k/integration/layer matrix is mandatory. Bare-electrode convergence and command availability cannot certify a device or macroscopic performance. Read actual submitted files and tool provenance, resolve identifiers and recompute the quantities supporting the claim. No old scalar target or universal uncalibrated tolerance applies. Missing evidence cannot be scored as an indistinguishable result. Judge alternative valid routes by the same scientific standard, not by agreement with the author or completion of a private reference matrix. Award full criterion credit only when its substantive claim is supported over its stated domain; partial credit requires independently valid evidence and explicit missing coverage. Award no credit to the affected claim when essential identity, validity or evidence is absent; fluent explanation does not repair it. These are judgment anchors, not a calibrated numerical equivalence threshold."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the specified question within the explicitly investigated domain. Supported, refuted and evidence-sufficient unresolved conclusions are eligible for equal credit. Scope reductions must be explicit; untested parts cannot be generalized. Distinguish complete scientific non-identifiability from missing input or failed calculations. Do not require any author-specific hypothesis count, control matrix, method, winner or numerical answer. Historical package PASS is not V2 evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.claims",
+          "$.addressed_scope",
+          "$.artifact_index"
+        ],
+        "comparison": "Answer the specified question within the explicitly investigated domain. Supported, refuted and evidence-sufficient unresolved conclusions are eligible for equal credit. Scope reductions must be explicit; untested parts cannot be generalized. Distinguish complete scientific non-identifiability from missing input or failed calculations. Do not require any author-specific hypothesis count, control matrix, method, winner or numerical answer. Historical package PASS is not V2 evidence."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Well-defined and comparable molecular junction objects",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "transport_evidence",
+      "max_score": 30,
+      "description": "Valid and reproducible transport response",
+      "rule_ids": [
+        "rule_transport_evidence"
+      ]
+    },
+    {
+      "id": "explanation",
+      "max_score": 25,
+      "description": "Evidence tests the bridge-dependent explanation",
+      "rule_ids": [
+        "rule_explanation"
+      ]
+    },
+    {
+      "id": "uncertainty",
+      "max_score": 20,
+      "description": "Numerical resolution and physical limits",
+      "rule_ids": [
+        "rule_uncertainty"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-proportionate answer and explicit limits",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "calibration_status": "pending_real_semantic_judge_and_expanded_reference",
+  "deployment_disposition": "pending_coordinator_review_and_calibration",
+  "scoring_boundary": "Offline schema/artifact validation does not certify scientific conclusions. Exact or broad numerical equivalence requires reference-specific justification; no blanket tolerance. Credit independent valid parts, but invalidate dependent claims when their evidence fails. Operator-caused missing mandatory public input is a task prerequisite defect: exclude such a run from agent capability comparisons rather than assigning a low science score for the unavailable input. Package disposition is an operator instruction, not an implemented host dispatch gate."
+}

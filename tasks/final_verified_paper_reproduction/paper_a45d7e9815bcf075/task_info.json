@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_a45d7e9815bcf075",
+  "task_type": "paper_reproduction",
+  "title": "Local reconstruction of insulin electronic-correlation maps",
+  "category": "electron_density_topology_bonding",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires constructing and validating 51 overlapping protein fragments, obtaining orbital-to-atomic/residue MI observables, and comparing locality-sensitive maps while preserving atom identity."
+  ],
+  "paper": {
+    "title": "Divide and correlate: mapping electronic correlations in proteins via local cut-wise reconstruction",
+    "doi": "10.1039/d5cc04161a",
+    "journal": "Chemical Communications",
+    "publication_date": "2026-01-20"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained original experimental PDB 3I40 and system, contact, MI-definition and comparison-radius specification."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable calculation, validation, optional comparison and scientific conclusion report."
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "evidence": [
+    {
+      "evidence_id": "source_0",
+      "source": {
+        "path": "papers/paper_9ec32e81e2826041/documents/main.pdf",
+        "sha256": "c494b9ed5388f0c6d968d8e80ce851426473aa9779a3c3930927445340195dec",
+        "matches_audit": true,
+        "declared_pages": 9,
+        "material_type": "main_article",
+        "pdf_pages_read_1_based": [
+          3,
+          4,
+          5
+        ]
+      },
+      "scope": {
+        "objects": "One full80-atom neutral singlet Z-cAACCy, C35H43NZn; not Z-SIP or Z-IP.",
+        "observations": "Main p3 different colorless/yellow crystals: diffuse-reflectance onset about430nm and visible band extending about500nm respectively. Main p4 both give same yellow solution.",
+        "molecular_question": "Configuration/stability and absorption with possible Zn electronic involvement; distinct thermodynamic and optical claims need their own evidence.",
+        "boundary": "Isolated molecular ground-state and vertical optical interpretation; experimental crystalline edge is not identical to an isolated transition. No crystal populations, full packing, phosphorescence/SOC/lifetimes or Z-IP photocatalysis."
+      },
+      "role": "publication_facts_and_author_interpretation_separated_in_source_audit"
+    },
+    {
+      "evidence_id": "source_1",
+      "source": {
+        "path": "papers/paper_9ec32e81e2826041/documents/supplementary_001.pdf",
+        "sha256": "dbb8ec5153da3d86acde2fd320f01cc1bae86bf16cebf2fd2cf835280933d7cb",
+        "matches_audit": true,
+        "declared_pages": 23,
+        "material_type": "true_supporting_information",
+        "pdf_pages_read_1_based": [
+          3,
+          4,
+          13,
+          14,
+          15,
+          16,
+          21,
+          22
+        ]
+      },
+      "scope": {
+        "objects": "One full80-atom neutral singlet Z-cAACCy, C35H43NZn; not Z-SIP or Z-IP.",
+        "observations": "Main p3 different colorless/yellow crystals: diffuse-reflectance onset about430nm and visible band extending about500nm respectively. Main p4 both give same yellow solution.",
+        "molecular_question": "Configuration/stability and absorption with possible Zn electronic involvement; distinct thermodynamic and optical claims need their own evidence.",
+        "boundary": "Isolated molecular ground-state and vertical optical interpretation; experimental crystalline edge is not identical to an isolated transition. No crystal populations, full packing, phosphorescence/SOC/lifetimes or Z-IP photocatalysis."
+      },
+      "role": "publication_facts_and_author_interpretation_separated_in_source_audit"
+    },
+    {
+      "evidence_id": "v1_reuse",
+      "source": {
+        "path": "evaluation/reference_reuse.json"
+      },
+      "scope": {
+        "usable": "Two exact D3 full-molecule native minima with234 positive internal modes and mapped graphs; native300K RRHO deltaG about−0.0473kJ/mol, with historical entropy-only sensitivity changing magnitude. This supports full-system optimization feasibility but cautions against overprecise population inference.",
+        "artifacts": [
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/zinc_thermochemistry_audit.json",
+            "sha256": "6d5763ba79f428c087635c27aaa4b71890071c6fcc46296f072672cb5d00e3c1",
+            "role": "partial_V1_evidence_not_final_acceptance"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/vibrational_evidence.json",
+            "sha256": "99fafa23967873f1fb8c1b78aa13040307adad72a5dee7692ac7ee0da17ecc91",
+            "role": "partial_V1_evidence_not_final_acceptance"
+          },
+          {
+            "path": "docs/upgrade_tasks_verification/group_1/papers/paper_9ec32e81e2826041/report/zinc_native_fragment_maps.json",
+            "sha256": "f26b3cdc7616439f44bf34fd2d3989dce7ca4234caf8b7b00afe1b32420248a1",
+            "role": "partial_V1_evidence_not_final_acceptance"
+          },
+          {
+            "path": "docs/verification/group_3/paper_9ec32e81e2826041/provenance/qzcli_hpc/ZcAAC_coplanar_corrected_SI_internal_SCF_restart_20260918/20260918T110817412108Z_hpc-job-2097366-cluster-slurmd-0/gaussian.log",
+            "sha256": "b8eb48e3c1acfe26873c67d4c0ce7397d124fcfab3dae31c521a0f26040f94ec",
+            "role": "native_D3_minimum_log"
+          },
+          {
+            "path": "docs/verification/group_3/paper_9ec32e81e2826041/provenance/qzcli_hpc/ZcAAC_perpendicular_corrected_SI_internal_SCF_restart_20260918/20260918T110428423529Z_hpc-job-2097255-cluster-slurmd-0/gaussian.log",
+            "sha256": "8c26b5d46ba1e846e010db7baf99f5883b41ead5b53d14726788a7e6f64404f1",
+            "role": "native_D3_minimum_log"
+          }
+        ],
+        "not_usable": "No final noD3 Hessian acceptance, complete cross-geometry decomposition, TD reciprocal correspondence/sensitivity or final scientific report exists at freeze.11 active jobs in the15:09UTC frozen inventory are not polled, resumed or counted successful here. No all-route/V2 acceptance."
+      },
+      "role": "historical_author_informed_reference_not_answer_key"
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": {
+        "path": "evaluation/task_provenance/source_scope_audit.json"
+      },
+      "scope": "Benchmark task design and claim-conditioned scientific standards; no new measurements or simulations."
+    }
+  ]
+}

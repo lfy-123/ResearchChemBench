@@ -24,12 +24,12 @@
     {
       "key_point_id": "pr_result_values",
       "key_point_type": "result",
-      "statement": "For the public conformer identities 1-1, 1-2 and 1-3, the reported relative Gibbs energies and populations reproduce the SI subset within ordinary computational-reproduction variation.",
-      "expected_result": "Reference values are 0 kcal/mol and 32.77% for 1-1; 0.680486100 kcal/mol and 10.39% for 1-2; 0.771969325 kcal/mol and 8.90% for 1-3.",
+      "statement": "For the public conformer identities 1-1, 1-2 and 1-3, the reported relative Gibbs energies follow the SI ordering within ordinary computational-reproduction variation, and populations are normalized only over the three public coordinates.",
+      "expected_result": "SI relative-energy references are 0, 0.680486100 and 0.771969325 kcal/mol; the SI percentages 32.77%, 10.39% and 8.90% belong to a 16-conformer ensemble and are not hard targets for the three-public-conformer task. The report must sum the public-subset populations to 100% and identify 1-1 as most populated.",
       "evidence_ids": [
         "ev_doc_65dbdc37164d_000126_1e8a7b100586"
       ],
-      "expected": "For the public conformer identities 1-1, 1-2 and 1-3, the reported relative Gibbs energies and populations reproduce the SI subset within ordinary computational-reproduction variation."
+      "expected": "For the public conformer identities 1-1, 1-2 and 1-3, the reported relative Gibbs energies follow the SI ordering and populations are normalized only over the three public coordinates; the thirteen unavailable SI conformers are explicitly out of scope."
     }
   ]
 }

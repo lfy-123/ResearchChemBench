@@ -1,0 +1,85 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_pr_kp_states",
+      "type": "semantic",
+      "expected": "Both required electronic states and sulfur atom identity are explicitly preserved.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_process_states"
+    },
+    {
+      "rule_id": "r_pr_kp_validation",
+      "type": "semantic",
+      "expected": "State-specific convergence/stationary-point diagnostics are reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].validation",
+          "$.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_process_validation"
+    },
+    {
+      "rule_id": "r_pr_kp_distances",
+      "type": "numeric",
+      "expected": "Distance values and signed change agree with source within defensible computational variation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].sulfur_distance_angstrom",
+          "$.distance_change.value_angstrom"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_pr_result_distances",
+      "target": 0.073,
+      "unit": "angstrom",
+      "tolerance": 0.2
+    },
+    {
+      "rule_id": "r_pr_con_final",
+      "type": "semantic",
+      "expected": "Contraction is interpreted as supporting, not uniquely proving, the qualitative hypothesis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_final"
+    },
+    {
+      "rule_id": "r_pr_con_limit",
+      "type": "semantic",
+      "expected": "Relevant method, conformer, spin and model-boundary limitations are acknowledged.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_pr_limit"
+    }
+  ],
+  "paper_id": "paper_0de37d01e35c27df"
+}

@@ -1,0 +1,180 @@
+{
+  "paper_id": "paper_9aa6d5655edfeb52",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use fused 2a C18H20B10 and nonfused source precursor1a C18H21B10Br, both neutral singlets. Precursor1a is 1-(8-bromonaphthalen-1-yl)-2-phenyl-o-carborane; it is not a pure geometric un-fusion because Br/H composition differs. Public graph edits remove the B3-aryl fusion edge, restore B3-H and add aryl-Br. Preserve the closo cage adjacency and mapped cage C1-C2 axis; a multicenter cage edge is not an ordinary two-center bond-order assertion. Primary THF continuum.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.object_records",
+          "$.protocol",
+          "$.calculation_records"
+        ],
+        "comparison": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use fused 2a C18H20B10 and nonfused source precursor1a C18H21B10Br, both neutral singlets. Precursor1a is 1-(8-bromonaphthalen-1-yl)-2-phenyl-o-carborane; it is not a pure geometric un-fusion because Br/H composition differs. Public graph edits remove the B3-aryl fusion edge, restore B3-H and add aryl-Br. Preserve the closo cage adjacency and mapped cage C1-C2 axis; a multicenter cage edge is not an ordinary two-center bond-order assertion. Primary THF continuum."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_fusion_pair",
+      "reference_id": "kp_fusion_pair",
+      "type": "semantic",
+      "expected": "Require NTO/state character, valid ground-state modes and both distinct chemical identities; no KS-gap or NICS proxy for quantum yield. Core rows: fused2a, nonfused1a. Recompute excitation_eV, oscillator_strength, cage_CC_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.fusion_pair",
+          "$.calculation_records"
+        ],
+        "comparison": "Require NTO/state character, valid ground-state modes and both distinct chemical identities; no KS-gap or NICS proxy for quantum yield. Core rows: fused2a, nonfused1a. Recompute excitation_eV, oscillator_strength, cage_CC_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_cage_displacement",
+      "reference_id": "kp_cage_displacement",
+      "type": "semantic",
+      "expected": "Use symmetric ±0.05 angstrom coordinate perturbations around each own relaxed C-C reference as design points, with fixed and orthogonally relaxed versions. The displacement size is a chosen intervention, not a reference tolerance. Core rows: 2a_minus, 2a_plus, 1a_minus, 1a_plus. Recompute displacement_A, relative_E_kJ_mol, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.cage_displacement",
+          "$.calculation_records"
+        ],
+        "comparison": "Use symmetric ±0.05 angstrom coordinate perturbations around each own relaxed C-C reference as design points, with fixed and orthogonally relaxed versions. The displacement size is a chosen intervention, not a reference tolerance. Core rows: 2a_minus, 2a_plus, 1a_minus, 1a_plus. Recompute displacement_A, relative_E_kJ_mol, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_causal_limits",
+      "reference_id": "kp_causal_limits",
+      "type": "semantic",
+      "expected": "Keep Br substitution as a chemical confound, report vibrational/displacement response and trigger higher-level diagnostics for near-degenerate state mixing. A compound conclusion need not isolate fusion uniquely. Core rows: fusion_vs_motion, method_sensitivity. Recompute excitation_change_eV, response_eV_per_A, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.causal_limits",
+          "$.calculation_records"
+        ],
+        "comparison": "Keep Br substitution as a chemical confound, report vibrational/displacement response and trigger higher-level diagnostics for near-degenerate state mixing. A compound conclusion need not isolate fusion uniquely. Core rows: fusion_vs_motion, method_sensitivity. Recompute excitation_change_eV, response_eV_per_A, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypothesis_tests",
+          "$.sensitivity"
+        ],
+        "comparison": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "final_inference",
+      "type": "semantic",
+      "expected": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Crystal emission requires real neighbors and independent convergence and is outside this core.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results"
+        ],
+        "comparison": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Crystal emission requires real neighbors and independent convergence and is outside this core."
+      },
+      "evidence_policy": "Open referenced input/output/geometry and numeric-table artifacts. Check file hashes, successful termination, real state/minimum/path evidence, recomputed units and arithmetic. JSON flags and synthetic fixtures are never scientific evidence."
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 10,
+      "description": "Correct complete objects, conserved stoichiometry, declared states and energy reference. Validate actual atom maps and raw calculation identity before dependent scores. Use fused 2a C18H20B10 and nonfused source precursor1a C18H21B10Br, both neutral singlets. Precursor1a is 1-(8-bromonaphthalen-1-yl)-2-phenyl-o-carborane; it is not a pure geometric un-fusion because Br/H composition differs. Public graph edits remove the B3-aryl fusion edge, restore B3-H and add aryl-Br. Preserve the closo cage adjacency and mapped cage C1-C2 axis; a multicenter cage edge is not an ordinary two-center bond-order assertion. Primary THF continuum.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "fusion_pair",
+      "max_score": 20,
+      "description": "Require NTO/state character, valid ground-state modes and both distinct chemical identities; no KS-gap or NICS proxy for quantum yield. Core rows: fused2a, nonfused1a. Recompute excitation_eV, oscillator_strength, cage_CC_A, lowest_frequency_cm1 from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_fusion_pair"
+      ]
+    },
+    {
+      "id": "cage_displacement",
+      "max_score": 25,
+      "description": "Use symmetric ±0.05 angstrom coordinate perturbations around each own relaxed C-C reference as design points, with fixed and orthogonally relaxed versions. The displacement size is a chosen intervention, not a reference tolerance. Core rows: 2a_minus, 2a_plus, 1a_minus, 1a_plus. Recompute displacement_A, relative_E_kJ_mol, excitation_eV, oscillator_strength from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_cage_displacement"
+      ]
+    },
+    {
+      "id": "causal_limits",
+      "max_score": 20,
+      "description": "Keep Br substitution as a chemical confound, report vibrational/displacement response and trigger higher-level diagnostics for near-degenerate state mixing. A compound conclusion need not isolate fusion uniquely. Core rows: fusion_vs_motion, method_sensitivity. Recompute excitation_change_eV, response_eV_per_A, uncertainty_eV from the submitted linked raw outputs and numeric tables. No narrative-only control or reused old scalar receives endpoint credit.",
+      "rule_ids": [
+        "rule_causal_limits"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 15,
+      "description": "Check actual rival tests and quantified sensitivity, not the presence of prose fields. Recalculate reported signed differences and uncertainty from at least two real computations. Do not reward repetition of author claims.",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Accept support, refutation or computed indistinguishability only after all core comparisons and validity checks. Missing measurements/controls are unfinished, not a scientific negative. Crystal emission requires real neighbors and independent convergence and is outside this core.",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "expanded_reference_validated_semantic_judge_uncalibrated",
+  "calibrated_expanded_tolerances": null,
+  "scoring_notes": [
+    "Not release-certified; expanded numeric references and method-dependent uncertainty are pending. Never issue an upgraded scientific PASS from these structural tests.",
+    "Each item receives credit only for verified scientific evidence. Correct format or an honest failure earns no uncomputed endpoint credit. Missing core comparison prevents scientific completion regardless of total points.",
+    "Experimental input uncertainties constrain only their corresponding measured observables. Old final numeric tolerances are archived, not applied to the expanded matrix.",
+    "Invalid identity, spin, energy reference, fabricated evidence or borrowed results invalidate dependent conclusions. Valid collapse/refutation/indistinguishability remains eligible with complete evidence.",
+    "No optional extension is a hard-failure condition."
+  ],
+  "phase1_reference": {
+    "binding_file": "evaluation/phase1_reference_binding.json",
+    "verification_type": "author_informed_reference_not_blind_AR",
+    "semantic_judge_calibration": "not_performed",
+    "coordinator_final_review": "pending"
+  }
+}

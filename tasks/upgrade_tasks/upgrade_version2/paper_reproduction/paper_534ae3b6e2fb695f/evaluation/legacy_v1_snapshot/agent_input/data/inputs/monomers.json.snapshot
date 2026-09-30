@@ -1,0 +1,149 @@
+{
+  "molecules": [
+    {
+      "id": "ODA",
+      "name": "4,4'-diaminodiphenyl ether",
+      "smiles": "Nc1ccc(Oc2ccc(N)cc2)cc1",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "aromatic diamine reactant",
+      "atom_mapped_smiles": "[NH2:1][c:2]1[cH:3][cH:4][c:5]([O:6][c:7]2[cH:8][cH:9][c:10]([NH2:11])[cH:12][cH:13]2)[cH:14][cH:15]1",
+      "formula": "C12H12N2O",
+      "amine_atom_map_ids": [
+        1,
+        11
+      ],
+      "ring_atom_map_ids": [
+        [
+          2,
+          3,
+          4,
+          5,
+          14,
+          15
+        ],
+        [
+          7,
+          8,
+          9,
+          10,
+          12,
+          13
+        ]
+      ],
+      "linker_torsion_atom_map_ids": [
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          5,
+          6,
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "6FODA",
+      "name": "4,4'-oxybis[3-(trifluoromethyl)aniline]",
+      "smiles": "C1=CC(=C(C=C1N)C(F)(F)F)OC2=C(C=C(C=C2)N)C(F)(F)F",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "fluorinated aromatic diamine reactant",
+      "atom_mapped_smiles": "[cH:1]1[cH:2][c:3]([O:12][c:13]2[c:14]([C:20]([F:21])([F:22])[F:23])[cH:15][c:16]([NH2:19])[cH:17][cH:18]2)[c:4]([C:8]([F:9])([F:10])[F:11])[cH:5][c:6]1[NH2:7]",
+      "formula": "C14H10F6N2O",
+      "amine_atom_map_ids": [
+        7,
+        19
+      ],
+      "ring_atom_map_ids": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ]
+      ],
+      "linker_torsion_atom_map_ids": [
+        [
+          2,
+          3,
+          12,
+          13
+        ],
+        [
+          3,
+          12,
+          13,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "PFMB",
+      "name": "2,2'-bis(trifluoromethyl)benzidine",
+      "smiles": "C1=CC(=C(C=C1N)C(F)(F)F)C2=C(C=C(C=C2)N)C(F)(F)F",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "biphenyl aromatic diamine comparator",
+      "atom_mapped_smiles": "[cH:1]1[cH:2][c:3](-[c:12]2[c:13]([C:19]([F:20])([F:21])[F:22])[cH:14][c:15]([NH2:18])[cH:16][cH:17]2)[c:4]([C:8]([F:9])([F:10])[F:11])[cH:5][c:6]1[NH2:7]",
+      "formula": "C14H10F6N2",
+      "amine_atom_map_ids": [
+        7,
+        18
+      ],
+      "ring_atom_map_ids": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ]
+      ],
+      "linker_torsion_atom_map_ids": [
+        [
+          2,
+          3,
+          12,
+          13
+        ]
+      ]
+    },
+    {
+      "id": "TMC",
+      "name": "trimesoyl chloride",
+      "smiles": "O=C(Cl)c1cc(C(=O)Cl)cc(C(=O)Cl)c1",
+      "charge": 0,
+      "multiplicity": 1,
+      "role": "Mandatory first-acylation reactant for the upgraded matrix; not a ranked diamine.",
+      "atom_mapped_smiles": "[O:1]=[C:2]([Cl:3])[c:4]1[cH:5][c:6]([C:7](=[O:8])[Cl:9])[cH:10][c:11]([C:12](=[O:13])[Cl:14])[cH:15]1",
+      "formula": "C9H3Cl3O3",
+      "amine_atom_map_ids": []
+    }
+  ],
+  "boundary": "Molecular identities retained; new task.md defines the first-acylation reaction boundary.",
+  "atom_mapping": "Atom map numbers identify the supplied heavy-atom graph, not a coordinate ordering requirement. Map your output indices back to these IDs; generate hydrogen coordinates independently. No conformer or winning geometry is supplied."
+}

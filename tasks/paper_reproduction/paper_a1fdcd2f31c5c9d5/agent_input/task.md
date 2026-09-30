@@ -4,7 +4,7 @@ Test the thermodynamics and selected kinetics of hydrogen evolution on the expli
 
 # Public inputs and scientific boundaries
 
-Use every file under `data/inputs/`: `cu111_clean.poscar` is the neutral 12-Cu periodic slab, `h2_reference.xyz` is the neutral H2 reference, and `system_definition.json` defines the cell, layer constraints, sites, coverage, charge, multiplicity, temperature and SHE reference. Do not infer or alter atom identity, stoichiometry, protonation, charge, multiplicity, or periodicity. You may generate H coordinates and computational settings. Use a defensible electronic-structure method and state it fully. CHE means ΔG(U)=ΔG(0)−eU for one H+e−. Explicit solvent, grand-canonical field effects, and Heyrovsky kinetics are outside scope.
+Use every file under `data/inputs/`: `cu111_clean.poscar` is the neutral 12-Cu periodic slab, `h2_reference.xyz` is the neutral H2 reference, and `system_definition.json` defines the cell, layer constraints, sites, coverage, charge, multiplicity, temperature and SHE reference. Do not infer or alter atom identity, stoichiometry, protonation, charge, multiplicity, or periodicity. You may generate H coordinates and computational settings. Use a defensible electronic-structure method and state it fully. For the forward Volmer adsorption reaction H+ + e− + * → H*, use ΔGads(U)=ΔGads(0)+eU, where e>0 and U is measured versus SHE at pH=0. The incremental adsorption onset is Uonset=−ΔGdiff(0)/e; when ΔGdiff is in eV per H, Uonset in V is its negative numerical value. Explicit solvent, grand-canonical field effects, and Heyrovsky kinetics are outside scope.
 
 # Required scientific validation/investigation
 

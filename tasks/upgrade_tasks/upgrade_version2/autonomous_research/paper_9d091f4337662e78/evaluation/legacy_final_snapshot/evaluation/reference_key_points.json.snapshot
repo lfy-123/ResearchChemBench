@@ -1,0 +1,35 @@
+{
+  "paper_id": "paper_9d091f4337662e78",
+  "items": [
+    {
+      "key_point_id": "ar_process_minima",
+      "key_point_type": "process",
+      "statement": "The independent workflow validates each specified final conformer separately as a local minimum or reports a bounded scientifically justified failure.",
+      "expected_result": "Three distinct endpoint records retain chemically established identity and include validation evidence.",
+      "evidence_ids": [
+        "ev_doc_3181296dbe92_000369_0453109bcdea"
+      ],
+      "expected": "Three distinct required final conformers have minimum/geometry/mapping evidence. Audit initial classes separately; a merged endpoint is not two conformers and partial coverage is not complete verification."
+    },
+    {
+      "key_point_id": "ar_process_population",
+      "key_point_type": "process",
+      "statement": "The independent analysis uses a common 298.15 K Gibbs-energy-to-population calculation and reports normalization over the public three-member scope.",
+      "expected_result": "Formula, temperature, scope and normalization are explicit.",
+      "evidence_ids": [
+        "ev_doc_3181296dbe92_000370_80cb88d47d45"
+      ],
+      "expected": "The independent analysis uses a common 298.15 K Gibbs-energy-to-population calculation and reports normalization over the public three-member scope."
+    },
+    {
+      "key_point_id": "ar_result_values",
+      "key_point_type": "result",
+      "statement": "The three distinct required final conformers are quantitatively characterized consistently with the source thermochemical subset.",
+      "expected_result": "The source relative Gibbs energy references are 0, 0.680486100 and 0.771969325 kcal/mol for 1-1, 1-2 and 1-3 respectively. Source percentages 32.77%, 10.39% and 8.90% belong to a 16-conformer ensemble and are not scoring targets for this task. Recompute populations from the submitted Gibbs energies at 298.15 K and normalize over exactly the three distinct required final conformers; successful results identify 1-1 as the most populated member within this subset.",
+      "evidence_ids": [
+        "ev_doc_65dbdc37164d_000126_1e8a7b100586"
+      ],
+      "expected": "The three distinct required final conformers are quantitatively characterized consistently with the source thermochemical subset."
+    }
+  ]
+}

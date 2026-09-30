@@ -1,10 +1,10 @@
 # Scientific objective
 
-Determine, from independent computation, how the supplied G1 monomer and dimer geometries are organized and whether their structural descriptors support a twisted isolated molecule and a distinct offset π-stacked dimer. Report two benzyl–pyridinium dihedrals and two pyridinium–naphthalene dihedrals for the monomer, plus naphthalene-ring centroid separation and slip angle for the dimer, together with a defensible structural interpretation.
+Determine, from independent computation, how the supplied G1 monomer and dimer geometries are organized and whether their structural descriptors support a twisted isolated molecule and a distinct offset π-stacked dimer. Report two benzyl–pyridinium dihedrals and two pyridinium–naphthalene dihedrals for the monomer, plus naphthalene-ring interplanar stacking separation and slip angle, with full centroid separation reported separately for the dimer, together with a defensible structural interpretation.
 
 # Public inputs and scientific boundaries
 
-`data/inputs/g1_monomer.xyz` is the 52-atom G1 monomer, charge +2, singlet. `data/inputs/g1_dimer.xyz` is the 104-atom assembly of two identical G1 dications, charge +4, singlet. The files are starting geometries, not answers. Treat the supplied atoms and connectivity as fixed, omit counterions, and state solvent, electronic-structure, conformer, ring-plane, centroid and dihedral sign conventions. The endpoint is a relaxed ground-state geometry and geometric interpretation; photophysical observables are outside scope.
+`data/inputs/g1_monomer.xyz` is the 64-atom G1 monomer, charge +2, singlet. `data/inputs/g1_dimer.xyz` is the 128-atom assembly of two identical G1 dications, charge +4, singlet. The files are starting geometries, not answers. Treat the supplied atoms and connectivity as fixed, omit counterions, and state solvent, electronic-structure, conformer, ring-plane, centroid and dihedral sign conventions. The endpoint is a relaxed ground-state geometry and geometric interpretation; photophysical observables are outside scope.
 
 # Required scientific validation/investigation
 
@@ -13,3 +13,5 @@ Verify atom counts, elements, charge and connectivity. Independently select and 
 # Deliverables
 
 Write `report/results.json` conforming to the submission schema. Include the chosen route, input verification, per-system validation, values with units, structure paths or inline coordinates, and an evidence-based conclusion about the computed packing organization. Do not claim uniqueness beyond the searched structures.
+
+Define plane separation as the absolute projection of the centroid-to-centroid vector on the normalized mean of the two consistently oriented least-squares ring normals. Also report both individual-plane projections and the angle between planes, because distorted rings need not be exactly parallel. Define slip as the acute angle between the centroid vector and that mean plane, and report its complementary angle to the normal. Do not conflate either projection with the full centroid-vector length.

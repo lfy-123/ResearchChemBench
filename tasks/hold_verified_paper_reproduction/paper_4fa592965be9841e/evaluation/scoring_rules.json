@@ -1,0 +1,100 @@
+{
+  "paper_id": "paper_4fa592965be9841e",
+  "rules": [
+    {
+      "rule_id": "r_pr_structure",
+      "reference_id": "kp_pr_structure",
+      "type": "semantic",
+      "expected": "identity and stereochemistry validation is explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structure_validation.formula",
+          "$.structure_validation.stereochemistry_verified"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_stationary",
+      "reference_id": "kp_pr_stationary",
+      "type": "semantic",
+      "expected": "stationary-point evidence and imaginary-frequency status are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.stationary_point.evidence",
+          "$.stationary_point.imaginary_frequency_count"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_ir",
+      "reference_id": "kp_pr_ir",
+      "type": "semantic",
+      "expected": "four named IR assignments are individually compared",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ir_results[*].assignment",
+          "$.ir_results[*].experimental_comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_uv",
+      "reference_id": "kp_pr_uv",
+      "type": "semantic",
+      "expected": "two UV bands include wavelength, oscillator strength and transition character",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.uv_results[*].wavelength_nm",
+          "$.uv_results[*].transition_character"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_con1",
+      "reference_id": "con_pr_spectra",
+      "type": "semantic",
+      "expected": "The correctly identified compound-I geometry, assigned vibrational modes and selected electronic absorption bands provide a quantitative comparison with the specified experimental observations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_con2",
+      "reference_id": "con_pr_ct",
+      "type": "semantic",
+      "expected": "The submitted orbital or equivalent spatial evidence supports, qualifies or rejects the ICT interpretation for the correctly identified compound I.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "scoring_policy": "dual_axis_100.scientific_results.v1"
+}

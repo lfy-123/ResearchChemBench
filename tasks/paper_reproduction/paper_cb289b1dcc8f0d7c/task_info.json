@@ -6,7 +6,7 @@
   "difficulty": "hard",
   "difficulty_reasons": [
     "Seven related molecules require linked S0/S1/T1/T2 calculations, SOC and rate analysis.",
-    "The evaluated agent must independently choose and validate a multistage excited-state protocol while comparing heavy-atom trends."
+    "The evaluated agent must reproduce a specified multistage author protocol, validate state/root mapping and rate inputs, and compare heavy-atom trends without silently substituting proxy methods."
   ],
   "paper": {
     "title": "d5dt01016k 1844..1854 ++",
@@ -18,6 +18,10 @@
     {
       "path": "data/inputs",
       "description": "Self-contained BQ1–BQ7 connectivity, formulas, charge, multiplicities and solvent boundary."
+    },
+    {
+      "path": "data/inputs/experimental_solution_fluorescence.json",
+      "description": "solution fluorescence observations"
     }
   ],
   "required_deliverables": [

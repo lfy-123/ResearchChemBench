@@ -1,0 +1,608 @@
+
+=== PDF PAGE 1 ===
+       Article                                                                                      https://doi.org/10.1038/s41467-025-67397-x
+  Thermally driven surface phase separation in
+   intermetallic alloys
+
+
+
+
+        Received: 17 April 2025              Shyam Bharatkumar Patel    1, Xiaobo Chen    1, Dongxiang Wu1, Zhikang Zhou    1,
+                                      Yupeng Wu1, Yaguang Zhu1, Chaoran Li1, Xianhu Sun1, Xiao Tong2,
+       Accepted: 26 November 2025
+                                           Abdullah Al-Mahboob2, Deyu Lu   2, Jorge Anibal Boscoboinik   2,
+                                                Jerzy T. Sadowski  2  & Guangwen Zhou   1
+
+
+          Check for updates
+
+                                                Intermetallic compounds are widely recognized for their high-temperature
+                                        phase stability and resistance to composition and structural changes. How-
+                                                ever, we reveal a thermally activated bulk-to-surface mass exchange mechan-1234567890():,;                 1234567890():,;                                     ism that drives surface phase separation, resulting in the formation of surface
+                                                precipitates with distinct composition and structure from the bulk matrix.
+                                         Using the archetypal β-NiAl system, we show that asymmetries in vacancy
+                                          formation energies between Ni and Al atoms induce preferential Ni segrega-
+                                               tion to the surface, forming Ni-rich γ‘-Ni3Al precipitates. By integrating in-situ
+                                             electron microscopy, synchrotron X-ray absorption spectroscopy and ﬁrst-
+                                                principles computational modeling, we establish a direct mechanistic con-
+                                            nection between bulk thermal defect dynamics, surface compositional evo-
+                                                   lution, and phase segregation behavior. This bulk-surface coupling mechanism
+                                        can be a driver of surface phase separation in multicomponent alloys under
+                                          thermal stress. These results reﬁne the thermodynamic boundaries of inter-
+                                                metallic stability and provide insights into managing the performance and
+                                                 durability of intermetallic alloys for demanding high-temperature
+                                                applications.
+
+
+
+
+         Intermetallic compounds exhibit robust phase stability at high tem-   structural evolution remains unexplored. We show that vacancies in
+         peratures, a property rooted in their highly ordered atomic structures   the bulk induce selective elemental migration to the surface, creating
+       and strong bonding between dissimilar atoms1–3. Unlike conventional   phase-segregated domains with distinct compositions and structures.
+          alloys, where atomic disorder facilitates compositional ﬂuctuations      To investigate this phenomenon, we focus on β-NiAl, a model
+       and phase separation, intermetallics possess rigid stoichiometry and   intermetallic compound for its exceptional mechanical stability under
+         crystallographic order4–6, creating energetic barriers to atomic diffu-   extreme conditions12. Despite its ability to maintain an ordered phase
+         sion and phase decomposition7–9. Thisinherent stability haspositioned   in the bulk at temperatures as high as 1638 °C13, the exponential
+       them as cornerstone materials for extreme-temperature applications,   increase in thermal vacancies with temperature11,14,15 leads to signiﬁcant
+       from turbine blades to aerospace components.                      atomic migration from the bulk to the surface. Due to the differing
+            Contrary to the conventional understanding, herein we reveal a   vacancy formation energies of Ni and Al, this migration results in the
+        thermally driven bulk-surface coupling mechanism that destabilizes   formation of a high density of Ni-rich surface islands that exhibit dis-
+         intermetallic  surfaces  through  phase  separation.  While  bulk   tinct phases and compositions in comparison to the bulk.
+        thermal vacancies are recognized as intrinsic defects at elevated       This bulk-surface coupling mechanism is relevant across a broad
+          temperatures10,11, their role in driving surface compositional and   range of alloy systems, where inherent differences in equilibrium
+
+
+
+         1Department of Mechanical Engineering & Materials Science and Engineering Program, State University of New York at Binghamton, Binghamton, NY, USA.
+         2Center for Functional Nanomaterials, Brookhaven National Laboratory, Upton, NY, USA.    e-mail: sadowski@bnl.gov; gzhou@binghamton.edu
+
+
+
+        Nature Communications| (2026)17:641                                                                                                          1
+=== PDF PAGE 2 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+vacancy behavior can drive atomic redistribution between the bulk   annealed NiAl (Fig. 1e) align with the β-NiAl phase observed in Fig. 1c.
+and surface (including internal interfaces and grain boundaries) under   Additionally, weak superlattice spots (marked by dashed green circles
+high-temperature conditions. Such surface compositional and struc-   in Fig. 1f) suggest atomic vacancy ordering in the β-NiAl bulk, due to
+tural variations can signiﬁcantly inﬂuence catalytic activity, corrosion   the surface ejection of Ni atoms from the bulk—a phenomenon dis-
+resistance, and mechanical behavior by alternating defect nucleation,   cussed further in subsequent sections. Notably, the unannealed sam-
+migration, and annihilation pathways at surfaces and interfaces.        ple does not exhibit precipitates, streaking of the diffraction spots, and
+                                                                          superlattice reﬂections, as evidenced by uniform HAADF intensity,
+Results                                                        sharp electron diffraction, and homogeneous EDS mapping. These
+Ex-situ scanning transmission electron microscopy (STEM)         results demonstrate that thermal annealing drives greater Ni segre-
+imaging of surface precipitation                                   gation than that of Al, leading to the formation of Ni-rich precipitates
+Figure 1a presents a representative high-angle annular dark-ﬁeld  on the surface. Furthermore, this surface segregation results in atomic
+(HAADF)-STEM image of the as-prepared NiAl foil (prepared by FIB   vacancies in the bulk, which undergo self-ordering within the crystal
+and unannealed), revealing a homogeneous morphology with uniform    lattice, as indicated by the superlattice reﬂections in Fig. 1f. This
+intensity, indicative of negligible thickness or composition variations.   interplay between surface segregation and bulk restructuring high-
+Figure 1b provides STEM energy-dispersive X-ray spectroscopy (EDS)   lights how thermal processing inﬂuences atomic structure evolution in
+elemental mapping of the area shown in Fig. 1a, conﬁrming the uni-   the alloy.
+form distribution of Ni and Al throughout the large area. Figure 1c
+displays a selected area electron diffraction (SAED) pattern obtained   In-situ high resolution transmission electron microscopy
+from the foil, showing sharp (101) and (110) reﬂections of the β-NiAl  (HRTEM) imaging of surface phase separation
+phase. The observed 60° angular separation between these spots  To attain an atomic-scale understanding of Ni-rich precipitate forma-
+aligns with the  111 zone axis.                                              tion, NiAl ﬁlms (prepared by e-beam evaporation) are annealed at
+    Following annealing at 800 °C for an hour in 0.001 Torr H2, sig-  800 °C in environmental TEM under a ﬂowing H2 gas atmosphere
+niﬁcant surface restructuring occurs. The HAADF image in Fig. 1d   (0.001 Torr). This reducing environment prevents surface oxidation
+reveals a high density of precipitated particles, with pronounced   during heat treatment. Figure 2a presents an edge-on HRTEM image of
+bright   contrast,   indicating   localized   composition   changes   the (110) facet, revealing the formation of precipitate particles at the
+post–annealing. EDS mapping (Fig. 1e) conﬁrms the Ni enrichment   surface. Within the precipitated phase, the measured interplanar spa-
+within these precipitates (white arrows in Fig. 1e), while Al distribution   cings of 2.61 Å and the observed 60° rotational symmetry of the lattice
+remains relatively uniform. Therefore, the brighter HAADF contrast in   planes are consistent with the 111 zone axis of ordered γ‘-Ni3Al phase
+Fig. 1d is primarily attributed to Z-contrast difference arising from Ni-    (Fig. 2a), which adopts a cubic L12 structure (PDF #09-0097). The
+rich regions (higher atomic number), with minimal contribution from   measured (110) interplanar spacing of 2.61 Å is slightly larger than the
+thickness variations. Electron diffraction analysis (Fig. 1f) of the post-   theoretical room-temperature value of 2.52 Å. This deviation can be
+
+
+
+
+
+Fig. 1 | Microstructural and compositional evolution of NiAl during annealing.   e EDS mapping: HAADF image and EDS maps of Ni+Al, Ni (yellow) and Al (red)
+a HAADF-STEM image of FIB-prepared NiAl pre-annealing. b EDS-STEM elemental    overlayed across the same ﬁeld of view, with the white arrows highlighting areas
+mapping; HAADF image and EDS maps of Ni+Al, Ni (yellow) and Al (red) overlayed   containing higher concentrations of Ni in comparison to the surrounding. f SAED
+across the same ﬁeld of view. c SAED pattern (zone axis  111 ) of β-NiAl. d HAADF    pattern of annealed NiAl.
+image of the NiAl after annealing at 800 °C for 1 h, resulting in Ni-rich precipitates.
+
+
+
+Nature Communications| (2026)17:641                                                                             2
+=== PDF PAGE 3 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+
+
+
+Fig. 2 | Atomic-scale imaging of γ‘-Ni3Al precipitates formed during annealing   b HRTEM image of a γ‘-Ni3Al precipitate on the β-NiAl(100) facet, viewed along the
+of NiAl at 800 °C in 0.001 Torr H2 for ~1 h. a HRTEM image of the β-NiAl(110) facet   [001] zone axis. The precipitate, chemically disordered β-NiAl interfacial layer, and
+showing a γ‘-Ni3Al precipitate outlined by yellow dashed lines. The red inset shows a    β-NiAl substrate are shaded in yellow, cyan, and purple, respectively. c IFFT of (b),
+simulated HRTEM image of γ‘-Ni3Al along the  111 zone axis, consistent with the    generated using the NiAl(100), NiAl(110) and γ‘-Ni3Al(110) reﬂections from the FFT
+FFT (top-right inset). The Ni3Al/NiAl(110) interface is marked by a red dashed line,   of (b), highlighting the stepped Ni3Al/NiAl(100). d IFFT of (c), obtained using the
+with misﬁt dislocations indicated by green and pink dashed lines. A step-like dis-     NiAl(110) and γ‘-Ni3Al(0 11) reﬂections, showing a coherent (100) interface between
+connection defect is highlighted in the magniﬁed inset (white dashed box).          β-NiAl and γ‘-Ni3Al.
+
+
+attributed to a combination of factors, including thermal expansion at   smaller than that at the (110) interface (ε ≈0.30). This enhanced
+the experimental temperature, slight compositional deviation from   structural compatibility can be enabled by the chemically disordered
+the ideal Ni3Al stoichiometry, and measurement uncertainty. After   β-NiAl interfacial layer, which acts as a compliant buffer that relaxes
+accounting  for thermal  expansion16,17, the remaining  lattice  dis-   lattice mismatch without the need for dislocation formation.
+crepancy corresponds to ~1.95%. The fast Fourier transform (FFT) (top-     On both the NiAl(100) and (110) facets, the precipitates retain
+right inset, Fig. 2a) from the precipitate region can be indexed as γ‘-   their ordered structure, as the experimental temperatures remain
+Ni3Al along the  111 zone axis. Notably, additional reﬂections in the   below the order-disorder transition temperature (1330 °C) of  γ‘-
+FFT indicate the presence of ordered vacancies within the precipitate    Ni3Al4,5. On the (100) facet, γ‘-Ni3Al initially adopts a coherent, two-
+lattice, similar to those observed in the parent NiAl lattice, as discussed   dimensional morphology, establishing a low-energy, lattice-matched
+later. This identiﬁcation of the Ni3Al phase is further supported by the   interface with the NiAl substrate (Fig. 2b–d). As the layer grows and
+simulated HRTEM image overlaid in Fig. 2a (red inset).                reaches a critical thickness, strain accumulation may drive a transfor-
+   A magniﬁed of the white dashed box in Fig. 2a (middle-right inset)   mation into three-dimensional (3D) islands to partially relieve inter-
+reveals a distinct disconnection—a step-like defect—at the interface   facial strain. In contrast, γ‘-Ni3Al precipitates on the (110) facet exhibit a
+between the γ‘-Ni3Al precipitate and the β-NiAl substrate. Such inter-  3D island morphology from the outset, due to the signiﬁcantly higher
+facial steps can partially relax lattice mismatch strain in heteroepitaxial   lattice misﬁt (0.30) that favors incoherent bonding. Interfacial dis-
+systems18. Moreover, a misﬁt dislocation at the interface, highlighted   connections and steps results in a tilted interface (Fig. 2a), partially
+by pink and green dashed lines (Fig. 2a), further accommodates the  accommodating the strain. These observations highlight how lattice
+lattice misﬁt strain (ε ≈0.30) between the γ‘ precipitate (L12, a ≈3.57 Å)   mismatch governs precipitate morphology, where lower strain on the
+and the NiAl(110) matrix (B2, a ≈2.89 Å). Similar γ‘-Ni3Al precipitates are   (100) facet permits the formation of an initially coherent layer that can
+observed along different surface facets (Supplementary Fig. 1), con-   later evolve into 3D islands, while high strain on (110) drives immediate
+ﬁrming the ubiquity of the surface segregation and precipitate for-  3D island growth to minimize interfacial energy.
+mation under annealing.
+    Figure 2b, c present an HRTEM image of a γ‘-Ni3Al precipitate   In-situ X-ray photoemission electron microscopy (XPEEM) and
+formed on the (100) facet of the β-NiAl matrix and its corresponding   X-ray photoelectron spectroscopy (XPS) analysis of surface
+inverse FFT (IFFT) image generated using the NiAl(100), NiAl(110), and   precipitation
+γ‘-Ni3Al(101) reﬂections from the FFT of Fig. 2b (Supplementary Fig. 2).  The surface formation of precipitate particles is further examined by
+The uncolored  full ﬁeld-of-view (Supplementary Fig. 3) reveals a   annealing a bulk β-NiAl(100) single crystal at 800 °C under ultrahigh
+vacuum region above the precipitate, conﬁrming that the γ‘-Ni3Al  vacuum (UHV) conditions in an XPEEM system. During annealing, the
+forms at the surface rather than within the bulk. At the γ‘-Ni3Al/β-NiAl   growth of a precipitate island  is monitored by near edge X-ray
+interface, a single atomic step (disconnection) is present. Below this   absorption ﬁne structure (NEXAFS) mapping (Fig. 3a–c). To investigate
+interface, several atomic layers of chemically disordered β-NiAl are   local compositional variations, spatially resolved Ni L3-edge NEXAFS
+observed (highlighted in cyan in Fig. 2b). The similar image intensities   spectra and maps are acquired using XPEEM across the island and the
+of Ni and Al atomic columns indicate randomized site occupancy, a   surrounding pristine NiAl(100) surface. The NEXAFS data are collected
+hallmark of disorder, suggesting the formation of an interfacial buffer  by acquiring a series of spatial resolved XPEEM images using second-
+layer. The IFFT ﬁltered generated from the  β-NiAl(1 10) and  γ‘-   ary electrons emitted at different photon energies. The photon energy
+Ni3Al(011) reﬂections (Fig. 2d; Supplementary Fig. 2) shows that the    is incrementally increased by 0.2 eV from 850 to 870 eV, with snap-
+(100) interface forms a coherent  tilt boundary containing a dis-   shots captured at each step using secondary electrons ejected from
+connection defect but no misﬁt dislocations, contrasting with the   the surface. The XPEEM system enables pixel-wise analysis of the
+dislocated (110) interface seen in Fig. 2a. Instead of forming misﬁt   selected ﬁeld of view, where higher secondary electron counts from a
+dislocations, the misﬁt strain at the (100) interface is accommodated   given surface region result in increased signal intensity for corre-
+by a slight tilt of the γ‘-Ni3Al lattice relative to the β-NiAl substrate. The   sponding pixels. This intensity variation is tracked across photon
+measured misﬁt strain at the (100) interface is ε ≈0.08, substantially   energy increments to construct a pixel-wise NEXAFS map, facilitating
+
+
+
+Nature Communications| (2026)17:641                                                                         3
+=== PDF PAGE 4 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+
+
+
+Fig. 3 | Spectroscopic characterization of γ‘-Ni3Al precipitate formation.         853.4 eV, distinguishing the γ‘-Ni3Al island (cyan) from the surrounding β-NiAl
+a–c Time- and spatially resolved NEXAFS images (extracted from Supplementary    surface (pink). f NEXAFS image snapshot at photon energy of 865 eV showing the
+Movie 1) obtained using secondary electrons generated under X-ray illumination at    island morphology. g Upper panel: experimental Ni L3-edge NEXAFS spectra from a
+photon energies of 850.4 eV (a), 856.6 eV (b), and 868.6 eV (c), capturing the       pure Ni reference (black), the γ‘-Ni3Al island (cyan), and the surrounding pristine
+growth of a γ‘-Ni3Al precipitate island during UHV annealing of a β-NiAl(100) single   NiAl(100) (pink) at 800 °C, acquired by measuring secondary electron intensity
+crystal at 800 °C. In these images, the cyan region indicates the area with higher     across photon energies from 850 to 865 eV. Peak B at 853.4 eV corresponds to the
+secondary electron intensity, while the pink region corresponds to lower secondary    characteristic lower-energy feature of the γ‘-Ni3Al phase. Lower panel: Simulated Ni
+electron counts. d Temporal evolution of the precipitate island area. Error bars (6%)   L3-edge NEXAFS spectra for Ni, γ‘-Ni3Al, and β-NiAl. The raw structure ﬁles used to
+reﬂect uncertainties from edge detection procedures used to deﬁne the island      generate the simulated NEXAFS spectra are provided in the “Source Data Files”
+boundary. e Spatially resolved NEXAFS map acquired using secondary electrons at    folder.
+
+
+
+simultaneous acquisition of spectra from both the newly grown island   Fig. 4), demonstrating the reproducibility of surface phase separation
+and the surrounding NiAl surface.                               and precipitate formation at elevated temperatures. These results
+     Additionally, because each image slice in the NEXAFS stack is   align with the HRTEM observations (Fig. 2a, b), further conﬁrming that
+acquired over time, a time-lapse movie can be generated to visualize   high-temperature annealing promotes the surface segregation of γ‘-
+island growth in real time (Fig. 3a–c), showing the linear growth of the   Ni3Al precipitates.
+island area (Fig. 3d). The error bars associated with the plotted area vs      The formation of γ‘-Ni3Al precipitates, rather than elemental Ni
+time arise from the ~6% error due to island edge-detection challenges.   islands, is further supported by the NEXAFS edge positions, which
+While the NEXAFS spectra proﬁles from the island and island free area   typically correlate with the charge state of a given metal. As shown in
+appear similar at higher photon energies (Fig. 3g), the island remains   Fig. 3g, the absorption edges of β-NiAl and γ‘-Ni3Al occur at higher
+distinguishable due to differences in work function between the island   photon energies than those of metallic Ni, indicative of electron
+and the surrounding area, reﬂecting compositional variations.           transfer away from Ni and towards Al. This Ni-to-Al electron transfer, as
+    The pristine NiAl(100) region exhibits characteristic Ni L3-edge   inferred from NEXAFS, is further corroborated by X-ray photoelectron
+peaks at 856.0 eV (peak D) and 858.6 eV (Peak E) (Fig. 3g), corre-   spectroscopy (XPS) measurements (Fig. 4a, b) obtained using An Al Kα
+sponding to the β-NiAl phase. In contrast, the precipitate island area   X-ray source for a larger probing depth. Three standard single crystals
+displays an additional distinct peak at 853.4 eV (Peak B in Fig. 3g),    (Al(111), Ni(111) and NiAl(100)) were analyzed to obtain reference
+superimposed on the β-NiAl spectral proﬁle. The simulated spectra   spectra to investigate the relative core level shifts in binding energy
+closely match the XPEEM-measured NEXAFS spectra in terms of pro-   between Ni and Al in pure Ni(111), Al(111) and NiAl(100) crystals. The
+ﬁles and peak positions (peaks at 855.9 eV (Peak D′) and 857.6 eV (Peak   NiAl(100) single crystal was the same sample used for the NEXAFS
+E′) for β-NiAl and 853.5 eV (Peak B′) for the γ‘-Ni3Al phase as shown in   studies shown in Fig. 3. The stoichiometry of the NiAl(100) single
+Fig. 3g. In comparison to β-NiAl, the peak at 858.6 eV (Peak E) is shifted   crystal was determined from peaking ﬁtting of the Al 2p/ Ni 3p region,
+to a lower energy at 858.5 eV in the island area. This feature can be   yielding a composition of Ni ~49% and Al ~51% (Supplementary Fig. 5).
+explained by the additional peak that is 1 eV below the peak at 857.6 eV  The Ni 2p peak in β-NiAl(100) appears at a binding energy of 853.2 eV,
+(Peak C′) in the simulated γ‘-Ni3Al spectrum. Furthermore, the peak of   which is higher than 852.6 eV observed for metallic Ni. Conversely, the
+metallic Ni at 852.6 eV (Peak A in Fig. 3g) is absent in the experimental   Al 2p peak in β-NiAl(100) is observed at 72.6 eV is slightly lower than
+spectra of both the precipitate island and surrounding β-NiAl region   the 72.9 eV measured for pure Al. These shifts indicate electron
+(Fig. 3g). This absence rules out elemental Ni segregation, conﬁrming   donation from Ni to Al, as an increased binding energy corresponds to
+that the precipitate island is γ‘-Ni3Al.                                a more positive charge state. In particular, the higher binding energy of
+   NEXAFS maps generated using secondary electrons upon shining   the Ni 2p peak in β-NiAl compared to pure Ni conﬁrms a net charge
+X-rays at 853.4 eV (cyan in Fig. 3e) and 865 eV (Fig. 3f) reveal the   transfer away from Ni in β-NiAl.
+morphology of the precipitate island as it produces a higher intensity       This trend in binding energy shifts extends to γ‘-Ni3Al, where
+of secondary electrons in comparison to the surrounding. Repeated   previous studies indicate that the Ni 2p binding energy in γ‘-Ni3Al
+XPEEM measurements on the β-NiAl(100) single crystal under similar   (853.0 eV) falls between pure Ni (852.6 eV) and β-NiAl (853.2 eV)19–21,
+UHV annealing conditions consistently reveal precipitate islands with   supporting a progressive charge transfer with increasing Al content.
+the same Ni L3-edge NEXAFS feature at 853.4 eV (Supplementary   However, the subtle binding energy difference ( ~ 0.1 eV) between NiAl
+
+
+
+Nature Communications| (2026)17:641                                                                      4
+=== PDF PAGE 5 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+
+
+
+Fig. 4 | XPS and EFL maps showing charge transfer from Ni to Al in NiAl and     proﬁles along the indicated arrows, showing a clear shift of electron density toward
+Ni3Al. a Ni 2p XPS spectra, with the Ni 2p3/2 peak at 853.2 eV for Ni in a β-NiAl(100)   the Al sites. An Al Kα X-ray source was used to collect the spectra in (a, b). The same
+single crystal and at 852.8 eV for Ni in a Ni(111) reference crystal. b XPS spectra of    β-NiAl(100) single crystal was used for the measurements in both Figs. 3 & 4. The
+the Al 2p/Ni 3p region, highlighting the Al 2p peak at 72.9 eV for metallic Al in an    raw structure ﬁles used to compute the ELF maps are provided in the “Source Data
+Al(111) single crystal and at 72.6 eV for Al in a β-NiAl(100) single crystal. c, d EFL      Files” folder.
+maps of the (110) plane for (c) β-NiAl and (d) γ‘-Ni3Al, with corresponding line
+
+
+and γ‘-Ni3Al makes this shift challenging to resolve experimentally.   respectively). The resulting line proﬁles reveal distinct superlattice
+Additionally, fully capturing the charge transfer is further complicated   contrast arising from the atomic mass difference between Ni and Al.
+by the fact that the γ‘-Ni3Al phase exists as a surface layer atop a  The brighter intensity peaks correspond to Ni atom columns, as Ni has
+NiAl(100) bulk substrate, resulting in convoluted signals that are dif-   a higher atomic number (Z = 28) than Al (Z = 13), leading to increased
+ﬁcult to deconvolute. Nevertheless, the Ni-to-Al charge transfer is   electron scattering at higher angles and higher image intensity. In the
+further corroborated by DFT-calculated electron localization function  <100> direction (Fig. 5d), the intensity proﬁle exhibits a consistent
+(ELF) maps of the (110) crystal planes of β-NiAl and γ‘-Ni3Al (Fig. 4c, d).   peak amplitude, indicating that the atom columns along this direction
+These maps reveal a shift in electron density away from the Ni atoms   have uniform composition, as expected for the ordered β-NiAl. In
+and toward the Al atoms, conﬁrming the charge transfer trends   contrast, the line proﬁles taken along the <110> direction (Fig. 5e) show
+observed in the XPS and NEXAFS analysis.                               alternating intensity variations, with adjacent atom columns exhibiting
+                                                                 lower intensities relative to their neighbors. This intensity oscillation
+In-situ high resolution transmission electron microscopy and     reﬂects the alternating Ni and Al atomic arrangement in the <110>
+ex-situ scanning transmission electron microscopy imaging of    direction when viewed along the [001] zone axis, further conﬁrming
+the bulk lattice                                                   the ordered B2 structure of β-NiAl.
+To further investigate the mechanism driving phase separation and the        Direct imaging of individual vacancies  is inherently difﬁcult;
+formation of the Ni-rich γ‘-Ni3Al phase on the surface at elevated   however, a combination of in-situ and post-cooling analyses provides
+temperatures, HRTEM and HAADF-STEM imaging of bulk regions of   compelling evidence for their presence and preferential nature. In-situ
+annealed β-NiAl samples is performed and analyzed. The primary  HRTEM imaging of the bulk reveals regions with distinct diffracto-
+phase present in the bulk is identiﬁed as B2-ordered β-NiAl, as con-   grams (Fig. 5g, h), corresponding to the areas highlighted by the blue
+ﬁrmed by the HRTEM image (Fig. 5a). The diffractogram of the HRTEM  and orange boxes in Fig. 5f. These neighboring regions exhibit differ-
+image along the [001] zone axis (Fig. 5b) further validates the β-NiAl   ences in their diffractograms, suggesting variations in local vacancy
+phase, revealing the (100)-type reﬂections. The lattice spacing of the   ordering. In addition to the fundamental reﬂections of β-NiAl, dif-
+(100) planes is measured at 2.87 Å, consistent with d(100) = 2.88 Å for   fractogram analysis of these areas reveals superlattice reﬂections
+ordered β-NiAl (PDF # 44-1188). Similarly, the (110) lattice spacing,   (highlighted by green circles in Fig. 5g, h), which can be attributed to
+determined from the diffractogram in Fig. 5b, is found to be 2.01 Å,   the ordering of atomic vacancies in β-NiAl and other solids23,24. Despite
+closely matching the expected  d(110) = 2.04 Å  for  β-NiAl,  within   the high stability of the ordered phase, the presence of thermal
+experimental uncertainty. To further support the structural identiﬁ-   vacancies in the bulk is inevitable at these temperatures. While ran-
+cation, HRTEM image simulations are performed using the B2-ordered  domly distributed vacancies are difﬁcult to detect via HRTEM and
+β-NiAl structure along the [001] zone axis. The simulated image,  HAADF, their presence becomes observable when they exhibit long-
+overlaid onto the experimental HRTEM image (yellow inset in Fig. 5a),   range ordering. In such cases, the resulting FFT patterns show distinct
+demonstrates strong agreement, with both images exhibiting alter-   superlattice  reﬂections  related  to the  periodic arrangement of
+nating atom columns of high and low image intensity, characteristic of   vacancies25, as shown in Fig. 2a and Fig. 5f–j. Our results reveal two
+the B2 structure. The persistence of this ordered phase atexperimental   adjacent regions in the bulk with differing vacancy concentrations
+temperatures of 800 °C aligns with expectations, as this temperature is    (Fig. 5f–j).
+well below the order-disorder transition temperature of NiAl, which is      To attain a better deeper insight into the nature of vacancy
+close to its melting temperature of 1639 °C22.                           ordering, structural models are developed to match the observed
+    Concurrently, the HAADF-STEM image (Fig. 5c) of the bulk region   diffractograms. The region highlighted by the blue box in Fig. 5f is
+is analyzed by examining the intensity proﬁles of atom columns along  modeled using a (2 × 2 × 2) supercell containing a single vacancy (left
+the <100>  and  <110>  crystallographic  directions  (Fig.  5d,  e,   panel, Fig.  5i). The corresponding simulated electron diffraction
+
+
+
+Nature Communications| (2026)17:641                                                                            5
+=== PDF PAGE 6 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+
+
+
+Fig. 5 | Atomic-scale structural analysis of bulk β-NiAl and vacancy ordering.    orange squares in (f), where blue circles indicate fundamental reﬂections, and green
+a In-situ HRTEM image of β-NiAl bulk during annealing at 800 °C in 0.001 Torr H2,     circles highlight superlattice reﬂections associated with vacancy ordering. i, j β-NiAl
+overlaid with a simulated HRTEM image (yellow outline) based on the B2-ordered β-   models illustrating different ordering conﬁgurations of vacancies (yellow spheres)
+NiAl structure. (b) Diffractogram (top) of the HRTEM image in (a) and the corre-     and their corresponding simulated SAED patterns along the [100] zone axis. k Ex-situ
+sponding atomic structure model of ordered β-NiAl (bottom). c Ex-situ HAADF-STEM   HAADF-STEM image of an annealed β-NiAl bulk region, showing orthogonal dark-
+image of the annealed β-NiAl bulk. d, e Intensity proﬁles of atom columns along the    contrast bands along <110> directions (yellow arrows). The inset shows the corre-
+yellow and cyan rectangles in (c), corresponding to the <100> and <110> crystal-      sponding diffractogram. l Intensity proﬁles along the purple and cyan rectangles in
+lographic directions, respectively. f HRTEM image acquired during annealing β-NiAl    (k). Yellow arrows mark Ni atom columns with reduced intensities relative to the
+at 800 °C in 0.001 Torr H2. g, h Diffractograms of the regions marked by the blue and   neighboring Ni columns, indicative of Ni vacancies.
+
+
+
+
+Nature Communications| (2026)17:641                                                                       6
+=== PDF PAGE 7 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+pattern (right panel, Fig. 5i) closely matches the experimental dif-   an associated energy barrier of 0.55 eV. An Al-terminated NiAl(100)
+fractogram (Fig. 5g), conﬁrming the proposed long-range vacancy   surface is chosen for these calculations, as indicated by its lower sur-
+ordering conﬁguration. Similarly, a second model with a (4 × 4 × 4)   face energy compared to the Ni surface termination28. This Al termi-
+supercell (left panel, Fig. 5j) is constructed to represent the vacancy   nation is further supported by our XPS measurements of Al 2p and Ni
+arrangement observed in the orange-box region of Fig. 5f. The simu-  3p spectra acquired using different photon energies, showing an
+lated electron diffraction (right panel, Fig. 5j) reproduces the periodic   increased Al-to-Ni ratio at lower photon energies (Supplementary
+weak superlattice reﬂections superimposed on the fundamental β-NiAl   Fig.  6),  consistent with  surface Al-enrichment reported  in the
+reﬂections, consistent with the experimental diffractogram (Fig. 5h).     literature29.
+    The primary β-NiAl reﬂections (marked by blue circles in Fig. 5g, h)       Furthermore, the analysis of diffusion barriers indicates that, in
+remain unchanged, while the additional weak reﬂections (green circles   the bulk, Ni and Al have comparable overall mobility, consistent with
+in Fig. 5g, h) arise from vacancy ordering. In the blue-box region in   previous computational studies of stoichiometric β-NiAl30,31. Along the
+Fig. 5f, the model suggests that vacancies are evenly distributed along   <110> direction, Ni migration into an adjacent Al vacancy exhibits a
+the <110> directions, with an inter-vacancy spacing of ~8.14 Å, which   relatively low barrier of 0.41 eV (Fig. 6c), while the reverse process,
+corresponds to twice the spacing along the (110) planes in β-NiAl. The   where an antisite Ni atom returns to a Ni vacancy, requires 0.87 eV. For
+spacing between successive parallel rows of ordered vacancies is also    Al, migration to the next-nearest Ni vacancy is unlikely, whereas an Al
+~8.14 Å due to the symmetry of the (2 × 2 × 2) supercell. In the orange   antisite atom can spontaneously relocate to a neighboring Al vacancy
+box region in Fig. 5f, the model suggests a different periodicity, where    (Fig. 6d). Along the <100> direction, energy barriers are generally
+vacancies are arranged in distinct rows. Our model (Fig. 5j) shows that   higher, with Ni diffusion requiring 2.13 eV and Al migration being
+the spacing between adjacent vacancies within each row is ~4.07 Å   improbable if adjacent sites are fully occupied. However, introducing
+along the <110> direction, while the separation between consecutive   additional vacancies facilitates consecutive jumps, enabling net <100>
+vacancy-containing rows is ~16.28 Å. This variation in vacancy con-   migration and signiﬁcantly lowering the energy barriers to 0.74 eV for
+centration suggests vacancy migration, driven by the natural tendency   Ni and 0.92 eV for Al. These results indicate that, in bulk NiAl, the
+to redistribute from high- to low-concentration regions. Such vacancy   diffusion rates of Ni and Al are broadly comparable, with differences
+ordering also indicates atomic migration within the bulk, as vacancy   largely arising from the local distribution of vacancies and antisite
+migration is inherently linked to atomic diffusion.                       defects. However, at the surface, these differences in bulk diffusion are
+   Upon cooling, the equilibrium concentration of thermal vacancies   ampliﬁed by additional mechanisms. Calculations indicate that Al
+decreases, leading to their aggregation. A wider ﬁeld-of-view HAADF   adatoms can exchange with antisite Ni atoms in the topmost lattice
+image acquired after cooling from 800 °C to room temperature   layer, promoting Ni accumulation  at the  surface. This  surface-
+(Fig. 5k) provides further evidence of vacancy-related features. The   mediated process, coupled with differences in vacancy formation
+image reveals orthogonal low-intensity bands extending along the   energies of Ni and Al, drives the preferential formation of Ni-rich γ‘-
+[110] and [110] directions (yellow arrows in Fig. 5k), consistent with   Ni3Al precipitates.
+preferential aggregation of vacancies in these regions. Notably, the
+corresponding diffractogram of the HAADF image (inset of Fig. 5k)  Discussion
+lacks the superlattice reﬂections observed at high temperature (Fig. 5g,   Intermetallic compounds such as NiAl are widely used in high-
+h). This discrepancy suggests that cooling disrupts the ordered   temperature applications due to their ordered structures and robust-
+vacancy conﬁgurations, leading to their aggregation into <110 > -   ness. However, at elevated temperatures, dynamic processes such as
+oriented bands rather than maintaining long-range ordering.          vacancy generation, atomic diffusion, and surface segregation can
+    Quantitative intensity line-proﬁle analysis of randomly selected  compromise their stability. These effects are difﬁcult to probe directly
+{110} planes (purple and cyan rectangles in Fig. 5k) is shown in Fig. 5l.  due to rapid atomic dynamics and the exponential increase in thermal
+The proﬁles reveal alternating high-intensity (Ni) and low-intensity (Al)   vacancies governed by Arrhenius behavior. While computational stu-
+columns, characteristic of B2 NiAl and consistent with Fig. 5e. How-   dies have predicted comparable bulk diffusion rates for Ni and Al in
+ever, Ni columns exhibit signiﬁcant intensity variations (yellow arrows,   stoichiometric NiAl30,31, our experimental results reveal a different
+Fig. 5l), providing direct evidence of preferential Ni vacancies. By  outcome at the surface: Ni preferentially segregate outward, driving
+contrast, Al columns display far more uniform intensities, suggesting a   the precipitation of γ‘-Ni3Al. This surface-driven process provides an
+lower concentration of Al vacancies. Collectively, these results estab-   important  experimental benchmark,  underscoring  the need  to
+lish that Ni vacancies dominate in the bulk, driving Ni segregation to   account for surface and near-surface kinetics when evaluating the
+the surface and facilitating the subsequent precipitation of γ‘-Ni3Al.     long-term stability of intermetallic alloys, where degradation often
+                                                                                      initiates.
+Density functional theory (DFT) modeling                             Unlike oxidation-driven Ni3Al formation—caused by preferential
+Our DFT calculations on an β-NiAl bulk model indicate that the vacancy   Al consumption during Al2O3 scale growth32—or bulk decomposition in
+formation energies for Ni and Al atoms are 0.98 eV and 1.20 eV,   Ni-rich alloys that require quenching and aging22,33–35, the γ‘-Ni3Al pre-
+respectively (Fig. 6a), in agreement with other studies26,27. The lower   cipitates observed here form near-stoichiometric NiAl through simple
+vacancy formation energy of Ni suggests that Ni vacancies form more   annealing  under  inert  conditions.  This  indicates  that  surface-
+readily than Al vacancies, leading to an increased presence of Ni ada-   segregation-induced phase separation is an intrinsic behavior, occur-
+toms on the surface that serves as a sink for ejected atoms from the   ring even in the absence of an oxidizing environment. Observed under
+bulk to result in a higher concentration of thermal vacancies at the   ultra-high vacuum, this phenomenon reﬂects a fundamental material
+elevated temperature.                                            response that arises from surface-bulk coupling rather than bulk dif-
+     Additionally, our calculations reveal that once Ni atoms diffuse   fusion disparities or external chemical driving forces. The morphology
+outward and occupy sites in the top-most layer, an exchange process   of the precipitates is highly facet-dependent. On NiAl(100), γ‘-Ni3Al
+with Al adatoms on the surface can occur, further increasing the    initially forms a coherent wetting layer that may transform into 3D
+concentration of Ni adatoms at the surface. As shown in Fig. 6b, the Ni   islands after a critical thickness due to accumulated strain, whereas on
+antisite atom in the topmost layer (highlighted in yellow) moves out-   NiAl(110), the larger lattice mismatch promotes 3D island formation
+ward, allowing an Al adatom (highlighted in dark blue) to replace it,   from the outset. These observations highlight how interfacial strain
+forming a perfect Al terminated NiAl(100) surface. This exchange  and crystallographic orientation govern nucleation pathways and
+mechanism results in an overall system energy change of −0.31 eV, with   growth modes in intermetallic systems.
+
+
+
+Nature Communications| (2026)17:641                                                                                   7
+=== PDF PAGE 8 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+
+
+
+Fig. 6 | Energetics of vacancies and atomic diffusion in β-NiAl. a Calculated      atoms along the <110> directions (top panel) and <100> directions (bottom
+vacancy formation energies in bulk β-NiAl: 0.98 eV for a Ni vacancy and 1.20 eV for   panel) and their associated energy barriers. The raw structure ﬁles used in the NEB
+an Al vacancy. b Surface exchange mechanism on Al-terminated NiAl(100), in which   models to compute the diffusion energy barriers are provided in the “Source Data
+an Al adatom displaces a Ni antisite (yellow) with an energy barrier of 0.55 eV and a    Files” folder.
+net system energy decrease of 0.31 eV. c, d Diffusion pathways for Ni and Al
+
+
+
+    Our multimodal analysis provides mechanistic insight into this       This segregation-induced phase separation has important impli-
+process. EDS measurements conﬁrm localized Ni enrichment after   cations for material performance. Ni-rich surface precipitates reduce
+annealing, while in-situ HRTEM and NEXAFS identify the Ni-rich pre-   the availability of Al required to form a uniform, protective Al₂O₃ scale,
+cipitates as γ‘-Ni3Al. Complementary TEM imaging of bulk regions   thereby promoting non-uniform oxide growth and localized oxidation
+reveals that Ni out-diffusion from the NiAl matrix generates a sub-   that compromise the overall oxidation resistance. Beyond oxidation,
+stantial population of thermal vacancies, which self-organize into   the altered surface composition modiﬁes catalytic activity by changing
+ordered arrangement at high temperature and subsequently aggre-   the  balance  of  Ni-Al  active  sites and  shifting  the  electronic
+gate upon cooling. Similarly, FFT patterns of the γ‘-Ni3Al phase seg-    structure36,37, with potential consequences for adsorption, reaction
+regated at the NiAl surface also exhibit superlattice reﬂections,   pathways, and selectivity. Moreover, the surface separation introduces
+indicative of vacancy ordering. Together, these results establish a   microstructural heterogeneity and local  strain, which may drive
+direct link between bulk vacancy dynamics and surface segregation,   microcracking during thermal cycling and degrade mechanical stabi-
+revealing how thermally activated processes in the bulk can propagate    lity. Over time, continuous Ni depletion also perturbs bulk composi-
+to the surface and drive phase separation.                              tion and phase stability, raising concerns for applications requiring
+
+
+
+
+Nature Communications| (2026)17:641                                                                        8
+=== PDF PAGE 9 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+precise structural integrity. Addressing these challenges requires the   Corp. for this study. The surface of the crystal was cleaned by repeated
+development of targeted strategies, such as alloying, doping, surface   cycles of sputtering (1.0 × 10−5Torr Ar at 1 keV for 10 min) followed by
+coatings, ortailored processing routes—designed to mitigate excessive  vacuum annealing at 750 °C for ~10 min. This process was repeated
+surface or interface segregation while preserving surface and bulk   until sharp c(√2×3√2) R45° reconstruction spots, characteristic of a
+functionality.                                                        clean NiAl(100) surface, were observed using low energy electron
+     Overall,  this work  experimentally  corroborates  that  high-   diffraction (LEED), conﬁrming an atomically clean NiAl(100) surface.
+temperature environments drive surface phase separation in NiAl   Spatially resolved near-edge X-ray absorption ﬁne structure (NEXAFS)
+alloys. At elevated temperature, thermal vacancies in the bulk facilitate   measurements were performed in partial electron yield mode, by
+atomic migration, leading to the ejection of Ni and Al atoms to the   collecting the secondary electrons with a 2 eV energy analyzer slit
+surface. Due to the lower vacancy formation energy of Ni compared to   centered at the maximum of the secondary electron emission peak.
+Al, a greater number of Ni atoms migrate to the surface, where they   Pixel-wise absorption spectra were obtained by recording a series of
+agglomerate into Ni-rich γ‘ -Ni3Al precipitates. The morphology of  XPEEM images at each energy across the absorption edge range in
+these precipitates is dictated by interfacial misﬁt strain—low-strain   sequential 0.2 eV increments, with the incident X-ray beam at ~17o
+coherent interfaces favor planar wetting layers, while higher strain   grazing incidence relative to the sample surface.
+promotes  island-like morphology to minimize  interfacial energy.
+These ﬁndings reveal how elevated temperatures alter the surface   X-ray photoelectron spectroscopy (XPS)
+composition and crystal phase, while simultaneously depleting Ni in   pure Ni-foils (99.999% purity) and the Al(111) top-hat shaped single
+the bulk. This dual effect—surface enrichment coupled with bulk   crystal were measured using with an XPS spectrometer (SPECS Phoi-
+depletion—highlights the delicate balance between bulk thermal   bos 150 MCD analyzer) with a delay-line detector. Al-Kα X-ray radiation
+vacancy dynamics and surface restructuring in the NiAl system, with    is used for the XPS measurements after repeated cycles of sputter
+critical implications for material stability and performance in high-   (1.0 × 10−5Torr Ar at 1 keV for 10 min) and annealing at 400 °C and
+temperature applications.                                      550 °C for the Al(111) and Ni-foil samples respectively. CasaXPS V2.3.26
+                                                          was used for peak ﬁtting of the XPS spectra39. XPS peak ﬁts of the Al 2p
+Methods                                                and Ni 3p region were obtained using a Shirley background with 3
+In-situ transmission electron microscopy (TEM) analysis           arbitrary peaks (30% Lorentzian and 70% gaussian product) being used
+NiAl thin ﬁlms ( ~ 50 nm thickness) were prepared using electron-beam   to deﬁne the Ni 3p region, with the remaining counts being attributed
+co-evaporation of Ni and Al onto a NaCl (100) substrate, with the alloy   to the presence of Al (Al 2p region). An asymmetric line shape was used
+composition controlled by adjusting the evaporation rates of the   to deﬁne the area associated with Al0. The Al3+ region was deﬁned using
+individual Ni and Al sources. After deposition, the NiAl ﬁlm was   a single GL(30) peak. A pass energy of 50 eV was used to acquire the
+transferred from the NaCl substrate by ﬂoating it in deionized water,   spectra presented in Supplementary Fig. 5.
+washed, and mounted on a through-hole MEMS chip, and was then
+loaded into the TEM column. In-situ TEM experiments were performed   Density functional theory (DFT)
+using a DENS solution heating holder inside an image aberration-  DFT calculations were carried out using the Vienna Ab initioSimulation
+corrected environmental TEM (FEI Titan 80-300) equipped with a   Package (VASP). Energy barriers for atomic diffusion processes were
+differential pumping system. The thin ﬁlm was annealed at 900 °C and   determined using the nudge elastic band (NEB) method. To analyze
+in 0.001 Torr H2 to maintain a reducing atmosphere and prevent oxi-   electron transfer dynamics, the electron localization function (ELF)40
+dation. This annealing process led to ﬁlm tearing, exposing atomically  was evaluated using the converged electron density from  self-
+clean crystal facets—resembling the mechanical cleavage of crystals in   consistent ﬁeld (SCF) calculations. ELF visualization was conducted
+vacuum during surface science experiments. These pristine facets   with the VESTA software41. For β-NiAl, ELF maps were generated by
+enabled direct observation of surface phase separation dynamics via   cleaving the (110) crystallographic plane, where Ni and Al coexist. The
+edge-on TEM imaging.                                          ELF intensity proﬁles along the Ni-Al co-existence direction were
+                                                                    extracted and plotted to quantify electronic interactions. Ni L-edge
+Ex-situ scanning TEM (STEM) analysis                       NEXAFS spectra were calculated using the excited-electron core-hole
+NiAl foils ( ~ 50 nm thickness) were extracted from bulk NiAl single  method implemented in VASP 6.2.142–44. Input ﬁles were generated with
+crystal using focused-ion beam (FIB) lift-out and mounted onto a Mo   the Lightshow package45,46, and many-body ﬁnal state effects were
+Omniprobe lift-out grid. The FIB-prepared NiAl foils were further   incorporated through a Kohn-Sham self-consistent solution of the
+polished using a NanoMill TEM specimen preparation system with Ar+   excited state with the Perdew–Burke–Ernzerhof exchange-correlation
+ions to minimize surface damage and contamination. The NiAl foils   functional47. A full core hole was introduced, where the core electron is
+were then annealed at 800 °C in 0.001 Torr H2 for 1 h in a vacuum   placed at the bottom of the conduction band. GW-type projector
+chamber. Elemental mapping and electron diffraction of the annealed  augmented wave (PAW) pseudopotentials were employed to enhance
+NiAl samples were conducted using a FEI Talos F200X microscope,   the accuracy of high-energy scattering state descriptions48. Supercells
+operated at 200 kV and equipped with a four-quadrant EDS detector.   were constructed with sizes larger than 9 Å along each lattice vector to
+High-angle annular dark-ﬁeld scanning transmission electron micro-   minimize spurious inter-cell interactions. The k-mesh resolution was
+scopy (HAADF-STEM) imaging, at both low and high magniﬁcations,   set with an effective crystal size of 43 Bohr to ensure convergence46.
+was performed with a probe-corrected Hitachi 2700 STEM.            Simulated spectra were post-processed with an energy-dependent
+    Gatan Digital Micrograph Software (V3.50.3584.0) was used for   Voigt broadening49 (with a 0.53 eV core-hole life time broadening and a
+processing HRTEM and HAADF-STEM images.                         0.3 eV Gaussian broadening50) and aligned using the ΔSCF procedure46
+                                                                         for  site- and material-speciﬁc edge positions. This approach has
+X-ray photoemission electron microscopy (XPEEM)              demonstrated strong agreement with XPS experiments in both mole-
+Spatially resolved Ni L3-edge near edge X-ray absorption ﬁne structure   cules and solids51. Finally, a global energy shift was applied to align the
+(NEXAFS) spectroscopy data were collected using XPEEM at the Elec-   calculated main peak of Ni foil with experiment at 852.6 eV.
+tron Spectro-Microscopy (ESM) beamline (21-ID) at the National Syn-
+chrotron Light Source II (NSLS-II), Brookhaven National Laboratory  Data availability
+(BNL)38. A top-hat-shaped NiAl(100) single crystal (99.9999% purity,   All data generated or analyzed during this study are included in this
+1 mm thick, 8 mm in diameter) was obtained from Princeton Scientiﬁc   published article (and its supplementary information ﬁles). The raw
+
+
+
+Nature Communications| (2026)17:641                                                                       9
+=== PDF PAGE 10 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+
+structure data ﬁles used to generate the simulated NEXAFS spectra,   22.  Lašek, J., Bartuˇska, P. & Paidar, V. Nickel Enriched Diffusion Layers
+ELF maps, and the NEB models are available in the “Source Data Files”      on a NiAl Alloy. Mater. Manuf. Process. 12, 517–527 (1997).
+folder.                                                                  23. Zhu, W. et al. Atomic Structural Evolution during the Reduction
+                                                                            of α-Fe 2 O 3 Nanowires. J. Phys. Chem. C. 120, 14854–14862
+References                                                                (2016).
+1.   Paul, A. R., Mukherjee, M. & Singh, D. A Critical Review on the        24. He, Y. et al. Vacancy ordering during selective oxidation of β-NiAl.
+     Properties of Intermetallic Compounds and Their Application in the        Materialia 12, 100783 (2020).
+    Modern Manufacturing. Cryst. Res. Technol. 57, 1–19 (2022).          25. Zhu, W. et al. Atomic structural evolution during the reduction of α-
+2.   Zhao, X. et al. Synthesis and characterization of a strong ferro-         Fe2O3 nanowires. J. Phys. Chem. C. 120, 14854–14862 (2016).
+    magnetic and high hardness intermetallic compound Fe 2 B. Phys.   26. Meyer, B. & Fähnle, M. Atomic defects in the ordered compound B2-
+    Chem. Chem. Phys. 22, 27425–27432 (2020).                               NiAl: A combination of ab initio electron theory and statistical
+3.   Liu, Y. H., Chong, X. Y., Jiang, Y. H., Zhou, R. & Feng, J. Mechanical       mechanics. Phys. Rev. B 59, 6072–6082 (1999).
+     properties and electronic structures of Fe-Al intermetallic. Phys. B    27.  Fähnle, M., Meyer, B., Bester, G., Majer, J. & Börnsen, N. Atomic
+    Condens. Matter 506, 1–11 (2017).                                      defects and electronic structure of B2 FeAl, CoAl and NiAl. Defect
+4.  Cahn, R. W., Siemers, P. A., Geiger, J. E. & Bardhan, P. The order-           Diffus. Forum 199, 279–286 (2001).
+     disorder transformation in Ni3Al and Ni3AlFe alloys-I. Determination   28. Wang, L., Lai, K. C., Huang, L., Evans, J. W. & Han, Y. Low-index
+     of the transition temperatures and their relation to ductility. Acta         surface energies, cleavage energies, and surface relaxations for
+    Met. 35, 2737–2751 (1987).                                                   crystalline NiAl from ﬁrst-principles calculations. Surf. Sci. 695,
+5.   Bremer, F. J., Beyss, M. & Wenzl, H. The order–disorder transition of       121532 (2020).
+    the intermetallic phase Ni3Al. Phys. Status Solidi 110, 77–82 (1988).   29.  Mullins, D. R.& Overbury, S. H. The structure and composition of the
+6.   Pelleg, J. Diffusion in the Iron Group L12 and B2 Intermetallic Com-         NiAl(110) and NiAl(100) surfaces. Surf. Sci. 199, 141–153 (1988).
+    pounds. (Springer International Publishing, https://doi.org/10.       30. Marino, K. A. & Carter, E. A. First-principles characterization of Ni
+    1007/978-3-319-39522-7 (2017).                                            diffusion kinetics in β-NiAl. Phys. Rev. B - Condens. Matter Mater.
+7.  Noebe, R. D., Bowman, R. R. & Nathal, M. V. Physical and mechanical        Phys. 78, 1–11 (2008).
+     properties of the B2 compound NiAl. Int. Mater. Rev. 38, 193–232     31.  Marino, K. A. & Carter, E. A. The effect of platinum on Al diffusion
+     (1993).                                                                       kinetics in β-NiAl: Implications for thermal barrier coating lifetime.
+8.   Fleischer, R. L. Review High-strength, high-temperature inter-            Acta Mater. 58, 2726–2737 (2010).
+     metallic compounds. J. Mater. Sci. 22, 2281–2288 (1987).             32. Zhang, Z., Li, L. & Yang, J. C. -Al2O3 thin ﬁlm formation via oxidation
+9.  Bochenek, K. & Basista, M. Advances in processing of NiAl inter-          of β-NiAl(1 1 0). Acta Mater. 59, 5905–5916 (2011).
+     metallic alloys and composites for high temperature aerospace      33. Lee, J.-H., Lee, S.-Y., Lee, Z.-H. & Kim, H.-M. Ni3Al Precipitation
+     applications. Prog. Aerosp. Sci. 79, 136–146 (2015).                      Behavior in the Two-Phase(NiAl+Ni3Al) Alloy. High. Temp. Mater.
+10.  Li, J. et al. Coupling between bulk thermal defects and surface           Process. 18, 125–130 (1999).
+    segregation dynamics. Phys. Rev. B 104, 085408 (2021).            34. Sakata, T., Yasuda, H. Y. & Umakoshi, Y. Effect of coherency on
+11.  McCarty, K. F., Nobel, J. A. & Bartelt, N. C. Surface dynamics             interphase boundary sliding in NiAl(β) bicrystals with ﬁlm-like
+    dominated by bulk thermal defects: The case of NiAl(110). Phys. Rev.         Ni3Al(γ′) precipitate along boundary. Scr. Mater. 48, 749–753
+   B - Condens. Matter Mater. Phys. 71, 085421 (2005).                      (2003).
+12.  Darolia, R. et al. Overview of NiAl Alloys for High Temperature       35.  Hin, C. Kinetics of heterogeneous grain boundary precipitation of
+     Structural Applications. in Ordered Intermetallics — Physical             Ni3Al in nickel alloy. J. Phys. D. Appl. Phys. 42, 225309 (2009).
+    Metallurgy and Mechanical Behaviour 679–698 (Springer Nether-     36.  Liu, H. et al. Catalysts Derived from Al-Ni Intermetallic Compounds
+     lands, https://doi.org/10.1007/978-94-011-2534-5_43 (1992).               for Efﬁcient Selective Semihydrogenation of Phenylacetylene. Ind.
+13.  Ansara, I., Dupin, N., Lukas, H. L. & Sundman, B. Thermodynamic         Eng. Chem. Res. 63, 3608–3620 (2024).
+    assessment of the Al-Ni system. J. Alloy. Compd. 247, 20–30 (1997).   37.  Suelves, I., Lázaro, M. J., Moliner, R., Echegoyen, Y. & Palacios, J. M.
+14.  Zhao, M., Yoshimi, K., Maruyama, K. & Yubuta, K. Thermal vacancy        Characterization of NiAl and NiCuAl catalysts prepared by different
+    behavior analysis through thermal expansion, lattice parameter and      methods for hydrogen production by thermo catalytic decom-
+     elastic modulus measurements of B2-type FeAl. Acta Mater. 64,           position of methane. Catal. Today 116, 271–280 (2006).
+    382–390 (2014).                                                  38. Rajapitamahuni, A. et al. The Electron Spectro-Microscopy (ESM)
+15.  Hazzledine, P. M. & Sun, Y. Q. The interaction and concentration of       Beamline at NSLS-II. Synchrotron Radiat. N. 37, 30–37 (2024).
+    vacancies in NiAl. Intermetallics 12, 899–902 (2004).                39.  Fairley, N. et al. Systematic and collaborative approach to problem
+16.  Mitra, S., Rahman, M. H., Motalab, M., Rakib, T. & Bose, P. Investi-         solving using X-ray photoelectron spectroscopy. Appl. Surf. Sci.
+     gation on the Mechanical Properties of Functionally Graded Nickel        Adv. 5, 100112 (2021).
+    and Aluminium Alloy by Molecular Dynamics Study, (2020).         40.  Silvi, B. & Savin, A. Classiﬁcation of chemical bonds based on
+17.  Mohan Rao, P. V., Satyanarayana Murthy, K., Suryanarayana, S. V. &        topological analysis of electron localization functions. Nature 371,
+    Nagender Naidu, S. V. High temperature thermal expansion char-       683–686 (1994).
+     acteristics of Ni3Al alloys. J. Alloy. Compd. 190, 33–35 (1993).        41. Momma, K. & Izumi, F. Journal of Applied Crystallography −2011 -
+18.  Qiu, D. Revisit the role of steps/disconnections on misﬁt cancella-     Momma - VESTA 3 for three-dimensional visualization of crystal
+     tion at semi-coherent interface—bridging the o-line model and the       volumetric and.pdf. J. Appl. Crystallogr. 44, 1272–1276 (2011).
+     topological model. Crystals 9, 525 (2019).                           42.  Karsai, F., Humer, M., Flage-Larsen, E., Blaha, P. & Kresse, G. Effects
+19.  Biesinger, M. C. et al. Resolving surface chemical states in XPS           of electron-phonon coupling on absorption spectrum: K edge of
+     analysis of ﬁrst row transition metals, oxides and hydroxides: Cr,        hexagonal boron nitride. Phys. Rev. B 98, 1–10 (2018).
+    Mn, Fe, Co and. Ni. Appl. Surf. Sci. 257, 2717–2730 (2011).           43. Kresse, G. & Furthmüller, J. Efﬁcient iterative schemes for ab initio
+20. Qin, F. et al. The effect of Pt on Ni3Al surface oxidation at low-            total-energy calculations using a plane-wave basis set. Phys. Rev. B
+     pressures. Surf. Sci. 601, 146–154 (2007).                              54, 11169–11186 (1996).
+21.  Qin, F. et al. X-ray photoelectron spectroscopy studies of the early-   44. Kresse, G. & Furthmüller, J. Efﬁciency of ab-initio total energy cal-
+    stage oxidation behavior of (Pt, Ni)3Al(1 1 1) surfaces in air. Surf. Sci.        culations for metals and semiconductors using a plane-wave basis
+    602, 205–215 (2008).                                                           set. Comput. Mater. Sci. 6, 15–50 (1996).
+
+
+
+Nature Communications| (2026)17:641                                                                               10
+=== PDF PAGE 11 ===
+Article                                                                                    https://doi.org/10.1038/s41467-025-67397-x
+
+45. Carbone, M. R. et al. Lightshow: a Python package for generating   Additional information
+    computational X-ray absorption spectroscopy input ﬁles. J. Open   Supplementary information The online version contains
+    Source Softw. 8, 5182 (2023).                                   supplementary material available at
+46. Meng, F. et al. Multicode benchmark on simulated Ti K-edge x-ray   https://doi.org/10.1038/s41467-025-67397-x.
+    absorption spectra of Ti-O compounds. Phys. Rev. Mater. 8,
+    013801 (2024).                                            Correspondence and requests for materials should be addressed to
+47. Perdew, J. P., Burke, K. & Ernzerhof, M. Generalized Gradient         Jerzy T. Sadowski or Guangwen Zhou.
+    Approximation Made Simple. Phys. Rev. Lett. 77, 3865–3868 (1996).
+48. Guo, H. et al. Simulated sulfur K-edge X-ray absorption spectro-     Peer review information Nature Communications thanks the anon-
+    scopy database of lithium thiophosphate solid electrolytes. Sci.     ymous, reviewer(s) for their contribution to the peer review of this work.
+    Data 10, 349 (2023).                                 A peer review ﬁle is available.
+49. Hébert, C. Practical aspects of running the WIEN2k code for elec-
+     tron spectroscopy. Micron 38, 12–28 (2007).                       Reprints and permissions information is available at
+50. Campbell, J. L. & Papp, T. Widths of the Atomic K–N7 Levels. At. Data   http://www.nature.com/reprints
+     Nucl. Data Tables 77, 1–56 (2001).
+51.  Walter, M., Moseler, M. & Pastewka, L. Offset-corrected Δ-Kohn-     Publisher’s note Springer Nature remains neutral with regard to jur-
+   Sham scheme for semiempirical prediction of absolute x-ray pho-    isdictional claims in published maps and institutional afﬁliations.
+     toelectron energies in molecules and solids. Phys. Rev. B 94,
+    041112 (2016).                                       Open Access This article is licensed under a Creative Commons
+                                                                     Attribution-NonCommercial-NoDerivatives 4.0 International License,
+Acknowledgements                                       which permits any non-commercial use, sharing, distribution and
+This work was supported by the U.S. Department of Energy (DOE), Ofﬁce   reproduction in any medium or format, as long as you give appropriate
+of Basic Energy Sciences, Division of Materials Sciences and Engineering   credit to the original author(s) and the source, provide a link to the
+under Award No. DE-SC0001135. This research used the resources of the   Creative Commons licence, and indicate if you modiﬁed the licensed
+Center for Functional Nanomaterials and National Synchrotron Light      material. You do not have permission under this licence toshare adapted
+Source II, which are the U.S. DOE Ofﬁce of Science Facilities, at Broo-    material derived from this article or parts of it. The images or other third
+khaven National Laboratory under Contract No. DE-SC0012704.          party material in this article are included in the article’s Creative
+                                                  Commons licence, unless indicated otherwise in a credit line to the
+Author contributions                                             material. If material is not included in the article’s Creative Commons
+G.Z. conceived the experiments and supervised the project. S.P., X.C.,    licence and your intended use is not permitted by statutory regulation or
+Y.W., Y.Z., C.L., X.S., A.A., and J.S.performed the experiments. D.W., Z.Z.,   exceeds the permitted use, you will need to obtain permission directly
+and D.L. conducted DFT calculations. D.L., X.T., A.A., J.A.B., and J.S.     from the copyright holder. To view a copy of this licence, visit http://
+provided experimental instruments and guidance. S.P., J.S., and G.Z.     creativecommons.org/licenses/by-nc-nd/4.0/.
+analyzed the data and wrote the paper. All the authors commented on
+the manuscript.                               © The Author(s) 2025
+
+Competing interests
+The authors declare no competing interests.
+
+
+
+
+
+Nature Communications| (2026)17:641                                                                                                            11

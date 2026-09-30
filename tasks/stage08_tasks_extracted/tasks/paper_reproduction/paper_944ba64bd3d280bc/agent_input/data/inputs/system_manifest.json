@@ -1,0 +1,11 @@
+{
+  "system": "E/Z-1,2-bis(tetrazol-5-yl)ethylene (H2bte)",
+  "charge": 0,
+  "multiplicity": 1,
+  "formula": "C4H4N8",
+  "structures": {
+    "E-H2bte": {"file": "e_h2bte.xyz", "stereochemistry": "E about the central C=C bond", "connectivity_smiles": "[H]/C(=C(\\H)\\c1nnn[nH]1)\\c1nnn[nH]1"},
+    "Z-H2bte": {"file": "z_h2bte.xyz", "stereochemistry": "Z about the central C=C bond", "connectivity_smiles": "[H]/C(=C(\\H)/c1nnn[nH]1)/c1nnn[nH]1"}
+  },
+  "xyz_convention": "atom order is central alkene C,C; tetrazole ipso C,N,N,N,[nH] for the first ring; then the same five-atom ring for the second; attached H atoms are listed last. Coordinates are starting geometries only and must be optimized."
+}

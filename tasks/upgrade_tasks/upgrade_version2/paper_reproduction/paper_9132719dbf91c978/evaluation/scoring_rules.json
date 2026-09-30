@@ -1,0 +1,166 @@
+{
+  "paper_id": "paper_9132719dbf91c978",
+  "scoring_policy": "dual_axis_100.open_research.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Preserve fullXantPhos/Pd/2H, actual charge/spin and any solvent/reagent inventory. ValidateP coordination and hydrogen mapping from submitted structures. Arbitrary solvent omission/addition must not create an unbalanced energy comparison. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.objects",
+          "$.records",
+          "$.validity_checks"
+        ],
+        "comparison": "Preserve fullXantPhos/Pd/2H, actual charge/spin and any solvent/reagent inventory. ValidateP coordination and hydrogen mapping from submitted structures. Arbitrary solvent omission/addition must not create an unbalanced energy comparison. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_evolution",
+      "reference_id": "kp_evolution",
+      "type": "condition",
+      "expected": "Auditable new evidence must address formation/evolution and the extent of catalyst recovery claimed. An old0.9 barrier copied fromSI or anH–H distance alone is insufficient. Evaluate an adequate alternative route on its evidence rather than an obligatory3-endpoint sequence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results",
+          "$.records",
+          "$.scientific_response"
+        ],
+        "comparison": "Auditable new evidence must address formation/evolution and the extent of catalyst recovery claimed. An old0.9 barrier copied fromSI or anH–H distance alone is insufficient. Evaluate an adequate alternative route on its evidence rather than an obligatory3-endpoint sequence. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_mechanism",
+      "reference_id": "kp_mechanism",
+      "type": "condition",
+      "expected": "Require saddle/connectivity evidence only for claims that need it; establish whether claimed bound versus releasedH2 species are genuine within the model. A solvent-binding ΔG cannot by itself show kinetic availability. Well-evidenced collapse to a common basin is not failure. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.validity_checks",
+          "$.decision_log"
+        ],
+        "comparison": "Require saddle/connectivity evidence only for claims that need it; establish whether claimed bound versus releasedH2 species are genuine within the model. A solvent-binding ΔG cannot by itself show kinetic availability. Well-evidenced collapse to a common basin is not failure. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_reference",
+      "reference_id": "kp_reference",
+      "type": "condition",
+      "expected": "Declare and consistently applyH2 gas/solute andDMAc standard states, temperature, entropy and pressure assumptions. Relevant sensitivity must support the claimed sign or scale. No universal numerical tolerance or fixed one-solvent model. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.methods",
+          "$.results",
+          "$.uncertainty"
+        ],
+        "comparison": "Declare and consistently applyH2 gas/solute andDMAc standard states, temperature, entropy and pressure assumptions. Relevant sensitivity must support the claimed sign or scale. No universal numerical tolerance or fixed one-solvent model. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "kp_conclusion",
+      "type": "condition",
+      "expected": "Accept supported, refuted or evidence-backed unresolved local evolution/regeneration. Thetwo-chamber observation does not establish a uniquePd mechanism, and local steps cannot prove the full photochemical turnover or productyield. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.claims",
+          "$.scientific_response",
+          "$.limitations"
+        ],
+        "comparison": "Accept supported, refuted or evidence-backed unresolved local evolution/regeneration. Thetwo-chamber observation does not establish a uniquePd mechanism, and local steps cannot prove the full photochemical turnover or productyield. Score only the part supported by valid artifacts: full credit for a sufficient valid argument within scope; partial credit for a correct but incomplete evidential chain; no credit for assertions, wrong objects/references or missing decisive evidence. Do not penalize absence of a particular author/V1 operation when an adequate alternative exists."
+      }
+    },
+    {
+      "rule_id": "rule_final",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.scientific_response",
+          "$.claims",
+          "$.results",
+          "$.limitations"
+        ],
+        "comparison": "Answer the bounded question with claims proportional to the evidence. Support, correction, refutation and demonstrated unresolved conclusions are equally eligible. Partial/failure status preserves real work but does not confer completion credit. No required author winner or named control list."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 20,
+      "description": "Full ligand and hydrogen inventory Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "evolution",
+      "max_score": 30,
+      "description": "Quantitative local hydrogen-evolution evidence Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_evolution"
+      ]
+    },
+    {
+      "id": "mechanism",
+      "max_score": 20,
+      "description": "Validity of pathway and recovery claims Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_mechanism"
+      ]
+    },
+    {
+      "id": "reference",
+      "max_score": 15,
+      "description": "Pressure and solution reference consistency Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_reference"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 15,
+      "description": "Gas evidence and local inference separated Assess claim-relevant evidence, not a prescribed mechanism or matrix.",
+      "rule_ids": [
+        "rule_conclusion",
+        "rule_final"
+      ]
+    }
+  ],
+  "reference_stage": "content_upgraded_reference_and_judge_calibration_pending",
+  "scoring_notes": [
+    "No frozen new reference number or tolerance. Numerical agreement alone is not the criterion.",
+    "Scientific validity and raw-artifact linkage must be inspected; schema only checks format.",
+    "Missing author/V1 pathway is not a failure when the chosen evidence is adequate.",
+    "The source paper and legacy snapshots are conditional reference evidence, not a required answer.",
+    "Partial-credit boundaries are rule-specific; no-evidence uncertainty does not establish non-identifiability."
+  ]
+}

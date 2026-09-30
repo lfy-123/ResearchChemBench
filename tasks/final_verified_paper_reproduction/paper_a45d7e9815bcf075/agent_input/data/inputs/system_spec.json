@@ -1,0 +1,40 @@
+{
+  "system": "human insulin, PDB 3I40",
+  "structure_source": {
+    "database": "RCSB Protein Data Bank",
+    "record_id": "3I40",
+    "download_required": false,
+    "local_file": "3I40.pdb",
+    "role": "Original experimental PDB structure; no author-prepared quantum fragments or MI matrices are provided."
+  },
+  "chains": {
+    "A": "GIVEQCCTSICSLYQLENYCN",
+    "B": "FVNQHLCGSHLVEALYLVCGERGFFYTPKA"
+  },
+  "residue_count": 51,
+  "chain_identity_required": true,
+  "state_policy": "Use the deposited protein coordinates and document protonation, total charge and multiplicity selected for every quantum calculation. Remove solvent and ions before QM. Do not infer an unreported state silently.",
+  "public_geometry_transformation": "Preserve deposited A/B chain, residue and atom identities; independently prepare protonation, missing hydrogen atoms and fragment caps and record any minimization. The deposited PDB is an experimental input, not the paper's prepared quantum geometry.",
+  "fragment_boundary": "Reconstruct a protein-wide map with the 5.0 Angstrom primary design, and test the named Glu17(A)-Arg22(B) contact with 4.0, 5.0 and 6.0 Angstrom designs. Enumerate all fragment contributors to each reported atom pair; additional radii/designs are allowed. The 4/6 Angstrom requirement is contact sensitivity, not mandatory global maps for all three radii.",
+  "observables": {
+    "orbital_mi": "I(i,j)=s1(i)+s1(j)-s2(i,j), in nat using natural logarithms; use a consistent orthonormal orbital basis and an explicit orbital-to-atom assignment. Off-diagonal MI is nonnegative apart from numerical roundoff; do not silently take absolute values.",
+    "ami": "Sum orbital MI for each atom pair, exclude all cap atoms, then average each atom pair over every computed fragment containing that pair before aggregating residue pairs. Report any missing required contributor.",
+    "fmi": "Sum stitched atom-pair means over each residue pair, with a coverage mask/fraction. Uncovered pairs are uncomputed, not quantum zero. Use symmetric AMI/FMI matrices and zero self-diagonal for this comparison."
+  },
+  "qualitative_experimental_boundary": "Use the known insulin connectivity and disulfide connectivity in the deposited structure as system definition, not as a target numerical result.",
+  "named_contacts": {
+    "disulfides": [
+      "Cys6A-Cys11A",
+      "Cys7A-Cys7B",
+      "Cys20A-Cys19B"
+    ],
+    "radius_probe": "Glu17(A)-Arg22(B)"
+  },
+  "primary_fragment_construction": {
+    "centers": "One sphere at each of the 51 residue C-alpha atoms, with chain/residue identities retained.",
+    "membership": "Use one consistently prepared, protonated full-protein geometry for all radii. Include an entire residue if at least one of its atoms, including hydrogens, lies at Euclidean distance <= radius from the center C-alpha. Membership is determined before fragment capping/minimization; record the prepared geometry and all memberships.",
+    "caps": "Saturate severed peptide valences with NH2/COOH caps and document cap placement, protonation, charges and any other boundary bonds. Preserve the retained protein identities and remove cap contributions before MI stitching. Do not count cap atoms when determining spherical membership.",
+    "geometry": "Independently prepare the supplied experimental PDB. Document any whole-protein minimization and use restrained fragment preparation to resolve cap clashes without changing retained residue identities. No author-prepared quantum coordinates are supplied.",
+    "comparison": "The 5.0 Angstrom primary map uses the 51 centers. For the named contact at 4.0/6.0 Angstrom, enumerate the same centers and compute all contributing fragments. Report actual coverage at each radius, including genuine absence of joint coverage. Additional designs are separate comparisons."
+  }
+}

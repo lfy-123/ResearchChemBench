@@ -60,6 +60,7 @@ function connectStream(runId) {
     const payload = JSON.parse(event.data);
     if (payload.stream === 'agent') appendStream(agentStream, payload.line);
     if (payload.stream === 'tool') appendStream(toolStream, payload.line);
+    if (payload.stream === 'progress') renderProgress(payload.progress);
     if (payload.stream === 'system') {
       statusLabel.textContent = payload.status;
       startButton.disabled = false;
@@ -104,7 +105,7 @@ async function scoreRun() {
   statusLabel.textContent = 'scoring';
   const score = await jsonFetch(`/api/runs/${currentRun}/score`, {method: 'POST'});
   fileContent.textContent = JSON.stringify(score, null, 2);
-  statusLabel.textContent = `score: ${score.score}`;
+  statusLabel.textContent = `evaluation: ${score.evaluation_status || 'unknown'} | score: ${score.score ?? 'unavailable'}`;
   await loadFiles(currentRun);
 }
 
@@ -158,3 +159,26 @@ startButton.addEventListener('click', () => startRun().catch(error => statusLabe
 stopButton.addEventListener('click', () => stopRun().catch(error => statusLabel.textContent = error.message));
 scoreButton.addEventListener('click', () => scoreRun().catch(error => statusLabel.textContent = error.message));
 loadConfig().catch(error => statusLabel.textContent = error.message);
+
+function renderProgress(progress) {
+  let panel = document.querySelector('#run-progress');
+  if (!panel) {
+    panel = document.createElement('pre');
+    panel.id = 'run-progress';
+    statusLabel.after(panel);
+  }
+  const value = x => x == null ? 'unknown' : x.toLocaleString();
+  const usage = progress.usage || {};
+  panel.textContent = [
+    `Phase: ${progress.phase} | Jobs: ${value(progress.jobs?.total)}`,
+    `Input: ${value(usage.input_tokens)} | Cached input (included): ${value(usage.cached_input_tokens)}`,
+    `Output: ${value(usage.output_tokens)} | Reasoning output (included): ${value(usage.reasoning_output_tokens)}`,
+    `Model requests: ${value(progress.model_request_count)} | Completed turns: ${value(progress.agent_completed_turns)}`,
+    `Tool calls: ${value(progress.tool_call_count)} | Tool rounds: ${value(progress.tool_round_count)}`,
+    `Job states: ${JSON.stringify(progress.jobs?.by_state || {})}`,
+    `Evaluation: ${progress.scoring?.evaluation_status || 'not_started'} | Submission: ${progress.scoring?.submission_status || 'unknown'}`,
+    `Latest scoring attempt: ${progress.scoring?.latest_attempt || 'none'} | Published score: ${progress.scoring?.published_score || 'none'}`,
+    `Judge requests: ${value(progress.judge_usage?.request_count)} | Input: ${value(progress.judge_usage?.prompt_tokens)} | Output: ${value(progress.judge_usage?.completion_tokens)} | Cached: ${value(progress.judge_usage?.cached_input_tokens)}`,
+    `Archive: ${progress.archive?.state || 'pending'} | Updated: ${progress.observed_at}`,
+  ].join('\n');
+}

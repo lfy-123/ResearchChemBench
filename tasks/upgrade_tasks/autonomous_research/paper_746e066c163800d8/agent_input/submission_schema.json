@@ -1,0 +1,1427 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/report.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "report_file": "report/report.md",
+  "result_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "paper_id",
+      "status",
+      "methods",
+      "resources",
+      "calculation_records",
+      "evidence_files",
+      "conclusion"
+    ],
+    "properties": {
+      "paper_id": {
+        "const": "paper_746e066c163800d8"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure",
+          "blocked"
+        ]
+      },
+      "methods": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "primary",
+          "software_versions",
+          "solvent_and_state_convention",
+          "energy_zero_and_units",
+          "state_matching",
+          "conformer_coverage",
+          "uncertainty_protocol"
+        ],
+        "properties": {
+          "primary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "software_versions": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "solvent_and_state_convention": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "energy_zero_and_units": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "state_matching": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "conformer_coverage": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "uncertainty_protocol": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          }
+        }
+      },
+      "resources": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "engine_calls",
+          "wall_seconds",
+          "cpu_core_hours",
+          "max_memory_MB",
+          "accounting_basis",
+          "attempt_log"
+        ],
+        "properties": {
+          "engine_calls": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "wall_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cpu_core_hours": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "max_memory_MB": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "accounting_basis": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "attempt_log": {
+            "type": "string",
+            "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+          }
+        }
+      },
+      "calculation_records": {
+        "type": "array",
+        "minItems": 0,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "calculation_id",
+            "system",
+            "record_type",
+            "kind",
+            "method",
+            "environment",
+            "input_file",
+            "output_file",
+            "convergence"
+          ],
+          "properties": {
+            "calculation_id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "system": {
+              "type": "string",
+              "enum": [
+                "1",
+                "3",
+                "5",
+                "7"
+              ]
+            },
+            "record_type": {
+              "type": "string",
+              "enum": [
+                "electronic_structure",
+                "analysis"
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "failed"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "environment": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "input_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "output_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "convergence": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "geometry_role": {
+              "type": "string",
+              "enum": [
+                "relaxed_minimum",
+                "constrained_control",
+                "single_point",
+                "excited_state"
+              ]
+            },
+            "geometry_file": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            },
+            "electronic_energy_hartree": {
+              "type": "number"
+            },
+            "imaginary_frequencies_cm1": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "number"
+              }
+            },
+            "state_identity": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "failure_reason": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "analysis_type": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "source_evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "1"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "3"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "5"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "system": {
+                    "const": "7"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "charge": {
+                    "const": 0
+                  },
+                  "multiplicity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "charge",
+                  "multiplicity",
+                  "basis",
+                  "geometry_role"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "geometry_file",
+                  "electronic_energy_hartree",
+                  "state_identity"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "record_type": {
+                    "const": "analysis"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "analysis_type",
+                  "source_evidence_files"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "failed"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "failure_reason"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "evidence_files": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "verdict",
+          "claim",
+          "scope_limit",
+          "evidence_files"
+        ],
+        "properties": {
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "refuted",
+              "indistinguishable",
+              "not_established"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "scope_limit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      },
+      "results": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "static_series",
+          "twist_control",
+          "response_calibration"
+        ],
+        "properties": {
+          "static_series": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "1",
+              "3",
+              "5",
+              "7"
+            ],
+            "properties": {
+              "1": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "beta_au",
+                  "beta_HRS_au",
+                  "beta_HRS_esu",
+                  "orientation_ZZZ_squared_au",
+                  "orientation_XZZ_squared_au",
+                  "depolarization_ratio",
+                  "tensor_order",
+                  "frequency_au",
+                  "rotation_invariance_error",
+                  "tensor_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "beta_au": {
+                    "type": "array",
+                    "minItems": 27,
+                    "maxItems": 27,
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "beta_HRS_au": {
+                    "type": "number"
+                  },
+                  "beta_HRS_esu": {
+                    "type": "number"
+                  },
+                  "orientation_ZZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "orientation_XZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "depolarization_ratio": {
+                    "type": "number"
+                  },
+                  "tensor_order": {
+                    "const": "xxx,xxy,xxz,xyx,xyy,xyz,xzx,xzy,xzz,yxx,yxy,yxz,yyx,yyy,yyz,yzx,yzy,yzz,zxx,zxy,zxz,zyx,zyy,zyz,zzx,zzy,zzz"
+                  },
+                  "frequency_au": {
+                    "const": 0
+                  },
+                  "rotation_invariance_error": {
+                    "type": "number"
+                  },
+                  "tensor_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "3": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "beta_au",
+                  "beta_HRS_au",
+                  "beta_HRS_esu",
+                  "orientation_ZZZ_squared_au",
+                  "orientation_XZZ_squared_au",
+                  "depolarization_ratio",
+                  "tensor_order",
+                  "frequency_au",
+                  "rotation_invariance_error",
+                  "tensor_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "beta_au": {
+                    "type": "array",
+                    "minItems": 27,
+                    "maxItems": 27,
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "beta_HRS_au": {
+                    "type": "number"
+                  },
+                  "beta_HRS_esu": {
+                    "type": "number"
+                  },
+                  "orientation_ZZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "orientation_XZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "depolarization_ratio": {
+                    "type": "number"
+                  },
+                  "tensor_order": {
+                    "const": "xxx,xxy,xxz,xyx,xyy,xyz,xzx,xzy,xzz,yxx,yxy,yxz,yyx,yyy,yyz,yzx,yzy,yzz,zxx,zxy,zxz,zyx,zyy,zyz,zzx,zzy,zzz"
+                  },
+                  "frequency_au": {
+                    "const": 0
+                  },
+                  "rotation_invariance_error": {
+                    "type": "number"
+                  },
+                  "tensor_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "5": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "beta_au",
+                  "beta_HRS_au",
+                  "beta_HRS_esu",
+                  "orientation_ZZZ_squared_au",
+                  "orientation_XZZ_squared_au",
+                  "depolarization_ratio",
+                  "tensor_order",
+                  "frequency_au",
+                  "rotation_invariance_error",
+                  "tensor_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "beta_au": {
+                    "type": "array",
+                    "minItems": 27,
+                    "maxItems": 27,
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "beta_HRS_au": {
+                    "type": "number"
+                  },
+                  "beta_HRS_esu": {
+                    "type": "number"
+                  },
+                  "orientation_ZZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "orientation_XZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "depolarization_ratio": {
+                    "type": "number"
+                  },
+                  "tensor_order": {
+                    "const": "xxx,xxy,xxz,xyx,xyy,xyz,xzx,xzy,xzz,yxx,yxy,yxz,yyx,yyy,yyz,yzx,yzy,yzz,zxx,zxy,zxz,zyx,zyy,zyz,zzx,zzy,zzz"
+                  },
+                  "frequency_au": {
+                    "const": 0
+                  },
+                  "rotation_invariance_error": {
+                    "type": "number"
+                  },
+                  "tensor_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              },
+              "7": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "beta_au",
+                  "beta_HRS_au",
+                  "beta_HRS_esu",
+                  "orientation_ZZZ_squared_au",
+                  "orientation_XZZ_squared_au",
+                  "depolarization_ratio",
+                  "tensor_order",
+                  "frequency_au",
+                  "rotation_invariance_error",
+                  "tensor_file",
+                  "calculation_ids",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "beta_au": {
+                    "type": "array",
+                    "minItems": 27,
+                    "maxItems": 27,
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "beta_HRS_au": {
+                    "type": "number"
+                  },
+                  "beta_HRS_esu": {
+                    "type": "number"
+                  },
+                  "orientation_ZZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "orientation_XZZ_squared_au": {
+                    "type": "number"
+                  },
+                  "depolarization_ratio": {
+                    "type": "number"
+                  },
+                  "tensor_order": {
+                    "const": "xxx,xxy,xxz,xyx,xyy,xyz,xzx,xzy,xzz,yxx,yxy,yxz,yyx,yyy,yyz,yzx,yzy,yzz,zxx,zxy,zxz,zyx,zyy,zyz,zzx,zzy,zzz"
+                  },
+                  "frequency_au": {
+                    "const": 0
+                  },
+                  "rotation_invariance_error": {
+                    "type": "number"
+                  },
+                  "tensor_file": {
+                    "type": "string",
+                    "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                  },
+                  "calculation_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Nonempty scientific explanation"
+                    }
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "twist_control": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "5",
+              "7"
+            ],
+            "properties": {
+              "5": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_twist"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "beta_HRS_au",
+                      "five_torsions_deg",
+                      "torsion_maps_file",
+                      "geometry_file",
+                      "excitation_eV",
+                      "transition_CT_metric",
+                      "state_definition",
+                      "response_output",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "beta_HRS_au": {
+                        "type": "number"
+                      },
+                      "five_torsions_deg": {
+                        "type": "array",
+                        "minItems": 5,
+                        "maxItems": 5,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "torsion_maps_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "excitation_eV": {
+                        "type": "number"
+                      },
+                      "transition_CT_metric": {
+                        "type": "number"
+                      },
+                      "state_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "response_output": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_twist": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "beta_HRS_au",
+                      "five_torsions_deg",
+                      "torsion_maps_file",
+                      "geometry_file",
+                      "excitation_eV",
+                      "transition_CT_metric",
+                      "state_definition",
+                      "response_output",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "beta_HRS_au": {
+                        "type": "number"
+                      },
+                      "five_torsions_deg": {
+                        "type": "array",
+                        "minItems": 5,
+                        "maxItems": 5,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "torsion_maps_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "excitation_eV": {
+                        "type": "number"
+                      },
+                      "transition_CT_metric": {
+                        "type": "number"
+                      },
+                      "state_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "response_output": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "7": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relaxed",
+                  "matched_twist"
+                ],
+                "properties": {
+                  "relaxed": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "beta_HRS_au",
+                      "five_torsions_deg",
+                      "torsion_maps_file",
+                      "geometry_file",
+                      "excitation_eV",
+                      "transition_CT_metric",
+                      "state_definition",
+                      "response_output",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "beta_HRS_au": {
+                        "type": "number"
+                      },
+                      "five_torsions_deg": {
+                        "type": "array",
+                        "minItems": 5,
+                        "maxItems": 5,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "torsion_maps_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "excitation_eV": {
+                        "type": "number"
+                      },
+                      "transition_CT_metric": {
+                        "type": "number"
+                      },
+                      "state_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "response_output": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  },
+                  "matched_twist": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "beta_HRS_au",
+                      "five_torsions_deg",
+                      "torsion_maps_file",
+                      "geometry_file",
+                      "excitation_eV",
+                      "transition_CT_metric",
+                      "state_definition",
+                      "response_output",
+                      "calculation_ids",
+                      "evidence_files"
+                    ],
+                    "properties": {
+                      "beta_HRS_au": {
+                        "type": "number"
+                      },
+                      "five_torsions_deg": {
+                        "type": "array",
+                        "minItems": 5,
+                        "maxItems": 5,
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      "torsion_maps_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "geometry_file": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "excitation_eV": {
+                        "type": "number"
+                      },
+                      "transition_CT_metric": {
+                        "type": "number"
+                      },
+                      "state_definition": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Nonempty scientific explanation"
+                      },
+                      "response_output": {
+                        "type": "string",
+                        "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                      },
+                      "calculation_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Nonempty scientific explanation"
+                        }
+                      },
+                      "evidence_files": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "response_calibration": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "field_steps_au",
+              "beta_HRS_by_step",
+              "analytic_or_extrapolated_beta_HRS_au",
+              "relative_step_variation",
+              "rotation_quadrature_counts",
+              "rotation_quadrature_beta_HRS",
+              "rigid_rotation_error",
+              "convention_file",
+              "extension_vs_twist_assessment",
+              "calculation_ids",
+              "evidence_files"
+            ],
+            "properties": {
+              "field_steps_au": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "number"
+                }
+              },
+              "beta_HRS_by_step": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "number"
+                }
+              },
+              "analytic_or_extrapolated_beta_HRS_au": {
+                "type": "number"
+              },
+              "relative_step_variation": {
+                "type": "number"
+              },
+              "rotation_quadrature_counts": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "rotation_quadrature_beta_HRS": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "number"
+                }
+              },
+              "rigid_rotation_error": {
+                "type": "number"
+              },
+              "convention_file": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              },
+              "extension_vs_twist_assessment": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              },
+              "calculation_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Nonempty scientific explanation"
+                }
+              },
+              "evidence_files": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+                }
+              },
+              "calibration_method": {
+                "type": "string",
+                "enum": [
+                  "analytic_vs_finite_field",
+                  "finite_field_three_step"
+                ],
+                "description": "Declare the public-task calibration alternative. Unspecified legacy submissions retain the three-step requirement."
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "calibration_method": {
+                      "const": "analytic_vs_finite_field"
+                    }
+                  },
+                  "required": [
+                    "calibration_method"
+                  ]
+                },
+                "then": {},
+                "else": {
+                  "properties": {
+                    "field_steps_au": {
+                      "minItems": 3
+                    },
+                    "beta_HRS_by_step": {
+                      "minItems": 3
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "prediction",
+            "falsifier",
+            "discriminating_panel"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "prediction": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "falsifier": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "discriminating_panel": {
+              "type": "string",
+              "enum": [
+                "static_series",
+                "twist_control",
+                "response_calibration"
+              ]
+            }
+          }
+        }
+      },
+      "sensitivity": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "setting",
+            "baseline_value",
+            "perturbed_value",
+            "unit",
+            "conclusion_changed",
+            "uncertainty_basis",
+            "calculation_ids",
+            "evidence_files"
+          ],
+          "properties": {
+            "setting": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "baseline_value": {
+              "type": "number"
+            },
+            "perturbed_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "conclusion_changed": {
+              "type": "boolean"
+            },
+            "uncertainty_basis": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            },
+            "calculation_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Nonempty scientific explanation"
+              }
+            },
+            "evidence_files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+              }
+            }
+          }
+        }
+      },
+      "failure_report": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempted_scope",
+          "observed_failure",
+          "missing_endpoints",
+          "recovery_condition",
+          "evidence_files"
+        ],
+        "properties": {
+          "attempted_scope": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "observed_failure": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "missing_endpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Nonempty scientific explanation"
+            }
+          },
+          "recovery_condition": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Nonempty scientific explanation"
+          },
+          "evidence_files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)(?:\\./)*(?:outputs|analysis|structures)/[A-Za-z0-9_.\\-/]+$"
+            }
+          }
+        }
+      }
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "complete"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "results",
+            "hypotheses",
+            "sensitivity"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "supported",
+                    "refuted",
+                    "indistinguishable"
+                  ]
+                }
+              }
+            },
+            "calculation_records": {
+              "contains": {
+                "properties": {
+                  "kind": {
+                    "const": "completed"
+                  },
+                  "record_type": {
+                    "const": "electronic_structure"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "record_type"
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "bounded_failure",
+                "blocked"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "failure_report"
+          ],
+          "properties": {
+            "conclusion": {
+              "properties": {
+                "verdict": {
+                  "const": "not_established"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "calculation_records": {
+              "maxItems": 0
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "resources": {
+              "properties": {
+                "engine_calls": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "authoring_owner": "batch2_20260927",
+  "paper_id": "paper_9ec8c4761c4f171b",
+  "task_type": "paper_reproduction",
+  "date": "2026-09-27",
+  "source": "tasks/final_verified_paper_reproduction/paper_9ec8c4761c4f171b",
+  "source_manifest_sha256": "3b4c07da952db863030b3017201196fcbd5b35e82e0bbec85156b3c6905f6b85",
+  "source_package_content_sha256": "41206145b8bb9ff8f38788bba89ec2f41c324b06e7c910f82d40592acfcc2402",
+  "source_payload_snapshots": {
+    "agent_input/data/inputs/compound_6a.xyz": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/compound_6a.xyz.snapshot",
+      "sha256": "36eb20674a8f11d2cb0d8271f69f14c2ede1aef355a4c113a18ad885b5986e34"
+    },
+    "agent_input/data/inputs/problem.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/data/inputs/problem.json.snapshot",
+      "sha256": "858a353ed9e3ae1aded9ca3a1bd5749ea3c00fd5b1c3bb8ecdf6c299c25b8179"
+    },
+    "agent_input/submission_schema.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/submission_schema.json.snapshot",
+      "sha256": "bf35ed43283b093ac9f7d5d5f3784e9c57ae0a36766d26941835cd5e4cdb2dce"
+    },
+    "agent_input/task.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/agent_input/task.md.snapshot",
+      "sha256": "1f39f696bcf8805e6b0c05065dcb8c6eeacc2dd2158f578b04baebdff883d81a"
+    },
+    "evaluation/critical_failures.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/critical_failures.json.snapshot",
+      "sha256": "e699ae6d2f2b4ab561b53d239bddbff80b67f437530d918e4b0703e4ada8aae5"
+    },
+    "evaluation/evidence_map.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/evidence_map.json.snapshot",
+      "sha256": "8f19b5af2d079fee65b61ab5e11956b41c8ba47bccf155be491062517ec851f3"
+    },
+    "evaluation/reference_conclusions.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_conclusions.json.snapshot",
+      "sha256": "61056cbaf428a8eca49f6c1772cd521f0df29fe528b39b6025667b7d0cc9a53d"
+    },
+    "evaluation/reference_key_points.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/reference_key_points.json.snapshot",
+      "sha256": "e8b51f2359d583ee279ea7e1778b6387c522ca60310646227c83dcf481c5e635"
+    },
+    "evaluation/scoring_rules.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/scoring_rules.json.snapshot",
+      "sha256": "a24dbca6d805b52cd4bcb5cc5709fb1f57ca83b336b744769090b0d9e8933703"
+    },
+    "evaluation/verified_computation_reference.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/evaluation/verified_computation_reference.md.snapshot",
+      "sha256": "329d5d594e0c7592a33a3f6fc98538d72fa0cdc95a7ae198401819490d683180"
+    },
+    "package_manifest.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/package_manifest.json.snapshot",
+      "sha256": "3b4c07da952db863030b3017201196fcbd5b35e82e0bbec85156b3c6905f6b85"
+    },
+    "paper_route.md": {
+      "snapshot": "evaluation/legacy_final_snapshot/paper_route.md.snapshot",
+      "sha256": "474622e0ba998a68256dcc07488ce1f3babbe64fcd0c02c334c09da9d9a0cdc2"
+    },
+    "task_info.json": {
+      "snapshot": "evaluation/legacy_final_snapshot/task_info.json.snapshot",
+      "sha256": "774487e114b5344d6cafe4f5fae6d894c1a138ae18fbb36efea913c30f2a6020"
+    }
+  },
+  "source_docs": [
+    {
+      "path": "papers/paper_9ec8c4761c4f171b/documents/supplementary_001.pdf",
+      "sha256": "29b1c6d10ffb42a053b3303aad720cad5fd49a336015dd6b2fd76a1a98ba742a",
+      "pages": 191
+    },
+    {
+      "path": "papers/paper_9ec8c4761c4f171b/documents/main.pdf",
+      "sha256": "49d8e9997164eb5f8400e8730c64d2fc6b5929e6e5c9ba431ba766c4486c51be",
+      "pages": 18
+    },
+    {
+      "path": "docs/evalution/update/paper_9ec8c4761c4f171b.md",
+      "sha256": "bf076ae0357e3e8bdeb3d6af3ea4c34c3952a69a0c456acb3956b82d086503a9"
+    }
+  ],
+  "historical_evidence_review": {
+    "path": "tasks/upgrade_tasks/coordination_20260927/batch2/source_reviews/history_reports.json",
+    "sha256": "bb730f3ccda4d5fbe698c1b2a96674611ead4e7e7bafadcc4e271a2d78c54c5e",
+    "scope": "Legacy report read when present; never reused as expanded completion."
+  },
+  "old_class": "A",
+  "new_class": "B",
+  "status": "implemented_pending_expanded_reference",
+  "new_scientific_calculations_performed": false,
+  "short_checks_performed": [
+    "RDKit graph parsing/formula/charge/radical checks where mapped SMILES provided",
+    "Primary PDF text/selected figures inspected",
+    "Package/schema/runtime/export regression reported separately"
+  ],
+  "source_corrections": [
+    "Correct paired N–Ph series replaces erroneous NH/Ph confounded comparison.",
+    "Absorption media CHCl3/DMF and NMR media CDCl3/DMSO-d6 are distinguished."
+  ],
+  "new_reference_gaps": "All correct matched-series references inDMF, alternative7a spectral/thermochemical panels and media-specific shielding calibration remain uncalculated.",
+  "blockers": [],
+  "optional_not_required": "Explicit solvent is optional only when justified by continuum residuals; cellular and antimicrobial extrapolation is outside scope."
+}

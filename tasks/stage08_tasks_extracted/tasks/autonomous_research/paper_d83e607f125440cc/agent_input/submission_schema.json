@@ -1,0 +1,16 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "properties": {
+      "minimum_validation": {"type":"object","properties":{"validation_statement":{"type":"string"},"imaginary_frequencies":{"type":"integer"}}},
+      "spin_density": {"type":"object","properties":{"sulfur_hirshfeld":{"type":"number"},"unit":{"type":"string"},"evidence":{"type":"string"}}},
+      "bde_2g": {"type":"object","properties":{"value":{"type":"number"},"unit":{"type":"string"},"fragment_definition":{"type":"string"}}},
+      "bde_2a_comparator": {"type":"object","properties":{"value":{"type":"number"},"unit":{"type":"string"},"fragment_definition":{"type":"string"},"structure_source":{"type":"string"}}}
+    },
+    "oneOf": [
+      {"type":"object","required":["status","investigation","system","minimum_validation","spin_density","bde_2g","bde_2a_comparator","comparison","conclusion","limitations"],"properties":{"status":{"const":"success"},"investigation":{"type":"object","required":["plan","models_or_conformers","coverage","stopping_rule"]},"system":{"type":"object","required":["formula","charge","multiplicity","sulfur_atom","benzylic_bond"]},"minimum_validation":{"type":"object","required":["imaginary_frequencies","validation_statement"]},"spin_density":{"type":"object","required":["sulfur_hirshfeld","unit","evidence"]},"bde_2g":{"type":"object","required":["value","unit","fragment_definition"]},"bde_2a_comparator":{"type":"object","required":["value","unit","fragment_definition","structure_source"]},"comparison":{"type":"object","required":["direction","difference","unit"]},"conclusion":{"type":"string"},"limitations":{"type":"string"}}},
+      {"type":"object","required":["status","failure_stage","diagnostics","partial_results","investigation_scope","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"failure_stage":{"type":"string"},"diagnostics":{"type":"string"},"partial_results":{"type":"object"},"investigation_scope":{"type":"string"},"conclusion":{"type":"string"},"limitations":{"type":"string"}}}
+    ]
+  }
+}

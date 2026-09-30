@@ -1,0 +1,13 @@
+{
+  "managed_commands": [
+    "g16",
+    "formchk",
+    "orca",
+    "Multiwfn_noGUI"
+  ],
+  "input_contract": "Use the native interface appropriate to the selected code, author complete inputs and expose every required dependency. g16 accepts stdin_file; ORCA accepts an input-deck argument; Multiwfn needs the wavefunction and an explicit menu-command stream.",
+  "availability_evidence": "chemistry_toolbox/config/native_software_guides.yaml declares these interfaces; historical full-size molecular logs support conditional feasibility. Interface presence does not certify a method, state, geometry or conclusion.",
+  "budget": "Use the actual run budget and installed interfaces; no extra HPC allocation, paid service or software license is granted. Choose and justify the scientific work within available resources.",
+  "reference_status": "Selected historical calculations exist, but full V2 scientific calibration, uncertainty coverage and real semantic-judge calibration remain pending.",
+  "access_boundary": "Public identity files and authorized run outputs only. AR access to paper/SI, private evaluators/snapshots, authoring/verification files and PR workspaces must be isolated by the operator."
+}

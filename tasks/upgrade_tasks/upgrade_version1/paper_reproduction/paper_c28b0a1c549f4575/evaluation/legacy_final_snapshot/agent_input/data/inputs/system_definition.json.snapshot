@@ -1,0 +1,17 @@
+{
+  "units": "angstrom",
+  "hydrogen_policy": "Hydrogens are implicit and must be added to satisfy ordinary valence without changing any listed heavy-atom bond or formal charge.",
+  "molecules": {
+    "TEA_cation": {"identity":"tetraethylammonium (TEA+)","charge":1,"multiplicity":1,"atoms":{"N1":"N","C1":"C","C2":"C","C3":"C","C4":"C","C5":"C","C6":"C","C7":"C","C8":"C"},"bonds":[["N1","C1",1],["C1","C2",1],["N1","C3",1],["C3","C4",1],["N1","C5",1],["C5","C6",1],["N1","C7",1],["C7","C8",1]]},
+    "DED2_cation": {"identity":"1,4-diethyl-1,4-diazabicyclo[2.2.2]octane dication (DEDABCO2+, public short label DED2+)","charge":2,"multiplicity":1,"atoms":{"N1":"N","N2":"N","C1":"C","C2":"C","C3":"C","C4":"C","C5":"C","C6":"C","C7":"C","C8":"C","C9":"C","C10":"C"},"bonds":[["N1","C1",1],["C1","C2",1],["C2","N2",1],["N1","C3",1],["C3","C4",1],["C4","N2",1],["N1","C5",1],["C5","C6",1],["C6","N2",1],["N1","C7",1],["C7","C8",1],["N2","C9",1],["C9","C10",1]]},
+    "BF4_anion": {"identity":"tetrafluoroborate (BF4-)","charge":-1,"multiplicity":1,"atoms":{"B1":"B","F1":"F","F2":"F","F3":"F","F4":"F"},"bonds":[["B1","F1",1],["B1","F2",1],["B1","F3",1],["B1","F4",1]]},
+    "PC_solvent": {"identity":"propylene carbonate (4-methyl-1,3-dioxolan-2-one)","charge":0,"multiplicity":1,"stereochemistry":"C3 is unspecified/racemic; do not claim an enantiopure public system.","atoms":{"C1":"C","C2":"C","C3":"C","C4":"C","O1":"O","O2":"O","O3":"O"},"bonds":[["C1","O1",2],["C1","O2",1],["O2","C2",1],["C2","C3",1],["C3","O3",1],["O3","C1",1],["C3","C4",1]]}
+  },
+  "pairs": [
+    {"id":"DED2_PC","ion":"DED2_cation","solvent":"PC_solvent","complex_charge":2,"complex_multiplicity":1},
+    {"id":"TEA_PC","ion":"TEA_cation","solvent":"PC_solvent","complex_charge":1,"complex_multiplicity":1},
+    {"id":"BF4_PC","ion":"BF4_anion","solvent":"PC_solvent","complex_charge":-1,"complex_multiplicity":1}
+  ],
+  "energy_definition": "E_bind = E_complex - E_ion - E_PC; report kcal/mol and state whether more negative or more positive denotes stronger binding.",
+  "structure_policy": "Generate and document at least two distinct starting orientations for each scored pair; optimize each and retain all converged minima used in the comparison. Do not infer an author geometry from a figure."
+}

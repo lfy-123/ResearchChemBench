@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_84efbea3ab8e6e20",
+  "task_type": "autonomous_research",
+  "title": "Autonomous excited-state investigation of carbazole Bpin positional isomers",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must choose and justify computational models, geometry/state candidates and hypothesis discrimination for three isomers.",
+    "Search coverage, validation and stopping must be defended while preserving per-candidate identity and failure context."
+  ],
+  "paper": {
+    "title": "Breaking the lifetime-efficiency trade-off in blue organic room-temperature phosphorescence through site-directed boronate engineering",
+    "doi": "10.1016/j.dyepig.2025.113534",
+    "journal": "Dyes and Pigments",
+    "publication_date": "2026-05-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit names, positional identities, formulae, neutral singlet state and PVA boundary for CZ1B/CZ2B/CZ4B. CCDC identifiers are provenance only; no CIF or database retrieval is required or scored."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Search plan, per-candidate validation and observables, hypothesis discrimination, computed cross-isomer comparison (experimental lifetime comparison is evaluator-private) and limitations."
+    }
+  ]
+}

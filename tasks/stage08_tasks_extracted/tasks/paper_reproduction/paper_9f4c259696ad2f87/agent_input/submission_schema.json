@@ -1,0 +1,135 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "input_validation",
+      "protocol",
+      "conclusion",
+      "validation_evidence"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "input_validation": {
+        "type": "object",
+        "required": [
+          "atom_count",
+          "formula",
+          "charge",
+          "multiplicity",
+          "geometry_validated"
+        ],
+        "properties": {
+          "atom_count": {
+            "type": "integer"
+          },
+          "formula": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "geometry_validated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "protocol": {
+        "type": "object",
+        "required": [
+          "method",
+          "basis",
+          "solvation",
+          "geometry_strategy",
+          "excited_state_method"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          },
+          "solvation": {
+            "type": "string"
+          },
+          "geometry_strategy": {
+            "type": "string"
+          },
+          "excited_state_method": {
+            "type": "string"
+          }
+        }
+      },
+      "results": {
+        "type": "object",
+        "properties": {
+          "s1_energy_eV": {
+            "type": "number"
+          },
+          "dominant_transition": {
+            "type": "string"
+          },
+          "dominant_contribution_percent": {
+            "type": "number"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "validation_evidence": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "failure_reason": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "results": {
+            "required": [
+              "s1_energy_eV",
+              "dominant_transition",
+              "dominant_contribution_percent"
+            ]
+          }
+        },
+        "required": [
+          "results"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "failure_reason"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_80441aced6051d86/documents/main.pdf",
+          "sha256": "b374267591176e59788c82cdd29c55adb2342d866624e6f30ad6f6cbfebed5ba",
+          "pages": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "total_pages": 9
+        },
+        {
+          "path": "tasks/upgrade_tasks/coordination_20260927/batch5/source_review/paper_80441aced6051d86.publisher_si.docx",
+          "sha256": "ea6d654dd5c29fc7a7e246e7508e7114fcaaf4a99f1297997f09a4d82a5b790a",
+          "sections": "Sections B–D: NMR recognition Figures S6–S9, optical Table S1 and DFT source structure blocks."
+        }
+      ],
+      "scope": "Source material establishes problem, identities and bounded reference claims. See private source_scope_audit."
+    },
+    {
+      "evidence_id": "historical_evidence",
+      "source": {
+        "freeze_handoff": {
+          "validation_group_not_authoring_batch": 5,
+          "handoff_path": "docs/upgrade_tasks_v2_review_20260928/group_5/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+          "handoff_sha256": "b48a083f8b5cd4e6db80cf8adc372cf2b27b2e96143b1d7ca26108952729dc4b",
+          "recorded_at_utc": "2026-09-28T15:05:46.703865+00:00",
+          "scientific_disposition": "needs_work",
+          "completed_evidence_summary": "旧自由G1及G1二聚端点完成图、电荷、原生优化及186/378正频率审查，最低10.8393/11.9969cm⁻¹；二聚微小力接受且最大位移略超阈值，保留限制。完整CB7-G1(+2,190原子)作者初始构型的PCM优化运行；CB8及删除控制尚缺。",
+          "unfinished_scientific_or_input_work": [
+            "CB7原生优化审查、CB7/CB8各独立结合初始构型",
+            "自由/结合态矩阵及相同坐标的主体、伙伴删除",
+            "对应态密度/光学强度与构型敏感性"
+          ],
+          "not_a_content_dispatch_gate": true,
+          "job_status_refreshed_this_turn": false
+        },
+        "v1_reference_plan": "tasks/upgrade_tasks/upgrade_version1/autonomous_research/paper_80441aced6051d86/evaluation/reference_validation_plan.md",
+        "applicability": "自由客体历史证据和完整主体系部分在途结果可复用；完整 CB8/构型参考不齐仍单列 reference_pending。",
+        "new_scientific_calculations_performed": false,
+        "precise_artifact_inventory": "evaluation/task_provenance/evidence_reuse_inventory.json",
+        "inventory_boundary": "File existence/hash establishes provenance only. Historical job status is a dated recorded observation, not a live platform check. V1 matrices are historical designs, not mandatory V2 evaluation routes."
+      },
+      "scope": "Read-only historical work with explicit applicability limits; not blanket V2 acceptance."
+    }
+  ],
+  "judge_calibration_status": "pending",
+  "numerical_tolerance_policy": "No new universal tolerance is asserted. Judge quantitative significance against the submission error evidence and the specific reference conditions."
+}

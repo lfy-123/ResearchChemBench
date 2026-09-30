@@ -1,0 +1,44 @@
+{
+  "paper_id": "paper_8fefc96b015c4577",
+  "scientific_class": "C",
+  "development_status": "implemented_pending_expanded_reference",
+  "definition": "Use the short C21H24F2NO4S radical and long C22H26F2NO4S homologue, both charge0/doublet. The sole long-chain edit inserts CH2 between short-map13 (N-benzyl carbon) and aromatic ipso14, retaining the radical at map10 and every other atom. For each chain independently compare DMSO and1,2-DCE at298.15K/1atm and two aryl closures: radical10 to either ortho carbon of the N-alkyl-tethered aryl or arenesulfonyl aryl ring. System-specific separated-reactant and uncyclized-radical zeros must be distinguished. Source experimental protocols also change additives; this solvent cross is a controlled model and does not isolate all experimental causes.",
+  "panels": {
+    "crossed_paths": {
+      "requirement": "Full2×2×2 local competition; eight combinations are not eight engine calls.",
+      "required_cells": [
+        "short_DMSO_alkyl_aryl",
+        "short_DMSO_sulfonyl_aryl",
+        "short_DCE_alkyl_aryl",
+        "short_DCE_sulfonyl_aryl",
+        "long_DMSO_alkyl_aryl",
+        "long_DMSO_sulfonyl_aryl",
+        "long_DCE_alkyl_aryl",
+        "long_DCE_sulfonyl_aryl"
+      ]
+    },
+    "factorial_contrasts": {
+      "requirement": "Double differences of within-system channel G barriers, never unlike absolute total energies.",
+      "required_cells": [
+        "short_solvent_effect",
+        "long_solvent_effect",
+        "DMSO_chain_effect",
+        "DCE_chain_effect"
+      ]
+    },
+    "strain_and_robustness": {
+      "requirement": "Actual matched-progress deformation and long-chain sensitivity, with no forced sign.",
+      "required_cells": [
+        "matched_coordinate_file",
+        "mapped_torsions_and_contacts_file",
+        "strain_definition",
+        "long_chain_uncertainty_kcal_mol",
+        "critical_comparison",
+        "evidence_files"
+      ]
+    }
+  },
+  "optional_not_required": "全自由基网络、全部添加剂和精准产物比例不加入。",
+  "input_blockers": [],
+  "numeric_reference_status": "Not yet calibrated for expanded matrix; no new reference calculation performed."
+}

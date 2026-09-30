@@ -1,0 +1,39 @@
+{
+  "paper_id": "paper_94e7481ded3b6a75",
+  "evidence": [
+    {
+      "evidence_id": "source_scope",
+      "source": [
+        {
+          "path": "papers/paper_94e7481ded3b6a75/documents/main.pdf",
+          "sha256": "3f8646e8d8d8a74dffa3f64435459cdf2446757ce7c5c6507bd92d0b79fbe09c",
+          "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "main_article",
+          "review_locator": "正文 PDF p5 Fig3 比较 PBNA 与 B-取代衍生物的电子结构；SI p16 FigS14/S15 是 THF/H2O AIE 观测，p19 是方法和 PBNA 坐标。",
+          "actual_read_pages_and_sections": "Main pp5–7 §3.2/3.3 and Table1/Figs3–4; SI pp16–19 solution/aggregation distinction and computational material."
+        },
+        {
+          "path": "papers/paper_94e7481ded3b6a75/documents/supplementary_001.pdf",
+          "sha256": "d806f9e3af0e9faa3be4ac6098097c936f2418e1f3151fb4c4206620806d90c6",
+          "locator": "Main pp4-6 Fig3/Fig4; SI pp16-19 aggregation/optical context and p19 TablesS11-S12 ground-state methods/coordinates.",
+          "role": "source_original_scope_not_expanded_reference",
+          "material_type": "authentic_supplementary_material",
+          "review_locator": "正文 PDF p5 Fig3 比较 PBNA 与 B-取代衍生物的电子结构；SI p16 FigS14/S15 是 THF/H2O AIE 观测，p19 是方法和 PBNA 坐标。",
+          "actual_read_pages_and_sections": "Main pp5–7 §3.2/3.3 and Table1/Figs3–4; SI pp16–19 solution/aggregation distinction and computational material."
+        }
+      ],
+      "description": "The source includes PBNA as the B-phenyl molecular reference within a functionalized BN-anthracene study. This task focuses on PBNA molecular solution optical response, not the substituent series or aggregation-induced behavior. Source facts/author interpretation are distinguished in the source_scope_audit."
+    },
+    {
+      "evidence_id": "reused_evidence",
+      "source": "evaluation/task_provenance/existing_evidence_reuse.json",
+      "description": "保留 group_1 有限模型参考，结论仅其分子/态范围；semantic judge 明确未校准。 Historical validation is not V2 acceptance or mandatory route."
+    },
+    {
+      "evidence_id": "v2_design",
+      "source": "evaluation/task_provenance/v2_design_audit.md",
+      "description": "What molecular account of PBNA optical response is supported by its supplied dilute-solution absorption and emission observations? Determine what can be established about the relevant molecular electronic states and the limitations of that account. Define the relationship between computed transitions, absorption bands/onset and emission. Provide physical evidence for state character and any geometry-dependent or relaxation claim; quantify relevant limitations rather than assume that one calculated root explains every optical feature. Chosen validations must address the account actually asserted."
+    }
+  ]
+}

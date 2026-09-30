@@ -1,0 +1,412 @@
+{
+  "paper_id": "paper_a3892396b1843698",
+  "items": [
+    {
+      "path": "workspaces/codex_gpt56/paper_a3892396b1843698_20260920_162206_b67206/runs/cli_runs/batch_20260920_162208_122e0e/autonomous_research-paper_a3892396b1843698-codex-20260920_162208-f6eeb7/report/results.json",
+      "sha256": "c1d2d8a504d24ce496598fc48fe58b24d06e7f9f5e2584853b2c5b268940b740",
+      "type": "historical_agent_result",
+      "scope": "Earlier narrow endpoint only; re-audit identity, model, raw artifacts and reference before reuse. No inherited PASS."
+    },
+    {
+      "path": "docs/upgrade_tasks_v2_review_20260928/group_4/phase1/DEVELOPMENT_FREEZE_HANDOFF.json",
+      "sha256": "aa256fb22d08ef5e30cc2527663a3bb132b9c79a8199efc86f75ef328e625385",
+      "type": "verification_freeze_handoff",
+      "paper_row": {
+        "paper_id": "paper_a3892396b1843698",
+        "packages_frozen": true,
+        "AR": {
+          "mode": "autonomous_research",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_a3892396b1843698",
+          "package_content_sha256": "32fa44499fbdce529ec6e3e70992df09289b25c92812d9d7fd768d375b161f1e",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/autonomous_research/paper_a3892396b1843698/package_manifest.json",
+            "sha256": "2574d951ca75f16619ec9f4d744f90f15c47a7287b1b6dca1451401aee4c9919"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_a3892396b1843698",
+            "task_type": "autonomous_research",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "PR": {
+          "mode": "paper_reproduction",
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_a3892396b1843698",
+          "package_content_sha256": "5be519511f181d010ee1e72dcb7fa765ed09e7990f59d2f66bbc9636ae3f64bc",
+          "manifest": {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/tasks/upgrade_tasks/paper_reproduction/paper_a3892396b1843698/package_manifest.json",
+            "sha256": "35216e5f7ce1df43f2d03a9760030a2b5b297340960b45520dadae591c3a7ceb"
+          },
+          "payload_entries_checked": 29,
+          "manifest_entries_match_all_current_payload": true,
+          "matches_previous_frozen_or_repaired_binding": true,
+          "package_validation": {
+            "status": "passed",
+            "paper_id": "paper_a3892396b1843698",
+            "task_type": "paper_reproduction",
+            "findings": [],
+            "diagnostics": []
+          },
+          "scientific_acceptance": false
+        },
+        "scientific_disposition": "needs_work",
+        "scientifically_validated": false,
+        "completed_scientific_work": "原两船式TS及4个IRC端点已核验；几何准备高层代价3.70707 kcal/mol，释放回反应前体盆地。独立[3,3]扫描后无约束TS已完成：单个相关虚频−363.8229 cm−1，与旧同映射TS的RMSD为0.000755 Å、高层E差0.001221 kcal/mol。独立[5,5]扫描24个收敛点后被平台中断，已核实资源释放并checkpoint恢复a02。5种RRHO/qRRHO复算得到新[3,3]共同零点势垒23.49547–24.35550 kcal/mol，局部势垒+释放构象准备G均数值闭合；旧值重现误差<3e−9 kcal/mol。",
+        "unfinished_validation": "[3,3]同鞍点旧双端点精确复用已通过（模式重叠0.9995）；完成独立[5,5]搜索及构象/电子方法稳健性；低频热化学控制已实际复算。约束峰不是自由能垒。",
+        "input_and_reference_gaps": [
+          "原两船式TS/端点及独立33同鞍点复用已验证；独立55扫描和TS仍排队。",
+          "5种热化学处理已复算，仍欠完整55干预及构象/电子方法控制。"
+        ],
+        "scientific_evidence": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/legacy/baseline_deep_audit.json",
+            "sha256": "6d27daaa0fcb51f84eda34b7179c86af0e7e3d81e45e2576bee73b4187c8b786"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/legacy/independent_goodvibes_reparse.json",
+            "sha256": "4be7bd38ec121c513fb217c11decb71b30a6a44d732010e9fc53cf354a431ee7"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/opposite120_release_local_a01/release_scientific_audit.json",
+            "sha256": "82ce2f7292aded45728d9c617f25e4d1cfdc0864619e2de017cf9a36eb27caba"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_33_bondscan_local_a01/scan_audit.json",
+            "sha256": "f905bda50b383e33314562b21f8d72176f0e006e89274a4a81700d33e6102d36"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_33_scan_ts_local_a01/successor_ts_audit.json",
+            "sha256": "765cffea8364da894f98599555db94caf84b374fa1cc3648770f4047bab38e66"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/preorganized_55_scan_preparation.json",
+            "sha256": "5bf7169befa939928129610935d0c4a6a174b8482aba24f727d0247a5f767ee8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/independent_33_same_saddle_connectivity.json",
+            "sha256": "f2e65e112fe9117a1827d9492bc376022e906a72b384b2de62fbcb3c2fbde303"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/preorganized_55_bondscan_recovery_a02.json",
+            "sha256": "6e0e8b0180da03a3f4bb5191244f4795cbce289ccecd448f50562fbaedd58eb5"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/preorganized_55_ts_preparation.json",
+            "sha256": "e598bc3c2cff5895a4241582e56aee946e7e366f09dcc32b1135f31766b206c8"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/thermal_sensitivity_audit/results.json",
+            "sha256": "488f5d09ff1cb1c28f64359a7fd618b0e42405b22143467aa9e24b9dc7e02f80"
+          }
+        ],
+        "working_report": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/report/progress_report.md",
+          "sha256": "ed4c596ba89d54825e828ba09b272efd7577b74ff72e8e7b7906186f76e8c74a"
+        },
+        "working_evaluator_mapping": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/report/progress_evaluator_mapping.json",
+          "sha256": "5c69fa4257b63a5133e6ce8233da3e81d7f19462415807f60db415bc99b1dbe2"
+        },
+        "prepared_inputs_not_automatically_authorized_for_submission": [
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/opposite120_release_optfreq_sp_local4.com",
+            "sha256": "752539cae296a57858b03b24f85478293cd2ebd6ed10486303a070981c65ffa7"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/opposite_120.com",
+            "sha256": "4a177deb92c96d2aca74df64c67ea87a36fb748888ae8183db05208366de44df"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/opposite_120_local4.com",
+            "sha256": "badcd10a4c232447ff3dc81a778ffef11fd9ecc460436bf0f1f43aa3a22f78c9"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_33_bondscan_local_a01.com",
+            "sha256": "faf7fb1b48a5cd72ff44a71ed7f2e6b3532b2626d9c9aeb7ee9b318237af9502"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_33_qst2_cartesian_local_a02.com",
+            "sha256": "6c77a1eb3a44711be4384edb242a35dfd0bc22a562df54ff126514786c4b4594"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_33_qst2_local_a01.com",
+            "sha256": "8458880d5585516863f71a4aff74bf91099d4af07829f45e8e6a038e875cb5a3"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_33_scan_ts_local_a01.com",
+            "sha256": "180cf204a0dbb15dcfab81abab9abb7d89e1a57384bf057c5d90f766c86c7ee6"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_55_bondscan.com",
+            "sha256": "2772e88b95876738f27518e5e0ee49457fa598eb1a2d5c170a962f711093743c"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_55_bondscan_recovery_a02.com",
+            "sha256": "a237471cecdc57540d6d910ece9a2dd40b981ca18e629fa78235d2b1d2f495a0"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_55_qst2_local_a01.com",
+            "sha256": "cd3d99d0697c968fdc04f05ec88a1595c81a6e0af0d739ba6371f4f0d9a74c96"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/preorganized_55_scan_ts.com",
+            "sha256": "dc39f31600d0e8ea630f8c23e6fcdf74b75f87338ea884d2f34d43be08ab27b5"
+          },
+          {
+            "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/inputs/same_sign_control.com",
+            "sha256": "dbd7d288de5cdeeb421c0ddaa252bd998731826348dccbae2bcc41921197b9bd"
+          }
+        ],
+        "active_jobs": [
+          {
+            "paper_id": "paper_a3892396b1843698",
+            "case_id": "preorganized_55_bondscan",
+            "attempt": "a02",
+            "job_id": "hpc-job-5f2b59f5-3859-4e7f-9766-65a6f85e1904",
+            "job_name": "rcb-upg-g4-a3892396-preorganized_55_bondscan-a02-a237471c",
+            "status": "queueing",
+            "platform_status": "QUEUEING",
+            "last_polled_at": "2026-09-28T15:05:42.553276+00:00",
+            "submitted_at": "2026-09-28T09:20:42.402200+00:00",
+            "cpus": 20,
+            "memory_gib": 100,
+            "priority": 3,
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02",
+            "input_sha256": "a237471cecdc57540d6d910ece9a2dd40b981ca18e629fa78235d2b1d2f495a0",
+            "backend": "hpc",
+            "disposition": "preserve_existing_job_no_cancel_no_resubmit",
+            "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02",
+            "native_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/gaussian.log",
+            "checkpoint": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/job.chk",
+            "native_return_code_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/native-return-code.txt",
+            "handoff_files": [
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/submission.json",
+                "sha256": "60f42ee98df388a9ed19679593d8d0f8727d4ea3d87f9bfd2e35bc24160e5bd3"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/input.com",
+                "sha256": "a237471cecdc57540d6d910ece9a2dd40b981ca18e629fa78235d2b1d2f495a0"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/run.sh",
+                "sha256": "63f9b04bc6ab9ad9fad832b306a7255ad0fc8f0cd24ffc8f291e7b482ccfd190"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_bondscan/a02/latest_monitor.json",
+                "sha256": "0184c7c27911c7d1ae351011ad72616f76953373773e9e93aafa05b8b5cddca0"
+              }
+            ],
+            "native_log_bytes_at_handoff": 0
+          },
+          {
+            "paper_id": "paper_a3892396b1843698",
+            "case_id": "preorganized_55_scan_ts",
+            "attempt": "a01",
+            "job_id": "hpc-job-bc8bd054-c848-4a67-a97b-70d95dfafb3e",
+            "job_name": "rcb-upg-g4-a3892396-preorganized_55_scan_ts-a01-dc39f316",
+            "status": "queueing",
+            "platform_status": "QUEUEING",
+            "last_polled_at": "2026-09-28T15:05:42.646839+00:00",
+            "submitted_at": "2026-09-28T13:34:27.189843+00:00",
+            "cpus": 20,
+            "memory_gib": 100,
+            "priority": 3,
+            "evidence_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01",
+            "input_sha256": "dc39f31600d0e8ea630f8c23e6fcdf74b75f87338ea884d2f34d43be08ab27b5",
+            "backend": "hpc",
+            "disposition": "preserve_existing_job_no_cancel_no_resubmit",
+            "output_directory": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01",
+            "native_log": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/gaussian.log",
+            "checkpoint": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/job.chk",
+            "native_return_code_path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/native-return-code.txt",
+            "handoff_files": [
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/submission.json",
+                "sha256": "7a90cfcd91e57fa55cc3ac47e4a430c7ee25ae94c36c1199487b75dfdc8e3105"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/input.com",
+                "sha256": "dc39f31600d0e8ea630f8c23e6fcdf74b75f87338ea884d2f34d43be08ab27b5"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/run.sh",
+                "sha256": "63f9b04bc6ab9ad9fad832b306a7255ad0fc8f0cd24ffc8f291e7b482ccfd190"
+              },
+              {
+                "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_55_scan_ts/a01/latest_monitor.json",
+                "sha256": "e339e69fcc30e3ea71f34733473cb6df7036cb3e2b5d5adec4cbdb1613ab05d9"
+              }
+            ],
+            "native_log_bytes_at_handoff": 0
+          }
+        ],
+        "root_package_changes_by_this_verification_group": "No root package payload changes by this verification group.",
+        "historical_accounting_limit": "See legacy/inventory.json; native file counts are not attempts. Detailed job/resource reconciliation still in progress.",
+        "development_vs_science": "This freezes the verifier writer and transfers known gaps; it does not claim all scientific endpoints or original-batch development review complete.",
+        "frozen_binding": {
+          "path": "/inspire/hdd/global_user/lifangyuan-253108110077/lifangyuan/benchmark/ResearchChemBench/docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/task_snapshot/frozen_binding.json",
+          "sha256": "357c6f6a074f12ad2632b1461932804dd86799827fece85c6e7b1d040a8c20fa"
+        }
+      },
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "allowed_use": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "old_matrix_is_not_V2_requirement": true,
+      "old_scientific_PASS_transfers": false
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/legacy/baseline_deep_audit.json",
+      "sha256": "6d27daaa0fcb51f84eda34b7179c86af0e7e3d81e45e2576bee73b4187c8b786",
+      "frozen_sha256": "6d27daaa0fcb51f84eda34b7179c86af0e7e3d81e45e2576bee73b4187c8b786",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/legacy/independent_goodvibes_reparse.json",
+      "sha256": "4be7bd38ec121c513fb217c11decb71b30a6a44d732010e9fc53cf354a431ee7",
+      "frozen_sha256": "4be7bd38ec121c513fb217c11decb71b30a6a44d732010e9fc53cf354a431ee7",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/opposite120_release_local_a01/release_scientific_audit.json",
+      "sha256": "82ce2f7292aded45728d9c617f25e4d1cfdc0864619e2de017cf9a36eb27caba",
+      "frozen_sha256": "82ce2f7292aded45728d9c617f25e4d1cfdc0864619e2de017cf9a36eb27caba",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_33_bondscan_local_a01/scan_audit.json",
+      "sha256": "f905bda50b383e33314562b21f8d72176f0e006e89274a4a81700d33e6102d36",
+      "frozen_sha256": "f905bda50b383e33314562b21f8d72176f0e006e89274a4a81700d33e6102d36",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/preorganized_33_scan_ts_local_a01/successor_ts_audit.json",
+      "sha256": "765cffea8364da894f98599555db94caf84b374fa1cc3648770f4047bab38e66",
+      "frozen_sha256": "765cffea8364da894f98599555db94caf84b374fa1cc3648770f4047bab38e66",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/preorganized_55_scan_preparation.json",
+      "sha256": "5bf7169befa939928129610935d0c4a6a174b8482aba24f727d0247a5f767ee8",
+      "frozen_sha256": "5bf7169befa939928129610935d0c4a6a174b8482aba24f727d0247a5f767ee8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/independent_33_same_saddle_connectivity.json",
+      "sha256": "f2e65e112fe9117a1827d9492bc376022e906a72b384b2de62fbcb3c2fbde303",
+      "frozen_sha256": "f2e65e112fe9117a1827d9492bc376022e906a72b384b2de62fbcb3c2fbde303",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/preorganized_55_bondscan_recovery_a02.json",
+      "sha256": "6e0e8b0180da03a3f4bb5191244f4795cbce289ccecd448f50562fbaedd58eb5",
+      "frozen_sha256": "6e0e8b0180da03a3f4bb5191244f4795cbce289ccecd448f50562fbaedd58eb5",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/provenance/preorganized_55_ts_preparation.json",
+      "sha256": "e598bc3c2cff5895a4241582e56aee946e7e366f09dcc32b1135f31766b206c8",
+      "frozen_sha256": "e598bc3c2cff5895a4241582e56aee946e7e366f09dcc32b1135f31766b206c8",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "preparation_or_source_provenance_not_completed_science",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    },
+    {
+      "path": "docs/upgrade_tasks_verification/group_4/papers/paper_a3892396b1843698/outputs/thermal_sensitivity_audit/results.json",
+      "sha256": "488f5d09ff1cb1c28f64359a7fd618b0e42405b22143467aa9e24b9dc7e02f80",
+      "frozen_sha256": "488f5d09ff1cb1c28f64359a7fd618b0e42405b22143467aa9e24b9dc7e02f80",
+      "matches_frozen_hash": true,
+      "exists": true,
+      "type": "existing_verification_artifact",
+      "evidence_role": "existing_audit_or_result_with_native_evidence_links",
+      "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+      "scope": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+      "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation.",
+      "reuse_eligible_after_claim_specific_audit": true,
+      "review_level": "Frozen scientific audit/diagnostic and prior author review; no new native-engine execution or exhaustive raw-log reparse."
+    }
+  ],
+  "reuse_boundary": "The small source3a graph and source Gaussian pathway calculations support a manageable molecular rearrangement study. Existing3a path/geometry records may support their exact model and energy reference, but old artificial torsional controls and failed searches do not certify new states or full channel coverage. No new scientific calculation.",
+  "paper_specific_reuse": {
+    "model_and_method_scope": "Original 3a rearrangement saddle/IRC evidence, independent GoodVibes reparse and thermal sensitivity; a separately prepared 33 search returned the same saddle/basin. A 55 scan was interrupted.",
+    "allowed": "Reuse connected baseline saddles and recorded endpoints after graph/method/reference matching. Same-saddle collapse is evidence of non-independence of that attempted alternative, not failed science.",
+    "not_supported": "A constrained preparation cost is not a second saddle barrier. Interrupted 55 work is incomplete; source studies of other substrates/dynamics do not validate this 3a explanation."
+  },
+  "new_scientific_calculations_performed": false
+}

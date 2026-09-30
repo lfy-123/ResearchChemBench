@@ -242,7 +242,7 @@ def namd(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         environment_variable="CHEMGRAPH_NAMD_COMMAND",
         arguments=[f"+p{cores}", str(input_path)],
         directory=directory,
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     log_path = directory / "segment.log"
     log_path.write_text(completed["stdout"], encoding="utf-8")
@@ -433,7 +433,7 @@ def amber_pmemd(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             environment_variable="CHEMGRAPH_AMBER_COMMAND",
             arguments=arguments,
             directory=directory,
-            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         )
     else:
         mpi_executable = os.environ.get("CHEMGRAPH_AMBER_MPI_EXECUTABLE", "").strip()
@@ -444,7 +444,7 @@ def amber_pmemd(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
             environment_variable="CHEMGRAPH_AMBER_MPIRUN_COMMAND",
             arguments=["--allow-run-as-root", "-np", str(cores), mpi_executable, *arguments],
             directory=directory,
-            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+            timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
         )
     (directory / "launcher.stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "launcher.stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -656,7 +656,7 @@ def charmm(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         arguments=[],
         directory=directory,
         stdin_text=input_path.read_text(encoding="utf-8"),
-        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 86400)),
     )
     output_path = directory / "segment.out"
     output_path.write_text(completed["stdout"], encoding="utf-8")

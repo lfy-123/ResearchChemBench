@@ -113,6 +113,36 @@ def test_transition_state_requires_one_imaginary_frequency(tmp_path: Path) -> No
     assert axes["scientific_validation_status"] == "mechanically_valid"
 
 
+def test_large_gaussian_log_uses_tail_for_final_status(tmp_path: Path) -> None:
+    log_path = tmp_path / "stdout.log"
+    with log_path.open("wb") as handle:
+        handle.write(b"Gaussian 16 route and initialization\n")
+        handle.write(b"x" * (5 * 1024 * 1024))
+        handle.write(b"\nOptimization completed.\n")
+        handle.write(b"x" * (5 * 1024 * 1024))
+        handle.write(
+            b"\nSCF Done: E(RB3LYP) = -1087.0\n"
+            b"NImag=0\n"
+            b"Normal termination of Gaussian 16\n"
+        )
+    status = {
+        "job_id": "job_" + "6" * 32,
+        "job_type": "native_software",
+        "status": "success",
+        "metadata": {
+            "software_id": "gaussian",
+            "calculation_intent": "optimization_frequency",
+        },
+    }
+
+    axes = _execution_status_axes(tmp_path, status)
+
+    assert axes["software_status"] == "normal_termination"
+    assert axes["convergence_status"] == "converged"
+    assert axes["artifact_status"] == "valid"
+    assert axes["scientific_validation_status"] == "mechanically_valid"
+
+
 @pytest.mark.parametrize(
     ("calculation_intent", "result_file"),
     [

@@ -1,0 +1,130 @@
+{
+  "paper_3235db287859287e": {
+    "upgrade_zh": "A→C：从两个 E/Z 终点自由能转为底物氧/外源水氧、自由基/离子局部竞争路径；纳入同位素原子追踪及 OH-Boc 保护控制。提供 1a、苯硫酚、碘物种、水和保护底物的映射图。",
+    "source_zh": "正文 PDF 5–7 页 Scheme 3 的氧标记和保护控制是公开实验约束。反应物应为 benzenethiol，而非名称混淆的 benzylthiol。SI 100 页给出 SMD-MeCN 与分元素基组；没有从缺失文字猜测泛函。",
+    "reuse": "The historical report contains a gas-phase r2SCAN-3c E/Z comparison, DeltaG(E-Z)=0.6609588459769071 kcal/mol. It can test endpoint identity/arithmetic only under its own convention, not oxygen transfer or kinetics. The full original final payload remains a snapshot.",
+    "pilot": "Build one atom-balanced substrate-O radical sequence and one water-O/ionic competitor. First validate the O-transfer endpoint and the I/proton/electron reservoir ledger; then add the protected-OH perturbation and both isotope maps. Record distinct intermediates and the maximum along any multistep route, not merely its last saddle.",
+    "adversarial": "Submit only E/Z DeltaG plus copied isotope prose, with no mapped O-transfer path: reject missing_matrix and dependent mechanistic conclusion.",
+    "fair_alternative": "An independently calculated alternative with balanced reservoirs and both isotope constraints may refute the author route; complete evidence earns the same endpoint credit."
+  },
+  "paper_4e9774f4128551d3": {
+    "upgrade_zh": "A→C：删除公开产品坐标，保留独立构建所需的映射连接；C6/C47/O52 定义 O-TMS 烯醇前体，双面质子化×两个 CSA 对映体，包含预组织代价与混合溶剂敏感性。",
+    "source_zh": "正文 Scheme 5 与 SI 20–21 页的 THF/MeOH 比例分别为 1:1 和 10:1，已明示冲突。主模型采用 THF 连续介质加一分子 MeOH，溶剂敏感性单独报告。构图检查确认 C23H38O3Si 和 CSA 对映体对。",
+    "reuse": "Old report DeltaG(S20-50)=2.6389157917891617 kcal/mol is a fixed-product thermodynamic control. It supplies neither a protonation saddle nor racemic-acid kinetic weighting.",
+    "pilot": "Construct and independently optimize the mapped enol-TMS plus one CSA enantiomer and one MeOH. Validate both C6-face proton-transfer paths and common-zero approach costs. Only then add the second CSA enantiomer (or demonstrated symmetry-equivalent mapping), racemate aggregation and solvent control.",
+    "adversarial": "Compare cis/trans product G and call it facial protonation selectivity, or omit CSA counterion/one acid enantiomer without symmetry evidence: reject.",
+    "fair_alternative": "A near-zero racemate-weighted difference supported by all facial paths and solvent/conformer sensitivity is acceptable."
+  },
+  "paper_60f4c45810428116": {
+    "upgrade_zh": "A→B，blocked：完成有限生成/回淬/重排/捕获 ODE、独立参数区间、可辨识性和三个整条件留出契约。人工逐格核对 SI Table S2，补全 25 个位置、23 个实测点及两个堵塞点，保留 trace/n.d. 分类。",
+    "source_zh": "SI 5–7 页确认两段流量、稀释、2.4 s 捕获段和副产物 3a=2-methylbenzenemethanethiol。补供对应 thiolate/thiol 图，修正重排通道。SI 6 页为 RBF 插值，并非机理速率拟合。",
+    "reuse": "Old THF reduction potentials distinguish dissociative reduction thermodynamics (reported difference 0.794 V) on the stated absolute Fc scale. They are not independent generation, rearrangement or quench rate constants. The tabulated measured grid is reusable with its censoring intact.",
+    "pilot": "Before scientific release, obtain independently justified rate intervals and identify the back-quench sink/electron ledger. Then test ODE conservation and mixer dilution with the measured grid, pre-register three held-out measured conditions, fit a shared temperature model and profile its identifiable combinations. No invented rate ranges or detection limits may fill the current input gap.",
+    "adversarial": "Fit an unconstrained rate at every grid point, label the RBF surface mechanistic, use a held-out point during fit, or replace clogged/trace/n.d. with measured zero: reject.",
+    "fair_alternative": "After independent rates and sink identity are supplied, a rank-deficient but completely profiled model with valid holdout intervals is acceptable. Current missing inputs are not that scientific outcome."
+  },
+  "paper_db6c4e0558113873": {
+    "upgrade_zh": "A→C：CuIII(acac)(allyl)Cl 两种立体出口与匹配自由基的直接 Cl 原子转移比较；补齐 allenoate 6b、PhSO2Cl、acac、自由基和 CuI/II/III 库存，删除公开作者 Cu 中间体答案坐标。",
+    "source_zh": "正文 6–8 页、SI 56–65 页支持 acac 模型和作者 Cu 捕获/消除解释。新模型采用实验 40°C，旧 298.15 K 端点另列，不能混成一条能标。",
+    "reuse": "Historical syn/anti Cu minimum difference 2.2929258933157253 kcal/mol at 298.15 K can be reused as a labelled endpoint/low-mode diagnostic only. It is not a reductive-elimination barrier or direct Cl-transfer comparison.",
+    "pilot": "First validate the full allyl/acac identity and Cu electron-count ledger. Calculate one connected Cu C-Cl exit and one PhSO2Cl-to-radical transfer with matched reservoirs; add the second Cu stereochemical exit and spin/conformer sensitivity before ranking mechanisms.",
+    "adversarial": "Use naked CuCl, omit the acac ligand, compare Cu-bound and free-radical absolute total energies, or substitute the old intermediate G difference for exit barriers: reject.",
+    "fair_alternative": "Direct radical transfer may be favoured or indistinguishable after association and spin bookkeeping; no Cu-route winner is prescribed."
+  },
+  "paper_e2d9397dff2a3f0f": {
+    "upgrade_zh": "A→C：补原包缺失的 state_definition；保留两吡啶与 +1 单重态，按 C28→S28/O49 的明确图编辑建立一个 bcs 干预。每配体比较开环、开环后 NH3 进攻和直接进攻；六个段必须连接到同组成 N–N 终点。",
+    "source_zh": "正文 9–10 页区分 ΔGox、N–O 裂解和氨进攻；SI 47 页给出 MeCN 电化学约定。旧 109.995i 模态的两侧 N–O 距离变化很小且未跑 IRC，不能单凭单虚频认证裂解。",
+    "reuse": "Old PBEh-3c/SMD report gives DeltaE=16.32339 and DeltaG=13.8434269818 kcal/mol and one 109.9948i mode, without IRC. Its reported signed displaced N-O distances 2.49543/2.50502 angstrom make mode projection a required recheck. This is a diagnostic, not a validated reference barrier.",
+    "pilot": "Recover the bda N10-O5 cleavage identity with actual displacement projection and forward/reverse endpoints first. Then test the single bcs graph intervention and complete direct versus opening-plus-NH3 attack. Use maximum segment free energies relative to the same initial complex+NH3, explicit proton relay and a common N-N-connected endpoint. A bcs N-O basin that disappears must remain an evidenced collapse, not an invented minimum.",
+    "adversarial": "Count a transverse unstable mode as cleavage, omit a pyridine, use oxidation G as an activation barrier, or compare an opening-only cost with a complete attack route: reject.",
+    "fair_alternative": "A properly documented loss of the closed bcs basin and merged direct/sequential path is acceptable without fabricated separate barriers."
+  },
+  "paper_fcc3c7f2c46a0fbe": {
+    "upgrade_zh": "A→B：四个真实 4b/c/h/i 结构的 HAT、SET→PT、SPLET 热化学循环，另做 4c/4h 的 DPPH 局部 HAT 路径。仅 4c/i 有 COOH，甲氧基不能被当作酚羟基。",
+    "source_zh": "正文 4 页 DPPH 实验为 EtOH、30 min、517 nm；DMSO 是 NMR 条件。SI 34 页 IC50 和 4e 不溶信息作为解释约束。已修正 DPPH 中心 N 自由基连接并核对 C18H12N5O6。",
+    "reuse": "Old 4b isolated-geometry/XRD comparison documents a source SMILES/name conflict and conformer limitations. The name/selector graph can guide identity correction; that geometry result does not validate antioxidant thermochemistry or measured activity.",
+    "pilot": "Verify E configuration and the real donor sites, then close one 4c and one 4h cycle with a single proton/electron convention. Test explicit DPPH H-transfer paths for those two before extending thermochemical cycles to 4b/4i. Validate cycle closure, solvent response and donor-site alternatives.",
+    "adversarial": "Create a phenoxide from an OMe group, use DMSO as the assay solvent, label insoluble 4e inactive, or predict exact IC50 from a HOMO-LUMO gap: reject.",
+    "fair_alternative": "A source HAT/SPLET assignment may be refuted by site-correct cycles; multiple feasible mechanisms with complete evidence are allowed."
+  },
+  "paper_0e835b370ddd37b6": {
+    "upgrade_zh": "A→B：1、V′ 与羰基类似物 4 的 H2 活化路径，加四个固定 H–H 进度点的形变/相互作用分解与闭合残差。为 4 提供完整内酰胺图。",
+    "source_zh": "正文 PDF 2 页 Scheme 2 直接核对 4 的取代连接，3–5 页给出 PBE0-D3BJ/def2-TZVP、SMD benzene、298 K/1 atm 与 IRC。旧自动键级把中性二配位 Si 推成电荷分离 Si=N，注册表已按源结构修正。",
+    "reuse": "Existing author-informed verification independently reports connected 1/V-prime H2 paths and separated-reference barriers 33.065984/47.132237 kcal/mol. Reuse only those labelled baselines after checking the source protocol; there is no existing 4 control or matched-coordinate decomposition.",
+    "pilot": "Rebuild the exact neutral divalent-Si 4 graph and its H2 approach; validate its wavefunction, saddle and both endpoints. Reuse checked 1/V-prime baseline jobs where physically identical, then obtain frozen-fragment energies for all three systems at H-H=0.80/1.00/1.20/1.40 angstrom. Calibrate closure residual and functional sensitivity from actual jobs.",
+    "adversarial": "Omit 4, compare unequal H-H progress, use spin/charge-inconsistent fragments or add thermal corrections to frozen fragments: reject.",
+    "fair_alternative": "Mixed deformation/interaction control with no unique electronic cause is acceptable when paths, decomposition closure and sensitivity are complete."
+  },
+  "paper_9132719dbf91c978": {
+    "upgrade_zh": "A→B：从 H–H 形成扩至 η2-H2、分离 H2/Pd 和 DMAc 再配位；P1/P41/Pd75/H76/H77 映射、完整 XantPhos 与两套标准态账本明确。",
+    "source_zh": "正文 4 页与 SI 10–12 页给出源局部 Pd 路线和方法。已有验证包含释放扫描与分离物种，能复用同协议部分；−1.76058 与 +0.133748 的不同约定不能混用。",
+    "reuse": "The existing terminal-H2 verification includes INT-G/TS6, bidirectional endpoints, dissociation scans and separated Pd/H2 calculations. Check exact state, level and standard state before reusing those artifacts. DMAc recoordination, mixed gas/solute standard-state comparison and pressure sensitivity remain new gaps.",
+    "pilot": "Audit one old connected H-H path and the actual bound-versus-separated H2 identities; then independently optimize Pd(XantPhos)(DMAc). Assemble a mixed H2 gas1atm/solute1M ledger, compare all1M and pressure dependence, and locate the limiting local regeneration cost without extrapolating to full turnover.",
+    "adversarial": "Rename eta2-H2 as free gas, delete XantPhos or mix 1atm and 1M terms to make regeneration favourable: reject.",
+    "fair_alternative": "Unfavourable release or recoordination under the declared pressure is a valid result even if the H-H saddle is small."
+  },
+  "paper_534ae3b6e2fb695f": {
+    "upgrade_zh": "B→B：TMC 从 context-only 变成真实必需反应物；三个二胺同一酰氯位点的首酰化，HCl/质子守恒、全部关键段最大能垒和匹配 N–C 进度形变/相互作用比较。",
+    "source_zh": "本地 supplementary 是评审材料，已在本批目录补取出版社 117 页正式 SI 并核对 10–14、20–22、32 页。明确 SVP/TZVP 方法文字差异，局部气相 1 M 模型是本次控制，不等同真实膜界面。",
+    "reuse": "Old ODA/6FODA/PFMB gas-phase HOMOs (-5.0297/-5.667/-5.7768 eV) and fixed TCE reference -9.1212 eV define a descriptor baseline only. TMC was explicitly context-only; no old first-acylation barrier exists.",
+    "pilot": "Start with ODA+TMC at the mapped C1002/Cl1003 site and the complete monoamide+HCl endpoint. Validate addition/elimination/proton-transfer segments as required, then apply precisely the same model to 6FODA/PFMB. Compute the effective maximum and matched-progress decomposition rather than selecting the lowest single segment.",
+    "adversarial": "Submit three HOMO-derived indices without a TMC path, omit HCl, or compare addition for one amine with elimination for another: reject.",
+    "fair_alternative": "A barrier ordering that contradicts the isolated nucleophilicity ordering earns credit if all paths and deformation controls are complete."
+  },
+  "paper_6f9a36fff6964313": {
+    "upgrade_zh": "B→B：冻结 CO2 环加成中的 KI 促环氧开环一步；TMTFABAOTf/PTMAOTf×末端/苄位进攻，完整离子对、KI、一水和旁观 CO2 的同组成比较，配合预组织控制。",
+    "source_zh": "正文 Table 2 与 SI 7–16 页定义底物和条件。353.15 K、MeCN 模型与源水混合物/CO2 压力分列；不要求另一氧化阶段或整循环。",
+    "reuse": "Old isolated-ion-pair Mulliken differences (+0.004509 e at quaternary N and -0.018633 e at carbonyl C against their controls) are partition-specific descriptors. They do not validate a multicomponent ring-opening path or synergy.",
+    "pilot": "Verify both complete ion-pair/KI/epoxide/water/CO2 inventories. Locate one matched terminal-opening path for each catalyst with iodide attack and alkoxide endpoint; then add benzylic alternatives and an explicit restrained catalyst-position control including organization cost.",
+    "adversarial": "Use catalyst charges alone as synergy proof, omit OTf/KI, or compare epoxidation for one catalyst with CO2 cycloaddition for the other: reject.",
+    "fair_alternative": "No retained bifunctional advantage after common-zero and conformer corrections is a fair supported outcome."
+  },
+  "paper_c625cba3ce868eb1": {
+    "upgrade_zh": "B→B：按真实底物图纠正为六/七元闭环，采用源 NBS/Et3N 非酶对照构建同库存竞争路径；明确 O21、烯烃 C2/C4、过氧 O23/O24，原 row22 是 H。",
+    "source_zh": "正文 7 页明确 NBS/Et3N、DCM，避免凭空指定酶内游离 Br+ 或把 Br− 当亲电溴。原文 0.284 mmol/6 mL 应为 47.3 mM，其 473 mM 印刷值作为冲突记录。",
+    "reuse": "Historical aqueous reactant Loewdin charges/dipoles explicitly did not model reagent, intermediate or TS. They can motivate candidate polarization but do not certify regioselectivity, and are not directly transferable to the DCM NBS control.",
+    "pilot": "Validate NBS bromination and proton-transfer bookkeeping on (R)-4, then locate one six-membered and one seven-membered closure from comparable brominated precursors. Include precursor face/conformation costs and succinimide/Et3N proton balance. Keep the local one-equivalent relay model separate from experimental catalytic loading.",
+    "adversarial": "Force a five-membered channel, label row22 oxygen, use Br- as the electrophile, or accept a failed TS search as excluded regioisomer: reject.",
+    "fair_alternative": "A conformation-driven explanation or unresolved six/seven competition is acceptable after both connected paths and matched controls."
+  },
+  "paper_d3b4575397179146": {
+    "upgrade_zh": "B→B：四 heptazine 的 SET/氧敏化必要条件、真实 N-methyl-N-(p-CF3phenyl)pivalamide、催化剂阴离子/底物阳离子以及 O2/S1-O2/O2− 态循环；先 dF/dOMe 先导再扩四个。",
+    "source_zh": "正文 Fig. 4 核对底物和 0°C/O2/456 nm，SI 19 页核对源 TD 方法。schema 对三个氧态逐一固定电荷/多重度；E00、垂直 S1 和三重态隙分开。",
+    "reuse": "Old four-catalyst TDA/def2-SVP spectra and NTO/orbital analysis support state-character diagnostics. They contain no substrate radical-cation cycle, catalyst anion thermodynamics, triplet oxygen transfer or regeneration evidence.",
+    "pilot": "For dF/dOMe first obtain stable neutral/anion and substrate-cation states, relaxed triplets and a defensible E00. Audit triplet O2/singlet O2/superoxide states using a justified method or calibrated state gap; then close SET, EnT and regeneration reactions for all four with the same reference. Do not equate a closed-shell O2 energy to a calibrated singlet state by label alone.",
+    "adversarial": "Use triplet O2 with singlet multiplicity, equate E00 and vertical S1, shift electrode references between catalysts or infer exclusive mechanism/yield from thermodynamic possibility: reject.",
+    "fair_alternative": "Both SET and oxygen sensitization can remain feasible, with exclusivity unresolved by the completed thermochemical matrix."
+  },
+  "paper_ef26687d63a37e29": {
+    "upgrade_zh": "B→B：提供 PA/无 PA 的明确短链图（2PO/1CO2，P+/O−），两 Et3B 库存；传播 CO2 插入/PO 开环与回咬逐段比较，保留短链共产品，做十倍 PO 稀释控制。",
+    "source_zh": "正文 9–10 页与 SI 4–12 页支持源磷鎓/氧相互作用解释。新增短链是 benchmark 构造，PA/无 PA 是复合结构干预，不宣称只改变静电。",
+    "reuse": "Old free/PO/PA initiator-adduct ADCH/ESP/contact analysis can check those graph identities and descriptor limitations. It is not a carbonate-growing chain and does not contain propagation or backbiting barriers.",
+    "pilot": "Validate the PA two-PO/one-CO2 chain with two Et3B molecules and map the terminal alkoxide/carbonate. Compute the full CO2-insertion then PO-opening sequence and a balanced backbite with shortened-chain coproduct. Repeat the matched no-PA model, then apply the same computed barriers to a tenfold activity change; do not fit independent rates.",
+    "adversarial": "Relabel the old PA initiator adduct a growing chain, omit shortened-chain coproduct/two Et3B, or take only the easier propagation segment: reject.",
+    "fair_alternative": "A reduced, absent or confounded PA advantage under the declared short-chain/concentration model is acceptable if properly bounded."
+  },
+  "paper_0dc85595cab7bc0a": {
+    "upgrade_zh": "C→C：保留两阶段图枚举，加入临界构象、DFT 精化、H 原子/氧化层守恒及每阶段代表闭环的势面/态追踪。被实证排除或坍缩的候选可省不存在的 G，必须交搜索轨迹和映射依据。",
+    "source_zh": "正文 2–3 页和 SI 9–11 页的基态能量/LUMO 推断不等价于光态可达性。旧结果以 4.30 Å 截止排除约 4.327 Å 候选且主要用 xTB，不能直接成为新隐藏标准。",
+    "reuse": "Old candidate enumeration and xTB endpoint graph checks are search diagnostics only. Old 4.30 angstrom and +/-15 kJ/mol filters were not calibrated; a nearby excluded candidate must be reconsidered. No excited-surface reachability is established by that report.",
+    "pilot": "Verify the displaced precursor preserves the intended graph without terminal-answer labels. Include both graph-distinct ortho closures and conformers near the former distance cutoff; DFT-refine advanced candidates at both stages. For one critical closure per stage, obtain mapped S0 path plus physical excited-state tracking, and explicitly limit conclusions when the excited surface cannot be calibrated.",
+    "adversarial": "Compare total energies across different hydrogen counts, prune solely by the old cutoff, use xTB-only ranking as DFT refinement, or call the lowest S0 endpoint the unique photoproduct: reject.",
+    "fair_alternative": "A supported set of multiple photoproduct candidates with complete declared S0/state diagnostics is valid; full dynamics and unique branching are not required."
+  },
+  "paper_a3892396b1843698": {
+    "upgrade_zh": "C→C：同一 C11H14 的 [3,3]/[5,5] 两路径×明确反号二面角预组织干预，含制备能、解除约束和双向端点；不把未证明的构象称为真实 double-chair 极小点。",
+    "source_zh": "正文 Fig. 5 的应变/构象解释与 SI 5 页方法限定局部问题；新控制是同图几何干预，完整轨迹与全部桥连衍生物可选。",
+    "reuse": "Old GFN2-xTB/RRHO reports 13.951829/16.472965 kcal/mol and path evidence for the two channels. These support preparation/debugging only and are not DFT calibration, causal preorganization control or dynamics branching evidence.",
+    "pilot": "DFT-refine both unconstrained rearrangement paths and validate maps 1-2 cleavage, 10-13 or 16-20 formation. Then impose the stated opposite-sign torsion pair, record electronic preparation cost, release constraints and search both channels. If both controls return to the same basin, preserve independent search/profile evidence and omit a fictitious separate free-energy barrier.",
+    "adversarial": "Call a constrained geometry a free minimum, ignore preparation cost, reuse semiempirical barriers as calibrated DFT or claim exact trajectory branching from stationary points: reject.",
+    "fair_alternative": "Evidenced collapse of the geometric intervention is allowed and can refute a distinct-preorganized-basin interpretation."
+  },
+  "paper_8fefc96b015c4577": {
+    "upgrade_zh": "C→C：短/长链×DMSO/DCE×两芳环闭合的 2×2×2 矩阵。长链仅在 13–14 之间插入 CH2，保留旧 1–53 映射并新增 54–56；提供同源映射与独立构图命名空间。",
+    "source_zh": "正文 2–4 页和 SI 34 页定义局部路径；旧验证有 C–C 模态测试而无全 IRC。实验添加剂也变，受控溶剂交叉不能代表所有实验原因；长链差距小，不强迫排序反转。",
+    "reuse": "Old author-informed DMSO short-chain records give B-referenced barriers 13.253000/19.257011 kcal/mol with correct C-C mode displacements but no full IRC claim. Source height -0.05/6.12 belongs to a different zero; historical values cannot fill new long-chain, DCE or endpoint evidence.",
+    "pilot": "Verify the 56-atom C22H26F2NO4S homologue and radical map10. First validate the decisive long-chain pair with real modes and bidirectional endpoints, then complete both chain/solvent crosses at common zeros. Quantify long-chain low-mode/conformer/method spread and matched-progress strain before interpreting a small difference.",
+    "adversarial": "Copy short-chain TS row numbers to the long graph, compare separated heights as local barriers, omit a cross cell, or force a significant sign reversal despite uncertainty: reject.",
+    "fair_alternative": "Close or indistinguishable long-chain competition is acceptable with the full cross and uncertainty; no author-prescribed winner."
+  }
+}

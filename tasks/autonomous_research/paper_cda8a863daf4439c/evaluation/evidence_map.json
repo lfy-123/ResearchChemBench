@@ -1,1 +1,61 @@
-{"evidence": [{"evidence_id": "ev_doc_51c4ed86cc72_000071_241bc97a4471", "document_id": "doc_51c4ed86cc72", "source_ref": "main paper, Results, Fig. 2 discussion", "text": "Alkaline Volmer and Heyrovsky barriers are higher; higher H coverage increases barriers.", "source": "main paper, Results, Fig. 2 discussion"}, {"evidence_id": "ev_doc_51c4ed86cc72_000029_2f014e95dc48", "document_id": "doc_fdf45f3054b8", "source_ref": "review response, coverage correction", "text": "Overall Volmer-Tafel reaction energy is thermodynamically coverage invariant with consistent references.", "source": "review response, coverage correction"}, {"evidence_id": "ev_doc_51c4ed86cc72_000029_2f014e95dc48", "document_id": "doc_51c4ed86cc72", "source_ref": "Results, multiscale workflow", "text": "GC-DFT energetics feed MKM and transport.", "source": "Results, multiscale workflow"}, {"evidence_id": "ev_doc_51c4ed86cc72_000187_b70ddb2af6e7", "document_id": "doc_51c4ed86cc72", "source_ref": "Methods, DFT details", "text": "Au slab and computational model details.", "source": "Methods, DFT details"}, {"evidence_id": "ev_doc_fdf45f3054b8_000238_114ffc74f4d6", "document_id": "doc_fdf45f3054b8", "source_ref": "review response, interpretation boundary", "text": "Absolute reaction energies subject to finite explicit-solvent uncertainty.", "source": "review response, interpretation boundary"}, {"evidence_id": "ev_doc_51c4ed86cc72_000058_76dc3758fe9d", "document_id": "doc_51c4ed86cc72", "source_ref": "main paper, Fig. 2 discussion", "source": "main paper, Fig. 2 discussion", "text": "Acidic and alkaline proton-source conditions and coverages are compared."}], "paper_id": "paper_cda8a863daf4439c"}
+{
+  "evidence": [
+    {
+      "evidence_id": "ev_doc_51c4ed86cc72_000071_241bc97a4471",
+      "document_id": "doc_51c4ed86cc72",
+      "source_ref": "Main PDF p3, Fig. 2a and adjacent discussion; SI p14, Tables 6/7",
+      "text": "Alkaline Volmer and Heyrovsky barriers are higher than their acidic counterparts. The neighboring prose says both barriers increase with H coverage, but Fig. 2a and SI Tables 6/7 instead show Volmer increasing and Heyrovsky decreasing; the numerical source evidence controls this comparison.",
+      "source": "Main Fig. 2a numerical labels and SI Tables 6/7, with the prose inconsistency explicitly retained"
+    },
+    {
+      "evidence_id": "ev_g6_her_review_coverage_20260922",
+      "document_id": "doc_fdf45f3054b8",
+      "source_ref": "review response, coverage correction",
+      "text": "Overall Volmer-Tafel reaction energy is thermodynamically coverage invariant with consistent references.",
+      "source": "review response, coverage correction"
+    },
+    {
+      "evidence_id": "ev_doc_51c4ed86cc72_000029_2f014e95dc48",
+      "document_id": "doc_51c4ed86cc72",
+      "source_ref": "Results, multiscale workflow",
+      "text": "GC-DFT energetics feed MKM and transport.",
+      "source": "Results, multiscale workflow"
+    },
+    {
+      "evidence_id": "ev_doc_51c4ed86cc72_000187_b70ddb2af6e7",
+      "document_id": "doc_51c4ed86cc72",
+      "source_ref": "Methods, DFT details",
+      "text": "Au slab and computational model details.",
+      "source": "Methods, DFT details"
+    },
+    {
+      "evidence_id": "ev_doc_fdf45f3054b8_000238_114ffc74f4d6",
+      "document_id": "doc_fdf45f3054b8",
+      "source_ref": "review response, interpretation boundary",
+      "text": "Absolute reaction energies subject to finite explicit-solvent uncertainty.",
+      "source": "review response, interpretation boundary"
+    },
+    {
+      "evidence_id": "ev_doc_51c4ed86cc72_000058_76dc3758fe9d",
+      "document_id": "doc_51c4ed86cc72",
+      "source_ref": "main paper, Fig. 2 discussion",
+      "source": "main paper, Fig. 2 discussion",
+      "text": "Acidic and alkaline proton-source conditions and coverages are compared."
+    },
+    {
+      "evidence_id": "ev_g6_her_fig2_numeric_20260922",
+      "document_id": "doc_51c4ed86cc72",
+      "source_ref": "Main PDF p3, Fig. 2a numerical barrier labels and legend",
+      "source": "Main PDF p3, Fig. 2a",
+      "text": "For 0→7/9 ML, acidic Volmer 0.43→0.89 eV and Heyrovsky 0.80→0.25 eV; alkaline Volmer 0.99→1.57 eV and Heyrovsky 1.03→0.60 eV. Thus coverage increases Volmer barriers and decreases Heyrovsky barriers."
+    },
+    {
+      "evidence_id": "ev_g6_her_SI_tables6_7_20260922",
+      "document_id": "doc_g6_her_SI_36c2759f2017",
+      "source_ref": "evaluation/source_audit/HER_SI_20260922.pdf p14, Tables 6/7",
+      "source": "Official supplementary information, Tables 6/7",
+      "text": "The source polynomial barriers at acid U=0 V are Volmer 0.4246/0.8846 and Heyrovsky 0.7954/0.2508 eV (0/7-9 ML); at alkaline U=-0.826 V, Volmer 0.9856884/1.5739156 and Heyrovsky 1.0335233/0.6029640 eV. These are source references, not independent new DFT results."
+    }
+  ],
+  "paper_id": "paper_cda8a863daf4439c"
+}

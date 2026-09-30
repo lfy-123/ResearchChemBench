@@ -1,0 +1,281 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "completion_status",
+          "hypotheses",
+          "method",
+          "candidates",
+          "observables",
+          "conclusion"
+        ],
+        "properties": {
+          "completion_status": {
+            "const": "complete"
+          },
+          "method": {
+            "type": "object",
+            "required": [
+              "software",
+              "model_chemistry",
+              "thermochemistry",
+              "solvent",
+              "energy_assembly",
+              "reference_state"
+            ],
+            "properties": {
+              "software": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "model_chemistry": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "thermochemistry": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "solvent": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "energy_assembly": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "reference_state": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "system_identity",
+                "input_geometry",
+                "pathway_role",
+                "attempt_outcome",
+                "validation_status",
+                "imaginary_frequencies_cm-1",
+                "connectivity_evidence",
+                "relative_gibbs_energy_kcal_mol"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "system_identity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "input_geometry": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "pathway_role": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "attempt_outcome": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "validation_status": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "imaginary_frequencies_cm-1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "connectivity_evidence": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "relative_gibbs_energy_kcal_mol": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "observables": {
+            "type": "object",
+            "required": [
+              "cycloisomerization_activation_free_energy_kcal_mol",
+              "endo_exo_ocs_transition_state_difference_kcal_mol"
+            ],
+            "properties": {
+              "cycloisomerization_activation_free_energy_kcal_mol": {
+                "type": "number"
+              },
+              "endo_exo_ocs_transition_state_difference_kcal_mol": {
+                "type": "number"
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+          },
+          "hypotheses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      },
+      {
+        "type": "object",
+        "required": [
+          "completion_status",
+          "hypotheses",
+          "method",
+          "candidates",
+          "conclusion",
+          "failure_account"
+        ],
+        "properties": {
+          "completion_status": {
+            "enum": [
+              "bounded_failure",
+              "partial"
+            ]
+          },
+          "method": {
+            "type": "object"
+          },
+          "candidates": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "system_identity",
+                "pathway_role",
+                "attempt_outcome",
+                "validation_status"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "system_identity": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "input_geometry": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "pathway_role": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "attempt_outcome": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "validation_status": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "imaginary_frequencies_cm-1": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "connectivity_evidence": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "relative_gibbs_energy_kcal_mol": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "conclusion": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "limitations": {
+            "type": "string",
+            "description": "Optional contextual note; omission or an empty value carries no scoring penalty."
+          },
+          "failure_account": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "hypotheses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "properties": {
+      "attempts": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "description": "Optional additional or unsuccessful trials, separate from primary results."
+      }
+    }
+  }
+}

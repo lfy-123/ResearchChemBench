@@ -1,0 +1,175 @@
+{
+  "paper_id": "paper_5ea491c741fbd8d4",
+  "scoring_policy": "dual_axis_100.scientific_results.v1",
+  "rules": [
+    {
+      "rule_id": "rule_identity",
+      "reference_id": "kp_identity",
+      "type": "condition",
+      "expected": "Verify source CIF bytes, identity, cell, symmetry, occupancy/disorder and exact E-isomer mapping. Reconstruct every submitted pair and multiplicity; arbitrary placements and checkCIF screenshots fail this endpoint. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.crystal",
+          "$.prerequisite_checks",
+          "$.calculation_records"
+        ],
+        "comparison": "Verify source CIF bytes, identity, cell, symmetry, occupancy/disorder and exact E-isomer mapping. Reconstruct every submitted pair and multiplicity; arbitrary placements and checkCIF screenshots fail this endpoint. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_contacts",
+      "reference_id": "kp_contacts",
+      "type": "semantic",
+      "expected": "Review surface generation and partition tables and mesh convergence; recompute pair and atom-type areas with normalization. Cover all primary neighbors; area counts and unallocated global fingerprint percentages are insufficient. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.neighbors",
+          "$.results.surface"
+        ],
+        "comparison": "Review surface generation and partition tables and mesh convergence; recompute pair and atom-type areas with normalization. Cover all primary neighbors; area counts and unallocated global fingerprint percentages are insufficient. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_energies",
+      "reference_id": "kp_energies",
+      "type": "semantic",
+      "expected": "Recompute raw/CP energies from actual dimer/own/ghost monomer logs at identical crystal geometry. All fragments are neutral singlets; do not mix relaxed monomers or thermal terms. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.neighbors",
+          "$.calculation_records"
+        ],
+        "comparison": "Recompute raw/CP energies from actual dimer/own/ghost monomer logs at identical crystal geometry. All fragments are neutral singlets; do not mix relaxed monomers or thermal terms. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_ranking",
+      "reference_id": "kp_ranking",
+      "type": "semantic",
+      "expected": "Recalculate signed pair differences, ties and multiplicity convention. Preserve discordant and indistinguishable outcomes; do not assign pair energies to individual atom-contact types or call the finite sum a lattice energy. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.results.ranking",
+          "$.results.cutoff_control"
+        ],
+        "comparison": "Recalculate signed pair differences, ties and multiplicity convention. Preserve discordant and indistinguishable outcomes; do not assign pair energies to individual atom-contact types or call the finite sum a lattice energy. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_discrimination",
+      "reference_id": "kp_discrimination",
+      "type": "semantic",
+      "expected": "Confirm required cutoff coverage plus one actual energy/geometry perturbation. Numerical or surface uncertainty must support the reported relation; no narrative-only control. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.sensitivity"
+        ],
+        "comparison": "Confirm required cutoff coverage plus one actual energy/geometry perturbation. Numerical or surface uncertainty must support the reported relation; no narrative-only control. Read the actual cited inputs and raw outputs, check IDs and arithmetic, and award credit only for demonstrated endpoints. No numerical target/tolerance is inherited from the old scalar task."
+      }
+    },
+    {
+      "rule_id": "rule_conclusion",
+      "reference_id": "conclusion_investigation",
+      "type": "semantic",
+      "expected": "A complete matched comparison supports, refutes or leaves indistinguishable the stated explanations within measured uncertainty. All required controls must have real, correctly identified results; missing calculations and open prerequisites cannot be called scientific indistinguishability. While this package is blocked and references uncalibrated, report development assessments only, never a publishable upgraded PASS.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/report.md"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.results",
+          "$.hypotheses",
+          "$.sensitivity",
+          "$.prerequisite_checks"
+        ],
+        "comparison": "A complete matched comparison supports, refutes or leaves indistinguishable the stated explanations within measured uncertainty. All required controls must have real, correctly identified results; missing calculations and open prerequisites cannot be called scientific indistinguishability. While this package is blocked and references uncalibrated, report development assessments only, never a publishable upgraded PASS."
+      }
+    }
+  ],
+  "scientific_rubric": [
+    {
+      "id": "identity",
+      "max_score": 15,
+      "description": "Authenticated crystal and valid mapped neighbor identities",
+      "rule_ids": [
+        "rule_identity"
+      ]
+    },
+    {
+      "id": "contacts",
+      "max_score": 20,
+      "description": "Actual molecule-resolved contact areas and neighbor coverage",
+      "rule_ids": [
+        "rule_contacts"
+      ]
+    },
+    {
+      "id": "energies",
+      "max_score": 25,
+      "description": "Frozen-geometry interaction energies with consistent BSSE control",
+      "rule_ids": [
+        "rule_energies"
+      ]
+    },
+    {
+      "id": "ranking",
+      "max_score": 20,
+      "description": "Area, shortest-contact and energy ranking comparison",
+      "rule_ids": [
+        "rule_ranking"
+      ]
+    },
+    {
+      "id": "discrimination",
+      "max_score": 10,
+      "description": "Falsifiable interpretation and quantitative robustness",
+      "rule_ids": [
+        "rule_discrimination"
+      ]
+    },
+    {
+      "id": "conclusion",
+      "max_score": 10,
+      "description": "Evidence-supported bounded scientific judgement",
+      "rule_ids": [
+        "rule_conclusion"
+      ]
+    }
+  ],
+  "reference_stage": "blocked_pending_prerequisite_and_expanded_reference",
+  "release_ready": false,
+  "numerical_reference_policy": {
+    "expanded_targets": null,
+    "expanded_tolerances": null,
+    "calibration": "Freeze only after real pilot/full-matrix evidence and method/numerical uncertainty review."
+  },
+  "scoring_notes": [
+    "No upgraded scientific PASS while release prerequisites/reference remain open.",
+    "Ordinary honest failure is not fabrication, but failure reporting cannot replace a missing scored endpoint.",
+    "A source-author ranking is not required; demonstrated refutation or uncertainty is acceptable.",
+    "Old scalar-only work, fabricated endpoints, wrong identities/states and incompatible energy/bias zeros invalidate dependent claims."
+  ]
+}

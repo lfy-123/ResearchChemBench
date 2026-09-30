@@ -1,0 +1,834 @@
+{
+  "passed": 1012,
+  "failed": 0,
+  "failures": [],
+  "packages": [
+    {
+      "paper_id": "paper_589f72ac15eb7acd",
+      "mode": "autonomous_research",
+      "contract_cases": 20,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": []
+    },
+    {
+      "paper_id": "paper_3c3d73b8715d5fcd",
+      "mode": "autonomous_research",
+      "contract_cases": 12,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "rule_activation",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.cycloisomerization_activation_free_energy_kcal_mol"
+            }
+          ],
+          "observed": 22.739173662705763,
+          "target": 22.8,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.060826337294237476,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "rule_endo_exo",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.endo_exo_ocs_transition_state_difference_kcal_mol"
+            }
+          ],
+          "observed": 7.558219733876182,
+          "target": 7.5,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.05821973387618229,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_c49993ae88ffa0e3",
+      "mode": "autonomous_research",
+      "contract_cases": 13,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "lossless state object-to-array mapping",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": []
+    },
+    {
+      "paper_id": "paper_c56ec62e92dbdfbc",
+      "mode": "autonomous_research",
+      "contract_cases": 14,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "r_delta",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_1e3a1d290a02e5f0",
+      "mode": "autonomous_research",
+      "contract_cases": 14,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 5,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "ar_r_homo",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].homo_eV"
+            }
+          ],
+          "observed": -5.23873608007761,
+          "target": -5.12,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.11873608007760961,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_homo2",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].homo_eV"
+            }
+          ],
+          "observed": -5.255879253412582,
+          "target": -5.17,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.08587925341258185,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_homo3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].homo_eV"
+            }
+          ],
+          "observed": -5.292614624844666,
+          "target": -5.18,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.11261462484466644,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_lumo",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].lumo_eV"
+            }
+          ],
+          "observed": -1.819081170544298,
+          "target": -1.88,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.06091882945570193,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_lumo2",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].lumo_eV"
+            }
+          ],
+          "observed": -2.1268419489864216,
+          "target": -2.19,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.0631580510135783,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_lumo3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].lumo_eV"
+            }
+          ],
+          "observed": -2.1390870727971167,
+          "target": -2.18,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.04091292720288342,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_lambda",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].lambda_h_eV"
+            }
+          ],
+          "observed": 0.21341128314182292,
+          "target": 0.191,
+          "tolerance": 0.03,
+          "unit": "eV",
+          "difference": 0.02241128314182292,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_lambda2",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].lambda_h_eV"
+            }
+          ],
+          "observed": 0.1984572658314366,
+          "target": 0.186,
+          "tolerance": 0.03,
+          "unit": "eV",
+          "difference": 0.01245726583143661,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "ar_r_lambda3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].lambda_h_eV"
+            }
+          ],
+          "observed": 0.2114890708145874,
+          "target": 0.189,
+          "tolerance": 0.03,
+          "unit": "eV",
+          "difference": 0.022489070814587397,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_9e7293af88532cd4",
+      "mode": "autonomous_research",
+      "contract_cases": 10,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "ar_r3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.delta_g_water_binding_source_recipe_kcal_mol"
+            }
+          ],
+          "observed": 1.5960815386781206,
+          "target": 1.6,
+          "tolerance": 8.0,
+          "unit": "kcal/mol",
+          "difference": 0.003918461321879452,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_1255ed42fa7e12ff",
+      "mode": "autonomous_research",
+      "contract_cases": 19,
+      "actual_historical_contract_valid": false,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": true,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "r3_O",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].barrier_kcal_mol"
+            }
+          ],
+          "observed": 13.426192706971165,
+          "target": 13.54,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.11380729302883452,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r3_S",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].barrier_kcal_mol"
+            }
+          ],
+          "observed": 7.703933813097818,
+          "target": 7.81,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.10606618690218195,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r3_Se",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].barrier_kcal_mol"
+            }
+          ],
+          "observed": 6.661640576670982,
+          "target": 6.89,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.22835942332901737,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r4_O",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_S",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_Se",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_3c89b494a1645491",
+      "mode": "autonomous_research",
+      "contract_cases": 14,
+      "actual_historical_contract_valid": false,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": true,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "ar_r3",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_589f72ac15eb7acd",
+      "mode": "paper_reproduction",
+      "contract_cases": 20,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": []
+    },
+    {
+      "paper_id": "paper_3c3d73b8715d5fcd",
+      "mode": "paper_reproduction",
+      "contract_cases": 12,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "rule_activation",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.cycloisomerization_activation_free_energy_kcal_mol"
+            }
+          ],
+          "observed": 22.739173662705763,
+          "target": 22.8,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.060826337294237476,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "rule_endo_exo",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.observables.endo_exo_ocs_transition_state_difference_kcal_mol"
+            }
+          ],
+          "observed": 7.558219733876182,
+          "target": 7.5,
+          "tolerance": 2.0,
+          "unit": "kcal/mol",
+          "difference": 0.05821973387618229,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_c49993ae88ffa0e3",
+      "mode": "paper_reproduction",
+      "contract_cases": 13,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 5,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "r_pr_ptdry",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.states.pt_dry.delta_g_kcal_mol"
+            }
+          ],
+          "observed": -0.9227387150233828,
+          "target": -0.9,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.02273871502338276,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r_pr_etdry",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.states.et_dry.delta_g_kcal_mol"
+            }
+          ],
+          "observed": -1.8445585452387985,
+          "target": -1.6,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.24455854523879839,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r_pr_eth2o",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.states.et_hydrated.delta_g_kcal_mol"
+            }
+          ],
+          "observed": -8.029374078684889,
+          "target": -8.2,
+          "tolerance": 1.5,
+          "unit": "kcal/mol",
+          "difference": 0.17062592131511067,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_c56ec62e92dbdfbc",
+      "mode": "paper_reproduction",
+      "contract_cases": 14,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "r_delta",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_1e3a1d290a02e5f0",
+      "mode": "paper_reproduction",
+      "contract_cases": 14,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 5,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "pr_r_homo1",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].homo_eV"
+            }
+          ],
+          "observed": -5.23873608007761,
+          "target": -5.12,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.11873608007760961,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_homo2",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].homo_eV"
+            }
+          ],
+          "observed": -5.255879253412582,
+          "target": -5.17,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.08587925341258185,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_homo3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].homo_eV"
+            }
+          ],
+          "observed": -5.292614624844666,
+          "target": -5.18,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.11261462484466644,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_lumo1",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].lumo_eV"
+            }
+          ],
+          "observed": -1.819081170544298,
+          "target": -1.88,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.06091882945570193,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_lumo2",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].lumo_eV"
+            }
+          ],
+          "observed": -2.1268419489864216,
+          "target": -2.19,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.0631580510135783,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_lumo3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].lumo_eV"
+            }
+          ],
+          "observed": -2.1390870727971167,
+          "target": -2.18,
+          "tolerance": 0.15,
+          "unit": "eV",
+          "difference": 0.04091292720288342,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_lambda1",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].lambda_h_eV"
+            }
+          ],
+          "observed": 0.21341128314182292,
+          "target": 0.191,
+          "tolerance": 0.03,
+          "unit": "eV",
+          "difference": 0.02241128314182292,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_lambda2",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].lambda_h_eV"
+            }
+          ],
+          "observed": 0.1984572658314366,
+          "target": 0.186,
+          "tolerance": 0.03,
+          "unit": "eV",
+          "difference": 0.01245726583143661,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "pr_r_lambda3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].lambda_h_eV"
+            }
+          ],
+          "observed": 0.2114890708145874,
+          "target": 0.189,
+          "tolerance": 0.03,
+          "unit": "eV",
+          "difference": 0.022489070814587397,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_9e7293af88532cd4",
+      "mode": "paper_reproduction",
+      "contract_cases": 10,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "pr_r3",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.delta_g_water_binding_source_recipe_kcal_mol"
+            }
+          ],
+          "observed": 1.5960815386781206,
+          "target": 1.6,
+          "tolerance": 8.0,
+          "unit": "kcal/mol",
+          "difference": 0.003918461321879452,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_1255ed42fa7e12ff",
+      "mode": "paper_reproduction",
+      "contract_cases": 19,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "r3_O",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[0].barrier_kcal_mol"
+            }
+          ],
+          "observed": 13.426192706971165,
+          "target": 13.54,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.11380729302883452,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r3_S",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[1].barrier_kcal_mol"
+            }
+          ],
+          "observed": 7.703933813097818,
+          "target": 7.81,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.10606618690218195,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r3_Se",
+          "assessment": "pass",
+          "reason": "absolute_difference",
+          "sources": [
+            {
+              "ref": "workspace/report/results.json",
+              "selector": "$.results[2].barrier_kcal_mol"
+            }
+          ],
+          "observed": 6.661640576670982,
+          "target": 6.89,
+          "tolerance": 1.0,
+          "unit": "kcal/mol",
+          "difference": 0.22835942332901737,
+          "boundary": "Bound submitted scalar only; physical identity and computational support require review."
+        },
+        {
+          "rule_id": "r4_O",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_S",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        },
+        {
+          "rule_id": "r4_Se",
+          "assessment": "requires_semantic_review",
+          "reason": "unsupported_comparison",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "paper_id": "paper_3c89b494a1645491",
+      "mode": "paper_reproduction",
+      "contract_cases": 14,
+      "actual_historical_contract_valid": true,
+      "historical_adaptation": "none",
+      "synthetic_AR_wrapper_used_for_format_only": false,
+      "key_points": 4,
+      "conclusions": 1,
+      "policy": "dual_axis_100.scientific_results.v1",
+      "numeric_screen": [
+        {
+          "rule_id": "pr_r3",
+          "assessment": "requires_semantic_review",
+          "reason": "authored_semantics",
+          "sources": []
+        }
+      ]
+    }
+  ],
+  "scope": "Offline schema, actual runner, runtime policy/bindings and archived numerical checks; synthetic negative cases are not scientific validation. No new QM/HPC, LLM judge, AR blind replay, deployment isolation or migration."
+}

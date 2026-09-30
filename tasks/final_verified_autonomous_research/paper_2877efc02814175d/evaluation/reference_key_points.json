@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "items": [
+    {
+      "key_point_id": "p_state",
+      "key_point_type": "process",
+      "statement": "The submitted calculation checks each supplied 65-center complex identity and uses the source-supported object-specific states: total charge +2 with singlet multiplicity 1 for Cd and Ni, and doublet multiplicity 2 for Co.",
+      "expected": "All three named objects are individually identified and their 65-center/+2/state checks are recorded as Cd(+2,1), Co(+2,2), and Ni(+2,1).",
+      "evidence_ids": [
+        "ev_doc_d0597d980d95_000090_10e60c44cd36",
+        "ev_doc_d0597d980d95_000027_b3d422d11be5"
+      ]
+    },
+    {
+      "key_point_id": "p_converge",
+      "key_point_type": "process",
+      "statement": "The submitted electronic-structure calculations establish convergence for each named complex used in the descriptor comparison.",
+      "expected": "Per-object convergence/stationarity evidence supports the valid observables. Credit only actually validated objects; diagnostics for a failed object do not establish its convergence.",
+      "evidence_ids": [
+        "ev_doc_f3c1f276c075_000038_05dc405900f0"
+      ]
+    },
+    {
+      "key_point_id": "p_gap",
+      "key_point_type": "result",
+      "statement": "The computed HOMO-LUMO gaps are reported for the three named complexes using one defined orbital convention.",
+      "expected": "Calculated gap values in eV are supplied for Cd, Co, and Ni under one consistent orbital convention. Credit only gaps supported by real converged calculations; a missing value remains unachieved.",
+      "evidence_ids": [
+        "ev_doc_f3c1f276c075_000069_6f226cc1ee15",
+        "ev_doc_f3c1f276c075_000071_cdb032ea4a26"
+      ]
+    },
+    {
+      "key_point_id": "p_desc",
+      "key_point_type": "result",
+      "statement": "Hardness and electrophilicity are computed and defined consistently across the three complexes.",
+      "expected": "Per-object hardness and electrophilicity with units and formulas are reported for the valid calculations.",
+      "evidence_ids": [
+        "ev_doc_f3c1f276c075_000071_cdb032ea4a26"
+      ]
+    }
+  ]
+}

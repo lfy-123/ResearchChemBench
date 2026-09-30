@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_8d8940710de08f7f",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_minima",
+      "key_point_type": "process",
+      "statement": "Each of the three named torsion-region states for each molecule is treated as a stationary-point candidate and validated as a minimum before comparison.",
+      "expected": "The report contains six state-specific minimum validations, with frequency or equivalent evidence and object identity.",
+      "evidence_ids": [
+        "ev_doc_e60408ceaf14_000119_a2f28bf810e3"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_process_relative",
+      "key_point_type": "process",
+      "statement": "Relative Gibbs energies are formed by subtracting the lowest Gibbs energy separately within the SNaft and SAntr three-state sets.",
+      "expected": "The report explicitly identifies the per-molecule zero and gives reproducible subtraction units and values.",
+      "evidence_ids": [
+        "ev_doc_7b7892dba953_000027_67ad70a937ff"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_result_energy",
+      "key_point_type": "result",
+      "statement": "The neutral V-like states are nearly degenerate and the neutral Z state is higher by roughly 3 kcal/mol for each molecule.",
+      "expected": "Relative energies approximately SNaft (0, 0.12, 2.59) and SAntr (0.46, 0, 2.55) kcal/mol for (V+,V−,Z), subject to stated model differences.",
+      "evidence_ids": [
+        "ev_doc_e60408ceaf14_000269_ec007d66be84",
+        "ev_doc_7b7892dba953_000027_67ad70a937ff"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_result_hbond",
+      "key_point_type": "result",
+      "statement": "The reported qualitative interpretation links V-like stabilization to intramolecular hydrogen bonding.",
+      "expected": "The conclusion tests and discusses this hypothesis using computed structural or interaction evidence, without claiming universal proof.",
+      "evidence_ids": [
+        "ev_doc_e60408ceaf14_000289_9355314b1b32"
+      ]
+    }
+  ]
+}
